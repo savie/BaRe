@@ -44,283 +44,87 @@ class BareApp : Application() {
     private var shouldLogFirstConnectivityChange = true
     private var lastNetworkInfo: NetworkInfo? = null
 
-    override fun onCreate() {
-        super.onCreate()
+    companion object {
+        // SwiftApp.c(reason) logs an exit reason, invokes Const.x(app) plus
+        // Const.g(reason, true), and terminates through its app-specific shutdown workflow.
+        // exitAfterHandledCrash ports the HOME launch and process-state summary. The exact
+        // Const.x/Const.g cleanup hooks remain unported because no corresponding BΛR☰ lifecycle
+        // implementation has been identified; do not claim full parity for this shutdown path.
+        private const val TAG = "BareApp"
+        private const val LOCALE_TAG = "LocaleManager"
+        private const val CONNECTIVITY_TAG = "ConnectivityTracker"
+        private const val CRASH_REPORT_FILE = "error.txt"
+        private const val CRASH_NOTIFICATION_ID = 912
 
-        instance = this
-        Log.i(TAG, "BΛR☰ application process started")
+        const val CHANNEL_BACKUP_RESTORE = "backup_restore_channel"
+        const val CHANNEL_NORMAL = "normal_channel"
+        const val CHANNEL_TASK_SUCCESS = "task_completion_channel_success"
+        const val CHANNEL_TASK_ERROR = "task_completion_channel_error"
+        const val CHANNEL_TASK_SILENT = "task_completion_channel_silent"
+        const val CHANNEL_CRASH_ERROR = "crash_error_channel"
 
-        // SwiftApp.onCreate() reference order:
-        // 1) createNotificationChannels() -> NotificationHelper.d()/f() + six channels.
-        createNotificationChannels()
-        // Reference: NotificationHelper.f() uses SYSTEM locale, independent of app locale.
-        updateNotificationChannelNamesForSystemLocale()
+        @Volatile
+        private var instance: BareApp? = null
 
-        // 2) NotificationHelper.d().cancelAll().
-        getSystemService(NotificationManager::class.java)?.cancelAll()
+        @Volatile
+        private var preferences: SharedPreferences? = null
 
-        // 3) Install the crash handler before initializing shared app state.
-        installUncaughtExceptionHandler()
-        // Reference exception filters are evaluated after the report/notification attempt.
-        // SelectedStorageState resolves the reference's preferred_storage_dir against Android's
-        // StorageManager and uses Environment.isExternalStorageRemovable as the legacy fallback.
+        @Volatile
+        private var preferencesEditor: SharedPreferences.Editor? = null
 
-        // 4) cz4: initialize <package>_preferences and its shared editor.
-        initializePreferences()
+        @JvmStatic
+        fun getInstance(): BareApp? = instance
 
-        // 5) bs4.b() reference behavior is confirmed from the decompiled source:
-        // read "use_saf" from shared preferences (default false), then assign q63.e.
-        // q63.e gates SAF/removable-storage checks (including storage-switch behavior).
-        // q63.d is not merely a logging flag: q63.o() switches the file abstraction to
-        // LibsuFile when it is set. Const.checkFileReadWriteAccess flips it after a failed
-        // normal-access check and retries in root-mode filesystem mode. q63.e then controls
-        // whether a root-backed ParcelFileDescriptor may be opened through the SAF bridge
-        // (with root PFD fallback if SAF opening fails). q63 also selects JavaFile vs
-        // LibsuFile based on access checks and retries mkdir/stream operations through shell
-        // or alternate streams. This is a coupled file abstraction, not a preference-only port.
-        // BΛR☰ currently exposes all-files access from IntroActivity.requestStorageAccess()
-        // and Shizuku permission onboarding, but those permission prompts do not implement the
-        // reference's per-file JavaFile/LibsuFile selection, root PFD bridge, or SAF document
-        // tree operations. The build file also has no direct MSAL dependency, so manifest
-        // merged components alone do not prove the app-level OneDrive client is present.
-        // Reference SAF bridge detail (ji8.q(q63, mode)): it finds a containing storage root
-        // by checking /mnt/media_rw and /storage, derives the external-storage UUID/root document
-        // URI, then walks the relative path through DocumentsContract. Existing-file open modes
-        // map to provider modes ("r", "rwt", or "rw"); create modes create the target document
-        // first. The bridge returns a ParcelFileDescriptor and may return null when it cannot
-        // resolve a root/path. This is coupled to q63.v()/p(), SAF URI grants, and root-PFD fallback;
-        // a standalone DocumentFile helper would not reproduce those semantics.
-        // zn7.c() uses StorageVolume.createOpenDocumentTreeIntent() when possible, otherwise
-        // ACTION_OPEN_DOCUMENT_TREE with DocumentsContract.buildRootUri and SHOW_ADVANCED.
-        // zn7.g() validates read/write URI permission, MIME type, and document flags before
-        // treating a SAF tree as usable. Keep these checks separate from use_saf's preference bit.
-        // TODO(reference-port): locate BΛR☰'s canonical file abstraction and root/SAF bridge,
-        // then map the access-mode transitions before wiring use_saf; don't add duplicate flags.
+        /**
+         * Returns the app preference store after Application startup has initialized it.
+         */
+        @JvmStatic
+        fun appPreferences(): SharedPreferences? = preferences
 
-        // 6) mp6.d configures a 10s timeout and enables the mount-master flag; ex0 then
-        // tries su --mount-master, then su (accepting only a root shell), then sh. libsu 6.0.0
-        // documents this exact fallback sequence for FLAG_MOUNT_MASTER, so use its supported
-        // Builder API rather than a custom or guessed shell implementation.
-        initializeShell()
+        /**
+         * Returns the cached editor paired with [appPreferences], mirroring the
+         * reference startup's shared preference/editor initialization pair.
+         */
+        @JvmStatic
+        fun appPreferencesEditor(): SharedPreferences.Editor? = preferencesEditor
 
-        // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
-        preferences?.let { AppLocaleManager.initialize(this, it) }
-        // TODO(reference-port): on pre-33 Android, AppLocaleManager currently applies locales
-        // through AppCompatDelegate while reference kv4 uses Lingver. The current dependency
-        // graph has no Lingver runtime; keep this difference explicit until a parity-tested
-        // implementation is selected rather than silently claiming exact behavior.
+        @JvmStatic
+        fun appContext(): Context? = instance?.applicationContext
 
-        // 8) The supplied SwiftBackup reference archive contains libnative-lib.so for
-        // arm64-v8a, armeabi-v7a, x86, and x86_64. Its exported JNI entry points include:
-        // SwiftApp.getGoogleAuthAndroidClientId(), getGoogleAuthWebClientId(), and
-        // isLocalNetworkTcpBlockedByPermission(String, int, int). These JNI symbols are
-        // package/class-specific (org.swiftapps.swiftbackup.SwiftApp), and the BΛR☰ rewrite
-        // branch currently contains no .so or C/C++ source. Do NOT load the reference .so
-        // into BΛR☰ or declare external methods without a matching BΛR☰ native implementation.
-        // TODO(reference-port): determine whether any of these native behaviors are required,
-        // then port or independently reimplement each method with a verified implementation.
-
-        // 9) d45's listener set participates in Firebase user/session transitions: its
-        // callback updates Crashlytics user ID/custom key and a database sync for a signed-in
-        // user; when there is no user, it reconciles first-run/cloud-restore preferences and
-        // refreshes alarm-related state. Its sign-out path also clears anonymous/Firebase state
-        // and may clear per-user app data. BΛR☰ currently has Firebase Auth in Gradle but no
-        // matching user/session, Crashlytics, or alarm-lifecycle implementation audited.
-        // gg3 initializes a Firebase Realtime Database listener for /.info/connected and
-        // tracks connection state used by cloud/network diagnostics. The current BΛR☰ Gradle
-        // dependencies list Firebase Auth but not Realtime Database/Crashlytics; do not wire
-        // these callbacks until the corresponding feature lifecycle and dependencies are real.
-        // TODO(reference-port): map d45 auth/session transitions and gg3 RTDB connectivity
-        // lifecycle to named BΛR☰ components after those components exist.
-
-        // 10) jz4 receives PACKAGE_ADDED/REMOVED/REPLACED/CHANGED with data scheme
-        // "package", ignores SwiftBackup itself, suppresses most replacement intermediate
-        // events, and posts a local-app-change event to the reference event bus.
-        // BΛR☰ has package-install result handling, but that is not proof of equivalent
-        // installed-app inventory/event-bus behavior.
-        // TODO(reference-port): trace BΛR☰ app inventory observers before registering a receiver.
-
-        // 11) kc2 startup reconciliation is now source-audited:
-        // - Ledger file: filesDir/diagnostics/data_sync_fgs_runtime_ledger.json.
-        // - Read/write uses Android AtomicFile + Gson serialization of Entry records.
-        // - On process start, every entry with endMs == null is closed at now with
-        //   outcome PROCESS_RESTARTED; records older than the rolling 24h window are
-        //   dropped and the newest 200 records are retained.
-        // The manifest declares TaskService and ScheduleService, but tasks/ and tasks/fgs
-        // are .gitkeep-only and the schedule implementation source is absent in this branch.
-        // There are no service lifecycle call sites to instrument yet.
-        // TODO(reference-port): implement the actual service lifecycle first, then add a
-        // named DataSyncFgsRuntimeLedger and wire start/stop outcomes before reconciliation;
-        // do not add a ledger that no service can write to.
-
-        // 12) Concrete startup coroutine mapping from the reference:
-        // ys7 first logs Const.l()'s app-state/version line, then calls SwiftApp.a() on API
-        // 30+ and SwiftApp.b() on API 35+ (or preview VanillaIceCream) for process-exit and
-        // process-start diagnostics. BΛR☰ has guarded exit/start equivalents, but has not
-        // copied the reference's app-state formatter/version identity; keep that mapping
-        // explicit rather than logging SwiftBackup's package/version in BΛR☰.
-        // iq5 invokes nq5.i.c(), which delegates to jq5.c(). Reference behavior is more
-        // specific than "initialize MSAL": it checks the cached client's AuthorizationAgent
-        // against preference "onedrive_auth_agent"; missing/invalid values default to BROWSER.
-        // If the agent differs, or no client exists, it loads R.raw.odrive_browser or
-        // R.raw.odrive_webview and calls PublicClientApplication.createSingleAccountPublicClientApplication.
-        // jq5 also validates the custom cached token pair (onedrive_access_token and
-        // onedrive_access_token_expiry); its cleanup path removes those values, several
-        // onedrive_conformance_* values, and matching com.microsoft* shared-pref files.
-        // Directory listings confirm cloud/clients and account are .gitkeep-only; cloud/connect
-        // has only a placeholder plus an empty common subdirectory. The manifest and setting
-        // exist, but the rewrite branch has no cloud client implementation and no direct MSAL
-        // dependency. This is a missing implementation boundary, not an unlocated class:
-        // do not transplant token cleanup or invoke a guessed MSAL factory.
-        // The reference's later zs7 coroutine registers CONNECTIVITY_CHANGE once through
-        // Const.C(); r80 reads ConnectivityManager.activeNetworkInfo and rx logs only the first
-        // observed event or a changed NetworkInfo, plus Const.z()'s Wi-Fi/Ethernet transport
-        // result. The equivalent lightweight tracker is registered below; cloud/storage
-        // integrations remain TODO until their missing feature modules are implemented.
-        // cy0.b = new n63(1) installs the reference logging adapter used by its filesystem
-        // abstraction; BΛR☰ has no corresponding q63/cy0 file abstraction to attach it to.
-        // m70.a maps paths according to the requested access mode: one mode resolves through
-        // the configured filesystem mapper; root-oriented modes rewrite /storage/emulated/<user>
-        // (except user 0) to /data/media/<user>. m70.b is initialized with g70, which chooses
-        // the deepest matching configured storage root and returns its .trash/atomic-delete
-        // directory. These helpers depend on q63's JavaFile/LibsuFile/SAF mode selection; do
-        // not port path rewriting or trash location independently of BΛR☰ storage semantics.
-        // TODO(reference-port): map the OneDrive client lifecycle and q63/cy0/m70 storage
-        // consumers after their corresponding BΛR☰ feature modules exist.
-
-        // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
-        logLastProcessExit()
-        logLastProcessStart()
-
-        Log.d(TAG, "startup initialization complete")
-        registerConnectivityTracker()
-
-        // Keep StrictMode setup last, matching SwiftApp.onCreate().
-        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
-    }
-
-    /**
-     * Ports SwiftApp's zs7/r80/rx connectivity diagnostics.
-     *
-     * CONNECTIVITY_ACTION is deprecated on modern Android but retained here because it is
-     * the exact reference signal. The callback is diagnostic only and does not gate backups.
-     */
-    @Suppress("DEPRECATION")
-    private fun registerConnectivityTracker() {
-        if (connectivityReceiverRegistered) return
-        try {
-            registerReceiver(
-                connectivityReceiver,
-                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-            )
-            connectivityReceiverRegistered = true
-        } catch (failure: Exception) {
-            // Match Const.C(): registration failure is logged but does not block app startup.
-            Log.e(CONNECTIVITY_TAG, "registerReceiver failed", failure)
-        }
-    }
-
-    private val connectivityReceiver = object : BroadcastReceiver() {
-        @Suppress("DEPRECATION")
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action != ConnectivityManager.CONNECTIVITY_ACTION) return
-            val manager = getSystemService(ConnectivityManager::class.java) ?: return
-            val networkInfo = manager.activeNetworkInfo
-            if (shouldLogFirstConnectivityChange || lastNetworkInfo != networkInfo) {
-                Log.i(
-                    CONNECTIVITY_TAG,
-                    "Network change: $networkInfo. isWifiOrEthernetConnected: " +
-                        isWifiOrEthernetConnected(manager)
+        /**
+         * Returns the signing certificates for this installed package.
+         * Uses the modern signing API on Android P+ and the legacy API before P.
+         */
+        @JvmStatic
+        fun signingCertificates(): Array<Signature>? {
+            val app = instance ?: return null
+            val packageManager = app.packageManager
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val packageInfo = packageManager.getPackageInfo(
+                    app.packageName,
+                    PackageManager.GET_SIGNING_CERTIFICATES
                 )
-                shouldLogFirstConnectivityChange = false
-                lastNetworkInfo = networkInfo
+                packageInfo.signingInfo?.apkContentsSigners
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(
+                    app.packageName,
+                    PackageManager.GET_SIGNATURES
+                ).signatures
             }
         }
-    }
 
-    private fun isWifiOrEthernetConnected(manager: ConnectivityManager): Boolean {
-        val activeNetwork = manager.activeNetwork ?: return false
-        val capabilities = manager.getNetworkCapabilities(activeNetwork) ?: return false
-        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Log.i(LOCALE_TAG, "Configuration changed. Locales: ${newConfig.locales}")
-        } else {
-            @Suppress("DEPRECATION")
-            Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
-        }
-
-        preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it, this@BareApp) }
-        updateNotificationChannelNamesForSystemLocale()
-    }
-
-    private fun updateNotificationChannelNamesForSystemLocale() {
-        val manager = getSystemService(NotificationManager::class.java) ?: return
-        // SwiftBackup resolves notification-channel labels from the Android system locale,
-        // independently of any per-app locale override.
-        val locale = getSystemPrimaryLocale()
-        val localizedContext = createConfigurationContext(
-            Configuration(resources.configuration).apply { setLocale(locale) }
-        )
-
-        val channelLabels = listOf(
-            CHANNEL_BACKUP_RESTORE to R.string.backup_and_restore,
-            CHANNEL_NORMAL to R.string.normal,
-            CHANNEL_TASK_SUCCESS to R.string.task_successful,
-            CHANNEL_TASK_ERROR to R.string.task_error,
-            CHANNEL_TASK_SILENT to R.string.task_complete_no_sound
-        )
-
-        channelLabels.forEach { (channelId, labelRes) ->
-            val channel = manager.getNotificationChannel(channelId) ?: return@forEach
-            channel.name = localizedContext.getString(labelRes)
-            manager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun getSystemPrimaryLocale(): Locale {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getSystemService(android.app.LocaleManager::class.java)
-                ?.systemLocales
-                ?.get(0)
-                ?.let { return it }
-        }
-
-        @Suppress("DEPRECATION")
-        val systemLocales = android.content.res.Resources.getSystem().configuration.locales
-        return if (!systemLocales.isEmpty) systemLocales[0] else Locale.ENGLISH
-    }
-
-    /**
-     * Initialize the app-scoped preference file used by SwiftBackup's startup path.
-     * Keep the original file name so future feature ports can migrate settings
-     * without inventing a second preference namespace.
-     */
-    private fun initializePreferences() {
-        val store = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
-        preferences = store
-        preferencesEditor = store.edit()
-        Log.d(TAG, "application preferences and editor initialized")
-    }
-
-    private fun initializeShell() {
-        try {
-            synchronized(Shell::class.java) {
-                Shell.setDefaultBuilder(
-                    Shell.Builder.create()
-                        .setFlags(Shell.FLAG_MOUNT_MASTER)
-                        .setTimeout(10)
-                )
-            }
-            Log.d(TAG, "libsu default shell builder initialized")
-        } catch (failure: Exception) {
-            // Root access is optional; an unavailable shell must not block app launch.
-            Log.w(TAG, "Unable to initialize libsu default shell builder", failure)
+        /**
+         * SHA digest of the first signing certificate, encoded with Android's
+         * NO_WRAP Base64 flag to match the reference's Companion.d() format.
+         * This is a fingerprint utility, not a substitute for server-side trust.
+         */
+        @JvmStatic
+        fun signingCertificateShaBase64(): String? {
+            val signature = signingCertificates()?.firstOrNull() ?: return null
+            val digest = MessageDigest.getInstance("SHA")
+            digest.update(signature.toByteArray())
+            return Base64.encodeToString(digest.digest(), Base64.NO_WRAP)
         }
     }
 
@@ -411,6 +215,150 @@ class BareApp : Application() {
         }
     }
 
+    /**
+     * Ports the observable SwiftApp.c(reason) shutdown sequence that is supportable here:
+     * log the reason, launch the HOME activity, and record the process-state summary on API 30+.
+     * The reference then terminates by throwing from its uncaught handler; explicitly terminate
+     * this process instead so the Kotlin handler cannot accidentally return to the runtime.
+     */
+    private fun exitAfterHandledCrash(reason: String): Nothing {
+        Log.e(TAG, "Exiting after handled crash: reason=($reason)")
+        try {
+            startActivity(
+                Intent(Intent.ACTION_MAIN)
+                    .addCategory(Intent.CATEGORY_HOME)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        } catch (failure: Exception) {
+            Log.w(TAG, "Unable to launch HOME while handling crash", failure)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                getSystemService(android.app.ActivityManager::class.java)
+                    ?.setProcessStateSummary(reason.toByteArray(Charsets.UTF_8))
+            } catch (failure: Exception) {
+                Log.w(TAG, "Unable to record crash exit reason", failure)
+            }
+        }
+
+        android.os.Process.killProcess(android.os.Process.myPid())
+        kotlin.system.exitProcess(10)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.i(LOCALE_TAG, "Configuration changed. Locales: ${newConfig.locales}")
+        } else {
+            @Suppress("DEPRECATION")
+            Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
+        }
+
+        preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it, this@BareApp) }
+        updateNotificationChannelNamesForSystemLocale()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        instance = this
+        Log.i(TAG, "BΛR☰ application process started")
+
+        // Reference order 1: notification channels.
+        createNotificationChannels()
+        updateNotificationChannelNamesForSystemLocale()
+
+        // Reference order 2: clear old notifications.
+        getSystemService(NotificationManager::class.java)?.cancelAll()
+
+        // Reference order 3: crash handler.
+        installUncaughtExceptionHandler()
+
+        // Reference order 4: preferences.
+        initializePreferences()
+
+
+        // Reference order 6: shell builder.
+        initializeShell()
+
+        // Reference order 7: app locale.
+        preferences?.let { AppLocaleManager.initialize(this, it) }
+
+        // Reference order 8: native bridge (not ported; do not load SwiftBackup's JNI library).
+        // TODO(reference-port): provide BΛR☰-compatible implementations for the three native methods.
+        // Reference order 9: d45 auth/session lifecycle (not ported).
+        // TODO(reference-port): map the user/session listener and its cleanup effects.
+        // Reference order 10: gg3 Firebase RTDB connectivity listener (not ported).
+        // TODO(reference-port): add only with the RTDB dependency and owning feature lifecycle.
+        // Reference order 11: jz4 package-change receiver/event pipeline (not ported).
+        // TODO(reference-port): connect to BΛR☰'s app-inventory event system.
+        // Reference order 12: kc2 foreground-service runtime-ledger reconciliation (not ported).
+        // TODO(reference-port): implement service lifecycle writers before startup reconciliation.
+        // Reference order 13: ys7/iq5 startup coroutine work (partially represented below).
+
+
+
+
+
+
+        logLastProcessExit()
+        logLastProcessStart()
+
+        Log.d(TAG, "startup initialization complete")
+        registerConnectivityTracker()
+
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
+    }
+
+    /**
+     * Ports SwiftApp's zs7/r80/rx connectivity diagnostics.
+     *
+     * CONNECTIVITY_ACTION is deprecated on modern Android but retained here because it is
+     * the exact reference signal. The callback is diagnostic only and does not gate backups.
+     */
+    @Suppress("DEPRECATION")
+
+    private fun registerConnectivityTracker() {
+        if (connectivityReceiverRegistered) return
+        try {
+            registerReceiver(
+                connectivityReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
+            connectivityReceiverRegistered = true
+        } catch (failure: Exception) {
+            // Match Const.C(): registration failure is logged but does not block app startup.
+            Log.e(CONNECTIVITY_TAG, "registerReceiver failed", failure)
+        }
+    }
+
+    private val connectivityReceiver = object : BroadcastReceiver() {
+        @Suppress("DEPRECATION")
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != ConnectivityManager.CONNECTIVITY_ACTION) return
+            val manager = getSystemService(ConnectivityManager::class.java) ?: return
+            val networkInfo = manager.activeNetworkInfo
+            if (shouldLogFirstConnectivityChange || lastNetworkInfo != networkInfo) {
+                Log.i(
+                    CONNECTIVITY_TAG,
+                    "Network change: $networkInfo. isWifiOrEthernetConnected: " +
+                        isWifiOrEthernetConnected(manager)
+                )
+                shouldLogFirstConnectivityChange = false
+                lastNetworkInfo = networkInfo
+            }
+        }
+    }
+
+    private fun isWifiOrEthernetConnected(manager: ConnectivityManager): Boolean {
+        val activeNetwork = manager.activeNetwork ?: return false
+        val capabilities = manager.getNetworkCapabilities(activeNetwork) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+    }
+
     private fun createNotificationChannels() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
 
@@ -471,23 +419,6 @@ class BareApp : Application() {
             channel.setBypassDnd(false)
             manager.createNotificationChannel(channel)
         }
-    }
-
-    /**
-     * Mirrors SwiftBackup's io4.b(Throwable): class name plus every non-null message
-     * in the cause chain, stopping if a malformed cause chain cycles.
-     */
-    private fun formatCrashMessage(throwable: Throwable): String {
-        val messages = mutableListOf<String>()
-        val visited = java.util.Collections.newSetFromMap(
-            java.util.IdentityHashMap<Throwable, Boolean>()
-        )
-        var current: Throwable? = throwable
-        while (current != null && visited.add(current)) {
-            current.message?.let(messages::add)
-            current = current.cause
-        }
-        return "${throwable.javaClass.simpleName}: " + messages.joinToString("\n")
     }
 
     /**
@@ -579,6 +510,23 @@ class BareApp : Application() {
     }
 
     /**
+     * Mirrors SwiftBackup's io4.b(Throwable): class name plus every non-null message
+     * in the cause chain, stopping if a malformed cause chain cycles.
+     */
+    private fun formatCrashMessage(throwable: Throwable): String {
+        val messages = mutableListOf<String>()
+        val visited = java.util.Collections.newSetFromMap(
+            java.util.IdentityHashMap<Throwable, Boolean>()
+        )
+        var current: Throwable? = throwable
+        while (current != null && visited.add(current)) {
+            current.message?.let(messages::add)
+            current = current.cause
+        }
+        return "${throwable.javaClass.simpleName}: " + messages.joinToString("\n")
+    }
+
+    /**
      * Mirrors the exception predicates in SwiftApp's uncaught-exception handler.
      *
      * The reference's zn7.b flag means the selected storage target is removable. Its selected
@@ -637,118 +585,81 @@ class BareApp : Application() {
         return null
     }
 
+    private fun updateNotificationChannelNamesForSystemLocale() {
+        val manager = getSystemService(NotificationManager::class.java) ?: return
+        // SwiftBackup resolves notification-channel labels from the Android system locale,
+        // independently of any per-app locale override.
+        val locale = getSystemPrimaryLocale()
+        val localizedContext = createConfigurationContext(
+            Configuration(resources.configuration).apply { setLocale(locale) }
+        )
+
+        val channelLabels = listOf(
+            CHANNEL_BACKUP_RESTORE to R.string.backup_and_restore,
+            CHANNEL_NORMAL to R.string.normal,
+            CHANNEL_TASK_SUCCESS to R.string.task_successful,
+            CHANNEL_TASK_ERROR to R.string.task_error,
+            CHANNEL_TASK_SILENT to R.string.task_complete_no_sound
+        )
+
+        channelLabels.forEach { (channelId, labelRes) ->
+            val channel = manager.getNotificationChannel(channelId) ?: return@forEach
+            channel.name = localizedContext.getString(labelRes)
+            manager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun getSystemPrimaryLocale(): Locale {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSystemService(android.app.LocaleManager::class.java)
+                ?.systemLocales
+                ?.get(0)
+                ?.let { return it }
+        }
+
+        @Suppress("DEPRECATION")
+        val systemLocales = android.content.res.Resources.getSystem().configuration.locales
+        return if (!systemLocales.isEmpty) systemLocales[0] else Locale.ENGLISH
+    }
+
     /**
-     * Ports the observable SwiftApp.c(reason) shutdown sequence that is supportable here:
-     * log the reason, launch the HOME activity, and record the process-state summary on API 30+.
-     * The reference then terminates by throwing from its uncaught handler; explicitly terminate
-     * this process instead so the Kotlin handler cannot accidentally return to the runtime.
+     * Initialize the app-scoped preference file used by SwiftBackup's startup path.
+     * Keep the original file name so future feature ports can migrate settings
+     * without inventing a second preference namespace.
      */
-    private fun exitAfterHandledCrash(reason: String): Nothing {
-        Log.e(TAG, "Exiting after handled crash: reason=($reason)")
+    private fun initializePreferences() {
+        val store = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
+        preferences = store
+        preferencesEditor = store.edit()
+        Log.d(TAG, "application preferences and editor initialized")
+    }
+
+    private fun initializeShell() {
         try {
-            startActivity(
-                Intent(Intent.ACTION_MAIN)
-                    .addCategory(Intent.CATEGORY_HOME)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
-        } catch (failure: Exception) {
-            Log.w(TAG, "Unable to launch HOME while handling crash", failure)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                getSystemService(android.app.ActivityManager::class.java)
-                    ?.setProcessStateSummary(reason.toByteArray(Charsets.UTF_8))
-            } catch (failure: Exception) {
-                Log.w(TAG, "Unable to record crash exit reason", failure)
-            }
-        }
-
-        android.os.Process.killProcess(android.os.Process.myPid())
-        kotlin.system.exitProcess(10)
-    }
-
-    companion object {
-        // SwiftApp.c(reason) logs an exit reason, invokes Const.x(app) plus
-        // Const.g(reason, true), and terminates through its app-specific shutdown workflow.
-        // exitAfterHandledCrash ports the HOME launch and process-state summary. The exact
-        // Const.x/Const.g cleanup hooks remain unported because no corresponding BΛR☰ lifecycle
-        // implementation has been identified; do not claim full parity for this shutdown path.
-        private const val TAG = "BareApp"
-        private const val LOCALE_TAG = "LocaleManager"
-        private const val CONNECTIVITY_TAG = "ConnectivityTracker"
-        private const val CRASH_REPORT_FILE = "error.txt"
-        private const val CRASH_NOTIFICATION_ID = 912
-
-        const val CHANNEL_BACKUP_RESTORE = "backup_restore_channel"
-        const val CHANNEL_NORMAL = "normal_channel"
-        const val CHANNEL_TASK_SUCCESS = "task_completion_channel_success"
-        const val CHANNEL_TASK_ERROR = "task_completion_channel_error"
-        const val CHANNEL_TASK_SILENT = "task_completion_channel_silent"
-        const val CHANNEL_CRASH_ERROR = "crash_error_channel"
-
-        @Volatile
-        private var instance: BareApp? = null
-
-        @Volatile
-        private var preferences: SharedPreferences? = null
-
-        @Volatile
-        private var preferencesEditor: SharedPreferences.Editor? = null
-
-        @JvmStatic
-        fun getInstance(): BareApp? = instance
-
-        /**
-         * Returns the app preference store after Application startup has initialized it.
-         */
-        @JvmStatic
-        fun appPreferences(): SharedPreferences? = preferences
-
-        /**
-         * Returns the cached editor paired with [appPreferences], mirroring the
-         * reference startup's shared preference/editor initialization pair.
-         */
-        @JvmStatic
-        fun appPreferencesEditor(): SharedPreferences.Editor? = preferencesEditor
-
-        @JvmStatic
-        fun appContext(): Context? = instance?.applicationContext
-
-        /**
-         * Returns the signing certificates for this installed package.
-         * Uses the modern signing API on Android P+ and the legacy API before P.
-         */
-        @JvmStatic
-        fun signingCertificates(): Array<Signature>? {
-            val app = instance ?: return null
-            val packageManager = app.packageManager
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val packageInfo = packageManager.getPackageInfo(
-                    app.packageName,
-                    PackageManager.GET_SIGNING_CERTIFICATES
+            synchronized(Shell::class.java) {
+                Shell.setDefaultBuilder(
+                    Shell.Builder.create()
+                        .setFlags(Shell.FLAG_MOUNT_MASTER)
+                        .setTimeout(10)
                 )
-                packageInfo.signingInfo?.apkContentsSigners
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(
-                    app.packageName,
-                    PackageManager.GET_SIGNATURES
-                ).signatures
             }
-        }
-
-        /**
-         * SHA digest of the first signing certificate, encoded with Android's
-         * NO_WRAP Base64 flag to match the reference's Companion.d() format.
-         * This is a fingerprint utility, not a substitute for server-side trust.
-         */
-        @JvmStatic
-        fun signingCertificateShaBase64(): String? {
-            val signature = signingCertificates()?.firstOrNull() ?: return null
-            val digest = MessageDigest.getInstance("SHA")
-            digest.update(signature.toByteArray())
-            return Base64.encodeToString(digest.digest(), Base64.NO_WRAP)
+            Log.d(TAG, "libsu default shell builder initialized")
+        } catch (failure: Exception) {
+            // Root access is optional; an unavailable shell must not block app launch.
+            Log.w(TAG, "Unable to initialize libsu default shell builder", failure)
         }
     }
+
+    /*
+     * REFERENCE ORDER / PORT GAPS
+     * Major declarations follow SwiftApp.java's broad order: singleton/signing utilities,
+     * process-exit diagnostics, process-start diagnostics, handled-crash exit, native-method
+     * gap, configuration callback, Application.onCreate(), then local helper implementations.
+     *
+     * Remaining gaps: native-lib JNI; q63/bs4 JavaFile/LibsuFile, SAF and root-PFD filesystem
+     * bridge; d45 auth/session lifecycle; gg3 Firebase RTDB listener; jz4 package-change event
+     * pipeline; kc2 FGS runtime-ledger reconciliation; iq5 OneDrive/MSAL lifecycle; cy0/m70
+     * filesystem logging/path/trash integration. These are gaps, not implemented features.
+     */
+
 }
