@@ -8,13 +8,14 @@ import java.io.File
 /**
  * Resolves the selected local-backup volume for the reference crash filter.
  *
- * SwiftBackup stores the selected storage root in `preferred_storage_dir`. Its storage model
- * derives the removable flag from StorageVolume.isRemovable(), with
- * Environment.isExternalStorageRemovable(File) used by its legacy volume-discovery path.
+ * SwiftBackup stores the selected root in `preferred_storage_dir`; yn7.e() reads that path and
+ * yn7.d() matches it against discovered storage roots. If no matching root exists, the reference
+ * reverts to the default storage instead of treating a stale path as the selected removable drive.
+ * The removable property comes from StorageVolume.isRemovable(), with
+ * Environment.isExternalStorageRemovable(File) used by the reference's legacy discovery path.
  *
- * A missing preference follows the reference's default-storage behavior: the primary shared
- * storage root is used. If Android cannot determine the volume's removability, return null so
- * callers do not misclassify an unknown target as removable.
+ * Returns null when Android cannot reliably determine the target. Crash diagnostics must not
+ * misclassify an unknown storage target as removable.
  */
 internal object SelectedStorageState {
     private const val PREFERRED_STORAGE_DIRECTORY = "preferred_storage_dir"
@@ -32,23 +33,34 @@ internal object SelectedStorageState {
                 null
             }
 
-            val selectedDirectory = selectedPath?.let(::File)
-                ?: Environment.getExternalStorageDirectory()
-
             val storageManager = context.getSystemService(StorageManager::class.java)
+            val defaultDirectory = Environment.getExternalStorageDirectory()
+
+            if (selectedPath != null && storageManager != null) {
+                val selectedDirectory = File(selectedPath)
+                val selectedVolume = try {
+                    storageManager.getStorageVolume(selectedDirectory)
+                } catch (_: Exception) {
+                    null
+                }
+
+                // A selected path only counts if Android still resolves it to a volume.
+                // yn7.d() falls back to default storage when the saved root is not discovered.
+                if (selectedVolume != null) return selectedVolume.isRemovable
+            }
+
             if (storageManager != null) {
                 try {
-                    storageManager.getStorageVolume(selectedDirectory)?.let { volume ->
+                    storageManager.getStorageVolume(defaultDirectory)?.let { volume ->
                         return volume.isRemovable
                     }
                 } catch (_: Exception) {
-                    // Match the reference's legacy fallback when volume lookup fails.
+                    // Use the reference's legacy removability check below.
                 }
             }
 
-            Environment.isExternalStorageRemovable(selectedDirectory)
+            Environment.isExternalStorageRemovable(defaultDirectory)
         } catch (_: Exception) {
-            // Crash diagnostics must not replace the original uncaught exception.
             null
         }
     }
