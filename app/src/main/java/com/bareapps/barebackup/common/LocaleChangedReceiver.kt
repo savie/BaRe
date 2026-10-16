@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.util.Log
 import com.bareapps.barebackup.R
@@ -48,7 +49,7 @@ class LocaleChangedReceiver : BroadcastReceiver() {
                 ?.let { return it }
         }
         @Suppress("DEPRECATION")
-        val locales = context.resources.configuration.locales
+        val locales = Resources.getSystem().configuration.locales
         return if (!locales.isEmpty) locales[0] else Locale.ENGLISH
     }
 
