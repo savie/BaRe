@@ -57,11 +57,15 @@ class BareApp : Application() {
         // 5) bs4.b() reference behavior is confirmed from the decompiled source:
         // read "use_saf" from shared preferences (default false), then assign q63.e.
         // q63.e gates SAF/removable-storage checks (including storage-switch behavior).
-        // q63.d is not merely a logging flag: Const.checkFileReadWriteAccess flips it after
-        // a failed normal access check and retries in root-mode filesystem mode. BΛR☰ has
-        // no audited equivalent for these coupled storage/access states yet, so keep a TODO.
-        // TODO(reference-port): trace BΛR☰'s SAF/document-tree storage state and port the
-        // preference synchronization there; do not create a duplicate global flag.
+        // q63.d is not merely a logging flag: q63.o() switches the file abstraction to
+        // LibsuFile when it is set. Const.checkFileReadWriteAccess flips it after a failed
+        // normal-access check and retries in root-mode filesystem mode. q63.e then controls
+        // whether a root-backed ParcelFileDescriptor may be opened through the SAF bridge
+        // (with root PFD fallback if SAF opening fails). q63 also selects JavaFile vs
+        // LibsuFile based on access checks and retries mkdir/stream operations through shell
+        // or alternate streams. This is a coupled file abstraction, not a preference-only port.
+        // TODO(reference-port): locate BΛR☰'s canonical file abstraction and root/SAF bridge,
+        // then map the access-mode transitions before wiring use_saf; don't add duplicate flags.
 
         // 6) mp6.d is ex0: timeout=10s and shell selection is su --mount-master (only
         // when its builder flags allow it), then su, and finally sh. Root candidates are
@@ -119,9 +123,12 @@ class BareApp : Application() {
         // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
         // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
         // or connectivity tracker found by source search, so this is not registered here.
-        // q63.d/e are static file/SAF flags; bs4.b() copies use_saf into q63.e. m70.b is
-        // initialized with g70 and its path mapper rewrites selected /storage/emulated/<user>
-        // paths to /data/media/<user>; q63 has many consumers, so this is not just a path helper.
+        // m70.a maps paths according to the requested access mode: one mode resolves through
+        // the configured filesystem mapper; root-oriented modes rewrite /storage/emulated/<user>
+        // (except user 0) to /data/media/<user>. m70.b is initialized with g70, which chooses
+        // the deepest matching configured storage root and returns its .trash/atomic-delete
+        // directory. These helpers depend on q63's JavaFile/LibsuFile/SAF mode selection; do
+        // not port path rewriting or trash location independently of BΛR☰ storage semantics.
         // TODO(reference-port): map the OneDrive client lifecycle, Const.C()/rx connectivity
         // tracker, and q63/m70 storage consumers into named BΛR☰ components after auditing callers.
 
