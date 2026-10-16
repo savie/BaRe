@@ -181,7 +181,7 @@ class StorageSwitchActivity : Activity() {
 
         val rootId = choice.rootId
         val documentId = runCatching { DocumentsContract.getTreeDocumentId(uri) }.getOrNull()
-        if (rootId == null || documentId == null || !documentId.startsWith("$rootId:")) {
+        if (rootId == null || documentId == null || documentId != "$rootId:") {
             Toast.makeText(this, "Please select the root of the chosen storage volume", Toast.LENGTH_LONG).show()
             finish()
             return
