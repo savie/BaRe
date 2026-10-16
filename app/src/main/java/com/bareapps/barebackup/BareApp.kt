@@ -157,10 +157,11 @@ class BareApp : Application() {
         logLastProcessExit()
         logLastProcessStart()
 
-        // SwiftApp sets StrictMode.VmPolicy at the end of onCreate().
-        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
         Log.d(TAG, "startup initialization complete")
         registerConnectivityTracker()
+
+        // Keep StrictMode setup last, matching SwiftApp.onCreate().
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
     }
 
     /**
