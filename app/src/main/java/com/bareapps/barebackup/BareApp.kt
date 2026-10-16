@@ -512,7 +512,7 @@ class BareApp : Application() {
                 val reportPendingIntent = if (reportFile.exists() && reportFile.length() > 0L) {
                     val reportUri = FileProvider.getUriForFile(
                         this,
-                        "$" + "{packageName}.fileprovider",
+                        "$packageName.fileprovider",
                         reportFile
                     )
                     val reportIntent = Intent(Intent.ACTION_VIEW).apply {
