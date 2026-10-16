@@ -39,18 +39,53 @@ class BareApp : Application() {
         instance = this
         Log.i(TAG, "BΛR☰ application process started")
 
+        // SwiftApp.onCreate() reference order:
+        // 1) createNotificationChannels() -> NotificationHelper.d()/f() + six channels.
         createNotificationChannels()
-        // Reference channel labels use the Android system locale, not the app override.
+        // Reference: NotificationHelper.f() uses SYSTEM locale, independent of app locale.
         updateNotificationChannelNamesForSystemLocale()
+
+        // 2) NotificationHelper.d().cancelAll().
         getSystemService(NotificationManager::class.java)?.cancelAll()
+
+        // 3) Install the crash handler before initializing shared app state.
         installUncaughtExceptionHandler()
+
+        // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
+
+        // 5) bs4.b(): reference synchronizes the "use_saf" preference into SAF state.
+        // TODO(reference-port): map bs4.b() to BΛR☰'s actual SAF/storage implementation.
+        // Deliberately no-op until that subsystem is identified; do not invent a parallel state.
+
+        // 6) mp6.d: reference installs a custom ex0 shell builder (su --mount-master,
+        // then su, with sh fallback). This libsu builder is only a temporary approximation.
         initializeShell()
+
+        // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
         preferences?.let { AppLocaleManager.initialize(this, it) }
+
+        // 8) System.loadLibrary("native-lib") exists in SwiftApp, but no matching BΛR☰
+        // native library has been identified. Do NOT load it until a real BΛR☰ .so is found.
+        // TODO(reference-port): inspect APK/JNI inventory and map native methods individually.
+
+        // 9) d45 registers the Application as a listener; gg3 initializes another callback.
+        // TODO(reference-port): identify the concrete BΛR☰ listener/callback equivalents.
+
+        // 10) jz4 registers PACKAGE_ADDED/REMOVED/REPLACED/CHANGED for package URI events.
+        // TODO(reference-port): map the reference receiver to BΛR☰ installed-app tracking.
+
+        // 11) kc2 reconciles stale dataSync foreground-service runtime ledger entries.
+        // TODO(reference-port): only port after locating BΛR☰'s dataSync runtime ledger.
+
+        // 12) zn4 launches two coroutine initializers; q63/m70 initialize storage/trash helpers.
+        // TODO(reference-port): map each initializer to existing BΛR☰ services before porting.
+
+        // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
         logLastProcessExit()
         logLastProcessStart()
 
-        // Keep the reference application's VM policy initialization at the end of startup.
+        // SwiftApp sets StrictMode.VmPolicy at the end of onCreate().
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
         Log.d(TAG, "startup initialization complete")
     }
