@@ -526,7 +526,7 @@ class BareApp : Application() {
                             Notification.BigTextStyle()
                                 .bigText(
                                     if (reportUri != null) {
-                                        "$crashMessage\\nCrash report saved to app cache as $CRASH_REPORT_FILE."
+                                        "$crashMessage\nCrash report saved to app cache as $CRASH_REPORT_FILE."
                                     } else {
                                         crashMessage
                                     }
