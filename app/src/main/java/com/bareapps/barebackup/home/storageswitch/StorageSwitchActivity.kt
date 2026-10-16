@@ -232,8 +232,12 @@ class StorageSwitchActivity : Activity() {
         // Mirrors zn7.g(): URI permission alone is insufficient; inspect the root document
         // metadata and accept only a provider that advertises a supported write/create operation.
         return try {
-            contentResolver.query(
+            val documentUri = DocumentsContract.buildDocumentUriUsingTree(
                 uri,
+                DocumentsContract.getTreeDocumentId(uri)
+            )
+            contentResolver.query(
+                documentUri,
                 arrayOf(
                     DocumentsContract.Document.COLUMN_MIME_TYPE,
                     DocumentsContract.Document.COLUMN_FLAGS
