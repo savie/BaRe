@@ -59,6 +59,11 @@ class BareApp : Application() {
 
         // 3) Install the crash handler before initializing shared app state.
         installUncaughtExceptionHandler()
+        // TODO(reference-port): this handler currently writes a local stack trace, posts a
+        // notification, and delegates to the prior handler. SwiftApp additionally applies
+        // special exception/removable-storage filters and routes selected failures through its
+        // app-exit/diagnostics workflow. Those filters depend on Const/IgnoredException and
+        // storage/account components that do not exist in this BΛR☰ source tree.
 
         // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
@@ -89,6 +94,10 @@ class BareApp : Application() {
 
         // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
         preferences?.let { AppLocaleManager.initialize(this, it) }
+        // TODO(reference-port): on pre-33 Android, AppLocaleManager currently applies locales
+        // through AppCompatDelegate while reference kv4 uses Lingver. The current dependency
+        // graph has no Lingver runtime; keep this difference explicit until a parity-tested
+        // implementation is selected rather than silently claiming exact behavior.
 
         // 8) The supplied SwiftBackup reference archive contains libnative-lib.so for
         // arm64-v8a, armeabi-v7a, x86, and x86_64. Its exported JNI entry points include:
