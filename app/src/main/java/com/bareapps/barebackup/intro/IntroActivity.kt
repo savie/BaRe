@@ -15,12 +15,12 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.os.LocaleListCompat
 import androidx.core.text.HtmlCompat
 import com.bareapps.barebackup.R
+import com.bareapps.barebackup.BareApp
+import com.bareapps.barebackup.locale.AppLocaleManager
 import rikka.shizuku.Shizuku
 
 /**
@@ -226,33 +226,22 @@ class IntroActivity : Activity() {
     }
 
     private fun showLanguageMenu(anchor: View) {
-        val languages = listOf(
-            "en" to "English",
-            "in" to "Bahasa Indonesia",
-            "de" to "Deutsch",
-            "es" to "Español",
-            "fr" to "Français",
-            "it" to "Italiano",
-            "ja" to "日本語",
-            "pl" to "Polski",
-            "pt" to "Português",
-            "ru" to "Русский",
-            "tr" to "Türkçe",
-            "uk" to "Українська",
-            "vi" to "Tiếng Việt",
-            "zh" to "中文"
-        )
+        val locales = AppLocaleManager.supportedLocales(this)
         val popup = PopupMenu(this, anchor)
-        languages.forEachIndexed { index, language ->
-            popup.menu.add(0, index, index, language.second)
+        locales.forEachIndexed { index, locale ->
+            // Show each language in its own native name; the menu itself uses the
+            // same supported-locale inventory as locales_config.xml.
+            val label = locale.getDisplayName(locale).replaceFirstChar { character ->
+                if (character.isLowerCase()) character.titlecase(locale) else character.toString()
+            }
+            popup.menu.add(0, index, index, label)
         }
         popup.setOnMenuItemClickListener { item ->
-            val tag = languages.getOrNull(item.itemId)?.first
+            val locale = locales.getOrNull(item.itemId)
                 ?: return@setOnMenuItemClickListener false
-            AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(tag)
-            )
-            true
+            val preferences = BareApp.appPreferences()
+                ?: return@setOnMenuItemClickListener false
+            AppLocaleManager.selectLocale(this, preferences, AppLocaleManager.localeTag(locale))
         }
         popup.show()
     }
