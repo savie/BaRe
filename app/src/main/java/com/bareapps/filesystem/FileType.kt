@@ -7,8 +7,8 @@ import java.io.Serializable
  * Kotlin port of `org.swiftapps.filesystem.File$FileType`.
  *
  * The reference type is Serializable and stores the File returned by its
- * constructor. Its nested JavaFile and LibsuFile variants override getFile()
- * only for JavaFile; both provide variant-specific toString() output.
+ * constructor. JavaFile keeps the supplied File. LibsuFile instead stores the
+ * result of `jr7.g(file.getPath())`, a root/alternate-shell-aware File subtype.
  */
 abstract class FileType private constructor(
     private val file: File
@@ -27,27 +27,22 @@ abstract class FileType private constructor(
     }
 
     /**
-     * Reference: `new LibsuFile(file)` stores `jr7.g(file.getPath())`, not the
-     * original File. jr7 is a custom java.io.File subclass that redirects file
-     * operations through the configured root/alternate-shell mechanism.
+     * Variant corresponding to the reference's nested LibsuFile.
      *
-     * TODO(reference-port): migrate jr7 and its root/shell selection dependencies,
-     * then call its equivalent of g(file.path) here. Storing the original File
-     * here would be observably incorrect, so this constructor is deliberately
-     * not pretending that the LibsuFile behavior is complete.
+     * This constructor intentionally refuses to masquerade a plain java.io.File
+     * as the reference's root-aware File. Port `defpackage.jr7.g(path)` and its
+     * root/alternate-shell dependencies before enabling this variant.
      */
-    class LibsuFile private constructor(file: File, marker: Unit) : FileType(file) {
-        companion object {
-            /**
-             * Not exposed as a usable factory until the reference's jr7.g(path)
-             * dependency has been ported. Kept private to avoid silently creating
-             * a plain File under the LibsuFile name.
-             */
-            private fun unresolvedReferenceFactory(): Nothing =
-                throw UnsupportedOperationException(
-                    "TODO(reference-port): migrate defpackage.jr7.g(path) before constructing LibsuFile"
-                )
+    class LibsuFile(file: File) : FileType(file) {
+        init {
+            // Match the reference's eager null dereference/check for the argument.
+            file.path
         }
+
+        override fun getFile(): File =
+            throw UnsupportedOperationException(
+                "TODO(reference-port): migrate defpackage.jr7.g(path) before using LibsuFile"
+            )
 
         override fun toString(): String = "${LibsuFile::class.java.simpleName}:${getFile()}"
     }
