@@ -2,8 +2,10 @@ package com.bareapps.barebackup.storage
 
 import android.content.Context
 import com.bareapps.barebackup.BareApp
+import android.os.Build
 import android.os.Environment
 import android.os.storage.StorageManager
+import android.os.storage.StorageVolume
 import java.io.File
 
 /**
@@ -20,6 +22,25 @@ import java.io.File
  */
 internal object SelectedStorageState {
     private const val PREFERRED_STORAGE_DIRECTORY = "preferred_storage_dir"
+
+    /** Mirrors yn7's API-aware volume-root lookup: getDirectory on Android 11+, mPath earlier. */
+    private fun storageVolumeDirectory(volume: StorageVolume): File? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return try {
+                volume.directory
+            } catch (_: Exception) {
+                null
+            }
+        }
+
+        return try {
+            val pathField = StorageVolume::class.java.getDeclaredField("mPath")
+            pathField.isAccessible = true
+            pathField.get(volume) as? File
+        } catch (_: Exception) {
+            null
+        }
+    }
 
     fun isSelectedStorageRemovable(context: Context): Boolean? {
         return try {
@@ -52,7 +73,7 @@ internal object SelectedStorageState {
                 if (selectedVolume == null) {
                     selectedVolume = try {
                         storageManager.storageVolumes.firstOrNull { volume ->
-                            volume.directory?.path == selectedDirectory.path
+                            storageVolumeDirectory(volume)?.path == selectedDirectory.path
                         }
                     } catch (_: Exception) {
                         null
