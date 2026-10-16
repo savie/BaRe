@@ -20,7 +20,6 @@ object ShellHelper {
         Shell.Builder.create()
             .setFlags(Shell.FLAG_NON_ROOT_SHELL or Shell.FLAG_REDIRECT_STDERR)
             .setTimeout(10)
-            .setCommands("sh")
             .build()
 
     /**
