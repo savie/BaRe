@@ -3,6 +3,7 @@ package com.bareapps.rootservice
 import com.bareapps.filesystem.CommandTaskSink
 import com.bareapps.filesystem.CommandTaskWriter
 import java.io.Closeable
+import java.io.IOException
 
 /**
  * Deferred Process-backed mapping of od7/rh4/vy5.
@@ -74,7 +75,7 @@ class ShellCommandTask internal constructor(
 
         val backend = try {
             backendProvider()
-        } catch (_: Exception) {
+        } catch (_: IOException) {
             return CommandTaskResult.GENERIC_FAILURE
         }
 
@@ -90,7 +91,7 @@ class ShellCommandTask internal constructor(
         } catch (_: ShellTerminatedException) {
             ProcessShellRegistry.invalidate(backend)
             CommandTaskResult.RETRYABLE_SHELL_TERMINATION
-        } catch (_: Exception) {
+        } catch (_: IOException) {
             CommandTaskResult.GENERIC_FAILURE
         }
     }
