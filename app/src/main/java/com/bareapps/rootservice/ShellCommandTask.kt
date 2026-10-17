@@ -5,9 +5,11 @@ import com.bareapps.filesystem.CommandTaskWriter
 import java.io.Closeable
 
 /**
- * Deferred shell task backed by the source-shaped Process implementation.
- * Maps od7/rh4/vy5 task accumulation, gn6 result sentinels, and the one-retry
- * policy. This remains separate from libsu Shell.Job execution.
+ * Deferred Process-backed mapping of od7/rh4/vy5.
+ *
+ * rh4-like execution produces the gn6 payload/sentinels. The vy5-like policy
+ * retries only the exact retry sentinel once. This remains separate from
+ * libsu Shell.Job execution and does not claim end-to-end parity.
  */
 class ShellCommandTask internal constructor(
     private val requireRoot: Boolean,
@@ -30,7 +32,7 @@ class ShellCommandTask internal constructor(
     fun execute(): Result {
         check(!closed) { "Command task is closed" }
         return try {
-            when (val result = executeSourceResult()) {
+            when (val result = executeVy5Policy()) {
                 CommandTaskResult.GENERIC_FAILURE ->
                     Result.Failed("Command execution failed")
                 CommandTaskResult.RETRYABLE_SHELL_TERMINATION ->
@@ -46,42 +48,51 @@ class ShellCommandTask internal constructor(
         }
     }
 
-    /**
-     * Source-shaped result path: rh4 returns gn6.e only for a terminated shell,
-     * gn6.d for generic failures, and a mutable payload for completed execution.
-     * vy5 retries the exact gn6.e singleton once, then returns gn6.d.
-     */
-    private fun executeSourceResult(): CommandTaskResult {
-        if (closed) return CommandTaskResult.GENERIC_FAILURE
-
-        repeat(2) { attempt ->
-            val backend = try {
-                backendProvider()
-            } catch (_: Exception) {
-                return CommandTaskResult.GENERIC_FAILURE
+    /** Mirrors vy5.b(): retry only when rh4 returns the gn6.e singleton. */
+    private fun executeVy5Policy(): CommandTaskResult {
+        var retryAllowed = true
+        while (true) {
+            val result = executeRh4Like()
+            if (retryAllowed && result === CommandTaskResult.RETRYABLE_SHELL_TERMINATION) {
+                retryAllowed = false
+                continue
             }
-
-            if (requireRoot && !backend.isRoot) {
-                return CommandTaskResult.GENERIC_FAILURE
-            }
-
-            val stdout = mutableListOf<String>()
-            val stderr = mutableListOf<String>()
-            try {
-                val exitCode = backend.execute(taskSinks.toList(), stdout, stderr)
-                return CommandTaskResult.completed(stdout, stderr, exitCode)
-            } catch (error: ShellTerminatedException) {
-                ProcessShellRegistry.invalidate(backend)
-                val result = CommandTaskResult.RETRYABLE_SHELL_TERMINATION
-                if (attempt == 0 && result === CommandTaskResult.RETRYABLE_SHELL_TERMINATION) {
-                    return@repeat
-                }
-                return CommandTaskResult.GENERIC_FAILURE
-            } catch (_: Exception) {
-                return CommandTaskResult.GENERIC_FAILURE
+            return if (result === CommandTaskResult.RETRYABLE_SHELL_TERMINATION) {
+                CommandTaskResult.GENERIC_FAILURE
+            } else {
+                result
             }
         }
-        return CommandTaskResult.GENERIC_FAILURE
+    }
+
+    /**
+     * Mirrors the result boundary in rh4.b(): a mutable payload on success,
+     * gn6.e for shell termination, and gn6.d for other IO/execution failures.
+     */
+    private fun executeRh4Like(): CommandTaskResult {
+        if (closed) return CommandTaskResult.GENERIC_FAILURE
+
+        val backend = try {
+            backendProvider()
+        } catch (_: Exception) {
+            return CommandTaskResult.GENERIC_FAILURE
+        }
+
+        if (requireRoot && !backend.isRoot) {
+            return CommandTaskResult.GENERIC_FAILURE
+        }
+
+        val stdout = mutableListOf<String>()
+        val stderr = mutableListOf<String>()
+        return try {
+            val exitCode = backend.execute(taskSinks.toList(), stdout, stderr)
+            CommandTaskResult.completed(stdout, stderr, exitCode)
+        } catch (_: ShellTerminatedException) {
+            ProcessShellRegistry.invalidate(backend)
+            CommandTaskResult.RETRYABLE_SHELL_TERMINATION
+        } catch (_: Exception) {
+            CommandTaskResult.GENERIC_FAILURE
+        }
     }
 
     override fun close() {
