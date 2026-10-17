@@ -6,20 +6,23 @@ import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.io.InterruptedIOException
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.FutureTask
 import java.util.concurrent.TimeUnit
 
 /**
  * Process-backed lifecycle boundary derived from defpackage.zd7/ex0.
- * Owns a Process directly and executes tasks through the marker protocol.
- * Not yet substituted into ShellSelectionRegistry: the libsu Shell adapter
- * and all callers need a separately reviewed migration.
+ * Owns a Process directly and serializes task execution through the r77-shaped
+ * worker queue. It is not substituted into ShellSelectionRegistry yet.
  */
 internal class ProcessShellBackend private constructor(
     private val process: Process,
     private val startupTimeoutSeconds: Long
 ) : java.io.Closeable {
 
+    private val worker = ProcessShellWorker()
     private val stdin = ProcessShellOutput(
         process.outputStream.let { stream ->
             if (stream is BufferedOutputStream) stream else BufferedOutputStream(stream)
@@ -41,9 +44,37 @@ internal class ProcessShellBackend private constructor(
         }
     val isRoot: Boolean get() = status >= 1
 
-    @Synchronized
     @Throws(IOException::class)
     fun execute(
+        taskSinks: List<CommandTaskSink>,
+        stdoutLines: MutableList<String>,
+        stderrLines: MutableList<String>
+    ): Int {
+        checkOpen()
+        if (status < 0) throw ShellTerminatedException()
+        val task = FutureTask<Int> {
+            executeSerialized(taskSinks, stdoutLines, stderrLines)
+        }
+        try {
+            worker.execute(task)
+            return task.get()
+        } catch (error: InterruptedException) {
+            Thread.currentThread().interrupt()
+            throw InterruptedIOException("Interrupted while waiting for shell task").also {
+                it.initCause(error)
+            }
+        } catch (error: ExecutionException) {
+            val cause = error.cause
+            if (cause is IOException) throw cause
+            throw IOException("Shell task failed", cause)
+        } catch (error: java.util.concurrent.RejectedExecutionException) {
+            throw ShellTerminatedException(error)
+        }
+    }
+
+    @Synchronized
+    @Throws(IOException::class)
+    private fun executeSerialized(
         taskSinks: List<CommandTaskSink>,
         stdoutLines: MutableList<String>,
         stderrLines: MutableList<String>
@@ -101,7 +132,7 @@ internal class ProcessShellBackend private constructor(
     }
 
     private fun readLineWithTimeout(reader: BufferedReader, deadlineNanos: Long): String? {
-        val future = java.util.concurrent.FutureTask<String?> { reader.readLine() }
+        val future = FutureTask<String?> { reader.readLine() }
         Thread(future, "bare-shell-startup").apply { isDaemon = true; start() }
         val remainingNanos = deadlineNanos - System.nanoTime()
         if (remainingNanos <= 0L) {
@@ -116,7 +147,7 @@ internal class ProcessShellBackend private constructor(
         } catch (error: InterruptedException) {
             Thread.currentThread().interrupt()
             throw IOException("Shell check interrupted", error)
-        } catch (error: java.util.concurrent.ExecutionException) {
+        } catch (error: ExecutionException) {
             throw IOException("Shell check failed", error.cause)
         }
     }
@@ -131,14 +162,43 @@ internal class ProcessShellBackend private constructor(
     private fun closeAfterFailure() {
         status = -1
         closed = true
+        worker.shutdownNow()
         runCatching { stdin.closeUnderlying() }
         runCatching { stderr.closeUnderlying() }
         runCatching { stdout.closeUnderlying() }
         process.destroy()
     }
 
+    /**
+     * Mirrors zd7.waitAndClose: stop accepting queued work, await the active
+     * worker for the requested duration, and destroy only after it terminates.
+     * On timeout, status becomes -1 and the process is left for explicit cleanup.
+     */
+    fun waitAndClose(timeout: Long, unit: TimeUnit): Boolean {
+        if (status < 0) return true
+        worker.shutdown()
+        val terminated = try {
+            worker.awaitTermination(timeout, unit)
+        } catch (error: InterruptedException) {
+            Thread.currentThread().interrupt()
+            false
+        }
+        return if (terminated) {
+            closeProcess()
+            true
+        } else {
+            status = -1
+            false
+        }
+    }
+
     override fun close() {
-        if (closed) return
+        if (status < 0) return
+        worker.shutdown()
+        closeProcess()
+    }
+
+    private fun closeProcess() {
         status = -1
         closed = true
         runCatching { stdin.closeUnderlying() }
