@@ -52,7 +52,6 @@ internal class ProcessShellBackend private constructor(
         stdoutLines: MutableList<String>,
         stderrLines: MutableList<String>
     ): Int {
-        checkOpen()
         if (status < 0) throw ShellTerminatedException()
         return try {
             // zd7.execTask is synchronized and runs the task on its caller;
@@ -135,10 +134,6 @@ internal class ProcessShellBackend private constructor(
     /** Matches com.topjohnwu.superuser.ShellUtils.b single-quote escaping. */
     private fun quoteShellArgument(value: String): String = "'" + value.replace("'", "'\\''") + "'"
 
-    private fun checkOpen() {
-        if (closed || !process.isAlive) throw ShellTerminatedException()
-    }
-
     private fun closeAfterFailure() {
         status = -1
         closed = true
@@ -174,7 +169,7 @@ internal class ProcessShellBackend private constructor(
 
     override fun close() {
         if (status < 0) return
-        worker.shutdown()
+        worker.shutdownNow()
         closeProcess()
     }
 
