@@ -32,6 +32,7 @@ internal class ProcessShellBackend private constructor(
     private val stdout = ProcessShellInput(process.inputStream)
     private val stderr = ProcessShellInput(process.errorStream)
     @Volatile private var status: Int = -1
+    @Volatile private var closed: Boolean = false
 
     init { startAndVerifyShell() }
 
