@@ -62,7 +62,7 @@ class RootAwareFile : File {
             LibsuCommandExecutor(ShellHelper.getMainShell()).use { executor ->
                 executor.a = output
                 executor.b = null
-                executor.e = !captureOutput
+                executor.e = captureOutput
                 val result = executor.add(resolved).execute()
                 CommandResult(result.exitCode, result.output)
             }
