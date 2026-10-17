@@ -32,7 +32,6 @@ internal class ProcessShellBackend private constructor(
     private val stdout = ProcessShellInput(process.inputStream)
     private val stderr = ProcessShellInput(process.errorStream)
     @Volatile private var status: Int = -1
-    @Volatile private var closed = false
 
     init { startAndVerifyShell() }
 
@@ -136,7 +135,6 @@ internal class ProcessShellBackend private constructor(
 
     private fun closeAfterFailure() {
         status = -1
-        closed = true
         worker.shutdownNow()
         runCatching { stdin.closeUnderlying() }
         runCatching { stderr.closeUnderlying() }
