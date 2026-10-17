@@ -114,6 +114,5 @@ dependencies {
     implementation "com.facebook.conceal:conceal:2.0.2"
     implementation "com.github.Ferfalk:SimpleSearchView:0.2.0"
     implementation "io.github.l4digital:fastscroll:2.1.0"
-    implementation "co.infinum:IndicatorSeekBar:2.1.2"
-
+    implementation "com.github.warkiz:IndicatorSeekBar:v2.0.9"
 }
