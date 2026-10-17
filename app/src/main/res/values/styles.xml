@@ -2555,8 +2555,8 @@
         <item name="cardUseCompatPadding">false</item>
         <item name="strokeWidth">0.0dp</item>
     </style>
-    <style name="IntroTheme" parent="@style/IntroTheme.Base" />
-    <style name="IntroTheme.Base" parent="@style/BareTheme">
+    <style name="IntroTheme" parent="@style/BareIntroThemeBase" />
+    <style name="BareIntroThemeBase" parent="@style/BareTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:windowAnimationStyle">@style/FadeActivityAnimations</item>
         <item name="android:windowLightStatusBar">true</item>
