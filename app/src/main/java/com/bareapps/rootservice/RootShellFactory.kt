@@ -15,7 +15,7 @@ internal object RootShellFactory {
 
     fun create(
         allowRoot: Boolean = true,
-        preferMountMaster: Boolean = true,
+        preferMountMaster: Boolean = false,
         timeoutSeconds: Int = 20
     ): Shell {
         if (allowRoot && preferMountMaster) {
