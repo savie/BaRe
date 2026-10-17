@@ -243,7 +243,7 @@
     <id name="btn_cloud" />
     <id name="btn_connect" />
     <id name="btn_connect_cloud" />
-    <id name="btn_connect_service" />
+    <item type="id" name="btn_connect_service" />
     <id name="btn_copy" />
     <id name="btn_create" />
     <id name="btn_create_backup" />
@@ -253,7 +253,7 @@
     <id name="btn_delete_selected" />
     <id name="btn_disable_apps" />
     <id name="btn_disconnect" />
-    <id name="btn_disconnect_service" />
+    <item type="id" name="btn_disconnect_service" />
     <id name="btn_dismiss" />
     <id name="btn_done" />
     <id name="btn_edit_active_password" />
@@ -262,8 +262,8 @@
     <id name="btn_error" />
     <id name="btn_error2" />
     <id name="btn_exit_storage_setup" />
-    <id name="btn_from_cloud" />
-    <id name="btn_from_local" />
+    <item type="id" name="btn_from_cloud" />
+    <item type="id" name="btn_from_local" />
     <id name="btn_google" />
     <id name="btn_got_it" />
     <id name="btn_home_search_apps_system_toggle" />
@@ -379,7 +379,7 @@
     <id name="confirm_button" />
     <id name="constraint" />
     <id name="container" />
-    <id name="container_actions" />
+    <item type="id" name="container_actions" />
     <id name="container_already_used_labels" />
     <id name="container_anonymous" />
     <id name="container_app_detail" />
@@ -695,7 +695,7 @@
     <id name="iv_fake" />
     <id name="iv_favorite" />
     <id name="iv_feature" />
-    <id name="iv_icon" />
+    <item type="id" name="iv_icon" />
     <id name="iv_image1" />
     <id name="iv_image2" />
     <id name="iv_local_server_discovery" />
@@ -1307,7 +1307,7 @@
     <id name="tv_authentication_title" />
     <id name="tv_backend_error_subtitle" />
     <id name="tv_backend_error_title" />
-    <id name="tv_backup_tag" />
+    <item type="id" name="tv_backup_tag" />
     <id name="tv_backups_tagged_with" />
     <id name="tv_badge" />
     <id name="tv_basic_details" />
@@ -1358,7 +1358,7 @@
     <id name="tv_header" />
     <id name="tv_header_subtitle" />
     <id name="tv_header_title" />
-    <id name="tv_help_link" />
+    <item type="id" name="tv_help_link" />
     <id name="tv_highlight" />
     <id name="tv_highlight_container" />
     <id name="tv_home_search_apps" />
@@ -1403,7 +1403,7 @@
     <id name="tv_progress_message" />
     <id name="tv_protocol" />
     <id name="tv_protocols_title" />
-    <id name="tv_provider_subtitle" />
+    <item type="id" name="tv_provider_subtitle" />
     <id name="tv_provider_title" />
     <id name="tv_question" />
     <id name="tv_raw_package_count" />
@@ -1452,8 +1452,8 @@
     <id name="tv_storage_setup_failure_steps_label" />
     <id name="tv_storage_setup_failure_title" />
     <id name="tv_storage_type" />
-    <id name="tv_subtitle" />
-    <id name="tv_subtitle1" />
+    <item type="id" name="tv_subtitle" />
+    <item type="id" name="tv_subtitle1" />
     <id name="tv_subtitle2" />
     <id name="tv_subtitle3" />
     <id name="tv_summary" />
@@ -1466,7 +1466,7 @@
     <id name="tv_tests_subtitle" />
     <id name="tv_tests_title" />
     <id name="tv_time" />
-    <id name="tv_title" />
+    <item type="id" name="tv_title" />
     <id name="tv_title_backup" />
     <id name="tv_title_favorites" />
     <id name="tv_title_install" />
