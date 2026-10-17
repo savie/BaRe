@@ -76,8 +76,8 @@ internal class ProcessShellBackend private constructor(
             val identity = readLineWithTimeout(reader)
             status = if (identity?.contains("uid=0") == true) 1 else 0
             if (status == 1) {
-                val workingDirectory = System.getProperty("user.dir").replace("\\", "\\\\").replace("\"", "\\\"").replace("$", "\\$")
-                stdin.write("cd \"$workingDirectory\"\n".toByteArray(StandardCharsets.UTF_8))
+                val workingDirectory = quoteShellArgument(System.getProperty("user.dir"))
+                stdin.write("cd $workingDirectory\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
                 stdin.write("readlink /proc/self/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
@@ -109,6 +109,9 @@ internal class ProcessShellBackend private constructor(
             throw IOException("Shell check failed", error.cause)
         }
     }
+
+    /** Matches com.topjohnwu.superuser.ShellUtils.b single-quote escaping. */
+    private fun quoteShellArgument(value: String): String = "'" + value.replace("'", "'\\''") + "'"
 
     private fun checkOpen() {
         if (closed || !process.isAlive) throw ShellTerminatedException()
