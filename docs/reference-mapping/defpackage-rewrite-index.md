@@ -23,7 +23,7 @@ as proof of feature parity.
 | `defpackage.od7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Deferred command-job API (`add` then execute) | Deferred task now uses Process backend; exact method naming/result compatibility TODO |
 | `defpackage.ae7` | `com/bareapps/filesystem/CommandTaskSink.kt` | Closeable command-writer contract | Interface ported; concrete `dm1` writer implements it |
 | `defpackage.pd7` | `com/bareapps/filesystem/ShellTaskCallback.kt` | Shell task callback receiving stdin/stdout/stderr streams | Interface ported; integration with libsu execution TODO |
-| `defpackage.gn6` | `com/bareapps/rootservice/CommandTaskResult.kt` | Execution result: stdout, stderr, exit status, retry/failure sentinel | Partial; typed result added, singleton identity semantics TODO |
+| `defpackage.gn6` | `com/bareapps/rootservice/CommandTaskResult.kt` | Mutable stdout/stderr/exit-code payload plus generic-failure and retry sentinels | Payload defaults, stdout empty-list behavior, and distinct singleton identity ported; callers still need integration |
 | `defpackage.ee7` | `com/bareapps/rootservice/ShellTerminatedException.kt` | Retryable shell-terminated IOException signal | Exception type ported; libsu public API does not expose equivalent lifecycle signal |
 | `defpackage.ip7` | `com/bareapps/filesystem/CommandStreamLineReader.kt` | UTF-8 line reader filtering protocol marker | Line filtering ported; edge-case parity not verified |
 | `defpackage.hp7` | `com/bareapps/filesystem/CommandExitCodeReader.kt` | Stdout reader parses exit code after marker | Parsing ported; concurrent integration TODO |
