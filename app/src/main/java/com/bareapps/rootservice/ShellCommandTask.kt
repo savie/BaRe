@@ -44,14 +44,27 @@ class ShellCommandTask(
         if (commands.isEmpty()) return Result.Completed(emptyList(), emptyList(), 0)
 
         return try {
-            val shellResult = shell.newJob().add(*commands.toTypedArray()).exec()
-            Result.Completed(
-                stdout = shellResult.out.orEmpty(),
-                stderr = shellResult.err.orEmpty(),
-                exitCode = shellResult.code
-            )
-        } catch (error: Exception) {
-            Result.Failed(error.message ?: error.javaClass.simpleName, error)
+            var attempt = 0
+            while (true) {
+                try {
+                    val shellResult = shell.newJob().add(*commands.toTypedArray()).exec()
+                    return Result.Completed(
+                        stdout = shellResult.out.orEmpty(),
+                        stderr = shellResult.err.orEmpty(),
+                        exitCode = shellResult.code
+                    )
+                } catch (error: Exception) {
+                    // vy5 retries exactly once only for rh4's retryable ee7
+                    // result. Do not retry arbitrary command failures.
+                    if (error is ShellTerminatedException && attempt == 0) {
+                        attempt++
+                        continue
+                    }
+                    return Result.Failed(error.message ?: error.javaClass.simpleName, error)
+                }
+            }
+            @Suppress("UNREACHABLE_CODE")
+            Result.Failed("Unreachable execution state")
         } finally {
             close()
         }
