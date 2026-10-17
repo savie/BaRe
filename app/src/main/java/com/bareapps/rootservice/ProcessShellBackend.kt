@@ -2,6 +2,7 @@ package com.bareapps.rootservice
 
 import com.bareapps.filesystem.CommandTaskProtocol
 import com.bareapps.filesystem.CommandTaskSink
+import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -19,7 +20,11 @@ internal class ProcessShellBackend private constructor(
     private val startupTimeoutSeconds: Long
 ) : java.io.Closeable {
 
-    private val stdin = ProcessShellOutput(process.outputStream)
+    private val stdin = ProcessShellOutput(
+        process.outputStream.let { stream ->
+            if (stream is BufferedOutputStream) stream else BufferedOutputStream(stream)
+        }
+    )
     private val stdout = ProcessShellInput(process.inputStream)
     private val stderr = ProcessShellInput(process.errorStream)
     @Volatile private var status: Int = -1
