@@ -100,14 +100,14 @@ internal class ProcessShellBackend private constructor(
             if (!process.isAlive) throw IOException("Created process has terminated")
             stdout.discardAvailable()
             stderr.discardAvailable()
-            stdin.write("echo SHELL_TEST\\n".toByteArray(StandardCharsets.UTF_8))
+            stdin.write("echo SHELL_TEST\n".toByteArray(StandardCharsets.UTF_8))
             stdin.flush()
             BufferedReader(InputStreamReader(stdout, StandardCharsets.UTF_8)).use { reader ->
                 val test = reader.readLine()
                 if (test.isNullOrEmpty() || !test.contains("SHELL_TEST")) {
                     throw IOException("Created process is not a shell")
                 }
-                stdin.write("id\\n".toByteArray(StandardCharsets.UTF_8))
+                stdin.write("id\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
                 val identity = reader.readLine()
                 status = if (identity?.contains("uid=0") == true) 1 else 0
@@ -115,12 +115,12 @@ internal class ProcessShellBackend private constructor(
                     // TODO(parity): source me2 also sets the process-wide ji8.b
                     // marker while entering this root-shell initialization path.
                     val workingDirectory = quoteShellArgument(System.getProperty("user.dir"))
-                    stdin.write("cd $workingDirectory\\n".toByteArray(StandardCharsets.UTF_8))
+                    stdin.write("cd $workingDirectory\n".toByteArray(StandardCharsets.UTF_8))
                     stdin.flush()
-                    stdin.write("readlink /proc/self/ns/mnt\\n".toByteArray(StandardCharsets.UTF_8))
+                    stdin.write("readlink /proc/self/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                     stdin.flush()
                     val ownNamespace = reader.readLine()
-                    stdin.write("readlink /proc/1/ns/mnt\\n".toByteArray(StandardCharsets.UTF_8))
+                    stdin.write("readlink /proc/1/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                     stdin.flush()
                     val initNamespace = reader.readLine()
                     if (!ownNamespace.isNullOrEmpty() && !initNamespace.isNullOrEmpty() && ownNamespace == initNamespace) status = 2
