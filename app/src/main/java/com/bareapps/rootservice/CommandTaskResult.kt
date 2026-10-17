@@ -23,5 +23,8 @@ internal class CommandTaskResult private constructor(
 
         /** gn6.e: retryable shell termination sentinel; intentionally distinct. */
         val RETRYABLE_SHELL_TERMINATION = CommandTaskResult()
+
+        fun completed(stdout: List<String>, stderr: List<String>, exitCode: Int): CommandTaskResult =
+            CommandTaskResult(stdout = stdout, stderr = stderr, exitCode = exitCode)
     }
 }
