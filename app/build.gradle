@@ -113,7 +113,7 @@ dependencies {
     implementation "com.nimbusds:nimbus-jose-jwt:9.40"
     implementation "com.facebook.conceal:conceal:2.0.2"
     implementation "com.github.Ferfalk:SimpleSearchView:0.2.0"
-    implementation "com.l4digital:fastscroll:2.1.0"
+    implementation "io.github.l4digital:fastscroll:2.1.0"
     implementation "com.github.warkiz.widget:indicatorseekbar:2.1.2"
 
 }
