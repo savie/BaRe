@@ -29,16 +29,15 @@ internal class CommandTaskProtocol(
 
     companion object {
         private val SHARED_MARKER: String = UUID.randomUUID().toString()
+        private val SHARED_MARKER_COMMAND: ByteArray = String.format(
+            "__RET=\$?;echo %1\$s;echo %1\$s >&2;echo \$__RET;unset __RET\n",
+            SHARED_MARKER
+        ).toByteArray(StandardCharsets.UTF_8)
     }
 
     fun write(outputStream: OutputStream) {
         taskWriters.forEach { it.writeTo(outputStream) }
-        outputStream.write(
-            String.format(
-                "__RET=\$?;echo %1\$s;echo %1\$s >&2;echo \$__RET;unset __RET\n",
-                marker
-            ).toByteArray(StandardCharsets.UTF_8)
-        )
+        outputStream.write(SHARED_MARKER_COMMAND)
         outputStream.flush()
     }
 
