@@ -1,14 +1,35 @@
 package com.bareapps.filesystem
 
+import java.io.File
+
 /**
- * Semantic migration target for reference source defpackage/m70.java.
+ * Kotlin port of defpackage.m70.
  *
- * Reference behavior maps paths according to the requested access mode and rewrites
- * /storage/emulated/<user> to /data/media/<user> for the root-oriented modes, except user 0.
- *
- * The reference's m70.b also supplies a trash-directory resolver backed by a configured storage
- * root (the relevant lambda is in defpackage/g70.java).
- *
- * TODO(reference-port): migrate path-mode semantics and trash-root resolution together.
+ * Obfuscated dependencies and enum dispatch remain source-shaped until their definitions
+ * are ported. The related g70 resolver is kept as the source's static field b.
  */
-internal object StoragePathMapperPortPlaceholder
+internal abstract class StoragePathMapper {
+    companion object {
+        val a = gv7(b7(6))
+        var b: g70? = null
+
+        @JvmStatic
+        fun a(str: String, o93Var: o93): String? {
+            val i = k70.a[o93Var.ordinal()]
+            if (i == 1) {
+                return zv1.r(str)
+            }
+            if (i != 2 && i != 3) {
+                q.j()
+                return null
+            }
+            if (!uq7.V(str, "/storage/emulated/", false) ||
+                uq7.V(str, "/storage/emulated/0/", false)
+            ) {
+                return str
+            }
+            val path = File(uq7.T(str, "/storage/emulated/", "/data/media/")).path
+            return path
+        }
+    }
+}
