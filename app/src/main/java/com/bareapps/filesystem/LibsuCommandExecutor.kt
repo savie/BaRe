@@ -1,48 +1,99 @@
 package com.bareapps.filesystem
 
 import com.bareapps.rootservice.ShellHelper
+import com.bareapps.rootservice.ShellTerminatedException
 import com.topjohnwu.superuser.Shell
 import java.io.Closeable
+import java.io.IOException
+import java.util.ArrayList
+import java.util.Collections
 
 /**
- * Kotlin execution adapter for the reference's libsu command-job path
- * (`defpackage.rh4`, backed by the reference `zd7.execTask`).
- *
- * Keep stdout and stderr separate: jr7's output-returning path reads the
- * reference stdout list, while command success is determined by the exit code.
- * libsu owns shell lifecycle and command execution.
+ * Source-shaped port of defpackage.rh4. Names a/b/c/d/e match the reference.
+ * TODO(parity): the reference d is custom zd7 and executes via execTask; this
+ * adapter currently uses the public Shell.Job API instead.
  */
 internal class LibsuCommandExecutor(
-    private val shell: Shell = ShellHelper.getMainShell(),
-    private val commands: MutableList<String> = mutableListOf()
+    @JvmField var d: Shell?
 ) : Closeable {
+    @JvmField var a: MutableList<String>? = null
+    @JvmField var b: MutableList<String>? = null
+    @JvmField val c: ArrayList<CommandTaskWriter> = ArrayList()
+    @JvmField var e: Boolean = false
 
-    fun add(vararg command: String): LibsuCommandExecutor = apply {
-        if (command.isNotEmpty()) commands += command.joinToString(" ; ")
+    constructor() : this(null)
+
+    /** rh4.a(String...). */
+    fun add(vararg commands: String): LibsuCommandExecutor = apply {
+        if (commands.isNotEmpty()) c.add(CommandTaskWriter(commands.copyOf()))
     }
 
-    fun execute(): CommandResult {
-        if (commands.isEmpty()) return CommandResult(emptyList(), emptyList(), 0)
-        // rh4 is constructed with a caller-selected Shell (k55.j()) and
-        // creates its job from that exact instance. Inject the shell so this
-        // adapter does not silently replace a caller's shell with a global one.
-        // The default comes from ShellHelper's k55/ex0-inspired selector.
-        val result = shell.newJob().add(*commands.toTypedArray()).exec()
-        return CommandResult(
-            output = result.out.orEmpty(),
-            error = result.err.orEmpty(),
-            exitCode = result.code
-        )
+    /** rh4.b(). */
+    fun execute(): LibsuCommandResult = b()
+
+    fun b(): LibsuCommandResult {
+        val shell = d!!
+        val shared = !e && shell.isRoot
+        if (shared) b = a
+        val payload = LibsuCommandResult()
+        val out = a
+        if (out == null || out !== b) {
+            payload.a = out
+            payload.b = b
+        } else {
+            val synchronizedLines = Collections.synchronizedList(out)
+            payload.a = synchronizedLines
+            payload.b = synchronizedLines
+        }
+
+        try {
+            val commands = c.flatMap { it.commandsForJob() }
+            val result = shell.newJob().add(*commands.toTypedArray()).exec()
+            if (a == null) a = ArrayList()
+            if (b == null && !shared) b = ArrayList()
+            a?.addAll(result.out.orEmpty())
+            if (!shared) b?.addAll(result.err.orEmpty())
+            close()
+            payload.a = a
+            payload.b = if (shared) null else b
+            payload.c = result.code
+            return payload
+        } catch (error: IOException) {
+            close()
+            payload.a = a
+            payload.b = if (shared) null else b
+            return if (error is ShellTerminatedException) {
+                LibsuCommandResult.RETRYABLE_SHELL_TERMINATION
+            } else {
+                LibsuCommandResult.GENERIC_FAILURE
+            }
+        } catch (error: Throwable) {
+            close()
+            payload.a = a
+            payload.b = if (shared) null else b
+            throw error
+        }
     }
 
+    /** rh4.close(): close each accumulated dm1/ae7 writer. */
     override fun close() {
-        // Commands are materialized as strings; libsu owns the underlying shell.
-        commands.clear()
+        val iterator = c.iterator()
+        while (iterator.hasNext()) iterator.next().close()
     }
+}
 
-    internal data class CommandResult(
-        val output: List<String>,
-        val error: List<String>,
-        val exitCode: Int
-    )
+/** gn6-shaped result; the two failure sentinels are intentionally distinct. */
+internal class LibsuCommandResult(
+    @JvmField var a: MutableList<String>? = null,
+    @JvmField var b: MutableList<String>? = null,
+    @JvmField var c: Int = -1
+) {
+    val output: List<String> get() = a ?: emptyList()
+    val error: List<String> get() = b ?: emptyList()
+    val exitCode: Int get() = c
+
+    companion object {
+        @JvmField val GENERIC_FAILURE = LibsuCommandResult()
+        @JvmField val RETRYABLE_SHELL_TERMINATION = LibsuCommandResult()
+    }
 }
