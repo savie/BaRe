@@ -6,8 +6,10 @@ import com.topjohnwu.superuser.Shell
  * Shell entry points mapped from SwiftBackup 5.1.0 (620)'s
  * org.swiftapps.rootservice.ShellHelper.
  *
- * Execution is delegated to libsu, which is already a project dependency.
- * No local copy of com.topjohnwu.superuser classes is needed.
+ * The reference getShShell() builds a dedicated Shell using ex0 flags=9 and a
+ * 10-second startup timeout. sh()/su() do NOT return libsu Shell.Job: they
+ * return the deferred od7 task abstraction, implemented here by
+ * ShellCommandTask.
  */
 object ShellHelper {
 
@@ -19,8 +21,8 @@ object ShellHelper {
     fun getMainShell(): Shell = ShellSelectionRegistry.getOrCreate()
 
     /**
-     * Creates a dedicated non-root "sh" shell with the reference's 10-second
-     * startup timeout and merged stderr/stdout behavior (reference flags = 9).
+     * Exact source-supported builder configuration: flags 9 (non-root shell +
+     * redirect stderr) and 10-second startup timeout.
      */
     @JvmStatic
     fun getShShell(): Shell =
@@ -30,28 +32,18 @@ object ShellHelper {
             .build()
 
     /**
-     * Creates a deferred job on libsu's configured main shell, matching the
-     * reference helper's SH command path.
+     * Builds a deferred non-root-required command task, equivalent to the
+     * reference's vy5(false) path. Commands run only when execute() is called.
      */
     @JvmStatic
-    fun sh(vararg commands: String): Shell.Job = getMainShell().newJob().add(*commands)
+    fun sh(vararg commands: String): ShellCommandTask =
+        ShellCommandTask(requireRoot = false, commands = commands.copyOf())
 
     /**
-     * Creates a deferred root-only job. The reference's SU job refuses to run
-     * its commands when the selected main shell is not root. libsu 6.x no
-     * longer exposes the old Shell.su(...) job factory, so preserve that guard
-     * in the command script while using the configured libsu shell.
+     * Builds a deferred root-required command task, equivalent to vy5(true).
+     * The root gate is checked at execution time against the selected shell.
      */
     @JvmStatic
-    fun su(vararg commands: String): Shell.Job {
-        val script = buildString {
-            append("if [ \"$(id -u)\" -eq 0 ]; then\n")
-            commands.forEach { command ->
-                append(command)
-                append('\n')
-            }
-            append("else\nexit 1\nfi")
-        }
-        return getMainShell().newJob().add(script)
-    }
+    fun su(vararg commands: String): ShellCommandTask =
+        ShellCommandTask(requireRoot = true, commands = commands.copyOf())
 }
