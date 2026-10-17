@@ -2,9 +2,8 @@
 
 ## Scope
 
-Work through the **existing** files in `app/src/main/java/com/bareapps/filesystem/` first.
-Compare each implementation against its exact SwiftBackup 5.1.0 (620) JADX source and fix
-parity gaps in place. Do not expand to unrelated packages or migrate the entire decompile.
+Follow the dependency path beginning with `FileType.kt` → `RootAwareFile.kt`, then continue into dependencies whose target files remain under `app/src/main/java/com/bareapps/filesystem/`.
+Compare each implementation against its exact SwiftBackup 5.1.0 (620) JADX source and fix parity gaps in place. If the next implementation target is outside `com/bareapps/filesystem/`, stop implementation at that boundary for this batch; do not edit that outside file. Do not migrate the entire decompile.
 
 For each existing file:
 1. Identify the source class/methods it represents.
@@ -21,8 +20,7 @@ For each existing file:
 Prioritize the core and current gaps already present in the package, including
 `FileSystemEntry.kt` (`q63`), `FileAccessPolicy.kt` (`p63`),
 `StoragePathMapper.kt` (`m70`), `SafDocumentTreeBridge.kt` (the selected
-`ji8.q(q63, int)` bridge), `TrashDirectoryResolver.kt` (the relevant `m70/g70`
-slice), `RootAwareFile.kt` (`jr7`), and the command/stream helper files.
+`ji8.q(q63, int)` bridge), `TrashDirectoryResolver.kt` (the relevant `m70/g70` slice), `RootAwareFile.kt` (`jr7`), `LibsuCommandExecutor.kt`, `ShizukuCommandExecutor.kt`, `ShizukuServiceState.kt`, the normalized result type for `ne7`, and the command/stream helper files. Follow this chain only while implementation targets remain in the filesystem package.
 
 This is a parity pass over existing files, not a request to create a broad set of new files.
 Do not treat comments, placeholders, or mapping rows as implemented behavior.

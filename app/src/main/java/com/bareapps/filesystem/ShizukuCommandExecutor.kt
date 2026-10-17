@@ -9,14 +9,19 @@ import java.util.ArrayList
 import java.util.Arrays
 
 /**
- * Kotlin-shaped port of defpackage.qe7.
+ * Kotlin port of defpackage.qe7.
  *
- * Unknown/dependency identifiers deliberately retain their original obfuscated names.
+ * The source methods b() and c() are exposed through the role-based aliases
+ * isAvailable() and execute() because their responsibilities are established
+ * by the JADX body and their RootAwareFile call sites. The source-shaped names
+ * remain available so the mapping is traceable.
+ *
+ * Unknown dependency identifiers deliberately retain their original obfuscated names.
  * Do not substitute public Shizuku APIs for the private source calls: migrate the
  * referenced classes separately when their behavior is established.
  *
  * Source dependencies still unresolved in this repository include le7, f13, f94,
- * y5, ne7, w28, px, y2, oe7, pe7, mt3, x50, and f51.
+ * y5, w28, px, y2, oe7, pe7, mt3, x50, f51, and the reflected helper gv7/fl.
  */
 internal abstract class ShizukuCommandExecutor {
 
@@ -32,6 +37,7 @@ internal abstract class ShizukuCommandExecutor {
             }
         }
 
+        /** Source method qe7.b(): permission/service availability check. */
         fun b(): Boolean {
             if (le7.f || a() < 11) {
                 return f13.d().checkSelfPermission("moe.shizuku.manager.permission.API_V23") == 0
@@ -49,13 +55,17 @@ internal abstract class ShizukuCommandExecutor {
             }
         }
 
-        fun c(strArr: Array<String>): ne7 {
+        /** Readable alias for the established responsibility of qe7.b(). */
+        fun isAvailable(): Boolean = b()
+
+        /** Source method qe7.c(): start sh, drain both streams, and return output/status. */
+        fun c(strArr: Array<String>): ShizukuCommandResult {
             var th: Throwable
             var process: Process? = null
             var w28Var: w28? = null
             var w28Var2: w28? = null
             val strArr2 = Arrays.copyOf(strArr, strArr.size)
-            val arrayList = ArrayList<Any>()
+            val arrayList = ArrayList<String>()
 
             try {
                 val objInvoke = (a.getValue() as Method).invoke(null, arrayOf("sh"), null, null)
@@ -88,7 +98,7 @@ internal abstract class ShizukuCommandExecutor {
                             process.destroy()
                         } catch (_: Exception) {
                         }
-                        return ne7(arrayList, iWaitFor)
+                        return ShizukuCommandResult(arrayList, iWaitFor)
                     } catch (th2: Throwable) {
                         try {
                             throw th2
@@ -127,5 +137,8 @@ internal abstract class ShizukuCommandExecutor {
                 throw th
             }
         }
+
+        /** Readable alias for the established responsibility of qe7.c(). */
+        fun execute(commands: Array<String>): ShizukuCommandResult = c(commands)
     }
 }
