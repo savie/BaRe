@@ -914,7 +914,7 @@
         <item name="toolbarStyle">@style/Widget.Material3.Toolbar</item>
         <item name="toolbarSurfaceStyle">@style/Widget.Material3.Toolbar.Surface</item>
     </style>
-    <style name="Base.V14.Theme.MaterialComponents" parent="@style/Base.V14.Theme.MaterialComponents.Bridge">
+    <style name="Base.V14.Theme.MaterialComponents" parent="@style/Base.V14.Theme.MaterialComponentsBridgeImpl">
         <item name="android:colorBackground">@color/design_dark_default_color_background</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:timePickerDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
@@ -965,7 +965,7 @@
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar</item>
         <item name="viewInflaterClass">com.google.android.material.theme.MaterialComponentsViewInflater</item>
     </style>
-    <style name="Base.V14.Theme.MaterialComponents.Bridge" parent="@style/Platform.MaterialComponents">
+    <style name="Base.V14.Theme.MaterialComponentsBridgeImpl" parent="@style/Platform.MaterialComponents">
         <item name="badgeStyle">@style/Widget.MaterialComponents.Badge</item>
         <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar</item>
         <item name="chipGroupStyle">@style/Widget.MaterialComponents.ChipGroup</item>
@@ -1035,7 +1035,7 @@
         <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
         <item name="toolbarNavigationButtonBackground">@drawable/m3_default_control_background</item>
     </style>
-    <style name="Base.V14.Theme.MaterialComponents.Light" parent="@style/Base.V14.Theme.MaterialComponents.Light.Bridge">
+    <style name="Base.V14.Theme.MaterialComponents.Light" parent="@style/Base.V14.Theme.MaterialComponents.LightBridgeImpl">
         <item name="android:colorBackground">@color/design_default_color_background</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:timePickerDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
@@ -1085,7 +1085,7 @@
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar</item>
         <item name="viewInflaterClass">com.google.android.material.theme.MaterialComponentsViewInflater</item>
     </style>
-    <style name="Base.V14.Theme.MaterialComponents.Light.Bridge" parent="@style/Platform.MaterialComponents.Light">
+    <style name="Base.V14.Theme.MaterialComponents.LightBridgeImpl" parent="@style/Platform.MaterialComponents.Light">
         <item name="badgeStyle">@style/Widget.MaterialComponents.Badge</item>
         <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar</item>
         <item name="chipGroupStyle">@style/Widget.MaterialComponents.ChipGroup</item>
@@ -1726,12 +1726,12 @@
         <item name="switchTextAppearance">@style/TextAppearance.AppCompat.Widget.Switch</item>
         <item name="track">@drawable/abc_switch_track_mtrl_alpha</item>
     </style>
-    <style name="Base.Widget.AppCompat.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggle.Common">
+    <style name="Base.Widget.AppCompat.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggleCommon">
         <item name="barLength">18.0dp</item>
         <item name="drawableSize">24.0dp</item>
         <item name="gapBetweenBars">3.0dp</item>
     </style>
-    <style name="Base.Widget.AppCompat.DrawerArrowToggle.Common" parent="">
+    <style name="Base.Widget.AppCompat.DrawerArrowToggleCommon" parent="">
         <item name="arrowHeadLength">8.0dp</item>
         <item name="arrowShaftLength">16.0dp</item>
         <item name="color">?android:textColorSecondary</item>
