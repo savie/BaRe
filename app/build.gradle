@@ -40,16 +40,16 @@ dependencies {
     // Runtime widgets required by the reference onboarding layout.
     implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
-    implementation "com.google.android.material:material:1.13.0"
+    implementation "com.google.android.material:material:1.14.0"
     implementation "androidx.biometric:biometric:1.1.0"
     implementation "androidx.browser:browser:1.8.0"
     implementation "androidx.preference:preference:1.2.1"
     implementation "androidx.datastore:datastore-preferences:1.1.7"
     implementation "androidx.webkit:webkit:1.16.0"
-    implementation "androidx.viewpager2:viewpager2:1.1.0"
+    implementation "androidx.viewpager2:viewpager2:1.1.0-beta02"
     implementation "androidx.documentfile:documentfile:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.4.0"
-    implementation "androidx.room:room-runtime:2.8.0"
+    implementation "androidx.room:room-runtime:2.8.4"
     // TedPermission runtime required by the reference manifest components.
     implementation "io.github.ParkSangGwon:tedpermission-normal:3.4.2"
 
@@ -63,8 +63,8 @@ dependencies {
     implementation "com.google.firebase:firebase-database"
     implementation "com.google.firebase:firebase-crashlytics"
     implementation "com.google.firebase:firebase-crashlytics-ndk"
-    implementation "androidx.credentials:credentials:1.5.0"
-    implementation "androidx.credentials:credentials-play-services-auth:1.5.0"
+    implementation "androidx.credentials:credentials:1.6.0"
+    implementation "androidx.credentials:credentials-play-services-auth:1.6.0"
     implementation "com.android.billingclient:billing:8.3.0"
     // Cloud/OAuth SDKs present in the SwiftBackup reference manifest.
     implementation "net.openid:appauth:0.11.1"
