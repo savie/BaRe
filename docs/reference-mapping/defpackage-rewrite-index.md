@@ -21,13 +21,13 @@ as proof of feature parity.
 | `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Task marker protocol and output/exit-status coordination | Protocol marker/write partial; concurrent readers and parsing TODO |
 | `defpackage.dm1` | `com/bareapps/filesystem/CommandTaskWriter.kt` | UTF-8 command writer with newline terminators | Implemented source-supported write behavior |
 | `defpackage.od7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Deferred command-job API (`add` then execute) | Partial semantic port; exact return/status contract TODO |
-| `defpackage.ae7` | `com/bareapps/filesystem/CommandTaskWriter.kt` | Writer contract used by `rh4.close()` and `gy7` | Behavior represented by concrete writer; interface/lifecycle contract not separately ported |
-| `defpackage.pd7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Shell task callback receiving stdin/stdout/stderr streams | Partial; protocol constants/write path represented, stream callback contract TODO |
-| `defpackage.gn6` | `com/bareapps/rootservice/ShellCommandTask.kt` | Execution result: stdout, stderr, exit status, retry/failure sentinel | Partial; represented as sealed result, singleton identity semantics TODO |
-| `defpackage.ee7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Retryable shell-terminated IOException signal | TODO; libsu public API does not expose equivalent lifecycle signal |
-| `defpackage.ip7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | UTF-8 line reader filtering protocol marker | TODO; concurrent stream reader not yet ported |
-| `defpackage.hp7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Stdout reader parses exit code after marker | TODO; parser not yet ported |
-| `defpackage.gp7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Stderr reader drains lines until marker | TODO; parser not yet ported |
+| `defpackage.ae7` | `com/bareapps/filesystem/CommandTaskSink.kt` | Closeable command-writer contract | Interface ported; concrete `dm1` writer implements it |
+| `defpackage.pd7` | `com/bareapps/filesystem/ShellTaskCallback.kt` | Shell task callback receiving stdin/stdout/stderr streams | Interface ported; integration with libsu execution TODO |
+| `defpackage.gn6` | `com/bareapps/rootservice/CommandTaskResult.kt` | Execution result: stdout, stderr, exit status, retry/failure sentinel | Partial; typed result added, singleton identity semantics TODO |
+| `defpackage.ee7` | `com/bareapps/rootservice/ShellTerminatedException.kt` | Retryable shell-terminated IOException signal | Exception type ported; libsu public API does not expose equivalent lifecycle signal |
+| `defpackage.ip7` | `com/bareapps/filesystem/CommandStreamLineReader.kt` | UTF-8 line reader filtering protocol marker | Line filtering ported; edge-case parity not verified |
+| `defpackage.hp7` | `com/bareapps/filesystem/CommandExitCodeReader.kt` | Stdout reader parses exit code after marker | Parsing ported; concurrent integration TODO |
+| `defpackage.gp7` | `com/bareapps/filesystem/CommandStderrDrainer.kt` | Stderr reader drains lines until marker | Draining ported; concurrent integration TODO |
 
 ## Workflow rule
 
