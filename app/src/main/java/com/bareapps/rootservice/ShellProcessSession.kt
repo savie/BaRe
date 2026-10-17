@@ -4,28 +4,31 @@ import com.topjohnwu.superuser.Shell
 import java.io.Closeable
 
 /**
- * Rewrite mapping for SwiftBackup 5.1.0 (620) `defpackage.zd7`.
+ * Rewrite mapping for SwiftBackup 5.1.0 (620) defpackage.zd7.
  *
- * Reference `zd7` extends Shell and owns a Process, stdin/stdout/stderr
- * streams, startup status, a worker executor, synchronized task execution,
- * and process shutdown. The current app uses libsu's Shell implementation,
- * so this type records the missing lifecycle boundary without pretending the
- * public libsu API is identical to the original implementation.
+ * Exposes the observable status/aliveness of a libsu shell and makes ownership
+ * explicit. The reference zd7 owns a Process and its streams; a shell obtained
+ * from ShellSelectionRegistry is shared and must not be destroyed by this
+ * wrapper.
  *
- * TODO(parity): port reference startup handshake/timeout, stream reset,
- * execTask synchronization, status transitions, waitAndClose and destroy
- * behavior before replacing libsu's internal lifecycle.
+ * TODO(parity): direct Process ownership, startup handshake/timeout, stream
+ * reset, synchronized execTask, status transitions, waitAndClose and destroy
+ * remain unported. Do not use this wrapper as a replacement for zd7 yet.
  */
 internal class ShellProcessSession(
-    val shell: Shell = ShellSelectionRegistry.getOrCreate()
+    val shell: Shell = ShellSelectionRegistry.getOrCreate(),
+    private val ownsShell: Boolean = false
 ) : Closeable {
 
+    val status: Int
+        get() = runCatching { shell.status }.getOrDefault(-1)
+
     val isAlive: Boolean
-        get() = runCatching { shell.status >= 0 }.getOrDefault(false)
+        get() = runCatching { shell.isAlive }.getOrDefault(false)
 
     override fun close() {
-        // The selected Shell may be shared through ShellSelectionRegistry.
-        // TODO(parity): reference zd7 owns and destroys its Process directly;
-        // do not close a shared shell until ownership semantics are explicit.
+        if (ownsShell) {
+            runCatching { shell.close() }
+        }
     }
 }
