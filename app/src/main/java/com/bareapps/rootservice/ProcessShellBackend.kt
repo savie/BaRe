@@ -65,6 +65,7 @@ internal class ProcessShellBackend private constructor(
     }
 
     private fun verifyShell() {
+        val deadlineNanos = System.nanoTime() + TimeUnit.SECONDS.toNanos(startupTimeoutSeconds)
         try {
             if (!process.isAlive) throw IOException("Created process has terminated")
             stdout.discardAvailable()
@@ -72,13 +73,13 @@ internal class ProcessShellBackend private constructor(
             stdin.write("echo SHELL_TEST\n".toByteArray(StandardCharsets.UTF_8))
             stdin.flush()
             val reader = BufferedReader(InputStreamReader(stdout, StandardCharsets.UTF_8))
-            val test = readLineWithTimeout(reader)
+            val test = readLineWithTimeout(reader, deadlineNanos)
             if (test.isNullOrEmpty() || !test.contains("SHELL_TEST")) {
                 throw IOException("Created process is not a shell")
             }
             stdin.write("id\n".toByteArray(StandardCharsets.UTF_8))
             stdin.flush()
-            val identity = readLineWithTimeout(reader)
+            val identity = readLineWithTimeout(reader, deadlineNanos)
             status = if (identity?.contains("uid=0") == true) 1 else 0
             if (status == 1) {
                 val workingDirectory = quoteShellArgument(System.getProperty("user.dir"))
@@ -86,10 +87,10 @@ internal class ProcessShellBackend private constructor(
                 stdin.flush()
                 stdin.write("readlink /proc/self/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
-                val ownNamespace = readLineWithTimeout(reader)
+                val ownNamespace = readLineWithTimeout(reader, deadlineNanos)
                 stdin.write("readlink /proc/1/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
-                val initNamespace = readLineWithTimeout(reader)
+                val initNamespace = readLineWithTimeout(reader, deadlineNanos)
                 if (!ownNamespace.isNullOrEmpty() && ownNamespace == initNamespace) status = 2
             }
         } catch (error: Exception) {
@@ -99,11 +100,16 @@ internal class ProcessShellBackend private constructor(
         }
     }
 
-    private fun readLineWithTimeout(reader: BufferedReader): String? {
+    private fun readLineWithTimeout(reader: BufferedReader, deadlineNanos: Long): String? {
         val future = java.util.concurrent.FutureTask<String?> { reader.readLine() }
         Thread(future, "bare-shell-startup").apply { isDaemon = true; start() }
+        val remainingNanos = deadlineNanos - System.nanoTime()
+        if (remainingNanos <= 0L) {
+            future.cancel(true)
+            throw IOException("Shell check timeout")
+        }
         return try {
-            future.get(startupTimeoutSeconds, TimeUnit.SECONDS)
+            future.get(remainingNanos, TimeUnit.NANOSECONDS)
         } catch (error: java.util.concurrent.TimeoutException) {
             future.cancel(true)
             throw IOException("Shell check timeout", error)
