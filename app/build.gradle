@@ -147,6 +147,9 @@ dependencies {
     implementation "com.microsoft.identity.client:msal:8.5.0"
     implementation "com.pcloud.sdk:android:1.11.0"
     implementation "com.yubico.yubikit:android:3.2.0"
+    // Keep YubiKit modules on the same release; PIV references the core internal logger.
+    implementation "com.yubico.yubikit:core:3.2.0"
+    implementation "com.yubico.yubikit:piv:3.2.0"
 
     // Shizuku/Sui API and manifest provider integration.
     implementation "dev.rikka.shizuku:api:13.1.5"
