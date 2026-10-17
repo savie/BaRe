@@ -7,44 +7,43 @@ import java.io.InterruptedIOException
 import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 import java.util.UUID
-import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 
 /**
- * Kotlin mapping of defpackage.gy7.
+ * Kotlin port of defpackage.gy7.
  *
- * Starts independent stdout/stderr readers before writing commands, appends
- * the reference marker protocol, then waits for both readers. This is a
- * protocol adapter for raw process streams; it is not wired into libsu's
- * public Shell.Job execution path because that API owns its own stream handling.
+ * Source order is preserved: submit both readers, write every ae7 payload, write
+ * the shared marker bytes, flush, await stdout/exit status, then await stderr.
+ * The reference does not cancel the futures or restore the interrupt flag when
+ * InterruptedException/ExecutionException is translated to InterruptedIOException.
  */
 internal class CommandTaskProtocol(
     private val taskWriters: List<CommandTaskSink>
 ) {
     constructor(taskWriter: CommandTaskWriter) : this(listOf(taskWriter))
 
-    // gy7.c is static in the reference; all task instances share this marker.
-    private val marker: String = SHARED_MARKER
-
     companion object {
-        private val SHARED_MARKER: String = UUID.randomUUID().toString()
-        private val SHARED_MARKER_COMMAND: ByteArray = String.format(
+        // gy7.c and gy7.d are static in the source and shared by all task instances.
+        val c: String = UUID.randomUUID().toString()
+        val d: ByteArray = String.format(
             "__RET=\$?;echo %1\$s;echo %1\$s >&2;echo \$__RET;unset __RET\n",
-            SHARED_MARKER
+            c
         ).toByteArray(StandardCharsets.UTF_8)
     }
 
+    @Throws(IOException::class)
     fun write(outputStream: OutputStream) {
-        taskWriters.forEach { it.writeTo(outputStream) }
-        outputStream.write(SHARED_MARKER_COMMAND)
+        for (writer in taskWriters) {
+            writer.writeTo(outputStream)
+        }
+        outputStream.write(d)
         outputStream.flush()
     }
 
     /**
-     * Executes the stream protocol. The caller must provide a live shell's
-     * three streams and serialize calls against that shell, as zd7.execTask
-     * does with a synchronized method.
+     * Port of gy7.a(outputStream, inputStream, inputStream2).
+     * Callers remain responsible for serializing access to a shell's streams.
      */
     @Throws(IOException::class)
     fun execute(
@@ -54,43 +53,34 @@ internal class CommandTaskProtocol(
         stdoutLines: MutableList<String>,
         stderrLines: MutableList<String>
     ): Int {
-        val stdoutFuture = Shell.EXECUTOR.submit(
-            Callable { CommandExitCodeReader(stdout, stdoutLines, marker).readExitCode() }
+        val stdoutFuture: Future<Int> = Shell.EXECUTOR.submit(
+            CommandExitCodeReader(stdout, stdoutLines, c)::readExitCode
         )
-        val stderrFuture = Shell.EXECUTOR.submit(
-            Callable { CommandStderrDrainer(stderr, stderrLines, marker).drain() }
+        val stderrFuture: Future<Unit> = Shell.EXECUTOR.submit(
+            java.util.concurrent.Callable {
+                CommandStderrDrainer(stderr, stderrLines, c).drain()
+            }
         )
+
+        write(outputStream)
         try {
-            write(outputStream)
             val exitCode = await(stdoutFuture)
             await(stderrFuture)
             return exitCode
-        } catch (error: IOException) {
-            stdoutFuture.cancel(true)
-            stderrFuture.cancel(true)
-            throw error
-        } catch (error: RuntimeException) {
-            stdoutFuture.cancel(true)
-            stderrFuture.cancel(true)
-            throw error
+        } catch (exception: InterruptedException) {
+            throw InterruptedIOException().also { it.initCause(exception) }
+        } catch (exception: ExecutionException) {
+            throw InterruptedIOException().also { it.initCause(exception) }
         }
     }
 
-    private fun <T> await(future: Future<T>): T {
-        try {
-            return future.get()
-        } catch (error: InterruptedException) {
-            Thread.currentThread().interrupt()
-            throw InterruptedIOException().also { it.initCause(error) }
-        } catch (error: ExecutionException) {
-            // gy7 converts either reader-future failure into InterruptedIOException.
-            throw InterruptedIOException().also { it.initCause(error) }
-        }
-    }
+    private fun <T> await(future: Future<T>): T = future.get()
 
-    fun marker(): String = marker
+    fun marker(): String = c
 
     fun closeWriters() {
-        taskWriters.forEach { it.close() }
+        for (writer in taskWriters) {
+            writer.close()
+        }
     }
 }
