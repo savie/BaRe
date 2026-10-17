@@ -86,7 +86,6 @@
     <attr name="autoSizePresetSizes" format="reference" />
     <attr name="autoSizeStepGranularity" format="dimension" />
 
-    <attr name="backIconAlpha" format="dimension" />
     <attr name="backIconTint" format="color" />
     <attr name="background" format="reference" />
     <attr name="backgroundColor" format="color" />
@@ -165,10 +164,6 @@
     <attr name="boxStrokeWidth" format="dimension" />
     <attr name="boxStrokeWidthFocused" format="dimension" />
     <attr name="bubbleColor" format="color" />
-    <attr name="bubbleSize">
-        <enum name="normal" value="0" />
-        <enum name="small" value="1" />
-    </attr>
     <attr name="bubbleTextColor" format="color" />
     <attr name="bubbleTextSize" format="dimension" />
     <attr name="buttonBackgroundTint" format="color" />
@@ -1089,10 +1084,6 @@
         <enum name="software" value="2" />
     </attr>
     <attr name="lottie_repeatCount" format="integer" />
-    <attr name="lottie_repeatMode">
-        <enum name="restart" value="1" />
-        <enum name="reverse" value="2" />
-    </attr>
     <attr name="lottie_scale" format="float" />
     <attr name="lottie_speed" format="float" />
     <attr name="lottie_url" format="string" />
