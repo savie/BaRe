@@ -15,7 +15,7 @@ import java.io.Closeable
  * retryable ee7 signal. libsu's public Result API does not expose zd7's
  * process lifecycle signal directly.
  */
-internal class ShellCommandTask(
+class ShellCommandTask(
     private val requireRoot: Boolean,
     commands: Array<out String>,
     private val shellProvider: () -> Shell = { ShellSelectionRegistry.getOrCreate() }
