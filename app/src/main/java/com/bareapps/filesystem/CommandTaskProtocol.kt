@@ -79,9 +79,8 @@ internal class CommandTaskProtocol(
             Thread.currentThread().interrupt()
             throw InterruptedIOException().also { it.initCause(error) }
         } catch (error: ExecutionException) {
-            val cause = error.cause
-            if (cause is IOException) throw cause
-            throw IOException("Shell stream reader failed", cause)
+            // gy7 converts either reader-future failure into InterruptedIOException.
+            throw InterruptedIOException().also { it.initCause(error) }
         }
     }
 
