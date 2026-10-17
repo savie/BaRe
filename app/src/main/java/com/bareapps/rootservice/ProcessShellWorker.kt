@@ -15,8 +15,8 @@ import java.util.concurrent.TimeoutException
  * Shell.EXECUTOR. shutdown() drops queued work; shutdownNow() cancels the active
  * queue-drain FutureTask and returns queued work.
  *
- * Kept as a separate lifecycle primitive until ProcessShellBackend is migrated
- * to submit its startup and execution work through this queue.
+ * ProcessShellBackend submits startup verification through this queue; command
+ * execution remains on the synchronized caller thread, matching zd7.execTask.
  */
 internal class ProcessShellWorker : AbstractExecutorService(), Closeable {
     private var shutdown = false
