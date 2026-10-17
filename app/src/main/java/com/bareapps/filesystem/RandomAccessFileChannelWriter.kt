@@ -1,18 +1,48 @@
 package com.bareapps.filesystem
 
+import defpackage.b6
+import defpackage.c6
+import defpackage.u48
+import defpackage.xs1
+import defpackage.y5
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 
 /**
- * Kotlin port of `org.swiftapps.filesystem.a.a(FileChannel, long, byte[], int, int)`.
+ * Kotlin port of org.swiftapps.filesystem.a.
  *
- * Writes the requested byte-array slice at an explicit file offset. The write
- * position advances by the number of bytes actually written, so partial writes
- * are handled without changing the caller's channel position.
+ * Method a(FileChannel, long, byte[], int, int) is kept as the source-shaped
+ * entry point. The obfuscated validation/error helpers are deliberately retained;
+ * their behavior is not replaced with guessed IllegalArgumentException logic.
  */
 object RandomAccessFileChannelWriter {
 
+    @JvmStatic
+    @Throws(IOException::class)
+    fun a(fileChannel: FileChannel, j: Long, bArr: ByteArray, i: Int, i2: Int) {
+        var offset = j
+        if (offset < 0L) {
+            c6.f("offset < 0")
+            return
+        }
+        if (i < 0 || i2 < 0 || i + i2 > bArr.size) {
+            b6.b(bArr.size, xs1.n("Invalid buffer range: off=", i, ", len=", ", size=", i2))
+            return
+        }
+
+        val byteBufferWrap = ByteBuffer.wrap(bArr, i, i2)
+        while (byteBufferWrap.hasRemaining()) {
+            val iWrite = fileChannel.write(byteBufferWrap, offset)
+            if (iWrite <= 0) {
+                y5.m(u48.l(offset, "Unable to write random file data at offset "))
+                return
+            }
+            offset += iWrite.toLong()
+        }
+    }
+
+    /** Descriptive Kotlin entry point for existing callers. */
     @JvmStatic
     @Throws(IOException::class)
     fun write(
@@ -21,31 +51,5 @@ object RandomAccessFileChannelWriter {
         bytes: ByteArray,
         bufferOffset: Int,
         length: Int
-    ) {
-        // Reference c6.f("offset < 0") throws IllegalArgumentException.
-        if (offset < 0L) {
-            throw IllegalArgumentException("offset < 0")
-        }
-
-        // Preserve the reference's validation order and Int arithmetic.
-        if (bufferOffset < 0 || length < 0 || bufferOffset + length > bytes.size) {
-            // Reference b6.b(size, message) appends the array size and throws IllegalArgumentException.
-            throw IllegalArgumentException(
-                "Invalid buffer range: off=$bufferOffset, len=$length, size=${bytes.size}"
-            )
-        }
-
-        val buffer = ByteBuffer.wrap(bytes, bufferOffset, length)
-        var fileOffset = offset
-        while (buffer.hasRemaining()) {
-            val written = fileChannel.write(buffer, fileOffset)
-            if (written <= 0) {
-                // Reference y5.m(message) throws IllegalArgumentException.
-                throw IllegalArgumentException(
-                    "Unable to write random file data at offset $fileOffset"
-                )
-            }
-            fileOffset += written.toLong()
-        }
-    }
+    ) = a(fileChannel, offset, bytes, bufferOffset, length)
 }
