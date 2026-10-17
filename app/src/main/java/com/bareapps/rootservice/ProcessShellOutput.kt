@@ -8,13 +8,13 @@ import java.io.OutputStream
 
 /** Mapping of defpackage.yd7: close flushes; closeUnderlying closes shell stdin. */
 internal class ProcessShellOutput(output: OutputStream) : FilterOutputStream(output) {
-    override fun close() { out.flush() }
+    override fun close() { this.`out`.flush() }
 
     @Throws(IOException::class)
     fun closeUnderlying() { super.close() }
 
     override fun write(buffer: ByteArray, offset: Int, length: Int) {
-        out.write(buffer, offset, length)
+        this.`out`.write(buffer, offset, length)
     }
 }
 
@@ -23,5 +23,5 @@ internal class ProcessShellInput(input: InputStream) : FilterInputStream(input) 
     override fun close() = Unit
 
     @Throws(IOException::class)
-    fun closeUnderlying() { in.close() }
+    fun closeUnderlying() { this.`in`.close() }
 }
