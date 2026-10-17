@@ -13,13 +13,21 @@ as proof of feature parity.
 | `defpackage.k55` | `com/bareapps/rootservice/ShellSelectionRegistry.kt` | Shell cache/selection slice only; original class is a large utility class | Partial port; lifecycle TODO |
 | `defpackage.ex0` | `com/bareapps/rootservice/RootShellFactory.kt` | `su --mount-master` / `su` / `sh` selection | Semantic port; startup behavior needs verification |
 | `defpackage.zd7` | `com/bareapps/rootservice/ShellProcessSession.kt` | Process and shell lifecycle | Placeholder/partial boundary; lifecycle TODO |
-| `defpackage.vy5` | `com/bareapps/rootservice/RootRequiredCommandExecutor.kt` | Root-required execution gate and retry policy | Partial policy mapping; result semantics TODO |
-| `defpackage.rh4` | `com/bareapps/filesystem/LibsuCommandExecutor.kt` | Command accumulation, output/error, execution result | Adapter, not full task/lifecycle parity |
+| `defpackage.vy5` | `com/bareapps/rootservice/RootRequiredCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Root-required execution gate, deferred command task, and retry policy boundary | Partial; root gate/deferred execution ported, exact `gn6` retry/result semantics TODO |
+| `defpackage.rh4` | `com/bareapps/filesystem/LibsuCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Command accumulation, stdout/stderr, execution result, and deferred task boundary | Adapter; not full `od7`/`gn6` parity |
 | `defpackage.qe7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Shizuku process and permission gate | Partial port; internal binder behavior differs |
 | `defpackage.le7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Service/permission state used by `qe7` | Combined partial mapping; split into a dedicated file if more service behavior is ported |
 | `defpackage.jr7` | `com/bareapps/filesystem/RootAwareFile.kt` | Root-aware `File` operations | Partial port; requires full override audit |
 | `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Task marker protocol and output/exit-status coordination | Protocol marker/write partial; concurrent readers and parsing TODO |
 | `defpackage.dm1` | `com/bareapps/filesystem/CommandTaskWriter.kt` | UTF-8 command writer with newline terminators | Implemented source-supported write behavior |
+| `defpackage.od7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Deferred command-job API (`add` then execute) | Partial semantic port; exact return/status contract TODO |
+| `defpackage.ae7` | `com/bareapps/filesystem/CommandTaskWriter.kt` | Writer contract used by `rh4.close()` and `gy7` | Behavior represented by concrete writer; interface/lifecycle contract not separately ported |
+| `defpackage.pd7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Shell task callback receiving stdin/stdout/stderr streams | Partial; protocol constants/write path represented, stream callback contract TODO |
+| `defpackage.gn6` | `com/bareapps/rootservice/ShellCommandTask.kt` | Execution result: stdout, stderr, exit status, retry/failure sentinel | Partial; represented as sealed result, singleton identity semantics TODO |
+| `defpackage.ee7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Retryable shell-terminated IOException signal | TODO; libsu public API does not expose equivalent lifecycle signal |
+| `defpackage.ip7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | UTF-8 line reader filtering protocol marker | TODO; concurrent stream reader not yet ported |
+| `defpackage.hp7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Stdout reader parses exit code after marker | TODO; parser not yet ported |
+| `defpackage.gp7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Stderr reader drains lines until marker | TODO; parser not yet ported |
 
 ## Workflow rule
 
