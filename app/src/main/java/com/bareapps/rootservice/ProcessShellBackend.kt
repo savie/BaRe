@@ -46,6 +46,12 @@ internal class ProcessShellBackend private constructor(
         checkOpen()
         if (status < 0) throw ShellTerminatedException()
         return try {
+            // zd7.execTask drains stale output and writes one separator newline
+            // before handing the streams to gy7.
+            stdout.discardAvailable()
+            stderr.discardAvailable()
+            stdin.write(byteArrayOf(10))
+            stdin.flush()
             CommandTaskProtocol(taskSinks).execute(stdin, stdout, stderr, stdoutLines, stderrLines)
         } catch (error: IOException) {
             closeAfterFailure()
@@ -56,8 +62,8 @@ internal class ProcessShellBackend private constructor(
     private fun verifyShell() {
         try {
             if (!process.isAlive) throw IOException("Created process has terminated")
-            while (stdout.available() > 0) stdout.skip(stdout.available().toLong())
-            while (stderr.available() > 0) stderr.skip(stderr.available().toLong())
+            stdout.discardAvailable()
+            stderr.discardAvailable()
             stdin.write("echo SHELL_TEST\n".toByteArray(StandardCharsets.UTF_8))
             stdin.flush()
             val reader = BufferedReader(InputStreamReader(stdout, StandardCharsets.UTF_8))
