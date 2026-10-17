@@ -5,21 +5,24 @@ import android.util.Log
 import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.io.OutputStreamWriter
+import java.io.OutputStream
+import java.nio.charset.StandardCharsets
+import java.util.Arrays
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
 
 /**
- * Filesystem command-execution port for reference defpackage.qe7 and its
- * service/permission gate in defpackage.le7.
+ * Kotlin port of defpackage.qe7.
  *
- * The reference qe7.b() has two paths:
- * - flagged/old service: check API_V23 permission locally;
- * - newer service: use the cached service-side permission result.
+ * The three source methods are all retained:
+ * - a(): safe Shizuku service-version lookup.
+ * - b(): permission check with the old/flagged-service and cached remote branches.
+ * - c(): start "sh", concurrently drain stdout/stderr into one output list, write
+ *   the joined command string, wait, join readers, interrupt them, and destroy.
  *
- * The original le7 flag and service-side binder method are private to the
- * decompiled implementation, so the public Shizuku API can only approximate
- * those branches; that limitation is intentionally explicit here.
+ * TODO(parity): qe7.b() reads le7.f/le7.e and invokes the private Binder interface
+ * f94.f(). The public Shizuku API does not expose that exact internal state/method;
+ * the API permission check below is the closest public equivalent.
  */
 internal object ShizukuCommandExecutor {
 
@@ -35,79 +38,102 @@ internal object ShizukuCommandExecutor {
         val exitCode: Int
     )
 
-    /** qe7.a(): return -1 if querying the service version fails. */
-    fun serviceVersion(): Int = try {
-        Shizuku.getVersion()
-    } catch (exception: Exception) {
-        Log.e(TAG, "getVersionSafe", exception)
-        -1
+    /** Port of qe7.a(). */
+    fun serviceVersion(): Int {
+        return try {
+            Shizuku.getVersion()
+        } catch (exception: Exception) {
+            Log.e(TAG, "getVersionSafe", exception)
+            -1
+        }
     }
 
-    /** Approximation of jr7.e() = le7.f() && qe7.b(). */
+    /** Port of qe7.b(); internal le7/f94 state is represented as closely as public APIs allow. */
     fun isAvailable(): Boolean {
-        if (!runCatching { Shizuku.pingBinder() }.getOrDefault(false)) {
-            remotePermissionGranted = false
-            return false
-        }
-
         val version = serviceVersion()
+
+        // Source: if (le7.f || a() < 11), check API_V23 locally.
+        // Shizuku's public permission method is used because qe7's original
+        // Context accessor and le7.f flag are internal to the source app.
         if (version < MIN_REMOTE_PERMISSION_VERSION) {
-            // qe7.b() uses Context.checkSelfPermission(API_V23) in this branch.
-            // Shizuku.checkSelfPermission() is the closest public permission gate.
             return try {
                 Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
-            } catch (_: SecurityException) {
-                false
-            } catch (_: IllegalStateException) {
+            } catch (exception: Exception) {
+                Log.e(TAG, "checkSelfPermission", exception)
                 false
             }
         }
 
-        // qe7.b() calls le7.h().f() and caches the result in le7.e. The
-        // service-side method isn't exposed by this public API, so use the
-        // API_V23 remote permission check as a conservative compatibility proxy.
+        // Source: if (le7.e) return true; otherwise cache f94.f().
         if (remotePermissionGranted) return true
+
         val granted = try {
             Shizuku.checkRemotePermission(API_PERMISSION) == PackageManager.PERMISSION_GRANTED
-        } catch (_: SecurityException) {
-            false
-        } catch (_: IllegalStateException) {
+        } catch (exception: Exception) {
+            Log.e(TAG, "checkRemotePermission", exception)
             false
         }
-        if (granted) remotePermissionGranted = true
+        remotePermissionGranted = granted
         return granted
     }
 
+    /** Port of qe7.c(). Empty command arrays are passed through, as in the Java source. */
     fun execute(commands: Array<out String>): CommandResult {
-        require(commands.isNotEmpty()) { "commands must not be empty" }
-        check(isAvailable()) { "Shizuku is unavailable or permission has not been granted" }
-
-        val process = Shizuku.newProcess(arrayOf("sh"), null, null)
+        // Source copies the incoming array before joining it.
+        val copiedCommands = Arrays.copyOf(commands, commands.size)
         val output = CopyOnWriteArrayList<String>()
-        val stdout = thread(name = "bare-shizuku-stdout") {
-            BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
-                lines.forEach(output::add)
+
+        val process = try {
+            Shizuku.newProcess(arrayOf("sh"), null, null)
+        } catch (exception: Exception) {
+            throw IllegalStateException("Failed to start Shizuku process", exception)
+        }
+
+        val stdoutReader = thread(name = "bare-shizuku-stdout", start = false) {
+            BufferedReader(InputStreamReader(process.inputStream, StandardCharsets.UTF_8)).use { reader ->
+                while (true) {
+                    val line = reader.readLine() ?: break
+                    output.add(line)
+                }
             }
         }
-        val stderr = thread(name = "bare-shizuku-stderr") {
-            BufferedReader(InputStreamReader(process.errorStream)).useLines { lines ->
-                lines.forEach(output::add)
-            }
-        }
+        var stderrReader: Thread? = null
 
         try {
-            OutputStreamWriter(process.outputStream).use { writer ->
-                writer.write(commands.joinToString(" ; "))
-                writer.flush()
+            stdoutReader.start()
+
+            stderrReader = thread(name = "bare-shizuku-stderr", start = false) {
+                BufferedReader(InputStreamReader(process.errorStream, StandardCharsets.UTF_8)).use { reader ->
+                    while (true) {
+                        val line = reader.readLine() ?: break
+                        output.add(line)
+                    }
+                }
             }
+            stderrReader.start()
+
+            // Source: x50.s0(62, " ; ", copiedCommands).getBytes(f51.a)
+            // f51.a is UTF-8. The source writes once, flushes, then closes stdin.
+            val commandBytes = copiedCommands.joinToString(separator = " ; ").toByteArray(StandardCharsets.UTF_8)
+            process.outputStream.use { stream: OutputStream ->
+                stream.write(commandBytes)
+                stream.flush()
+            }
+
             val exitCode = process.waitFor()
-            stdout.join()
-            stderr.join()
+            stdoutReader.join()
+            stderrReader.join()
             return CommandResult(output.toList(), exitCode)
         } finally {
-            runCatching { process.destroy() }
-            stdout.interrupt()
-            stderr.interrupt()
+            // Mirrors qe7's cleanup intent: interrupt readers and destroy process.
+            // Source suppresses exceptions from this cleanup block.
+            try {
+                stdoutReader.interrupt()
+                stderrReader?.interrupt()
+                process.destroy()
+            } catch (_: Exception) {
+                // Exact source cleanup intentionally ignores Exception.
+            }
         }
     }
 }
