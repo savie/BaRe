@@ -18,8 +18,8 @@ as proof of feature parity.
 | `defpackage.qe7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Shizuku process and permission gate | Partial port; internal binder behavior differs |
 | `defpackage.le7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Service/permission state used by `qe7` | Combined partial mapping; split into a dedicated file if more service behavior is ported |
 | `defpackage.jr7` | `com/bareapps/filesystem/RootAwareFile.kt` | Root-aware `File` operations | Partial port; requires full override audit |
-| `defpackage.gy7` | Not yet created | Task marker writes, stdout/stderr collection and exit status | TODO: create dedicated Kotlin mapping file |
-| `defpackage.dm1` | Not yet created | Command-line task writer | TODO: create dedicated Kotlin mapping file |
+| `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Task marker protocol and output/exit-status coordination | Protocol marker/write partial; concurrent readers and parsing TODO |
+| `defpackage.dm1` | `com/bareapps/filesystem/CommandTaskWriter.kt` | UTF-8 command writer with newline terminators | Implemented source-supported write behavior |
 
 ## Workflow rule
 
