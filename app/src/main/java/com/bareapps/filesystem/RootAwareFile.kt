@@ -5,138 +5,101 @@ import java.io.File
 import java.io.FileFilter
 import java.io.FilenameFilter
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 import java.util.Date
+import java.util.LinkedList
 import java.util.Locale
+import java.util.regex.Pattern
 
 /**
- * Kotlin port of `defpackage.jr7` from SwiftBackup 5.1.0 (620).
- *
- * This is a `java.io.File` subtype whose filesystem operations are executed
- * through libsu when root is available, or through the Shizuku process backend
- * when the Shizuku service and permission are available.
+ * Kotlin port of SwiftBackup 5.1.0 (620) reference defpackage.jr7.
+ * Obfuscated reference members are retained: a(String), b(String), c(String),
+ * d(String...), e(), g(String), h(int, boolean, boolean), and i(String).
  */
 class RootAwareFile : File {
+    /** Reference field jr7.a: shell-escaped path. */
+    val a: String
 
-    private val escapedPath: String
+    constructor(file: File) : super(file.absolutePath) { a = c(path) }
+    constructor(path: String) : this(File(path))
+    constructor(parent: String, child: String) : this(File(parent, child))
 
-    constructor(file: File) : this(file.absolutePath)
-
-    constructor(path: String) : super(File(path).absolutePath) {
-        escapedPath = escapeShellArgument(absolutePath)
-    }
+    private data class CommandResult(val exitCode: Int, val output: List<String>)
 
     private fun run(command: String): CommandResult {
-        val resolvedCommand = command.replace("@@", escapedPath)
-        val rootAvailable = runCatching { ShellHelper.getMainShell().isRoot }.getOrDefault(false)
-
-        // jr7.d()/jr7.a(): use qe7 only when root is absent and the Shizuku
-        // route is available; otherwise use the configured libsu shell.
-        return if (!rootAvailable && shizukuRouteAvailable()) {
-            val result = ShizukuCommandExecutor.execute(arrayOf(resolvedCommand))
+        val resolved = command.replace("@@", a)
+        return if (!ShellHelper.getMainShell().isRoot && e()) {
+            val result = ShizukuCommandExecutor.c(arrayOf(resolved))
             CommandResult(result.exitCode, result.output)
         } else {
             LibsuCommandExecutor(ShellHelper.getMainShell()).use { executor ->
-                val result = executor.add(resolvedCommand).execute()
-                CommandResult(
-                    exitCode = result.exitCode,
-                    output = result.output
-                )
+                val result = executor.add(resolved).execute()
+                CommandResult(result.exitCode, result.output)
             }
         }
     }
 
-    private fun shizukuRouteAvailable(): Boolean =
-        ShizukuServiceState.f() && ShizukuCommandExecutor.isAvailable()
-
-    private fun test(command: String): Boolean = run(command).exitCode == 0
-
-    private fun output(command: String): String {
+    /** Reference jr7.a(String). */
+    fun a(command: String): String {
         val lines = run(command).output
         if (lines.isEmpty()) return ""
-        // Reference returns the last line when at least one output line is non-empty.
-        return if (lines.any { !it.isNullOrEmpty() }) lines.lastOrNull().orEmpty() else ""
+        for (line in lines) if (!line.isNullOrEmpty()) return lines[lines.size - 1]
+        return ""
     }
 
-    private fun space(format: String): Long {
-        val parts = output("stat -fc '%S $format' @@").split(' ')
-        if (parts.size != 2) return Long.MAX_VALUE
-        return try {
-            parts[0].toLong() * parts[1].toLong()
-        } catch (_: NumberFormatException) {
-            Long.MAX_VALUE
+    /** Reference jr7.b(String). */
+    fun b(command: String): Boolean = d(command.replace("@@", a))
+
+    /** Reference jr7.h(int, boolean, boolean). */
+    fun h(mask: Int, enable: Boolean, ownerOnly: Boolean): Boolean {
+        val mode = a("stat -c '%a' @@").toCharArray()
+        if (mode.size != 3) return false
+        for (index in mode.indices) {
+            val digit = mode[index] - '0'
+            val next = if (!enable || (ownerOnly && index != 0)) digit and mask.inv() else digit or mask
+            mode[index] = (next + '0'.code).toChar()
         }
+        return b("chmod ${String(mode)} @@")
     }
 
-    private fun changeMode(mask: Int, enable: Boolean, ownerOnly: Boolean): Boolean {
-        val mode = output("stat -c '%a' @@")
-        if (mode.length != 3) return false
-        val updated = mode.mapIndexed { index, char ->
-            val digit = char - '0'
-            val next = if (!enable || (ownerOnly && index != 0)) {
-                digit and mask.inv()
-            } else {
-                digit or mask
-            }
-            ('0'.code + next).toChar()
-        }.joinToString("")
-        return test("chmod $updated @@")
+    /** Reference jr7.i(String). */
+    fun i(format: String): Long {
+        val parts = Pattern.compile(" ").split(a("stat -fc '%S $format' @@"))
+        if (parts.size != 2) return Long.MAX_VALUE
+        return try { parts[0].toLong() * parts[1].toLong() }
+        catch (_: NumberFormatException) { Long.MAX_VALUE }
     }
 
-    override fun canExecute(): Boolean = test("[ -x @@ ]")
-    override fun canRead(): Boolean = test("[ -r @@ ]")
-    override fun canWrite(): Boolean = test("[ -w @@ ]")
-    override fun createNewFile(): Boolean = test("[ ! -e @@ ] && echo -n > @@")
-    override fun delete(): Boolean = test("rm -f @@ || rmdir -f @@")
-    override fun deleteOnExit(): Unit =
-        throw UnsupportedOperationException("Unsupported SuFile operation")
-    override fun exists(): Boolean = test("[ -e @@ ]")
-    override fun isDirectory(): Boolean = test("[ -d @@ ]")
-    override fun isFile(): Boolean = test("[ -f @@ ]")
+    override fun canExecute() = b("[ -x @@ ]")
+    override fun canRead() = b("[ -r @@ ]")
+    override fun canWrite() = b("[ -w @@ ]")
+    override fun createNewFile() = b("[ ! -e @@ ] && echo -n > @@")
+    override fun delete() = b("rm -f @@ || rmdir -f @@")
+    override fun deleteOnExit(): Unit = throw UnsupportedOperationException("Unsupported SuFile operation")
+    override fun exists() = b("[ -e @@ ]")
+    override fun isDirectory() = b("[ -d @@ ]")
+    override fun isFile() = b("[ -f @@ ]")
 
     override fun getAbsolutePath(): String = path
     override fun getAbsoluteFile(): File = this
     override fun getCanonicalFile(): File = RootAwareFile(canonicalPath)
-    override fun getCanonicalPath(): String = output("readlink -f @@").ifEmpty { path }
-
+    override fun getCanonicalPath(): String = a("readlink -f @@").ifEmpty { path }
     override fun getParentFile(): File? = parent?.let(::RootAwareFile)
-    override fun getFreeSpace(): Long = space("%f")
-    override fun getTotalSpace(): Long = space("%b")
-    override fun getUsableSpace(): Long = space("%a")
+    override fun getFreeSpace(): Long = i("%f")
+    override fun getTotalSpace(): Long = i("%b")
+    override fun getUsableSpace(): Long = i("%a")
 
-    override fun lastModified(): Long =
-        output("stat -c '%Y' @@").toLongOrNull()?.times(1000L) ?: 0L
-
-    override fun length(): Long = output("stat -c '%s' @@").toLongOrNull() ?: 0L
-
-    override fun mkdir(): Boolean = test("mkdir @@")
-    override fun mkdirs(): Boolean = test("mkdir -p @@")
-
-    override fun renameTo(dest: File): Boolean =
-        run("mv -f @@ ${escapeShellArgument(dest.absolutePath)}").exitCode == 0
-
-    override fun setExecutable(executable: Boolean, ownerOnly: Boolean): Boolean =
-        changeMode(1, executable, ownerOnly)
-
-    override fun setReadable(readable: Boolean, ownerOnly: Boolean): Boolean =
-        changeMode(4, readable, ownerOnly)
-
-    override fun setWritable(writable: Boolean, ownerOnly: Boolean): Boolean =
-        changeMode(2, writable, ownerOnly)
-
-    override fun setReadOnly(): Boolean =
-        changeMode(2, false, false) && changeMode(1, false, false)
-
-    override fun setLastModified(time: Long): Boolean {
-        val timestamp = SimpleDateFormat("yyyyMMddHHmm", Locale.US).format(Date(time))
-        return test("[ -e @@ ] && touch -t $timestamp @@")
-    }
+    override fun lastModified(): Long = try { a("stat -c '%Y' @@").toLong() * 1000L }
+        catch (_: NumberFormatException) { 0L }
+    override fun length(): Long = try { a("stat -c '%s' @@").toLong() }
+        catch (_: NumberFormatException) { 0L }
 
     override fun list(): Array<String>? = list(null)
 
     override fun list(filter: FilenameFilter?): Array<String>? {
-        if (!isDirectory) return null
-        val result = run("ls -a @@")
-        val names = result.output.filterNot { name ->
+        if (!b("[ -d @@ ]")) return null
+        val names = LinkedList(run("ls -a $a").output)
+        names.removeIf { name ->
             name.isNullOrEmpty() || name == "." || name == ".." ||
                 (filter != null && !filter.accept(this, name))
         }
@@ -144,43 +107,43 @@ class RootAwareFile : File {
     }
 
     override fun listFiles(): Array<File>? {
-        if (!isDirectory) return null
-        return list()?.map { RootAwareFile(this, it) as File }?.toTypedArray()
+        if (!b("[ -d @@ ]")) return null
+        val names = list(null) ?: return null
+        return Array(names.size) { RootAwareFile(absolutePath, names[it]) }
     }
 
     override fun listFiles(filter: FilenameFilter?): Array<File>? {
-        if (!isDirectory) return null
-        return list(filter)?.map { RootAwareFile(this, it) as File }?.toTypedArray()
+        if (!b("[ -d @@ ]")) return null
+        val names = list(filter) ?: return null
+        return Array(names.size) { RootAwareFile(absolutePath, names[it]) }
     }
 
     override fun listFiles(filter: FileFilter?): Array<File>? {
-        val names = list() ?: return null
-        return names.map { RootAwareFile(this, it) }
-            .filter { filter == null || filter.accept(it) }
-            .toTypedArray()
+        val names = list(null) ?: return null
+        val files = ArrayList<RootAwareFile>()
+        for (name in names) {
+            val file = RootAwareFile(absolutePath, name)
+            if (filter == null || filter.accept(file)) files.add(file)
+        }
+        return files.toTypedArray()
     }
 
-    private constructor(parent: RootAwareFile, child: String) : this(File(parent, child))
+    override fun mkdir() = b("mkdir @@")
+    override fun mkdirs() = b("mkdir -p @@")
+    override fun renameTo(dest: File) = d("mv -f $a ${c(dest.absolutePath)}")
+    override fun setExecutable(executable: Boolean, ownerOnly: Boolean) = h(1, executable, ownerOnly)
+    override fun setReadable(readable: Boolean, ownerOnly: Boolean) = h(4, readable, ownerOnly)
+    override fun setWritable(writable: Boolean, ownerOnly: Boolean) = h(2, writable, ownerOnly)
+    override fun setReadOnly() = h(2, false, false) && h(1, false, false)
 
-    private data class CommandResult(val exitCode: Int, val output: List<String>)
+    override fun setLastModified(time: Long): Boolean {
+        val timestamp = SimpleDateFormat("yyyyMMddHHmm", Locale.US).format(Date(time))
+        return b("[ -e @@ ] && touch -t $timestamp @@")
+    }
 
     companion object {
-        /**
-         * Equivalent of reference `jr7.g(path)`: use the shell-backed File
-         * when root is available or the Shizuku service grants execution access;
-         * otherwise return an ordinary java.io.File.
-         */
-        @JvmStatic
-        fun create(path: String): File {
-            val rootAvailable = runCatching { ShellHelper.getMainShell().isRoot }.getOrDefault(false)
-            val shizukuAvailable =
-                ShizukuServiceState.f() && ShizukuCommandExecutor.isAvailable()
-            return if (rootAvailable || shizukuAvailable) RootAwareFile(path) else File(path)
-        }
-
-        /** Exact shell argument escaping from reference `jr7.c(String)`. */
-        @JvmStatic
-        fun escapeShellArgument(value: String): String = buildString(value.length + 2) {
+        /** Reference jr7.c(String). */
+        @JvmStatic fun c(value: String): String = buildString(value.length + 2) {
             append('"')
             value.forEach { char ->
                 if (char in "$`\\\"") append('\\')
@@ -188,5 +151,27 @@ class RootAwareFile : File {
             }
             append('"')
         }
+
+        /** Reference jr7.d(String...). */
+        @JvmStatic fun d(vararg commands: String): Boolean {
+            return if (!ShellHelper.getMainShell().isRoot && e()) {
+                ShizukuCommandExecutor.c(commands.copyOf()).exitCode == 0
+            } else {
+                LibsuCommandExecutor(ShellHelper.getMainShell()).use { executor ->
+                    executor.add(*commands).execute().exitCode == 0
+                }
+            }
+        }
+
+        /** Reference jr7.e(). */
+        @JvmStatic fun e(): Boolean =
+            ShizukuServiceState.f() && ShizukuCommandExecutor.b()
+
+        /** Reference jr7.g(String). */
+        @JvmStatic fun g(path: String): File =
+            if (ShellHelper.getMainShell().isRoot || e()) RootAwareFile(path) else File(path)
+
+        @JvmStatic fun create(path: String): File = g(path)
+        @JvmStatic fun escapeShellArgument(value: String): String = c(value)
     }
 }
