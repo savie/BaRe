@@ -7,6 +7,7 @@ import java.io.InterruptedIOException
 import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 import java.util.UUID
+import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Future
 
@@ -50,10 +51,10 @@ internal class CommandTaskProtocol(
         stderrLines: MutableList<String>
     ): Int {
         val stdoutFuture = Shell.EXECUTOR.submit(
-            CommandExitCodeReader(stdout, stdoutLines, marker)::readExitCode
+            Callable { CommandExitCodeReader(stdout, stdoutLines, marker).readExitCode() }
         )
         val stderrFuture = Shell.EXECUTOR.submit(
-            { CommandStderrDrainer(stderr, stderrLines, marker).drain(); Unit }
+            Callable { CommandStderrDrainer(stderr, stderrLines, marker).drain() }
         )
         try {
             write(outputStream)
