@@ -46,8 +46,7 @@ class RootAwareFile : File {
     }
 
     private fun shizukuRouteAvailable(): Boolean =
-        ShizukuCommandExecutor.serviceVersion() >= 0 &&
-            ShizukuCommandExecutor.isAvailable()
+        ShizukuServiceState.f() && ShizukuCommandExecutor.isAvailable()
 
     private fun test(command: String): Boolean = run(command).exitCode == 0
 
@@ -174,8 +173,8 @@ class RootAwareFile : File {
         @JvmStatic
         fun create(path: String): File {
             val rootAvailable = runCatching { ShellHelper.getMainShell().isRoot }.getOrDefault(false)
-            val shizukuAvailable = ShizukuCommandExecutor.serviceVersion() >= 0 &&
-                ShizukuCommandExecutor.isAvailable()
+            val shizukuAvailable =
+                ShizukuServiceState.f() && ShizukuCommandExecutor.isAvailable()
             return if (rootAvailable || shizukuAvailable) RootAwareFile(path) else File(path)
         }
 
