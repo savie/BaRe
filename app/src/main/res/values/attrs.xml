@@ -716,7 +716,6 @@
     <attr name="iconStartPadding" format="dimension" />
     <attr name="iconTint" format="color" />
     
-    <attr name="iconsAlpha" format="dimension" />
     <attr name="iconsTint" format="color" />
     <attr name="imageButtonStyle" format="reference" />
 
@@ -764,12 +763,6 @@
     <attr name="isb_r2l" format="boolean" />
     <attr name="isb_seek_smoothly" format="boolean" />
     <attr name="isb_show_thumb_text" format="boolean" />
-    <attr name="isb_show_tick_marks_type">
-        <enum name="none" value="0" />
-        <enum name="oval" value="1" />
-        <enum name="square" value="2" />
-        <enum name="divider" value="3" />
-    </attr>
     <attr name="isb_show_tick_texts" format="boolean" />
     <attr name="isb_thumb_adjust_auto" format="boolean" />
     <attr name="isb_thumb_color" format="color|reference" />
@@ -1071,11 +1064,6 @@
     <attr name="lottie_loop" format="boolean" />
     <attr name="lottie_progress" format="float" />
     <attr name="lottie_rawRes" format="reference" />
-    <attr name="lottie_renderMode">
-        <enum name="automatic" value="0" />
-        <enum name="hardware" value="1" />
-        <enum name="software" value="2" />
-    </attr>
     <attr name="lottie_repeatCount" format="integer" />
     <attr name="lottie_scale" format="float" />
     <attr name="lottie_speed" format="float" />
