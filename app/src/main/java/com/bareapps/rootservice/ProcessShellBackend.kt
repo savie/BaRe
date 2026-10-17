@@ -14,8 +14,9 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Process-backed lifecycle boundary derived from defpackage.zd7/ex0.
- * Owns a Process directly and serializes task execution through the r77-shaped
- * worker queue. It is not substituted into ShellSelectionRegistry yet.
+ * Owns a Process directly. The r77-shaped worker runs startup verification;
+ * zd7.execTask itself remains synchronized and executes on the calling thread.
+ * This is not substituted into ShellSelectionRegistry yet.
  */
 internal class ProcessShellBackend private constructor(
     private val process: Process,
@@ -33,7 +34,7 @@ internal class ProcessShellBackend private constructor(
     @Volatile private var status: Int = -1
     @Volatile private var closed = false
 
-    init { verifyShell() }
+    init { startAndVerifyShell() }
 
     val shellStatus: Int get() = status
     val isAlive: Boolean
@@ -44,6 +45,7 @@ internal class ProcessShellBackend private constructor(
         }
     val isRoot: Boolean get() = status >= 1
 
+    @Synchronized
     @Throws(IOException::class)
     fun execute(
         taskSinks: List<CommandTaskSink>,
@@ -52,38 +54,9 @@ internal class ProcessShellBackend private constructor(
     ): Int {
         checkOpen()
         if (status < 0) throw ShellTerminatedException()
-        val task = FutureTask<Int> {
-            executeSerialized(taskSinks, stdoutLines, stderrLines)
-        }
-        try {
-            worker.execute(task)
-            return task.get()
-        } catch (error: InterruptedException) {
-            Thread.currentThread().interrupt()
-            throw InterruptedIOException("Interrupted while waiting for shell task").also {
-                it.initCause(error)
-            }
-        } catch (error: ExecutionException) {
-            val cause = error.cause
-            if (cause is IOException) throw cause
-            throw IOException("Shell task failed", cause)
-        } catch (error: java.util.concurrent.RejectedExecutionException) {
-            throw ShellTerminatedException(error)
-        }
-    }
-
-    @Synchronized
-    @Throws(IOException::class)
-    private fun executeSerialized(
-        taskSinks: List<CommandTaskSink>,
-        stdoutLines: MutableList<String>,
-        stderrLines: MutableList<String>
-    ): Int {
-        checkOpen()
-        if (status < 0) throw ShellTerminatedException()
         return try {
-            // zd7.execTask drains stale output and writes one separator newline
-            // before handing the streams to gy7.
+            // zd7.execTask is synchronized and runs the task on its caller;
+            // r77 is not the task execution executor.
             stdout.discardAvailable()
             stderr.discardAvailable()
             stdin.write(byteArrayOf(10))
@@ -92,6 +65,34 @@ internal class ProcessShellBackend private constructor(
         } catch (error: IOException) {
             closeAfterFailure()
             throw ShellTerminatedException(error)
+        }
+    }
+
+    private fun startAndVerifyShell() {
+        val verification = FutureTask<Unit> { verifyShell() }
+        try {
+            worker.execute(verification)
+            verification.get(startupTimeoutSeconds, TimeUnit.SECONDS)
+        } catch (error: java.util.concurrent.TimeoutException) {
+            verification.cancel(true)
+            worker.shutdownNow()
+            closeAfterFailure()
+            throw IOException("Shell check timeout", error)
+        } catch (error: InterruptedException) {
+            Thread.currentThread().interrupt()
+            verification.cancel(true)
+            worker.shutdownNow()
+            closeAfterFailure()
+            throw IOException("Shell check interrupted", error)
+        } catch (error: ExecutionException) {
+            worker.shutdownNow()
+            closeAfterFailure()
+            val cause = error.cause
+            if (cause is IOException) throw cause
+            throw IOException("Unable to initialize shell process", cause)
+        } catch (error: java.util.concurrent.RejectedExecutionException) {
+            closeAfterFailure()
+            throw IOException("Shell startup worker is unavailable", error)
         }
     }
 
@@ -125,7 +126,6 @@ internal class ProcessShellBackend private constructor(
                 if (!ownNamespace.isNullOrEmpty() && ownNamespace == initNamespace) status = 2
             }
         } catch (error: Exception) {
-            closeAfterFailure()
             if (error is IOException) throw error
             throw IOException("Unable to initialize shell process", error)
         }
@@ -170,9 +170,9 @@ internal class ProcessShellBackend private constructor(
     }
 
     /**
-     * Mirrors zd7.waitAndClose: stop accepting queued work, await the active
-     * worker for the requested duration, and destroy only after it terminates.
-     * On timeout, status becomes -1 and the process is left for explicit cleanup.
+     * Mirrors zd7.waitAndClose: stop accepting worker tasks, await the active
+     * startup worker for the requested duration, and destroy after termination.
+     * On timeout, status becomes -1 without immediately destroying the process.
      */
     fun waitAndClose(timeout: Long, unit: TimeUnit): Boolean {
         if (status < 0) return true
