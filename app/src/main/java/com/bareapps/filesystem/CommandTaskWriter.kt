@@ -11,8 +11,8 @@ import java.nio.charset.StandardCharsets
  */
 internal class CommandTaskWriter(
     private val commands: Array<out String>
-) {
-    fun writeTo(outputStream: OutputStream) {
+) : CommandTaskSink {
+    override fun writeTo(outputStream: OutputStream) {
         commands.forEach { command ->
             outputStream.write(command.toByteArray(StandardCharsets.UTF_8))
             outputStream.write('\n'.code)
