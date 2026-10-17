@@ -69,11 +69,7 @@ class ShellCommandTask internal constructor(
             val stderr = mutableListOf<String>()
             try {
                 val exitCode = backend.execute(taskSinks.toList(), stdout, stderr)
-                return CommandTaskResult(
-                    stdout = stdout,
-                    stderr = stderr,
-                    exitCode = exitCode
-                )
+                return CommandTaskResult.completed(stdout, stderr, exitCode)
             } catch (error: ShellTerminatedException) {
                 ProcessShellRegistry.invalidate(backend)
                 val result = CommandTaskResult.RETRYABLE_SHELL_TERMINATION
