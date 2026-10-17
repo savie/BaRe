@@ -24,7 +24,12 @@ internal class CommandTaskProtocol(
 ) {
     constructor(taskWriter: CommandTaskWriter) : this(listOf(taskWriter))
 
-    private val marker: String = UUID.randomUUID().toString()
+    // gy7.c is static in the reference; all task instances share this marker.
+    private val marker: String = SHARED_MARKER
+
+    companion object {
+        private val SHARED_MARKER: String = UUID.randomUUID().toString()
+    }
 
     fun write(outputStream: OutputStream) {
         taskWriters.forEach { it.writeTo(outputStream) }
