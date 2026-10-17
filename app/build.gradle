@@ -41,6 +41,14 @@ dependencies {
     // APK's META-INF version metadata. Some may arrive transitively today; declaring them
     // explicitly keeps the reference runtime surface reproducible for parity work.
     implementation "androidx.activity:activity-ktx:1.13.0"
+    implementation "androidx.activity:activity:1.13.0"
+    implementation "androidx.core:core:1.18.0"
+    implementation "androidx.fragment:fragment:1.8.9"
+    implementation "androidx.savedstate:savedstate:1.4.0"
+    implementation "androidx.datastore:datastore:1.1.7"
+    implementation "androidx.datastore:datastore-core:1.1.7"
+    implementation "androidx.datastore:datastore-preferences-core:1.1.7"
+    implementation "androidx.emoji2:emoji2-views-helper:1.3.0"
     // Additional AndroidX modules confirmed by the SwiftBackup 5.1.0 (620) APK META-INF version files.
     implementation "androidx.annotation:annotation-experimental:1.5.0"
     implementation "androidx.appcompat:appcompat-resources:1.7.1"
