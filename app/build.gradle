@@ -141,6 +141,13 @@ dependencies {
     // Root shell execution; the user must still grant superuser access on supported devices.
     implementation "com.github.topjohnwu.libsu:core:6.0.0"
 
+    // Additional libraries confirmed in the local decompile; APK metadata does not reliably expose their artifact versions.
+    implementation "org.greenrobot:eventbus:3.3.1"
+    implementation "com.github.chrisbanes:PhotoView:2.3.0"
+    implementation "com.google.code.gson:gson:2.13.1"
+    implementation "org.bouncycastle:bcprov-jdk18on:1.80"
+    implementation "xmlpull:xmlpull:1.1.3.1"
+
     // Libraries confirmed present in the local SwiftBackup 5.1.0 (620) decompile.
     // The APK does not expose reliable version metadata for these artifacts; versions below
     // are conservative resolvable fallbacks, not claims of exact upstream version parity.
