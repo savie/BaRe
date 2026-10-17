@@ -1245,11 +1245,6 @@
     <attr name="overflowLinearLayoutOverflowButtonStyle" format="reference" />
     <attr name="overflowLinearLayoutPopupMenuStyle" format="reference" />
     <attr name="overflowLinearLayoutStyle" format="reference" />
-    <attr name="overflowMode">
-        <enum name="none" value="0" />
-        <enum name="menu" value="1" />
-        <enum name="wrap" value="2" />
-    </attr>
     <attr name="overlapAnchor" format="boolean" />
     <attr name="paddingBottomNoButtons" format="dimension" />
     <attr name="paddingBottomSystemWindowInsets" format="boolean" />
@@ -1303,11 +1298,6 @@
     <attr name="prefixTextColor" format="color" />
     <attr name="preserveIconSpacing" format="boolean" />
     <attr name="pressedTranslationZ" format="dimension" />
-    <attr name="primaryActionSwipeMode">
-        <enum name="disabled" value="0" />
-        <enum name="indirect" value="1" />
-        <enum name="direct" value="2" />
-    </attr>
     <attr name="progressBarPadding" format="dimension" />
     <attr name="progressBarStyle" format="reference" />
     <attr name="quantizeMotionInterpolator" format="string|reference">
@@ -1346,14 +1336,6 @@
     <attr name="searchViewStyle" format="reference" />
     <attr name="searchVoiceIcon" format="reference" />
     <attr name="secondaryIcon" format="reference" />
-    <attr name="secondaryIconGravity">
-        <flag name="start" value="0x1" />
-        <flag name="textStart" value="0x2" />
-        <flag name="end" value="0x3" />
-        <flag name="textEnd" value="0x4" />
-        <flag name="top" value="0x10" />
-        <flag name="textTop" value="0x20" />
-    </attr>
     <attr name="secondaryIconTint" format="color" />
     <attr name="secondaryIconTintMode">
         <enum name="src_over" value="3" />
