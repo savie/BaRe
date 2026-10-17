@@ -9,7 +9,7 @@ import java.io.Closeable
  * Mirrors od7/rh4/vy5 accumulation and result behavior more closely than the
  * libsu Shell.Job adapter; it remains separate from ShellHelper.getMainShell().
  */
-class ShellCommandTask(
+class ShellCommandTask internal constructor(
     private val requireRoot: Boolean,
     commands: Array<out String>,
     private val backendProvider: () -> ProcessShellBackend = { ProcessShellRegistry.getOrCreate() }
