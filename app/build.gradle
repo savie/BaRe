@@ -7,6 +7,20 @@ android {
     namespace "com.bareapps.barebackup"
     compileSdk 37
 
+    buildTypes {
+        debug {
+            // Shrink code and resources in the CI APK to reduce size and unused dex classes.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
     packagingOptions {
         jniLibs {
             useLegacyPackaging true
