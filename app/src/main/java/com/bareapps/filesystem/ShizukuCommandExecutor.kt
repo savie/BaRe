@@ -102,7 +102,7 @@ internal object ShizukuCommandExecutor {
         try {
             stdoutReader.start()
 
-            stderrReader = thread(name = "bare-shizuku-stderr", start = false) {
+            val errorReader = thread(name = "bare-shizuku-stderr", start = false) {
                 BufferedReader(InputStreamReader(process.errorStream, StandardCharsets.UTF_8)).use { reader ->
                     while (true) {
                         val line = reader.readLine() ?: break
@@ -110,7 +110,8 @@ internal object ShizukuCommandExecutor {
                     }
                 }
             }
-            stderrReader.start()
+            stderrReader = errorReader
+            errorReader.start()
 
             // Source: x50.s0(62, " ; ", copiedCommands).getBytes(f51.a)
             // f51.a is UTF-8. The source writes once, flushes, then closes stdin.
@@ -122,7 +123,7 @@ internal object ShizukuCommandExecutor {
 
             val exitCode = process.waitFor()
             stdoutReader.join()
-            stderrReader.join()
+            errorReader.join()
             return CommandResult(output.toList(), exitCode)
         } finally {
             // Mirrors qe7's cleanup intent: interrupt readers and destroy process.
