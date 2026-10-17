@@ -15,8 +15,8 @@ as proof of feature parity.
 | `defpackage.zd7` | `com/bareapps/rootservice/ShellProcessSession.kt`, `com/bareapps/rootservice/ProcessShellBackend.kt` | libsu status adapter plus direct Process startup/execTask/close backend | Startup verification runs through the `r77`-shaped worker with source-like synchronous line reads and outer FutureTask timeout; task execution is synchronized on the caller thread; `close()` uses `shutdownNow()` and stream reset/separator newline plus `waitAndClose` branches are mapped. Root startup's process-wide `ji8.b` marker is TODO(parity). The source's synchronized `awaitTermination` can hold the worker monitor while waiting; libsu Shell subclass parity and device verification TODO |
 | `defpackage.vy5` | `com/bareapps/rootservice/RootRequiredCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Root-required execution gate, deferred command task, and retry policy boundary | Retry policy is now separated from the `rh4`-like result boundary and retries only the exact `gn6.e` singleton once; libsu `Shell.Job` integration and device verification remain TODO |
 | `defpackage.rh4` | `com/bareapps/filesystem/LibsuCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Command accumulation, stdout/stderr, execution result, and deferred task boundary | Process-backed result boundary now returns success payload or exact `gn6.d`/`gn6.e` singleton; source list aliasing/synchronization and libsu integration remain TODO |
-| `defpackage.qe7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Shizuku process and permission gate | Partial port; internal binder behavior differs |
-| `defpackage.le7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Service/permission state used by `qe7` | Combined partial mapping; split into a dedicated file if more service behavior is ported |
+| `defpackage.qe7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Full three-method port: safe version lookup (`a`), permission branches/cache (`b`), shell process with concurrent stdout/stderr readers, joined command bytes, wait/join and cleanup (`c`) | All three source methods are represented; internal `le7.f`/`le7.e` and private `f94.f()` are approximated with public Shizuku permission APIs; exact Binder parity remains TODO(parity) |
+| `defpackage.le7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Only the `qe7`-used service-version and permission-state slice | `qe7` calls are represented; `le7` itself is not fully ported and private Binder state is still TODO(parity) |
 | `defpackage.jr7` | `com/bareapps/filesystem/RootAwareFile.kt` | Root-aware `File` operations | Partial port; requires full override audit |
 | `defpackage.r77` | `com/bareapps/rootservice/ProcessShellWorker.kt` | Serialized Runnable queue backed by `Shell.EXECUTOR`; shutdown clears pending work, shutdownNow cancels active drain | Queue ported and wired into startup verification and `waitAndClose`; synchronized `awaitTermination` mirrors source behavior, including possible monitor contention while drain completes |
 | `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Static process-wide marker and marker-byte protocol, concurrent stdout/stderr readers, and exit-status coordination | Shared marker bytes and reader-failure wrapping now match source; integration remains a direct Process path rather than libsu `Shell.Job` |
@@ -35,11 +35,11 @@ as proof of feature parity.
 ## Workflow rule
 
 When a new `defpackage/NAME.java` is encountered:
-1. Add a row here immediately.
-2. Create a Kotlin file in the relevant `com.bareapps.*` package during the same work session.
-3. Implement behavior only where source evidence is sufficient; otherwise add explicit `TODO(parity)` comments.
-4. Update this row when implementation status changes.
-5. Never claim parity just because a placeholder or adapter exists.
+1. Work only on the source classes already selected for the active feature; this is not a request to migrate every Java file.
+2. Port the full body of each selected source class into Kotlin, including all methods, branches, exception paths, and cleanup.
+3. Rename variables and classes where their roles are clear; leave unresolved names intact and mark uncertainty with `TODO(parity)`.
+4. Keep the source-to-Kotlin filename mapping here and update it in the same change.
+5. Never claim exact parity where internal APIs or behavior remain unresolved.
 
 Do not mechanically create one class per obfuscated name without checking scope:
 some obfuscated classes are huge utility classes or generated helpers. Record the exact
