@@ -44,13 +44,25 @@ class RootAwareFile : File {
 
     private data class CommandResult(val exitCode: Int, val output: List<String>)
 
-    private fun run(command: String): CommandResult {
+    /**
+     * Executes one jr7 command. [captureOutput] selects the exact rh4 field
+     * setup used by jr7.a(String)/jr7.list(FilenameFilter); predicate commands
+     * use jr7.d(String...) with both output lists unset.
+     */
+    private fun run(
+        command: String,
+        captureOutput: Boolean = true,
+        output: MutableList<String>? = if (captureOutput) ArrayList() else null
+    ): CommandResult {
         val resolved = command.replace("@@", a)
         return if (!ShellHelper.getMainShell().isRoot && e()) {
             val result = ShizukuCommandExecutor.c(arrayOf(resolved))
             CommandResult(result.exitCode, result.output)
         } else {
             LibsuCommandExecutor(ShellHelper.getMainShell()).use { executor ->
+                executor.a = output
+                executor.b = null
+                executor.e = !captureOutput
                 val result = executor.add(resolved).execute()
                 CommandResult(result.exitCode, result.output)
             }
@@ -73,7 +85,8 @@ class RootAwareFile : File {
     }
 
     /** Reference jr7.b(String). */
-    fun b(command: String): Boolean = d(command.replace("@@", a))
+    fun b(command: String): Boolean =
+        run(command.replace("@@", a), captureOutput = false).exitCode == 0
 
     /** Reference jr7.h(int, boolean, boolean): change the three octal permission digits. */
     fun h(mask: Int, enable: Boolean, ownerOnly: Boolean): Boolean {
@@ -176,7 +189,7 @@ class RootAwareFile : File {
             return null
         }
         val command = "ls -a $a"
-        val names = LinkedList(run(command).output)
+        val names = LinkedList(run(command, output = LinkedList()).output)
         names.removeIf(Predicate { name ->
             name == null || name.isEmpty() || name == "." || name == ".." ||
                 (filter != null && !filter.accept(this, name))
