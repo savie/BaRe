@@ -73,7 +73,6 @@ internal class ProcessShellBackend private constructor(
                 val workingDirectory = System.getProperty("user.dir").replace("\\", "\\\\").replace("\"", "\\\"").replace("$", "\\$")
                 stdin.write("cd \"$workingDirectory\"\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
-                readLineWithTimeout(reader)
                 stdin.write("readlink /proc/self/ns/mnt\n".toByteArray(StandardCharsets.UTF_8))
                 stdin.flush()
                 val ownNamespace = readLineWithTimeout(reader)
