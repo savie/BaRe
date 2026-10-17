@@ -12,13 +12,13 @@ as proof of feature parity.
 |---|---|---|---|
 | `defpackage.k55` | `com/bareapps/rootservice/ShellSelectionRegistry.kt` | Shell cache/selection slice only; original class is a large utility class | Partial port; lifecycle TODO |
 | `defpackage.ex0` | `com/bareapps/rootservice/RootShellFactory.kt` | `su --mount-master` / `su` / `sh` selection | Semantic port; startup behavior needs verification |
-| `defpackage.zd7` | `com/bareapps/rootservice/ShellProcessSession.kt` | Process and shell lifecycle | Placeholder/partial boundary; lifecycle TODO |
+| `defpackage.zd7` | `com/bareapps/rootservice/ShellProcessSession.kt` | Status/aliveness adapter and explicit shell ownership boundary | Partial; direct Process, startup handshake, synchronized execTask and waitAndClose remain TODO |
 | `defpackage.vy5` | `com/bareapps/rootservice/RootRequiredCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Root-required execution gate, deferred command task, and retry policy boundary | Partial; root gate/deferred execution ported, exact `gn6` retry/result semantics TODO |
 | `defpackage.rh4` | `com/bareapps/filesystem/LibsuCommandExecutor.kt`, `com/bareapps/rootservice/ShellCommandTask.kt` | Command accumulation, stdout/stderr, execution result, and deferred task boundary | Adapter; not full `od7`/`gn6` parity |
 | `defpackage.qe7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Shizuku process and permission gate | Partial port; internal binder behavior differs |
 | `defpackage.le7` | `com/bareapps/filesystem/ShizukuCommandExecutor.kt` | Service/permission state used by `qe7` | Combined partial mapping; split into a dedicated file if more service behavior is ported |
 | `defpackage.jr7` | `com/bareapps/filesystem/RootAwareFile.kt` | Root-aware `File` operations | Partial port; requires full override audit |
-| `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Task marker protocol and output/exit-status coordination | Protocol marker/write partial; concurrent readers and parsing TODO |
+| `defpackage.gy7` | `com/bareapps/filesystem/CommandTaskProtocol.kt` | Task marker protocol, concurrent stdout/stderr readers, and exit-status coordination | Raw-stream protocol implemented; integration with custom zd7 process remains separate from libsu Shell.Job path |
 | `defpackage.dm1` | `com/bareapps/filesystem/CommandTaskWriter.kt` | UTF-8 command writer with newline terminators | Implemented source-supported write behavior |
 | `defpackage.od7` | `com/bareapps/rootservice/ShellCommandTask.kt` | Deferred command-job API (`add` then execute) | Partial semantic port; exact return/status contract TODO |
 | `defpackage.ae7` | `com/bareapps/filesystem/CommandTaskSink.kt` | Closeable command-writer contract | Interface ported; concrete `dm1` writer implements it |
