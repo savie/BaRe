@@ -66,6 +66,11 @@ dependencies {
     implementation "androidx.credentials:credentials:1.5.0"
     implementation "androidx.credentials:credentials-play-services-auth:1.5.0"
     implementation "com.android.billingclient:billing:8.3.0"
+    // Cloud/OAuth SDKs present in the SwiftBackup reference manifest.
+    implementation "net.openid:appauth:0.11.1"
+    implementation "com.microsoft.identity.client:msal:8.5.0"
+    implementation "com.pcloud.sdk:android:1.11.0"
+    implementation "com.yubico.yubikit:android:3.2.0"
 
     // Shizuku/Sui API and manifest provider integration.
     implementation "dev.rikka.shizuku:api:13.1.5"
