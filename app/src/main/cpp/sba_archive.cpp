@@ -31,9 +31,11 @@ uint64_t parseOctal(const char* field, size_t length) {
     for (size_t i = 0; i < length && field[i] != '\0'; ++i) {
         const unsigned char c = static_cast<unsigned char>(field[i]);
         if (c == ' ' || c == '\0') { if (started) break; continue; }
-        if (c < '0' || c > '7') return 0;
+        if (c < '0' || c > '7') return UINT64_MAX;
         started = true;
-        value = (value << 3) + (c - '0');
+        const uint64_t digit = static_cast<uint64_t>(c - '0');
+        if (value > (UINT64_MAX - digit) / 8ULL) return UINT64_MAX;
+        value = (value << 3) + digit;
     }
     return value;
 }
@@ -95,6 +97,15 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        // Reject unsupported/non-octal sizes instead of interpreting malformed
+        // archive metadata as a zero-byte entry. parseOctal returns UINT64_MAX
+        // for invalid input; all later offset arithmetic is checked below.
+        if (size == UINT64_MAX) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid TAR entry size");
+            for (jobject entry : entries) env->DeleteLocalRef(entry);
+            return nullptr;
+        }
         const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
         std::string name = tarName(h);
         if (name.empty()) break;
@@ -123,8 +134,14 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (xattrs) env->DeleteLocalRef(xattrs);
         if (!entry) return nullptr;
         entries.push_back(entry);
-        const uint64_t blocks = (size + 511ULL) / 512ULL;
-        if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) break;
+        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
+            env->DeleteLocalRef(entry);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry offset overflow");
+            for (jobject previous : entries) env->DeleteLocalRef(previous);
+            return nullptr;
+        }
         const uint64_t step = 512ULL + blocks * 512ULL;
         if (step > static_cast<uint64_t>(INT64_MAX - offset)) break;
         offset += static_cast<off_t>(step);
@@ -265,8 +282,22 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
-        if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') total += size;
-        offset += static_cast<off_t>(512ULL + ((size + 511ULL) / 512ULL) * 512ULL);
+        if (size == UINT64_MAX || size > static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid or overflowing TAR entry size");
+            close(rootFd);
+            return nullptr;
+        }
+        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry offset overflow");
+            close(rootFd);
+            return nullptr;
+        }
+        if ((h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') &&
+            total <= UINT64_MAX - size) total += size;
+        offset += static_cast<off_t>(512ULL + blocks * 512ULL);
     }
     offset = static_cast<off_t>(startOffset);
     for (size_t count = 0; count < 1000000; ++count) {
@@ -282,10 +313,23 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        if (size == UINT64_MAX || size > static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid or overflowing TAR entry size");
+            close(rootFd);
+            return nullptr;
+        }
+        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry offset overflow");
+            close(rootFd);
+            return nullptr;
+        }
         const std::string name = tarName(h);
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
-        offset += static_cast<off_t>(512ULL + ((size + 511ULL) / 512ULL) * 512ULL);
+        offset += static_cast<off_t>(512ULL + blocks * 512ULL);
         if (!safeRelativePath(name)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Unsafe path in TAR archive");
