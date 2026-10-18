@@ -344,7 +344,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
     }
     close(rootFd);
-    close(rootFd);
     jclass stringClass = env->FindClass("java/lang/String");
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
     for (jsize i = 0; result && i < static_cast<jsize>(extracted.size()); ++i) {
