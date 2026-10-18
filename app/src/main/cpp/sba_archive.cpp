@@ -332,16 +332,32 @@ Java_com_bareapps_barebackup_sba_SbaNativeCrypto_deriveArgon2id(
 
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdBytes(
-    JNIEnv* env, jobject, jbyteArray, jint) {
-    throwUnsupported(env, "Zstandard compression");
-    return nullptr;
+    JNIEnv* env, jobject, jbyteArray input, jint level) {
+    if (input == nullptr) {
+        jclass e = env->FindClass("java/lang/NullPointerException");
+        if (e) env->ThrowNew(e, "input");
+        return nullptr;
+    }
+    jclass zstd = env->FindClass("com/github/luben/zstd/Zstd");
+    if (!zstd) return nullptr;
+    jmethodID compress = env->GetStaticMethodID(zstd, "compress", "([BI)[B");
+    if (!compress) return nullptr;
+    return static_cast<jbyteArray>(env->CallStaticObjectMethod(zstd, compress, input, level));
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdBytes(
-    JNIEnv* env, jobject, jbyteArray) {
-    throwUnsupported(env, "Zstandard decompression");
-    return nullptr;
+    JNIEnv* env, jobject, jbyteArray input) {
+    if (input == nullptr) {
+        jclass e = env->FindClass("java/lang/NullPointerException");
+        if (e) env->ThrowNew(e, "input");
+        return nullptr;
+    }
+    jclass zstd = env->FindClass("com/github/luben/zstd/Zstd");
+    if (!zstd) return nullptr;
+    jmethodID decompress = env->GetStaticMethodID(zstd, "decompress", "([B)[B");
+    if (!decompress) return nullptr;
+    return static_cast<jbyteArray>(env->CallStaticObjectMethod(zstd, decompress, input));
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
