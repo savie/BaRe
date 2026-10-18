@@ -3,6 +3,7 @@ package com.bareapps.barebackup.sba
 import android.os.ParcelFileDescriptor
 import com.bareapps.barebackup.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdInputStream
+import com.github.luben.zstd.ZstdOutputStream
 import java.io.FileDescriptor
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -56,6 +57,51 @@ class SbaZstdNative private constructor() {
                     return longArrayOf(inputCount, outputCount)
                 } finally {
                     try { decoded.close() } finally { sink.flush() }
+                }
+            }
+        }
+    }
+
+    /**
+     * Compresses bytes from one caller-owned descriptor into another descriptor.
+     * The source and destination are duplicated so this method never closes the
+     * caller's descriptors. Returns [input bytes consumed, compressed bytes written].
+     */
+    @Throws(IOException::class)
+    fun compressDescriptorToDescriptor(
+        input: FileDescriptor,
+        output: FileDescriptor,
+        level: Int = 3,
+        progress: SbaNativeProgressListener? = null,
+    ): LongArray {
+        ParcelFileDescriptor.dup(input).use { inputDuplicate ->
+            ParcelFileDescriptor.dup(output).use { outputDuplicate ->
+                val source = FileInputStream(inputDuplicate.fileDescriptor)
+                val sink = FileOutputStream(outputDuplicate.fileDescriptor)
+                val encoder = ZstdOutputStream(sink, level)
+                var inputCount = 0L
+                var outputCount = 0L
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                try {
+                    while (true) {
+                        if (progress?.isCancellationRequested() == true) {
+                            throw java.io.InterruptedIOException("Zstandard compression cancelled")
+                        }
+                        val count = source.read(buffer)
+                        if (count < 0) break
+                        if (count == 0) continue
+                        encoder.write(buffer, 0, count)
+                        inputCount += count
+                        progress?.onProgress(inputCount, -1L)
+                    }
+                    encoder.close()
+                    outputCount = outputDuplicate.fileDescriptor.let { descriptor ->
+                        // Descriptor offsets are shared by dup; query the output stream's channel.
+                        sink.channel.position()
+                    }
+                    return longArrayOf(inputCount, outputCount)
+                } finally {
+                    try { encoder.close() } catch (_: IOException) { }
                 }
             }
         }
