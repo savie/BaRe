@@ -296,8 +296,15 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        if ((h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') &&
-            total <= UINT64_MAX - size) total += size;
+        if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') {
+            if (total > UINT64_MAX - size) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "TAR payload total overflow");
+                close(rootFd);
+                return nullptr;
+            }
+            total += size;
+        }
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
     }
     offset = static_cast<off_t>(startOffset);
