@@ -350,7 +350,15 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     offset = static_cast<off_t>(startOffset);
     for (size_t count = 0; count < 1000000; ++count) {
         TarHeader h{};
-        if (!readExactAt(fd, &h, sizeof(h), offset)) break;
+        if (!readExactAt(fd, &h, sizeof(h), offset)) {
+            // The archive may have changed between the sizing and extraction
+            // passes. Only EOF at a regular-file boundary is a clean end.
+            if (isAtRegularFileEnd(fd, offset)) break;
+            close(rootFd);
+            jclass e = env->FindClass("java/io/EOFException");
+            if (e) env->ThrowNew(e, "TAR archive changed or became truncated during extraction");
+            return nullptr;
+        }
         const auto* b = reinterpret_cast<const unsigned char*>(&h);
         bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
         if (zero) break;
