@@ -116,6 +116,93 @@ class SbaZstdNative private constructor() {
         }
     }
 
+    /**
+     * Compresses a regular file into a caller-owned output descriptor without
+     * loading the file into memory. The file stream is closed by this method.
+     */
+    @Throws(IOException::class)
+    fun compressFileToDescriptor(
+        inputFile: java.io.File,
+        output: FileDescriptor,
+        level: Int = 3,
+        progress: SbaNativeProgressListener? = null,
+    ): LongArray {
+        require(inputFile.isFile && inputFile.canRead()) { "Input must be a readable regular file" }
+        FileInputStream(inputFile).use { source ->
+            return compressDescriptorToDescriptor(source.fd, output, level, progress)
+        }
+    }
+
+    /**
+     * Decompresses one bounded compressed range into a caller-owned descriptor.
+     * This avoids decoding trailing data belonging to the next archive record.
+     */
+    @Throws(IOException::class)
+    fun decompressRangeToDescriptor(
+        input: FileDescriptor,
+        offset: Long,
+        compressedLength: Long,
+        output: FileDescriptor,
+        progress: SbaNativeProgressListener? = null,
+        maxOutputBytes: Long = -1L,
+    ): LongArray {
+        require(offset >= 0L && compressedLength >= 0L) { "Invalid compressed input range" }
+        require(maxOutputBytes >= -1L) { "maxOutputBytes must be -1 or non-negative" }
+        val temporary = java.io.File.createTempFile("bare-zstd-range-", ".zst")
+        try {
+            FileOutputStream(temporary).use { spool ->
+                ParcelFileDescriptor.dup(input).use { duplicate ->
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    var position = offset
+                    var remaining = compressedLength
+                    while (remaining > 0L) {
+                        val count = try {
+                            android.system.Os.pread(duplicate.fileDescriptor, buffer, 0,
+                                minOf(buffer.size.toLong(), remaining).toInt(), position)
+                        } catch (error: android.system.ErrnoException) {
+                            throw IOException("Unable to read compressed descriptor range", error)
+                        }
+                        if (count <= 0) throw java.io.EOFException("Compressed descriptor range is truncated")
+                        spool.write(buffer, 0, count)
+                        position += count.toLong()
+                        remaining -= count.toLong()
+                    }
+                }
+            }
+            FileInputStream(temporary).use { source ->
+                ParcelFileDescriptor.dup(output).use { duplicate ->
+                    val sink = FileOutputStream(duplicate.fileDescriptor)
+                    ZstdInputStream(source).use { decoder ->
+                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                        var outputCount = 0L
+                        try {
+                            while (true) {
+                                if (progress?.isCancellationRequested() == true) {
+                                    throw java.io.InterruptedIOException("Zstandard decompression cancelled")
+                                }
+                                val count = decoder.read(buffer)
+                                if (count < 0) break
+                                if (count == 0) continue
+                                if (maxOutputBytes >= 0L && outputCount + count > maxOutputBytes) {
+                                    throw IOException("Zstandard output exceeds configured limit")
+                                }
+                                sink.write(buffer, 0, count)
+                                outputCount += count.toLong()
+                                progress?.onProgress(outputCount, maxOutputBytes)
+                            }
+                            sink.flush()
+                            return longArrayOf(compressedLength, outputCount)
+                        } finally {
+                            sink.flush()
+                        }
+                    }
+                }
+            }
+        } finally {
+            if (!temporary.delete()) temporary.deleteOnExit()
+        }
+    }
+
     companion object {
         @JvmField val instance = SbaZstdNative()
         @JvmField val a = instance
