@@ -46,7 +46,9 @@ class SbaSwiftTarNative private constructor() {
      */
     @Throws(IOException::class)
     fun extractTarZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String> {
-        require(offset >= 0L && compressedSize >= 0L) { "Invalid compressed TAR range" }
+        require(offset >= 0L && compressedSize >= 0L && offset <= Long.MAX_VALUE - compressedSize) {
+            "Invalid compressed TAR range"
+        }
         val compressed = java.io.File.createTempFile("bare-sba-zstd-", ".zst")
         val tarFile = java.io.File.createTempFile("bare-sba-", ".tar")
         try {
@@ -85,7 +87,9 @@ class SbaSwiftTarNative private constructor() {
 
     @Throws(IOException::class)
     fun listTarEntriesZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo> {
-        require(offset >= 0L && compressedSize >= 0L) { "Invalid compressed TAR range" }
+        require(offset >= 0L && compressedSize >= 0L && offset <= Long.MAX_VALUE - compressedSize) {
+            "Invalid compressed TAR range"
+        }
         val compressed = java.io.File.createTempFile("bare-sba-list-zstd-", ".zst")
         val tarFile = java.io.File.createTempFile("bare-sba-list-", ".tar")
         try {
