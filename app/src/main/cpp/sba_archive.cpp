@@ -319,7 +319,10 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             int out = openat(parentFd, leaf.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
             close(parentFd);
             if (out < 0) {
-                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create extracted TAR file"); return nullptr;
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to create extracted TAR file");
+                return nullptr;
             }
             char buffer[32768]; uint64_t copied = 0;
             while (copied < size) {
