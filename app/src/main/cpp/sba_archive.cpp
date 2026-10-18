@@ -261,6 +261,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         if (!validTarChecksum(h)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            close(rootFd);
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
@@ -277,6 +278,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         if (!validTarChecksum(h)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            close(rootFd);
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
