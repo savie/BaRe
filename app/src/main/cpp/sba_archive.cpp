@@ -78,7 +78,8 @@ std::string tarName(const TarHeader& h) {
 }
 
 jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
-    if (startOffset < 0) {
+    if (fd < 0 || startOffset < 0 ||
+        static_cast<uint64_t>(startOffset) > static_cast<uint64_t>(INT64_MAX)) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "TAR offset must be non-negative");
         return nullptr;
@@ -110,6 +111,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (!validTarChecksum(h)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
@@ -156,7 +158,10 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (jlink) env->DeleteLocalRef(jlink);
         if (empty) env->DeleteLocalRef(empty);
         if (xattrs) env->DeleteLocalRef(xattrs);
-        if (!entry) return nullptr;
+        if (!entry) {
+            for (jobject previous : entries) env->DeleteLocalRef(previous);
+            return nullptr;
+        }
         entries.push_back(entry);
         const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
         if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
@@ -259,7 +264,7 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
                         jobjectArray includes, jobject progress) {
-    if (startOffset < 0 || destination == nullptr) {
+    if (fd < 0 || startOffset < 0 || destination == nullptr) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
         return nullptr;
