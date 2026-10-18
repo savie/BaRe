@@ -282,7 +282,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
-        if (size == UINT64_MAX || size > static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) {
+        if (size == UINT64_MAX || offset > static_cast<off_t>(INT64_MAX - 512LL) ||
+            size > static_cast<uint64_t>(INT64_MAX - offset - 512LL)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid or overflowing TAR entry size");
             close(rootFd);
@@ -313,7 +314,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
-        if (size == UINT64_MAX || size > static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) {
+        if (size == UINT64_MAX || offset > static_cast<off_t>(INT64_MAX - 512LL) ||
+            size > static_cast<uint64_t>(INT64_MAX - offset - 512LL)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid or overflowing TAR entry size");
             close(rootFd);
