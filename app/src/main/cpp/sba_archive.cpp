@@ -172,6 +172,45 @@ bool makeDirectories(const std::string& path) {
     return stat(path.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
 }
 
+/**
+ * Resolve a relative archive path beneath an already-open root directory.
+ * Every intermediate component is opened with O_NOFOLLOW, preventing symlink
+ * traversal even if an archive or concurrent process creates hostile entries.
+ */
+int openDirectoryAt(int rootFd, const std::string& relative, bool create) {
+    int current = dup(rootFd);
+    if (current < 0) return -1;
+    size_t at = 0;
+    while (at < relative.size()) {
+        size_t end = relative.find('/', at);
+        if (end == std::string::npos) end = relative.size();
+        const std::string part = relative.substr(at, end - at);
+        if (part.empty() || part == "." || part == "..") {
+            close(current); errno = EINVAL; return -1;
+        }
+        if (create && mkdirat(current, part.c_str(), 0755) != 0 && errno != EEXIST) {
+            close(current); return -1;
+        }
+        int next = openat(current, part.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+        close(current);
+        if (next < 0) return -1;
+        current = next;
+        at = end + 1;
+    }
+    return current;
+}
+
+int openParentAt(int rootFd, const std::string& relative, bool create, std::string* leaf) {
+    const size_t slash = relative.find_last_of('/');
+    if (slash == std::string::npos) {
+        *leaf = relative;
+        return dup(rootFd);
+    }
+    *leaf = relative.substr(slash + 1);
+    if (leaf->empty()) { errno = EINVAL; return -1; }
+    return openDirectoryAt(rootFd, relative.substr(0, slash), create);
+}
+
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
                         jobjectArray includes, jobject progress) {
     if (startOffset < 0 || destination == nullptr) {
@@ -186,6 +225,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     if (root.empty() || root[0] != '/' || !makeDirectories(root)) {
         jclass e = env->FindClass("java/io/IOException");
         if (e) env->ThrowNew(e, "TAR destination must be an accessible absolute directory");
+        return nullptr;
+    }
+    int rootFd = open(root.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if (rootFd < 0) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to securely open TAR destination");
         return nullptr;
     }
     std::vector<std::string> filters;
@@ -267,20 +312,20 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             char buffer[32768]; uint64_t copied = 0;
             while (copied < size) {
                 if (cancelled && env->CallBooleanMethod(progress, cancelled)) {
-                    close(out); jclass e = env->FindClass("java/io/InterruptedIOException"); if (e) env->ThrowNew(e, "TAR extraction cancelled"); return nullptr;
+                    close(out); close(rootFd); jclass e = env->FindClass("java/io/InterruptedIOException"); if (e) env->ThrowNew(e, "TAR extraction cancelled"); return nullptr;
                 }
                 size_t chunk = static_cast<size_t>(std::min<uint64_t>(sizeof(buffer), size - copied));
-                if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(dataOffset + copied))) { close(out); jclass e = env->FindClass("java/io/EOFException"); if (e) env->ThrowNew(e, "Truncated TAR entry"); return nullptr; }
+                if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(dataOffset + copied))) { close(out); close(rootFd); jclass e = env->FindClass("java/io/EOFException"); if (e) env->ThrowNew(e, "Truncated TAR entry"); return nullptr; }
                 size_t written = 0;
                 while (written < chunk) {
                     ssize_t n = write(out, buffer + written, chunk - written);
                     if (n < 0 && errno == EINTR) continue;
-                    if (n <= 0) { close(out); jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Failed writing extracted TAR file"); return nullptr; }
+                    if (n <= 0) { close(out); close(rootFd); jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Failed writing extracted TAR file"); return nullptr; }
                     written += static_cast<size_t>(n);
                 }
                 copied += chunk; processed += chunk;
                 if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
-                if (env->ExceptionCheck()) { close(out); return nullptr; }
+                if (env->ExceptionCheck()) { close(out); close(rootFd); return nullptr; }
             }
             close(out);
             extracted.push_back(name);
@@ -288,6 +333,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // Links are intentionally not materialized: never let archive links escape destination.
         }
     }
+    close(rootFd);
     jclass stringClass = env->FindClass("java/lang/String");
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
     for (jsize i = 0; result && i < static_cast<jsize>(extracted.size()); ++i) {
