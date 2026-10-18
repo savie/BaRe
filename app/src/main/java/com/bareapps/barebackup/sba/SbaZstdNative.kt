@@ -32,10 +32,22 @@ class SbaZstdNative private constructor() {
         require(maxOutputBytes >= -1L) { "maxOutputBytes must be -1 or non-negative" }
         ParcelFileDescriptor.dup(input).use { inputDuplicate ->
             ParcelFileDescriptor.dup(output).use { outputDuplicate ->
-                val source = FileInputStream(inputDuplicate.fileDescriptor)
+                val rawSource = FileInputStream(inputDuplicate.fileDescriptor)
+                var inputCount = 0L
+                val source = object : java.io.FilterInputStream(rawSource) {
+                    override fun read(): Int {
+                        val value = super.read()
+                        if (value >= 0) inputCount++
+                        return value
+                    }
+                    override fun read(bytes: ByteArray, offset: Int, length: Int): Int {
+                        val count = super.read(bytes, offset, length)
+                        if (count > 0) inputCount += count.toLong()
+                        return count
+                    }
+                }
                 val decoded = ZstdInputStream(source)
                 val sink = FileOutputStream(outputDuplicate.fileDescriptor)
-                var inputCount = 0L
                 var outputCount = 0L
                 val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
                 try {
@@ -51,7 +63,6 @@ class SbaZstdNative private constructor() {
                         }
                         sink.write(buffer, 0, count)
                         outputCount += count
-                        inputCount = source.channel.position()
                         progress?.onProgress(outputCount, maxOutputBytes.takeIf { it >= 0L } ?: -1L)
                     }
                     sink.flush()
