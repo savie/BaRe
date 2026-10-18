@@ -213,6 +213,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const auto* b = reinterpret_cast<const unsigned char*>(&h);
         bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
         if (zero) break;
+        if (!validTarChecksum(h)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            return nullptr;
+        }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
         if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') total += size;
         offset += static_cast<off_t>(512ULL + ((size + 511ULL) / 512ULL) * 512ULL);
@@ -224,6 +229,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const auto* b = reinterpret_cast<const unsigned char*>(&h);
         bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
         if (zero) break;
+        if (!validTarChecksum(h)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            return nullptr;
+        }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
         const std::string name = tarName(h);
         const char type = h.typeflag;
