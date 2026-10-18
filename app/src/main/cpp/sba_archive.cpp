@@ -86,7 +86,17 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     off_t offset = static_cast<off_t>(startOffset);
     for (size_t count = 0; count < 1000000; ++count) {
         TarHeader h{};
-        if (!readExactAt(fd, &h, sizeof(h), offset)) break;
+        if (!readExactAt(fd, &h, sizeof(h), offset)) {
+            // A short header is a truncated archive, not a clean end marker.
+            // Clean TAR termination is represented by a complete zero block.
+            struct stat inputStat{};
+            if (fstat(fd, &inputStat) == 0 && S_ISREG(inputStat.st_mode) &&
+                offset >= inputStat.st_size) break;
+            jclass e = env->FindClass("java/io/EOFException");
+            if (e) env->ThrowNew(e, "Truncated TAR header");
+            for (jobject entry : entries) env->DeleteLocalRef(entry);
+            return nullptr;
+        }
         bool zero = true;
         const auto* bytes = reinterpret_cast<const unsigned char*>(&h);
         for (size_t i = 0; i < sizeof(h); ++i) if (bytes[i] != 0) { zero = false; break; }
@@ -143,7 +153,12 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         const uint64_t step = 512ULL + blocks * 512ULL;
-        if (step > static_cast<uint64_t>(INT64_MAX - offset)) break;
+        if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry offset overflow");
+            for (jobject previous : entries) env->DeleteLocalRef(previous);
+            return nullptr;
+        }
         offset += static_cast<off_t>(step);
     }
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(entries.size()), entryClass, nullptr);
