@@ -46,7 +46,7 @@ class SbaZstdNative private constructor() {
                         val count = decoded.read(buffer)
                         if (count < 0) break
                         if (count == 0) continue
-                        if (maxOutputBytes >= 0L && outputCount + count > maxOutputBytes) {
+                        if (maxOutputBytes >= 0L && count.toLong() > maxOutputBytes - outputCount) {
                             throw IOException("Zstandard output exceeds configured limit")
                         }
                         sink.write(buffer, 0, count)
@@ -146,7 +146,9 @@ class SbaZstdNative private constructor() {
         progress: SbaNativeProgressListener? = null,
         maxOutputBytes: Long = -1L,
     ): LongArray {
-        require(offset >= 0L && compressedLength >= 0L) { "Invalid compressed input range" }
+        require(offset >= 0L && compressedLength >= 0L && offset <= Long.MAX_VALUE - compressedLength) {
+            "Invalid compressed input range"
+        }
         require(maxOutputBytes >= -1L) { "maxOutputBytes must be -1 or non-negative" }
         val temporary = java.io.File.createTempFile("bare-zstd-range-", ".zst")
         try {
@@ -183,7 +185,7 @@ class SbaZstdNative private constructor() {
                                 val count = decoder.read(buffer)
                                 if (count < 0) break
                                 if (count == 0) continue
-                                if (maxOutputBytes >= 0L && outputCount + count > maxOutputBytes) {
+                                if (maxOutputBytes >= 0L && count.toLong() > maxOutputBytes - outputCount) {
                                     throw IOException("Zstandard output exceeds configured limit")
                                 }
                                 sink.write(buffer, 0, count)
