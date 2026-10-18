@@ -1,4 +1,2 @@
-# Keep this file for project-specific R8 rules.
-# SDK consumer rules are supplied by the Android Gradle Plugin and library dependencies.
-# Add targeted keep rules only if minified runtime testing identifies reflection/JNI requirements.
-
+# Keep the Application class and exported JNI method names stable for native lookup.
+-keep class com.bareapps.barebackup.BareApp { *; }
