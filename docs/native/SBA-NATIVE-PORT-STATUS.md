@@ -50,8 +50,9 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 - `SbaRuntimeNative.version`: declaration matches.
 - `SbaSwiftTarNative`: declared methods and parameter/return types match the decompiled reference class.
 - `SbaZstdNative`: declared methods and parameter/return types match the decompiled reference class.
-- `SbaNativeCrypto.deriveArgon2id`: declaration still requires descriptor-level cross-check against smali before calling it ABI-verified.
-- `SbaNativeProgressListener` and `SbaTarEntryInfo`: constructors, fields, and callback descriptors require exact verification before the target native algorithms can use them.
+- `SbaNativeCrypto.deriveArgon2id`: parameter and return types match the decompiled reference declaration (`([B[BIIII)[B`).
+- `SbaNativeProgressListener`: callback descriptors match the decompiled reference (`isCancellationRequested()Z`, `onProgress(JJ)V`).
+- `SbaTarEntryInfo`: constructor parameter order/types match the reference (`(Ljava/lang/String;ILjava/lang/String;IJJJZ[Ljava/lang/String;)V`); the target Kotlin class provides the same constructor descriptor.
 
 ## Implementation status — not 100% parity
 
