@@ -64,6 +64,12 @@ bool readExactAt(int fd, void* out, size_t size, off_t offset) {
     return true;
 }
 
+bool isAtRegularFileEnd(int fd, off_t offset) {
+    struct stat st{};
+    return fstat(fd, &st) == 0 && S_ISREG(st.st_mode) &&
+           offset >= 0 && offset >= st.st_size;
+}
+
 std::string tarName(const TarHeader& h) {
     const size_t n = strnlen(h.name, sizeof(h.name));
     const size_t p = strnlen(h.prefix, sizeof(h.prefix));
@@ -286,7 +292,13 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     off_t offset = static_cast<off_t>(startOffset);
     for (size_t count = 0; count < 1000000; ++count) {
         TarHeader h{};
-        if (!readExactAt(fd, &h, sizeof(h), offset)) break;
+        if (!readExactAt(fd, &h, sizeof(h), offset)) {
+            if (isAtRegularFileEnd(fd, offset)) break;
+            jclass e = env->FindClass("java/io/EOFException");
+            if (e) env->ThrowNew(e, "Truncated TAR header");
+            close(rootFd);
+            return nullptr;
+        }
         const auto* b = reinterpret_cast<const unsigned char*>(&h);
         bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
         if (zero) break;
