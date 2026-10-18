@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <limits.h>
 
 namespace {
 
@@ -120,6 +123,153 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     return result;
 }
 
+
+bool safeRelativePath(const std::string& name) {
+    if (name.empty() || name[0] == '/' || name.find('\\\\') != std::string::npos) return false;
+    size_t at = 0;
+    while (at <= name.size()) {
+        size_t end = name.find('/', at);
+        if (end == std::string::npos) end = name.size();
+        const std::string part = name.substr(at, end - at);
+        if (part == "..") return false;
+        if (end == name.size()) break;
+        at = end + 1;
+    }
+    return true;
+}
+
+bool makeDirectories(const std::string& path) {
+    if (path.empty()) return true;
+    std::string current;
+    for (size_t i = 0; i < path.size(); ++i) {
+        current.push_back(path[i]);
+        if (path[i] == '/') {
+            current.pop_back();
+            if (!current.empty() && mkdir(current.c_str(), 0755) != 0 && errno != EEXIST) return false;
+            current.push_back('/');
+        }
+    }
+    if (mkdir(path.c_str(), 0755) != 0 && errno != EEXIST) return false;
+    struct stat st{};
+    return stat(path.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
+}
+
+jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
+                        jobjectArray includes, jobject progress) {
+    if (startOffset < 0 || destination == nullptr) {
+        jclass e = env->FindClass("java/lang/IllegalArgumentException");
+        if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
+        return nullptr;
+    }
+    const char* destinationChars = env->GetStringUTFChars(destination, nullptr);
+    if (!destinationChars) return nullptr;
+    std::string root(destinationChars);
+    env->ReleaseStringUTFChars(destination, destinationChars);
+    if (root.empty() || root[0] != '/' || !makeDirectories(root)) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "TAR destination must be an accessible absolute directory");
+        return nullptr;
+    }
+    std::vector<std::string> filters;
+    if (includes) {
+        const jsize n = env->GetArrayLength(includes);
+        for (jsize i = 0; i < n; ++i) {
+            auto item = static_cast<jstring>(env->GetObjectArrayElement(includes, i));
+            if (item) {
+                const char* p = env->GetStringUTFChars(item, nullptr);
+                if (p) { filters.emplace_back(p); env->ReleaseStringUTFChars(item, p); }
+                env->DeleteLocalRef(item);
+            }
+        }
+    }
+    jclass callbackClass = progress ? env->GetObjectClass(progress) : nullptr;
+    jmethodID cancelled = callbackClass ? env->GetMethodID(callbackClass, "isCancellationRequested", "()Z") : nullptr;
+    jmethodID onProgress = callbackClass ? env->GetMethodID(callbackClass, "onProgress", "(JJ)V") : nullptr;
+    std::vector<std::string> extracted;
+    uint64_t total = 0, processed = 0;
+    // First pass computes the regular-file payload total for progress reporting.
+    off_t offset = static_cast<off_t>(startOffset);
+    for (size_t count = 0; count < 1000000; ++count) {
+        TarHeader h{};
+        if (!readExactAt(fd, &h, sizeof(h), offset)) break;
+        const auto* b = reinterpret_cast<const unsigned char*>(&h);
+        bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
+        if (zero) break;
+        const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') total += size;
+        offset += static_cast<off_t>(512ULL + ((size + 511ULL) / 512ULL) * 512ULL);
+    }
+    offset = static_cast<off_t>(startOffset);
+    for (size_t count = 0; count < 1000000; ++count) {
+        TarHeader h{};
+        if (!readExactAt(fd, &h, sizeof(h), offset)) break;
+        const auto* b = reinterpret_cast<const unsigned char*>(&h);
+        bool zero = true; for (size_t i = 0; i < sizeof(h); ++i) if (b[i]) { zero = false; break; }
+        if (zero) break;
+        const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        const std::string name = tarName(h);
+        const char type = h.typeflag;
+        const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
+        offset += static_cast<off_t>(512ULL + ((size + 511ULL) / 512ULL) * 512ULL);
+        if (!safeRelativePath(name)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Unsafe path in TAR archive");
+            return nullptr;
+        }
+        bool selected = filters.empty();
+        for (const auto& filter : filters) {
+            if (name == filter || (name.size() > filter.size() && name.compare(0, filter.size(), filter) == 0 && name[filter.size()] == '/')) { selected = true; break; }
+        }
+        if (!selected) { if (type == 0 || type == '0' || type == '7') processed += size; continue; }
+        const std::string full = root + "/" + name;
+        if (type == '5') {
+            if (!makeDirectories(full)) {
+                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create TAR directory"); return nullptr;
+            }
+            extracted.push_back(name);
+        } else if (type == 0 || type == '0' || type == '7') {
+            const size_t slash = full.find_last_of('/');
+            if (slash != std::string::npos && !makeDirectories(full.substr(0, slash))) {
+                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create TAR parent directory"); return nullptr;
+            }
+            int out = open(full.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
+            if (out < 0) {
+                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create extracted TAR file"); return nullptr;
+            }
+            char buffer[32768]; uint64_t copied = 0;
+            while (copied < size) {
+                if (cancelled && env->CallBooleanMethod(progress, cancelled)) {
+                    close(out); jclass e = env->FindClass("java/io/InterruptedIOException"); if (e) env->ThrowNew(e, "TAR extraction cancelled"); return nullptr;
+                }
+                size_t chunk = static_cast<size_t>(std::min<uint64_t>(sizeof(buffer), size - copied));
+                if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(dataOffset + copied))) { close(out); jclass e = env->FindClass("java/io/EOFException"); if (e) env->ThrowNew(e, "Truncated TAR entry"); return nullptr; }
+                size_t written = 0;
+                while (written < chunk) {
+                    ssize_t n = write(out, buffer + written, chunk - written);
+                    if (n < 0 && errno == EINTR) continue;
+                    if (n <= 0) { close(out); jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Failed writing extracted TAR file"); return nullptr; }
+                    written += static_cast<size_t>(n);
+                }
+                copied += chunk; processed += chunk;
+                if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
+                if (env->ExceptionCheck()) { close(out); return nullptr; }
+            }
+            close(out);
+            extracted.push_back(name);
+        } else if (type == '2' || type == '1') {
+            // Links are intentionally not materialized: never let archive links escape destination.
+        }
+    }
+    jclass stringClass = env->FindClass("java/lang/String");
+    jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
+    for (jsize i = 0; result && i < static_cast<jsize>(extracted.size()); ++i) {
+        jstring item = env->NewStringUTF(extracted[static_cast<size_t>(i)].c_str());
+        env->SetObjectArrayElement(result, i, item);
+        env->DeleteLocalRef(item);
+    }
+    return result;
+}
+
 void throwUnsupported(JNIEnv* env, const char* operation) {
     jclass exception = env->FindClass("java/lang/UnsupportedOperationException");
     if (exception != nullptr) {
@@ -214,9 +364,8 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw(
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jstring, jint, jobjectArray, jobject) {
-    throwUnsupported(env, "TAR extraction");
-    return nullptr;
+    JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint, jobjectArray includes, jobject progress) {
+    return extractTar(env, fd, offset, destination, includes, progress);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
