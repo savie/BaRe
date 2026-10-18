@@ -3,6 +3,7 @@
 #include <dlfcn.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <netinet/in.h>
 #include <poll.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -100,6 +101,7 @@ Java_com_bareapps_barebackup_BareApp_isLocalNetworkTcpBlockedByPermission(
 
     addrinfo hints{};
     hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
     addrinfo* addresses = nullptr;
     const int resolve_result = getaddrinfo(host_chars, service, &hints, &addresses);
     env->ReleaseStringUTFChars(host, host_chars);
@@ -129,15 +131,15 @@ Java_com_bareapps_barebackup_BareApp_isLocalNetworkTcpBlockedByPermission(
         }
 
         const int connect_error = errno;
+        if (!isReferenceRetryErrno(connect_error)) {
+            close(socket_fd);
+            continue;
+        }
+
         if (isBlockedByAndroidNetworkPolicy(socket_fd)) {
             blocked = true;
             close(socket_fd);
             break;
-        }
-
-        if (!isReferenceRetryErrno(connect_error)) {
-            close(socket_fd);
-            continue;
         }
 
         pollfd descriptor{};
