@@ -54,21 +54,35 @@ class SbaSwiftTarNative private constructor() {
                     // Positioning uses a duplicate descriptor, so the caller's file offset is unchanged.
                     source.channel.position(offset)
                     java.io.FileOutputStream(temporary).use { sink ->
-                        val decoder = com.github.luben.zstd.ZstdInputStream(source)
+                        val bounded = object : java.io.FilterInputStream(source) {
+                            var remaining = compressedSize
+                            override fun read(): Int {
+                                if (remaining <= 0L) return -1
+                                val value = super.read()
+                                if (value >= 0) remaining--
+                                return value
+                            }
+                            override fun read(bytes: ByteArray, offset: Int, length: Int): Int {
+                                if (remaining <= 0L) return -1
+                                val count = super.read(bytes, offset, minOf(length.toLong(), remaining).toInt())
+                                if (count > 0) remaining -= count.toLong()
+                                return count
+                            }
+                        }
+                        val decoder = com.github.luben.zstd.ZstdInputStream(bounded)
                         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                        var remaining = compressedSize
+                        var written = 0L
                         try {
-                            while (remaining > 0L) {
+                            while (true) {
                                 if (progress?.isCancellationRequested() == true) {
                                     throw java.io.InterruptedIOException("Zstandard TAR extraction cancelled")
                                 }
-                                val requested = minOf(buffer.size.toLong(), remaining).toInt()
-                                val count = decoder.read(buffer, 0, requested)
+                                val count = decoder.read(buffer)
                                 if (count < 0) break
                                 if (count == 0) continue
                                 sink.write(buffer, 0, count)
-                                remaining -= count.toLong()
-                                progress?.onProgress(compressedSize - remaining, compressedSize)
+                                written += count.toLong()
+                                progress?.onProgress(written, -1L)
                             }
                         } finally {
                             decoder.close()
@@ -97,17 +111,29 @@ class SbaSwiftTarNative private constructor() {
                 java.io.FileInputStream(duplicate.fileDescriptor).use { source ->
                     source.channel.position(offset)
                     java.io.FileOutputStream(temporary).use { sink ->
-                        val decoder = com.github.luben.zstd.ZstdInputStream(source)
+                        val bounded = object : java.io.FilterInputStream(source) {
+                            var remaining = compressedSize
+                            override fun read(): Int {
+                                if (remaining <= 0L) return -1
+                                val value = super.read()
+                                if (value >= 0) remaining--
+                                return value
+                            }
+                            override fun read(bytes: ByteArray, offset: Int, length: Int): Int {
+                                if (remaining <= 0L) return -1
+                                val count = super.read(bytes, offset, minOf(length.toLong(), remaining).toInt())
+                                if (count > 0) remaining -= count.toLong()
+                                return count
+                            }
+                        }
+                        val decoder = com.github.luben.zstd.ZstdInputStream(bounded)
                         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                        var remaining = compressedSize
                         try {
-                            while (remaining > 0L) {
-                                val requested = minOf(buffer.size.toLong(), remaining).toInt()
-                                val count = decoder.read(buffer, 0, requested)
+                            while (true) {
+                                val count = decoder.read(buffer)
                                 if (count < 0) break
                                 if (count == 0) continue
                                 sink.write(buffer, 0, count)
-                                remaining -= count.toLong()
                             }
                         } finally {
                             decoder.close()
