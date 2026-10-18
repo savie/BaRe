@@ -143,3 +143,30 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     throwUnsupported(env, "file-descriptor Zstandard decompression");
     return nullptr;
 }
+
+/*
+ * The reference arm64-v8a ELF exports these additional JNI names even though
+ * the corresponding declarations are absent from the decompiled Java classes.
+ * Preserve their symbol inventory for audit visibility; signatures/semantics
+ * cannot be inferred from ELF export names alone, and calls fail closed.
+ */
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw(
+    JNIEnv* env, jobject, ...) {
+    throwUnsupported(env, "TAR creation to file descriptor");
+    return nullptr;
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdFdToFdRaw(
+    JNIEnv* env, jobject, ...) {
+    throwUnsupported(env, "Zstandard FD-to-FD compression");
+    return nullptr;
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdFileToFdRaw(
+    JNIEnv* env, jobject, ...) {
+    throwUnsupported(env, "Zstandard file-to-FD compression");
+    return nullptr;
+}
