@@ -71,3 +71,20 @@ Still required for a truthful feature-parity claim:
 5. Build and run tests for all four ABIs, including real backup/restore and corruption cases.
 
 No Gradle build, native test, or device runtime test is claimed by this audit.
+
+
+## Refactor rule for obfuscated application classes
+
+Classes shown as `defpackage.*` in JADX are not to be copied under obfuscated names into BΛR☰.
+Port their observable contracts into descriptive target names (for example, named Binder interface,
+Stub/Proxy, callback, request/result models and TAR metadata models). Preserve the externally
+observable behavior: Binder descriptor and transaction numbers, Parcel read/write order,
+nullability, default values, exception mapping, callback ordering, operation IDs/cancellation,
+cache limits/TTL, native descriptors, archive bytes and error behavior. Class count and internal
+structure may differ; behavior must not.
+
+Do not assign stronger semantic names to unknown integer/boolean fields merely by guessing.
+Keep neutral names until call sites, CREATOR/writeToParcel code and native consumers establish
+their meaning. Each migrated `defpackage` class needs a source mapping and tests against the
+reference contract. JNI symbols present in ELF but absent from DEX declarations must be documented
+as orphan exports until a caller/signature is established.
