@@ -563,9 +563,36 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
-    JNIEnv* env, jobject, jint, jint, jlong, jobject) {
-    throwUnsupported(env, "file-descriptor Zstandard decompression");
-    return nullptr;
+    JNIEnv* env, jobject receiver, jint inputFd, jint outputFd, jlong maxBytes, jobject progress) {
+    if (inputFd < 0 || outputFd < 0 || maxBytes < -1) {
+        jclass e = env->FindClass("java/lang/IllegalArgumentException");
+        if (e) env->ThrowNew(e, "Invalid Zstandard descriptor arguments");
+        return nullptr;
+    }
+    jclass fdClass = env->FindClass("java/io/FileDescriptor");
+    jmethodID ctor = fdClass ? env->GetMethodID(fdClass, "<init>", "()V") : nullptr;
+    jfieldID field = fdClass ? env->GetFieldID(fdClass, "descriptor", "I") : nullptr;
+    if (!ctor || !field) return nullptr;
+    jobject input = env->NewObject(fdClass, ctor);
+    jobject output = env->NewObject(fdClass, ctor);
+    if (!input || !output) {
+        if (input) env->DeleteLocalRef(input);
+        if (output) env->DeleteLocalRef(output);
+        return nullptr;
+    }
+    env->SetIntField(input, field, inputFd);
+    env->SetIntField(output, field, outputFd);
+    jclass cls = env->GetObjectClass(receiver);
+    jmethodID method = cls ? env->GetMethodID(cls, "decompressDescriptorToDescriptor",
+        "(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;J)[J") : nullptr;
+    jlongArray result = method ? static_cast<jlongArray>(
+        env->CallObjectMethod(receiver, method, input, output, progress, maxBytes)) : nullptr;
+    // These wrappers borrow native descriptors; do not let their finalizers close them.
+    env->SetIntField(input, field, -1);
+    env->SetIntField(output, field, -1);
+    env->DeleteLocalRef(input);
+    env->DeleteLocalRef(output);
+    return result;
 }
 
 /*
