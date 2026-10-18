@@ -398,9 +398,22 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdRaw(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw(
-    JNIEnv* env, jobject, jint, jlong, jstring, jint, jobjectArray, jobject) {
-    throwUnsupported(env, "TAR extraction with statistics");
-    return nullptr;
+    JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint flags,
+    jobjectArray includes, jobject progress) {
+    jobjectArray extracted = extractTar(env, fd, offset, destination, includes, progress);
+    if (extracted == nullptr || env->ExceptionCheck()) return nullptr;
+    const jsize count = env->GetArrayLength(extracted);
+    // The reference contract consumes exactly 20 counters. Populate only counters
+    // that this implementation can truthfully measure; unsupported fast-path and
+    // timing counters remain zero rather than being fabricated.
+    jlong values[20] = {};
+    values[1] = count; // entryCount
+    jclass entryClass = env->FindClass("com/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo");
+    (void)entryClass;
+    jlongArray result = env->NewLongArray(20);
+    if (result != nullptr) env->SetLongArrayRegion(result, 0, 20, values);
+    env->DeleteLocalRef(extracted);
+    return result;
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
