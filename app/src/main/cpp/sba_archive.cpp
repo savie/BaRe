@@ -28,9 +28,9 @@ struct TarHeader {
 uint64_t parseOctal(const char* field, size_t length) {
     uint64_t value = 0;
     bool started = false;
-    for (size_t i = 0; i < length && field[i] != '\\0'; ++i) {
+    for (size_t i = 0; i < length && field[i] != '\0'; ++i) {
         const unsigned char c = static_cast<unsigned char>(field[i]);
-        if (c == ' ' || c == '\\0') { if (started) break; continue; }
+        if (c == ' ' || c == '\0') { if (started) break; continue; }
         if (c < '0' || c > '7') return 0;
         started = true;
         value = (value << 3) + (c - '0');
@@ -143,7 +143,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
 
 
 bool safeRelativePath(const std::string& name) {
-    if (name.empty() || name[0] == '/' || name.find('\\\\') != std::string::npos) return false;
+    if (name.empty() || name[0] == '/' || name.find('\\') != std::string::npos) return false;
     size_t at = 0;
     while (at <= name.size()) {
         size_t end = name.find('/', at);
