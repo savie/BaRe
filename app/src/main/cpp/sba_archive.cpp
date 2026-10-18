@@ -287,6 +287,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         if (!safeRelativePath(name)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Unsafe path in TAR archive");
+            close(rootFd);
             return nullptr;
         }
         bool selected = filters.empty();
@@ -294,18 +295,27 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             if (name == filter || (name.size() > filter.size() && name.compare(0, filter.size(), filter) == 0 && name[filter.size()] == '/')) { selected = true; break; }
         }
         if (!selected) { if (type == 0 || type == '0' || type == '7') processed += size; continue; }
-        const std::string full = root + "/" + name;
         if (type == '5') {
-            if (!makeDirectories(full)) {
-                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create TAR directory"); return nullptr;
+            int dirFd = openDirectoryAt(rootFd, name, true);
+            if (dirFd < 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to securely create TAR directory");
+                return nullptr;
             }
+            close(dirFd);
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
-            const size_t slash = full.find_last_of('/');
-            if (slash != std::string::npos && !makeDirectories(full.substr(0, slash))) {
-                jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create TAR parent directory"); return nullptr;
+            std::string leaf;
+            int parentFd = openParentAt(rootFd, name, true, &leaf);
+            if (parentFd < 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to securely open TAR parent directory");
+                return nullptr;
             }
-            int out = open(full.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
+            int out = openat(parentFd, leaf.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
+            close(parentFd);
             if (out < 0) {
                 jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Unable to create extracted TAR file"); return nullptr;
             }
@@ -333,6 +343,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // Links are intentionally not materialized: never let archive links escape destination.
         }
     }
+    close(rootFd);
     close(rootFd);
     jclass stringClass = env->FindClass("java/lang/String");
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
