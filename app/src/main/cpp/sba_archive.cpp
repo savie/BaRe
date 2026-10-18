@@ -536,7 +536,7 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
     env->SetIntField(fileDescriptor, fdField, ownedFd);
     jclass cls = env->GetObjectClass(receiver);
     jmethodID method = cls ? env->GetMethodID(cls, "extractTarZstdFromDescriptor",
-        "(Ljava/io/FileDescriptor;JLjava/lang/String;I[Ljava/lang/String;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;") : nullptr;
+        "(Ljava/io/FileDescriptor;JJLjava/lang/String;I[Ljava/lang/String;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;") : nullptr;
     jobjectArray result = method ? static_cast<jobjectArray>(
         env->CallObjectMethod(receiver, method, fileDescriptor, offset, compressedSize,
                               destination, flags, includes, progress)) : nullptr;
