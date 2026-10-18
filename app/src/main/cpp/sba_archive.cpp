@@ -458,9 +458,33 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jlong) {
-    throwUnsupported(env, "Zstandard TAR listing requires the Zstandard decoder");
-    return nullptr;
+    JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize) {
+    if (fd < 0 || offset < 0 || compressedSize < 0) {
+        jclass e = env->FindClass("java/lang/IllegalArgumentException");
+        if (e) env->ThrowNew(e, "Invalid Zstandard TAR descriptor range");
+        return nullptr;
+    }
+    const int ownedFd = dup(fd);
+    if (ownedFd < 0) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to duplicate Zstandard TAR descriptor");
+        return nullptr;
+    }
+    jclass fdClass = env->FindClass("java/io/FileDescriptor");
+    jmethodID fdCtor = fdClass ? env->GetMethodID(fdClass, "<init>", "()V") : nullptr;
+    jfieldID fdField = fdClass ? env->GetFieldID(fdClass, "descriptor", "I") : nullptr;
+    jobject fileDescriptor = (fdCtor && fdField) ? env->NewObject(fdClass, fdCtor) : nullptr;
+    if (!fileDescriptor) { close(ownedFd); return nullptr; }
+    env->SetIntField(fileDescriptor, fdField, ownedFd);
+    jclass cls = env->GetObjectClass(receiver);
+    jmethodID method = cls ? env->GetMethodID(cls, "listTarEntriesZstdFromDescriptor",
+        "(Ljava/io/FileDescriptor;JJ)[Lcom/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo;") : nullptr;
+    jobjectArray result = method ? static_cast<jobjectArray>(
+        env->CallObjectMethod(receiver, method, fileDescriptor, offset, compressedSize)) : nullptr;
+    env->SetIntField(fileDescriptor, fdField, -1);
+    close(ownedFd);
+    env->DeleteLocalRef(fileDescriptor);
+    return result;
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
@@ -491,9 +515,35 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw(
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jlong, jstring, jint, jobjectArray, jobject) {
-    throwUnsupported(env, "Zstandard TAR extraction");
-    return nullptr;
+    JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize,
+    jstring destination, jint flags, jobjectArray includes, jobject progress) {
+    if (fd < 0 || offset < 0 || compressedSize < 0) {
+        jclass e = env->FindClass("java/lang/IllegalArgumentException");
+        if (e) env->ThrowNew(e, "Invalid Zstandard TAR descriptor range");
+        return nullptr;
+    }
+    const int ownedFd = dup(fd);
+    if (ownedFd < 0) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to duplicate Zstandard TAR descriptor");
+        return nullptr;
+    }
+    jclass fdClass = env->FindClass("java/io/FileDescriptor");
+    jmethodID fdCtor = fdClass ? env->GetMethodID(fdClass, "<init>", "()V") : nullptr;
+    jfieldID fdField = fdClass ? env->GetFieldID(fdClass, "descriptor", "I") : nullptr;
+    jobject fileDescriptor = (fdCtor && fdField) ? env->NewObject(fdClass, fdCtor) : nullptr;
+    if (!fileDescriptor) { close(ownedFd); return nullptr; }
+    env->SetIntField(fileDescriptor, fdField, ownedFd);
+    jclass cls = env->GetObjectClass(receiver);
+    jmethodID method = cls ? env->GetMethodID(cls, "extractTarZstdFromDescriptor",
+        "(Ljava/io/FileDescriptor;JLjava/lang/String;I[Ljava/lang/String;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;") : nullptr;
+    jobjectArray result = method ? static_cast<jobjectArray>(
+        env->CallObjectMethod(receiver, method, fileDescriptor, offset, compressedSize,
+                              destination, flags, includes, progress)) : nullptr;
+    env->SetIntField(fileDescriptor, fdField, -1);
+    close(ownedFd);
+    env->DeleteLocalRef(fileDescriptor);
+    return result;
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
