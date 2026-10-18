@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <cstddef>
 
 namespace {
 
@@ -35,6 +36,18 @@ uint64_t parseOctal(const char* field, size_t length) {
         value = (value << 3) + (c - '0');
     }
     return value;
+}
+
+bool validTarChecksum(const TarHeader& h) {
+    uint64_t stored = parseOctal(h.checksum, sizeof(h.checksum));
+    uint64_t sum = 0;
+    const auto* p = reinterpret_cast<const unsigned char*>(&h);
+    const size_t checksumStart = offsetof(TarHeader, checksum);
+    const size_t checksumEnd = checksumStart + sizeof(h.checksum);
+    for (size_t i = 0; i < sizeof(h); ++i) {
+        sum += (i >= checksumStart && i < checksumEnd) ? static_cast<unsigned char>(' ') : p[i];
+    }
+    return stored == sum;
 }
 
 bool readExactAt(int fd, void* out, size_t size, off_t offset) {
@@ -76,6 +89,11 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         const auto* bytes = reinterpret_cast<const unsigned char*>(&h);
         for (size_t i = 0; i < sizeof(h); ++i) if (bytes[i] != 0) { zero = false; break; }
         if (zero) break;
+        if (!validTarChecksum(h)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid TAR header checksum");
+            return nullptr;
+        }
         const uint64_t size = parseOctal(h.size, sizeof(h.size));
         const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
         std::string name = tarName(h);
