@@ -9,7 +9,7 @@ import java.io.IOException
 /** JNI surface for SBA TAR operations. Caller-owned descriptors are never closed. */
 class SbaSwiftTarNative private constructor() {
     external fun extractTarFromFdRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
-    external fun extractTarFromFdWithStatsRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): LongArray
+    private external fun extractTarFromFdWithStatsRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): LongArray
     external fun extractTarZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
     external fun listTarEntriesFromFdRaw(fd: Int, offset: Long): Array<SbaTarEntryInfo>
     external fun listTarEntriesZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo>
@@ -27,6 +27,14 @@ class SbaSwiftTarNative private constructor() {
         key: ByteArray, nonce: ByteArray, metadata: ByteArray, chunkSize: Long, option2: Int,
         progress: SbaNativeProgressListener?,
     ): Array<String>
+
+    @Throws(IOException::class)
+    fun extractTarFromDescriptorWithStats(
+        descriptor: FileDescriptor, offset: Long, destination: String, flags: Int,
+        includes: Array<String>, progress: SbaNativeProgressListener?,
+    ): LongArray = withDuplicate(descriptor) {
+        extractTarFromFdWithStatsRaw(it, offset, destination, flags, includes, progress)
+    }
 
     @Throws(IOException::class)
     fun extractTarFromDescriptor(descriptor: FileDescriptor, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String> =
