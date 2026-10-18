@@ -400,6 +400,20 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        // Revalidate the physical archive bounds in the extraction pass too:
+        // the input descriptor may refer to a regular file that changed after
+        // the sizing pass, so a previously valid header is not sufficient.
+        struct stat extractionStat{};
+        if (fstat(fd, &extractionStat) == 0 && S_ISREG(extractionStat.st_mode)) {
+            if (offset < 0 || offset > extractionStat.st_size ||
+                extractionStat.st_size - offset < static_cast<off_t>(512) ||
+                blocks > static_cast<uint64_t>((extractionStat.st_size - offset - 512) / 512)) {
+                jclass e = env->FindClass("java/io/EOFException");
+                if (e) env->ThrowNew(e, "TAR entry payload extends beyond end of archive");
+                close(rootFd);
+                return nullptr;
+            }
+        }
         if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
