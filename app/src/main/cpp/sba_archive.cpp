@@ -420,6 +420,15 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
+        const uint64_t entryMode = parseOctal(h.mode, sizeof(h.mode));
+        const uint64_t entryMtime = parseOctal(h.mtime, sizeof(h.mtime));
+        if (entryMode == UINT64_MAX || entryMode > static_cast<uint64_t>(INT_MAX) ||
+            entryMtime == UINT64_MAX || entryMtime > static_cast<uint64_t>(INT64_MAX) / 1000ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid TAR mode or modification time");
+            close(rootFd);
+            return nullptr;
+        }
         const std::string name = tarName(h);
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
