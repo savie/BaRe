@@ -176,7 +176,7 @@ The reference packages these libraries under all four ABIs: `arm64-v8a`, `armeab
 - Native TAR object contract: `com.swiftapps.sba.internal.tar.SbaTarEntryInfo`; the library constructs this class from native code.
 - Native JNI symbols are exported as `Java_com_swiftapps_sba_...`, so renaming the wrapper package to `com.bareapps.sba` would break those symbol bindings unless the native library is rebuilt/relinked. A compatibility package or rebuilt native implementation is required.
 
-Target branch currently has none of these native libraries or wrappers. Gradle's libsu and Shizuku dependencies do not supply SBA archive support.
+Target branch initially had none of these native libraries or wrappers. The `rewrite` branch now has Kotlin JNI declaration wrappers for the six classes above, plus the native callback interface and TAR-entry constructor contract, and ProGuard keep rules. The four ABI-specific `libsba_archive.so` binaries are still absent from `app/src/main/jniLibs/`; the wrappers alone do not enable runtime use. Gradle's libsu and Shizuku dependencies do not supply SBA archive support.
 
 ## 7. Why the root-service implementation is not yet safe to port as one class
 
