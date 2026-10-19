@@ -38,7 +38,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 1. **AEGIS/encryption:** `SbaLibaegisCryptoNative.isAvailable()` remains false. AEGIS-256 and AEGIS-128X2 chunked encryption/decryption and fused archive-entry extraction still fail closed. Exact nonce derivation, AAD encoding, chunk framing and tag placement must be recovered and verified; do not invent these values.
 2. **Encrypted SBA containers:** encrypted archive creation and encrypted archive index/entry reading are not implemented. The current writer intentionally supports only mode 1 (unencrypted).
 3. **Other reference encryption modes:** key-check, KDF/header fields and encrypted payload framing for the reference's other modes are not implemented.
-4. **Root service and app task layer:** the placeholders under `com/bareapps/rootservice/` and `com/bareapps/barebackup/apptasks/sba/` still need the request/result contracts, Binder transaction surface, async operation lifecycle, cache/cancellation behavior, and real create/extract/list wiring.
+4. **Root service integration:** `SbaArchiveTaskRunner` now provides create/restore request models, operation snapshots, asynchronous execution, progress, cancellation and result retention under the intended app-task placeholder. The `com/bareapps/rootservice/` placeholder still needs Parcelable wire contracts, Binder transaction ordering, Shizuku user-service binding, archive-info/list methods and reference cache semantics.
 5. **Orphan ELF exports:** `createTarToFdWithWriteStatsRaw`, `compressZstdFdToFdRaw`, and `compressZstdFileToFdRaw` do not have a verified Kotlin declaration/signature in the reference DEX. They remain non-public/unimplemented until their ABI is established.
 6. **Full TAR metadata:** sparse-file writing, extended attributes and special filesystem objects are not fully implemented in the SBA source-TAR writer.
 
@@ -50,6 +50,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Corrupt-footer rejection test.
 - Long-path PAX header test.
 - Existing generic ustar writer tests.
+- SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
 The repository workflow is configured to run rebuild CI on pushes to `rewrite`, but no successful run for the latest implementation commit is recorded. Do not report build/test success until `:app:testDebugUnitTest`, `:app:assembleRelease`, all four ABI builds, and reference-vs-target archive/restore/corruption tests actually pass.
 
@@ -60,3 +61,5 @@ The repository workflow is configured to run rebuild CI on pushes to `rewrite`, 
 - Added a strict unencrypted archive reader and bounded Zstandard restore/listing paths.
 - Corrected TAR stats argument semantics to byte length (not offset) and applied the caller's file-mode mask.
 - Moved SBA implementation files out of the misplaced `com/bareapps/barebackup/sba/` package and into the pre-existing `com/bareapps/sba/` placeholder tree.
+
+- Added `SbaArchiveTaskRunner` under the existing app-task placeholder with create/restore requests, progress callbacks, cancellation, result statistics, and a bounded completed-operation registry. Its backend is injectable for unit tests.
