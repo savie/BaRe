@@ -203,7 +203,8 @@ internal object SbaArchiveReader {
             }
             if (entryOffset != expectedEntryOffset || entryOffset < headerSize ||
                 storedSize < 0 || compressedSize < 0 || tarSize < TAR_BLOCK * 2 ||
-                tarSize % TAR_BLOCK != 0L || storedSize != expectedStoredSize ||
+                tarSize % TAR_BLOCK != 0L || (compressionMethod == 1 && compressedSize == 0L) ||
+                storedSize != expectedStoredSize ||
                 (compressionMethod == 0 && compressedSize != tarSize) ||
                 entryFlags != expectedEntryFlags) {
                 throw IOException("Invalid SBA entry sizes or offsets")
