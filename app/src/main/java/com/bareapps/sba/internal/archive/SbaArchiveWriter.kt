@@ -1,6 +1,7 @@
 package com.bareapps.sba.internal.archive
 
 import androidx.annotation.Keep
+import com.bareapps.sba.SbaArchiveNative
 import com.bareapps.sba.SbaLibaegisCryptoNative
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdOutputStream
@@ -144,7 +145,7 @@ internal object SbaArchiveWriter {
                         val source = Path.of(sourcePaths[i]).toAbsolutePath().normalize()
                         val sourceExists = Files.exists(source, LinkOption.NOFOLLOW_LINKS)
                         require(sourceExists || entryModes[i] and 16 != 0) { "SBA source does not exist: $source" }
-                        val tarTemp = Files.createTempFile(parent, ".bare-sba-tar-", ".tmp")
+                        val tarTemp = SbaArchiveNative.createStagingTempFile(".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
                         val producerStart = System.nanoTime()
                         val tarCounts = if (sourceExists) {
@@ -158,7 +159,7 @@ internal object SbaArchiveWriter {
                         require(tarSize >= TAR_BLOCK * 2 && tarSize % TAR_BLOCK == 0L) { "Generated TAR payload is not block aligned" }
 
                         val payloadTemp = if (option0 == 0) tarTemp else {
-                            val compressed = Files.createTempFile(parent, ".bare-sba-zstd-", ".tmp")
+                            val compressed = SbaArchiveNative.createStagingTempFile(".bare-sba-zstd-", ".tmp")
                             compressedTemps.add(compressed)
                             val compressStart = System.nanoTime()
                             BufferedInputStream(Files.newInputStream(tarTemp)).use { input ->
@@ -179,7 +180,7 @@ internal object SbaArchiveWriter {
                         }
                         val compressedSize = Files.size(payloadTemp)
                         val storedPayload = if (!encrypted) payloadTemp else {
-                            val encryptedTemp = Files.createTempFile(parent, ".bare-sba-aegis-", ".tmp")
+                            val encryptedTemp = SbaArchiveNative.createStagingTempFile(".bare-sba-aegis-", ".tmp")
                             encryptedTemps.add(encryptedTemp)
                             FileInputStream(payloadTemp.toFile()).use { input ->
                                 FileOutputStream(encryptedTemp.toFile()).use { output ->
