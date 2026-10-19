@@ -2,7 +2,7 @@
 
 Reference: user-provided SwiftBackup 5.1.0 (620) APK/decompilation and the feature-parity spec.
 Target branch: `rewrite`.
-Last reviewed: 2026-10-19.
+Last reviewed: 2026-10-20.
 
 ## Current verdict
 
@@ -20,7 +20,7 @@ Last reviewed: 2026-10-19.
 
 SBA source files must remain in these established placeholder trees. Do not recreate the deleted `com/bareapps/barebackup/sba/` package.
 
-## Implemented code paths (not yet build-verified)
+## Implemented code paths and verification status
 
 | Area | Current implementation | Verification state |
 |---|---|---|
@@ -29,14 +29,14 @@ SBA source files must remain in these established placeholder trees. Do not recr
 | TAR listing/extraction | Native parser supports ustar, PAX, GNU long-name records, sparse metadata parsing, safe path handling, symlink/hardlink validation, cancellation and progress | Source implementation exists; Android tests not run |
 | TAR extraction stats | 20-element stats array reports TAR byte length, parsed entry/type counts, regular-file bytes, skipped-entry estimate and measured timings; Basic/Fidelity/RootFidelity profiles map to the exact reference TAR mode masks (511/468/384 decimal, equivalent to octal 0777/0724/0600). Permission, timestamp, ownership, xattr/SELinux and PAX sparse-map restoration are implemented where metadata is available | Low-level read/write counters remain uninstrumented; GNU sparse PAX 1.0 and old-GNU sparse encodings remain unsupported; exact parity not verified |
 | TAR payload generation for SBA creation | Streams source files/directories, preserves POSIX modes and timestamps, emits symlinks, writes PAX records for long paths/targets, large sizes and subsecond/negative timestamps; fails on unsupported special files | Unit test source exists; runtime tests not run |
-| SBA writer | SbaArchiveWriter emits v1/v2 SBA1/SAE1/SAI1/SAF1 framing, optional Zstandard, metadata/index, CRCs, atomic replacement and cancellation; v2 writes TAR counts and encrypted v2 writes an authenticated index MAC; task-runner creation defaults to v2 | Source path implemented; current CI is queued; no known-password reference payload comparison yet |
+| SBA writer | SbaArchiveWriter emits v1/v2 SBA1/SAE1/SAI1/SAF1 framing, optional Zstandard, metadata/index, CRCs, atomic replacement and cancellation; v2 writes TAR counts and encrypted v2 writes an authenticated index MAC; task-runner creation defaults to v2 | CI run 39339538700 passed unit tests, release assembly, signing, artifact verification and upload; no known-password reference payload comparison yet |
 | SBA reader | Strict v1/v2 header/index/entry/footer validation, reference entry-flag mapping, UTF-8/path/bounds checks, CRC validation, v2 entry counts, AES/AEAD stored-size parsing, AEGIS chunk-size checks, password key-check and v2 encrypted index-MAC validation | Parser and password/MAC verification implemented; AEGIS entry access works through authenticated chunk decoding; reference fixture interoperability still unverified |
 | Unencrypted restore/list | Archive API reads metadata, lists TAR entries and extracts entries; compressed entry decoding is bounded by index-declared TAR size | Implemented path; no device round-trip tests |
 
 ## Blocking work
 
 1. **Reference interoperability proof:** a real reference-generated encrypted v2 container is now located in the supplied backup archive and its structural fields/CRCs are validated. The password is not present in the artifacts, so it cannot yet serve as a plaintext oracle. Obtain the archive password or another reference fixture with a known test password, then test reference-created -> rewrite decrypt and rewrite-created -> reference decrypt.
-2. **v2 encrypted runtime verification:** the writer now emits v2 containers, writes logical TAR entry/file/directory counts, computes the reference v2 index MAC, patches it into the header, and verifies the MAC before moving the output. This code still needs successful CI plus Android runtime verification.
+2. **v2 encrypted runtime verification:** the writer emits v2 containers, writes logical TAR entry/file/directory counts, computes the reference v2 index MAC, patches it into the header, and verifies the MAC before moving the output. CI passed at `9b47a0a8`; Android runtime verification remains outstanding.
 3. **Other encryption modes:** the reader now validates headers and stored sizes for reference methods 1–3, but decryption/encryption for 7zAES, AES-GCM, and AES-GCM-SIV is not implemented.
 4. **Runtime/device verification:** CI validates unit tests and release assembly only; Shizuku lifecycle, private-temp staging, native chunk execution, cancellation, restore, and real-device round trips still need Android runtime coverage.
 5. **Orphan ELF exports:** createTarToFdWithWriteStatsRaw, compressZstdFdToFdRaw, and compressZstdFileToFdRaw do not have a verified Kotlin declaration/signature in the reference DEX. They remain non-public/unimplemented until their ABI is established.
@@ -58,7 +58,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Existing generic ustar writer tests.
 - SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
-The repository workflow runs on pushes to rewrite. The last verified successful build before the recent protocol and parser hardening was run 39272778766. The current head 794b53b6 has CI run 39286384378 queued at last inspection. Do not report full SBA parity until current CI succeeds and encrypted reference-vs-target archive/restore/corruption tests pass.
+The repository workflow runs on pushes to `rewrite`. CI run [39339538700](https://github.com/savie/BaRe/actions/runs/39339538700) for commit `9b47a0a8ec61bac00d67dd3b87135f9405e242d8` passed unit tests, release APK assembly, signing, artifact verification, and upload. CI does not execute the native runtime self-tests on an Android device. Do not report full SBA parity until Android runtime checks and known-password reference-vs-target archive/restore/corruption tests pass.
 
 ## Latest implementation notes
 
