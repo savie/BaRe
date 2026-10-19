@@ -704,19 +704,12 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 }
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
-                        jint options, jobjectArray includes, jobject progress) {
-    if (fd < 0 || startOffset < 0 || destination == nullptr || options < 0 ||
-        (options & ~0xdf) != 0) {
+                        jint modeMask, jobjectArray includes, jobject progress) {
+    if (fd < 0 || startOffset < 0 || destination == nullptr || modeMask < 0 || modeMask > 0777) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
         return nullptr;
     }
-    const bool restorePermissions = (options & 1) != 0;
-    const bool restoreTimestamps = (options & 2) != 0;
-    const bool restoreOwnership = (options & 4) != 0;
-    const bool restoreXattrs = (options & 8) != 0;
-    const bool restoreSelinux = (options & 16) != 0;
-    const bool restoreSpecialModeBits = (options & 128) != 0;
     struct stat extractInputStat{};
     if (fstat(fd, &extractInputStat) == 0 && S_ISREG(extractInputStat.st_mode) &&
         startOffset > static_cast<jlong>(extractInputStat.st_size)) {
@@ -994,7 +987,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
                 : pendingLongLink);
         const auto entryXattrs = collectPaxXattrs(
-            pendingPax, globalPax, restoreXattrs, restoreSelinux);
+            pendingPax, globalPax, true, true);
         const std::string* sparseMap = paxValue(pendingPax, globalPax, "GNU.sparse.map");
         const std::string* sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.realsize");
         if (sparseSize == nullptr) sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
@@ -1047,7 +1040,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
             pendingDirectories.push_back({name,
-                static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
+                static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL),
                 entryMtimeMillis, entryUid, entryGid, entryXattrs});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7' || (type == 'S' && sparseEntry)) {
@@ -1100,7 +1093,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
-            if (restoreOwnership && entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
+            if (entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
                 entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
                 entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
                 (void)fchown(out, static_cast<uid_t>(entryUid), static_cast<gid_t>(entryGid));
@@ -1110,12 +1103,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
                 (void)fsetxattr(out, attribute.first.c_str(), value.data(), value.size(), 0);
             }
-            const mode_t safeMode = static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0600ULL);
+            const mode_t safeMode = static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
             millisToTimespec(entryMtimeMillis, &fileTimes[1]);
-            if (restorePermissions) (void)fchmod(out, safeMode);
-            if (restoreTimestamps) (void)futimens(out, fileTimes);
+            (void)fchmod(out, safeMode);
+            (void)futimens(out, fileTimes);
             // Delayed I/O errors (for example ENOSPC) can surface only on
             // close, so do not report an entry as extracted until close succeeds.
             if (close(out) != 0) {
@@ -1176,13 +1169,13 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             const int linkResult = type == '2'
                 ? symlinkat(target.c_str(), parentFd, leaf.c_str())
                 : linkat(targetParentFd, targetLeaf.c_str(), parentFd, leaf.c_str(), 0);
-            if (linkResult == 0 && restoreOwnership && entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
+            if (linkResult == 0 && entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
                 entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
                 entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
                 (void)fchownat(parentFd, leaf.c_str(), static_cast<uid_t>(entryUid),
                     static_cast<gid_t>(entryGid), type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
             }
-            if (linkResult == 0 && restoreTimestamps) {
+            if (linkResult == 0) {
                 struct timespec linkTimes[2]{};
                 linkTimes[0].tv_nsec = UTIME_OMIT;
                 millisToTimespec(entryMtimeMillis, &linkTimes[1]);
@@ -1240,7 +1233,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         millisToTimespec(it->mtimeMillis, &directoryTimes[1]);
         // Archive-provided directory modes must never restore setuid,
         // setgid, or sticky bits in the extraction destination.
-        if (restoreOwnership && it->uid != UINT64_MAX && it->gid != UINT64_MAX &&
+        if (it->uid != UINT64_MAX && it->gid != UINT64_MAX &&
             it->uid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
             it->gid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
             (void)fchown(dirFd, static_cast<uid_t>(it->uid), static_cast<gid_t>(it->gid));
@@ -1250,17 +1243,10 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
             (void)fsetxattr(dirFd, attribute.first.c_str(), value.data(), value.size(), 0);
         }
-        const mode_t safeDirectoryMode = it->mode;
-        int metadataResult = 0;
-        if (restorePermissions && fchmod(dirFd, safeDirectoryMode) != 0) metadataResult = -1;
-        if (metadataResult == 0 && restoreTimestamps && futimens(dirFd, directoryTimes) != 0) metadataResult = -1;
+        const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & modeMask & 0777);
+        (void)fchmod(dirFd, safeDirectoryMode);
+        (void)futimens(dirFd, directoryTimes);
         close(dirFd);
-        if (metadataResult != 0) {
-            close(rootFd);
-            jclass e = env->FindClass("java/io/IOException");
-            if (e) env->ThrowNew(e, "Unable to apply TAR directory metadata");
-            return nullptr;
-        }
     }
     close(rootFd);
     jclass stringClass = env->FindClass("java/lang/String");
