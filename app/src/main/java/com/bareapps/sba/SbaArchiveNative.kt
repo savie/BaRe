@@ -76,11 +76,12 @@ class SbaArchiveNative private constructor() {
                 throw IOException("Password verification is not implemented for this SBA encryption method")
             }
             if (password.isEmpty()) throw IOException("SBA encryption password must not be empty")
+            val passwordCopy = password.copyOf()
             val encoded = try {
                 val buffer = StandardCharsets.UTF_8.newEncoder()
                     .onMalformedInput(CodingErrorAction.REPORT)
                     .onUnmappableCharacter(CodingErrorAction.REPORT)
-                    .encode(CharBuffer.wrap(password))
+                    .encode(CharBuffer.wrap(passwordCopy))
                 ByteArray(buffer.remaining()).also { buffer.get(it) }
             } catch (failure: Exception) {
                 throw IOException("SBA password is not valid UTF-8", failure)
@@ -102,12 +103,17 @@ class SbaArchiveNative private constructor() {
                 digest.update(info.nonceSeed)
                 digest.update(key)
                 fullCheck = digest.digest()
-                MessageDigest.isEqual(info.keyCheck, fullCheck.copyOf(16))
+                val expectedCheck = fullCheck.copyOf(16)
+                try {
+                    MessageDigest.isEqual(info.keyCheck, expectedCheck)
+                } finally {
+                    Arrays.fill(expectedCheck, 0)
+                }
             } finally {
                 Arrays.fill(encoded, 0)
                 Arrays.fill(key, 0)
                 Arrays.fill(fullCheck, 0)
-                Arrays.fill(password, '\u0000')
+                Arrays.fill(passwordCopy, '\u0000')
             }
         }
 
