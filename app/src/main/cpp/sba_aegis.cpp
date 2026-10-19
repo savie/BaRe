@@ -69,6 +69,30 @@ bool primitiveSelfTest() {
                 tag.data(), tag.size(), associated.data(), associated.size(),
                 nonce.data(), key.data()) == 0) return false;
     }
+    // RFC 10032, Appendix A.3.4: AEGIS-256, 16-byte tag known-answer vector.
+    {
+        const auto key = decodeHex(
+            "10010000000000000000000000000000"
+            "00000000000000000000000000000000");
+        const auto nonce = decodeHex(
+            "10000200000000000000000000000000"
+            "00000000000000000000000000000000");
+        const auto ad = decodeHex("0001020304050607");
+        const auto message = decodeHex(
+            "000102030405060708090a0b0c0d0e0f"
+            "101112131415161718191a1b1c1d1e1f");
+        std::vector<uint8_t> cipher(message.size());
+        std::array<uint8_t, 16> tag{};
+        if (key.size() != 32 || nonce.size() != 32 ||
+            aegis256_encrypt_detached(cipher.data(), tag.data(), tag.size(),
+                message.data(), message.size(), ad.data(), ad.size(),
+                nonce.data(), key.data()) != 0) return false;
+        if (cipher != decodeHex(
+                "f373079ed84b2709faee373584585d60"
+                "accd191db310ef5d8b11833df9dec711") ||
+            std::vector<uint8_t>(tag.begin(), tag.end()) !=
+                decodeHex("8d86f91ee606e9ff26a01b64ccbdd91d")) return false;
+    }
     // Upstream libaegis AEGIS-128X2 known-answer vector (pinned source test).
     {
         std::array<uint8_t, 16> key{};
