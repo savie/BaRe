@@ -34,6 +34,7 @@ data class SbaArchiveInfo(
     val chunkSize: Int = 0,
     val kdfMemoryKiB: Int = 0,
     val kdfParallelism: Int = 0,
+    val indexMac: ByteArray = ByteArray(0),
 ) {
     val isEncrypted: Boolean get() = encryptionMethod != 0
 }
