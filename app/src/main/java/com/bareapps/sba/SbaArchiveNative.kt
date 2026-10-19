@@ -139,7 +139,7 @@ class SbaArchiveNative private constructor() {
         /** Fast path for callers that already authenticated this key and the v2 index MAC. */
         @JvmStatic
         @Throws(IOException::class)
-        fun listEncryptedEntryTarEntriesWithVerifiedKey(
+        internal fun listEncryptedEntryTarEntriesWithVerifiedKey(
             path: String,
             entryName: String,
             key: ByteArray,
@@ -193,7 +193,7 @@ class SbaArchiveNative private constructor() {
         /** Fast path for callers that already authenticated this key and the v2 index MAC. */
         @JvmStatic
         @Throws(IOException::class)
-        fun extractEncryptedEntryWithVerifiedKey(
+        internal fun extractEncryptedEntryWithVerifiedKey(
             path: String,
             entryName: String,
             key: ByteArray,
