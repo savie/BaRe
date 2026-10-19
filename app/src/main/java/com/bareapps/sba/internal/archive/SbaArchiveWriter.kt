@@ -488,7 +488,7 @@ internal object SbaArchiveWriter {
     }
 
     private fun validateEntryName(name: String) {
-        require(name.isNotBlank() && '\u0000' !in name && !name.startsWith("/") && '\\' !in name &&
+        require(name.isNotEmpty() && '\u0000' !in name && !name.startsWith("/") && '\\' !in name &&
             name.split('/').none { it.isEmpty() || it == "." || it == ".." }) { "Unsafe SBA entry name: $name" }
     }
 
