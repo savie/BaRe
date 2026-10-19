@@ -60,8 +60,8 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 ## Implementation status — not 100% parity
 
 The current `app/src/main/cpp/sba_archive.cpp` has target-package exports for the audited
-symbol inventory. Runtime version reports a target build marker; AEGIS availability returns
-false; unsupported operations throw `UnsupportedOperationException`. TAR listing/extraction has
+symbol inventory. Runtime version now returns the reference ELF literal `SwiftTar`; AEGIS availability still returns
+false although the reference ELF returns true; unsupported operations throw `UnsupportedOperationException`. TAR listing/extraction has
 partial independent implementation, while archive creation/framing and AEGIS remain fail-closed.
 The target is not yet a complete backup engine.
 
@@ -100,7 +100,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 
 | Scope | Current evidence | Parity status | Remaining proof/work |
 |---|---|---|---|
-| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
+| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names; `SbaRuntimeNative.version()` literal matched to `SwiftTar` from reference ELF | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI; AEGIS `isAvailable()` still differs (target false vs reference true) |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
 | TAR listing | Target parser handles GNU L/K records, bounded POSIX PAX path/linkpath/mtime/size, xattr names, and PAX GNU sparse logical-size metadata | Partial | Full sparse extent-map decoding, device metadata, exact realSize across formats and reference error semantics remain unimplemented/unverified |
