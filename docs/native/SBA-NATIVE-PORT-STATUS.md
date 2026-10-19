@@ -220,3 +220,11 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - TAR listing now marks entries sparse when PAX `GNU.sparse.map`, `GNU.sparse.realsize`, or `GNU.sparse.size` is present and uses the declared logical size for `realSize` when available.
 - This is metadata exposure only. Sparse extent-map parsing and sparse extraction are still not implemented or tested.
 - Commit: f4f1bae4e867354136e9b37f0684e677a09007c6.
+
+
+## Latest source changes — 2026-10-19
+
+- Safe link extraction now rejects embedded NUL in archive paths/targets, checks symlink containment before replacement, and only hardlinks an existing regular file rooted inside the extraction destination.
+- PAX `size` is used for physical payload bounds, payload reads and offset stepping; GNU sparse PAX logical-size metadata is surfaced in `SbaTarEntryInfo` (`sparse` and `realSize`) where present.
+- Commits: 70e9e3b8ae028ab3a446bdba1292e8fbd554c4ef (NUL path guard), 2235b237a480577a8ad884206cd145c96ab3a9ce (validate link before replacement), f4f1bae4e867354136e9b37f0684e677a09007c6 (sparse metadata listing), 698f7c8f3c3568b31e486cafaf5ae97c963403a0 (logical-size range check).
+- No compiler/build/runtime evidence is available yet. Sparse extraction, xattr restoration, TAR writer/stats, SBA framing and AEGIS remain incomplete, so the branch is not GO.
