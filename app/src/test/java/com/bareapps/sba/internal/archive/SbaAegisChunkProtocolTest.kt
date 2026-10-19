@@ -5,6 +5,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
 
@@ -40,6 +41,20 @@ class SbaAegisChunkProtocolTest {
         expected.putLong(3L)
         expected.putLong(4096L)
         assertArrayEquals(expected.array(), actual)
+    }
+
+    @Test
+    fun aadUsesCurrentPartialChunkLengthRatherThanRunningOffset() {
+        val name = "data_de".toByteArray(StandardCharsets.UTF_8)
+        val actual = SbaAegisChunkProtocol.aad(4, name, 1L, 2L, 17L)
+        val domainLength = "SBA1-AEGIS256-entry-chunk-aad-v1".length
+        val fields = ByteBuffer.wrap(actual, domainLength, actual.size - domainLength)
+            .order(ByteOrder.BIG_ENDIAN)
+        assertEquals(1L, fields.long)
+        assertEquals(name.size, fields.int)
+        assertArrayEquals(name, ByteArray(name.size).also { fields.get(it) })
+        assertEquals(2L, fields.long)
+        assertEquals(17L, fields.long)
     }
 
     @Test
