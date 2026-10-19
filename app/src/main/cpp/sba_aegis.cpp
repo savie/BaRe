@@ -400,7 +400,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint inputFd, jlong storedSize, jint outputFd, jbyteArray key,
+    JNIEnv* env, jobject, jobject inputDescriptor, jlong storedSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jlong compressedSize,
     jint chunkSize, jobject progress) {
     const jint inputFd = descriptorValue(env, inputDescriptor);
@@ -431,7 +431,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis128X2ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint inputFd, jlong plainSize, jint outputFd, jbyteArray key,
+    JNIEnv* env, jobject, jobject inputDescriptor, jlong plainSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jint chunkSize,
     jobject progress) {
     const jint inputFd = descriptorValue(env, inputDescriptor);
