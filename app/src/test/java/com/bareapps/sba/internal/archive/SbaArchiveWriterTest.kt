@@ -75,6 +75,42 @@ class SbaArchiveWriterTest {
     }
 
     @Test
+    fun appliesIncludeExcludeFlagsAndKeepsParentDirectories() {
+        val root = Files.createTempDirectory("sba-filter-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            val nested = Files.createDirectory(source.resolve("nested"))
+            Files.write(nested.resolve("keep.txt"), byteArrayOf(1))
+            Files.write(nested.resolve("skip.txt"), byteArrayOf(2))
+            Files.write(source.resolve("other.txt"), byteArrayOf(3))
+            val destination = root.resolve("filtered.sba")
+
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8 or 1 or 4),
+                arrayOf(arrayOf("nested/keep.txt")), arrayOf(arrayOf("nested/skip.txt")),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+
+            val info = SbaArchiveReader.read(destination.toString())
+            val entry = info.entries.single()
+            val archive = Files.readAllBytes(destination)
+            val tar = archive.copyOfRange(
+                entry.payloadOffset.toInt(),
+                (entry.payloadOffset + entry.tarSize).toInt(),
+            )
+            val names = readTarNames(tar)
+            assertTrue(names.contains("source"))
+            assertTrue(names.contains("source/nested"))
+            assertTrue(names.contains("source/nested/keep.txt"))
+            assertTrue(!names.contains("source/nested/skip.txt"))
+            assertTrue(!names.contains("source/other.txt"))
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
     fun writesAndReadsZstandardCompressedSbaEntry() {
         val root = Files.createTempDirectory("sba-zstd-test")
         try {
@@ -151,6 +187,32 @@ class SbaArchiveWriterTest {
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
+    }
+
+    private fun readTarNames(tar: ByteArray): Set<String> {
+        val names = linkedSetOf<String>()
+        var offset = 0
+        while (offset + 512 <= tar.size) {
+            if (tar[offset] == 0.toByte()) break
+            val type = tar[offset + 156].toInt().toChar()
+            val nameEnd = (offset until offset + 100).firstOrNull { tar[it] == 0.toByte() } ?: (offset + 100)
+            val name = String(tar, offset, nameEnd - offset, StandardCharsets.UTF_8)
+            val size = parseTarOctal(tar, offset + 124, 12)
+            if (type != 'x' && type != 'g' && type != 'L' && type != 'K') names.add(name)
+            offset += 512 + (((size + 511) / 512) * 512).toInt()
+        }
+        return names
+    }
+
+    private fun parseTarOctal(bytes: ByteArray, start: Int, length: Int): Long {
+        var value = 0L
+        for (i in start until start + length) {
+            val ch = bytes[i].toInt().toChar()
+            if (ch == '\u0000' || ch == ' ') continue
+            if (ch !in '0'..'7') throw AssertionError("Invalid TAR octal value")
+            value = (value shl 3) + (ch.code - '0'.code)
+        }
+        return value
     }
 
     @Test
