@@ -170,18 +170,28 @@ bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
     errno = 0;
     // POSIX PAX mtime is a signed decimal number of seconds. Negative values
     // are valid for files whose modification time predates the Unix epoch.
-    // Use long double for the range check before converting to milliseconds.
     const long double seconds = std::strtold(value.c_str(), &end);
-    const long double minSeconds =
-        static_cast<long double>(INT64_MIN) / 1000.0L;
-    const long double maxSeconds =
-        static_cast<long double>(INT64_MAX) / 1000.0L;
-    if (errno != 0 || end == value.c_str() || *end != '\\0' ||
+    const long double minSeconds = static_cast<long double>(INT64_MIN) / 1000.0L;
+    const long double maxSeconds = static_cast<long double>(INT64_MAX) / 1000.0L;
+    if (errno != 0 || end == value.c_str() || *end != '\0' ||
         !std::isfinite(seconds) || seconds < minSeconds || seconds > maxSeconds) {
         return false;
     }
     *millis = static_cast<jlong>(seconds * 1000.0L);
     return true;
+}
+
+/** Convert signed epoch milliseconds to a normalized POSIX timespec. */
+void millisToTimespec(jlong millis, struct timespec* value) {
+    jlong seconds = millis / 1000LL;
+    jlong remainder = millis % 1000LL;
+    // POSIX requires tv_nsec in [0, 999999999], including pre-epoch times.
+    if (remainder < 0) {
+        --seconds;
+        remainder += 1000LL;
+    }
+    value->tv_sec = static_cast<time_t>(seconds);
+    value->tv_nsec = static_cast<long>(remainder * 1000000LL);
 }
 
 jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
@@ -611,7 +621,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     jmethodID cancelled = callbackClass ? env->GetMethodID(callbackClass, "isCancellationRequested", "()Z") : nullptr;
     jmethodID onProgress = callbackClass ? env->GetMethodID(callbackClass, "onProgress", "(JJ)V") : nullptr;
     std::vector<std::string> extracted;
-    struct PendingDirectoryMetadata { std::string path; mode_t mode; time_t mtime; };
+    struct PendingDirectoryMetadata { std::string path; mode_t mode; jlong mtimeMillis; };
     std::vector<PendingDirectoryMetadata> pendingDirectories;
     uint64_t total = 0, processed = 0;
     // First pass computes the regular-file payload total for progress reporting.
@@ -864,7 +874,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
             pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & 0777ULL),
-                                           static_cast<time_t>(entryMtimeMillis / 1000)});
+                                           entryMtimeMillis});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
             std::string leaf;
@@ -919,8 +929,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
-            fileTimes[1].tv_sec = static_cast<time_t>(entryMtimeMillis / 1000);
-            fileTimes[1].tv_nsec = static_cast<long>((entryMtimeMillis % 1000) * 1000000LL);
+            millisToTimespec(entryMtimeMillis, &fileTimes[1]);
             if (fchmod(out, safeMode) != 0 || futimens(out, fileTimes) != 0) {
                 close(out);
                 close(rootFd);
@@ -1016,7 +1025,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
         struct timespec directoryTimes[2]{};
         directoryTimes[0].tv_nsec = UTIME_OMIT;
-        directoryTimes[1].tv_sec = it->mtime;
+        millisToTimespec(it->mtimeMillis, &directoryTimes[1]);
         // Archive-provided directory modes must never restore setuid,
         // setgid, or sticky bits in the extraction destination.
         const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & 0777);
