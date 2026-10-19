@@ -38,7 +38,7 @@ data class SbaCreateRequest(
     val password: CharArray?,
     val metadataJson: String?,
     val progressIntervalMs: Long,
-    val useShizuku: Boolean,
+    val allowMissingSource: Boolean,
 ) : Parcelable {
     private constructor(p: Parcel) : this(
         p.readString().orEmpty(), p.createTypedArrayList(SbaCreateEntry.CREATOR) ?: arrayListOf(),
@@ -49,7 +49,7 @@ data class SbaCreateRequest(
         p.writeString(outputPath); p.writeTypedList(entries); p.writeInt(mode); p.writeInt(compressionMethod)
         p.writeInt(compressionLevel); p.writeInt(encryptionMethod)
         p.writeCharArray(password); p.writeString(metadataJson); p.writeLong(progressIntervalMs)
-        p.writeInt(if (useShizuku) 1 else 0)
+        p.writeInt(if (allowMissingSource) 1 else 0)
     }
     override fun describeContents() = 0
     companion object {
