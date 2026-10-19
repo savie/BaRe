@@ -125,6 +125,7 @@ internal object SbaArchiveReader {
         val minimumRecords = entryCount.toLong() * recordSize
         if (minimumRecords > b.remaining().toLong() - metadataLength) throw IOException("SBA index records exceed bounds")
         val metadata = ByteArray(metadataLength).also { b.get(it) }
+        decodeUtf8(metadata)
         val entries = ArrayList<SbaArchiveEntry>(entryCount)
         val names = HashSet<String>()
         var expectedEntryOffset = headerSize.toLong()
