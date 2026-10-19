@@ -4,6 +4,7 @@ import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 
 /**
  * Byte framing recovered from the reference ARM64 JNI chunk path.
@@ -11,6 +12,42 @@ import java.nio.charset.StandardCharsets
  * because its two-string SHA-256 serialization still needs complete field-boundary confirmation.
  */
 internal object SbaAegisChunkProtocol {
+    fun nonce(
+        encryptionMethod: Int,
+        nonceSeed: ByteArray,
+        entryNameUtf8: ByteArray,
+        entryOrder: Long,
+        chunkIndex: Long,
+    ): ByteArray {
+        if (encryptionMethod != 4 && encryptionMethod != 5) {
+            throw IOException("Unsupported SBA AEGIS method: $encryptionMethod")
+        }
+        if (nonceSeed.size != 16) throw IOException("SBA AEGIS nonce seed must be 16 bytes")
+        if (entryOrder < 0 || chunkIndex < 0) {
+            throw IOException("SBA AEGIS entry order/chunk index must be non-negative")
+        }
+        val domain = (if (encryptionMethod == 4) {
+            "SBA1-AEGIS256-entry-chunk-nonce-v1"
+        } else {
+            "SBA1-AEGIS128X2-entry-chunk-nonce-v1"
+        }).toByteArray(StandardCharsets.US_ASCII)
+        val entryOrderBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(entryOrder).array()
+        val chunkIndexBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(chunkIndex).array()
+        return try {
+            MessageDigest.getInstance("SHA-256").run {
+                update(domain)
+                update(nonceSeed)
+                update(entryOrderBytes)
+                update(entryNameUtf8)
+                update(chunkIndexBytes)
+                digest()
+            }
+        } finally {
+            entryOrderBytes.fill(0)
+            chunkIndexBytes.fill(0)
+        }
+    }
+
     fun aad(
         encryptionMethod: Int,
         entryNameUtf8: ByteArray,
