@@ -261,7 +261,7 @@ bool deriveNonce(JNIEnv* env, int method, const std::vector<uint8_t>& nonceSeed,
 }
 
 std::vector<uint8_t> buildAad(int method, const std::vector<uint8_t>& entryName,
-                              uint64_t entryOrder, uint64_t chunkIndex, uint64_t chunkOffset) {
+                              uint64_t entryOrder, uint64_t chunkIndex, uint64_t chunkLength) {
     const char* domain = method == 4 ? "SBA1-AEGIS256-entry-chunk-aad-v1"
                                      : "SBA1-AEGIS128X2-entry-chunk-aad-v1";
     const size_t domainLength = std::strlen(domain);
@@ -276,7 +276,7 @@ std::vector<uint8_t> buildAad(int method, const std::vector<uint8_t>& entryName,
     aad.push_back(static_cast<uint8_t>(nameLength & 0xffU));
     aad.insert(aad.end(), entryName.begin(), entryName.end());
     appendBe64(&aad, chunkIndex);
-    appendBe64(&aad, chunkOffset);
+    appendBe64(&aad, chunkLength);
     return aad;
 }
 
