@@ -49,6 +49,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Zstandard-compressed SBA writer/reader test.
 - Corrupt-footer rejection test.
 - Long-path PAX header test.
+- PAX GNU sparse and extended-attribute restoration code paths are present but lack dedicated runtime fixtures.
 - Existing generic ustar writer tests.
 - SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
@@ -59,7 +60,7 @@ The repository workflow is configured to run rebuild CI on pushes to `rewrite`, 
 - Corrected the JNI `createArchive` source argument descriptor from `ByteArray[]` to `String[]`, matching the reference call site that supplies source paths.
 - Replaced the archive-creation fail-closed stub with the unencrypted v1 writer bridge.
 - Added a strict unencrypted archive reader and bounded Zstandard restore/listing paths.
-- Corrected TAR stats argument semantics to byte length (not offset) and applied the caller's file-mode mask.
+- Corrected TAR stats argument semantics to byte length (not offset), translated restore profiles to native option bits, and added metadata restoration for ownership, xattrs/SELinux labels, symlink timestamps and PAX sparse extents.
 - Moved SBA implementation files out of the misplaced `com/bareapps/barebackup/sba/` package and into the pre-existing `com/bareapps/sba/` placeholder tree.
 
 - Added `SbaArchiveTaskRunner` under the existing app-task placeholder with SBA create/restore and direct TAR-restore requests, progress callbacks, cancellation, TAR statistics, and a bounded completed-operation registry. Its backend is injectable for unit tests.
