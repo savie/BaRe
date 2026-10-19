@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.os.ParcelFileDescriptor
 import android.os.Process
+import android.os.Parcel
 import android.os.RemoteException
 import com.bareapps.barebackup.apptasks.sba.SbaArchiveTaskRunner
 import com.bareapps.barebackup.apptasks.sba.SbaCreateTaskRequest
@@ -457,10 +458,15 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
 
     fun destroy() {
         close()
+        kotlin.system.exitProcess(0)
     }
 
-    fun onDestroy() {
-        close()
+    override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
+        if (code == 16777115) {
+            destroy()
+            return true
+        }
+        return super.onTransact(code, data, reply, flags)
     }
 
     override fun close() {
