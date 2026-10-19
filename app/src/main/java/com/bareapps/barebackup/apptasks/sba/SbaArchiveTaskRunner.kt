@@ -2,6 +2,7 @@ package com.bareapps.barebackup.apptasks.sba
 
 import com.bareapps.sba.SbaArchiveNative
 import com.bareapps.sba.SbaBareTarNative
+import com.bareapps.sba.internal.archive.SbaArchiveKeyCheck
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import java.io.Closeable
 import java.io.FileInputStream
@@ -14,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicLong
+import java.security.SecureRandom
+import java.util.Arrays
 
 data class SbaCreateTaskRequest(
     val outputPath: String,
@@ -70,56 +73,103 @@ interface SbaTaskBackend {
 private object NativeSbaTaskBackend : SbaTaskBackend {
     override fun create(request: SbaCreateTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
-        val stats = SbaArchiveNative.a.createArchive(
-            1,
-            request.outputPath,
-            request.metadata,
-            request.sourcePaths.toTypedArray(),
-            request.entryNames.toTypedArray(),
-            request.entryModes,
-            request.includePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
-            request.excludePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
-            request.compressionMethod,
-            request.compressionLevel,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            null, null, null, null,
-            progress,
-        )
-        var tarEntries = 0L
-        var regularFiles = 0L
-        var directories = 0L
-        var symlinks = 0L
-        var hardlinks = 0L
-        var otherEntries = 0L
-        var regularBytes = 0L
-        val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
-        archiveInfo.entries.forEach { archiveEntry ->
-            SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name).forEach { entry ->
-                tarEntries++
-                when (entry.type) {
-                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_FILE -> {
-                        regularFiles++
-                        regularBytes = safeAdd(regularBytes, entry.realSize)
+        val encrypted = request.mode == 2
+        var salt = ByteArray(0)
+        var nonceSeed = ByteArray(0)
+        var key = ByteArray(0)
+        var keyCheck = ByteArray(0)
+        try {
+            require(request.mode == 1 || (request.mode == 2 && request.encryptionMethod in 4..5)) {
+                "Unsupported SBA mode/encryption method"
+            }
+            if (encrypted) {
+                val password = request.password ?: throw IOException("Password is required for encrypted SBA creation")
+                if (password.isEmpty()) throw IOException("Password is required for encrypted SBA creation")
+                salt = ByteArray(16).also(SecureRandom()::nextBytes)
+                nonceSeed = ByteArray(16).also(SecureRandom()::nextBytes)
+                val material = SbaArchiveKeyCheck.deriveForCreation(
+                    request.encryptionMethod, password, salt, nonceSeed, 3, 16384, 1,
+                )
+                key = material.key
+                keyCheck = material.keyCheck
+            } else if (!request.password.isNullOrEmpty() || request.encryptionMethod != 0) {
+                throw IOException("Password/encryption method supplied for unencrypted SBA creation")
+            }
+            val keyLength = if (request.encryptionMethod == 4) 32 else if (request.encryptionMethod == 5) 16 else 0
+            val stats = SbaArchiveNative.a.createArchive(
+                request.mode,
+                request.outputPath,
+                request.metadata,
+                request.sourcePaths.toTypedArray(),
+                request.entryNames.toTypedArray(),
+                request.entryModes,
+                request.includePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
+                request.excludePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
+                request.compressionMethod,
+                request.compressionLevel,
+                if (encrypted) request.encryptionMethod else 0,
+                if (encrypted) 1 else 0,
+                if (encrypted) 3 else 0,
+                if (encrypted) 16384 else 0,
+                if (encrypted) 1 else 0,
+                if (encrypted) 1048576 else 0,
+                if (encrypted) 1 else 0,
+                keyLength,
+                if (encrypted) key else null,
+                if (encrypted) keyCheck else null,
+                if (encrypted) salt else null,
+                if (encrypted) nonceSeed else null,
+                progress,
+            )
+            var tarEntries = 0L
+            var regularFiles = 0L
+            var directories = 0L
+            var symlinks = 0L
+            var hardlinks = 0L
+            var otherEntries = 0L
+            var regularBytes = 0L
+            val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
+            archiveInfo.entries.forEach { archiveEntry ->
+                val tarInfo = if (archiveInfo.isEncrypted) {
+                    SbaArchiveNative.listEncryptedEntryTarEntries(
+                        request.outputPath, archiveEntry.name, request.password!!, progress,
+                    )
+                } else {
+                    SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name)
+                }
+                tarInfo.forEach { entry ->
+                    tarEntries++
+                    when (entry.type) {
+                        com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_FILE -> {
+                            regularFiles++
+                            regularBytes = safeAdd(regularBytes, entry.realSize)
+                        }
+                        com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_DIRECTORY -> directories++
+                        com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_SYMLINK -> symlinks++
+                        com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_HARDLINK -> hardlinks++
+                        else -> otherEntries++
                     }
-                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_DIRECTORY -> directories++
-                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_SYMLINK -> symlinks++
-                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_HARDLINK -> hardlinks++
-                    else -> otherEntries++
                 }
             }
+            return SbaTaskBackendResult(
+                outputPath = request.outputPath,
+                bytesProcessed = stats.getOrElse(0) { 0L },
+                durationMillis = (System.nanoTime() - started) / 1_000_000L,
+                tarEntryCount = tarEntries,
+                regularFileCount = regularFiles,
+                directoryCount = directories,
+                symlinkCount = symlinks,
+                hardlinkCount = hardlinks,
+                otherEntryCount = otherEntries,
+                regularFileBytes = regularBytes,
+            )
+        } finally {
+            request.password?.fill('\u0000')
+            Arrays.fill(salt, 0)
+            Arrays.fill(nonceSeed, 0)
+            Arrays.fill(key, 0)
+            Arrays.fill(keyCheck, 0)
         }
-        return SbaTaskBackendResult(
-            outputPath = request.outputPath,
-            bytesProcessed = stats.getOrElse(0) { 0L },
-            durationMillis = (System.nanoTime() - started) / 1_000_000L,
-            tarEntryCount = tarEntries,
-            regularFileCount = regularFiles,
-            directoryCount = directories,
-            symlinkCount = symlinks,
-            hardlinkCount = hardlinks,
-            otherEntryCount = otherEntries,
-            regularFileBytes = regularBytes,
-        )
     }
 
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
