@@ -48,7 +48,7 @@ class SbaArchiveWriterTest {
             assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
             assertTrue(bytes.size > payloadOffset + 1024)
         } finally {
-            Files.walk(root).sorted(Comparator.reverseOrder()).forEach(Files::deleteIfExists)
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
         }
     }
 
