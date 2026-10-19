@@ -134,8 +134,8 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
             archiveInfo.entries.forEach { archiveEntry ->
                 val tarInfo = if (archiveInfo.isEncrypted) {
-                    SbaArchiveNative.listEncryptedEntryTarEntries(
-                        request.outputPath, archiveEntry.name, request.password!!, progress,
+                    SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(
+                        request.outputPath, archiveEntry.name, key, progress,
                     )
                 } else {
                     SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name)
