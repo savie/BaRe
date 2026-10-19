@@ -4,6 +4,8 @@ import android.os.ParcelFileDescriptor
 import com.bareapps.barebackup.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdInputStream
 import com.github.luben.zstd.ZstdOutputStream
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -14,8 +16,31 @@ import java.io.OutputStream
 class SbaZstdNative private constructor() {
     private external fun decompressZstdFdToFdRaw(inputFd: Int, outputFd: Int, maxBytes: Long, progress: SbaNativeProgressListener?): LongArray
 
-    external fun compressZstdBytes(input: ByteArray, level: Int): ByteArray
-    external fun decompressZstdBytes(input: ByteArray): ByteArray
+    /**
+     * Compresses a byte array as one Zstandard frame using the same explicit
+     * compression-level contract as the reference JNI method.
+     */
+    fun compressZstdBytes(input: ByteArray, level: Int): ByteArray =
+        com.github.luben.zstd.Zstd.compress(input, level)
+
+    /**
+     * Decompresses Zstandard frame data without requiring the uncompressed size
+     * to be supplied by the caller, matching the reference method's signature.
+     */
+    @Throws(IOException::class)
+    fun decompressZstdBytes(input: ByteArray): ByteArray {
+        val output = ByteArrayOutputStream()
+        ZstdInputStream(ByteArrayInputStream(input)).use { decoder ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                val count = decoder.read(buffer)
+                if (count < 0) break
+                if (count == 0) continue
+                output.write(buffer, 0, count)
+            }
+        }
+        return output.toByteArray()
+    }
 
     /**
      * Decompresses a Zstandard stream between caller-owned descriptors.
