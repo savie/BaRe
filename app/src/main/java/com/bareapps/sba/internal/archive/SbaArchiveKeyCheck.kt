@@ -124,7 +124,10 @@ internal object SbaArchiveKeyCheck {
                 .onMalformedInput(CodingErrorAction.REPORT)
                 .onUnmappableCharacter(CodingErrorAction.REPORT)
                 .encode(CharBuffer.wrap(passwordCopy))
-            ByteArray(buffer.remaining()).also { buffer.get(it) }
+            ByteArray(buffer.remaining()).also {
+                buffer.get(it)
+                if (buffer.hasArray()) Arrays.fill(buffer.array(), 0.toByte())
+            }
         } catch (failure: Exception) {
             throw IOException("SBA password is not valid UTF-8", failure)
         } finally {
