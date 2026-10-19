@@ -580,7 +580,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        const uint64_t payloadSize = metadataRecord ? headerSize : size;
+        const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         struct stat archiveStat{};
         if (fstat(fd, &archiveStat) == 0 && S_ISREG(archiveStat.st_mode)) {
             if (offset < 0 || offset > archiveStat.st_size ||
@@ -674,7 +675,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        const uint64_t payloadSize = metadataRecord ? headerSize : size;
+        const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         // Revalidate the physical archive bounds in the extraction pass too:
         // the input descriptor may refer to a regular file that changed after
         // the sizing pass, so a previously valid header is not sufficient.
