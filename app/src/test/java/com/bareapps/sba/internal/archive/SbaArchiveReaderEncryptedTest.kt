@@ -157,7 +157,7 @@ class SbaArchiveReaderEncryptedTest {
         footer.putLong(index.size.toLong())
         footer.putInt(indexCrc)
         footer.putInt(crc(footer.array().copyOfRange(0, 28)))
-        return ByteArrayOutputStream().apply {
+        return java.io.ByteArrayOutputStream().apply {
             write(header); write(entryHeader); write(name); write(payload); write(index); write(footer.array())
         }.toByteArray()
     }
