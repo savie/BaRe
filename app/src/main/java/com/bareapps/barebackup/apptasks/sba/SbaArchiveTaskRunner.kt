@@ -61,7 +61,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             request.sourcePaths.toTypedArray(),
             request.entryNames.toTypedArray(),
             request.entryModes,
-            request.includePaths.map { it?.toTypedArray() ?: emptyArray() }.toTypedArray(),
+            request.includePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
             request.excludePaths.map { it?.toTypedArray() ?: emptyArray() }.toTypedArray(),
             request.compressionMethod,
             request.compressionLevel,
@@ -193,6 +193,11 @@ class SbaArchiveTaskRunner(
     private val operations = ConcurrentHashMap<Long, Operation>()
     private val closed = java.util.concurrent.atomic.AtomicBoolean(false)
 
+    init {
+        require(retentionMillis > 0L) { "Operation retention must be positive" }
+        require(maxRecords > 0) { "Maximum operation record count must be positive" }
+    }
+
     fun submitCreate(
         request: SbaCreateTaskRequest,
         onUpdate: ((SbaOperationSnapshot) -> Unit)? = null,
@@ -272,11 +277,11 @@ class SbaArchiveTaskRunner(
         val operation = Operation(id, callback)
         operations[id] = operation
         emit(operation)
-        executor.submit {
+        executor.submit task@{
             synchronized(operation) {
                 if (operation.cancelled.get()) {
                     finishFailure(operation, InterruptedIOException("SBA operation cancelled"), true)
-                    return@submit
+                    return@task
                 }
                 operation.state = SbaOperationSnapshot.STATE_RUNNING
                 operation.startedAtMillis = System.currentTimeMillis()
@@ -369,7 +374,13 @@ class SbaArchiveTaskRunner(
 
     override fun close() {
         if (!closed.compareAndSet(false, true)) return
-        operations.values.forEach { it.cancelled.set(true) }
+        operations.values.forEach { operation ->
+            operation.cancelled.set(true)
+            if (operation.state != SbaOperationSnapshot.STATE_SUCCEEDED &&
+                operation.state != SbaOperationSnapshot.STATE_FAILED) {
+                finishFailure(operation, InterruptedIOException("SBA task runner closed"), true)
+            }
+        }
         executor.shutdownNow()
     }
 }
