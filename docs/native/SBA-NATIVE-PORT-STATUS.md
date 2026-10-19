@@ -24,13 +24,13 @@ SBA source files must remain in these established placeholder trees. Do not recr
 
 | Area | Current implementation | Verification state |
 |---|---|---|
-| Argon2id | `SbaNativeCrypto.deriveArgon2id` is a JNI entry point delegating to the Bouncy Castle portable implementation; known-answer tests exist | Host-side vector evidence checked; CI validates source/unit-test build, but reference encrypted-archive parity remains unverified |
+| Argon2id/key check | `SbaNativeCrypto.deriveArgon2id` delegates to the Bouncy Castle portable implementation; AEGIS key-check domains and v1/v2 index-MAC key derivation follow the decompiled reference | Known-answer and synthetic v2 index-MAC/tamper tests are present; external encrypted-fixture interoperability remains unverified |
 | Zstandard byte operations | JNI byte compression/decompression delegates to zstd-jni | API path exists; error and frame-parity tests not run |
 | TAR listing/extraction | Native parser supports ustar, PAX, GNU long-name records, sparse metadata parsing, safe path handling, symlink/hardlink validation, cancellation and progress | Source implementation exists; Android tests not run |
 | TAR extraction stats | 20-element stats array reports TAR byte length, parsed entry/type counts, regular-file bytes, skipped-entry estimate and measured timings; Basic/Fidelity/RootFidelity profiles map to the exact reference TAR mode masks (511/468/384 decimal, equivalent to octal 0777/0724/0600). Permission, timestamp, ownership, xattr/SELinux and PAX sparse-map restoration are implemented where metadata is available | Low-level read/write counters remain uninstrumented; GNU sparse PAX 1.0 and old-GNU sparse encodings remain unsupported; exact parity not verified |
 | TAR payload generation for SBA creation | Streams source files/directories, preserves POSIX modes and timestamps, emits symlinks, writes PAX records for long paths/targets, large sizes and subsecond/negative timestamps; fails on unsupported special files | Unit test source exists; runtime tests not run |
-| SBA unencrypted writer | JNI `createArchive` delegates to `SbaArchiveWriter`; supports v1 `SBA1/SAE1/SAI1/SAF1` framing, no compression or Zstandard, metadata/index, CRCs, atomic output replacement and cancellation | Implemented path; no reference-parser comparison or build evidence |
-| SBA reader | Strict unencrypted v1/v2 header/index/entry/footer validation, UTF-8/path/bounds checks, CRC validation and v2 entry counts | Implemented path; encrypted archives are rejected |
+| SBA writer | `SbaArchiveWriter` emits v1 `SBA1/SAE1/SAI1/SAF1` framing, optional Zstandard, metadata/index, CRCs, atomic replacement and cancellation; encrypted mode writes AEGIS-256 or AEGIS-128X2 chunk payloads with 16-byte detached tags | Source path implemented; build validation is in progress; no external reference-created encrypted fixture comparison yet |
+| SBA reader | Strict v1/v2 header/index/entry/footer validation, UTF-8/path/bounds checks, CRC validation, v2 entry counts, AEGIS chunk-size/stored-size checks, password key-check and v2 encrypted index-MAC validation | Parser and password/MAC verification implemented; reference fixture interoperability still unverified |
 | Unencrypted restore/list | Archive API reads metadata, lists TAR entries and extracts entries; compressed entry decoding is bounded by index-declared TAR size | Implemented path; no device round-trip tests |
 
 ## Blocking work
@@ -83,3 +83,12 @@ Implementation guardrail: do not implement a guessed protocol or set `isAvailabl
 - `SbaArchiveKeyCheck` implements the reference key-check digest: SHA-256(domain || salt || nonceSeed || Argon2id-derived-key), truncated to 16 bytes. Deterministic vectors cover both AEGIS-256 and AEGIS-128X2, including wrong-password rejection.
 - The public archive entry list/extract paths explicitly fail closed for encrypted payloads. Key-check success is not a payload decryption success and is not a substitute for chunk-protocol interoperability tests.
 - Synthetic encrypted-index parsing coverage was added; it is parser regression coverage, not a reference-generated encrypted archive fixture.
+
+
+## AEGIS chunk protocol recovered from ARM64 reference (2026-10-19)
+
+- Per-chunk nonce is the SHA-256 digest of the method-specific nonce domain, the 16-byte archive nonce seed, the big-endian 64-bit entry order, the UTF-8 entry-name bytes, and the big-endian 64-bit chunk index. AEGIS-256 uses the 32-byte digest; AEGIS-128X2 uses its first 16 bytes.
+- Per-chunk AAD is the method-specific AAD domain, big-endian 64-bit entry order, four zero reserved bytes, UTF-8 entry-name bytes, big-endian 64-bit chunk index, and big-endian 64-bit plaintext chunk offset.
+- Ciphertext is stored followed by its 16-byte detached tag for each chunk. The last chunk length is derived from the declared compressed/plain payload size; stored size is payload size plus 16 bytes per chunk.
+- These byte layouts are encoded in `SbaAegisChunkProtocol.kt` and `sba_aegis.cpp`. The unit tests validate the derived byte framing and SHA-256 outputs, but those tests are not a substitute for a real SwiftBackup encrypted archive fixture.
+- Native AEGIS entry methods are exposed through private JNI entrypoints and stable Kotlin wrappers. Archive creation performs a post-write decrypt/list pass; if that verification fails, the newly created output is deleted rather than left behind as an apparently valid archive.
