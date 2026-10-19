@@ -12,7 +12,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 
-/** Native SBA v1 creation entry point and independent archive-info/restore facade. */
+/** SBA v1/v2 creation entry point and independent archive-info/restore facade. */
 class SbaArchiveNative private constructor() {
     fun createArchive(
         mode: Int,
