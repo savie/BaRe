@@ -409,6 +409,12 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         return { snapshot ->
             val now = System.currentTimeMillis()
             val previous = lastSent.get()
+            if (snapshot.isFinal && snapshot.state == SbaOperationSnapshot.STATE_SUCCEEDED) {
+                synchronized(this) {
+                    archiveCache.clear()
+                    tarCache.clear()
+                }
+            }
             if (snapshot.isFinal || interval == 0L || now - previous >= interval) {
                 lastSent.set(now)
                 notifyCallback(callback, snapshot)
