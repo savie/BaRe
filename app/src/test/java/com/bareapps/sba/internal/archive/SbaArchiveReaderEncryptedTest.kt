@@ -11,6 +11,104 @@ import org.junit.Test
 
 class SbaArchiveReaderEncryptedTest {
     @Test
+    fun parsesSanitizedTwoEntryV2LayoutRecoveredFromReferenceBackup() {
+        val root = Files.createTempDirectory("sba-reference-v2-layout")
+        try {
+            val path = root.resolve("reference-layout.sba")
+            val metadata = """{"kind":"sanitized-reference-layout"}""".toByteArray(StandardCharsets.UTF_8)
+            val records = listOf(
+                Triple("data", longArrayOf(144, 172, 642, 626, 9728), longArrayOf(5, 2, 3)),
+                Triple("data_de", longArrayOf(814, 845, 259, 243, 2560), longArrayOf(1, 0, 1)),
+            )
+            val indexOffset = 1104L
+            val index = ByteBuffer.allocate(
+                16 + metadata.size + records.sumOf { 108 + it.first.toByteArray(StandardCharsets.UTF_8).size },
+            ).order(ByteOrder.BIG_ENDIAN)
+            index.put("SAI1".toByteArray(StandardCharsets.US_ASCII))
+            index.putShort(16)
+            index.putShort(2)
+            index.putInt(records.size)
+            index.putInt(metadata.size)
+            index.put(metadata)
+            records.forEach { (nameString, values, counts) ->
+                val name = nameString.toByteArray(StandardCharsets.UTF_8)
+                values.take(5).forEach(index::putLong)
+                index.putInt(23)
+                index.putShort(name.size.toShort())
+                index.putInt(0)
+                index.putShort(0)
+                index.put(ByteArray(32))
+                counts.forEach(index::putLong)
+                index.put(name)
+            }
+            val indexBytes = index.array()
+            val indexCrc = crc(indexBytes)
+            val header = ByteBuffer.allocate(144).order(ByteOrder.BIG_ENDIAN)
+            header.put("SBA1".toByteArray(StandardCharsets.US_ASCII))
+            header.putShort(2)
+            header.putShort(144)
+            header.putInt(3)
+            header.putLong(1789818238000L)
+            header.putShort(1)
+            header.putShort(1)
+            header.putShort(4)
+            header.putShort(1)
+            header.putShort(3)
+            header.putShort(16)
+            header.putShort(16)
+            header.putShort(16)
+            header.put(hex("62cf4f8e264a386d1837b2f8ff5cb86f"))
+            header.put(hex("cc33f61d5f089e01c1c9779b037497a0"))
+            header.put(hex("6158af709aa1bdd92b3ea9e68beebe32"))
+            header.putShort(0)
+            header.putShort(0)
+            header.putInt(1 shl 20)
+            header.putInt(16384)
+            header.putShort(1)
+            header.putShort(1)
+            header.putShort(32)
+            header.putShort(1)
+            header.put(ByteArray(32)) // Sanitized fixture intentionally omits the password-dependent index MAC.
+            header.put(ByteArray(8))
+            val footer = ByteBuffer.allocate(32).order(ByteOrder.BIG_ENDIAN)
+            footer.put("SAF1".toByteArray(StandardCharsets.US_ASCII))
+            footer.putShort(32)
+            footer.putShort(2)
+            footer.putLong(indexOffset)
+            footer.putLong(indexBytes.size.toLong())
+            footer.putInt(indexCrc)
+            footer.putInt(crc(footer.array().copyOfRange(0, 28)))
+            Files.newOutputStream(path).use { out ->
+                out.write(header.array())
+                out.write("SAE1".toByteArray(StandardCharsets.US_ASCII))
+                out.write(ByteBuffer.allocate(20).order(ByteOrder.BIG_ENDIAN).apply {
+                    putShort(24); putShort(0); putInt(23); putShort(4); putInt(0); put(ByteArray(6))
+                }.array())
+                out.write("data".toByteArray(StandardCharsets.UTF_8))
+                out.write(ByteArray(642))
+                out.write("SAE1".toByteArray(StandardCharsets.US_ASCII))
+                out.write(ByteBuffer.allocate(20).order(ByteOrder.BIG_ENDIAN).apply {
+                    putShort(24); putShort(0); putInt(23); putShort(7); putInt(0); put(ByteArray(6))
+                }.array())
+                out.write("data_de".toByteArray(StandardCharsets.UTF_8))
+                out.write(ByteArray(259))
+                out.write(indexBytes)
+                out.write(footer.array())
+            }
+            val parsed = SbaArchiveReader.read(path.toString())
+            assertEquals(2, parsed.version)
+            assertEquals(4, parsed.encryptionMethod)
+            assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
+            assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
+            assertEquals(listOf(5L, 1L), parsed.entries.map { it.tarEntryCount })
+            assertEquals(listOf(2L, 0L), parsed.entries.map { it.regularFileCount })
+            assertEquals(listOf(3L, 1L), parsed.entries.map { it.directoryCount })
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
     fun readsAegis256HeaderAndEncryptedEntryIndexWithoutTreatingCiphertextAsTar() {
         val root = Files.createTempDirectory("sba-aegis-index-test")
         try {
