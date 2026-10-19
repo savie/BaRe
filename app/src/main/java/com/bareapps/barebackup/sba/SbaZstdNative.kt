@@ -83,14 +83,15 @@ class SbaZstdNative private constructor() {
                     return count
                 }
             }
-            decoded = ZstdInputStream(countingSource)
+            val decoder = ZstdInputStream(countingSource)
+            decoded = decoder
             var outputCount = 0L
             val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
             while (true) {
                 if (progress?.isCancellationRequested() == true) {
                     throw java.io.InterruptedIOException("Zstandard decompression cancelled")
                 }
-                val count = decoded.read(buffer)
+                val count = decoder.read(buffer)
                 if (count < 0) break
                 if (count == 0) continue
                 if (maxOutputBytes >= 0L && count.toLong() > maxOutputBytes - outputCount) {
@@ -104,9 +105,13 @@ class SbaZstdNative private constructor() {
             return longArrayOf(inputCount, outputCount)
         } finally {
             try {
-                decoded?.close() ?: source.close()
+                decoded?.close()
             } finally {
-                sink.close()
+                try {
+                    source.close()
+                } finally {
+                    sink.close()
+                }
             }
         }
     }
