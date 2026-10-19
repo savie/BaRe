@@ -10,6 +10,22 @@ import org.junit.Test
 
 class SbaAegisChunkProtocolTest {
     @Test
+    fun derivesAegis256ChunkNonceFromReferenceDomainSeparatedFields() {
+        val nonce = SbaAegisChunkProtocol.nonce(
+            4, ByteArray(16) { it.toByte() }, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L,
+        )
+        assertArrayEquals(hex("3a5523ba3b42b916073019d043dffb4834452b8442d4d12d1443accce10aaa82"), nonce)
+    }
+
+    @Test
+    fun derivesAegis128X2ChunkNonceFromReferenceDomainSeparatedFields() {
+        val nonce = SbaAegisChunkProtocol.nonce(
+            5, ByteArray(16) { it.toByte() }, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L,
+        )
+        assertArrayEquals(hex("23dc3317d45eb74abf5c3b04bc451c20b463b5b1f8dd188abe655c1f4bc92dd8"), nonce)
+    }
+
+    @Test
     fun serializesAegis256AadWithReferenceDomainAndBigEndianFields() {
         val actual = SbaAegisChunkProtocol.aad(
             4, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L, 4096L,
@@ -39,4 +55,7 @@ class SbaAegisChunkProtocolTest {
             SbaAegisChunkProtocol.aad(4, byteArrayOf(), -1L, 0L, 0L)
         }
     }
+
+    private fun hex(value: String): ByteArray =
+        value.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 }
