@@ -31,7 +31,7 @@ data class SbaExtractTaskRequest(
     val archivePath: String,
     val entryName: String?,
     val destination: String,
-    val flags: Int = 0x1ff,
+    val flags: Int = 2,
     val includes: List<String> = emptyList(),
 )
 
@@ -318,7 +318,7 @@ class SbaArchiveTaskRunner(
         require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
             "SBA extraction destination must be absolute"
         }
-        require(request.flags in 0..0x1ff) { "Invalid TAR permission mask" }
+        require(validRestoreOptions(request.flags)) { "Invalid TAR restore options" }
         return submit(onUpdate) { operation, progress ->
             backend.extract(request, progress)
         }
@@ -358,6 +358,9 @@ class SbaArchiveTaskRunner(
         cleanupExpired()
         return operations.values.sortedBy { it.id }.map(::snapshot)
     }
+
+    private fun validRestoreOptions(flags: Int): Boolean =
+        flags >= 0 && flags <= 0xdf && (flags and 0x20) == 0
 
     private fun validateCreate(request: SbaCreateTaskRequest) {
         require(request.outputPath.isNotBlank() && Path.of(request.outputPath).isAbsolute) {
