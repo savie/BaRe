@@ -92,7 +92,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     if (!ctor) return nullptr;
     std::vector<jobject> entries;
     off_t offset = static_cast<off_t>(startOffset);
-    for (size_t count = 0; count < 1000000; ++count) {
+    size_t count = 0;
+    for (; count < 1000000; ++count) {
         TarHeader h{};
         if (!readExactAt(fd, &h, sizeof(h), offset)) {
             // A short header is a truncated archive, not a clean end marker.
@@ -198,6 +199,12 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         offset += static_cast<off_t>(step);
+    }
+    if (count == 1000000) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "TAR entry count exceeds the supported limit");
+        for (jobject entry : entries) env->DeleteLocalRef(entry);
+        return nullptr;
     }
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(entries.size()), entryClass, nullptr);
     if (result) {
