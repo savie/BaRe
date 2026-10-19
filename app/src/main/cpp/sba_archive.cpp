@@ -1291,12 +1291,6 @@ Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
     return toJavaString(env, "SwiftTar");
 }
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
-    // Do not advertise cryptographic support until an audited AEGIS implementation
-    // is linked and test vectors pass.
-    return JNI_FALSE;
-}
 
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
