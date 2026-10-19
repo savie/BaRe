@@ -88,3 +88,47 @@ Keep neutral names until call sites, CREATOR/writeToParcel code and native consu
 their meaning. Each migrated `defpackage` class needs a source mapping and tests against the
 reference contract. JNI symbols present in ELF but absent from DEX declarations must be documented
 as orphan exports until a caller/signature is established.
+
+
+## Work ledger — 2026-10-19
+
+This ledger separates API/structure coverage from behavioral parity. A method being declared or exported does not count as implemented parity.
+
+| Scope | Current evidence | Parity status | Remaining proof/work |
+|---|---|---|---|
+| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ declares corresponding names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
+| Kotlin/JNI declarations | 17 reference declarations identified; 3 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
+| TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
+| TAR listing | Target native parser exists and constructs target entry objects | Partial | Compare PAX/GNU/sparse/link/xattr/device cases against reference |
+| TAR extraction | Target native extraction exists; path hardening and offset bounds have recent fixes | Partial | Compare file bytes, permissions, links, filters, cancellation, errors, and stats |
+| TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
+| Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
+| Zstandard byte decompression | SbaZstdNative.decompressZstdBytes now decodes through ZstdInputStream | Implemented path; parity unverified | Compare multi-frame/trailing-frame/error semantics with reference |
+| Zstandard FD decompression | Kotlin descriptor facade exists; native export delegates into it | Implemented path; parity unverified | Test byte counts, bounded output, cancellation, partial/truncated frames |
+| Zstandard FD/file compression exports | Orphan exports still fail closed; semantic signatures are unverified | Not implemented | Recover signatures/callers; do not guess |
+| Argon2id | Kotlin Bouncy Castle Argon2id implementation exists | Implementation exists; parity unverified | Known-answer vectors and reference-derived parameter/output comparison |
+| AEGIS | Availability reports unavailable; encryption/decryption exports fail closed | Not implemented | Identify exact AEGIS variant, chunk framing, nonce/tag/AAD rules from evidence |
+| SBA framing/metadata/archive creation | SbaArchiveNative.createArchive is declared; native operation is fail-closed | Not implemented | Recover archive layout, metadata serialization, index/footer and error behavior |
+| Four-ABI/device validation | Reference has 4 ABIs; target build/runtime validation not recorded | Unverified | Build all ABIs and run real backup/restore/corruption tests |
+
+### Current measurable summary
+
+- Reference native inventory: **20/20 symbols mapped by name**.
+- Reference declaration inventory: **17/20 exports have DEX declarations; 3/20 remain orphan exports**.
+- Fully proven end-to-end behavioral parity: **0 areas certified** (no reference-vs-target runtime test suite has been run).
+- Source-level implementation exists but is not certified: TAR listing/extraction, TAR entry model, Zstandard descriptor helpers, Argon2id.
+- Known incomplete critical paths: TAR writer, SBA archive creation/framing, AEGIS, and orphan Zstandard compression exports.
+
+The **0 certified** figure is a test-evidence status, not a claim that zero code exists. No whole-project percentage is reported because counting methods would inflate progress: a small model getter and full archive creation are not equivalent units.
+
+### Work entry — Zstandard byte methods
+
+Commit: d21ba70f61683f1740d833a838621f4fc8af713d
+
+Changed only SbaZstdNative.kt:
+- Replaced the two byte-array external methods with Kotlin implementations using the already-used zstd-jni dependency.
+- Compression delegates to Zstd.compress(input, level).
+- Decompression streams into a ByteArrayOutputStream, avoiding a caller-supplied uncompressed-size requirement.
+- This bypasses the target JNI placeholder for these two methods. It is **not yet counted as reference parity** until compilation and reference comparison tests pass.
+
+Build and runtime tests were not run in this environment. The next implementation unit remains in the requested .so/.kt scope; do not broaden into unrelated app features.
