@@ -186,7 +186,7 @@ internal object SbaArchiveReader {
                 throw IOException("Invalid SBA index record fields")
             }
             val expectedEntryFlags = when (encryptionMethod) {
-                0 -> if (compressionMethod == 1) 1 else 0
+                0 -> if (compressionMethod == 1) 3 else 1
                 1 -> if (compressionMethod == 1) 13 else 12
                 2, 3 -> if (compressionMethod == 1) 15 else 14
                 4, 5 -> if (compressionMethod == 1) 23 else 21
