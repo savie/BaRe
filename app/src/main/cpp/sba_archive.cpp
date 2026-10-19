@@ -889,9 +889,40 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             extracted.push_back(name);
         } else if (type == '2' || type == '1') {
+            std::string target = link;
+            int targetParentFd = -1;
+            std::string targetLeaf;
+            if (type == '2') {
+                if (!safeSymlinkTarget(name, target)) {
+                    close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Unsafe symlink target in TAR archive");
+                    return nullptr;
+                }
+            } else {
+                while (target.compare(0, 2, "./") == 0) target.erase(0, 2);
+                if (!safeRelativePath(target)) {
+                    close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Unsafe hardlink target in TAR archive");
+                    return nullptr;
+                }
+                targetParentFd = openParentAt(rootFd, target, false, &targetLeaf);
+                struct stat targetStat{};
+                if (targetParentFd < 0 ||
+                    fstatat(targetParentFd, targetLeaf.c_str(), &targetStat, AT_SYMLINK_NOFOLLOW) != 0 ||
+                    !S_ISREG(targetStat.st_mode)) {
+                    if (targetParentFd >= 0) close(targetParentFd);
+                    close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "TAR hardlink target is not an extracted regular file");
+                    return nullptr;
+                }
+            }
             std::string leaf;
             int parentFd = openParentAt(rootFd, name, true, &leaf);
             if (parentFd < 0) {
+                if (targetParentFd >= 0) close(targetParentFd);
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Unable to securely open TAR link parent");
@@ -899,43 +930,17 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             if (unlinkat(parentFd, leaf.c_str(), 0) != 0 && errno != ENOENT) {
                 close(parentFd);
+                if (targetParentFd >= 0) close(targetParentFd);
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Unable to safely replace existing TAR link");
                 return nullptr;
             }
-            int linkResult = -1;
-            if (type == '2') {
-                if (!safeSymlinkTarget(name, link)) {
-                    close(parentFd);
-                    close(rootFd);
-                    jclass e = env->FindClass("java/io/IOException");
-                    if (e) env->ThrowNew(e, "Unsafe symlink target in TAR archive");
-                    return nullptr;
-                }
-                linkResult = symlinkat(link.c_str(), parentFd, leaf.c_str());
-            } else {
-                while (link.compare(0, 2, "./") == 0) link.erase(0, 2);
-                if (!safeRelativePath(link)) {
-                    close(parentFd);
-                    close(rootFd);
-                    jclass e = env->FindClass("java/io/IOException");
-                    if (e) env->ThrowNew(e, "Unsafe hardlink target in TAR archive");
-                    return nullptr;
-                }
-                std::string targetLeaf;
-                int targetParentFd = openParentAt(rootFd, link, false, &targetLeaf);
-                if (targetParentFd >= 0) {
-                    struct stat targetStat{};
-                    if (fstatat(targetParentFd, targetLeaf.c_str(), &targetStat, AT_SYMLINK_NOFOLLOW) == 0 &&
-                        S_ISREG(targetStat.st_mode)) {
-                        linkResult = linkat(targetParentFd, targetLeaf.c_str(),
-                                            parentFd, leaf.c_str(), 0);
-                    }
-                    close(targetParentFd);
-                }
-            }
+            const int linkResult = type == '2'
+                ? symlinkat(target.c_str(), parentFd, leaf.c_str())
+                : linkat(targetParentFd, targetLeaf.c_str(), parentFd, leaf.c_str(), 0);
             close(parentFd);
+            if (targetParentFd >= 0) close(targetParentFd);
             if (linkResult != 0) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
