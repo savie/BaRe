@@ -35,7 +35,7 @@ class SbaAegisChunkProtocolTest {
         ).order(ByteOrder.BIG_ENDIAN)
         expected.put("SBA1-AEGIS256-entry-chunk-aad-v1".toByteArray(StandardCharsets.US_ASCII))
         expected.putLong(2L)
-        expected.putInt(0)
+        expected.putInt(4)
         expected.put("apps".toByteArray(StandardCharsets.UTF_8))
         expected.putLong(3L)
         expected.putLong(4096L)
