@@ -346,6 +346,22 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             case '4': type = 7; break;
             default: type = (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') ? 1 : 99; break;
         }
+        bool sparseEntry = false;
+        uint64_t realSize = size;
+        const std::string* sparseMap = paxValue(pendingPax, globalPax, "GNU.sparse.map");
+        const std::string* sparseRealSize = paxValue(pendingPax, globalPax, "GNU.sparse.realsize");
+        if (sparseRealSize == nullptr) {
+            sparseRealSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
+        }
+        if (sparseMap != nullptr || sparseRealSize != nullptr) {
+            sparseEntry = true;
+            if (sparseRealSize != nullptr && !parsePaxUnsigned(*sparseRealSize, &realSize)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
+                for (jobject previous : entries) env->DeleteLocalRef(previous);
+                return nullptr;
+            }
+        }
         std::map<std::string, std::string> effectivePax = globalPax;
         for (const auto& item : pendingPax) {
             if (item.second.empty()) effectivePax.erase(item.first);
@@ -373,8 +389,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         }
         jobject entry = env->NewObject(entryClass, ctor, jname, type, jlink,
             static_cast<jint>(mode),
-            static_cast<jlong>(size), static_cast<jlong>(size),
-            mtimeMillis, JNI_FALSE, xattrs);
+            static_cast<jlong>(size), static_cast<jlong>(realSize),
+            mtimeMillis, sparseEntry ? JNI_TRUE : JNI_FALSE, xattrs);
         if (jname) env->DeleteLocalRef(jname);
         if (jlink) env->DeleteLocalRef(jlink);
         if (xattrs) env->DeleteLocalRef(xattrs);
