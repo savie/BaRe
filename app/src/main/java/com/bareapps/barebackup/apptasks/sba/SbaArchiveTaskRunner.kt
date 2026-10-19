@@ -38,7 +38,7 @@ data class SbaExtractTaskRequest(
 data class SbaTarExtractTaskRequest(
     val sourcePath: String,
     val destination: String,
-    val flags: Int = 0x1ff,
+    val flags: Int = 2,
     val includes: List<String> = emptyList(),
 )
 
@@ -334,7 +334,7 @@ class SbaArchiveTaskRunner(
         require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
             "TAR extraction destination must be absolute"
         }
-        require(request.flags in 0..0x1ff) { "Invalid TAR permission mask" }
+        require(validRestoreOptions(request.flags)) { "Invalid TAR restore options" }
         return submit(onUpdate) { _, progress -> backend.extractTar(request, progress) }
     }
 
