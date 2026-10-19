@@ -30,6 +30,15 @@ class SbaArchiveV2IndexMacTest {
             val suppliedKey = SbaArchiveKeyCheck.deriveVerifiedKey(info, password.copyOf(), path.toString())!!
             try {
                 SbaArchiveKeyCheck.verifyProvidedKey(info, suppliedKey, path.toString())
+
+                // A cached SbaArchiveInfo must not mask a header-MAC change on disk.
+                val macTamperedPath = root.resolve("tampered-header-mac.sba")
+                val macTampered = archive.copyOf()
+                macTampered[104] = (macTampered[104].toInt() xor 1).toByte()
+                Files.write(macTamperedPath, macTampered)
+                assertThrows(IOException::class.java) {
+                    SbaArchiveKeyCheck.verifyProvidedKey(info, suppliedKey, macTamperedPath.toString())
+                }
             } finally {
                 java.util.Arrays.fill(suppliedKey, 0)
             }
