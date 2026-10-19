@@ -1121,7 +1121,7 @@ void throwUnsupported(JNIEnv* env, const char* operation) {
 // separately from the archive algorithms.
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_bareapps_barebackup_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
-    return toJavaString(env, "bare-sba-native/0.1.0 (algorithms pending)");
+    return toJavaString(env, "SwiftTar");
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
