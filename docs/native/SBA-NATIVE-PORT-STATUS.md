@@ -102,8 +102,8 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
-| TAR listing | Target parser handles GNU L/K records plus bounded POSIX PAX local/global records for path, linkpath and fractional mtime | Partial | GNU sparse, xattrs, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
-| TAR extraction | Target extractor applies GNU L paths and POSIX PAX path/linkpath/mtime/size metadata; symlinks and hardlinks are materialized only after containment/target checks | Partial | GNU sparse, xattrs, symlink timestamp semantics, exact filters/cancellation/errors/stats remain unimplemented/unverified |
+| TAR listing | Target parser handles GNU L/K records plus bounded POSIX PAX local/global records for path, linkpath and fractional mtime | Partial | GNU sparse, xattr value restoration, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
+| TAR extraction | Target extractor applies GNU L paths and POSIX PAX path/linkpath/mtime/size metadata; symlinks and hardlinks are materialized only after containment/target checks | Partial | GNU sparse, xattr value restoration, symlink timestamp semantics, exact filters/cancellation/errors/stats remain unimplemented/unverified |
 | TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
 | Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
 | Zstandard byte decompression | SbaZstdNative.decompressZstdBytes now decodes through ZstdInputStream | Implemented path; parity unverified | Compare multi-frame/trailing-frame/error semantics with reference |
@@ -181,6 +181,7 @@ No GitHub Actions run or combined status checks were returned for the latest com
 
 - Added length-prefixed PAX record validation with overflow checks and a 16 MiB per-header payload cap.
 - PAX `size` overrides are parsed as strict unsigned decimal values and applied consistently to listing, extraction sizing/progress totals, payload reads, and entry offset advancement. Local PAX size state is cleared after the next real entry.
+- Listing reports extended-attribute names from `SCHILY.xattr.*` and `LIBARCHIVE.xattr.*` PAX keys; actual xattr values are not yet restored during extraction.
 - TAR listing and extraction now consume local (`x`) and global (`g`) PAX headers; `path`, `linkpath`, and decimal/fractional `mtime` are applied to following entries. Empty local attributes mask inherited global attributes; empty global attributes remove them.
 - File extraction preserves millisecond precision from PAX `mtime`. Directory metadata currently stores whole seconds only.
 - PAX `size` overrides, GNU sparse maps, xattrs and exact reference semantics remain open. This is partial parity, not GO.
@@ -195,3 +196,10 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - GNU long-link and PAX `linkpath` metadata feed the link target. Destination replacement is attempted only after validating target semantics/source.
 - Commits: 3fdce91e3a3dc9282d23bb5c9af270335bbbc767 (symlink containment helper), 644d5b6289ba1de679bb79c14c1c00d66a1b1ced (link extraction), 2235b237a480577a8ad884206cd145c96ab3a9ce (validate before replacement).
 - These changes have not been compiled or exercised against reference fixtures; behavior is not certified as parity.
+
+
+## PAX xattr-name inventory checkpoint — 2026-10-19
+
+- TAR entry listing now collects xattr names from `SCHILY.xattr.*` and `LIBARCHIVE.xattr.*` keys, merging local/global PAX attributes with local empty values masking inherited attributes.
+- Xattr values are not restored on extraction; GNU sparse maps, device metadata and full native parity remain open.
+- Commits: 72bb4df11de09141b9dee6809b82da895157f382 and f4ed2c6e39ca3593d6fa28d108a990c785228504.
