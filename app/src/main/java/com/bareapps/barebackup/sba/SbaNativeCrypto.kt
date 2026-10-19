@@ -4,6 +4,7 @@ import org.bouncycastle.crypto.generators.Argon2BytesGenerator
 import org.bouncycastle.crypto.params.Argon2Parameters
 
 /** Reference-compatible JNI surface for SBA Argon2id derivation. */
+@androidx.annotation.Keep
 class SbaNativeCrypto private constructor() {
     external fun deriveArgon2id(
         password: ByteArray,
@@ -21,8 +22,10 @@ class SbaNativeCrypto private constructor() {
 }
 
 /** Pure Kotlin implementation used by the JNI adapter and host-side known-answer tests. */
+@androidx.annotation.Keep
 internal object SbaArgon2idPortable {
     @JvmStatic
+    @androidx.annotation.Keep
     fun deriveArgon2id(
         password: ByteArray,
         salt: ByteArray,
