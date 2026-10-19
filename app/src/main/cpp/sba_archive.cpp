@@ -254,19 +254,6 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             offset += static_cast<off_t>(step);
             continue;
         }
-        if (h.typeflag == 'x' || h.typeflag == 'g') {
-            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
-            const bool isGlobal = h.typeflag == 'g';
-            auto& destination = isGlobal ? globalPax : pendingPax;
-            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
-                close(rootFd);
-                jclass e = env->FindClass("java/io/IOException");
-                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
-                return nullptr;
-            }
-            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
-            continue;
-        }
         if (h.typeflag == 'L' || h.typeflag == 'K') {
             std::string value;
             const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
@@ -574,6 +561,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
                 close(rootFd);
+                return nullptr;
+            }
+            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            continue;
+        }
+        if (h.typeflag == 'x' || h.typeflag == 'g') {
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            const bool isGlobal = h.typeflag == 'g';
+            auto& destination = isGlobal ? globalPax : pendingPax;
+            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
                 return nullptr;
             }
             offset += static_cast<off_t>(512ULL + blocks * 512ULL);
