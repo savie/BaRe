@@ -96,7 +96,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         start: Int,
         pageSize: Int,
     ): SbaTarEntryPage {
-        if (!password.isNullOrEmpty()) {
+        if (password != null && password.isNotEmpty()) {
             password.fill('\u0000')
             throw RemoteException("Encrypted SBA entry listing is not available")
         }
@@ -138,7 +138,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     override fun createSba(request: SbaCreateRequest, callback: ISbaOperationCallback?): Long {
         if (request.mode !in 0..2) throw RemoteException("Unknown SBA TAR profile")
         if (request.encryptionMethod !in 0..5) throw RemoteException("Unknown SBA encryption method")
-        if (request.encryptionMethod != 0 || !request.password.isNullOrEmpty()) {
+        if (request.encryptionMethod != 0 || request.password?.isNotEmpty() == true) {
             request.password?.fill('\u0000')
             throw RemoteException("Encrypted SBA creation requires the unfinished AEGIS/key schedule")
         }
@@ -183,7 +183,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun extractSba(request: SbaExtractRequest, callback: ISbaOperationCallback?): Long {
-        if (!request.password.isNullOrEmpty()) {
+        if (request.password?.isNotEmpty() == true) {
             request.password?.fill('\u0000')
             throw RemoteException("Encrypted SBA extraction is not available")
         }
