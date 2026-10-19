@@ -18,13 +18,18 @@ class SbaNativeCrypto private constructor() {
         parallelism: Int,
         outputLength: Int,
     ): ByteArray {
-        require(iterations > 0) { "iterations must be positive" }
-        require(parallelism > 0 && memoryKiB.toLong() >= 8L * parallelism) {
-            "memoryKiB must be at least 8 KiB per lane and parallelism must be positive"
+        require(password.isNotEmpty()) { "SBA encryption password must not be empty" }
+        require(salt.size == 16) { "SBA Argon2id salt must be 16 bytes" }
+        require(iterations in 1..100) { "SBA Argon2id iterations out of range: $iterations" }
+        require(memoryKiB in 16_384..65_536) {
+            "SBA Argon2id memoryKiB out of range: $memoryKiB"
         }
-        // The reference native implementation rejects output sizes outside 16..128 bytes.
-        require(outputLength in 16..128) { "Argon2id outputBytes must be in 16..128" }
-        require(salt.size >= 8) { "Argon2 salt must be at least 8 bytes" }
+        require(parallelism in 1..8) {
+            "SBA Argon2id parallelism out of range: $parallelism"
+        }
+        require(outputLength > 0) {
+            "SBA Argon2id output bytes must be positive: $outputLength"
+        }
 
         val parameters = Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
             .withSalt(salt)
