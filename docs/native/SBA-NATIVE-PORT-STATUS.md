@@ -87,6 +87,7 @@ Implementation guardrail: `isAvailable()` is gated by primitive and protocol kno
 - `SbaArchiveReader` reads the full version-sized header (96-byte v1 or 144-byte v2), keeps key-check/salt/nonce-seed fields, validates AEGIS KDF bounds and chunk size, checks AEGIS entry flags (21 uncompressed, 23 Zstandard-compressed), and validates stored size as plaintext/compressed bytes plus 16 bytes per chunk. It can expose the unencrypted SBA index metadata without pretending ciphertext is TAR.
 - `SbaArchiveKeyCheck` implements the reference key-check digest: SHA-256(domain || salt || nonceSeed || Argon2id-derived-key), truncated to 16 bytes. Deterministic vectors cover both AEGIS-256 and AEGIS-128X2, including wrong-password rejection.
 - Encrypted entry list/extract paths authenticate the supplied or password-derived key, verify the v2 index MAC where applicable, decrypt chunks into app-private staging, and then invoke the existing TAR parser/extractor. Key-check success is not a substitute for chunk-protocol interoperability tests.
+- The reference-shaped `SbaBareTarNative.extractAegisArchiveEntry` and `extractAegisArchiveEntryFused` facades now validate the supplied offsets/sizes/order/header parameters and route through that same authenticated staging path. The “fused” facade is functionally compatible but currently uses staging rather than a single-pass fused native extractor.
 - Synthetic encrypted-index parsing coverage was added; it is parser regression coverage, not a reference-generated encrypted archive fixture.
 
 
