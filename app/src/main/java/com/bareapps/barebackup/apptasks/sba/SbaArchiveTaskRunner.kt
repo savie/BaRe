@@ -33,6 +33,7 @@ data class SbaExtractTaskRequest(
     val destination: String,
     val flags: Int = 0x1ff,
     val includes: List<String> = emptyList(),
+    val password: CharArray? = null,
 )
 
 data class SbaTarExtractTaskRequest(
@@ -121,24 +122,40 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
         val info = SbaArchiveNative.readArchiveInfo(request.archivePath)
-        val targetEntries = if (request.entryName.isNullOrBlank()) info.entries else {
-            listOf(info.entries.firstOrNull { it.name == request.entryName }
-                ?: throw IOException("SBA entry not found: " + request.entryName))
+        if (info.isEncrypted && request.password.isNullOrEmpty()) {
+            throw IOException("Password is required for encrypted SBA restore")
         }
-        val allEntries = targetEntries.flatMap { archiveEntry ->
-            SbaArchiveNative.listEntryTarEntries(request.archivePath, archiveEntry.name).toList()
+        if (!info.isEncrypted && !request.password.isNullOrEmpty()) {
+            throw IOException("Password supplied for an unencrypted SBA archive")
         }
-        val extracted = ArrayList<String>()
-        targetEntries.forEach { archiveEntry ->
-            extracted.addAll(SbaArchiveNative.extractEntry(
-                request.archivePath,
-                archiveEntry.name,
-                request.destination,
-                request.flags,
-                request.includes.toTypedArray(),
-                progress,
-            ))
-        }
+        try {
+            val targetEntries = if (request.entryName.isNullOrBlank()) info.entries else {
+                listOf(info.entries.firstOrNull { it.name == request.entryName }
+                    ?: throw IOException("SBA entry not found: " + request.entryName))
+            }
+            val allEntries = targetEntries.flatMap { archiveEntry ->
+                (if (info.isEncrypted) {
+                    SbaArchiveNative.listEncryptedEntryTarEntries(
+                        request.archivePath, archiveEntry.name, request.password!!, progress,
+                    )
+                } else {
+                    SbaArchiveNative.listEntryTarEntries(request.archivePath, archiveEntry.name)
+                }).toList()
+            }
+            val extracted = ArrayList<String>()
+            targetEntries.forEach { archiveEntry ->
+                extracted.addAll(if (info.isEncrypted) {
+                    SbaArchiveNative.extractEncryptedEntry(
+                        request.archivePath, archiveEntry.name, request.password!!,
+                        request.destination, request.flags, request.includes.toTypedArray(), progress,
+                    )
+                } else {
+                    SbaArchiveNative.extractEntry(
+                        request.archivePath, archiveEntry.name, request.destination,
+                        request.flags, request.includes.toTypedArray(), progress,
+                    )
+                })
+            }
         val root = Path.of(request.destination).toAbsolutePath().normalize()
         val extractedNameCounts = extracted.groupingBy { it }.eachCount().toMutableMap()
         val extractedEntries = allEntries.filter { entry ->
@@ -182,7 +199,10 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             otherEntryCount = otherEntries,
             skippedEntryCount = (allEntries.size - extractedEntries.size).coerceAtLeast(0).toLong(),
             regularFileBytes = bytes,
-        )
+            )
+        } finally {
+            request.password?.fill('\\u0000')
+        }
     }
 
     override fun extractTar(request: SbaTarExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
