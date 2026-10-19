@@ -1009,7 +1009,10 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         struct timespec directoryTimes[2]{};
         directoryTimes[0].tv_nsec = UTIME_OMIT;
         directoryTimes[1].tv_sec = it->mtime;
-        const int metadataResult = fchmod(dirFd, it->mode) == 0
+        // Archive-provided directory modes must never restore setuid,
+        // setgid, or sticky bits in the extraction destination.
+        const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & 0777);
+        const int metadataResult = fchmod(dirFd, safeDirectoryMode) == 0
             ? futimens(dirFd, directoryTimes) : -1;
         close(dirFd);
         if (metadataResult != 0) {
