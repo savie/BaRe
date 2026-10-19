@@ -52,8 +52,8 @@ internal object SbaArchiveReader {
         val keyCheckLength = h.short.toInt() and 0xffff
         val saltLength = h.short.toInt() and 0xffff
         val nonceSeedLength = h.short.toInt() and 0xffff
-        val macMethod = h.short.toInt() and 0xffff
-        val macLength = h.short.toInt() and 0xffff
+        val macMethod = 0
+        val macLength = 0
         val cryptoBytes = ByteArray(48).also { h.get(it) }
         val trailingMacMethod = h.short.toInt() and 0xffff
         val trailingMacLength = h.short.toInt() and 0xffff
