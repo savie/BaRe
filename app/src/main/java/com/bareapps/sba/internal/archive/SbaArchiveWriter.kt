@@ -28,6 +28,8 @@ internal object SbaArchiveWriter {
     private const val INDEX_RECORD_SIZE_V1 = 84
     private const val FOOTER_SIZE = 32
     private const val MAX_METADATA = 1 shl 20
+    private const val MAX_ENTRIES = 1_000_000
+    private const val MAX_INDEX_BYTES = 256 shl 20
     private const val TAR_BLOCK = 512
 
     private data class EntryRecord(
@@ -53,7 +55,8 @@ internal object SbaArchiveWriter {
             sourcePaths.size == includePaths.size && sourcePaths.size == excludePaths.size) {
             "SBA entry arrays must have identical lengths"
         }
-        require(sourcePaths.isNotEmpty()) { "SBA archive must contain at least one entry" }
+        require(sourcePaths.isNotEmpty() && sourcePaths.size <= MAX_ENTRIES) { "Invalid SBA entry count" }
+        require(outputPath.isNotBlank() && sourcePaths.all { it.isNotBlank() }) { "SBA paths must not be blank" }
         require(option0 in 0..1) { "Unsupported SBA compression method: $option0" }
         require(if (option0 == 0) option1 == 0 else option1 in 1..22) { "Invalid SBA Zstandard compression level" }
         require(listOf(option2, option3, option4, option5, option6, option7, option8, option9).all { it == 0 }) {
@@ -63,7 +66,10 @@ internal object SbaArchiveWriter {
             "Key material must be absent for unencrypted SBA creation"
         }
         require(entryNames.toSet().size == entryNames.size) { "Duplicate SBA entry name" }
-        entryNames.forEach(::validateEntryName)
+        entryNames.forEach {
+            validateEntryName(it)
+            require(it.toByteArray(StandardCharsets.UTF_8).size <= 65535) { "SBA entry name is too long" }
+        }
 
         val output = Path.of(outputPath).toAbsolutePath().normalize()
         val parent = output.parent ?: throw IOException("SBA output path must have a parent")
@@ -181,7 +187,7 @@ internal object SbaArchiveWriter {
 
     private fun indexBytes(metadata: ByteArray, records: List<EntryRecord>): ByteArray {
         val size = INDEX_HEADER_SIZE.toLong() + metadata.size + records.sumOf { INDEX_RECORD_SIZE_V1.toLong() + it.name.size }
-        require(size <= Int.MAX_VALUE) { "SBA index is too large" }
+        require(size <= MAX_INDEX_BYTES && size <= Int.MAX_VALUE) { "SBA index is too large" }
         val b = ByteBuffer.allocate(size.toInt()).order(ByteOrder.BIG_ENDIAN)
         b.put("SAI1".toByteArray(StandardCharsets.US_ASCII))
         b.putShort(INDEX_HEADER_SIZE.toShort()); b.putShort(1); b.putInt(records.size); b.putInt(metadata.size)
