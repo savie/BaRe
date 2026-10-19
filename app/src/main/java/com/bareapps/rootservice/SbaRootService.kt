@@ -152,57 +152,69 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun createSba(request: SbaCreateRequest, callback: ISbaOperationCallback?): Long {
-        if (request.mode !in 1..2) {
-            request.password?.fill('\u0000')
-            throw RemoteException("Unknown SBA archive mode")
-        }
-        if (request.encryptionMethod !in 0..5) {
-            request.password?.fill('\u0000')
-            throw RemoteException("Unknown SBA encryption method")
-        }
-        if (request.mode != 1 || request.encryptionMethod != 0 || request.password?.isNotEmpty() == true) {
-            request.password?.fill('\u0000')
-            throw RemoteException("Encrypted SBA creation requires the unfinished AEGIS/key schedule")
-        }
-        request.password?.fill('\u0000')
-        if (request.entries.isEmpty()) throw RemoteException("SBA creation requires at least one entry")
-        val sourcePaths = ArrayList<String>(request.entries.size)
-        val entryNames = ArrayList<String>(request.entries.size)
-        val entryModes = IntArray(request.entries.size)
-        val includes = ArrayList<List<String>?>(request.entries.size)
-        val excludes = ArrayList<List<String>?>(request.entries.size)
-        request.entries.forEachIndexed { index, entry ->
-            if (entry.sourcePath.isBlank() || !Path.of(entry.sourcePath).isAbsolute) {
-                throw RemoteException("SBA source path must be absolute")
+        val passwordCopy = request.password?.copyOf()
+        var handedOff = false
+        try {
+            if (request.mode !in 1..2) throw RemoteException("Unknown SBA archive mode")
+            if (request.mode == 1) {
+                if (request.encryptionMethod != 0 || (passwordCopy != null && passwordCopy.isNotEmpty())) {
+                    throw RemoteException("Unencrypted SBA creation must not specify encryption or a password")
+                }
+            } else {
+                if (request.encryptionMethod !in 4..5) {
+                    throw RemoteException("Encrypted SBA creation currently supports AEGIS-256 and AEGIS-128X2 only")
+                }
+                if (passwordCopy == null || passwordCopy.isEmpty()) {
+                    throw RemoteException("Password is required for encrypted SBA creation")
+                }
             }
-            if (!entry.fallbackSourcePath.isNullOrBlank() && !Path.of(entry.fallbackSourcePath).isAbsolute) {
-                throw RemoteException("SBA fallback source path must be absolute")
+            if (request.entries.isEmpty()) throw RemoteException("SBA creation requires at least one entry")
+            val sourcePaths = ArrayList<String>(request.entries.size)
+            val entryNames = ArrayList<String>(request.entries.size)
+            val entryModes = IntArray(request.entries.size)
+            val includes = ArrayList<List<String>?>(request.entries.size)
+            val excludes = ArrayList<List<String>?>(request.entries.size)
+            request.entries.forEachIndexed { index, entry ->
+                if (entry.sourcePath.isBlank() || !Path.of(entry.sourcePath).isAbsolute) {
+                    throw RemoteException("SBA source path must be absolute")
+                }
+                if (!entry.fallbackSourcePath.isNullOrBlank() && !Path.of(entry.fallbackSourcePath).isAbsolute) {
+                    throw RemoteException("SBA fallback source path must be absolute")
+                }
+                val source = Path.of(entry.sourcePath)
+                val fallback = entry.fallbackSourcePath?.takeIf { it.isNotBlank() }?.let { Path.of(it) }
+                val selected = if (!Files.exists(source) && fallback != null && Files.exists(fallback)) fallback else source
+                sourcePaths.add(selected.toAbsolutePath().normalize().toString())
+                entryNames.add(entry.name)
+                var flags = if (entry.includeRootDirectory) 8 else 0
+                if (!entry.includePaths.isNullOrEmpty()) flags = flags or 1
+                if (!entry.excludePaths.isNullOrEmpty()) flags = flags or 4
+                if (request.allowMissingSource) flags = flags or 16
+                entryModes[index] = flags
+                includes.add(entry.includePaths)
+                excludes.add(entry.excludePaths)
             }
-            val source = Path.of(entry.sourcePath)
-            val fallback = entry.fallbackSourcePath?.takeIf { it.isNotBlank() }?.let { Path.of(it) }
-            val selected = if (!Files.exists(source) && fallback != null && Files.exists(fallback)) fallback else source
-            sourcePaths.add(selected.toAbsolutePath().normalize().toString())
-            entryNames.add(entry.name)
-            var flags = if (entry.includeRootDirectory) 8 else 0
-            if (!entry.includePaths.isNullOrEmpty()) flags = flags or 1
-            if (!entry.excludePaths.isNullOrEmpty()) flags = flags or 4
-            if (request.allowMissingSource) flags = flags or 16
-            entryModes[index] = flags
-            includes.add(entry.includePaths)
-            excludes.add(entry.excludePaths)
+            val taskRequest = SbaCreateTaskRequest(
+                outputPath = request.outputPath,
+                metadata = (request.metadataJson ?: "{}").toByteArray(StandardCharsets.UTF_8),
+                sourcePaths = sourcePaths,
+                entryNames = entryNames,
+                entryModes = entryModes,
+                includePaths = includes,
+                excludePaths = excludes,
+                compressionMethod = request.compressionMethod,
+                compressionLevel = request.compressionLevel,
+                mode = request.mode,
+                encryptionMethod = request.encryptionMethod,
+                password = passwordCopy,
+            )
+            val operationId = taskRunner.submitCreate(taskRequest, callbackFor(callback, request.progressIntervalMs))
+            handedOff = true
+            return operationId
+        } finally {
+            request.password?.fill('\u0000')
+            if (!handedOff) passwordCopy?.fill('\u0000')
         }
-        val taskRequest = SbaCreateTaskRequest(
-            outputPath = request.outputPath,
-            metadata = (request.metadataJson ?: "{}").toByteArray(StandardCharsets.UTF_8),
-            sourcePaths = sourcePaths,
-            entryNames = entryNames,
-            entryModes = entryModes,
-            includePaths = includes,
-            excludePaths = excludes,
-            compressionMethod = request.compressionMethod,
-            compressionLevel = request.compressionLevel,
-        )
-        return taskRunner.submitCreate(taskRequest, callbackFor(callback, request.progressIntervalMs))
     }
 
     override fun extractSba(request: SbaExtractRequest, callback: ISbaOperationCallback?): Long {
