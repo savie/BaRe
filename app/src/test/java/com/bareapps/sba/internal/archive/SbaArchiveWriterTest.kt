@@ -79,6 +79,25 @@ class SbaArchiveWriterTest {
     }
 
     @Test
+    fun acceptsWhitespaceOnlyEntryNamesAsTheReferenceDoes() {
+        val root = Files.createTempDirectory("sba-whitespace-name")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload"), byteArrayOf(1))
+            val destination = root.resolve("whitespace.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("   "), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            assertEquals(listOf("   "), SbaArchiveReader.read(destination.toString()).entries.map { it.name })
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
     fun appliesIncludeExcludeFlagsAndKeepsParentDirectories() {
         val root = Files.createTempDirectory("sba-filter-test")
         try {
