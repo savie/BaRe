@@ -32,6 +32,8 @@ bool gAegisSelfTestPassed = false;
 std::once_flag gProtocolSelfTestOnce;
 bool gProtocolSelfTestPassed = false;
 
+std::vector<uint8_t> decodeHex(const char* hex);
+
 bool primitiveSelfTest() {
     const std::array<uint8_t, 7> message{{0x42, 0x41, 0x52, 0x45, 0x2d, 0x53, 0x42}};
     const std::array<uint8_t, 5> associated{{0x53, 0x42, 0x41, 0x31, 0x01}};
@@ -66,6 +68,29 @@ bool primitiveSelfTest() {
         if (aegis128x2_decrypt_detached(recovered.data(), cipher.data(), cipher.size(),
                 tag.data(), tag.size(), associated.data(), associated.size(),
                 nonce.data(), key.data()) == 0) return false;
+    }
+    // Upstream libaegis AEGIS-128X2 known-answer vector (pinned source test).
+    {
+        std::array<uint8_t, 16> key{};
+        std::array<uint8_t, 16> nonce{};
+        std::array<uint8_t, 8> ad{{1, 2, 3, 4, 1, 2, 3, 4}};
+        std::array<uint8_t, 120> message{}, cipher{};
+        std::array<uint8_t, 16> tag{};
+        for (size_t i = 0; i < key.size(); ++i) key[i] = static_cast<uint8_t>(i);
+        for (size_t i = 0; i < nonce.size(); ++i) nonce[i] = static_cast<uint8_t>(i + 16);
+        for (size_t i = 0; i < message.size(); ++i) {
+            message[i] = static_cast<uint8_t>(4 + (i % 4));
+        }
+        if (aegis128x2_encrypt_detached(cipher.data(), tag.data(), tag.size(),
+                message.data(), message.size(), ad.data(), ad.size(),
+                nonce.data(), key.data()) != 0) return false;
+        if (std::vector<uint8_t>(cipher.begin(), cipher.end()) != decodeHex(
+                "5795544301997f93621b278809d6331b3bfa6f18e90db12c4aa35965b5e98c5f"
+                "c6fb4e54bcb6111842c20637252eff747cb3a8f85b37de80919a589fe0f24872"
+                "bc926360696739e05520647e390989e1eb5fd42f99678a0276a498f8c454761c"
+                "9d6aacb647ad56be62b29c22cd4b5761b38f43d5a5ee062f") ||
+            std::vector<uint8_t>(tag.begin(), tag.end()) !=
+                decodeHex("1aebc200804f405cab637f2adebb6d77")) return false;
     }
     return true;
 }
