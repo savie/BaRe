@@ -102,8 +102,8 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
-| TAR listing | Target native parser constructs entry objects and now consumes GNU long-name (L) and long-link (K) metadata records | Partial | PAX/global-PAX, GNU sparse, xattrs, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
-| TAR extraction | Target native extractor now applies GNU long path (L) metadata to following entries; secure path handling and physical offset checks exist | Partial | GNU long-link materialization, PAX/global-PAX, sparse files, xattrs, exact links/filters/cancellation/errors/stats remain unimplemented/unverified |
+| TAR listing | Target parser handles GNU L/K records plus bounded POSIX PAX local/global records for path, linkpath and fractional mtime | Partial | PAX size override, GNU sparse, xattrs, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
+| TAR extraction | Target extractor applies GNU L paths and POSIX PAX local/global path and mtime metadata; secure path handling and physical offset checks exist | Partial | PAX size override, GNU sparse, xattrs, exact link materialization/filters/cancellation/errors/stats remain unimplemented/unverified |
 | TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
 | Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
 | Zstandard byte decompression | SbaZstdNative.decompressZstdBytes now decodes through ZstdInputStream | Implemented path; parity unverified | Compare multi-frame/trailing-frame/error semantics with reference |
@@ -175,3 +175,13 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - Long metadata payloads are capped at 16 MiB, require a non-empty NUL/newline-trimmed value, and use positional reads. Offset overflow is rejected.
 - Commits: 9b61fd65270797e9794332badb4cf26bba1b826e (GNU long records), cb4ca708550a0d137dd4761eb14df618ef163c42 (offset guard).
 - No Android/NDK build or runtime tests have been run. This increment is source-level only and does not change the overall “not ready for CI as a completed port” status.
+
+
+## POSIX PAX implementation checkpoint — 2026-10-19
+
+- Added length-prefixed PAX record validation with overflow checks and a 16 MiB per-header payload cap.
+- TAR listing and extraction now consume local (`x`) and global (`g`) PAX headers; `path`, `linkpath`, and decimal/fractional `mtime` are applied to following entries. Empty local attributes mask inherited global attributes; empty global attributes remove them.
+- File extraction preserves millisecond precision from PAX `mtime`. Directory metadata currently stores whole seconds only.
+- PAX `size` overrides, GNU sparse maps, xattrs and exact reference semantics remain open. This is partial parity, not GO.
+- Commits: abcfedf85562a01bdb926a21b1475cd1efae0b59 (bounded parser), e13db3ab11b7917fd06c87c644addef6c8b34c3c and 423cc361b14e668c404588a904b743c84cb83f59 (scope/correctness fixes), 6e267ad23ac66aabd36efd7edbe87d86f875daa3 (fractional file timestamps).
+- No Android/NDK build or runtime tests have been run; source correctness is not yet verified by CI.
