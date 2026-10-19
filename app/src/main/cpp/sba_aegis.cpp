@@ -36,7 +36,7 @@ bool primitiveSelfTest() {
     {
         std::array<uint8_t, 32> key{};
         std::array<uint8_t, 32> nonce{};
-        std::array<uint8_t, message.size()> cipher{}, recovered{};
+        std::array<uint8_t, 7> cipher{}, recovered{};
         std::array<uint8_t, kTagBytes> tag{};
         if (aegis256_encrypt_detached(cipher.data(), tag.data(), tag.size(),
                 message.data(), message.size(), associated.data(), associated.size(),
