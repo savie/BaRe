@@ -22,7 +22,8 @@ class SbaNativeCrypto private constructor() {
         require(memoryKiB >= 8 * parallelism && parallelism > 0) {
             "memoryKiB must be at least 8 KiB per lane and parallelism must be positive"
         }
-        require(outputLength > 0) { "outputLength must be positive" }
+        // The reference native implementation rejects output sizes outside 16..128 bytes.
+        require(outputLength in 16..128) { "Argon2id outputBytes must be in 16..128" }
         require(salt.size >= 8) { "Argon2 salt must be at least 8 bytes" }
 
         val parameters = Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
