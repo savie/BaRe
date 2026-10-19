@@ -23,4 +23,6 @@ data class SbaArchiveInfo(
     val fileSize: Long,
     val indexOffset: Long,
     val indexSize: Long,
+    val indexCrc32: Int = 0,
+    val footerCrc32: Int = 0,
 )
