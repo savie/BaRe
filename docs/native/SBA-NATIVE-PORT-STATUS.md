@@ -245,3 +245,18 @@ Limits:
 - The ustar writer remains a generic TAR writer and is not wired to `SbaArchiveNative.createArchive`.
 - Reference ELF strings confirm versioned AEGIS protocol labels (`SBA1-AEGIS256-entry-chunk-nonce-v1`, `SBA1-AEGIS256-entry-chunk-aad-v1`, `SBA1-AEGIS128X2-entry-chunk-nonce-v1`, and `SBA1-AEGIS128X2-entry-chunk-aad-v1`), plus error paths for chunk sizes and archive framing. These labels are useful evidence but do not alone define the nonce derivation, AAD bytes, chunk framing, key/nonce lengths, or tag placement; AEGIS remains unimplemented until those details are recovered and tested against fixtures.
 - CI has not been run for these commits. Overall status remains NOT GO.
+
+
+## Work entry — reject ambiguous ustar paths (2026-10-19)
+
+Commits:
+- `aad862e5868676a72563bc28a2783aeb86015b7b` — reject duplicate entry names before creating the temporary archive.
+- `3f10904d74bb446533b3177f8153aa86f47a8a63` — reject embedded NUL characters in entry paths.
+- `ef5f2c77a7d41fee7811064b369d94a023c5b606` — add regression coverage for NUL-containing paths, duplicate entry names, and preservation of an existing destination.
+
+Validation performed after these changes:
+- Recompiled the writer with the installed Kotlin compiler and reran the standalone harness.
+- Confirmed NUL-containing paths and duplicate entry names are rejected and the existing destination bytes remain unchanged.
+- Rechecked interoperability using the system `tar` utility; it listed the archive and extracted payload bytes `1, 2, 3`.
+
+This remains generic ustar hardening only. It does not complete SBA container framing, AEGIS, Argon2id JNI compatibility, or end-to-end backup/restore, and does not change the overall NOT GO status.
