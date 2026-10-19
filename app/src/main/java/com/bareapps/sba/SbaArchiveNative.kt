@@ -74,19 +74,47 @@ class SbaArchiveNative private constructor() {
 
         @JvmStatic
         @Throws(IOException::class)
+        fun deriveVerifiedArchiveKey(path: String, password: CharArray): ByteArray {
+            val info = SbaArchiveReader.read(path)
+            if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
+                throw IOException("Archive does not use a supported SBA AEGIS encryption method")
+            }
+            return SbaArchiveKeyCheck.deriveVerifiedKey(info, password, path)
+                ?: throw IOException("Incorrect SBA password")
+        }
+
+        @JvmStatic
+        @Throws(IOException::class)
         fun listEncryptedEntryTarEntries(
             path: String,
             entryName: String,
             password: CharArray,
             progress: SbaNativeProgressListener? = null,
-        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(path, entryName, password, progress) { info, entry, descriptor ->
-            if (info.compressionMethod == 1) {
-                SbaBareTarNative.instance.listTarEntriesZstdFromDescriptorBounded(
-                    descriptor, 0L, entry.compressedSize, entry.tarSize,
-                )
-            } else {
-                SbaBareTarNative.instance.listTarEntriesFromDescriptor(descriptor, 0L)
-            }
+        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(path, entryName, password, null, progress) { info, entry, descriptor ->
+            listDecryptedTarEntries(info, entry, descriptor)
+        }
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listEncryptedEntryTarEntriesWithKey(
+            path: String,
+            entryName: String,
+            key: ByteArray,
+            progress: SbaNativeProgressListener? = null,
+        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(path, entryName, null, key, progress) { info, entry, descriptor ->
+            listDecryptedTarEntries(info, entry, descriptor)
+        }
+
+        private fun listDecryptedTarEntries(
+            info: SbaArchiveInfo,
+            entry: com.bareapps.sba.internal.archive.SbaArchiveEntry,
+            descriptor: java.io.FileDescriptor,
+        ): Array<SbaTarEntryInfo> = if (info.compressionMethod == 1) {
+            SbaBareTarNative.instance.listTarEntriesZstdFromDescriptorBounded(
+                descriptor, 0L, entry.compressedSize, entry.tarSize,
+            )
+        } else {
+            SbaBareTarNative.instance.listTarEntriesFromDescriptor(descriptor, 0L)
         }
 
         @JvmStatic
@@ -99,23 +127,48 @@ class SbaArchiveNative private constructor() {
             flags: Int,
             includes: Array<String>,
             progress: SbaNativeProgressListener?,
-        ): Array<String> = withDecryptedEntryPayload(path, entryName, password, progress) { info, entry, descriptor ->
-            if (info.compressionMethod == 1) {
-                SbaBareTarNative.instance.extractTarZstdFromDescriptorBounded(
-                    descriptor, 0L, entry.compressedSize, entry.tarSize,
-                    destination, flags, includes, progress,
-                )
-            } else {
-                SbaBareTarNative.instance.extractTarFromDescriptor(
-                    descriptor, 0L, destination, flags, includes, progress,
-                )
-            }
+        ): Array<String> = withDecryptedEntryPayload(path, entryName, password, null, progress) { info, entry, descriptor ->
+            extractDecryptedTar(info, entry, descriptor, destination, flags, includes, progress)
+        }
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractEncryptedEntryWithKey(
+            path: String,
+            entryName: String,
+            key: ByteArray,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = withDecryptedEntryPayload(path, entryName, null, key, progress) { info, entry, descriptor ->
+            extractDecryptedTar(info, entry, descriptor, destination, flags, includes, progress)
+        }
+
+        private fun extractDecryptedTar(
+            info: SbaArchiveInfo,
+            entry: com.bareapps.sba.internal.archive.SbaArchiveEntry,
+            descriptor: java.io.FileDescriptor,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = if (info.compressionMethod == 1) {
+            SbaBareTarNative.instance.extractTarZstdFromDescriptorBounded(
+                descriptor, 0L, entry.compressedSize, entry.tarSize,
+                destination, flags, includes, progress,
+            )
+        } else {
+            SbaBareTarNative.instance.extractTarFromDescriptor(
+                descriptor, 0L, destination, flags, includes, progress,
+            )
         }
 
         private fun <T> withDecryptedEntryPayload(
             path: String,
             entryName: String,
-            password: CharArray,
+            password: CharArray?,
+            providedKey: ByteArray?,
             progress: SbaNativeProgressListener?,
             block: (SbaArchiveInfo, com.bareapps.sba.internal.archive.SbaArchiveEntry, java.io.FileDescriptor) -> T,
         ): T {
@@ -126,10 +179,14 @@ class SbaArchiveNative private constructor() {
             val entryIndex = info.entries.indexOfFirst { it.name == entryName }
             if (entryIndex < 0) throw IOException("SBA entry not found: $entryName")
             val entry = info.entries[entryIndex]
-            val key = SbaArchiveKeyCheck.deriveVerifiedKey(info, password, path)
-                ?: throw IOException("Incorrect SBA password")
+            val ownsKey = providedKey == null
+            val key = providedKey ?: SbaArchiveKeyCheck.deriveVerifiedKey(
+                info, password ?: throw IOException("Password is required for encrypted SBA access"), path,
+            ) ?: throw IOException("Incorrect SBA password")
             var temporary: java.nio.file.Path? = null
             try {
+                val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
+                if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
                 temporary = Files.createTempFile("bare-sba-aegis-", ".payload")
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
@@ -158,7 +215,7 @@ class SbaArchiveNative private constructor() {
                     return block(info, entry, payload.fd)
                 }
             } finally {
-                java.util.Arrays.fill(key, 0)
+                if (ownsKey) java.util.Arrays.fill(key, 0)
                 temporary?.let { Files.deleteIfExists(it) }
             }
         }
@@ -167,7 +224,7 @@ class SbaArchiveNative private constructor() {
         @Throws(IOException::class)
         fun listEntryTarEntries(path: String, entryName: String): Array<SbaTarEntryInfo> {
             val info = SbaArchiveReader.read(path)
-            if (info.isEncrypted) throw IOException("Encrypted SBA payload decoding is not implemented yet")
+            if (info.isEncrypted) throw IOException("Encrypted SBA listing requires a password")
             val entry = info.entries.firstOrNull { it.name == entryName }
                 ?: throw IOException("SBA entry not found: $entryName")
             FileInputStream(path).use { archive ->
@@ -192,7 +249,7 @@ class SbaArchiveNative private constructor() {
             progress: SbaNativeProgressListener?,
         ): Array<String> {
             val info = SbaArchiveReader.read(path)
-            if (info.isEncrypted) throw IOException("Encrypted SBA payload decoding is not implemented yet")
+            if (info.isEncrypted) throw IOException("Encrypted SBA extraction requires a password")
             val entry = info.entries.firstOrNull { it.name == entryName }
                 ?: throw IOException("SBA entry not found: $entryName")
             FileInputStream(path).use { archive ->
