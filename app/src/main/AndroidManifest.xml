@@ -215,7 +215,6 @@
             </intent-filter>
         </receiver>
         <service android:exported="false" android:foregroundServiceType="dataSync" android:name="com.bareapps.barebackup.tasks.TaskService"/>
-        <service android:exported="false" android:name="com.bareapps.rootservice.SbaRootAndroidService" android:process=":sba_user_service"/>
         <service android:exported="false" android:foregroundServiceType="dataSync" android:name="com.bareapps.barebackup.home.schedule.ScheduleService"/>
         <receiver android:name="com.bareapps.barebackup.tasks.NotificationTaskCancelReceiver"/>
         <receiver android:exported="false" android:name="com.bareapps.barebackup.common.PackageInstallResultReceiver"/>
