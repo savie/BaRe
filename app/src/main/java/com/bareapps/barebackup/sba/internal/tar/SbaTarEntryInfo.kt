@@ -3,8 +3,9 @@ package com.bareapps.barebackup.sba.internal.tar
 import java.util.Arrays
 
 /**
- * JNI-constructed TAR entry. Constructor descriptor and value semantics follow
- * SwiftBackup 5.1.0 (620) SbaTarEntryInfo. Unknown entry types remain TYPE_OTHER.
+ * Native-facing TAR entry value model ported from SwiftBackup 5.1.0 (620).
+ * Keep the constructor descriptor stable for JNI:
+ * (String, int, String, int, long, long, long, boolean, String[]).
  */
 class SbaTarEntryInfo(
     val name: String,
@@ -17,11 +18,20 @@ class SbaTarEntryInfo(
     val sparse: Boolean,
     xattrNames: Array<String>,
 ) {
-    // The reference copies the incoming array and returns a copy from its getter.
     private val xattrs: Array<String> = xattrNames.copyOf()
 
-    fun getXattrNames(): Array<String> = xattrs.copyOf()
+    fun getEntryType(): SbaTarEntryType = when (type) {
+        TYPE_FILE -> SbaTarEntryType.File
+        TYPE_DIRECTORY -> SbaTarEntryType.Directory
+        TYPE_SYMLINK -> SbaTarEntryType.SymbolicLink
+        TYPE_HARDLINK -> SbaTarEntryType.Hardlink
+        TYPE_FIFO -> SbaTarEntryType.Fifo
+        TYPE_CHARACTER -> SbaTarEntryType.CharacterDevice
+        TYPE_BLOCK -> SbaTarEntryType.BlockDevice
+        else -> SbaTarEntryType.Other
+    }
 
+    fun getXattrNames(): Array<String> = xattrs.copyOf()
     fun isDirectory(): Boolean = type == TYPE_DIRECTORY
     fun isFile(): Boolean = type == TYPE_FILE
     fun isHardlink(): Boolean = type == TYPE_HARDLINK
@@ -54,9 +64,9 @@ class SbaTarEntryInfo(
     }
 
     override fun toString(): String =
-        "SbaTarEntryInfo(name=$name, type=$type, linkName=$linkName, mode=$mode, " +
-            "size=$size, realSize=$realSize, mtimeMs=$mtimeMs, sparse=$sparse, " +
-            "xattrNames=${Arrays.toString(xattrs)})"
+        "SbaTarEntryInfo(name=$name, type=$type, entryType=${getEntryType()}, " +
+            "linkName=$linkName, mode=$mode, size=$size, realSize=$realSize, " +
+            "mtimeMs=$mtimeMs, sparse=$sparse, xattrNames=${Arrays.toString(xattrs)})"
 
     companion object {
         const val TYPE_FILE = 1
