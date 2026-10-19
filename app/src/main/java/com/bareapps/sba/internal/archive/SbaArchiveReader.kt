@@ -16,7 +16,8 @@ internal object SbaArchiveReader {
     private const val HEADER_SIZE = 96
     private const val ENTRY_HEADER_SIZE = 24
     private const val INDEX_HEADER_SIZE = 16
-    private const val INDEX_RECORD_SIZE = 84
+    private const val INDEX_RECORD_SIZE_V1 = 84
+    private const val INDEX_RECORD_SIZE_V2 = 108
     private const val FOOTER_SIZE = 32
     private const val MAX_METADATA = 1 shl 20
     private const val MAX_INDEX_BYTES = 256 shl 20
@@ -36,7 +37,9 @@ internal object SbaArchiveReader {
         expectMagic(h, "SBA1", "file header")
         val version = h.short.toInt() and 0xffff
         val headerSize = h.short.toInt() and 0xffff
-        if (version != 1 || headerSize != HEADER_SIZE) throw IOException("Unsupported SBA header version/size")
+        if (version !in 1..2 || headerSize != if (version == 1) HEADER_SIZE else 144) {
+            throw IOException("Unsupported SBA header version/size")
+        }
         val flags = h.int
         if (flags and -4 != 0) throw IOException("Unsupported SBA archive flags")
         val createdAt = h.long
@@ -55,7 +58,21 @@ internal object SbaArchiveReader {
         val trailingMacMethod = h.short.toInt() and 0xffff
         val trailingMacLength = h.short.toInt() and 0xffff
         val chunkSize = h.int
-        val reserved = ByteArray(4).also { h.get(it) }
+        val extensionInt: Int
+        val extensionShorts: IntArray
+        val extensionBytes: ByteArray
+        val reserved: ByteArray
+        if (version == 1) {
+            extensionInt = 0
+            extensionShorts = IntArray(0)
+            extensionBytes = ByteArray(0)
+            reserved = ByteArray(4).also { h.get(it) }
+        } else {
+            extensionInt = h.int
+            extensionShorts = IntArray(4) { h.short.toInt() and 0xffff }
+            extensionBytes = ByteArray(32).also { h.get(it) }
+            reserved = ByteArray(8).also { h.get(it) }
+        }
         if (flags != (if (compressionMethod == 1) 1 else 0) || compressionMethod !in 0..1 ||
             (compressionMethod == 0 && compressionLevel != 0) ||
             (compressionMethod == 1 && compressionLevel !in 1..22) ||
@@ -66,7 +83,9 @@ internal object SbaArchiveReader {
             keyCheckLength != 0 || saltLength != 0 || nonceSeedLength != 0 ||
             macMethod != 0 || macLength != 0 || trailingMacMethod != 0 ||
             trailingMacLength != 0 || chunkSize != 0 ||
-            cryptoBytes.any { it.toInt() != 0 } || reserved.any { it.toInt() != 0 }) {
+            cryptoBytes.any { it.toInt() != 0 } || extensionInt != 0 ||
+            extensionShorts.any { it != 0 } || extensionBytes.any { it.toInt() != 0 } ||
+            reserved.any { it.toInt() != 0 }) {
             throw IOException("Encrypted SBA v1 archives are not supported by this reader")
         }
 
@@ -102,14 +121,15 @@ internal object SbaArchiveReader {
         if (entryCount < 0 || entryCount > MAX_ENTRIES ||
             metadataLength < 0 || metadataLength > MAX_METADATA ||
             metadataLength > b.remaining()) throw IOException("Invalid SBA index counts")
-        val minimumRecords = entryCount.toLong() * INDEX_RECORD_SIZE
+        val recordSize = if (version == 1) INDEX_RECORD_SIZE_V1 else INDEX_RECORD_SIZE_V2
+        val minimumRecords = entryCount.toLong() * recordSize
         if (minimumRecords > b.remaining().toLong() - metadataLength) throw IOException("SBA index records exceed bounds")
         val metadata = ByteArray(metadataLength).also { b.get(it) }
         val entries = ArrayList<SbaArchiveEntry>(entryCount)
         val names = HashSet<String>()
-        var expectedEntryOffset = HEADER_SIZE.toLong()
+        var expectedEntryOffset = headerSize.toLong()
         repeat(entryCount) {
-            if (b.remaining() < INDEX_RECORD_SIZE) throw EOFException("Truncated SBA index record")
+            if (b.remaining() < recordSize) throw EOFException("Truncated SBA index record")
             val entryOffset = b.long
             val payloadOffset = b.long
             val storedSize = b.long
@@ -120,11 +140,17 @@ internal object SbaArchiveReader {
             val entryMetadataLength = b.int
             val reservedField = b.short.toInt() and 0xffff
             val hmac = ByteArray(32).also { b.get(it) }
+            val tarEntryCount = if (version >= 2) b.long else null
+            val regularFileCount = if (version >= 2) b.long else null
+            val directoryCount = if (version >= 2) b.long else null
             if (nameLength == 0 || entryMetadataLength != 0 || reservedField != 0 ||
-                hmac.any { it.toInt() != 0 } || b.remaining() < nameLength) {
+                hmac.any { it.toInt() != 0 } || b.remaining() < nameLength ||
+                (tarEntryCount != null && (tarEntryCount < 0 || regularFileCount == null || regularFileCount < 0 ||
+                    directoryCount == null || directoryCount < 0 || regularFileCount > tarEntryCount ||
+                    directoryCount > tarEntryCount || regularFileCount > tarEntryCount - directoryCount))) {
                 throw IOException("Invalid SBA index record fields")
             }
-            if (entryOffset != expectedEntryOffset || entryOffset < HEADER_SIZE ||
+            if (entryOffset != expectedEntryOffset || entryOffset < headerSize ||
                 storedSize < 0 || compressedSize < 0 || tarSize < TAR_BLOCK * 2 ||
                 tarSize % TAR_BLOCK != 0L || storedSize != compressedSize ||
                 (compressionMethod == 0 && (storedSize != tarSize || compressedSize != tarSize)) ||
@@ -153,7 +179,8 @@ internal object SbaArchiveReader {
             val actualName = ByteArray(nameLength)
             file.readFully(actualName)
             if (!actualName.contentEquals(nameBytes)) throw IOException("SBA entry header/index name mismatch")
-            entries.add(SbaArchiveEntry(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, entryFlags))
+            entries.add(SbaArchiveEntry(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, entryFlags,
+                tarEntryCount, regularFileCount, directoryCount))
             expectedEntryOffset = checkedAdd(payloadOffset, storedSize)
         }
         if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
