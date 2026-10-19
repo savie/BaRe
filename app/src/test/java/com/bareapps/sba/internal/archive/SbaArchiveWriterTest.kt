@@ -35,6 +35,12 @@ class SbaArchiveWriterTest {
             assertEquals("SAI1", String(bytes, stats[1].toInt(), 4, StandardCharsets.US_ASCII))
             assertEquals(stats[2], (bytes.size - stats[1] - 32).toLong())
             assertEquals("SAF1", String(bytes, bytes.size - 32, 4, StandardCharsets.US_ASCII))
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(1, parsed.version)
+            assertArrayEquals(metadata, parsed.metadata)
+            assertEquals(listOf("data"), parsed.entries.map { it.name })
+            assertEquals(stats[1], parsed.indexOffset)
+            assertEquals(stats[2], parsed.indexSize)
 
             val footer = bytes.copyOfRange(bytes.size - 32, bytes.size)
             val expectedCrc = ByteBuffer.wrap(footer, 28, 4).order(ByteOrder.BIG_ENDIAN).int
@@ -43,7 +49,7 @@ class SbaArchiveWriterTest {
 
             val entryHeaderOffset = 96
             assertEquals("SAE1", String(bytes, entryHeaderOffset, 4, StandardCharsets.US_ASCII))
-            val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 10, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
+            val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 12, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
             val payloadOffset = entryHeaderOffset + 24 + nameLength
             assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
             assertTrue(bytes.size > payloadOffset + 1024)
