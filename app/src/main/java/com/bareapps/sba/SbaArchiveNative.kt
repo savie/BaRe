@@ -9,7 +9,7 @@ import java.io.IOException
 
 /** Native SBA v1 creation entry point and independent archive-info/restore facade. */
 class SbaArchiveNative private constructor() {
-    external fun createArchive(
+    fun createArchive(
         mode: Int,
         outputPath: String,
         metadata: ByteArray,
@@ -33,7 +33,11 @@ class SbaArchiveNative private constructor() {
         key2: ByteArray?,
         key3: ByteArray?,
         progress: SbaNativeProgressListener?,
-    ): LongArray
+    ): LongArray = com.bareapps.sba.internal.archive.SbaArchiveWriter.createArchive(
+        mode, outputPath, metadata, sourcePaths, entryNames, entryModes,
+        includePaths, excludePaths, option0, option1, option2, option3, option4,
+        option5, option6, option7, option8, option9, key0, key1, key2, key3, progress,
+    )
 
     companion object {
         @JvmField val a = SbaArchiveNative()
