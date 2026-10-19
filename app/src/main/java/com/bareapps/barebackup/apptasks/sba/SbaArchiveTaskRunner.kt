@@ -62,7 +62,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             request.entryNames.toTypedArray(),
             request.entryModes,
             request.includePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
-            request.excludePaths.map { it?.toTypedArray() ?: emptyArray() }.toTypedArray(),
+            request.excludePaths.map { it?.toTypedArray() ?: emptyArray<String>() }.toTypedArray(),
             request.compressionMethod,
             request.compressionLevel,
             0, 0, 0, 0, 0, 0, 0, 0,
@@ -299,7 +299,7 @@ class SbaArchiveTaskRunner(
                 val result = work(operation, progress)
                 if (operation.cancelled.get()) {
                     finishFailure(operation, InterruptedIOException("SBA operation cancelled"), true)
-                    return@submit
+                    return@task
                 }
                 synchronized(operation) {
                     operation.outputPath = result.outputPath
