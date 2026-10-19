@@ -62,4 +62,4 @@ The repository workflow is configured to run rebuild CI on pushes to `rewrite`, 
 - Corrected TAR stats argument semantics to byte length (not offset) and applied the caller's file-mode mask.
 - Moved SBA implementation files out of the misplaced `com/bareapps/barebackup/sba/` package and into the pre-existing `com/bareapps/sba/` placeholder tree.
 
-- Added `SbaArchiveTaskRunner` under the existing app-task placeholder with create/restore requests, progress callbacks, cancellation, result statistics, and a bounded completed-operation registry. Its backend is injectable for unit tests.
+- Added `SbaArchiveTaskRunner` under the existing app-task placeholder with SBA create/restore and direct TAR-restore requests, progress callbacks, cancellation, TAR statistics, and a bounded completed-operation registry. Its backend is injectable for unit tests.
