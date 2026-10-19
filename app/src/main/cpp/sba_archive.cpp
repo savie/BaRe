@@ -929,7 +929,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(dirFd);
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
-            pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & 0777ULL),
+            pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL),
                                            entryMtimeMillis});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
@@ -1084,7 +1084,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         millisToTimespec(it->mtimeMillis, &directoryTimes[1]);
         // Archive-provided directory modes must never restore setuid,
         // setgid, or sticky bits in the extraction destination.
-        const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & 0777);
+        const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & modeMask & 0777);
         const int metadataResult = fchmod(dirFd, safeDirectoryMode) == 0
             ? futimens(dirFd, directoryTimes) : -1;
         close(dirFd);
