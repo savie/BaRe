@@ -1,6 +1,7 @@
 package com.bareapps.sba
 
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
+import java.io.FileDescriptor
 
 /**
  * Target-package declarations aligned to methods declared by the decompiled reference class.
@@ -17,7 +18,7 @@ class SbaLibaegisCryptoNative private constructor() {
      * compressedSize is the decrypted/compressed byte count, and chunkSize is the archive chunk size.
      */
     internal external fun decryptAegis128X2ChunkedEntryFdRaw(
-        inputFd: Int, storedSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        inputFd: FileDescriptor, storedSize: Long, outputFd: FileDescriptor, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryIndex: Long, compressedSize: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
@@ -29,7 +30,7 @@ class SbaLibaegisCryptoNative private constructor() {
     ): LongArray
 
     internal external fun encryptAegis128X2ChunkedEntryFdRaw(
-        inputFd: Int, plainSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        inputFd: FileDescriptor, plainSize: Long, outputFd: FileDescriptor, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryOrder: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
