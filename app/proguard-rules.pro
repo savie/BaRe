@@ -3,3 +3,5 @@
 -keep class com.bareapps.sba.** { *; }
 -keep interface com.bareapps.sba.internal.progress.SbaNativeProgressListener { *; }
 -keep class com.bareapps.sba.internal.tar.SbaTarEntryInfo { *; }
+-keep class com.bareapps.rootservice.** { *; }
+-keep class com.bareapps.barebackup.apptasks.sba.SbaRootServiceClient { *; }
