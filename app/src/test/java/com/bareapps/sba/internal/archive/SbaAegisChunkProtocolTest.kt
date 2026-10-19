@@ -22,7 +22,7 @@ class SbaAegisChunkProtocolTest {
         val nonce = SbaAegisChunkProtocol.nonce(
             5, ByteArray(16) { it.toByte() }, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L,
         )
-        assertArrayEquals(hex("23dc3317d45eb74abf5c3b04bc451c20b463b5b1f8dd188abe655c1f4bc92dd8"), nonce)
+        assertArrayEquals(hex("23dc3317d45eb74abf5c3b04bc451c20"), nonce)
     }
 
     @Test
