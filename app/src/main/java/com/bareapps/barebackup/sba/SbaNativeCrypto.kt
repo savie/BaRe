@@ -41,6 +41,5 @@ class SbaNativeCrypto private constructor() {
 
     companion object {
         @JvmField val a = SbaNativeCrypto()
-        init { System.loadLibrary("sba_archive") }
     }
 }
