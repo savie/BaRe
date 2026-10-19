@@ -85,6 +85,13 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (e) env->ThrowNew(e, "TAR offset must be non-negative");
         return nullptr;
     }
+    struct stat listInputStat{};
+    if (fstat(fd, &listInputStat) == 0 && S_ISREG(listInputStat.st_mode) &&
+        startOffset > static_cast<jlong>(listInputStat.st_size)) {
+        jclass e = env->FindClass("java/io/EOFException");
+        if (e) env->ThrowNew(e, "TAR offset is beyond end of input");
+        return nullptr;
+    }
     jclass entryClass = env->FindClass("com/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo");
     if (!entryClass) return nullptr;
     jmethodID ctor = env->GetMethodID(entryClass, "<init>",
@@ -312,6 +319,13 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     if (fd < 0 || startOffset < 0 || destination == nullptr) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
+        return nullptr;
+    }
+    struct stat extractInputStat{};
+    if (fstat(fd, &extractInputStat) == 0 && S_ISREG(extractInputStat.st_mode) &&
+        startOffset > static_cast<jlong>(extractInputStat.st_size)) {
+        jclass e = env->FindClass("java/io/EOFException");
+        if (e) env->ThrowNew(e, "TAR offset is beyond end of input");
         return nullptr;
     }
     const char* destinationChars = env->GetStringUTFChars(destination, nullptr);
