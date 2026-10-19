@@ -32,13 +32,13 @@ class SbaArchiveReaderEncryptedTest {
             index.put(metadata)
             records.forEach { (nameString, values, counts) ->
                 val name = nameString.toByteArray(StandardCharsets.UTF_8)
-                values.take(5).forEach(index::putLong)
+                values.take(5).forEach { index.putLong(it) }
                 index.putInt(23)
                 index.putShort(name.size.toShort())
                 index.putInt(0)
                 index.putShort(0)
                 index.put(ByteArray(32))
-                counts.forEach(index::putLong)
+                counts.forEach { index.putLong(it) }
                 index.put(name)
             }
             val indexBytes = index.array()
