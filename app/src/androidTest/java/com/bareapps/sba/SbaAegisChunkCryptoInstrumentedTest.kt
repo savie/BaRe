@@ -107,6 +107,30 @@ class SbaAegisChunkCryptoInstrumentedTest {
                         }
                     }
 
+                    val wrongKey = key.copyOf().also { it[0] = (it[0].toInt() xor 1).toByte() }
+                    try {
+                        FileOutputStream(failedOutput, false).use { output ->
+                            FileInputStream(encrypted).use { source ->
+                                val failure = assertThrows(IOException::class.java) {
+                                    if (method == 4) {
+                                        crypto.decryptAegis256ChunkedEntryFdRaw(
+                                            source.fd, expectedStored, output.fd, wrongKey, nonceSeed,
+                                            entryName, 0L, plain.size.toLong(), chunkSize, null,
+                                        )
+                                    } else {
+                                        crypto.decryptAegis128X2ChunkedEntryFdRaw(
+                                            source.fd, expectedStored, output.fd, wrongKey, nonceSeed,
+                                            entryName, 0L, plain.size.toLong(), chunkSize, null,
+                                        )
+                                    }
+                                }
+                                assertTrue(failure.message.orEmpty().contains("authentication failed", true))
+                            }
+                        }
+                    } finally {
+                        java.util.Arrays.fill(wrongKey, 0)
+                    }
+
                     val cancelled = object : SbaNativeProgressListener {
                         override fun isCancellationRequested(): Boolean = true
                         override fun onProgress(processed: Long, total: Long) = Unit
