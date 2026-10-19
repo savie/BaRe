@@ -82,7 +82,7 @@ internal object SbaArchiveWriter {
                 update(key0!!)
                 digest().copyOf(16)
             }
-            val validKeyCheck = MessageDigest.isEqual(keyCheck, key1)
+            val validKeyCheck = MessageDigest.isEqual(keyCheck, key1!!)
             java.util.Arrays.fill(keyCheck, 0)
             require(validKeyCheck) { "SBA AEGIS key-check does not match the supplied key material" }
         } else {
