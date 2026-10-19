@@ -241,6 +241,42 @@ bool parsePaxUnsigned(const std::string& value, uint64_t* result) {
     return true;
 }
 
+struct SparseExtent {
+    uint64_t offset;
+    uint64_t length;
+};
+
+bool parseSparseMap(const std::string& value, uint64_t realSize, uint64_t packedSize,
+                    std::vector<SparseExtent>* extents) {
+    if (extents == nullptr) return false;
+    extents->clear();
+    if (value.empty()) return packedSize == 0;
+    size_t at = 0;
+    uint64_t packedTotal = 0;
+    std::vector<uint64_t> numbers;
+    while (at < value.size()) {
+        const size_t comma = value.find(',', at);
+        const size_t end = comma == std::string::npos ? value.size() : comma;
+        uint64_t number = 0;
+        if (!parsePaxUnsigned(value.substr(at, end - at), &number)) return false;
+        numbers.push_back(number);
+        if (numbers.size() > 2000000) return false;
+        if (comma == std::string::npos) break;
+        at = comma + 1;
+        if (at == value.size()) return false;
+    }
+    if ((numbers.size() & 1U) != 0U) return false;
+    for (size_t i = 0; i < numbers.size(); i += 2) {
+        const uint64_t offset = numbers[i];
+        const uint64_t length = numbers[i + 1];
+        if (offset > realSize || length > realSize - offset ||
+            packedTotal > UINT64_MAX - length) return false;
+        packedTotal += length;
+        extents->push_back({offset, length});
+    }
+    return packedTotal == packedSize;
+}
+
 bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
     if (millis == nullptr || value.empty()) return false;
     char* end = nullptr;
@@ -958,6 +994,30 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 : pendingLongLink);
         const auto entryXattrs = collectPaxXattrs(
             pendingPax, globalPax, restoreXattrs, restoreSelinux);
+        const std::string* sparseMap = paxValue(pendingPax, globalPax, "GNU.sparse.map");
+        const std::string* sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.realsize");
+        if (sparseSize == nullptr) sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
+        const std::string* sparseMajor = paxValue(pendingPax, globalPax, "GNU.sparse.major");
+        std::vector<SparseExtent> sparseExtents;
+        bool sparseEntry = sparseMap != nullptr || sparseSize != nullptr || h.typeflag == 'S';
+        uint64_t logicalSize = size;
+        if (sparseMajor != nullptr && *sparseMajor == "1") {
+            close(rootFd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "GNU sparse PAX 1.0 map encoding is not supported");
+            return nullptr;
+        }
+        if (sparseEntry) {
+            if (sparseMap == nullptr || sparseSize == nullptr ||
+                !parsePaxUnsigned(*sparseSize, &logicalSize) ||
+                logicalSize > static_cast<uint64_t>(INT64_MAX) ||
+                !parseSparseMap(*sparseMap, logicalSize, size, &sparseExtents)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or unsupported GNU sparse TAR metadata");
+                return nullptr;
+            }
+        }
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
@@ -989,7 +1049,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
                 entryMtimeMillis, entryUid, entryGid, entryXattrs});
             extracted.push_back(name);
-        } else if (type == 0 || type == '0' || type == '7') {
+        } else if (type == 0 || type == '0' || type == '7' || (type == 'S' && sparseEntry)) {
             std::string leaf;
             int parentFd = openParentAt(rootFd, name, true, &leaf);
             if (parentFd < 0) {
