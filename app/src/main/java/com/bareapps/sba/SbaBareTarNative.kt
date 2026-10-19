@@ -15,19 +15,62 @@ class SbaBareTarNative private constructor() {
     private external fun listTarEntriesFromFdRaw(fd: Int, offset: Long): Array<SbaTarEntryInfo>
     private external fun listTarEntriesZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo>
 
-    external fun extractAegisArchiveEntry(
+    /**
+     * Reference-compatible AEGIS extraction entry point. The reference ABI supplies
+     * payload offset/stored/compressed/TAR sizes, compression method, key-check length,
+     * key, nonce seed, UTF-8 entry name, zero-based index order, and archive chunk size.
+     *
+     * The rewrite routes through its authenticated staging pipeline rather than duplicating
+     * the TAR extractor: it validates every supplied index field, verifies the key and v2
+     * index MAC, authenticates every chunk, then invokes the standard bounded TAR path.
+     */
+    fun extractAegisArchiveEntry(
         archivePath: String, offset: Long, size: Long, compressedSize: Long, tarSize: Long,
         destination: String, flags: Int, includes: Array<String>, option0: Int, option1: Int,
         key: ByteArray, nonce: ByteArray, metadata: ByteArray, chunkSize: Long, option2: Int,
         progress: SbaNativeProgressListener?,
-    ): Array<String>
+    ): Array<String> = extractAegisEntryViaAuthenticatedStaging(
+        archivePath, offset, size, compressedSize, tarSize, destination, flags, includes,
+        option0, option1, key, nonce, metadata, chunkSize, option2, progress,
+    )
 
-    external fun extractAegisArchiveEntryFused(
+    /** Functional fallback for the reference fused entry point; preserves auth-before-extract. */
+    fun extractAegisArchiveEntryFused(
         archivePath: String, offset: Long, size: Long, compressedSize: Long, tarSize: Long,
         destination: String, flags: Int, includes: Array<String>, option0: Int, option1: Int,
         key: ByteArray, nonce: ByteArray, metadata: ByteArray, chunkSize: Long, option2: Int,
         progress: SbaNativeProgressListener?,
-    ): Array<String>
+    ): Array<String> = extractAegisEntryViaAuthenticatedStaging(
+        archivePath, offset, size, compressedSize, tarSize, destination, flags, includes,
+        option0, option1, key, nonce, metadata, chunkSize, option2, progress,
+    )
+
+    private fun extractAegisEntryViaAuthenticatedStaging(
+        archivePath: String, offset: Long, size: Long, compressedSize: Long, tarSize: Long,
+        destination: String, flags: Int, includes: Array<String>, compressionMethod: Int,
+        keyCheckLength: Int, key: ByteArray, nonceSeed: ByteArray, entryNameUtf8: ByteArray,
+        entryOrder: Long, archiveChunkSize: Int, progress: SbaNativeProgressListener?,
+    ): Array<String> {
+        val info = SbaArchiveNative.readArchiveInfo(archivePath)
+        if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
+            throw IOException("Archive does not use an AEGIS encryption method")
+        }
+        if (compressionMethod != info.compressionMethod || keyCheckLength != 16 ||
+            archiveChunkSize != info.chunkSize || !nonceSeed.contentEquals(info.nonceSeed)) {
+            throw IOException("AEGIS extraction arguments do not match the SBA header")
+        }
+        val entryName = String(entryNameUtf8, java.nio.charset.StandardCharsets.UTF_8)
+        val entryIndex = info.entries.indexOfFirst { it.name == entryName }
+        if (entryIndex < 0) throw IOException("SBA entry not found: $entryName")
+        val entry = info.entries[entryIndex]
+        if (entryIndex.toLong() != entryOrder || entry.payloadOffset != offset ||
+            entry.storedSize != size || entry.compressedSize != compressedSize || entry.tarSize != tarSize) {
+            throw IOException("AEGIS extraction arguments do not match the SBA index")
+        }
+        return SbaArchiveNative.extractEncryptedEntryWithKey(
+            archivePath, entryName, key, destination, flags, includes, progress,
+        )
+    }
 
     @Throws(IOException::class)
     fun extractTarFromDescriptorWithStats(
