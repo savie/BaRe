@@ -19,7 +19,7 @@ class SbaRootServiceClient(
     private val onDisconnected: () -> Unit = {},
 ) : AutoCloseable {
     private val appContext = context.applicationContext
-    private val args = Shizuku.UserServiceArgs(ComponentName(appContext, SbaRootService::class.java))
+    private val args = Shizuku.UserServiceArgs(ComponentName(appContext, com.bareapps.rootservice.SbaRootAndroidService::class.java))
         .daemon(false)
         .processNameSuffix("sba")
         .debuggable(false)
