@@ -336,7 +336,6 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                 ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
                 : pendingLongLink);
         pendingLongLink.clear();
-        pendingPax.clear();
         jint type = 1;
         switch (h.typeflag) {
             case '5': type = 2; break;
@@ -385,6 +384,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         entries.push_back(entry);
+        pendingPax.clear();
         const uint64_t payloadSize = metadataRecord ? headerSize : size;
         const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
