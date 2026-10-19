@@ -473,7 +473,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     }
     offset = static_cast<off_t>(startOffset);
     std::string pendingLongName;
-    std::string pendingLongLink;
     size_t extractionCount = 0;
     for (; extractionCount < 1000000; ++extractionCount) {
         TarHeader h{};
@@ -543,8 +542,14 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 return nullptr;
             }
             if (h.typeflag == 'L') pendingLongName = value;
-            else pendingLongLink = value;
-            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            const uint64_t step = 512ULL + blocks * 512ULL;
+            if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "TAR long-name offset overflow");
+                return nullptr;
+            }
+            offset += static_cast<off_t>(step);
             continue;
         }
         const std::string name = pendingLongName.empty() ? tarName(h) : pendingLongName;
