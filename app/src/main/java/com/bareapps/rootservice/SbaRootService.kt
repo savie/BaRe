@@ -202,7 +202,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         val taskRequest = SbaTarExtractTaskRequest(
             sourcePath = request.sourcePath,
             destination = request.targetDirectory,
-            flags = request.restoreProfile,
+            flags = restoreOptions(request.restoreProfile),
             includes = request.includePaths ?: emptyList(),
         )
         return taskRunner.submitTarExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
