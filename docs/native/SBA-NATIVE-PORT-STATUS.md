@@ -9,9 +9,9 @@ JNI declarations were cross-checked against JADX Java and apktool smali under
 
 The reference's exported JNI namespace is `com.swiftapps.sba`; the target namespace is
 `com.bareapps.sba`. Renaming Kotlin packages alone does not make the original
-ELF bind to the target. The current target `sba_archive.cpp` exports the corresponding
-target-package names, but its algorithm methods are fail-closed placeholders. It is not
-feature parity.
+ELF bind to the target. The current target `sba_archive.cpp` exports target-package names and delegates unencrypted
+SBA v1 creation to an independent Kotlin writer. TAR list/extract and Zstandard paths are
+partially implemented. AEGIS and full reference-compatible parity are not established.
 
 ## Exported symbol audit
 
@@ -62,8 +62,10 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 The current `app/src/main/cpp/sba_archive.cpp` has target-package exports for the audited
 symbol inventory. Runtime version now returns BΛR☰ identity `BareTar`; AEGIS availability still returns
 false although the reference ELF returns true; unsupported operations throw `UnsupportedOperationException`. TAR listing/extraction has
-partial independent implementation, while archive creation/framing and AEGIS remain fail-closed.
-The target is not yet a complete backup engine.
+partial independent implementation. Unencrypted SBA v1 framing (SBA1/SAE1/SAI1/SAF1), TAR
+payload production, optional Zstandard compression, index/footer CRCs, atomic destination
+replacement, and 9-field create diagnostics now have an implementation path. Encrypted archive
+creation and AEGIS extraction remain unsupported; runtime parity is not established.
 
 Still required for a truthful feature-parity claim:
 1. Recover exact JNI descriptors for every exported symbol from the reference DEX/smali or
@@ -112,7 +114,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | Zstandard FD/file compression exports | Orphan exports still fail closed; semantic signatures are unverified | Not implemented | Recover signatures/callers; do not guess |
 | Argon2id | Public Kotlin declaration is native with descriptor `([B[BIIII)[B`; C++ JNI delegates to `SbaArgon2idPortable`, which uses Bouncy Castle and remains host-testable. Parameter validation and known-answer tests cover reference bounds and empty-password/minimum-salt behavior | API surface and implementation path aligned to reference evidence; runtime parity unverified | Build native library and run device/instrumentation tests; compare outputs and exception mapping against reference JNI |
 | AEGIS | Availability reports unavailable; encryption/decryption exports fail closed | Not implemented | Identify exact AEGIS variant, chunk framing, nonce/tag/AAD rules from evidence |
-| SBA framing/metadata/archive creation | SbaArchiveNative.createArchive is declared; native operation is fail-closed | Not implemented | Recover archive layout, metadata serialization, index/footer and error behavior |
+| SBA framing/metadata/archive creation | JNI delegates to SbaArchiveWriter for unencrypted v1 framing, source-path TAR generation, optional Zstandard compression, index/footer CRC and diagnostics; a unit test covers framing and fail-safe replacement | Implemented path; unverified | Run Gradle/JUnit, parse produced archives with the reference parser, compare byte layout, exercise empty/multi-entry/large-file/filter cases; encryption remains unsupported |
 | Four-ABI/device validation | Reference has 4 ABIs; target build/runtime validation not recorded | Unverified | Build all ABIs and run real backup/restore/corruption tests |
 
 ### Current measurable summary
@@ -297,3 +299,13 @@ Limits:
 - The SBA framing and footer are still not fully understood; AEGIS and archive creation remain fail-closed.
 - The branch remains **NOT GO** until reference-derived archive round-trip, cryptographic vectors, all-ABI builds and restore/corruption tests pass.
 
+
+
+## Work entry — unencrypted SBA v1 writer (2026-10-19)
+
+- Corrected `SbaArchiveNative.createArchive` source arguments from `ByteArray[]` to `String[]`, matching the reference call site, which passes source paths.
+- Replaced the archive-creation fail-closed JNI stub with a bridge to `SbaArchiveWriter`.
+- Added unencrypted v1 SBA framing for `SBA1`, `SAE1`, `SAI1`, and `SAF1`, including index records, CRCs, source-directory/file TAR payloads, optional Zstandard compression, progress cancellation, and atomic destination replacement.
+- Added unit coverage for the basic v1 framing/footer checksum and preserving an existing destination when encrypted mode is rejected.
+- The writer explicitly rejects encrypted mode; this does not implement AEGIS or encrypted archive parity.
+- No Gradle/JUnit or Android/NDK build was run for these commits. Treat the new path as implemented but unverified until CI and reference-parser round-trip tests pass.
