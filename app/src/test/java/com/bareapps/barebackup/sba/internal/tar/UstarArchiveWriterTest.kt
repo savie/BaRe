@@ -77,6 +77,18 @@ class UstarArchiveWriterTest {
             }
             assertTrue(rejected)
             assertFalse(Files.exists(destination))
+
+            var nulRejected = false
+            try {
+                UstarArchiveWriter.write(
+                    destination,
+                    listOf(UstarArchiveWriter.Entry(String(charArrayOf('a', 0.toChar(), 'b')), byteArrayOf()))
+                )
+            } catch (_: IllegalArgumentException) {
+                nulRejected = true
+            }
+            assertTrue("NUL bytes in paths must be rejected", nulRejected)
+            assertFalse(Files.exists(destination))
         } finally {
             Files.deleteIfExists(destination)
             Files.deleteIfExists(destination.parent)
