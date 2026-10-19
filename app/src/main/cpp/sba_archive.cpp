@@ -733,6 +733,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         if (e) env->ThrowNew(e, "Unable to securely create/open TAR destination without following symlinks");
         return nullptr;
     }
+    const auto metadataClockMillis = []() -> jlong {
+        struct timespec ts{};
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+        return static_cast<jlong>(ts.tv_sec) * 1000LL + static_cast<jlong>(ts.tv_nsec) / 1000000LL;
+    };
+    jlong metadataElapsedMillis = 0;
     std::vector<std::string> filters;
     if (includes) {
         const jsize n = env->GetArrayLength(includes);
@@ -1094,6 +1100,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
+            const jlong entryMetadataStartMillis = metadataClockMillis();
             if (entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
                 entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
                 entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
@@ -1110,6 +1117,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             millisToTimespec(entryMtimeMillis, &fileTimes[1]);
             (void)fchmod(out, safeMode);
             (void)futimens(out, fileTimes);
+            metadataElapsedMillis += std::max<jlong>(0, metadataClockMillis() - entryMetadataStartMillis);
             // Delayed I/O errors (for example ENOSPC) can surface only on
             // close, so do not report an entry as extracted until close succeeds.
             if (close(out) != 0) {
@@ -1167,6 +1175,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to safely replace existing TAR link");
                 return nullptr;
             }
+            const jlong linkMetadataStartMillis = metadataClockMillis();
             const int linkResult = type == '2'
                 ? symlinkat(target.c_str(), parentFd, leaf.c_str())
                 : linkat(targetParentFd, targetLeaf.c_str(), parentFd, leaf.c_str(), 0);
@@ -1203,6 +1212,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                     }
                 }
             }
+            metadataElapsedMillis += std::max<jlong>(0, metadataClockMillis() - linkMetadataStartMillis);
             close(parentFd);
             if (targetParentFd >= 0) close(targetParentFd);
             if (linkResult != 0) {
@@ -1221,13 +1231,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         return nullptr;
     }
     // Restore directory metadata deepest-first, after all entries are written.
-    const auto metadataClockMillis = []() -> jlong {
-        struct timespec ts{};
-        clock_gettime(CLOCK_MONOTONIC, &ts);
-        return static_cast<jlong>(ts.tv_sec) * 1000LL + static_cast<jlong>(ts.tv_nsec) / 1000000LL;
-    };
-    const jlong metadataStartMillis = metadataClockMillis();
     for (auto it = pendingDirectories.rbegin(); it != pendingDirectories.rend(); ++it) {
+        const jlong directoryMetadataStartMillis = metadataClockMillis();
         int dirFd = openDirectoryAt(rootFd, it->path, false);
         if (dirFd < 0) {
             close(rootFd);
@@ -1253,12 +1258,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & modeMask & 0777);
         (void)fchmod(dirFd, safeDirectoryMode);
         (void)futimens(dirFd, directoryTimes);
+        metadataElapsedMillis += std::max<jlong>(0, metadataClockMillis() - directoryMetadataStartMillis);
         close(dirFd);
     }
     close(rootFd);
-    if (metadataMillis != nullptr) {
-        *metadataMillis = std::max<jlong>(0, metadataClockMillis() - metadataStartMillis);
-    }
+    if (metadataMillis != nullptr) *metadataMillis = metadataElapsedMillis;
     jclass stringClass = env->FindClass("java/lang/String");
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
     for (jsize i = 0; result && i < static_cast<jsize>(extracted.size()); ++i) {
