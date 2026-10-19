@@ -44,6 +44,28 @@ uint64_t parseOctal(const char* field, size_t length) {
     return value;
 }
 
+/**
+ * TAR numeric fields may use GNU/POSIX base-256 encoding when octal fields
+ * cannot represent a value. This reader supports non-negative values only;
+ * signed negative timestamps are handled by PAX mtime, which carries decimal
+ * seconds and fractional precision.
+ */
+uint64_t parseTarNumber(const char* field, size_t length) {
+    if (field == nullptr || length == 0) return UINT64_MAX;
+    const unsigned char first = static_cast<unsigned char>(field[0]);
+    if ((first & 0x80U) == 0) return parseOctal(field, length);
+
+    // In GNU base-256, the top marker bit is not part of the value. The next
+    // bit is the sign bit; negative values are not valid for sizes or modes.
+    if ((first & 0x40U) != 0) return UINT64_MAX;
+    uint64_t value = static_cast<uint64_t>(first & 0x3fU);
+    for (size_t i = 1; i < length; ++i) {
+        if (value > (UINT64_MAX >> 8U)) return UINT64_MAX;
+        value = (value << 8U) | static_cast<unsigned char>(field[i]);
+    }
+    return value;
+}
+
 bool validTarChecksum(const TarHeader& h) {
     uint64_t stored = parseOctal(h.checksum, sizeof(h.checksum));
     uint64_t sum = 0;
@@ -243,7 +265,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        const uint64_t headerSize = parseOctal(h.size, sizeof(h.size));
+        const uint64_t headerSize = parseTarNumber(h.size, sizeof(h.size));
         const bool metadataRecord = h.typeflag == 'x' || h.typeflag == 'g' ||
                                     h.typeflag == 'L' || h.typeflag == 'K';
         uint64_t size = headerSize;
@@ -319,8 +341,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             offset += static_cast<off_t>(step);
             continue;
         }
-        const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
-        const uint64_t mode = parseOctal(h.mode, sizeof(h.mode));
+        const uint64_t mtime = parseTarNumber(h.mtime, sizeof(h.mtime));
+        const uint64_t mode = parseTarNumber(h.mode, sizeof(h.mode));
         jlong mtimeMillis = mtime <= static_cast<uint64_t>(INT64_MAX) / 1000ULL
             ? static_cast<jlong>(mtime * 1000ULL) : -1;
         const std::string* paxMtime = paxValue(pendingPax, globalPax, "mtime");
