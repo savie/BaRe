@@ -6,7 +6,11 @@ import com.bareapps.sba.internal.archive.SbaArchiveReader
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.RandomAccessFile
 import java.io.IOException
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
 
 /** Native SBA v1 creation entry point and independent archive-info/restore facade. */
 class SbaArchiveNative private constructor() {
@@ -67,6 +71,96 @@ class SbaArchiveNative private constructor() {
         @Throws(IOException::class)
         fun verifyArchivePassword(path: String, password: CharArray): Boolean =
             SbaArchiveKeyCheck.verify(SbaArchiveReader.read(path), password, path)
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listEncryptedEntryTarEntries(
+            path: String,
+            entryName: String,
+            password: CharArray,
+            progress: SbaNativeProgressListener? = null,
+        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(path, entryName, password, progress) { info, entry, descriptor ->
+            if (info.compressionMethod == 1) {
+                SbaBareTarNative.instance.listTarEntriesZstdFromDescriptorBounded(
+                    descriptor, 0L, entry.compressedSize, entry.tarSize,
+                )
+            } else {
+                SbaBareTarNative.instance.listTarEntriesFromDescriptor(descriptor, 0L)
+            }
+        }
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractEncryptedEntry(
+            path: String,
+            entryName: String,
+            password: CharArray,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = withDecryptedEntryPayload(path, entryName, password, progress) { info, entry, descriptor ->
+            if (info.compressionMethod == 1) {
+                SbaBareTarNative.instance.extractTarZstdFromDescriptorBounded(
+                    descriptor, 0L, entry.compressedSize, entry.tarSize,
+                    destination, flags, includes, progress,
+                )
+            } else {
+                SbaBareTarNative.instance.extractTarFromDescriptor(
+                    descriptor, 0L, destination, flags, includes, progress,
+                )
+            }
+        }
+
+        private fun <T> withDecryptedEntryPayload(
+            path: String,
+            entryName: String,
+            password: CharArray,
+            progress: SbaNativeProgressListener?,
+            block: (SbaArchiveInfo, com.bareapps.sba.internal.archive.SbaArchiveEntry, java.io.FileDescriptor) -> T,
+        ): T {
+            val info = SbaArchiveReader.read(path)
+            if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
+                throw IOException("Archive does not use a supported SBA AEGIS encryption method")
+            }
+            val entryIndex = info.entries.indexOfFirst { it.name == entryName }
+            if (entryIndex < 0) throw IOException("SBA entry not found: $entryName")
+            val entry = info.entries[entryIndex]
+            val key = SbaArchiveKeyCheck.deriveVerifiedKey(info, password, path)
+                ?: throw IOException("Incorrect SBA password")
+            val temporary = Files.createTempFile("bare-sba-aegis-", ".payload")
+            try {
+                RandomAccessFile(path, "r").use { input ->
+                    input.seek(entry.payloadOffset)
+                    FileOutputStream(temporary.toFile()).use { output ->
+                        val decoded = if (info.encryptionMethod == 4) {
+                            SbaLibaegisCryptoNative.a.decryptAegis256ChunkedEntryFdRaw(
+                                input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
+                                entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
+                                entry.compressedSize, info.chunkSize, progress,
+                            )
+                        } else {
+                            SbaLibaegisCryptoNative.a.decryptAegis128X2ChunkedEntryFdRaw(
+                                input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
+                                entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
+                                entry.compressedSize, info.chunkSize, progress,
+                            )
+                        }
+                        output.flush()
+                        if (decoded.size < 2 || decoded[0] != entry.storedSize ||
+                            decoded[1] != entry.compressedSize) {
+                            throw IOException("native SBA AEGIS decrypted byte count mismatch")
+                        }
+                    }
+                }
+                FileInputStream(temporary.toFile()).use { payload ->
+                    return block(info, entry, payload.fd)
+                }
+            } finally {
+                java.util.Arrays.fill(key, 0)
+                Files.deleteIfExists(temporary)
+            }
+        }
 
         @JvmStatic
         @Throws(IOException::class)
