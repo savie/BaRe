@@ -621,6 +621,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             total += size;
         }
+        if (!metadataRecord) sizingPendingPax.clear();
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
     }
     if (sizingCount == 1000000) {
