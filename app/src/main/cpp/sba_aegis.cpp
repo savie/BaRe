@@ -317,8 +317,8 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
         if (cancelledMethod == nullptr || progressMethod == nullptr) return nullptr;
     }
     ensureAegisInitialized();
-    if (gAegisInitResult != 0) {
-        throwIo(env, "AEGIS primitive initialization failed");
+    if (gAegisInitResult != 0 || !ensurePrimitiveSelfTest()) {
+        throwIo(env, "AEGIS primitive initialization/self-test failed");
         return nullptr;
     }
 
