@@ -52,12 +52,12 @@ internal object SbaArchiveReader {
         val nonceSeedLength = h.short.toInt() and 0xffff
         val macMethod = h.short.toInt() and 0xffff
         val macLength = h.short.toInt() and 0xffff
-        val cryptoBytes = ByteArray(48).also(h::get)
+        val cryptoBytes = ByteArray(48).also { h.get(it) }
         val trailingMacMethod = h.short.toInt() and 0xffff
         val trailingMacLength = h.short.toInt() and 0xffff
         val chunkSize = h.int
-        val reserved = ByteArray(4).also(h::get)
-        if (compressionMethod !in 0..1 ||
+        val reserved = ByteArray(4).also { h.get(it) }
+        if (flags != (if (compressionMethod == 1) 1 else 0) || compressionMethod !in 0..1 ||
             (compressionMethod == 0 && compressionLevel != 0) ||
             (compressionMethod == 1 && compressionLevel !in 1..22) ||
             ((flags and 1) != (if (compressionMethod == 1) 1 else 0))) {
@@ -105,7 +105,7 @@ internal object SbaArchiveReader {
             metadataLength > b.remaining()) throw IOException("Invalid SBA index counts")
         val minimumRecords = entryCount.toLong() * INDEX_RECORD_SIZE
         if (minimumRecords > b.remaining().toLong() - metadataLength) throw IOException("SBA index records exceed bounds")
-        val metadata = ByteArray(metadataLength).also(b::get)
+        val metadata = ByteArray(metadataLength).also { b.get(it) }
         val entries = ArrayList<SbaArchiveEntry>(entryCount)
         val names = HashSet<String>()
         var expectedEntryOffset = HEADER_SIZE.toLong()
@@ -120,7 +120,7 @@ internal object SbaArchiveReader {
             val nameLength = b.short.toInt() and 0xffff
             val entryMetadataLength = b.int
             val reservedField = b.short.toInt() and 0xffff
-            val hmac = ByteArray(32).also(b::get)
+            val hmac = ByteArray(32).also { b.get(it) }
             if (nameLength == 0 || entryMetadataLength != 0 || reservedField != 0 ||
                 hmac.any { it.toInt() != 0 } || b.remaining() < nameLength) {
                 throw IOException("Invalid SBA index record fields")
@@ -132,7 +132,7 @@ internal object SbaArchiveReader {
                 entryFlags != if (compressionMethod == 1) 1 else 0) {
                 throw IOException("Invalid SBA entry sizes or offsets")
             }
-            val nameBytes = ByteArray(nameLength).also(b::get)
+            val nameBytes = ByteArray(nameLength).also { b.get(it) }
             val name = decodeUtf8(nameBytes)
             validateName(name)
             if (!names.add(name)) throw IOException("Duplicate SBA entry name: $name")
@@ -148,7 +148,7 @@ internal object SbaArchiveReader {
             if ((eh.short.toInt() and 0xffff) != ENTRY_HEADER_SIZE ||
                 (eh.short.toInt() and 0xffff) != 0 || eh.int != entryFlags ||
                 (eh.short.toInt() and 0xffff) != nameLength || eh.int != 0 ||
-                ByteArray(6).also(eh::get).any { it.toInt() != 0 }) {
+                ByteArray(6).also { eh.get(it) }.any { it.toInt() != 0 }) {
                 throw IOException("Invalid SBA entry header")
             }
             val actualName = ByteArray(nameLength)
@@ -164,7 +164,8 @@ internal object SbaArchiveReader {
 
     private fun expectMagic(buffer: ByteBuffer, expected: String, part: String) {
         if (buffer.remaining() < 4) throw EOFException("Truncated SBA $part")
-        val actual = ByteArray(4).also(buffer::get).toString(StandardCharsets.US_ASCII)
+        val actualBytes = ByteArray(4).also { buffer.get(it) }
+        val actual = String(actualBytes, StandardCharsets.US_ASCII)
         if (actual != expected) throw IOException("Invalid SBA $part magic")
     }
 
