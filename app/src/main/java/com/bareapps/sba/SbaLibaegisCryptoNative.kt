@@ -24,7 +24,7 @@ class SbaLibaegisCryptoNative private constructor() {
     ): LongArray
 
     internal external fun decryptAegis256ChunkedEntryFdRaw(
-        inputFd: Int, storedSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        inputFd: FileDescriptor, storedSize: Long, outputFd: FileDescriptor, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryIndex: Long, compressedSize: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
@@ -36,7 +36,7 @@ class SbaLibaegisCryptoNative private constructor() {
     ): LongArray
 
     internal external fun encryptAegis256ChunkedEntryFdRaw(
-        inputFd: Int, plainSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        inputFd: FileDescriptor, plainSize: Long, outputFd: FileDescriptor, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryOrder: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
