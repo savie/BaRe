@@ -454,7 +454,6 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         const uint64_t payloadSize = metadataRecord ? headerSize : size;
         const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
-            env->DeleteGlobalRef(entry);
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
 
