@@ -179,10 +179,18 @@ bool readPaxRecordsAt(int fd, uint64_t offset, uint64_t size,
 const std::string* paxValue(const std::map<std::string, std::string>& local,
                        const std::map<std::string, std::string>& global,
                        const char* key) {
+    // A local PAX record takes precedence even when its value is empty.
+    // Empty local values mask the global value for this entry; falling through
+    // to global metadata here incorrectly resurrects a path/size/mtime that the
+    // local header explicitly cleared.
     const auto localIt = local.find(key);
-    if (localIt != local.end()) return localIt->second.empty() ? nullptr : &localIt->second;
+    if (localIt != local.end()) {
+        return localIt->second.empty() ? nullptr : &localIt->second;
+    }
     const auto globalIt = global.find(key);
-    if (globalIt != global.end()) return globalIt->second.empty() ? nullptr : &globalIt->second;
+    if (globalIt != global.end()) {
+        return globalIt->second.empty() ? nullptr : &globalIt->second;
+    }
     return nullptr;
 }
 
