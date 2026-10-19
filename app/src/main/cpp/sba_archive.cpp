@@ -642,6 +642,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     }
     const bool restorePermissions = (options & 1) != 0;
     const bool restoreTimestamps = (options & 2) != 0;
+    const bool restoreOwnership = (options & 4) != 0;
     const bool restoreSpecialModeBits = (options & 128) != 0;
     struct stat extractInputStat{};
     if (fstat(fd, &extractInputStat) == 0 && S_ISREG(extractInputStat.st_mode) &&
@@ -681,7 +682,13 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     jmethodID cancelled = callbackClass ? env->GetMethodID(callbackClass, "isCancellationRequested", "()Z") : nullptr;
     jmethodID onProgress = callbackClass ? env->GetMethodID(callbackClass, "onProgress", "(JJ)V") : nullptr;
     std::vector<std::string> extracted;
-    struct PendingDirectoryMetadata { std::string path; mode_t mode; jlong mtimeMillis; };
+    struct PendingDirectoryMetadata {
+        std::string path;
+        mode_t mode;
+        jlong mtimeMillis;
+        uint64_t uid;
+        uint64_t gid;
+    };
     std::vector<PendingDirectoryMetadata> pendingDirectories;
     uint64_t total = 0, processed = 0;
     // First pass computes the regular-file payload total for progress reporting.
@@ -858,8 +865,14 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const uint64_t entryMode = parseOctal(h.mode, sizeof(h.mode));
-        const uint64_t entryMtime = parseOctal(h.mtime, sizeof(h.mtime));
+        const uint64_t entryMode = parseTarNumber(h.mode, sizeof(h.mode));
+        const uint64_t entryMtime = parseTarNumber(h.mtime, sizeof(h.mtime));
+        uint64_t entryUid = parseTarNumber(h.uid, sizeof(h.uid));
+        uint64_t entryGid = parseTarNumber(h.gid, sizeof(h.gid));
+        const std::string* paxUid = paxValue(pendingPax, globalPax, "uid");
+        const std::string* paxGid = paxValue(pendingPax, globalPax, "gid");
+        if (paxUid != nullptr && !parsePaxUnsigned(*paxUid, &entryUid)) entryUid = UINT64_MAX;
+        if (paxGid != nullptr && !parsePaxUnsigned(*paxGid, &entryGid)) entryGid = UINT64_MAX;
         jlong entryMtimeMillis = entryMtime <= static_cast<uint64_t>(INT64_MAX) / 1000ULL
             ? static_cast<jlong>(entryMtime * 1000ULL) : -1;
         const std::string* paxMtime = paxValue(pendingPax, globalPax, "mtime");
@@ -933,8 +946,9 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(dirFd);
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
-            pendingDirectories.push_back({name, static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
-                                           entryMtimeMillis});
+            pendingDirectories.push_back({name,
+                static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
+                entryMtimeMillis, entryUid, entryGid});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
             std::string leaf;
@@ -986,6 +1000,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
+            if (restoreOwnership && entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
+                entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
+                entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
+                (void)fchown(out, static_cast<uid_t>(entryUid), static_cast<gid_t>(entryGid));
+            }
             const mode_t safeMode = static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0600ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
@@ -1058,9 +1077,23 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             const int linkResult = type == '2'
                 ? symlinkat(target.c_str(), parentFd, leaf.c_str())
                 : linkat(targetParentFd, targetLeaf.c_str(), parentFd, leaf.c_str(), 0);
+            if (linkResult == 0 && restoreOwnership && entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
+                entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
+                entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
+                (void)fchownat(parentFd, leaf.c_str(), static_cast<uid_t>(entryUid),
+                    static_cast<gid_t>(entryGid), type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
+            }
+            int linkTimeResult = 0;
+            if (linkResult == 0 && restoreTimestamps) {
+                struct timespec linkTimes[2]{};
+                linkTimes[0].tv_nsec = UTIME_OMIT;
+                millisToTimespec(entryMtimeMillis, &linkTimes[1]);
+                linkTimeResult = utimensat(parentFd, leaf.c_str(), linkTimes,
+                    type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
+            }
             close(parentFd);
             if (targetParentFd >= 0) close(targetParentFd);
-            if (linkResult != 0) {
+            if (linkResult != 0 || linkTimeResult != 0) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Unable to safely materialize TAR link");
@@ -1089,6 +1122,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         millisToTimespec(it->mtimeMillis, &directoryTimes[1]);
         // Archive-provided directory modes must never restore setuid,
         // setgid, or sticky bits in the extraction destination.
+        if (restoreOwnership && it->uid != UINT64_MAX && it->gid != UINT64_MAX &&
+            it->uid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
+            it->gid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
+            (void)fchown(dirFd, static_cast<uid_t>(it->uid), static_cast<gid_t>(it->gid));
+        }
         const mode_t safeDirectoryMode = it->mode;
         int metadataResult = 0;
         if (restorePermissions && fchmod(dirFd, safeDirectoryMode) != 0) metadataResult = -1;
