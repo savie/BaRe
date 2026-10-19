@@ -6,7 +6,7 @@ Last reviewed: 2026-10-19.
 
 ## Current verdict
 
-**NOT GO for full parity.** The unencrypted writer/reader and root-service/application-task source paths exist. The reader now parses AEGIS-256/AEGIS-128X2 SBA header/index metadata and validates encrypted payload size/entry flags; a reference-compatible Argon2id/SHA-256 key-check verifier and deterministic key-check vectors have been added. This still does not decrypt or create encrypted payload chunks. Reference-vs-target encrypted round-trip evidence is still missing. Do not claim encrypted parity.
+**NOT GO for proven reference parity yet.** The rewrite now creates and reads v1 SBA archives with AEGIS-256 or AEGIS-128X2 chunk encryption, derives and checks reference-compatible Argon2id keys, authenticates v2 index metadata, decrypts encrypted entries to private staging files, and validates the resulting TAR before reporting encrypted creation as successful. The native implementation has protocol and primitive self-tests. However, there is still no reference-created encrypted .sba fixture in the supplied artifacts, and no runtime test has proven SwiftBackup-to-rewrite and rewrite-to-SwiftBackup interoperability. Do not claim full encryption parity until those acceptance tests pass.
 
 ## Required source locations
 
@@ -29,23 +29,26 @@ SBA source files must remain in these established placeholder trees. Do not recr
 | TAR listing/extraction | Native parser supports ustar, PAX, GNU long-name records, sparse metadata parsing, safe path handling, symlink/hardlink validation, cancellation and progress | Source implementation exists; Android tests not run |
 | TAR extraction stats | 20-element stats array reports TAR byte length, parsed entry/type counts, regular-file bytes, skipped-entry estimate and measured timings; Basic/Fidelity/RootFidelity profiles map to the exact reference TAR mode masks (511/468/384 decimal, equivalent to octal 0777/0724/0600). Permission, timestamp, ownership, xattr/SELinux and PAX sparse-map restoration are implemented where metadata is available | Low-level read/write counters remain uninstrumented; GNU sparse PAX 1.0 and old-GNU sparse encodings remain unsupported; exact parity not verified |
 | TAR payload generation for SBA creation | Streams source files/directories, preserves POSIX modes and timestamps, emits symlinks, writes PAX records for long paths/targets, large sizes and subsecond/negative timestamps; fails on unsupported special files | Unit test source exists; runtime tests not run |
-| SBA writer | `SbaArchiveWriter` emits v1 `SBA1/SAE1/SAI1/SAF1` framing, optional Zstandard, metadata/index, CRCs, atomic replacement and cancellation; encrypted mode writes AEGIS-256 or AEGIS-128X2 chunk payloads with 16-byte detached tags | Source path implemented; build validation is in progress; no external reference-created encrypted fixture comparison yet |
-| SBA reader | Strict v1/v2 header/index/entry/footer validation, UTF-8/path/bounds checks, CRC validation, v2 entry counts, AEGIS chunk-size/stored-size checks, password key-check and v2 encrypted index-MAC validation | Parser and password/MAC verification implemented; reference fixture interoperability still unverified |
+| SBA writer | SbaArchiveWriter emits v1 SBA1/SAE1/SAI1/SAF1 framing, optional Zstandard, metadata/index, CRCs, atomic replacement and cancellation; encrypted mode writes AEGIS-256 or AEGIS-128X2 chunk payloads with 16-byte detached tags and performs post-write authenticated TAR listing | Source path implemented; current CI is queued; no external reference-created encrypted fixture comparison yet |
+| SBA reader | Strict v1/v2 header/index/entry/footer validation, reference entry-flag mapping, UTF-8/path/bounds checks, CRC validation, v2 entry counts, AES/AEAD stored-size parsing, AEGIS chunk-size checks, password key-check and v2 encrypted index-MAC validation | Parser and password/MAC verification implemented; AEGIS entry access works through authenticated chunk decoding; reference fixture interoperability still unverified |
 | Unencrypted restore/list | Archive API reads metadata, lists TAR entries and extracts entries; compressed entry decoding is bounded by index-declared TAR size | Implemented path; no device round-trip tests |
 
 ## Blocking work
 
-1. **AEGIS/encryption:** `SbaLibaegisCryptoNative.isAvailable()` remains false. Header/index parsing and key-check validation now support the AEGIS method IDs (4 and 5), but AEGIS-256 and AEGIS-128X2 chunked encryption/decryption and fused archive-entry extraction still fail closed. Exact nonce derivation, AAD encoding, chunk framing and tag placement must be recovered and verified; do not invent these values.
-2. **Encrypted SBA containers:** encrypted archive creation and encrypted archive index/entry reading are not implemented. The current writer intentionally supports only mode 1 (unencrypted).
-3. **Other reference encryption modes:** key-check, KDF/header fields and encrypted payload framing for the reference's other modes are not implemented.
-4. **Root service integration:** the AIDL interface, Parcelable request/result/archive/TAR models, `SbaRootService` Binder adapter, Shizuku binding client, archive-info/list methods, async create/restore/direct-TAR operations, cancellation and 30-second bounded metadata/list caches are now present. These are source implementations only; transaction compatibility, Shizuku lifecycle and end-to-end tests remain unverified.
-5. **Orphan ELF exports:** `createTarToFdWithWriteStatsRaw`, `compressZstdFdToFdRaw`, and `compressZstdFileToFdRaw` do not have a verified Kotlin declaration/signature in the reference DEX. They remain non-public/unimplemented until their ABI is established.
+1. **Reference interoperability proof:** chunk nonce/AAD and tag framing have been recovered from ARM64 code and are implemented, but a reference-created encrypted .sba fixture is still absent from the supplied APK/decompilation/backup artifacts. Obtain or generate a valid reference fixture and test both directions before declaring GO.
+2. **SBA v2 writer:** rewrite creation currently emits v1 containers. The reader validates v2 containers and the v2 index MAC, but v2 archive creation/count fields/index-MAC generation are not yet implemented.
+3. **Other encryption modes:** the reader now validates headers and stored sizes for reference methods 1–3, but decryption/encryption for 7zAES, AES-GCM, and AES-GCM-SIV is not implemented.
+4. **Runtime/device verification:** CI validates unit tests and release assembly only; Shizuku lifecycle, private-temp staging, native chunk execution, cancellation, restore, and real-device round trips still need Android runtime coverage.
+5. **Orphan ELF exports:** createTarToFdWithWriteStatsRaw, compressZstdFdToFdRaw, and compressZstdFileToFdRaw do not have a verified Kotlin declaration/signature in the reference DEX. They remain non-public/unimplemented until their ABI is established.
 6. **Full TAR metadata:** sparse-file writing, extended attributes and special filesystem objects are not fully implemented in the SBA source-TAR writer.
 
 ## Tests added but not executed here
 
 - Argon2id known-answer and parameter-boundary tests.
-- SBA writer/reader framing and footer CRC tests.
+- SBA writer/reader framing and footer CRC tests, including reference entry flags for encrypted and unencrypted methods.
+- Synthetic encrypted index parsing for AEGIS-256, AES-GCM, and AES-GCM-SIV header variants.
+- AEGIS nonce/AAD byte-layout known-answer tests, upstream libaegis AEGIS-128X2 primitive vector, and native startup self-tests.
+- Caller-supplied AEGIS key-check verification before encrypted entry access.
 - Zstandard-compressed SBA writer/reader test.
 - Corrupt-footer rejection test.
 - Long-path PAX header test.
@@ -53,7 +56,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Existing generic ustar writer tests.
 - SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
-The repository workflow runs on pushes to `rewrite`. CI run `39259928293` passed unit tests and release assembly for commit `7a566ba0`; after adding the pinned `libaegis` dependency, run `39263180222` passed unit tests and was still assembling the release APK at last inspection. Treat the dependency integration as provisional until that run completes. Do not report full SBA parity until encrypted reference-vs-target archive/restore/corruption tests pass.
+The repository workflow runs on pushes to rewrite. The last verified successful build before the recent protocol and parser hardening was run 39272778766. The current head 50c441fa has CI run 39284341450 queued at last inspection. Do not report full SBA parity until current CI succeeds and encrypted reference-vs-target archive/restore/corruption tests pass.
 
 ## Latest implementation notes
 
@@ -81,7 +84,7 @@ Implementation guardrail: do not implement a guessed protocol or set `isAvailabl
 
 - `SbaArchiveReader` reads the full version-sized header (96-byte v1 or 144-byte v2), keeps key-check/salt/nonce-seed fields, validates AEGIS KDF bounds and chunk size, checks AEGIS entry flags (21 uncompressed, 23 Zstandard-compressed), and validates stored size as plaintext/compressed bytes plus 16 bytes per chunk. It can expose the unencrypted SBA index metadata without pretending ciphertext is TAR.
 - `SbaArchiveKeyCheck` implements the reference key-check digest: SHA-256(domain || salt || nonceSeed || Argon2id-derived-key), truncated to 16 bytes. Deterministic vectors cover both AEGIS-256 and AEGIS-128X2, including wrong-password rejection.
-- The public archive entry list/extract paths explicitly fail closed for encrypted payloads. Key-check success is not a payload decryption success and is not a substitute for chunk-protocol interoperability tests.
+- Encrypted entry list/extract paths authenticate the supplied or password-derived key, verify the v2 index MAC where applicable, decrypt chunks into app-private staging, and then invoke the existing TAR parser/extractor. Key-check success is not a substitute for chunk-protocol interoperability tests.
 - Synthetic encrypted-index parsing coverage was added; it is parser regression coverage, not a reference-generated encrypted archive fixture.
 
 
@@ -92,3 +95,6 @@ Implementation guardrail: do not implement a guessed protocol or set `isAvailabl
 - Ciphertext is stored followed by its 16-byte detached tag for each chunk. The last chunk length is derived from the declared compressed/plain payload size; stored size is payload size plus 16 bytes per chunk.
 - These byte layouts are encoded in `SbaAegisChunkProtocol.kt` and `sba_aegis.cpp`. The unit tests validate the derived byte framing and SHA-256 outputs, but those tests are not a substitute for a real SwiftBackup encrypted archive fixture.
 - Native AEGIS entry methods are exposed through private JNI entrypoints and stable Kotlin wrappers. Archive creation performs a post-write decrypt/list pass; if that verification fails, the newly created output is deleted rather than left behind as an apparently valid archive.
+- Native startup availability now requires upstream AEGIS primitive tests, an upstream AEGIS-128X2 known-answer vector, and hard-coded nonce/AAD protocol vectors. This verifies target consistency, not external archive interoperability.
+- SBA entry flags now follow reference us2.q(): unencrypted entries use 1/3, AES-CBC compatibility uses base flags OR 12, and AEAD methods use base flags OR 20. Entry-name validation also matches the reference's acceptance of non-empty whitespace-only names.
+- Caller-supplied keys are checked against the archive key-check and v2 index MAC before encrypted entry processing. Encrypted restore staging is configured to use the app-private cache directory through the root service.
