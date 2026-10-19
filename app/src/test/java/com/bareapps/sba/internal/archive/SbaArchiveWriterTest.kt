@@ -85,6 +85,38 @@ class SbaArchiveWriterTest {
     }
 
     @Test
+    fun writesPaxHeaderForPathsLongerThanUstarLimit() {
+        val root = Files.createTempDirectory("sba-pax-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            val longPath = source.resolve("a".repeat(90)).resolve("b".repeat(90)).resolve("c".repeat(90))
+            Files.createDirectories(longPath)
+            Files.write(longPath.resolve("payload.txt"), "ok".toByteArray(StandardCharsets.UTF_8))
+            val destination = root.resolve("pax.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val info = SbaArchiveReader.read(destination.toString())
+            val archive = Files.readAllBytes(destination)
+            val entry = info.entries.single()
+            val tar = archive.copyOfRange(entry.payloadOffset.toInt(), (entry.payloadOffset + entry.tarSize).toInt())
+            var offset = 0
+            var foundPax = false
+            while (offset + 512 <= tar.size) {
+                if (tar[offset + 156] == 'x'.code.toByte()) foundPax = true
+                if (tar[offset] == 0.toByte()) break
+                offset += 512
+            }
+            assertTrue("Expected a POSIX PAX extension header for the long path", foundPax)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
     fun rejectsArchiveWithCorruptedFooterCrc() {
         val root = Files.createTempDirectory("sba-corruption-test")
         try {
