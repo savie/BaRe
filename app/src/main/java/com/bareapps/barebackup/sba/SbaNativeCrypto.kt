@@ -19,7 +19,7 @@ class SbaNativeCrypto private constructor() {
         outputLength: Int,
     ): ByteArray {
         require(iterations > 0) { "iterations must be positive" }
-        require(memoryKiB >= 8 * parallelism && parallelism > 0) {
+        require(parallelism > 0 && memoryKiB.toLong() >= 8L * parallelism) {
             "memoryKiB must be at least 8 KiB per lane and parallelism must be positive"
         }
         // The reference native implementation rejects output sizes outside 16..128 bytes.
