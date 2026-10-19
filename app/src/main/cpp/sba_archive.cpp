@@ -1009,14 +1009,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
             millisToTimespec(entryMtimeMillis, &fileTimes[1]);
-            if ((restorePermissions && fchmod(out, safeMode) != 0) ||
-                (restoreTimestamps && futimens(out, fileTimes) != 0)) {
-                close(out);
-                close(rootFd);
-                jclass e = env->FindClass("java/io/IOException");
-                if (e) env->ThrowNew(e, "Unable to apply TAR file metadata");
-                return nullptr;
-            }
+            if (restorePermissions) (void)fchmod(out, safeMode);
+            if (restoreTimestamps) (void)futimens(out, fileTimes);
             // Delayed I/O errors (for example ENOSPC) can surface only on
             // close, so do not report an entry as extracted until close succeeds.
             if (close(out) != 0) {
@@ -1093,7 +1087,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             close(parentFd);
             if (targetParentFd >= 0) close(targetParentFd);
-            if (linkResult != 0 || linkTimeResult != 0) {
+            if (linkResult != 0) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Unable to safely materialize TAR link");
