@@ -52,7 +52,21 @@ class SbaArchiveWriterTest {
             val entryHeaderOffset = 96
             assertEquals("SAE1", String(bytes, entryHeaderOffset, 4, StandardCharsets.US_ASCII))
             val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 12, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
-            val payloadOffset = entryHeaderOffset + 24 + nameLength
+            var payloadOffset = entryHeaderOffset + 24 + nameLength
+            // PAX mtime may precede the first real TAR header when the filesystem
+            // reports sub-second timestamps. Skip valid extension records.
+            while (payloadOffset + 512 <= bytes.size) {
+                val tarType = bytes[payloadOffset + 156].toInt().toChar()
+                if (tarType != 'x' && tarType != 'g' && tarType != 'L' && tarType != 'K') break
+                var size = 0L
+                for (i in payloadOffset + 124 until payloadOffset + 136) {
+                    val ch = bytes[i].toInt().toChar()
+                    if (ch == '\u0000' || ch == ' ') continue
+                    if (ch !in '0'..'7') throw AssertionError("Invalid TAR extension size")
+                    size = (size shl 3) + (ch.code - '0'.code)
+                }
+                payloadOffset += 512 + (((size + 511) / 512) * 512).toInt()
+            }
             assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
             assertTrue(bytes.size > payloadOffset + 1024)
         } finally {
