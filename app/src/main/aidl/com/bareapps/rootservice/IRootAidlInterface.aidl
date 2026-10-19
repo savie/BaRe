@@ -2,6 +2,14 @@ package com.bareapps.rootservice;
 
 import android.content.pm.PackageInfo;
 import android.os.ParcelFileDescriptor;
+import com.bareapps.rootservice.SbaArchiveInfo;
+import com.bareapps.rootservice.SbaArchiveInfoPage;
+import com.bareapps.rootservice.SbaCreateRequest;
+import com.bareapps.rootservice.SbaExtractRequest;
+import com.bareapps.rootservice.SbaTarExtractRequest;
+import com.bareapps.rootservice.SbaTarEntryPage;
+import com.bareapps.rootservice.SbaOperationResult;
+import com.bareapps.rootservice.ISbaOperationCallback;
 
 interface IRootAidlInterface {
     int getPid();
