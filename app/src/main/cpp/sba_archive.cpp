@@ -203,7 +203,6 @@ std::map<std::string, std::string> collectPaxXattrs(
     std::map<std::string, std::string> result;
     auto scan = [&](const std::map<std::string, std::string>& records) {
         for (const auto& record : records) {
-            const std::string* attributeName = nullptr;
             std::string name;
             constexpr const char* kSchilyPrefix = "SCHILY.xattr.";
             constexpr const char* kLibarchivePrefix = "LIBARCHIVE.xattr.";
