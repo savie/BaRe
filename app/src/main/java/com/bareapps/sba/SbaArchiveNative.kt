@@ -187,6 +187,7 @@ class SbaArchiveNative private constructor() {
             try {
                 val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
                 if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
+                if (providedKey != null) SbaArchiveKeyCheck.verifyProvidedKey(info, key, path)
                 val temp = Files.createTempFile("bare-sba-aegis-", ".payload")
                 temporary = temp
                 RandomAccessFile(path, "r").use { input ->
