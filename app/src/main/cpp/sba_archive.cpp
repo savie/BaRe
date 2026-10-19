@@ -1361,29 +1361,8 @@ Java_com_bareapps_sba_SbaArchiveNative_createArchive(
         option5, option6, option7, option8, option9, key0, key1, key2, key3, progress));
 }
 
-extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
-    jlong, jlong, jint, jobject) {
-    throwUnsupported(env, "AEGIS-128X2 chunk decryption");
-    return nullptr;
-}
 
-extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
-    jlong, jlong, jint, jobject) {
-    throwUnsupported(env, "AEGIS-256 chunk decryption");
-    return nullptr;
-}
 
-extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
-    jlong, jlong, jint, jobject) {
-    throwUnsupported(env, "AEGIS-256 chunk encryption");
-    return nullptr;
-}
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesFromFdRaw(
