@@ -115,7 +115,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 if (encrypted) 16384 else 0,
                 if (encrypted) 1 else 0,
                 if (encrypted) 1048576 else 0,
-                if (encrypted) 1 else 0,
+                2,
                 keyLength,
                 if (encrypted) key else null,
                 if (encrypted) keyCheck else null,
