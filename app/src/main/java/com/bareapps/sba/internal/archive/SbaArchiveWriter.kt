@@ -1,7 +1,6 @@
 package com.bareapps.sba.internal.archive
 
 import androidx.annotation.Keep
-import com.bareapps.sba.SbaArchiveNative
 import com.bareapps.sba.SbaLibaegisCryptoNative
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdOutputStream
@@ -145,7 +144,7 @@ internal object SbaArchiveWriter {
                         val source = Path.of(sourcePaths[i]).toAbsolutePath().normalize()
                         val sourceExists = Files.exists(source, LinkOption.NOFOLLOW_LINKS)
                         require(sourceExists || entryModes[i] and 16 != 0) { "SBA source does not exist: $source" }
-                        val tarTemp = SbaArchiveNative.createStagingTempFile(".bare-sba-tar-", ".tmp")
+                        val tarTemp = SbaArchiveStaging.createTempFile(".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
                         val producerStart = System.nanoTime()
                         val tarCounts = if (sourceExists) {
