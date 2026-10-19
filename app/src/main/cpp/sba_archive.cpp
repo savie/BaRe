@@ -633,7 +633,7 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 }
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
-                        jobjectArray includes, jobject progress) {
+                        jint modeMask, jobjectArray includes, jobject progress) {
     if (fd < 0 || startOffset < 0 || destination == nullptr) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
@@ -982,7 +982,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
-            const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
+            const mode_t safeMode = static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
             millisToTimespec(entryMtimeMillis, &fileTimes[1]);
@@ -1257,8 +1257,9 @@ Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw(
-    JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint, jobjectArray includes, jobject progress) {
-    return extractTar(env, fd, offset, destination, includes, progress);
+    JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint modeMask,
+    jobjectArray includes, jobject progress) {
+    return extractTar(env, fd, offset, destination, modeMask, includes, progress);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
@@ -1329,7 +1330,7 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     env->DeleteLocalRef(entryClass);
 
     const jlong dataStart = started();
-    jobjectArray extracted = extractTar(env, fd, 0, destination, includes, progress);
+    jobjectArray extracted = extractTar(env, fd, 0, destination, flags, includes, progress);
     if (extracted == nullptr || env->ExceptionCheck()) {
         env->DeleteLocalRef(listed);
         return nullptr;
