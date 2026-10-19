@@ -8,6 +8,9 @@ data class SbaArchiveEntry(
     val compressedSize: Long,
     val tarSize: Long,
     val flags: Int,
+    val tarEntryCount: Long? = null,
+    val regularFileCount: Long? = null,
+    val directoryCount: Long? = null,
 )
 
 data class SbaArchiveInfo(
