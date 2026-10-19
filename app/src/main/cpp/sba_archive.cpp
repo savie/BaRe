@@ -235,7 +235,13 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     jmethodID ctor = env->GetMethodID(entryClass, "<init>",
         "(Ljava/lang/String;ILjava/lang/String;IJJJZ[Ljava/lang/String;)V");
     if (!ctor) return nullptr;
-    std::vector<jobject> entries;
+    // Keep entry objects in a Java collection; avoid one JNI global reference per entry.
+    jclass listClass = env->FindClass("java/util/ArrayList");
+    jmethodID listCtor = listClass ? env->GetMethodID(listClass, "<init>", "()V") : nullptr;
+    jmethodID listAdd = listClass ? env->GetMethodID(listClass, "add", "(Ljava/lang/Object;)Z") : nullptr;
+    if (!listCtor || !listAdd) return nullptr;
+    jobject entries = env->NewObject(listClass, listCtor);
+    if (!entries) return nullptr;
     std::string pendingLongName;
     std::string pendingLongLink;
     std::map<std::string, std::string> globalPax;
@@ -252,7 +258,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                 offset >= inputStat.st_size) break;
             jclass e = env->FindClass("java/io/EOFException");
             if (e) env->ThrowNew(e, "Truncated TAR header");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         bool zero = true;
@@ -262,7 +268,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (!validTarChecksum(h)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR header checksum");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         const uint64_t headerSize = parseTarNumber(h.size, sizeof(h.size));
@@ -274,7 +280,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             if (paxSize != nullptr && !parsePaxUnsigned(*paxSize, &size)) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid POSIX PAX size");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
         }
@@ -284,7 +290,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (size == UINT64_MAX) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR entry size");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         const uint64_t boundsSize = metadataRecord ? headerSize : size;
@@ -296,7 +302,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                 blocksForBounds > static_cast<uint64_t>((archiveStat.st_size - offset - 512) / 512)) {
                 jclass e = env->FindClass("java/io/EOFException");
                 if (e) env->ThrowNew(e, "TAR entry payload extends beyond end of archive");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
         }
@@ -307,14 +313,14 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
             const uint64_t step = 512ULL + blocksForBounds * 512ULL;
             if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "PAX header offset overflow");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
             offset += static_cast<off_t>(step);
@@ -326,7 +332,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             if (!readTarTextAt(fd, payloadOffset, size, &value)) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid or truncated GNU TAR long-name record");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
             if (h.typeflag == 'L') pendingLongName = value;
@@ -335,7 +341,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "TAR long-name offset overflow");
-                for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
                 return nullptr;
             }
             offset += static_cast<off_t>(step);
@@ -349,7 +355,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (paxMtime != nullptr && !parsePaxMtimeMillis(*paxMtime, &mtimeMillis)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid POSIX PAX mtime");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         if (mtime == UINT64_MAX || mode == UINT64_MAX ||
@@ -357,7 +363,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             (paxMtime == nullptr && mtimeMillis < 0)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR mode or modification time");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         const std::string* paxPath = paxValue(pendingPax, globalPax, "path");
@@ -367,7 +373,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (name.empty()) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry has an empty path");
-            for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
             return nullptr;
         }
         const std::string* paxLink = paxValue(pendingPax, globalPax, "linkpath");
@@ -400,7 +406,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                  realSize > static_cast<uint64_t>(INT64_MAX))) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
-                for (jobject previous : entries) env->DeleteGlobalRef(previous);
+
                 return nullptr;
             }
         }
@@ -438,16 +444,12 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (xattrs) env->DeleteLocalRef(xattrs);
         if (stringClass) env->DeleteLocalRef(stringClass);
         if (!entry) {
-            for (jobject previous : entries) env->DeleteGlobalRef(previous);
+
             return nullptr;
         }
-        jobject retainedEntry = env->NewGlobalRef(entry);
+        env->CallBooleanMethod(entries, listAdd, entry);
         env->DeleteLocalRef(entry);
-        if (retainedEntry == nullptr) {
-            for (jobject previous : entries) env->DeleteGlobalRef(previous);
-            return nullptr;
-        }
-        entries.push_back(retainedEntry);
+        if (env->ExceptionCheck()) return nullptr;
         pendingPax.clear();
         const uint64_t payloadSize = metadataRecord ? headerSize : size;
         const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
@@ -455,14 +457,14 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             env->DeleteGlobalRef(entry);
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
-            for (jobject previous : entries) env->DeleteGlobalRef(previous);
+
             return nullptr;
         }
         const uint64_t step = 512ULL + blocks * 512ULL;
         if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
-            for (jobject previous : entries) env->DeleteGlobalRef(previous);
+
             return nullptr;
         }
         offset += static_cast<off_t>(step);
@@ -470,18 +472,24 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     if (count == 1000000) {
         jclass e = env->FindClass("java/io/IOException");
         if (e) env->ThrowNew(e, "TAR entry count exceeds the supported limit");
-        for (jobject entry : entries) env->DeleteGlobalRef(entry);
+
         return nullptr;
     }
-    jobjectArray result = env->NewObjectArray(static_cast<jsize>(entries.size()), entryClass, nullptr);
-    if (result) {
-        for (jsize i = 0; i < static_cast<jsize>(entries.size()); ++i) {
-            env->SetObjectArrayElement(result, i, entries[static_cast<size_t>(i)]);
-            env->DeleteGlobalRef(entries[static_cast<size_t>(i)]);
-        }
-    } else {
-        for (jobject entry : entries) env->DeleteGlobalRef(entry);
+    jmethodID listSize = env->GetMethodID(listClass, "size", "()I");
+    jmethodID listToArray = env->GetMethodID(listClass, "toArray", "([Ljava/lang/Object;)[Ljava/lang/Object;");
+    if (!listSize || !listToArray) {
+        env->DeleteLocalRef(entries);
+        env->DeleteLocalRef(listClass);
+        return nullptr;
     }
+    const jint entryCount = env->CallIntMethod(entries, listSize);
+    jobjectArray typedArray = env->NewObjectArray(entryCount, entryClass, nullptr);
+    jobjectArray result = typedArray
+        ? static_cast<jobjectArray>(env->CallObjectMethod(entries, listToArray, typedArray))
+        : nullptr;
+    if (typedArray) env->DeleteLocalRef(typedArray);
+    env->DeleteLocalRef(entries);
+    env->DeleteLocalRef(listClass);
     return result;
 }
 
