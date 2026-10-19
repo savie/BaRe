@@ -25,6 +25,9 @@ data class SbaCreateTaskRequest(
     val excludePaths: List<List<String>?> = List(sourcePaths.size) { null },
     val compressionMethod: Int = 0,
     val compressionLevel: Int = 0,
+    val mode: Int = 1,
+    val encryptionMethod: Int = 0,
+    val password: CharArray? = null,
 )
 
 data class SbaExtractTaskRequest(
