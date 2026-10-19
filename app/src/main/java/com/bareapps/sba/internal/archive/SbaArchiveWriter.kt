@@ -39,8 +39,8 @@ internal object SbaArchiveWriter {
     @Throws(IOException::class)
     fun createArchive(
         mode: Int, outputPath: String, metadata: ByteArray, sourcePaths: Array<String>,
-        entryNames: Array<String>, entryModes: IntArray, includePaths: Array<Array<String>>,
-        excludePaths: Array<Array<String>>, option0: Int, option1: Int, option2: Int,
+        entryNames: Array<String>, entryModes: IntArray, includePaths: Array<out Array<String>?>,
+        excludePaths: Array<out Array<String>?>, option0: Int, option1: Int, option2: Int,
         option3: Int, option4: Int, option5: Int, option6: Int, option7: Int, option8: Int,
         option9: Int, key0: ByteArray?, key1: ByteArray?, key2: ByteArray?, key3: ByteArray?,
         progress: SbaNativeProgressListener?,
@@ -91,7 +91,7 @@ internal object SbaArchiveWriter {
                         val tarTemp = Files.createTempFile(parent, ".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
                         val producerStart = System.nanoTime()
-                        writeTar(source, tarTemp, entryModes[i], includePaths[i], excludePaths[i], progress)
+                        writeTar(source, tarTemp, entryModes[i], includePaths[i] ?: emptyArray(), excludePaths[i] ?: emptyArray(), progress)
                         producerMillis += elapsedMillis(producerStart)
                         val tarSize = Files.size(tarTemp)
                         require(tarSize >= TAR_BLOCK * 2 && tarSize % TAR_BLOCK == 0L) { "Generated TAR payload is not block aligned" }
