@@ -5,6 +5,9 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <map>
+#include <cstdlib>
+#include <cmath>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -94,6 +97,59 @@ bool readTarTextAt(int fd, uint64_t offset, uint64_t size, std::string* value) {
     while (length > 0 && (bytes[length - 1] == '\n' || bytes[length - 1] == '\r')) --length;
     value->assign(bytes.data(), length);
     return !value->empty();
+}
+
+/** Parse POSIX PAX length-prefixed records without trusting their declared lengths. */
+bool parsePaxRecords(const std::string& payload, std::map<std::string, std::string>* records) {
+    if (records == nullptr) return false;
+    size_t at = 0;
+    while (at < payload.size()) {
+        const size_t space = payload.find(' ', at);
+        if (space == std::string::npos || space == at) return false;
+        uint64_t recordLength = 0;
+        for (size_t i = at; i < space; ++i) {
+            const unsigned char ch = static_cast<unsigned char>(payload[i]);
+            if (ch < '0' || ch > '9') return false;
+            const uint64_t digit = static_cast<uint64_t>(ch - '0');
+            if (recordLength > (UINT64_MAX - digit) / 10ULL) return false;
+            recordLength = recordLength * 10ULL + digit;
+        }
+        if (recordLength == 0 || recordLength > payload.size() - at ||
+            recordLength <= space - at + 2) return false;
+        const size_t recordEnd = at + static_cast<size_t>(recordLength);
+        if (payload[recordEnd - 1] != '\n') return false;
+        const size_t equals = payload.find('=', space + 1);
+        if (equals == std::string::npos || equals >= recordEnd - 1 || equals == space + 1) return false;
+        const std::string key = payload.substr(space + 1, equals - (space + 1));
+        const std::string value = payload.substr(equals + 1, recordEnd - equals - 2);
+        if (value.empty()) records->erase(key);
+        else (*records)[key] = value;
+        at = recordEnd;
+    }
+    return at == payload.size();
+}
+
+bool readPaxRecordsAt(int fd, uint64_t offset, uint64_t size,
+                      std::map<std::string, std::string>* records) {
+    constexpr uint64_t kMaxPaxPayload = 16ULL * 1024ULL * 1024ULL;
+    if (records == nullptr || size == 0 || size > kMaxPaxPayload ||
+        offset > static_cast<uint64_t>(INT64_MAX) ||
+        size > static_cast<uint64_t>(INT64_MAX) - offset) return false;
+    std::string payload(static_cast<size_t>(size), '\0');
+    if (!readExactAt(fd, payload.data(), payload.size(), static_cast<off_t>(offset))) return false;
+    return parsePaxRecords(payload, records);
+}
+
+bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
+    if (millis == nullptr || value.empty()) return false;
+    char* end = nullptr;
+    errno = 0;
+    const double seconds = std::strtod(value.c_str(), &end);
+    if (errno != 0 || end == value.c_str() || *end != '\0' ||
+        !std::isfinite(seconds) || seconds < 0.0 ||
+        seconds > static_cast<double>(INT64_MAX) / 1000.0) return false;
+    *millis = static_cast<jlong>(seconds * 1000.0);
+    return true;
 }
 
 jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
