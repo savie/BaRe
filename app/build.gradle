@@ -55,6 +55,7 @@ android {
         targetSdk 37
         versionCode providers.environmentVariable("GITHUB_RUN_NUMBER").orElse("1").get().toInteger()
         versionName "1.0.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
         }
@@ -191,4 +192,6 @@ dependencies {
     implementation "io.github.l4digital:fastscroll:2.1.0"
     implementation "com.github.warkiz:IndicatorSeekBar:v2.0.9"
     testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
 }
