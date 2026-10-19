@@ -14,19 +14,9 @@ import java.io.OutputStream
 class SbaZstdNative private constructor() {
     private external fun decompressZstdFdToFdRaw(inputFd: Int, outputFd: Int, maxBytes: Long, progress: SbaNativeProgressListener?): LongArray
 
-    /**
-     * Compresses a byte array as one Zstandard frame using the same explicit
-     * compression-level contract as the reference JNI method.
-     */
-    fun compressZstdBytes(input: ByteArray, level: Int): ByteArray =
-        com.github.luben.zstd.Zstd.compress(input, level)
-
-    /**
-     * Decompresses Zstandard frame data without requiring the uncompressed size
-     * to be supplied by the caller, matching the reference method's signature.
-     */
-    fun decompressZstdBytes(input: ByteArray): ByteArray =
-        com.github.luben.zstd.Zstd.decompress(input)
+    /** Native entry points matching the reference JNI declarations exactly. */
+    external fun compressZstdBytes(input: ByteArray, level: Int): ByteArray
+    external fun decompressZstdBytes(input: ByteArray): ByteArray
 
     /**
      * Decompresses a Zstandard stream between caller-owned descriptors.
