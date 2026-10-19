@@ -78,6 +78,8 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         var nonceSeed = ByteArray(0)
         var key = ByteArray(0)
         var keyCheck = ByteArray(0)
+        var archiveCreated = false
+        var archiveVerified = false
         try {
             require(request.mode == 1 || (request.mode == 2 && request.encryptionMethod in 4..5)) {
                 "Unsupported SBA mode/encryption method"
@@ -121,6 +123,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 if (encrypted) nonceSeed else null,
                 progress,
             )
+            archiveCreated = true
             var tarEntries = 0L
             var regularFiles = 0L
             var directories = 0L
@@ -151,6 +154,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                     }
                 }
             }
+            archiveVerified = true
             return SbaTaskBackendResult(
                 outputPath = request.outputPath,
                 bytesProcessed = stats.getOrElse(0) { 0L },
@@ -164,6 +168,9 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 regularFileBytes = regularBytes,
             )
         } finally {
+            if (encrypted && archiveCreated && !archiveVerified) {
+                try { Files.deleteIfExists(Path.of(request.outputPath)) } catch (_: Exception) { }
+            }
             request.password?.fill('\u0000')
             Arrays.fill(salt, 0)
             Arrays.fill(nonceSeed, 0)
