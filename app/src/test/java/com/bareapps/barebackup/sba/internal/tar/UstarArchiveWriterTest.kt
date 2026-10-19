@@ -83,6 +83,37 @@ class UstarArchiveWriterTest {
         }
     }
 
+    @Test
+    fun writesValidEmptyArchiveAndReplacesDestinationOnlyAfterSuccess() {
+        val directory = Files.createTempDirectory("bare-ustar-atomic-")
+        val destination = directory.resolve("archive.tar")
+        try {
+            Files.write(destination, byteArrayOf(9, 8, 7))
+            UstarArchiveWriter.write(destination, emptyList())
+            val emptyArchive = Files.readAllBytes(destination)
+            assertEquals(1024, emptyArchive.size)
+            assertTrue(emptyArchive.all { it == 0.toByte() })
+
+            val sentinel = byteArrayOf(4, 5, 6)
+            Files.write(destination, sentinel)
+            var rejected = false
+            try {
+                UstarArchiveWriter.write(
+                    destination,
+                    listOf(UstarArchiveWriter.Entry("../escape", byteArrayOf(1)))
+                )
+            } catch (_: IllegalArgumentException) {
+                rejected = true
+            }
+            assertTrue(rejected)
+            assertTrue(Files.readAllBytes(destination).contentEquals(sentinel))
+            assertEquals(1L, Files.list(directory).use { it.count() })
+        } finally {
+            Files.deleteIfExists(destination)
+            Files.deleteIfExists(directory)
+        }
+    }
+
     private fun parseOctal(bytes: ByteArray, offset: Int, length: Int): Long {
         val text = String(bytes, offset, length, Charsets.US_ASCII).trim('\u0000', ' ')
         return text.toLong(8)
