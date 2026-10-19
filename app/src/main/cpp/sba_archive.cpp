@@ -566,19 +566,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             offset += static_cast<off_t>(512ULL + blocks * 512ULL);
             continue;
         }
-        if (h.typeflag == 'x' || h.typeflag == 'g') {
-            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
-            const bool isGlobal = h.typeflag == 'g';
-            auto& destination = isGlobal ? globalPax : pendingPax;
-            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
-                close(rootFd);
-                jclass e = env->FindClass("java/io/IOException");
-                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
-                return nullptr;
-            }
-            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
-            continue;
-        }
         if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
@@ -650,6 +637,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 close(rootFd);
                 return nullptr;
             }
+        }
+        if (h.typeflag == 'x' || h.typeflag == 'g') {
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            const bool isGlobal = h.typeflag == 'g';
+            auto& destination = isGlobal ? globalPax : pendingPax;
+            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
+                return nullptr;
+            }
+            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            continue;
         }
         if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
             jclass e = env->FindClass("java/io/IOException");
