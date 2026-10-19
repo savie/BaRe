@@ -1,11 +1,13 @@
 package com.bareapps.sba.internal.archive
 
+import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.util.zip.CRC32
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -219,6 +221,24 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(1, aesCbcInfo.encryptionMethod)
             assertEquals(13, aesCbcInfo.entries.single().flags)
             assertEquals(tarSize, aesCbcInfo.entries.single().storedSize)
+
+            val invalidGcm = Files.readAllBytes(root.resolve("encrypted-2.sba"))
+            ByteBuffer.wrap(invalidGcm).order(ByteOrder.BIG_ENDIAN).putInt(88, 0)
+            val invalidGcmPath = root.resolve("invalid-gcm-chunk.sba")
+            Files.write(invalidGcmPath, invalidGcm)
+            assertThrows(IOException::class.java) { SbaArchiveReader.read(invalidGcmPath.toString()) }
+
+            val invalidCbc = Files.readAllBytes(aesCbcPath)
+            ByteBuffer.wrap(invalidCbc).order(ByteOrder.BIG_ENDIAN).putShort(84, 0)
+            val invalidCbcPath = root.resolve("invalid-aes-cbc-mac.sba")
+            Files.write(invalidCbcPath, invalidCbc)
+            assertThrows(IOException::class.java) { SbaArchiveReader.read(invalidCbcPath.toString()) }
+
+            val invalidKdf = Files.readAllBytes(path)
+            ByteBuffer.wrap(invalidKdf).order(ByteOrder.BIG_ENDIAN).putShort(28, 0)
+            val invalidKdfPath = root.resolve("invalid-aegis-kdf.sba")
+            Files.write(invalidKdfPath, invalidKdf)
+            assertThrows(IOException::class.java) { SbaArchiveReader.read(invalidKdfPath.toString()) }
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
