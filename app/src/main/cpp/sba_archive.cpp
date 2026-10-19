@@ -225,20 +225,32 @@ bool safeRelativePath(const std::string& name) {
     return true;
 }
 
-bool makeDirectories(const std::string& path) {
-    if (path.empty()) return true;
-    std::string current;
-    for (size_t i = 0; i < path.size(); ++i) {
-        current.push_back(path[i]);
-        if (path[i] == '/') {
-            current.pop_back();
-            if (!current.empty() && mkdir(current.c_str(), 0755) != 0 && errno != EEXIST) return false;
-            current.push_back('/');
+// Create/open an absolute directory path without following symlinks in any
+// component. A final O_NOFOLLOW check alone is insufficient: an intermediate
+// component could otherwise redirect extraction outside the intended tree.
+int openOrCreateDirectoryPath(const std::string& path) {
+    if (path.empty() || path[0] != '/') { errno = EINVAL; return -1; }
+    int current = open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+    if (current < 0) return -1;
+    size_t at = 1;
+    while (at < path.size()) {
+        size_t end = path.find('/', at);
+        if (end == std::string::npos) end = path.size();
+        const std::string part = path.substr(at, end - at);
+        if (part.empty() || part == "." || part == "..") {
+            close(current); errno = EINVAL; return -1;
         }
+        if (mkdirat(current, part.c_str(), 0755) != 0 && errno != EEXIST) {
+            close(current); return -1;
+        }
+        int next = openat(current, part.c_str(),
+                          O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+        close(current);
+        if (next < 0) return -1;
+        current = next;
+        at = end + 1;
     }
-    if (mkdir(path.c_str(), 0755) != 0 && errno != EEXIST) return false;
-    struct stat st{};
-    return stat(path.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
+    return current;
 }
 
 /**
@@ -291,15 +303,15 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     if (!destinationChars) return nullptr;
     std::string root(destinationChars);
     env->ReleaseStringUTFChars(destination, destinationChars);
-    if (root.empty() || root[0] != '/' || !makeDirectories(root)) {
+    if (root.empty() || root[0] != '/') {
         jclass e = env->FindClass("java/io/IOException");
-        if (e) env->ThrowNew(e, "TAR destination must be an accessible absolute directory");
+        if (e) env->ThrowNew(e, "TAR destination must be an absolute directory");
         return nullptr;
     }
-    int rootFd = open(root.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    int rootFd = openOrCreateDirectoryPath(root);
     if (rootFd < 0) {
         jclass e = env->FindClass("java/io/IOException");
-        if (e) env->ThrowNew(e, "Unable to securely open TAR destination");
+        if (e) env->ThrowNew(e, "Unable to securely create/open TAR destination without following symlinks");
         return nullptr;
     }
     std::vector<std::string> filters;
