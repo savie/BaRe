@@ -31,6 +31,7 @@ internal object SbaArchiveWriter {
     private const val MAX_ENTRIES = 1_000_000
     private const val MAX_INDEX_BYTES = 256 shl 20
     private const val TAR_BLOCK = 512
+    private const val MAX_TAR_OCTAL = 0x1ffffffffL
 
     private data class EntryRecord(
         val name: ByteArray, val entryOffset: Long, val payloadOffset: Long,
@@ -227,7 +228,7 @@ internal object SbaArchiveWriter {
                     val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
                     if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
                     val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
-                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis() / 1000, readMode(path, attrs.isDirectory, attrs.isSymbolicLink), linkTarget)
+                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis(), readMode(path, attrs.isDirectory, attrs.isSymbolicLink), linkTarget)
                     if (attrs.isRegularFile) {
                         Files.newInputStream(path).use { input ->
                             val buffer = ByteArray(64 * 1024)
@@ -259,16 +260,63 @@ internal object SbaArchiveWriter {
         return includes.isEmpty() || includes.any(::matches)
     }
 
-    private fun writeTarHeader(out: java.io.OutputStream, name: String, directory: Boolean, size: Long, mtime: Long, mode: Int, linkTarget: String? = null) {
-        val split = splitName(name) ?: throw IOException("TAR path exceeds ustar limits: $name")
+    private fun writeTarHeader(
+        out: java.io.OutputStream,
+        name: String,
+        directory: Boolean,
+        size: Long,
+        mtimeMillis: Long,
+        mode: Int,
+        linkTarget: String? = null,
+    ) {
+        val split = splitName(name)
+        val linkTooLong = linkTarget != null && linkTarget.toByteArray(StandardCharsets.UTF_8).size > 100
+        val mtimeSeconds = Math.floorDiv(mtimeMillis, 1000L)
+        val mtimeNeedsPax = mtimeMillis < 0L || mtimeSeconds > MAX_TAR_OCTAL || mtimeMillis % 1000L != 0L
+        val sizeNeedsPax = size > MAX_TAR_OCTAL
+        val pax = linkedMapOf<String, String>()
+        if (split == null) pax["path"] = name
+        if (linkTooLong && linkTarget != null) pax["linkpath"] = linkTarget
+        if (sizeNeedsPax) pax["size"] = size.toString()
+        if (mtimeNeedsPax) pax["mtime"] = java.math.BigDecimal.valueOf(mtimeMillis, 3).stripTrailingZeros().toPlainString()
+
+        if (pax.isNotEmpty()) {
+            val payload = encodePaxRecords(pax)
+            if (payload.size > (16 shl 20)) throw IOException("TAR PAX metadata exceeds 16 MiB")
+            writeRawTarHeader(out, "PaxHeaders/entry", false, payload.size.toLong(),
+                mtimeSeconds.coerceIn(0L, MAX_TAR_OCTAL), 0x1a4, null, 'x')
+            out.write(payload)
+            val padding = (TAR_BLOCK - payload.size % TAR_BLOCK) % TAR_BLOCK
+            if (padding > 0) out.write(ByteArray(padding))
+        }
+
+        val headerName = if (split == null) "PaxEntry" else name
+        val headerLink = if (linkTooLong) null else linkTarget
+        val headerSize = if (sizeNeedsPax) 0L else size
+        val headerMtime = if (mtimeNeedsPax) 0L else mtimeSeconds
+        val type = if (linkTarget != null) '2' else if (directory) '5' else '0'
+        writeRawTarHeader(out, headerName, directory, headerSize, headerMtime, mode, headerLink, type)
+    }
+
+    private fun writeRawTarHeader(
+        out: java.io.OutputStream,
+        name: String,
+        directory: Boolean,
+        size: Long,
+        mtimeSeconds: Long,
+        mode: Int,
+        linkTarget: String?,
+        typeFlag: Char,
+    ) {
+        val split = splitName(name) ?: throw IOException("Internal TAR header name exceeds ustar limits")
         val header = ByteArray(TAR_BLOCK)
         putText(header, 0, 100, split.second)
         putOctal(header, 100, 8, mode.toLong())
         putOctal(header, 108, 8, 0); putOctal(header, 116, 8, 0)
-        putOctal(header, 124, 12, if (directory) 0 else size)
-        putOctal(header, 136, 12, mtime.coerceAtLeast(0))
+        putOctal(header, 124, 12, if (directory && typeFlag == '5') 0 else size)
+        putOctal(header, 136, 12, mtimeSeconds.coerceIn(0L, MAX_TAR_OCTAL))
         for (i in 148 until 156) header[i] = 0x20
-        header[156] = (if (linkTarget != null) '2' else if (directory) '5' else '0').code.toByte()
+        header[156] = typeFlag.code.toByte()
         if (linkTarget != null) {
             val linkBytes = linkTarget.toByteArray(StandardCharsets.UTF_8)
             require(linkBytes.size <= 100) { "TAR symbolic-link target exceeds ustar limits: $name" }
@@ -280,6 +328,24 @@ internal object SbaArchiveWriter {
         putText(header, 148, 6, String.format(Locale.ROOT, "%06o", sum))
         header[154] = 0; header[155] = ' '.code.toByte()
         out.write(header)
+    }
+
+    private fun encodePaxRecords(values: Map<String, String>): ByteArray {
+        val out = java.io.ByteArrayOutputStream()
+        values.forEach { (key, value) ->
+            require(key.isNotBlank() && '=' !in key && '\n' !in key && '\u0000' !in key)
+            require('\n' !in value && '\u0000' !in value)
+            val body = "$key=$value\n".toByteArray(StandardCharsets.UTF_8)
+            var recordLength = body.size + 2
+            while (true) {
+                val updated = body.size + recordLength.toString().length + 1
+                if (updated == recordLength) break
+                recordLength = updated
+            }
+            out.write("$recordLength ".toByteArray(StandardCharsets.US_ASCII))
+            out.write(body)
+        }
+        return out.toByteArray()
     }
 
     private fun readMode(path: Path, directory: Boolean, symbolicLink: Boolean): Int {
