@@ -28,6 +28,15 @@ import java.util.Locale
 /** Shizuku user-service Binder adapter for SBA operations. */
 class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     private val taskRunner = SbaArchiveTaskRunner()
+    private data class CacheRecord<T>(
+        val value: T,
+        val expiresAtMillis: Long,
+        val fileSize: Long,
+        val modifiedAtMillis: Long,
+    )
+    private val archiveCache = java.util.LinkedHashMap<String, CacheRecord<NativeArchiveInfo>>(8, 0.75f, true)
+    private val tarCache = java.util.LinkedHashMap<String, CacheRecord<List<SbaTarEntryInfo>>>(4, 0.75f, true)
+    private val cacheTtlMillis = 30_000L
 
     override fun getPid(): Int = Process.myPid()
     override fun getUid(): Int = Process.myUid()
@@ -95,7 +104,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
                 ?: throw RemoteException("SBA entry not found: " + entryName))
         }
         val all = try {
-            selected.flatMap { SbaArchiveNative.listEntryTarEntries(path, it.name).toList() }
+            selected.flatMap { listArchiveTarEntries(path, it.name) }
         } catch (failure: IOException) {
             throw RemoteException("Unable to list SBA TAR entries: " + failure.message)
         }
@@ -109,9 +118,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     override fun listTarEntries(path: String, start: Int, pageSize: Int): SbaTarEntryPage {
         validateAbsolutePath(path)
         val all = try {
-            FileInputStream(path).use { input ->
-                SbaBareTarNative.instance.listTarEntriesFromDescriptor(input.fd, 0L).toList()
-            }
+            listDirectTarEntries(path)
         } catch (failure: IOException) {
             throw RemoteException("Unable to list TAR entries: " + failure.message)
         }
@@ -218,13 +225,67 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         )
     }
 
+    @Synchronized
     private fun readNativeInfo(path: String): NativeArchiveInfo {
         validateAbsolutePath(path)
-        return try {
+        val file = File(path)
+        if (!file.isFile) throw RemoteException("SBA archive is not a regular file")
+        val fileSize = file.length()
+        val modified = file.lastModified()
+        val now = System.currentTimeMillis()
+        archiveCache[path]?.let { cached ->
+            if (cached.expiresAtMillis > now && cached.fileSize == fileSize && cached.modifiedAtMillis == modified) {
+                return cached.value
+            }
+        }
+        val info = try {
             SbaArchiveNative.readArchiveInfo(path)
         } catch (failure: IOException) {
             throw RemoteException("Unable to read SBA archive: " + failure.message)
         }
+        archiveCache[path] = CacheRecord(info, now + cacheTtlMillis, fileSize, modified)
+        while (archiveCache.size > 4) archiveCache.remove(archiveCache.entries.iterator().next().key)
+        return info
+    }
+
+    @Synchronized
+    @Throws(IOException::class)
+    private fun listArchiveTarEntries(path: String, entryName: String): List<SbaTarEntryInfo> {
+        val file = File(path)
+        val fileSize = file.length()
+        val modified = file.lastModified()
+        val now = System.currentTimeMillis()
+        val key = path + "\u0000" + entryName
+        tarCache[key]?.let { cached ->
+            if (cached.expiresAtMillis > now && cached.fileSize == fileSize && cached.modifiedAtMillis == modified) {
+                return cached.value
+            }
+        }
+        val entries = SbaArchiveNative.listEntryTarEntries(path, entryName).toList()
+        tarCache[key] = CacheRecord(entries, now + cacheTtlMillis, fileSize, modified)
+        while (tarCache.size > 2) tarCache.remove(tarCache.entries.iterator().next().key)
+        return entries
+    }
+
+    @Synchronized
+    @Throws(IOException::class)
+    private fun listDirectTarEntries(path: String): List<SbaTarEntryInfo> {
+        val file = File(path)
+        val fileSize = file.length()
+        val modified = file.lastModified()
+        val now = System.currentTimeMillis()
+        val key = path + "\u0000direct"
+        tarCache[key]?.let { cached ->
+            if (cached.expiresAtMillis > now && cached.fileSize == fileSize && cached.modifiedAtMillis == modified) {
+                return cached.value
+            }
+        }
+        val entries = FileInputStream(path).use { input ->
+            SbaBareTarNative.instance.listTarEntriesFromDescriptor(input.fd, 0L).toList()
+        }
+        tarCache[key] = CacheRecord(entries, now + cacheTtlMillis, fileSize, modified)
+        while (tarCache.size > 2) tarCache.remove(tarCache.entries.iterator().next().key)
+        return entries
     }
 
     private fun toRootInfo(info: NativeArchiveInfo, indices: List<Int>): SbaArchiveInfo {
@@ -360,11 +421,19 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         }
     }
 
+    fun destroy() {
+        close()
+    }
+
     fun onDestroy() {
         close()
     }
 
     override fun close() {
         taskRunner.close()
+        synchronized(this) {
+            archiveCache.clear()
+            tarCache.clear()
+        }
     }
 }
