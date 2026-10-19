@@ -136,7 +136,9 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun createSba(request: SbaCreateRequest, callback: ISbaOperationCallback?): Long {
-        if (request.encryptionFlag != 0 || !request.password.isNullOrEmpty()) {
+        if (request.mode !in 0..1) throw RemoteException("Unknown SBA TAR profile")
+        if (request.encryptionMethod !in 0..1) throw RemoteException("Unknown SBA encryption method")
+        if (request.encryptionMethod != 0 || !request.password.isNullOrEmpty()) {
             request.password?.fill('\u0000')
             throw RemoteException("Encrypted SBA creation requires the unfinished AEGIS/key schedule")
         }
