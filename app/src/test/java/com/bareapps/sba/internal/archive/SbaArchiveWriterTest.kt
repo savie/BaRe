@@ -59,6 +59,30 @@ class SbaArchiveWriterTest {
     }
 
     @Test
+    fun writesAndReadsZstandardCompressedSbaEntry() {
+        val root = Files.createTempDirectory("sba-zstd-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.bin"), ByteArray(4097) { (it % 251).toByte() })
+            val destination = root.resolve("compressed.sba")
+            val stats = SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                1, 3, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(1, parsed.compressionMethod)
+            assertEquals(3, parsed.compressionLevel)
+            assertEquals(stats[0], Files.size(destination))
+            assertEquals(1, parsed.entries.size)
+            assertTrue(parsed.entries.single().compressedSize < parsed.entries.single().tarSize)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
+        }
+    }
+
+    @Test
     fun rejectsEncryptedModeWithoutReplacingExistingDestination() {
         val root = Files.createTempDirectory("sba-writer-test")
         try {
