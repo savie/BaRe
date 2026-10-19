@@ -51,6 +51,10 @@ class SbaArchiveWriterTest {
 
             val entryHeaderOffset = 96
             assertEquals("SAE1", String(bytes, entryHeaderOffset, 4, StandardCharsets.US_ASCII))
+            // Reference us2.q() uses entry flags 1 for uncompressed/no-encryption entries.
+            assertEquals(1, ByteBuffer.wrap(bytes, entryHeaderOffset + 8, 4).order(ByteOrder.BIG_ENDIAN).int)
+            val indexRecordFlagsOffset = stats[1].toInt() + 16 + metadata.size + 40
+            assertEquals(1, ByteBuffer.wrap(bytes, indexRecordFlagsOffset, 4).order(ByteOrder.BIG_ENDIAN).int)
             val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 12, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
             var payloadOffset = entryHeaderOffset + 24 + nameLength
             // PAX mtime may precede the first real TAR header when the filesystem
@@ -126,6 +130,11 @@ class SbaArchiveWriterTest {
             val parsed = SbaArchiveReader.read(destination.toString())
             assertEquals(1, parsed.compressionMethod)
             assertEquals(3, parsed.compressionLevel)
+            // Reference us2.q() uses entry flags 3 for compressed/no-encryption entries.
+            val archiveBytes = Files.readAllBytes(destination)
+            assertEquals(3, ByteBuffer.wrap(archiveBytes, 96 + 8, 4).order(ByteOrder.BIG_ENDIAN).int)
+            val indexFlagsOffset = parsed.indexOffset.toInt() + 16 + 2 + 40
+            assertEquals(3, ByteBuffer.wrap(archiveBytes, indexFlagsOffset, 4).order(ByteOrder.BIG_ENDIAN).int)
             assertEquals(stats[0], Files.size(destination))
             assertEquals(1, parsed.entries.size)
             assertTrue(parsed.entries.single().compressedSize < parsed.entries.single().tarSize)
