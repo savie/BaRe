@@ -162,7 +162,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             compressionMethod = request.compressionMethod,
             compressionLevel = request.compressionLevel,
         )
-        return taskRunner.submitCreate(taskRequest) { snapshot -> notifyCallback(callback, snapshot) }
+        return taskRunner.submitCreate(taskRequest, callbackFor(callback, request.progressIntervalMs))
     }
 
     override fun extractSba(request: SbaExtractRequest, callback: ISbaOperationCallback?): Long {
@@ -174,7 +174,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             flags = request.restoreProfile,
             includes = request.includePaths ?: emptyList(),
         )
-        return taskRunner.submitExtract(taskRequest) { snapshot -> notifyCallback(callback, snapshot) }
+        return taskRunner.submitExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
     }
 
     override fun extractTar(request: SbaTarExtractRequest, callback: ISbaOperationCallback?): Long {
@@ -184,7 +184,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             flags = request.restoreProfile,
             includes = request.includePaths ?: emptyList(),
         )
-        return taskRunner.submitTarExtract(taskRequest) { snapshot -> notifyCallback(callback, snapshot) }
+        return taskRunner.submitTarExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
     }
 
     override fun cancelSba(operationId: Long): Boolean = taskRunner.cancel(operationId)
@@ -308,6 +308,23 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
 
     private fun validateAbsolutePath(path: String) {
         if (path.isBlank() || !Path.of(path).isAbsolute) throw RemoteException("Path must be absolute")
+    }
+
+    private fun callbackFor(
+        callback: ISbaOperationCallback?,
+        intervalMillis: Long,
+    ): ((SbaOperationSnapshot) -> Unit)? {
+        if (callback == null) return null
+        val interval = intervalMillis.coerceAtLeast(0L)
+        val lastSent = java.util.concurrent.atomic.AtomicLong(0L)
+        return { snapshot ->
+            val now = System.currentTimeMillis()
+            val previous = lastSent.get()
+            if (snapshot.isFinal || interval == 0L || now - previous >= interval) {
+                lastSent.set(now)
+                notifyCallback(callback, snapshot)
+            }
+        }
     }
 
     private fun notifyCallback(callback: ISbaOperationCallback?, snapshot: SbaOperationSnapshot) {
