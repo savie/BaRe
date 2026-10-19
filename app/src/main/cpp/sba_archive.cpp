@@ -168,11 +168,19 @@ bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
     if (millis == nullptr || value.empty()) return false;
     char* end = nullptr;
     errno = 0;
-    const double seconds = std::strtod(value.c_str(), &end);
-    if (errno != 0 || end == value.c_str() || *end != '\0' ||
-        !std::isfinite(seconds) || seconds < 0.0 ||
-        seconds > static_cast<double>(INT64_MAX) / 1000.0) return false;
-    *millis = static_cast<jlong>(seconds * 1000.0);
+    // POSIX PAX mtime is a signed decimal number of seconds. Negative values
+    // are valid for files whose modification time predates the Unix epoch.
+    // Use long double for the range check before converting to milliseconds.
+    const long double seconds = std::strtold(value.c_str(), &end);
+    const long double minSeconds =
+        static_cast<long double>(INT64_MIN) / 1000.0L;
+    const long double maxSeconds =
+        static_cast<long double>(INT64_MAX) / 1000.0L;
+    if (errno != 0 || end == value.c_str() || *end != '\\0' ||
+        !std::isfinite(seconds) || seconds < minSeconds || seconds > maxSeconds) {
+        return false;
+    }
+    *millis = static_cast<jlong>(seconds * 1000.0L);
     return true;
 }
 
