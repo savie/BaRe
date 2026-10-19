@@ -312,7 +312,7 @@ Limits:
 - The writer explicitly rejects encrypted mode; this does not implement AEGIS or encrypted archive parity.
 - No Gradle/JUnit or Android/NDK build was run for these commits. Treat the new path as implemented but unverified until CI and reference-parser round-trip tests pass.
 
-- TAR source generation retains POSIX permission bits, modification times, directories, regular files, and symbolic links without following them. Unsupported special file types and overlong symlink targets fail explicitly rather than being silently omitted.
+- TAR source generation retains POSIX permission bits, modification times, directories, regular files, and symbolic links without following them; POSIX PAX headers cover long paths/link targets, large sizes, and subsecond/negative timestamps. Unsupported special file types fail explicitly rather than being silently omitted.
 
 ## Work entry — TAR extraction flags and diagnostics (2026-10-19)
 
