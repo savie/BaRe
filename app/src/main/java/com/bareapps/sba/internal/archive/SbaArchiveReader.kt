@@ -30,15 +30,26 @@ internal object SbaArchiveReader {
     fun read(path: String): SbaArchiveInfo = RandomAccessFile(path, "r").use { file ->
         val fileSize = file.length()
         if (fileSize < HEADER_SIZE + INDEX_HEADER_SIZE + FOOTER_SIZE) throw EOFException("SBA file is truncated")
-        val header = ByteArray(HEADER_SIZE)
+        val prefix = ByteArray(8)
+        file.seek(0)
+        file.readFully(prefix)
+        val prefixBuffer = ByteBuffer.wrap(prefix).order(ByteOrder.BIG_ENDIAN)
+        expectMagic(prefixBuffer, "SBA1", "file header")
+        val version = prefixBuffer.short.toInt() and 0xffff
+        val headerSize = prefixBuffer.short.toInt() and 0xffff
+        if (version !in 1..2 || headerSize != (if (version == 1) HEADER_SIZE else 144)) {
+            throw IOException("Unsupported SBA header version/size")
+        }
+        if (fileSize < headerSize.toLong() + INDEX_HEADER_SIZE + FOOTER_SIZE) {
+            throw EOFException("SBA file is truncated")
+        }
+        val header = ByteArray(headerSize)
         file.seek(0)
         file.readFully(header)
         val h = ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN)
         expectMagic(h, "SBA1", "file header")
-        val version = h.short.toInt() and 0xffff
-        val headerSize = h.short.toInt() and 0xffff
-        if (version !in 1..2 || headerSize != (if (version == 1) HEADER_SIZE else 144)) {
-            throw IOException("Unsupported SBA header version/size")
+        if ((h.short.toInt() and 0xffff) != version || (h.short.toInt() and 0xffff) != headerSize) {
+            throw IOException("SBA header changed while reading")
         }
         val flags = h.int
         if (flags and -4 != 0) throw IOException("Unsupported SBA archive flags")
