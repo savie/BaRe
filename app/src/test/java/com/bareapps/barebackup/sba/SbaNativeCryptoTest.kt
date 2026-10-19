@@ -13,10 +13,10 @@ class SbaNativeCryptoTest {
         val salt = ByteArray(16) { it.toByte() }
 
         val first = SbaNativeCrypto.a.deriveArgon2id(
-            password, salt, iterations = 2, memoryKiB = 32, parallelism = 1, outputLength = 32,
+            password, salt, iterations = 2, memoryKiB = 16_384, parallelism = 1, outputLength = 32,
         )
         val second = SbaNativeCrypto.a.deriveArgon2id(
-            password, salt, iterations = 2, memoryKiB = 32, parallelism = 1, outputLength = 32,
+            password, salt, iterations = 2, memoryKiB = 16_384, parallelism = 1, outputLength = 32,
         )
 
         assertEquals(32, first.size)
