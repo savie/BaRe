@@ -84,7 +84,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             magic = "SBA1",
             version = info.version,
             fileSize = info.fileSize,
-            metadataJson = String(info.metadata, StandardCharsets.UTF_8),
+            metadataJson = if (range.first == 0) String(info.metadata, StandardCharsets.UTF_8) else "",
             entries = ArrayList(entries),
             nextEntryStartIndex = next,
         )
@@ -97,22 +97,29 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         start: Int,
         pageSize: Int,
     ): SbaTarEntryPage {
-        if (!password.isNullOrEmpty()) throw RemoteException("Encrypted SBA entry listing is not available")
-        val info = readNativeInfo(path)
-        val selected = if (entryName.isBlank()) info.entries else {
-            listOf(info.entries.firstOrNull { it.name == entryName }
-                ?: throw RemoteException("SBA entry not found: " + entryName))
+        if (!password.isNullOrEmpty()) {
+            password.fill('\u0000')
+            throw RemoteException("Encrypted SBA entry listing is not available")
         }
-        val all = try {
-            selected.flatMap { listArchiveTarEntries(path, it.name) }
-        } catch (failure: IOException) {
-            throw RemoteException("Unable to list SBA TAR entries: " + failure.message)
+        try {
+            val info = readNativeInfo(path)
+            val selected = if (entryName.isBlank()) info.entries else {
+                listOf(info.entries.firstOrNull { it.name == entryName }
+                    ?: throw RemoteException("SBA entry not found: " + entryName))
+            }
+            val all = try {
+                selected.flatMap { listArchiveTarEntries(path, it.name) }
+            } catch (failure: IOException) {
+                throw RemoteException("Unable to list SBA TAR entries: " + failure.message)
+            }
+            val range = pageRange(all.size, start, pageSize)
+            return SbaTarEntryPage(
+                entries = ArrayList(all.subList(range.first, range.second).map(::toRootTarEntry)),
+                nextStartIndex = if (range.second < all.size) range.second else -1,
+            )
+        } finally {
+            password?.fill('\u0000')
         }
-        val range = pageRange(all.size, start, pageSize)
-        return SbaTarEntryPage(
-            entries = ArrayList(all.subList(range.first, range.second).map(::toRootTarEntry)),
-            nextStartIndex = if (range.second < all.size) range.second else -1,
-        )
     }
 
     override fun listTarEntries(path: String, start: Int, pageSize: Int): SbaTarEntryPage {
@@ -131,8 +138,10 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
 
     override fun createSba(request: SbaCreateRequest, callback: ISbaOperationCallback?): Long {
         if (request.encryptionFlag != 0 || !request.password.isNullOrEmpty()) {
+            request.password?.fill('\u0000')
             throw RemoteException("Encrypted SBA creation requires the unfinished AEGIS/key schedule")
         }
+        request.password?.fill('\u0000')
         if (request.entries.isEmpty()) throw RemoteException("SBA creation requires at least one entry")
         val sourcePaths = ArrayList<String>(request.entries.size)
         val entryNames = ArrayList<String>(request.entries.size)
@@ -173,7 +182,11 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun extractSba(request: SbaExtractRequest, callback: ISbaOperationCallback?): Long {
-        if (!request.password.isNullOrEmpty()) throw RemoteException("Encrypted SBA extraction is not available")
+        if (!request.password.isNullOrEmpty()) {
+            request.password?.fill('\u0000')
+            throw RemoteException("Encrypted SBA extraction is not available")
+        }
+        request.password?.fill('\u0000')
         val taskRequest = SbaExtractTaskRequest(
             archivePath = request.sourcePath,
             entryName = request.entryName,
@@ -362,9 +375,10 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     private fun pageRange(total: Int, start: Int, pageSize: Int): Pair<Int, Int> {
-        if (start < 0 || pageSize !in 1..1000) throw RemoteException("Invalid page range")
-        if (start > total) throw RemoteException("Page start exceeds entry count")
-        return start to minOf(total, start + pageSize)
+        if (start < 0 || pageSize <= 0) throw RemoteException("Invalid page range")
+        val safeStart = start.coerceAtMost(total)
+        val safePageSize = pageSize.coerceAtMost(128)
+        return safeStart to minOf(total, safeStart + safePageSize)
     }
 
     private fun validateAbsolutePath(path: String) {
