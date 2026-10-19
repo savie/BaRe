@@ -166,7 +166,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         var handedOff = false
         try {
             if (request.mode !in 1..2) throw RemoteException("Unknown SBA archive mode")
-            if (request.mode == 2) configureSbaTemporaryDirectory()
+            configureSbaTemporaryDirectory()
             if (request.mode == 1) {
                 if (request.encryptionMethod != 0 || (passwordCopy != null && passwordCopy.isNotEmpty())) {
                     throw RemoteException("Unencrypted SBA creation must not specify encryption or a password")
