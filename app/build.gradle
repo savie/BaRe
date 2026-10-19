@@ -121,6 +121,8 @@ dependencies {
     implementation "androidx.transition:transition:1.5.0"
     implementation "androidx.viewpager:viewpager:1.0.0"
     implementation "androidx.window:window:1.0.0"
+    // AGP built-in Kotlin compilation does not guarantee the stdlib is packaged as an app runtime dependency.
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0"
@@ -194,4 +196,5 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test:runner:1.6.2"
     androidTestImplementation "androidx.test.ext:junit:1.2.1"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:2.2.20"
 }
