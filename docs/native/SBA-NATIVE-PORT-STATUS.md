@@ -278,3 +278,22 @@ Limitations:
 - This checks the Kotlin/Bouncy Castle implementation against an independent Argon2 implementation; it does not prove byte-for-byte equivalence to the reference native Argon2id wrapper for all parameter combinations.
 - The repository's Gradle/JUnit task has not been run. The JNI symbol with the same method name remains a fail-closed placeholder, while the Kotlin API currently performs the KDF in-process.
 - SBA framing, AEGIS chunk encryption/decryption, and backup/restore integration remain incomplete; overall status is still NOT GO.
+
+## Work entry — fixture correlation and Argon2 validation overflow (2026-10-19)
+
+Commits:
+- `12a2c28ad8b9fc0f6489f5ac3af1907623157297` — record the observed `SAI1` JSON payload byte length and the single-fixture correlation with bytes `00 00 01 22`.
+- `53ac8d18ea8f875d663d745d4dd9507dbfbf6050` — validate the Argon2 lane-memory lower bound using `Long` arithmetic, preventing `8 * parallelism` from overflowing a signed `Int`.
+- `9ead059c13fc308ee20f23f43c72a9301b546de4` — add a regression test for `parallelism = Int.MAX_VALUE`.
+
+Local validation:
+- Compiled a standalone Kotlin harness against Bouncy Castle 1.80.
+- Confirmed the existing fixed Argon2id vector remains unchanged.
+- Confirmed the overflowing parallelism input is rejected before invoking the KDF.
+- Re-examined the supplied `.dat` fixture: its JSON payload begins at `0x0460`, is 290 bytes, and ends at `0x0581`; the preceding bytes `0x045C..0x045F` encode `0x122` if read as big-endian. This is documented as a hypothesis supported by one fixture, not a generalized parser rule.
+
+Limits:
+- The Gradle/JUnit suite and Android/NDK builds have not been run.
+- The SBA framing and footer are still not fully understood; AEGIS and archive creation remain fail-closed.
+- The branch remains **NOT GO** until reference-derived archive round-trip, cryptographic vectors, all-ABI builds and restore/corruption tests pass.
+
