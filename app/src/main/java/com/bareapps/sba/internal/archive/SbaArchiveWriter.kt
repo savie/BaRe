@@ -193,7 +193,7 @@ internal object SbaArchiveWriter {
                         out.flush()
                         val entryOffset = Files.size(temporary)
                         val baseFlags = if (option0 == 1) 3 else 1
-                        val flags = if (encrypted) baseFlags or 20 else if (option0 == 1) 1 else 0
+                        val flags = if (encrypted) baseFlags or 20 else baseFlags
                         val header = entryHeader(flags, name)
                         out.write(header)
                         out.write(name)
