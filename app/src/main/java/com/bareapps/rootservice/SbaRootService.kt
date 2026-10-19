@@ -57,8 +57,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
         return ParcelFileDescriptor.open(File(path), mode)
     }
 
-    override fun getSbaNativeVersion(): String =
-        SbaRuntimeNative.a.version() + "; aegis256=" + SbaLibaegisCryptoNative.a.isAvailable()
+    override fun getSbaNativeVersion(): String = SbaRuntimeNative.a.version()
 
     override fun isSbaAegis256Available(): Boolean = SbaLibaegisCryptoNative.a.isAvailable()
 
