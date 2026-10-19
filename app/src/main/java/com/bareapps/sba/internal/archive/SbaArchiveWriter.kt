@@ -219,9 +219,9 @@ internal object SbaArchiveWriter {
                     val archiveName = if (includeRoot && source.isDirectory()) source.fileName.toString() + if (relText.isEmpty()) "" else "/$relText" else relText
                     if (archiveName.isEmpty()) continue
                     val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
-                    if (attrs.isSymbolicLink) throw IOException("Symbolic-link TAR entries are not supported by this writer: $path")
-                    if (!attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
-                    writeTarHeader(out, archiveName, attrs.isDirectory, attrs.size(), attrs.lastModifiedTime().toMillis() / 1000)
+                    if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
+                    val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
+                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis() / 1000, linkTarget)
                     if (attrs.isRegularFile) {
                         Files.newInputStream(path).use { input ->
                             val buffer = ByteArray(64 * 1024)
@@ -253,16 +253,21 @@ internal object SbaArchiveWriter {
         return includes.isEmpty() || includes.any(::matches)
     }
 
-    private fun writeTarHeader(out: java.io.OutputStream, name: String, directory: Boolean, size: Long, mtime: Long) {
+    private fun writeTarHeader(out: java.io.OutputStream, name: String, directory: Boolean, size: Long, mtime: Long, linkTarget: String? = null) {
         val split = splitName(name) ?: throw IOException("TAR path exceeds ustar limits: $name")
         val header = ByteArray(TAR_BLOCK)
         putText(header, 0, 100, split.second)
-        putOctal(header, 100, 8, if (directory) 0x1ed else 0x1a4)
+        putOctal(header, 100, 8, if (linkTarget != null) 0x1ff else if (directory) 0x1ed else 0x1a4)
         putOctal(header, 108, 8, 0); putOctal(header, 116, 8, 0)
         putOctal(header, 124, 12, if (directory) 0 else size)
         putOctal(header, 136, 12, mtime.coerceAtLeast(0))
         for (i in 148 until 156) header[i] = 0x20
-        header[156] = (if (directory) '5' else '0').code.toByte()
+        header[156] = (if (linkTarget != null) '2' else if (directory) '5' else '0').code.toByte()
+        if (linkTarget != null) {
+            val linkBytes = linkTarget.toByteArray(StandardCharsets.UTF_8)
+            require(linkBytes.size <= 100) { "TAR symbolic-link target exceeds ustar limits: $name" }
+            putText(header, 157, 100, linkTarget)
+        }
         putText(header, 257, 6, "ustar"); header[262] = 0; putText(header, 263, 2, "00")
         putText(header, 265, 32, "user"); putText(header, 297, 32, "group"); putText(header, 345, 155, split.first)
         val sum = header.sumOf { it.toInt() and 0xff }
