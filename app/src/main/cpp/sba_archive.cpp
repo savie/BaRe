@@ -782,6 +782,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         std::string name = paxPath != nullptr ? *paxPath
             : (pendingLongName.empty() ? tarName(h) : pendingLongName);
         pendingLongName.clear();
+        const std::string* paxLink = paxValue(pendingPax, globalPax, "linkpath");
+        std::string link = paxLink != nullptr ? *paxLink
+            : (pendingLongLink.empty()
+                ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
+                : pendingLongLink);
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
@@ -884,7 +889,60 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             extracted.push_back(name);
         } else if (type == '2' || type == '1') {
-            // Links are intentionally not materialized: never let archive links escape destination.
+            std::string leaf;
+            int parentFd = openParentAt(rootFd, name, true, &leaf);
+            if (parentFd < 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to securely open TAR link parent");
+                return nullptr;
+            }
+            if (unlinkat(parentFd, leaf.c_str(), 0) != 0 && errno != ENOENT) {
+                close(parentFd);
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to safely replace existing TAR link");
+                return nullptr;
+            }
+            int linkResult = -1;
+            if (type == '2') {
+                if (!safeSymlinkTarget(name, link)) {
+                    close(parentFd);
+                    close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Unsafe symlink target in TAR archive");
+                    return nullptr;
+                }
+                linkResult = symlinkat(link.c_str(), parentFd, leaf.c_str());
+            } else {
+                while (link.compare(0, 2, "./") == 0) link.erase(0, 2);
+                if (!safeRelativePath(link)) {
+                    close(parentFd);
+                    close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Unsafe hardlink target in TAR archive");
+                    return nullptr;
+                }
+                std::string targetLeaf;
+                int targetParentFd = openParentAt(rootFd, link, false, &targetLeaf);
+                if (targetParentFd >= 0) {
+                    struct stat targetStat{};
+                    if (fstatat(targetParentFd, targetLeaf.c_str(), &targetStat, AT_SYMLINK_NOFOLLOW) == 0 &&
+                        S_ISREG(targetStat.st_mode)) {
+                        linkResult = linkat(targetParentFd, targetLeaf.c_str(),
+                                            parentFd, leaf.c_str(), 0);
+                    }
+                    close(targetParentFd);
+                }
+            }
+            close(parentFd);
+            if (linkResult != 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to safely materialize TAR link");
+                return nullptr;
+            }
+            extracted.push_back(name);
         }
     }
     if (extractionCount == 1000000) {
