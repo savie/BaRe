@@ -135,7 +135,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             archiveInfo.entries.forEach { archiveEntry ->
                 val tarInfo = if (archiveInfo.isEncrypted) {
                     SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(
-                        request.outputPath, archiveEntry.name, key, progress,
+                        request.outputPath, archiveInfo, archiveEntry.name, key, progress,
                     )
                 } else {
                     SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name)
@@ -191,7 +191,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         var verifiedKey: ByteArray? = null
         try {
             if (info.isEncrypted) {
-                verifiedKey = SbaArchiveNative.deriveVerifiedArchiveKey(request.archivePath, request.password!!)
+                verifiedKey = SbaArchiveNative.deriveVerifiedArchiveKey(info, request.archivePath, request.password!!)
             }
             val targetEntries = if (request.entryName.isNullOrBlank()) info.entries else {
                 listOf(info.entries.firstOrNull { it.name == request.entryName }
@@ -200,7 +200,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             val allEntries = targetEntries.flatMap { archiveEntry ->
                 (if (info.isEncrypted) {
                     SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(
-                        request.archivePath, archiveEntry.name, verifiedKey!!, progress,
+                        request.archivePath, info, archiveEntry.name, verifiedKey!!, progress,
                     )
                 } else {
                     SbaArchiveNative.listEntryTarEntries(request.archivePath, archiveEntry.name)
@@ -210,7 +210,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             targetEntries.forEach { archiveEntry ->
                 extracted.addAll(if (info.isEncrypted) {
                     SbaArchiveNative.extractEncryptedEntryWithVerifiedKey(
-                        request.archivePath, archiveEntry.name, verifiedKey!!,
+                        request.archivePath, info, archiveEntry.name, verifiedKey!!,
                         request.destination, request.flags, request.includes.toTypedArray(), progress,
                     )
                 } else {
