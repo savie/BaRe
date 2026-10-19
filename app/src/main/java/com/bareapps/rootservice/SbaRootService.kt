@@ -128,7 +128,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             val all = try {
                 selected.flatMap { entry ->
                     if (info.isEncrypted) {
-                        SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(path, entry.name, verifiedKey!!).toList()
+                        SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(path, entry.name, verifiedKey!!).toList()
                     } else {
                         listArchiveTarEntries(path, entry.name)
                     }
