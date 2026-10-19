@@ -1,6 +1,7 @@
 package com.bareapps.sba
 
 import com.bareapps.sba.internal.archive.SbaArchiveInfo
+import com.bareapps.sba.internal.archive.SbaArchiveKeyCheck
 import com.bareapps.sba.internal.archive.SbaArchiveReader
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.bareapps.sba.internal.tar.SbaTarEntryInfo
