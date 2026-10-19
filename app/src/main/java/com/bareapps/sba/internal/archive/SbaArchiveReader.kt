@@ -273,7 +273,7 @@ internal object SbaArchiveReader {
     }
 
     private fun validateName(name: String) {
-        if (name.isBlank() || '\u0000' in name || name.startsWith("/") || '\\' in name ||
+        if (name.isEmpty() || '\u0000' in name || name.startsWith("/") || '\\' in name ||
             name.split('/').any { it.isEmpty() || it == "." || it == ".." }) {
             throw IOException("Unsafe SBA entry name")
         }
