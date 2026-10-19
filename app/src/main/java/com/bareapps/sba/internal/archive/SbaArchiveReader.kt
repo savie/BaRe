@@ -232,7 +232,7 @@ internal object SbaArchiveReader {
         }
         if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
         if (expectedEntryOffset != indexOffset) throw IOException("SBA entries do not end at index offset")
-        SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize, expectedIndexCrc, expectedFooterCrc, encryptionMethod, kdfMethod, iterations, keyCheck, salt, nonceSeed, chunkSize, if (encrypted) { if (version == 1) 16384 else extensionInt } else 0, if (encrypted) { if (version == 1) 1 else extensionShorts[0] } else 0)
+        SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize, expectedIndexCrc, expectedFooterCrc, encryptionMethod, kdfMethod, iterations, keyCheck, salt, nonceSeed, chunkSize, if (encrypted) { if (version == 1) 16384 else extensionInt } else 0, if (encrypted) { if (version == 1) 1 else extensionShorts[0] } else 0, extensionBytes)
     }
 
     private fun encryptedSize(chunkSize: Int, plaintextSize: Long): Long {
