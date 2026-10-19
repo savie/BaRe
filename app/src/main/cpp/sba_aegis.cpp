@@ -387,7 +387,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_nativeDecryptAegis256ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jobject inputDescriptor, jlong storedSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jlong compressedSize,
     jint chunkSize, jobject progress) {
@@ -399,7 +399,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_nativeDecryptAegis128X2ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jobject inputDescriptor, jlong storedSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jlong compressedSize,
     jint chunkSize, jobject progress) {
@@ -411,7 +411,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_nativeEncryptAegis256ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jobject inputDescriptor, jlong plainSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jint chunkSize,
     jobject progress) {
@@ -430,7 +430,7 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis128X2ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_nativeEncryptAegis128X2ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jobject inputDescriptor, jlong plainSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jint chunkSize,
     jobject progress) {
