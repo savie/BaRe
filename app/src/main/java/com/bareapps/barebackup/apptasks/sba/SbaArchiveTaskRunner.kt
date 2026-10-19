@@ -387,7 +387,7 @@ class SbaArchiveTaskRunner(
             request.password?.fill('\u0000')
             throw failure
         }
-        return submit(onUpdate) { operation, progress ->
+        return submit(onUpdate, onAbandoned = { request.password?.fill('\u0000') }) { operation, progress ->
             try {
                 backend.create(request, progress)
             } finally {
@@ -413,7 +413,7 @@ class SbaArchiveTaskRunner(
             request.password?.fill('\u0000')
             throw failure
         }
-        return submit(onUpdate) { operation, progress ->
+        return submit(onUpdate, onAbandoned = { request.password?.fill('\u0000') }) { operation, progress ->
             try {
                 backend.extract(request, progress)
             } finally {
@@ -480,6 +480,7 @@ class SbaArchiveTaskRunner(
 
     private fun submit(
         callback: ((SbaOperationSnapshot) -> Unit)?,
+        onAbandoned: () -> Unit = {},
         work: (Operation, SbaNativeProgressListener) -> SbaTaskBackendResult,
     ): Long {
         check(!closed.get()) { "SBA task runner is closed" }
@@ -493,6 +494,7 @@ class SbaArchiveTaskRunner(
         executor.submit task@{
             synchronized(operation) {
                 if (operation.cancelled.get()) {
+                    onAbandoned()
                     finishFailure(operation, InterruptedIOException("SBA operation cancelled"), true)
                     return@task
                 }
