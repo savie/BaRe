@@ -1,0 +1,76 @@
+package com.bareapps.sba.internal.archive
+
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.util.zip.CRC32
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class SbaArchiveWriterTest {
+    @Test
+    fun writesValidUnencryptedSbaV1WithTARPayloadAndChecksummedFooter() {
+        val root = Files.createTempDirectory("sba-writer-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("data.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("backup.sba")
+            val metadata = "{}".toByteArray(StandardCharsets.UTF_8)
+
+            val stats = SbaArchiveWriter.createArchive(
+                1, destination.toString(), metadata,
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                null, null, null, null, null,
+            )
+
+            val bytes = Files.readAllBytes(destination)
+            assertArrayEquals("SBA1".toByteArray(StandardCharsets.US_ASCII), bytes.copyOfRange(0, 4))
+            assertEquals(1, ByteBuffer.wrap(bytes, 4, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(bytes.size.toLong(), stats[0])
+            assertEquals("SAI1", String(bytes, stats[1].toInt(), 4, StandardCharsets.US_ASCII))
+            assertEquals(stats[2], (bytes.size - stats[1] - 32).toLong())
+            assertEquals("SAF1", String(bytes, bytes.size - 32, 4, StandardCharsets.US_ASCII))
+
+            val footer = bytes.copyOfRange(bytes.size - 32, bytes.size)
+            val expectedCrc = ByteBuffer.wrap(footer, 28, 4).order(ByteOrder.BIG_ENDIAN).int
+            val actualCrc = CRC32().apply { update(footer, 0, 28) }.value.toInt()
+            assertEquals(expectedCrc, actualCrc)
+
+            val entryHeaderOffset = 96
+            assertEquals("SAE1", String(bytes, entryHeaderOffset, 4, StandardCharsets.US_ASCII))
+            val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 10, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
+            val payloadOffset = entryHeaderOffset + 24 + nameLength
+            assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
+            assertTrue(bytes.size > payloadOffset + 1024)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach(Files::deleteIfExists)
+        }
+    }
+
+    @Test
+    fun rejectsEncryptedModeWithoutReplacingExistingDestination() {
+        val root = Files.createTempDirectory("sba-writer-test")
+        try {
+            val destination = root.resolve("existing.sba")
+            val sentinel = byteArrayOf(9, 8, 7)
+            Files.write(destination, sentinel)
+            try {
+                SbaArchiveWriter.createArchive(
+                    2, destination.toString(), byteArrayOf(), emptyArray(), emptyArray(), intArrayOf(),
+                    emptyArray(), emptyArray(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    null, null, null, null, null,
+                )
+                throw AssertionError("encrypted mode should be rejected by the unencrypted writer")
+            } catch (_: IllegalArgumentException) {
+                assertArrayEquals(sentinel, Files.readAllBytes(destination))
+            }
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach(Files::deleteIfExists)
+        }
+    }
+}
