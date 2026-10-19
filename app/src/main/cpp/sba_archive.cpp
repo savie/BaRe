@@ -423,7 +423,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
 
 
 bool safeRelativePath(const std::string& name) {
-    if (name.empty() || name[0] == '/' || name.find('\\') != std::string::npos) return false;
+    if (name.empty() || name[0] == '/' || name.find('\\') != std::string::npos ||
+        name.find('\0') != std::string::npos) return false;
     size_t at = 0;
     while (at <= name.size()) {
         size_t end = name.find('/', at);
@@ -438,7 +439,8 @@ bool safeRelativePath(const std::string& name) {
 
 /** Resolve a relative symlink target lexically and reject any path escaping rootFd. */
 bool safeSymlinkTarget(const std::string& entryPath, const std::string& target) {
-    if (target.empty() || target[0] == '/' || target.find('\\') != std::string::npos) return false;
+    if (target.empty() || target[0] == '/' || target.find('\\') != std::string::npos ||
+        target.find('\0') != std::string::npos) return false;
     std::vector<std::string> components;
     const size_t slash = entryPath.find_last_of('/');
     const std::string parent = slash == std::string::npos ? "" : entryPath.substr(0, slash);
