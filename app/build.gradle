@@ -190,4 +190,5 @@ dependencies {
     implementation "com.github.Ferfalk:SimpleSearchView:0.2.0"
     implementation "io.github.l4digital:fastscroll:2.1.0"
     implementation "com.github.warkiz:IndicatorSeekBar:v2.0.9"
+    testImplementation "junit:junit:4.13.2"
 }
