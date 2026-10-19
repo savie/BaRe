@@ -104,6 +104,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         start: Int,
         pageSize: Int,
     ): SbaTarEntryPage {
+        var verifiedKey: ByteArray? = null
         try {
             val info = readNativeInfo(path)
             if (info.isEncrypted && (password == null || password.isEmpty())) {
@@ -112,6 +113,13 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             if (!info.isEncrypted && (password != null && password.isNotEmpty())) {
                 throw RemoteException("Password supplied for an unencrypted SBA archive")
             }
+            if (info.isEncrypted) {
+                verifiedKey = try {
+                    SbaArchiveNative.deriveVerifiedArchiveKey(path, password!!)
+                } catch (failure: IOException) {
+                    throw RemoteException("Unable to authenticate encrypted SBA archive: " + failure.message)
+                }
+            }
             val selected = if (entryName.isBlank()) info.entries else {
                 listOf(info.entries.firstOrNull { it.name == entryName }
                     ?: throw RemoteException("SBA entry not found: " + entryName))
@@ -119,7 +127,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             val all = try {
                 selected.flatMap { entry ->
                     if (info.isEncrypted) {
-                        SbaArchiveNative.listEncryptedEntryTarEntries(path, entry.name, password!!).toList()
+                        SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(path, entry.name, verifiedKey!!).toList()
                     } else {
                         listArchiveTarEntries(path, entry.name)
                     }
@@ -133,6 +141,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
                 nextStartIndex = if (range.second < all.size) range.second else -1,
             )
         } finally {
+            verifiedKey?.fill(0)
             password?.fill('\u0000')
         }
     }
