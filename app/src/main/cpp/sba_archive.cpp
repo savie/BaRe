@@ -1121,7 +1121,7 @@ void throwUnsupported(JNIEnv* env, const char* operation) {
 // separately from the archive algorithms.
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_bareapps_barebackup_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
-    return toJavaString(env, "SwiftTar");
+    return toJavaString(env, "BareTar");
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
@@ -1208,13 +1208,13 @@ Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedE
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesFromFdRaw(
     JNIEnv* env, jobject, jint fd, jlong offset) {
     return listTar(env, fd, offset);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
     JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize) {
     if (fd < 0 || offset < 0 || compressedSize < 0) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
@@ -1245,13 +1245,13 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdRaw(
     JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint, jobjectArray includes, jobject progress) {
     return extractTar(env, fd, offset, destination, includes, progress);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint flags,
     jobjectArray includes, jobject progress) {
     jobjectArray extracted = extractTar(env, fd, offset, destination, includes, progress);
@@ -1271,7 +1271,7 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
     JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize,
     jstring destination, jint flags, jobjectArray includes, jobject progress) {
     if (fd < 0 || offset < 0 || compressedSize < 0) {
@@ -1304,7 +1304,7 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractAegisArchiveEntry(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntry(
     JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
     jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
     throwUnsupported(env, "AEGIS archive entry extraction");
@@ -1312,7 +1312,7 @@ Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractAegisArchiveEntry(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
     JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
     jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
     throwUnsupported(env, "fused AEGIS archive entry extraction");
@@ -1360,7 +1360,7 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
  * cannot be inferred from ELF export names alone, and calls fail closed.
  */
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw(
+Java_com_bareapps_barebackup_sba_SbaBareTarNative_createTarToFdWithWriteStatsRaw(
     JNIEnv* env, jobject, ...) {
     throwUnsupported(env, "TAR creation to file descriptor");
     return nullptr;
