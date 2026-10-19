@@ -27,6 +27,12 @@ class SbaArchiveV2IndexMacTest {
             val info = SbaArchiveReader.read(path.toString())
             assertTrue(SbaArchiveKeyCheck.verify(info, password.copyOf(), path.toString()))
             assertFalse(SbaArchiveKeyCheck.verify(info, "wrong password".toCharArray(), path.toString()))
+            val suppliedKey = SbaArchiveKeyCheck.deriveVerifiedKey(info, password.copyOf(), path.toString())!!
+            try {
+                SbaArchiveKeyCheck.verifyProvidedKey(info, suppliedKey, path.toString())
+            } finally {
+                java.util.Arrays.fill(suppliedKey, 0)
+            }
 
             val tampered = archive.copyOf()
             val indexOffset = ByteBuffer.wrap(tampered, tampered.size - 32 + 8, 8)
