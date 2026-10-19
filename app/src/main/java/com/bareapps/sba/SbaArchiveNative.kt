@@ -65,7 +65,7 @@ class SbaArchiveNative private constructor() {
         @JvmStatic
         @Throws(IOException::class)
         fun verifyArchivePassword(path: String, password: CharArray): Boolean =
-            SbaArchiveKeyCheck.verify(SbaArchiveReader.read(path), password)
+            SbaArchiveKeyCheck.verify(SbaArchiveReader.read(path), password, path)
 
         @JvmStatic
         @Throws(IOException::class)
