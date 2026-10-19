@@ -49,9 +49,8 @@ class SbaTarEntryInfo(
         result = result * 31 + size.hashCode()
         result = result * 31 + realSize.hashCode()
         result = result * 31 + mtimeMs.hashCode()
-        result = result * 31 + sparse.hashCode()
-        result = result * 31 + Arrays.hashCode(xattrs)
-        return result
+        result = result * 31 + if (sparse) 1231 else 1237
+        return result + Arrays.hashCode(xattrs)
     }
 
     override fun toString(): String =
