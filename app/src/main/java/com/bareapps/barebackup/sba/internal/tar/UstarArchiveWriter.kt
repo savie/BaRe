@@ -6,6 +6,7 @@ import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 
 /** Minimal POSIX ustar writer for regular-file payloads; this is not an SBA container writer. */
@@ -26,14 +27,26 @@ internal object UstarArchiveWriter {
         val parent = destination.toAbsolutePath().parent
             ?: throw IOException("Destination must have a parent directory")
         Files.createDirectories(parent)
-        Files.newOutputStream(
-            destination, StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE
-        ).use { raw ->
-            BufferedOutputStream(raw).use { output ->
-                entries.forEach { writeEntry(output, it) }
-                output.write(ByteArray(BLOCK_SIZE * 2))
+        val temporary = Files.createTempFile(parent, ".bare-ustar-", ".tmp")
+        try {
+            Files.newOutputStream(
+                temporary, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE
+            ).use { raw ->
+                BufferedOutputStream(raw).use { output ->
+                    entries.forEach { writeEntry(output, it) }
+                    output.write(ByteArray(BLOCK_SIZE * 2))
+                }
             }
+            try {
+                Files.move(
+                    temporary, destination,
+                    StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING
+                )
+            } catch (_: java.nio.file.AtomicMoveNotSupportedException) {
+                Files.move(temporary, destination, StandardCopyOption.REPLACE_EXISTING)
+            }
+        } finally {
+            Files.deleteIfExists(temporary)
         }
     }
 
