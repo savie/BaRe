@@ -313,3 +313,10 @@ Limits:
 - No Gradle/JUnit or Android/NDK build was run for these commits. Treat the new path as implemented but unverified until CI and reference-parser round-trip tests pass.
 
 - TAR source generation retains POSIX permission bits, modification times, directories, regular files, and symbolic links without following them. Unsupported special file types and overlong symlink targets fail explicitly rather than being silently omitted.
+
+## Work entry — TAR extraction flags and diagnostics (2026-10-19)
+
+- Corrected the stats entry point to interpret its long argument as the reference TAR byte length (not an offset); it now validates the byte length against regular-file size and starts parsing at offset zero.
+- Implemented reference-order 20-element TAR stats with parsed entry/type counts, regular-file byte totals, skipped-entry count, and measured parser/copy timing fields. Counters that are not instrumented remain zero rather than invented.
+- Applied the caller's permission mask to extracted regular files and directories instead of ignoring the native flags.
+- This remains unverified on Android/NDK until the Gradle/JUnit and device restore tests run.
