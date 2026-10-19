@@ -85,11 +85,21 @@ class SbaBareTarNative private constructor() {
         withDuplicate(descriptor) { listTarEntriesFromFdRaw(it, offset) }
 
     @Throws(IOException::class)
-    fun listTarEntriesZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo> {
+    fun listTarEntriesZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo> =
+        listTarEntriesZstdFromDescriptorBounded(descriptor, offset, compressedSize, null)
+
+    @Throws(IOException::class)
+    fun listTarEntriesZstdFromDescriptorBounded(
+        descriptor: FileDescriptor,
+        offset: Long,
+        compressedSize: Long,
+        expectedOutputSize: Long?,
+    ): Array<SbaTarEntryInfo> {
         validateRange(offset, compressedSize)
+        require(expectedOutputSize == null || expectedOutputSize >= 0L) { "Invalid expected TAR size" }
         val tarFile = java.io.File.createTempFile("bare-sba-list-", ".tar")
         try {
-            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile, null)
+            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile, null, expectedOutputSize)
             java.io.FileInputStream(tarFile).use { tar ->
                 return withDuplicate(tar.fd) { listTarEntriesFromFdRaw(it, 0L) }
             }
