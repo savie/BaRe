@@ -171,7 +171,7 @@ The native archive writer receives a packed set of header/options, destination p
 The reference packages these libraries under all four ABIs: `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
 
 - `libsba_archive.so` — exports JNI symbols for classes in the exact package `com.swiftapps.sba`; includes archive creation, TAR list/extract, Zstandard, Argon2id, and Aegis methods.
-- Reference wrappers: `SbaArchiveNative`, `SbaNativeCrypto`, `SbaRuntimeNative`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, `SbaSwiftTarNative`. The Bare rewrite ports the TAR wrapper as `com.bareapps.barebackup.sba.SbaBareTarNative`; it does not reuse the Swift class identity.
+- Reference wrappers: `SbaArchiveNative`, `SbaNativeCrypto`, `SbaRuntimeNative`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, `SbaSwiftTarNative`. The Bare rewrite places the semantic TAR wrapper at `com.bareapps.sba.SbaBareTarNative` under the existing `com/bareapps/sba/` placeholder tree.
 - Native callback contract: `com.swiftapps.sba.internal.progress.SbaNativeProgressListener` with `isCancellationRequested()` and `onProgress(long,long)`.
 - Native TAR object contract: `com.swiftapps.sba.internal.tar.SbaTarEntryInfo`; the library constructs this class from native code.
 - Native JNI symbols are exported as `Java_com_swiftapps_sba_...`, so renaming the wrapper package to `com.bareapps.sba` would break those symbol bindings unless the native library is rebuilt/relinked. A compatibility package or rebuilt native implementation is required.
