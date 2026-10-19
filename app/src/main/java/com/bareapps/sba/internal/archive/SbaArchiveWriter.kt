@@ -33,7 +33,7 @@ internal object SbaArchiveWriter {
     private const val FOOTER_SIZE = 32
     private const val MAX_METADATA = 1 shl 20
     private const val MAX_ENTRIES = 1_000_000
-    private const val MAX_INDEX_BYTES = 256 shl 20
+    private const val MAX_INDEX_BYTES = 64 shl 20
     private const val TAR_BLOCK = 512
     private const val MAX_TAR_OCTAL = 0x1ffffffffL
 
