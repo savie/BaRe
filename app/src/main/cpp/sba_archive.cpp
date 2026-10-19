@@ -1077,12 +1077,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 (void)fchownat(parentFd, leaf.c_str(), static_cast<uid_t>(entryUid),
                     static_cast<gid_t>(entryGid), type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
             }
-            int linkTimeResult = 0;
             if (linkResult == 0 && restoreTimestamps) {
                 struct timespec linkTimes[2]{};
                 linkTimes[0].tv_nsec = UTIME_OMIT;
                 millisToTimespec(entryMtimeMillis, &linkTimes[1]);
-                linkTimeResult = utimensat(parentFd, leaf.c_str(), linkTimes,
+                (void)utimensat(parentFd, leaf.c_str(), linkTimes,
                     type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
             }
             close(parentFd);
