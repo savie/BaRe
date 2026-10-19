@@ -381,9 +381,18 @@ class SbaArchiveTaskRunner(
         request: SbaCreateTaskRequest,
         onUpdate: ((SbaOperationSnapshot) -> Unit)? = null,
     ): Long {
-        validateCreate(request)
+        try {
+            validateCreate(request)
+        } catch (failure: Throwable) {
+            request.password?.fill('\u0000')
+            throw failure
+        }
         return submit(onUpdate) { operation, progress ->
-            backend.create(request, progress)
+            try {
+                backend.create(request, progress)
+            } finally {
+                request.password?.fill('\u0000')
+            }
         }
     }
 
@@ -391,16 +400,25 @@ class SbaArchiveTaskRunner(
         request: SbaExtractTaskRequest,
         onUpdate: ((SbaOperationSnapshot) -> Unit)? = null,
     ): Long {
-        require(request.archivePath.isNotBlank() && Path.of(request.archivePath).isAbsolute) {
-            "SBA archive path must be absolute"
+        try {
+            require(request.archivePath.isNotBlank() && Path.of(request.archivePath).isAbsolute) {
+                "SBA archive path must be absolute"
+            }
+            require(request.entryName == null || request.entryName.isNotBlank()) { "SBA entry name must not be blank" }
+            require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
+                "SBA extraction destination must be absolute"
+            }
+            require(validRestoreOptions(request.flags)) { "Invalid TAR restore options" }
+        } catch (failure: Throwable) {
+            request.password?.fill('\u0000')
+            throw failure
         }
-        require(request.entryName == null || request.entryName.isNotBlank()) { "SBA entry name must not be blank" }
-        require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
-            "SBA extraction destination must be absolute"
-        }
-        require(validRestoreOptions(request.flags)) { "Invalid TAR restore options" }
         return submit(onUpdate) { operation, progress ->
-            backend.extract(request, progress)
+            try {
+                backend.extract(request, progress)
+            } finally {
+                request.password?.fill('\u0000')
+            }
         }
     }
 
