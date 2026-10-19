@@ -634,7 +634,7 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
                         jint modeMask, jobjectArray includes, jobject progress) {
-    if (fd < 0 || startOffset < 0 || destination == nullptr) {
+    if (fd < 0 || startOffset < 0 || destination == nullptr || modeMask < 0 || modeMask > 0777) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
         return nullptr;
@@ -1278,9 +1278,9 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
         return nullptr;
     }
     struct stat inputStat{};
-    if (fstat(fd, &inputStat) == 0 && S_ISREG(inputStat.st_mode) && tarBytes > inputStat.st_size) {
+    if (fstat(fd, &inputStat) == 0 && S_ISREG(inputStat.st_mode) && tarBytes != inputStat.st_size) {
         jclass e = env->FindClass("java/io/EOFException");
-        if (e) env->ThrowNew(e, "TAR byte length exceeds input file size");
+        if (e) env->ThrowNew(e, "TAR byte length does not match input file size");
         return nullptr;
     }
 
