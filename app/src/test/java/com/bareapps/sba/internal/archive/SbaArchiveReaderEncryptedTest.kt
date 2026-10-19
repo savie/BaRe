@@ -17,12 +17,10 @@ class SbaArchiveReaderEncryptedTest {
         val root = Files.createTempDirectory("sba-reference-v2-layout")
         try {
             val path = root.resolve("reference-layout.sba")
-            val metadataJson = """{"kind":"sanitized-reference-layout"}""".toByteArray(StandardCharsets.UTF_8)
-            // Keep the reference metadata field length (290 bytes) while replacing its
-            // contents, so index/file offsets and total archive length match the fixture.
-            val metadata = ByteArray(290) { ' '.code.toByte() }.also {
-                metadataJson.copyInto(it)
-            }
+            // Metadata is the non-sensitive reference header JSON. Ciphertext payloads
+            // and the password-derived header index MAC are deliberately replaced below.
+            val metadata = """{"appId":"combare","backupCache":false,"compressionLevel":"FASTEST","dataSize":19456,"deDataSize":171008,"encrypted":true,"entries":["data","data_de"],"includeDeviceProtectedData":true,"kind":"swiftbackup.app-data","packageName":"com.bare","version":1,"versionCode":333,"versionName":"1.0"}"""
+                .toByteArray(StandardCharsets.UTF_8)
             val records = listOf(
                 Triple("data", longArrayOf(144, 172, 642, 626, 9728), longArrayOf(5, 2, 3)),
                 Triple("data_de", longArrayOf(814, 845, 259, 243, 2560), longArrayOf(1, 0, 1)),
@@ -107,6 +105,8 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(1669L, parsed.fileSize)
             assertEquals(1104L, parsed.indexOffset)
             assertEquals(533L, parsed.indexSize)
+            assertEquals(0xbee65f82.toInt(), parsed.indexCrc32)
+            assertEquals(0xf38f2f7e.toInt(), parsed.footerCrc32)
             assertEquals(4, parsed.encryptionMethod)
             assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
             assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
