@@ -6,7 +6,7 @@ import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import java.io.FileInputStream
 import java.io.IOException
 
-/** Target-package JNI declaration; native implementation must be rebuilt/adapted to these descriptors. */
+/** Native SBA v1 creation entry point and independent archive-info/restore facade. */
 class SbaArchiveNative private constructor() {
     external fun createArchive(
         mode: Int,
