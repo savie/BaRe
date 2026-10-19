@@ -1176,11 +1176,22 @@ Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaArchiveNative_createArchive(
-    JNIEnv* env, jobject, jint, jstring, jbyteArray, jobjectArray, jobjectArray,
-    jintArray, jobjectArray, jobjectArray, jint, jint, jint, jint, jint, jint,
-    jint, jint, jint, jint, jbyteArray, jbyteArray, jbyteArray, jbyteArray, jobject) {
-    throwUnsupported(env, "SBA archive creation");
-    return nullptr;
+    JNIEnv* env, jobject, jint mode, jstring outputPath, jbyteArray metadata,
+    jobjectArray sourcePaths, jobjectArray entryNames, jintArray entryModes,
+    jobjectArray includePaths, jobjectArray excludePaths,
+    jint option0, jint option1, jint option2, jint option3, jint option4,
+    jint option5, jint option6, jint option7, jint option8, jint option9,
+    jbyteArray key0, jbyteArray key1, jbyteArray key2, jbyteArray key3, jobject progress) {
+    jclass writer = env->FindClass("com/bareapps/sba/internal/archive/SbaArchiveWriter");
+    if (writer == nullptr) return nullptr;
+    jmethodID create = env->GetStaticMethodID(
+        writer, "createArchive",
+        "(ILjava/lang/String;[B[Ljava/lang/String;[Ljava/lang/String;[I[[Ljava/lang/String;[[Ljava/lang/String;IIIIIIIIII[B[B[B[BLcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J");
+    if (create == nullptr) return nullptr;
+    return static_cast<jlongArray>(env->CallStaticObjectMethod(
+        writer, create, mode, outputPath, metadata, sourcePaths, entryNames, entryModes,
+        includePaths, excludePaths, option0, option1, option2, option3, option4,
+        option5, option6, option7, option8, option9, key0, key1, key2, key3, progress));
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
