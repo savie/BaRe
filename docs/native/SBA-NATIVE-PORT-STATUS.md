@@ -29,14 +29,14 @@ must remain unimplemented until their exact descriptors/callers are established.
 | 5 | SbaLibaegisCryptoNative | isAvailable | Present |
 | 6 | SbaNativeCrypto | deriveArgon2id | Present |
 | 7 | SbaRuntimeNative | version | Present |
-| 8 | SbaSwiftTarNative | createTarToFdWithWriteStatsRaw | ELF export present; declaration absent from decompiled class |
-| 9 | SbaSwiftTarNative | extractAegisArchiveEntry | Present |
-| 10 | SbaSwiftTarNative | extractAegisArchiveEntryFused | Present |
-| 11 | SbaSwiftTarNative | extractTarFromFdRaw | Present, private native |
-| 12 | SbaSwiftTarNative | extractTarFromFdWithStatsRaw | Present, private native |
-| 13 | SbaSwiftTarNative | extractTarZstdFromFdRaw | Present, private native |
-| 14 | SbaSwiftTarNative | listTarEntriesFromFdRaw | Present, private native |
-| 15 | SbaSwiftTarNative | listTarEntriesZstdFromFdRaw | Present, private native |
+| 8 | SbaBareTarNative | createTarToFdWithWriteStatsRaw | ELF export present; declaration absent from decompiled class |
+| 9 | SbaBareTarNative | extractAegisArchiveEntry | Present |
+| 10 | SbaBareTarNative | extractAegisArchiveEntryFused | Present |
+| 11 | SbaBareTarNative | extractTarFromFdRaw | Present, private native |
+| 12 | SbaBareTarNative | extractTarFromFdWithStatsRaw | Present, private native |
+| 13 | SbaBareTarNative | extractTarZstdFromFdRaw | Present, private native |
+| 14 | SbaBareTarNative | listTarEntriesFromFdRaw | Present, private native |
+| 15 | SbaBareTarNative | listTarEntriesZstdFromFdRaw | Present, private native |
 | 16 | SbaZstdNative | compressZstdBytes | Present |
 | 17 | SbaZstdNative | compressZstdFdToFdRaw | ELF export present; declaration absent from decompiled class |
 | 18 | SbaZstdNative | compressZstdFileToFdRaw | ELF export present; declaration absent from decompiled class |
@@ -51,7 +51,7 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 - `SbaLibaegisCryptoNative`: declarations are aligned with the decompiled class; the ELF-only encrypt export is not exposed as a Kotlin method.
 - Four ELF-only exports are confirmed by the actual reference class source to be absent from DEX declarations: `encryptAegis256ChunkedEntryFdRaw`, `createTarToFdWithWriteStatsRaw`, `compressZstdFdToFdRaw`, and `compressZstdFileToFdRaw`.
 - `SbaRuntimeNative.version`: declaration matches.
-- `SbaSwiftTarNative`: declared methods and parameter/return types match the decompiled reference class.
+- `SbaBareTarNative`: declared methods and parameter/return types match the decompiled reference class.
 - `SbaZstdNative`: declared methods and parameter/return types match the decompiled reference class.
 - `SbaNativeCrypto.deriveArgon2id`: parameter and return types match the decompiled reference declaration (`([B[BIIII)[B`).
 - `SbaNativeProgressListener`: callback descriptors match the decompiled reference (`isCancellationRequested()Z`, `onProgress(JJ)V`).
@@ -60,7 +60,7 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 ## Implementation status — not 100% parity
 
 The current `app/src/main/cpp/sba_archive.cpp` has target-package exports for the audited
-symbol inventory. Runtime version now returns the reference ELF literal `SwiftTar`; AEGIS availability still returns
+symbol inventory. Runtime version now returns BΛR☰ identity `BareTar`; AEGIS availability still returns
 false although the reference ELF returns true; unsupported operations throw `UnsupportedOperationException`. TAR listing/extraction has
 partial independent implementation, while archive creation/framing and AEGIS remain fail-closed.
 The target is not yet a complete backup engine.
@@ -100,7 +100,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 
 | Scope | Current evidence | Parity status | Remaining proof/work |
 |---|---|---|---|
-| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names; `SbaRuntimeNative.version()` literal matched to `SwiftTar` from reference ELF | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI; AEGIS `isAvailable()` still differs (target false vs reference true) |
+| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names; `SbaRuntimeNative.version()` returns target identity `BareTar`; reference literal `SwiftTar` is not reused | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI; AEGIS `isAvailable()` still differs (target false vs reference true) |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
 | TAR listing | Target parser handles GNU L/K records, bounded POSIX PAX path/linkpath/mtime/size, xattr names, and PAX GNU sparse logical-size metadata | Partial | Full sparse extent-map decoding, device metadata, exact realSize across formats and reference error semantics remain unimplemented/unverified |
