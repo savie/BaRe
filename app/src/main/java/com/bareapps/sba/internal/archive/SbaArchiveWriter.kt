@@ -81,6 +81,7 @@ internal object SbaArchiveWriter {
                 BufferedOutputStream(raw).use { out ->
                     val headerStart = System.nanoTime()
                     out.write(fileHeader(option0, option1))
+                    out.flush()
                     headerMillis = elapsedMillis(headerStart)
 
                     for (i in sourcePaths.indices) {
@@ -109,6 +110,7 @@ internal object SbaArchiveWriter {
                         }
                         val storedSize = Files.size(payloadTemp)
                         val name = entryNames[i].toByteArray(StandardCharsets.UTF_8)
+                        out.flush()
                         val entryOffset = Files.size(temporary)
                         val flags = if (option0 == 1) 1 else 0
                         val header = entryHeader(flags, name)
@@ -116,6 +118,7 @@ internal object SbaArchiveWriter {
                         out.write(name)
                         val payloadOffset = entryOffset + header.size + name.size
                         Files.newInputStream(payloadTemp).use { it.copyTo(out) }
+                        out.flush()
                         records.add(EntryRecord(name, entryOffset, payloadOffset, storedSize, storedSize, tarSize, flags))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
                     }
