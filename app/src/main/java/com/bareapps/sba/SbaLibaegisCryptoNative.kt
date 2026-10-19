@@ -4,9 +4,9 @@ import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import java.io.FileDescriptor
 
 /**
- * Target-package declarations aligned to methods declared by the decompiled reference class.
- * The reference binary also exports an encryptAegis256 JNI symbol, but the decompiled
- * reference Kotlin/Java class does not declare that method; it is not exposed here.
+ * Stable Kotlin facade for the rewrite's AEGIS chunk JNI implementation.
+ * Decryption declarations follow the reference parameter semantics; encryption wrappers are
+ * target-side additions used by the rewrite writer because the reference DEX omits declarations.
  */
 class SbaLibaegisCryptoNative private constructor() {
     external fun isAvailable(): Boolean
