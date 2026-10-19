@@ -415,6 +415,34 @@ bool safeRelativePath(const std::string& name) {
     return true;
 }
 
+/** Resolve a relative symlink target lexically and reject any path escaping rootFd. */
+bool safeSymlinkTarget(const std::string& entryPath, const std::string& target) {
+    if (target.empty() || target[0] == '/' || target.find('\\') != std::string::npos) return false;
+    std::vector<std::string> components;
+    const size_t slash = entryPath.find_last_of('/');
+    const std::string parent = slash == std::string::npos ? "" : entryPath.substr(0, slash);
+    auto consume = [&components](const std::string& value, bool allowParent) {
+        size_t at = 0;
+        while (at <= value.size()) {
+            size_t end = value.find('/', at);
+            if (end == std::string::npos) end = value.size();
+            const std::string part = value.substr(at, end - at);
+            if (part.empty() || part == ".") {
+                // Repeated separators and dot components are harmless in symlink targets.
+            } else if (part == "..") {
+                if (!allowParent || components.empty()) return false;
+                components.pop_back();
+            } else {
+                components.push_back(part);
+            }
+            if (end == value.size()) break;
+            at = end + 1;
+        }
+        return true;
+    };
+    return consume(parent, false) && consume(target, true);
+}
+
 // Create/open an absolute directory path without following symlinks in any
 // component. A final O_NOFOLLOW check alone is insufficient: an intermediate
 // component could otherwise redirect extraction outside the intended tree.
