@@ -136,8 +136,8 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun createSba(request: SbaCreateRequest, callback: ISbaOperationCallback?): Long {
-        if (request.mode !in 0..1) throw RemoteException("Unknown SBA TAR profile")
-        if (request.encryptionMethod !in 0..1) throw RemoteException("Unknown SBA encryption method")
+        if (request.mode !in 0..2) throw RemoteException("Unknown SBA TAR profile")
+        if (request.encryptionMethod !in 0..5) throw RemoteException("Unknown SBA encryption method")
         if (request.encryptionMethod != 0 || !request.password.isNullOrEmpty()) {
             request.password?.fill('\u0000')
             throw RemoteException("Encrypted SBA creation requires the unfinished AEGIS/key schedule")
@@ -162,7 +162,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             sourcePaths.add(selected.toAbsolutePath().normalize().toString())
             entryNames.add(entry.name)
             var flags = if (entry.includeRootDirectory) 8 else 0
-            if (request.mode == 1) flags = flags or 1 or 4
+            if (request.mode != 0) flags = flags or 1 or 4
             if (request.useShizuku) flags = flags or 16
             entryModes[index] = flags
             includes.add(entry.includePaths)
