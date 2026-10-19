@@ -236,8 +236,15 @@ bool safeRelativePath(const std::string& name) {
 // Create/open an absolute directory path without following symlinks in any
 // component. A final O_NOFOLLOW check alone is insufficient: an intermediate
 // component could otherwise redirect extraction outside the intended tree.
-int openOrCreateDirectoryPath(const std::string& path) {
-    if (path.empty() || path[0] != '/') { errno = EINVAL; return -1; }
+int openOrCreateDirectoryPath(const std::string& inputPath) {
+    if (inputPath.empty() || inputPath[0] != '/') { errno = EINVAL; return -1; }
+
+    // A trailing slash is a normal spelling of a directory path. Normalize it
+    // before walking components, while keeping "/" itself valid. Reject doubled
+    // separators inside the path rather than silently changing path semantics.
+    std::string path = inputPath;
+    while (path.size() > 1 && path.back() == '/') path.pop_back();
+
     int current = open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
     if (current < 0) return -1;
     size_t at = 1;
