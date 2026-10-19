@@ -28,6 +28,21 @@ class SbaNativeCryptoTest {
     }
 
     @Test
+    fun acceptsEmptyPasswordAndMinimumArgon2SaltLength() {
+        val output = SbaNativeCrypto.a.deriveArgon2id(
+            password = ByteArray(0),
+            salt = ByteArray(8) { it.toByte() },
+            iterations = 2,
+            memoryKiB = 16_384,
+            parallelism = 1,
+            outputLength = 16,
+        )
+        assertArrayEquals(
+            hexToBytes("a1d19710836476499d18b3f44707eb5e"),
+            output,
+        )
+    }
+    @Test
     fun saltChangeChangesDerivedOutput() {
         val password = "password".toByteArray(Charsets.UTF_8)
         val firstSalt = ByteArray(16) { 1 }
