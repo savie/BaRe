@@ -14,7 +14,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://fbiazqbrkwovzrirnzpb.supabase.co' }}
       SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_qTDGXWoCW79yAL0jyO27mw_MPJY_Ryi' }}
@@ -63,6 +63,14 @@ jobs:
 
       - name: Run unit tests
         run: gradle --no-daemon :app:testDebugUnitTest
+
+      - name: Run AEGIS native instrumentation tests on Android
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_2
+          script: gradle --no-daemon :app:connectedDebugAndroidTest
 
       - name: Assemble release APK
         run: gradle --no-daemon :app:assembleRelease
