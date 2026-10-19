@@ -187,10 +187,11 @@ class SbaArchiveNative private constructor() {
             try {
                 val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
                 if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
-                temporary = Files.createTempFile("bare-sba-aegis-", ".payload")
+                val temp = Files.createTempFile("bare-sba-aegis-", ".payload")
+                temporary = temp
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
-                    FileOutputStream(temporary.toFile()).use { output ->
+                    FileOutputStream(temp.toFile()).use { output ->
                         val decoded = if (info.encryptionMethod == 4) {
                             SbaLibaegisCryptoNative.a.decryptAegis256ChunkedEntryFdRaw(
                                 input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
