@@ -95,7 +95,8 @@ internal object SbaArchiveReader {
         val encrypted = encryptionMethod != 0
         if (!encrypted) {
             if (kdfMethod != 0 || iterations != 0 || keyCheckLength != 0 ||
-                saltLength != 0 || nonceSeedLength != 0 || chunkSize != 0 ||
+                saltLength != 0 || nonceSeedLength != 0 || trailingMacMethod != 0 ||
+                trailingMacLength != 0 || chunkSize != 0 ||
                 keyCheck.any { it.toInt() != 0 } || salt.any { it.toInt() != 0 } ||
                 nonceSeed.any { it.toInt() != 0 } || extensionInt != 0 ||
                 extensionShorts.any { it != 0 } || extensionBytes.any { it.toInt() != 0 }) {
@@ -104,22 +105,24 @@ internal object SbaArchiveReader {
         } else {
             if (encryptionMethod !in 1..5 || keyCheckLength != 16 || saltLength != 16 ||
                 nonceSeedLength != 16) throw IOException("Invalid SBA encryption header lengths")
-            if (encryptionMethod == 4 || encryptionMethod == 5) {
-                val memoryKiB = if (version == 1) 16384 else extensionInt
-                val parallelism = if (version == 1) 1 else extensionShorts[0]
-                val kdfValid = kdfMethod == 1 && if (version == 1) {
-                    iterations == 3 && memoryKiB == 16384 && parallelism == 1
-                } else {
-                    iterations in 1..100 && memoryKiB in 16384..65536 && parallelism in 1..8
+            val memoryKiB = if (version == 1) 16384 else extensionInt
+            val parallelism = if (version == 1) 1 else extensionShorts[0]
+            val kdfValid = kdfMethod == 1 && if (version == 1) {
+                iterations == 3 && memoryKiB == 16384 && parallelism == 1
+            } else {
+                iterations in 1..100 && memoryKiB in 16384..65536 && parallelism in 1..8
+            }
+            val extensionValid = version == 1 ||
+                (extensionShorts[1] == 1 && extensionShorts[2] == 32 && extensionShorts[3] == 1)
+            if (!kdfValid || !extensionValid) throw IOException("Invalid SBA Argon2id KDF header")
+            when (encryptionMethod) {
+                1 -> if (trailingMacMethod != 1 || trailingMacLength != 32 || chunkSize != 0) {
+                    throw IOException("Invalid SBA AES-CBC compatibility header")
                 }
-                val extensionValid = version == 1 ||
-                    (extensionShorts[1] == 1 && extensionShorts[2] == 32 && extensionShorts[3] == 1)
-                if (!kdfValid || !extensionValid || trailingMacMethod != 0 ||
-                    trailingMacLength != 0 || chunkSize !in 4096..16777216) {
-                    throw IOException("Invalid SBA AEGIS KDF/chunk header")
+                2, 3, 4, 5 -> if (trailingMacMethod != 0 || trailingMacLength != 0 ||
+                    chunkSize !in 4096..16777216) {
+                    throw IOException("Invalid SBA AEAD chunk header")
                 }
-            } else if (chunkSize < 0) {
-                throw IOException("Invalid SBA encryption chunk size")
             }
         }
 
@@ -179,7 +182,7 @@ internal object SbaArchiveReader {
             val regularFileCount = if (version >= 2) b.long else null
             val directoryCount = if (version >= 2) b.long else null
             if (nameLength == 0 || entryMetadataLength != 0 || reservedField != 0 ||
-                hmac.any { it.toInt() != 0 } || b.remaining() < nameLength ||
+                (encryptionMethod != 1 && hmac.any { it.toInt() != 0 }) || b.remaining() < nameLength ||
                 (tarEntryCount != null && (tarEntryCount < 0 || regularFileCount == null || regularFileCount < 0 ||
                     directoryCount == null || directoryCount < 0 || regularFileCount > tarEntryCount ||
                     directoryCount > tarEntryCount || regularFileCount > tarEntryCount - directoryCount))) {
@@ -194,7 +197,8 @@ internal object SbaArchiveReader {
             }
             val expectedStoredSize = when (encryptionMethod) {
                 0 -> compressedSize
-                4, 5 -> encryptedSize(chunkSize, compressedSize)
+                1 -> aesCbcStoredSize(compressedSize)
+                2, 3, 4, 5 -> encryptedSize(chunkSize, compressedSize)
                 else -> -1L
             }
             if (entryOffset != expectedEntryOffset || entryOffset < headerSize ||
@@ -233,6 +237,14 @@ internal object SbaArchiveReader {
         if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
         if (expectedEntryOffset != indexOffset) throw IOException("SBA entries do not end at index offset")
         SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize, expectedIndexCrc, expectedFooterCrc, encryptionMethod, kdfMethod, iterations, keyCheck, salt, nonceSeed, chunkSize, if (encrypted) { if (version == 1) 16384 else extensionInt } else 0, if (encrypted) { if (version == 1) 1 else extensionShorts[0] } else 0, extensionBytes)
+    }
+
+    private fun aesCbcStoredSize(plaintextSize: Long): Long {
+        if (plaintextSize < 0) throw IOException("Invalid encrypted SBA payload size")
+        if (plaintextSize == 0L) return 0L
+        val blocks = (plaintextSize - 1L) / 16L + 1L
+        if (blocks > Long.MAX_VALUE / 16L) throw IOException("Encrypted SBA payload size overflow")
+        return blocks * 16L
     }
 
     private fun encryptedSize(chunkSize: Int, plaintextSize: Long): Long {
