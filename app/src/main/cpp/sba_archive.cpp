@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/xattr.h>
+#include <limits>
 #include <limits.h>
 #include <cstddef>
 #include <time.h>
