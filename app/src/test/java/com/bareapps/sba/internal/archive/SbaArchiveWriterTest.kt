@@ -56,7 +56,7 @@ class SbaArchiveWriterTest {
             assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
             assertTrue(bytes.size > payloadOffset + 1024)
         } finally {
-            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
     }
 
@@ -80,7 +80,7 @@ class SbaArchiveWriterTest {
             assertEquals(1, parsed.entries.size)
             assertTrue(parsed.entries.single().compressedSize < parsed.entries.single().tarSize)
         } finally {
-            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
     }
 
@@ -103,7 +103,7 @@ class SbaArchiveWriterTest {
             Files.write(corrupt, bytes)
             assertThrows(IOException::class.java) { SbaArchiveReader.read(corrupt.toString()) }
         } finally {
-            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
     }
 
@@ -125,7 +125,7 @@ class SbaArchiveWriterTest {
                 assertArrayEquals(sentinel, Files.readAllBytes(destination))
             }
         } finally {
-            Files.walk(root).sorted(Comparator.reverseOrder()).forEach(Files::deleteIfExists)
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) }
         }
     }
 }
