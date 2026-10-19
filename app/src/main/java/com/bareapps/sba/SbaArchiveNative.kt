@@ -136,6 +136,20 @@ class SbaArchiveNative private constructor() {
             listDecryptedTarEntries(info, entry, descriptor)
         }
 
+        /** Fast path for callers that already authenticated this key and the v2 index MAC. */
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listEncryptedEntryTarEntriesWithVerifiedKey(
+            path: String,
+            entryName: String,
+            key: ByteArray,
+            progress: SbaNativeProgressListener? = null,
+        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(
+            path, entryName, null, key, progress, providedKeyVerified = true,
+        ) { info, entry, descriptor ->
+            listDecryptedTarEntries(info, entry, descriptor)
+        }
+
         private fun listDecryptedTarEntries(
             info: SbaArchiveInfo,
             entry: com.bareapps.sba.internal.archive.SbaArchiveEntry,
@@ -176,6 +190,23 @@ class SbaArchiveNative private constructor() {
             extractDecryptedTar(info, entry, descriptor, destination, flags, includes, progress)
         }
 
+        /** Fast path for callers that already authenticated this key and the v2 index MAC. */
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractEncryptedEntryWithVerifiedKey(
+            path: String,
+            entryName: String,
+            key: ByteArray,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = withDecryptedEntryPayload(
+            path, entryName, null, key, progress, providedKeyVerified = true,
+        ) { info, entry, descriptor ->
+            extractDecryptedTar(info, entry, descriptor, destination, flags, includes, progress)
+        }
+
         private fun extractDecryptedTar(
             info: SbaArchiveInfo,
             entry: com.bareapps.sba.internal.archive.SbaArchiveEntry,
@@ -201,6 +232,7 @@ class SbaArchiveNative private constructor() {
             password: CharArray?,
             providedKey: ByteArray?,
             progress: SbaNativeProgressListener?,
+            providedKeyVerified: Boolean = false,
             block: (SbaArchiveInfo, com.bareapps.sba.internal.archive.SbaArchiveEntry, java.io.FileDescriptor) -> T,
         ): T {
             val info = SbaArchiveReader.read(path)
@@ -218,7 +250,7 @@ class SbaArchiveNative private constructor() {
             try {
                 val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
                 if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
-                if (providedKey != null) SbaArchiveKeyCheck.verifyProvidedKey(info, key, path)
+                if (providedKey != null && !providedKeyVerified) SbaArchiveKeyCheck.verifyProvidedKey(info, key, path)
                 val temp = createDecryptedPayloadTemp(path)
                 temporary = temp
                 RandomAccessFile(path, "r").use { input ->
