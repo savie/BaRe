@@ -47,6 +47,37 @@ class SbaArchiveNative private constructor() {
     companion object {
         @JvmField val a = SbaArchiveNative()
 
+        @Volatile private var configuredTemporaryDirectory: java.nio.file.Path? = null
+
+        /** Configure an app-private directory for authenticated plaintext staging. */
+        @JvmStatic
+        @Throws(IOException::class)
+        fun setTemporaryDirectory(path: String) {
+            if (path.isBlank()) throw IOException("SBA temporary directory path must not be blank")
+            val directory = java.nio.file.Path.of(path).toAbsolutePath().normalize()
+            Files.createDirectories(directory)
+            if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
+                throw IOException("SBA temporary directory is not writable")
+            }
+            configuredTemporaryDirectory = directory
+        }
+
+        private fun createDecryptedPayloadTemp(archivePath: String): java.nio.file.Path {
+            configuredTemporaryDirectory?.let {
+                return Files.createTempFile(it, ".bare-sba-aegis-", ".payload")
+            }
+            // Direct API users may not have configured an app-private cache directory.
+            // Prefer the platform temp directory, falling back to the archive's parent
+            // only when the platform temp location is unavailable.
+            try {
+                return Files.createTempFile("bare-sba-aegis-", ".payload")
+            } catch (failure: IOException) {
+                val parent = java.nio.file.Path.of(archivePath).toAbsolutePath().normalize().parent
+                    ?: throw failure
+                return Files.createTempFile(parent, ".bare-sba-aegis-", ".payload")
+            }
+        }
+
         @JvmStatic
         fun isSbaFile(path: String): Boolean = try {
             FileInputStream(path).use { input ->
@@ -188,7 +219,7 @@ class SbaArchiveNative private constructor() {
                 val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
                 if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
                 if (providedKey != null) SbaArchiveKeyCheck.verifyProvidedKey(info, key, path)
-                val temp = Files.createTempFile("bare-sba-aegis-", ".payload")
+                val temp = createDecryptedPayloadTemp(path)
                 temporary = temp
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
