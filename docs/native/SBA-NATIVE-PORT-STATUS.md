@@ -132,3 +132,14 @@ Changed only SbaZstdNative.kt:
 - This bypasses the target JNI placeholder for these two methods. It is **not yet counted as reference parity** until compilation and reference comparison tests pass.
 
 Build and runtime tests were not run in this environment. The next implementation unit remains in the requested .so/.kt scope; do not broaden into unrelated app features.
+
+
+### Work entry — Zstandard descriptor ownership
+
+Commit: ecf182a03d3d2af9b2b714b6e7eedaedc0868ecb
+
+Changed only SbaZstdNative.kt:
+- Replaced FileInputStream/FileOutputStream wrappers around a duplicated ParcelFileDescriptor's FileDescriptor with ParcelFileDescriptor.AutoCloseInputStream/AutoCloseOutputStream.
+- Made each duplicated descriptor have one explicit stream owner in FD-to-FD compression/decompression paths, including bounded-range decompression.
+- This addresses a descriptor lifetime hazard where two independently closeable wrappers could refer to the same duplicated descriptor.
+- Behavior/parity tests and Android compilation have not been run; this is a resource-ownership correction, not a claim that the Zstandard FD contract is reference-equivalent.
