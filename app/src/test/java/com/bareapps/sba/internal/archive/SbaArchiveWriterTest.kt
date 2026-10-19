@@ -79,6 +79,35 @@ class SbaArchiveWriterTest {
     }
 
     @Test
+    fun writesUnencryptedSbaV2WithTARCountsAndVersionedFooter() {
+        val root = Files.createTempDirectory("sba-writer-v2-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("data.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("backup-v2.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                null, null, null, null, null,
+            )
+            val bytes = Files.readAllBytes(destination)
+            assertEquals(2, ByteBuffer.wrap(bytes, 4, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(144, ByteBuffer.wrap(bytes, 6, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(2, ByteBuffer.wrap(bytes, bytes.size - 30, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(2, parsed.version)
+            assertEquals(listOf(2L), parsed.entries.map { it.tarEntryCount })
+            assertEquals(listOf(1L), parsed.entries.map { it.regularFileCount })
+            assertEquals(listOf(1L), parsed.entries.map { it.directoryCount })
+            assertEquals(1, parsed.entries.single().flags)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
     fun acceptsWhitespaceOnlyEntryNamesAsTheReferenceDoes() {
         val root = Files.createTempDirectory("sba-whitespace-name")
         try {
