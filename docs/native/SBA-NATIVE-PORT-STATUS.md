@@ -103,7 +103,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
 | TAR listing | Target parser handles GNU L/K records plus bounded POSIX PAX local/global records for path, linkpath and fractional mtime | Partial | GNU sparse, xattrs, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
-| TAR extraction | Target extractor applies GNU L paths and POSIX PAX local/global path and mtime metadata; secure path handling and physical offset checks exist | Partial | GNU sparse, xattrs, exact link materialization/filters/cancellation/errors/stats remain unimplemented/unverified |
+| TAR extraction | Target extractor applies GNU L paths and POSIX PAX path/linkpath/mtime/size metadata; symlinks and hardlinks are materialized only after containment/target checks | Partial | GNU sparse, xattrs, symlink timestamp semantics, exact filters/cancellation/errors/stats remain unimplemented/unverified |
 | TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
 | Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
 | Zstandard byte decompression | SbaZstdNative.decompressZstdBytes now decodes through ZstdInputStream | Implemented path; parity unverified | Compare multi-frame/trailing-frame/error semantics with reference |
@@ -186,3 +186,12 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - PAX `size` overrides, GNU sparse maps, xattrs and exact reference semantics remain open. This is partial parity, not GO.
 - Commits: abcfedf85562a01bdb926a21b1475cd1efae0b59 (bounded parser), e13db3ab11b7917fd06c87c644addef6c8b34c3c, 423cc361b14e668c404588a904b743c84cb83f59, 44a8c709d393f828649ce944c3999654a5d4b504, 770492b256f1f3985a31b8c624b28bea453e0429, 29687c3132e33944e2792d38c65ad2942742fe6e and 222aeb83c98c6016b5b1df9bea595ea4a8f10ebf (PAX size and scope fixes), 6e267ad23ac66aabd36efd7edbe87d86f875daa3 (fractional file timestamps).
 - No Android/NDK build or runtime tests have been run; source correctness is not yet verified by CI.
+
+
+## TAR link implementation checkpoint — 2026-10-19
+
+- TAR extraction now materializes relative symlinks only when lexical resolution remains inside the destination root. Absolute targets, backslashes, and parent traversal above root are rejected.
+- Hardlinks are limited to an already-extracted regular file under the same root; source parent components are opened without following symlinks, and the target inode is checked with `AT_SYMLINK_NOFOLLOW` before destination replacement.
+- GNU long-link and PAX `linkpath` metadata feed the link target. Destination replacement is attempted only after validating target semantics/source.
+- Commits: 3fdce91e3a3dc9282d23bb5c9af270335bbbc767 (symlink containment helper), 644d5b6289ba1de679bb79c14c1c00d66a1b1ced (link extraction), 2235b237a480577a8ad884206cd145c96ab3a9ce (validate before replacement).
+- These changes have not been compiled or exercised against reference fixtures; behavior is not certified as parity.
