@@ -320,3 +320,5 @@ Limits:
 - Implemented reference-order 20-element TAR stats with parsed entry/type counts, regular-file byte totals, skipped-entry count, and measured parser/copy timing fields. Counters that are not instrumented remain zero rather than invented.
 - Applied the caller's permission mask to extracted regular files and directories instead of ignoring the native flags.
 - This remains unverified on Android/NDK until the Gradle/JUnit and device restore tests run.
+
+- Compressed SBA entry restore now enforces the index-declared uncompressed TAR size while decoding the bounded compressed range; truncated or oversized decoded payloads fail before TAR extraction.
