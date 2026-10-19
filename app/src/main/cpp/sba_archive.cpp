@@ -251,7 +251,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         if (e) env->ThrowNew(e, "TAR offset is beyond end of input");
         return nullptr;
     }
-    jclass entryClass = env->FindClass("com/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo");
+    jclass entryClass = env->FindClass("com/bareapps/sba/internal/tar/SbaTarEntryInfo");
     if (!entryClass) return nullptr;
     jmethodID ctor = env->GetMethodID(entryClass, "<init>",
         "(Ljava/lang/String;ILjava/lang/String;IJJJZ[Ljava/lang/String;)V");
@@ -1120,22 +1120,22 @@ void throwUnsupported(JNIEnv* env, const char* operation) {
 // Keep the runtime probe functional so packaging/loader checks can be verified
 // separately from the archive algorithms.
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_bareapps_barebackup_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
+Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
     return toJavaString(env, "BareTar");
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
-Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
     // Do not advertise cryptographic support until an audited AEGIS implementation
     // is linked and test vectors pass.
     return JNI_FALSE;
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaNativeCrypto_deriveArgon2id(
+Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject receiver, jbyteArray password, jbyteArray salt,
     jint iterations, jint memoryKiB, jint parallelism, jint outputLength) {
-    jclass cryptoClass = env->FindClass("com/bareapps/barebackup/sba/SbaArgon2idPortable");
+    jclass cryptoClass = env->FindClass("com/bareapps/sba/SbaArgon2idPortable");
     if (cryptoClass == nullptr) return nullptr;
     jmethodID derive = env->GetStaticMethodID(
         cryptoClass, "deriveArgon2id", "([B[BIIII)[B");
@@ -1145,7 +1145,7 @@ Java_com_bareapps_barebackup_sba_SbaNativeCrypto_deriveArgon2id(
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdBytes(
+Java_com_bareapps_sba_SbaZstdNative_compressZstdBytes(
     JNIEnv* env, jobject, jbyteArray input, jint level) {
     if (input == nullptr) {
         jclass e = env->FindClass("java/lang/NullPointerException");
@@ -1160,7 +1160,7 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdBytes(
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdBytes(
+Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes(
     JNIEnv* env, jobject, jbyteArray input) {
     if (input == nullptr) {
         jclass e = env->FindClass("java/lang/NullPointerException");
@@ -1175,7 +1175,7 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdBytes(
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaArchiveNative_createArchive(
+Java_com_bareapps_sba_SbaArchiveNative_createArchive(
     JNIEnv* env, jobject, jint, jstring, jbyteArray, jobjectArray, jobjectArray,
     jintArray, jobjectArray, jobjectArray, jint, jint, jint, jint, jint, jint,
     jint, jint, jint, jint, jbyteArray, jbyteArray, jbyteArray, jbyteArray, jobject) {
@@ -1184,7 +1184,7 @@ Java_com_bareapps_barebackup_sba_SbaArchiveNative_createArchive(
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
     jlong, jlong, jint, jobject) {
     throwUnsupported(env, "AEGIS-128X2 chunk decryption");
@@ -1192,7 +1192,7 @@ Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_decryptAegis128X2Chunke
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
     jlong, jlong, jint, jobject) {
     throwUnsupported(env, "AEGIS-256 chunk decryption");
@@ -1200,7 +1200,7 @@ Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedE
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
     JNIEnv* env, jobject, jint, jlong, jint, jbyteArray, jbyteArray, jbyteArray,
     jlong, jlong, jint, jobject) {
     throwUnsupported(env, "AEGIS-256 chunk encryption");
@@ -1208,13 +1208,13 @@ Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedE
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesFromFdRaw(
+Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesFromFdRaw(
     JNIEnv* env, jobject, jint fd, jlong offset) {
     return listTar(env, fd, offset);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
+Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
     JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize) {
     if (fd < 0 || offset < 0 || compressedSize < 0) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
@@ -1235,7 +1235,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
     env->SetIntField(fileDescriptor, fdField, ownedFd);
     jclass cls = env->GetObjectClass(receiver);
     jmethodID method = cls ? env->GetMethodID(cls, "listTarEntriesZstdFromDescriptor",
-        "(Ljava/io/FileDescriptor;JJ)[Lcom/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo;") : nullptr;
+        "(Ljava/io/FileDescriptor;JJ)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;") : nullptr;
     jobjectArray result = method ? static_cast<jobjectArray>(
         env->CallObjectMethod(receiver, method, fileDescriptor, offset, compressedSize)) : nullptr;
     env->SetIntField(fileDescriptor, fdField, -1);
@@ -1245,13 +1245,13 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdRaw(
+Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw(
     JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint, jobjectArray includes, jobject progress) {
     return extractTar(env, fd, offset, destination, includes, progress);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
+Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint flags,
     jobjectArray includes, jobject progress) {
     jobjectArray extracted = extractTar(env, fd, offset, destination, includes, progress);
@@ -1262,7 +1262,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     // timing counters remain zero rather than being fabricated.
     jlong values[20] = {};
     values[1] = count; // entryCount
-    jclass entryClass = env->FindClass("com/bareapps/barebackup/sba/internal/tar/SbaTarEntryInfo");
+    jclass entryClass = env->FindClass("com/bareapps/sba/internal/tar/SbaTarEntryInfo");
     (void)entryClass;
     jlongArray result = env->NewLongArray(20);
     if (result != nullptr) env->SetLongArrayRegion(result, 0, 20, values);
@@ -1271,7 +1271,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
+Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
     JNIEnv* env, jobject receiver, jint fd, jlong offset, jlong compressedSize,
     jstring destination, jint flags, jobjectArray includes, jobject progress) {
     if (fd < 0 || offset < 0 || compressedSize < 0) {
@@ -1293,7 +1293,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
     env->SetIntField(fileDescriptor, fdField, ownedFd);
     jclass cls = env->GetObjectClass(receiver);
     jmethodID method = cls ? env->GetMethodID(cls, "extractTarZstdFromDescriptor",
-        "(Ljava/io/FileDescriptor;JJLjava/lang/String;I[Ljava/lang/String;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;") : nullptr;
+        "(Ljava/io/FileDescriptor;JJLjava/lang/String;I[Ljava/lang/String;Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;") : nullptr;
     jobjectArray result = method ? static_cast<jobjectArray>(
         env->CallObjectMethod(receiver, method, fileDescriptor, offset, compressedSize,
                               destination, flags, includes, progress)) : nullptr;
@@ -1304,7 +1304,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntry(
+Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry(
     JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
     jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
     throwUnsupported(env, "AEGIS archive entry extraction");
@@ -1312,7 +1312,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntry(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
+Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
     JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
     jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
     throwUnsupported(env, "fused AEGIS archive entry extraction");
@@ -1320,7 +1320,7 @@ Java_com_bareapps_barebackup_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
+Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     JNIEnv* env, jobject receiver, jint inputFd, jint outputFd, jlong maxBytes, jobject progress) {
     if (inputFd < 0 || outputFd < 0 || maxBytes < -1) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
@@ -1342,7 +1342,7 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     env->SetIntField(output, field, outputFd);
     jclass cls = env->GetObjectClass(receiver);
     jmethodID method = cls ? env->GetMethodID(cls, "decompressDescriptorToDescriptor",
-        "(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lcom/bareapps/barebackup/sba/internal/progress/SbaNativeProgressListener;J)[J") : nullptr;
+        "(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;J)[J") : nullptr;
     jlongArray result = method ? static_cast<jlongArray>(
         env->CallObjectMethod(receiver, method, input, output, progress, maxBytes)) : nullptr;
     // These wrappers borrow native descriptors; do not let their finalizers close them.
@@ -1360,21 +1360,21 @@ Java_com_bareapps_barebackup_sba_SbaZstdNative_decompressZstdFdToFdRaw(
  * cannot be inferred from ELF export names alone, and calls fail closed.
  */
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaBareTarNative_createTarToFdWithWriteStatsRaw(
+Java_com_bareapps_sba_SbaBareTarNative_createTarToFdWithWriteStatsRaw(
     JNIEnv* env, jobject, ...) {
     throwUnsupported(env, "TAR creation to file descriptor");
     return nullptr;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdFdToFdRaw(
+Java_com_bareapps_sba_SbaZstdNative_compressZstdFdToFdRaw(
     JNIEnv* env, jobject, ...) {
     throwUnsupported(env, "Zstandard FD-to-FD compression");
     return nullptr;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_barebackup_sba_SbaZstdNative_compressZstdFileToFdRaw(
+Java_com_bareapps_sba_SbaZstdNative_compressZstdFileToFdRaw(
     JNIEnv* env, jobject, ...) {
     throwUnsupported(env, "Zstandard file-to-FD compression");
     return nullptr;
