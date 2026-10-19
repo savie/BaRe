@@ -6,7 +6,7 @@ Last reviewed: 2026-10-19.
 
 ## Current verdict
 
-**NOT GO for full parity.** The unencrypted writer/reader and root-service/application-task source paths exist, and CI has passed for the current unencrypted implementation. The AEGIS primitive is now pinned as a native dependency, but encrypted SBA framing and reference-vs-target round-trip evidence are still missing. Do not claim encrypted parity.
+**NOT GO for full parity.** The unencrypted writer/reader and root-service/application-task source paths exist. The reader now parses AEGIS-256/AEGIS-128X2 SBA header/index metadata and validates encrypted payload size/entry flags; a reference-compatible Argon2id/SHA-256 key-check verifier and deterministic key-check vectors have been added. This still does not decrypt or create encrypted payload chunks. Reference-vs-target encrypted round-trip evidence is still missing. Do not claim encrypted parity.
 
 ## Required source locations
 
@@ -35,7 +35,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 
 ## Blocking work
 
-1. **AEGIS/encryption:** `SbaLibaegisCryptoNative.isAvailable()` remains false. AEGIS-256 and AEGIS-128X2 chunked encryption/decryption and fused archive-entry extraction still fail closed. Exact nonce derivation, AAD encoding, chunk framing and tag placement must be recovered and verified; do not invent these values.
+1. **AEGIS/encryption:** `SbaLibaegisCryptoNative.isAvailable()` remains false. Header/index parsing and key-check validation now support the AEGIS method IDs (4 and 5), but AEGIS-256 and AEGIS-128X2 chunked encryption/decryption and fused archive-entry extraction still fail closed. Exact nonce derivation, AAD encoding, chunk framing and tag placement must be recovered and verified; do not invent these values.
 2. **Encrypted SBA containers:** encrypted archive creation and encrypted archive index/entry reading are not implemented. The current writer intentionally supports only mode 1 (unencrypted).
 3. **Other reference encryption modes:** key-check, KDF/header fields and encrypted payload framing for the reference's other modes are not implemented.
 4. **Root service integration:** the AIDL interface, Parcelable request/result/archive/TAR models, `SbaRootService` Binder adapter, Shizuku binding client, archive-info/list methods, async create/restore/direct-TAR operations, cancellation and 30-second bounded metadata/list caches are now present. These are source implementations only; transaction compatibility, Shizuku lifecycle and end-to-end tests remain unverified.
@@ -76,3 +76,10 @@ Static decompilation of SwiftBackup 5.1.0 (620) narrowed the AEGIS entry-decrypt
 - This recovers the *inputs and output contract*, not the native byte protocol. It does not establish the per-chunk nonce derivation, exact AAD concatenation/endianness, stored chunk record layout, tag placement, final-chunk rules, or flag semantics. Those still require instruction-level native analysis and independent known-answer/interoperability fixtures.
 
 Implementation guardrail: do not implement a guessed protocol or set `isAvailable()` true based on primitive-only round trips. Required acceptance evidence remains reference-created encrypted fixture -> rewrite decrypt, rewrite-created encrypted fixture -> reference decrypt, both AEGIS variants, multi-chunk and partial final chunk, empty entry, tampered tag, wrong key, cancellation, and bounded FD/offset handling. A valid reference encrypted SBA fixture is not present in the uploaded backup/decompilation archives inspected so far.
+
+## AEGIS header/index and key-check implementation (2026-10-19)
+
+- `SbaArchiveReader` reads the full version-sized header (96-byte v1 or 144-byte v2), keeps key-check/salt/nonce-seed fields, validates AEGIS KDF bounds and chunk size, checks AEGIS entry flags (21 uncompressed, 23 Zstandard-compressed), and validates stored size as plaintext/compressed bytes plus 16 bytes per chunk. It can expose the unencrypted SBA index metadata without pretending ciphertext is TAR.
+- `SbaArchiveKeyCheck` implements the reference key-check digest: SHA-256(domain || salt || nonceSeed || Argon2id-derived-key), truncated to 16 bytes. Deterministic vectors cover both AEGIS-256 and AEGIS-128X2, including wrong-password rejection.
+- The public archive entry list/extract paths explicitly fail closed for encrypted payloads. Key-check success is not a payload decryption success and is not a substitute for chunk-protocol interoperability tests.
+- Synthetic encrypted-index parsing coverage was added; it is parser regression coverage, not a reference-generated encrypted archive fixture.
