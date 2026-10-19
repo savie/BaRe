@@ -188,15 +188,19 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         if (!info.isEncrypted && (request.password != null && request.password.isNotEmpty())) {
             throw IOException("Password supplied for an unencrypted SBA archive")
         }
+        var verifiedKey: ByteArray? = null
         try {
+            if (info.isEncrypted) {
+                verifiedKey = SbaArchiveNative.deriveVerifiedArchiveKey(request.archivePath, request.password!!)
+            }
             val targetEntries = if (request.entryName.isNullOrBlank()) info.entries else {
                 listOf(info.entries.firstOrNull { it.name == request.entryName }
                     ?: throw IOException("SBA entry not found: " + request.entryName))
             }
             val allEntries = targetEntries.flatMap { archiveEntry ->
                 (if (info.isEncrypted) {
-                    SbaArchiveNative.listEncryptedEntryTarEntries(
-                        request.archivePath, archiveEntry.name, request.password!!, progress,
+                    SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(
+                        request.archivePath, archiveEntry.name, verifiedKey!!, progress,
                     )
                 } else {
                     SbaArchiveNative.listEntryTarEntries(request.archivePath, archiveEntry.name)
@@ -205,8 +209,8 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             val extracted = ArrayList<String>()
             targetEntries.forEach { archiveEntry ->
                 extracted.addAll(if (info.isEncrypted) {
-                    SbaArchiveNative.extractEncryptedEntry(
-                        request.archivePath, archiveEntry.name, request.password!!,
+                    SbaArchiveNative.extractEncryptedEntryWithKey(
+                        request.archivePath, archiveEntry.name, verifiedKey!!,
                         request.destination, request.flags, request.includes.toTypedArray(), progress,
                     )
                 } else {
@@ -261,6 +265,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             regularFileBytes = bytes,
             )
         } finally {
+            verifiedKey?.fill(0)
             request.password?.fill('\u0000')
         }
     }
