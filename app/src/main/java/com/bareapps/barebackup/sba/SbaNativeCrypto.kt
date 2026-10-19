@@ -18,8 +18,7 @@ class SbaNativeCrypto private constructor() {
         parallelism: Int,
         outputLength: Int,
     ): ByteArray {
-        require(password.isNotEmpty()) { "SBA encryption password must not be empty" }
-        require(salt.size == 16) { "SBA Argon2id salt must be 16 bytes" }
+        require(salt.size >= 8) { "Argon2id salt must contain at least 8 bytes" }
         require(iterations in 1..100) { "SBA Argon2id iterations out of range: $iterations" }
         require(memoryKiB in 16_384..65_536) {
             "SBA Argon2id memoryKiB out of range: $memoryKiB"
