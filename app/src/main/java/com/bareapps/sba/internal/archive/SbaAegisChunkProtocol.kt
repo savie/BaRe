@@ -9,7 +9,7 @@ import java.security.MessageDigest
 /**
  * Per-chunk nonce and AAD framing recovered from the reference ARM64 JNI chunk path.
  * Nonces are SHA-256 over the reference domain-separated field sequence; AAD uses the
- * reference big-endian fields and its four-byte zero reserved field.
+ * reference big-endian fields and the UTF-8 entry-name length.
  */
 internal object SbaAegisChunkProtocol {
     fun nonce(
@@ -31,7 +31,6 @@ internal object SbaAegisChunkProtocol {
         } else {
             "SBA1-AEGIS128X2-entry-chunk-nonce-v1"
         }).toByteArray(StandardCharsets.US_ASCII)
-        if (entryNameUtf8.size < 0) throw IOException("Invalid SBA AEGIS entry name length")
         val entryOrderBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(entryOrder).array()
         val nameLengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(entryNameUtf8.size).array()
         val chunkIndexBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(chunkIndex).array()
