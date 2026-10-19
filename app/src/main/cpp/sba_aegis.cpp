@@ -29,6 +29,8 @@ void ensureAegisInitialized() {
 
 std::once_flag gAegisSelfTestOnce;
 bool gAegisSelfTestPassed = false;
+std::once_flag gProtocolSelfTestOnce;
+bool gProtocolSelfTestPassed = false;
 
 bool primitiveSelfTest() {
     const std::array<uint8_t, 7> message{{0x42, 0x41, 0x52, 0x45, 0x2d, 0x53, 0x42}};
@@ -244,6 +246,61 @@ std::vector<uint8_t> buildAad(int method, const std::vector<uint8_t>& entryName,
     return aad;
 }
 
+std::vector<uint8_t> decodeHex(const char* hex) {
+    std::vector<uint8_t> result;
+    if (hex == nullptr) return result;
+    const size_t length = std::strlen(hex);
+    if ((length & 1U) != 0) return result;
+    result.reserve(length / 2);
+    auto nibble = [](char c) -> int {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        return -1;
+    };
+    for (size_t i = 0; i < length; i += 2) {
+        const int hi = nibble(hex[i]);
+        const int lo = nibble(hex[i + 1]);
+        if (hi < 0 || lo < 0) return {};
+        result.push_back(static_cast<uint8_t>((hi << 4) | lo));
+    }
+    return result;
+}
+
+bool protocolSelfTest(JNIEnv* env) {
+    std::vector<uint8_t> seed(16);
+    for (size_t i = 0; i < seed.size(); ++i) seed[i] = static_cast<uint8_t>(i);
+    const std::vector<uint8_t> name{'a', 'p', 'p', 's'};
+    std::vector<uint8_t> nonce256, nonce128;
+    const bool nonceOk =
+        deriveNonce(env, 4, seed, name, 2, 3, &nonce256) &&
+        deriveNonce(env, 5, seed, name, 2, 3, &nonce128) &&
+        nonce256 == decodeHex("3a5523ba3b42b916073019d043dffb4834452b8442d4d12d1443accce10aaa82") &&
+        nonce128 == decodeHex("23dc3317d45eb74abf5c3b04bc451c20");
+    const bool aadOk =
+        buildAad(4, name, 2, 3, 4096) == decodeHex(
+            "534241312d41454749533235362d656e7472792d6368756e6b2d6161642d7631"
+            "0000000000000002000000006170707300000000000000030000000000001000") &&
+        buildAad(5, name, 2, 3, 4096) == decodeHex(
+            "534241312d414547495331323858322d656e7472792d6368756e6b2d6161642d7631"
+            "0000000000000002000000006170707300000000000000030000000000001000");
+    std::fill(seed.begin(), seed.end(), 0);
+    std::fill(nonce256.begin(), nonce256.end(), 0);
+    std::fill(nonce128.begin(), nonce128.end(), 0);
+    if (env->ExceptionCheck()) {
+        env->ExceptionClear();
+        return false;
+    }
+    return nonceOk && aadOk;
+}
+
+bool ensureProtocolSelfTest(JNIEnv* env) {
+    std::call_once(gProtocolSelfTestOnce, [env] {
+        gProtocolSelfTestPassed = protocolSelfTest(env);
+    });
+    return gProtocolSelfTestPassed;
+}
+
 bool isCancelled(JNIEnv* env, jobject progress, jmethodID cancelledMethod) {
     if (progress == nullptr || cancelledMethod == nullptr) return false;
     const jboolean cancelled = env->CallBooleanMethod(progress, cancelledMethod);
@@ -317,7 +374,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
         if (cancelledMethod == nullptr || progressMethod == nullptr) return nullptr;
     }
     ensureAegisInitialized();
-    if (gAegisInitResult != 0 || !ensurePrimitiveSelfTest()) {
+    if (gAegisInitResult != 0 || !ensurePrimitiveSelfTest() || !ensureProtocolSelfTest(env)) {
         throwIo(env, "AEGIS primitive initialization/self-test failed");
         return nullptr;
     }
@@ -429,7 +486,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 extern "C" JNIEXPORT jboolean JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
     ensureAegisInitialized();
-    return gAegisInitResult == 0 && ensurePrimitiveSelfTest() ? JNI_TRUE : JNI_FALSE;
+    return gAegisInitResult == 0 && ensurePrimitiveSelfTest() && ensureProtocolSelfTest(env) ? JNI_TRUE : JNI_FALSE;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
