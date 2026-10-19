@@ -55,8 +55,8 @@ internal object UstarArchiveWriter {
 
     private fun validateEntry(entry: Entry) {
         require(entry.name.isNotBlank()) { "TAR entry name must not be blank" }
-        require(!entry.name.startsWith("/") && '\\' !in entry.name) {
-            "TAR entry path must be relative and use forward slashes"
+        require(!entry.name.startsWith("/") && '\\' !in entry.name && '\u0000' !in entry.name) {
+            "TAR entry path must be relative, NUL-free, and use forward slashes"
         }
         require(entry.name.split('/').none { it == ".." || it == "." || it.isEmpty() }) {
             "TAR entry path contains an unsafe component"
