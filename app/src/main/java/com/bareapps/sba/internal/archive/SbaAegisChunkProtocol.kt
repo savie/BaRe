@@ -77,15 +77,19 @@ internal object SbaAegisChunkProtocol {
             .putLong(chunkIndex)
             .putLong(chunkLength)
             .array()
-        // Reference AAD serializer reserves four zero bytes after the entry-order field.
+        // Reference AAD layout: domain || BE64(entryOrder) || BE32(nameLength) ||
+        // entryName || BE64(chunkIndex) || BE64(chunkLength).
+        val nameLengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN)
+            .putInt(entryNameUtf8.size).array()
         return ByteArray(domain.size + 8 + 4 + entryNameUtf8.size + 16).also { output ->
             var offset = 0
             domain.copyInto(output, offset); offset += domain.size
             scalarBytes.copyOfRange(0, 8).copyInto(output, offset); offset += 8
-            offset += 4 // zero-filled reserved field
+            nameLengthBytes.copyInto(output, offset); offset += 4
             entryNameUtf8.copyInto(output, offset); offset += entryNameUtf8.size
             scalarBytes.copyOfRange(8, 24).copyInto(output, offset)
             scalarBytes.fill(0)
+            nameLengthBytes.fill(0)
         }
     }
 }
