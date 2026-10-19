@@ -139,6 +139,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
         const uint64_t mode = parseOctal(h.mode, sizeof(h.mode));
         if (mtime == UINT64_MAX || mode == UINT64_MAX ||
+            mode > static_cast<uint64_t>(INT_MAX) ||
             mtime > static_cast<uint64_t>(INT64_MAX) / 1000ULL) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR mode or modification time");
@@ -146,7 +147,12 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         std::string name = tarName(h);
-        if (name.empty()) break;
+        if (name.empty()) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry has an empty path");
+            for (jobject entry : entries) env->DeleteLocalRef(entry);
+            return nullptr;
+        }
         std::string link(h.linkname, strnlen(h.linkname, sizeof(h.linkname)));
         jint type = 1;
         switch (h.typeflag) {
