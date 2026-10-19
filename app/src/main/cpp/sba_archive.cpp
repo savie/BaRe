@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <cstddef>
+#include <time.h>
 
 namespace {
 
@@ -470,6 +471,20 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to securely create TAR directory");
                 return nullptr;
             }
+            // Preserve ordinary permission bits and modification time from
+            // the TAR header. Special bits are deliberately masked so extraction
+            // cannot grant setuid/setgid privileges.
+            const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
+            struct timespec directoryTimes[2]{};
+            directoryTimes[0].tv_nsec = UTIME_OMIT;
+            directoryTimes[1].tv_sec = static_cast<time_t>(entryMtime);
+            if (fchmod(dirFd, safeMode) != 0 || futimens(dirFd, directoryTimes) != 0) {
+                close(dirFd);
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to apply TAR directory metadata");
+                return nullptr;
+            }
             close(dirFd);
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
@@ -519,6 +534,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 copied += chunk; processed += chunk;
                 if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
                 if (env->ExceptionCheck()) { close(out); close(rootFd); return nullptr; }
+            }
+            // Apply only ordinary permission bits, then preserve mtime. Do
+            // this before close so delayed metadata/write errors are surfaced.
+            const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
+            struct timespec fileTimes[2]{};
+            fileTimes[0].tv_nsec = UTIME_OMIT;
+            fileTimes[1].tv_sec = static_cast<time_t>(entryMtime);
+            if (fchmod(out, safeMode) != 0 || futimens(out, fileTimes) != 0) {
+                close(out);
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to apply TAR file metadata");
+                return nullptr;
             }
             // Delayed I/O errors (for example ENOSPC) can surface only on
             // close, so do not report an entry as extracted until close succeeds.
