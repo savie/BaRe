@@ -50,11 +50,13 @@ class SbaRootServiceClient(
 
         override fun onBindingDied(name: ComponentName?) {
             service = null
+            bound = false
             onDisconnected()
         }
 
         override fun onNullBinding(name: ComponentName?) {
             service = null
+            bound = false
             onDisconnected()
         }
     }
