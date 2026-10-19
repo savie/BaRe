@@ -104,14 +104,13 @@ class SbaZstdNative private constructor() {
             sink.flush()
             return longArrayOf(inputCount, outputCount)
         } finally {
+            // Once ZstdInputStream has been constructed it owns countingSource,
+            // which owns source. Closing both decoder and source independently
+            // can double-close the same descriptor and race descriptor reuse.
             try {
-                decoded?.close()
+                if (decoded != null) decoded.close() else source.close()
             } finally {
-                try {
-                    source.close()
-                } finally {
-                    sink.close()
-                }
+                sink.close()
             }
         }
     }
