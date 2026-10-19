@@ -62,21 +62,19 @@ class SbaArchiveNative private constructor() {
             configuredTemporaryDirectory = directory
         }
 
-        private fun createDecryptedPayloadTemp(archivePath: String): java.nio.file.Path {
-            configuredTemporaryDirectory?.let {
-                return Files.createTempFile(it, ".bare-sba-aegis-", ".payload")
-            }
-            // Direct API users may not have configured an app-private cache directory.
-            // Prefer the platform temp directory, falling back to the archive's parent
-            // only when the platform temp location is unavailable.
-            try {
-                return Files.createTempFile("bare-sba-aegis-", ".payload")
-            } catch (failure: IOException) {
-                val parent = java.nio.file.Path.of(archivePath).toAbsolutePath().normalize().parent
-                    ?: throw failure
-                return Files.createTempFile(parent, ".bare-sba-aegis-", ".payload")
-            }
+        /** Create sensitive TAR/compressed/plaintext staging outside the user-selected output directory. */
+        @JvmStatic
+        @Throws(IOException::class)
+        internal fun createStagingTempFile(prefix: String, suffix: String): java.nio.file.Path {
+            configuredTemporaryDirectory?.let { return Files.createTempFile(it, prefix, suffix) }
+            // Direct API callers may not have configured an app-private cache. Use the
+            // platform temp directory; if unavailable, fail closed rather than spill plaintext
+            // beside an archive on shared/external storage.
+            return Files.createTempFile(prefix, suffix)
         }
+
+        private fun createDecryptedPayloadTemp(archivePath: String): java.nio.file.Path =
+            createStagingTempFile(".bare-sba-aegis-", ".payload")
 
         @JvmStatic
         fun isSbaFile(path: String): Boolean = try {
