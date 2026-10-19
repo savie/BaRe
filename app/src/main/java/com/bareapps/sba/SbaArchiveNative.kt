@@ -6,6 +6,11 @@ import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import java.io.FileInputStream
 import java.io.IOException
+import java.nio.CharBuffer
+import java.nio.charset.CodingErrorAction
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.util.Arrays
 
 /** Native SBA v1 creation entry point and independent archive-info/restore facade. */
 class SbaArchiveNative private constructor() {
@@ -61,6 +66,50 @@ class SbaArchiveNative private constructor() {
         @JvmStatic
         @Throws(IOException::class)
         fun readArchiveInfo(path: String): SbaArchiveInfo = SbaArchiveReader.read(path)
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun verifyArchivePassword(path: String, password: CharArray): Boolean {
+            val info = SbaArchiveReader.read(path)
+            if (!info.isEncrypted) throw IOException("SBA archive is not encrypted")
+            if (info.encryptionMethod != 4 && info.encryptionMethod != 5) {
+                throw IOException("Password verification is not implemented for this SBA encryption method")
+            }
+            if (password.isEmpty()) throw IOException("SBA encryption password must not be empty")
+            val encoded = try {
+                val buffer = StandardCharsets.UTF_8.newEncoder()
+                    .onMalformedInput(CodingErrorAction.REPORT)
+                    .onUnmappableCharacter(CodingErrorAction.REPORT)
+                    .encode(CharBuffer.wrap(password))
+                ByteArray(buffer.remaining()).also { buffer.get(it) }
+            } catch (failure: Exception) {
+                throw IOException("SBA password is not valid UTF-8", failure)
+            }
+            var key = ByteArray(0)
+            var fullCheck = ByteArray(0)
+            return try {
+                val keyLength = if (info.encryptionMethod == 4) 32 else 16
+                key = SbaNativeCrypto.a.deriveArgon2id(
+                    encoded, info.salt, info.kdfIterations, info.kdfMemoryKiB,
+                    info.kdfParallelism, keyLength,
+                )
+                val digest = MessageDigest.getInstance("SHA-256")
+                digest.update(
+                    (if (info.encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
+                    else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8)
+                )
+                digest.update(info.salt)
+                digest.update(info.nonceSeed)
+                digest.update(key)
+                fullCheck = digest.digest()
+                MessageDigest.isEqual(info.keyCheck, fullCheck.copyOf(16))
+            } finally {
+                Arrays.fill(encoded, 0)
+                Arrays.fill(key, 0)
+                Arrays.fill(fullCheck, 0)
+                Arrays.fill(password, '\u0000')
+            }
+        }
 
         @JvmStatic
         @Throws(IOException::class)
