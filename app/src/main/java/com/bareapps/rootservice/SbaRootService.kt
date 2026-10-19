@@ -104,18 +104,26 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         start: Int,
         pageSize: Int,
     ): SbaTarEntryPage {
-        if (password != null && password.isNotEmpty()) {
-            password.fill('\u0000')
-            throw RemoteException("Encrypted SBA entry listing is not available")
-        }
         try {
             val info = readNativeInfo(path)
+            if (info.isEncrypted && password.isNullOrEmpty()) {
+                throw RemoteException("Password is required for encrypted SBA entry listing")
+            }
+            if (!info.isEncrypted && !password.isNullOrEmpty()) {
+                throw RemoteException("Password supplied for an unencrypted SBA archive")
+            }
             val selected = if (entryName.isBlank()) info.entries else {
                 listOf(info.entries.firstOrNull { it.name == entryName }
                     ?: throw RemoteException("SBA entry not found: " + entryName))
             }
             val all = try {
-                selected.flatMap { listArchiveTarEntries(path, it.name) }
+                selected.flatMap { entry ->
+                    if (info.isEncrypted) {
+                        SbaArchiveNative.listEncryptedEntryTarEntries(path, entry.name, password!!).toList()
+                    } else {
+                        listArchiveTarEntries(path, entry.name)
+                    }
+                }
             } catch (failure: IOException) {
                 throw RemoteException("Unable to list SBA TAR entries: " + failure.message)
             }
@@ -198,19 +206,31 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
     }
 
     override fun extractSba(request: SbaExtractRequest, callback: ISbaOperationCallback?): Long {
-        if (request.password?.isNotEmpty() == true) {
+        val passwordCopy = request.password?.copyOf()
+        var handedOff = false
+        try {
+            val info = readNativeInfo(request.sourcePath)
+            if (info.isEncrypted && passwordCopy.isNullOrEmpty()) {
+                throw RemoteException("Password is required for encrypted SBA extraction")
+            }
+            if (!info.isEncrypted && !passwordCopy.isNullOrEmpty()) {
+                throw RemoteException("Password supplied for an unencrypted SBA archive")
+            }
+            val taskRequest = SbaExtractTaskRequest(
+                archivePath = request.sourcePath,
+                entryName = request.entryName,
+                destination = request.targetPath,
+                flags = restoreOptions(request.restoreProfile),
+                includes = request.includePaths ?: emptyList(),
+                password = passwordCopy,
+            )
+            val operationId = taskRunner.submitExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
+            handedOff = true
+            return operationId
+        } finally {
             request.password?.fill('\u0000')
-            throw RemoteException("Encrypted SBA extraction is not available")
+            if (!handedOff) passwordCopy?.fill('\u0000')
         }
-        request.password?.fill('\u0000')
-        val taskRequest = SbaExtractTaskRequest(
-            archivePath = request.sourcePath,
-            entryName = request.entryName,
-            destination = request.targetPath,
-            flags = restoreOptions(request.restoreProfile),
-            includes = request.includePaths ?: emptyList(),
-        )
-        return taskRunner.submitExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
     }
 
     override fun extractTar(request: SbaTarExtractRequest, callback: ISbaOperationCallback?): Long {
