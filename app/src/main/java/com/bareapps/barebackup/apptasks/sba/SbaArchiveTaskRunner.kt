@@ -38,7 +38,7 @@ data class SbaExtractTaskRequest(
 data class SbaTarExtractTaskRequest(
     val sourcePath: String,
     val destination: String,
-    val flags: Int = 2,
+    val flags: Int = 0x1ff,
     val includes: List<String> = emptyList(),
 )
 
