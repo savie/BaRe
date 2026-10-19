@@ -1133,9 +1133,15 @@ Java_com_bareapps_barebackup_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jo
 
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaNativeCrypto_deriveArgon2id(
-    JNIEnv* env, jobject, jbyteArray, jbyteArray, jint, jint, jint, jint) {
-    throwUnsupported(env, "Argon2id KDF");
-    return nullptr;
+    JNIEnv* env, jobject receiver, jbyteArray password, jbyteArray salt,
+    jint iterations, jint memoryKiB, jint parallelism, jint outputLength) {
+    jclass cryptoClass = env->GetObjectClass(receiver);
+    if (cryptoClass == nullptr) return nullptr;
+    jmethodID derive = env->GetMethodID(
+        cryptoClass, "deriveArgon2idPortable", "([B[BIIII)[B");
+    if (derive == nullptr) return nullptr;
+    return static_cast<jbyteArray>(env->CallObjectMethod(
+        receiver, derive, password, salt, iterations, memoryKiB, parallelism, outputLength));
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
