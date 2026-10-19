@@ -37,7 +37,10 @@ internal object SbaArchiveKeyCheck {
                 .onMalformedInput(CodingErrorAction.REPORT)
                 .onUnmappableCharacter(CodingErrorAction.REPORT)
                 .encode(CharBuffer.wrap(passwordCopy))
-            ByteArray(buffer.remaining()).also { buffer.get(it) }
+            ByteArray(buffer.remaining()).also {
+                buffer.get(it)
+                if (buffer.hasArray()) Arrays.fill(buffer.array(), 0.toByte())
+            }
         } catch (failure: Exception) {
             throw IOException("SBA password is not valid UTF-8", failure)
         } finally {
@@ -57,7 +60,12 @@ internal object SbaArchiveKeyCheck {
             digest.update(salt)
             digest.update(nonceSeed)
             digest.update(key)
-            return CreatedKeyMaterial(key, digest.digest().copyOf(16))
+            val fullCheck = digest.digest()
+            return try {
+                CreatedKeyMaterial(key, fullCheck.copyOf(16))
+            } finally {
+                Arrays.fill(fullCheck, 0)
+            }
         } catch (failure: Throwable) {
             Arrays.fill(key, 0)
             throw failure
