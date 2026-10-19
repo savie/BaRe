@@ -105,8 +105,12 @@ class SbaArchiveNative private constructor() {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun deriveVerifiedArchiveKey(path: String, password: CharArray): ByteArray {
-            val info = SbaArchiveReader.read(path)
+        fun deriveVerifiedArchiveKey(path: String, password: CharArray): ByteArray =
+            deriveVerifiedArchiveKey(SbaArchiveReader.read(path), path, password)
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun deriveVerifiedArchiveKey(info: SbaArchiveInfo, path: String, password: CharArray): ByteArray {
             if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
                 throw IOException("Archive does not use a supported SBA AEGIS encryption method")
             }
@@ -148,6 +152,21 @@ class SbaArchiveNative private constructor() {
             path, entryName, null, key, progress, providedKeyVerified = true,
         ) { info, entry, descriptor ->
             listDecryptedTarEntries(info, entry, descriptor)
+        }
+
+        @JvmStatic
+        @Throws(IOException::class)
+        internal fun listEncryptedEntryTarEntriesWithVerifiedKey(
+            path: String,
+            info: SbaArchiveInfo,
+            entryName: String,
+            key: ByteArray,
+            progress: SbaNativeProgressListener? = null,
+        ): Array<SbaTarEntryInfo> = withDecryptedEntryPayload(
+            path, entryName, null, key, progress,
+            providedKeyVerified = true, knownInfo = info,
+        ) { archiveInfo, entry, descriptor ->
+            listDecryptedTarEntries(archiveInfo, entry, descriptor)
         }
 
         private fun listDecryptedTarEntries(
@@ -207,6 +226,24 @@ class SbaArchiveNative private constructor() {
             extractDecryptedTar(info, entry, descriptor, destination, flags, includes, progress)
         }
 
+        @JvmStatic
+        @Throws(IOException::class)
+        internal fun extractEncryptedEntryWithVerifiedKey(
+            path: String,
+            info: SbaArchiveInfo,
+            entryName: String,
+            key: ByteArray,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = withDecryptedEntryPayload(
+            path, entryName, null, key, progress,
+            providedKeyVerified = true, knownInfo = info,
+        ) { archiveInfo, entry, descriptor ->
+            extractDecryptedTar(archiveInfo, entry, descriptor, destination, flags, includes, progress)
+        }
+
         private fun extractDecryptedTar(
             info: SbaArchiveInfo,
             entry: com.bareapps.sba.internal.archive.SbaArchiveEntry,
@@ -233,9 +270,10 @@ class SbaArchiveNative private constructor() {
             providedKey: ByteArray?,
             progress: SbaNativeProgressListener?,
             providedKeyVerified: Boolean = false,
+            knownInfo: SbaArchiveInfo? = null,
             block: (SbaArchiveInfo, com.bareapps.sba.internal.archive.SbaArchiveEntry, java.io.FileDescriptor) -> T,
         ): T {
-            val info = SbaArchiveReader.read(path)
+            val info = knownInfo ?: SbaArchiveReader.read(path)
             if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
                 throw IOException("Archive does not use a supported SBA AEGIS encryption method")
             }
