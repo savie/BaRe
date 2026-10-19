@@ -40,7 +40,9 @@ internal object SbaAegisChunkProtocol {
                 update(entryOrderBytes)
                 update(entryNameUtf8)
                 update(chunkIndexBytes)
-                digest()
+                digest().let { full ->
+                    if (encryptionMethod == 4) full else full.copyOf(16).also { full.fill(0) }
+                }
             }
         } finally {
             entryOrderBytes.fill(0)
