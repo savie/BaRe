@@ -228,3 +228,20 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - PAX `size` is used for physical payload bounds, payload reads and offset stepping; GNU sparse PAX logical-size metadata is surfaced in `SbaTarEntryInfo` (`sparse` and `realSize`) where present.
 - Commits: 70e9e3b8ae028ab3a446bdba1292e8fbd554c4ef (NUL path guard), 2235b237a480577a8ad884206cd145c96ab3a9ce (validate link before replacement), f4f1bae4e867354136e9b37f0684e677a09007c6 (sparse metadata listing), 698f7c8f3c3568b31e486cafaf5ae97c963403a0 (logical-size range check).
 - No compiler/build/runtime evidence is available yet. Sparse extraction, xattr restoration, TAR writer/stats, SBA framing and AEGIS remain incomplete, so the branch is not GO.
+
+
+## Work entry — ustar writer hardening and independent validation (2026-10-19)
+
+Commits:
+- `80672d90d3604dfacbaad7434437b98a0e15606f` — write to a same-directory temporary file and replace the destination only after the complete archive is closed; clean up the temporary on failure.
+- `0770d4718e1e71fd803abaaaa5d936c827613478`, `0214e4b495c71a766d1794c33e96af63368ee5bd`, `67470f00082c77b4fcc94ebfa7fd84ab62b46a11`, `2528ccaa780b91ee77847c92e931afa2ae443605`, `33caf47933242073040f6143dec8338aebaf1eed` — add JUnit coverage for header/checksum/padding/end blocks, long paths, unsafe-path rejection, empty archives and destination preservation; add JUnit dependency and correct the short-path header expectation.
+
+Verification performed in the working environment:
+- Compiled the writer with the installed Kotlin compiler and ran a standalone harness covering regular entries, checksum, 512-byte padding, two end blocks, ustar prefix splitting, empty archives, unsafe paths and preservation of an existing destination when validation fails.
+- The system `tar` utility successfully listed the generated archive and extracted the expected three payload bytes (`1, 2, 3`).
+
+Limits:
+- This standalone harness is not the Gradle/JUnit task and does not establish Android/NDK build success.
+- The ustar writer remains a generic TAR writer and is not wired to `SbaArchiveNative.createArchive`.
+- Reference ELF strings confirm versioned AEGIS protocol labels (`SBA1-AEGIS256-entry-chunk-nonce-v1`, `SBA1-AEGIS256-entry-chunk-aad-v1`, `SBA1-AEGIS128X2-entry-chunk-nonce-v1`, and `SBA1-AEGIS128X2-entry-chunk-aad-v1`), plus error paths for chunk sizes and archive framing. These labels are useful evidence but do not alone define the nonce derivation, AAD bytes, chunk framing, key/nonce lengths, or tag placement; AEGIS remains unimplemented until those details are recovered and tested against fixtures.
+- CI has not been run for these commits. Overall status remains NOT GO.
