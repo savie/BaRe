@@ -7,10 +7,15 @@ import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.Arrays
+import java.io.RandomAccessFile
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
 /** Implements the reference SBA1 key-check digest; it does not decrypt payload chunks. */
 internal object SbaArchiveKeyCheck {
-    fun verify(info: SbaArchiveInfo, password: CharArray): Boolean {
+    fun verify(info: SbaArchiveInfo, password: CharArray, archivePath: String? = null): Boolean {
         if (!info.isEncrypted) throw IOException("SBA archive is not encrypted")
         if (info.encryptionMethod != 4 && info.encryptionMethod != 5) {
             throw IOException("Password verification is not implemented for this SBA encryption method")
@@ -47,7 +52,12 @@ internal object SbaArchiveKeyCheck {
             digest.update(key)
             fullCheck = digest.digest()
             expectedCheck = fullCheck.copyOf(16)
-            MessageDigest.isEqual(info.keyCheck, expectedCheck)
+            if (!MessageDigest.isEqual(info.keyCheck, expectedCheck)) return false
+            if (info.version >= 2) {
+                val path = archivePath ?: throw IOException("SBA v2 index MAC verification requires the archive path")
+                return verifyV2IndexMac(path, info, key)
+            }
+            true
         } finally {
             Arrays.fill(encoded, 0)
             Arrays.fill(key, 0)
@@ -55,4 +65,50 @@ internal object SbaArchiveKeyCheck {
             Arrays.fill(expectedCheck, 0)
         }
     }
+    
+    private fun verifyV2IndexMac(path: String, info: SbaArchiveInfo, derivedKey: ByteArray): Boolean {
+        if (info.indexMac.size != 32) throw IOException("Invalid SBA v2 index MAC length")
+        val secondaryKey = MessageDigest.getInstance("SHA-256").run {
+            update("SBA2-index-mac-key-v1".toByteArray(StandardCharsets.UTF_8))
+            update(info.salt)
+            update(info.nonceSeed)
+            update(derivedKey)
+            digest()
+        }
+        var header = ByteArray(0)
+        var index = ByteArray(0)
+        var actualMac = ByteArray(0)
+        return try {
+            RandomAccessFile(path, "r").use { file ->
+                val headerSize = if (info.version == 1) 96 else 144
+                header = ByteArray(headerSize)
+                file.seek(0L)
+                file.readFully(header)
+                Arrays.fill(header, 104, 136, 0.toByte())
+                if (info.indexSize > Int.MAX_VALUE) throw IOException("SBA index too large for verification")
+                index = ByteArray(info.indexSize.toInt())
+                file.seek(info.indexOffset)
+                file.readFully(index)
+            }
+            val mac = Mac.getInstance("HmacSHA256")
+            mac.init(SecretKeySpec(secondaryKey, "HmacSHA256"))
+            mac.update("SBA2-index-metadata-mac-v1".toByteArray(StandardCharsets.UTF_8))
+            mac.update(header)
+            mac.update(ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(info.indexOffset).array())
+            mac.update(ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(info.indexSize).array())
+            mac.update(ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(info.indexCrc32).array())
+            mac.update(index)
+            actualMac = mac.doFinal()
+            if (!MessageDigest.isEqual(info.indexMac, actualMac)) {
+                throw IOException("SBA encrypted index MAC mismatch")
+            }
+            true
+        } finally {
+            Arrays.fill(secondaryKey, 0)
+            Arrays.fill(header, 0)
+            Arrays.fill(index, 0)
+            Arrays.fill(actualMac, 0)
+        }
+    }
+
 }
