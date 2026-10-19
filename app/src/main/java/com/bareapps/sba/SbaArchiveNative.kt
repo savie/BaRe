@@ -73,7 +73,7 @@ class SbaArchiveNative private constructor() {
             return Files.createTempFile(prefix, suffix)
         }
 
-        private fun createDecryptedPayloadTemp(archivePath: String): java.nio.file.Path =
+        private fun createDecryptedPayloadTemp(): java.nio.file.Path =
             createStagingTempFile(".bare-sba-aegis-", ".payload")
 
         @JvmStatic
@@ -287,7 +287,7 @@ class SbaArchiveNative private constructor() {
                 val expectedKeyLength = if (info.encryptionMethod == 4) 32 else 16
                 if (key.size != expectedKeyLength) throw IOException("Invalid SBA AEGIS key length")
                 if (providedKey != null && !providedKeyVerified) SbaArchiveKeyCheck.verifyProvidedKey(info, key, path)
-                val temp = createDecryptedPayloadTemp(path)
+                val temp = createDecryptedPayloadTemp()
                 temporary = temp
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
