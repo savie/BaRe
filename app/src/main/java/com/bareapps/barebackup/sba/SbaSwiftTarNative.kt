@@ -152,6 +152,68 @@ class SbaSwiftTarNative private constructor() {
     companion object {
         @JvmField val instance = SbaSwiftTarNative()
         @JvmField val a = instance
+
+        /**
+         * Descriptor-based facade matching the reference class's public helper
+         * behavior while replacing its obfuscated helper names with semantic ones.
+         * Each operation duplicates the caller's descriptor before entering JNI.
+         */
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractTarFromDescriptorWithStats(
+            descriptor: FileDescriptor,
+            offset: Long,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): LongArray = instance.extractTarFromDescriptorWithStats(
+            descriptor, offset, destination, flags, includes, progress
+        )
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractTarFromDescriptor(
+            descriptor: FileDescriptor,
+            offset: Long,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = instance.extractTarFromDescriptor(
+            descriptor, offset, destination, flags, includes, progress
+        )
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun extractTarZstdFromDescriptor(
+            descriptor: FileDescriptor,
+            offset: Long,
+            compressedSize: Long,
+            destination: String,
+            flags: Int,
+            includes: Array<String>,
+            progress: SbaNativeProgressListener?,
+        ): Array<String> = instance.extractTarZstdFromDescriptor(
+            descriptor, offset, compressedSize, destination, flags, includes, progress
+        )
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listTarEntriesFromDescriptor(
+            descriptor: FileDescriptor,
+            offset: Long,
+        ): Array<SbaTarEntryInfo> = instance.listTarEntriesFromDescriptor(descriptor, offset)
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listTarEntriesZstdFromDescriptor(
+            descriptor: FileDescriptor,
+            offset: Long,
+            compressedSize: Long,
+        ): Array<SbaTarEntryInfo> =
+            instance.listTarEntriesZstdFromDescriptor(descriptor, offset, compressedSize)
+
         init { System.loadLibrary("sba_archive") }
     }
 }
