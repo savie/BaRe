@@ -27,8 +27,8 @@ class SbaNativeCrypto private constructor() {
         require(parallelism in 1..8) {
             "SBA Argon2id parallelism out of range: $parallelism"
         }
-        require(outputLength > 0) {
-            "SBA Argon2id output bytes must be positive: $outputLength"
+        require(outputLength in 16..128) {
+            "SBA Argon2id outputBytes must be in 16..128: $outputLength"
         }
 
         val parameters = Argon2Parameters.Builder(Argon2Parameters.ARGON2_id)
