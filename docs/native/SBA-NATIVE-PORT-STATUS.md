@@ -6,7 +6,7 @@ Last reviewed: 2026-10-19.
 
 ## Current verdict
 
-**NOT GO.** Source implementation has advanced, but there is no verified Android/NDK build or reference-vs-target round-trip evidence. Encrypted SBA/AEGIS and the root-service/application-task integration are still missing.
+**NOT GO for full parity.** The unencrypted writer/reader and root-service/application-task source paths exist, and CI has passed for the current unencrypted implementation. The AEGIS primitive is now pinned as a native dependency, but encrypted SBA framing and reference-vs-target round-trip evidence are still missing. Do not claim encrypted parity.
 
 ## Required source locations
 
@@ -24,7 +24,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 
 | Area | Current implementation | Verification state |
 |---|---|---|
-| Argon2id | `SbaNativeCrypto.deriveArgon2id` is a JNI entry point delegating to the Bouncy Castle portable implementation; known-answer tests exist | Host-side vector evidence was checked earlier; Android/JNI build and runtime parity still unverified |
+| Argon2id | `SbaNativeCrypto.deriveArgon2id` is a JNI entry point delegating to the Bouncy Castle portable implementation; known-answer tests exist | Host-side vector evidence checked; CI validates source/unit-test build, but reference encrypted-archive parity remains unverified |
 | Zstandard byte operations | JNI byte compression/decompression delegates to zstd-jni | API path exists; error and frame-parity tests not run |
 | TAR listing/extraction | Native parser supports ustar, PAX, GNU long-name records, sparse metadata parsing, safe path handling, symlink/hardlink validation, cancellation and progress | Source implementation exists; Android tests not run |
 | TAR extraction stats | 20-element stats array reports TAR byte length, parsed entry/type counts, regular-file bytes, skipped-entry estimate and measured timings; Basic/Fidelity/RootFidelity profiles map to the exact reference TAR mode masks (511/468/384 decimal, equivalent to octal 0777/0724/0600). Permission, timestamp, ownership, xattr/SELinux and PAX sparse-map restoration are implemented where metadata is available | Low-level read/write counters remain uninstrumented; GNU sparse PAX 1.0 and old-GNU sparse encodings remain unsupported; exact parity not verified |
@@ -53,7 +53,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Existing generic ustar writer tests.
 - SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
-The repository workflow is configured to run rebuild CI on pushes to `rewrite`, but no successful run for the latest implementation commit is recorded. Do not report build/test success until `:app:testDebugUnitTest`, `:app:assembleRelease`, all four ABI builds, and reference-vs-target archive/restore/corruption tests actually pass.
+The repository workflow runs on pushes to `rewrite`. CI run `39259928293` passed unit tests and release assembly for commit `7a566ba0`; after adding the pinned `libaegis` dependency, run `39263180222` passed unit tests and was still assembling the release APK at last inspection. Treat the dependency integration as provisional until that run completes. Do not report full SBA parity until encrypted reference-vs-target archive/restore/corruption tests pass.
 
 ## Latest implementation notes
 
@@ -64,3 +64,4 @@ The repository workflow is configured to run rebuild CI on pushes to `rewrite`, 
 - Moved SBA implementation files out of the misplaced `com/bareapps/barebackup/sba/` package and into the pre-existing `com/bareapps/sba/` placeholder tree.
 
 - Added `SbaArchiveTaskRunner` under the existing app-task placeholder with SBA create/restore and direct TAR-restore requests, progress callbacks, cancellation, TAR statistics, and a bounded completed-operation registry. Its backend is injectable for unit tests.
+\n\n## AEGIS dependency integration (2026-10-19)\n\n- CMake now fetches upstream `aegis-aead/libaegis` at immutable commit `48d7ddfc5c9182d6b3c8cf284f12483209289cb1`, with `FAVOR_PERFORMANCE=OFF`, and links its `aegis` target into `sba_archive`. This avoids hand-rolling the cryptographic primitive and keeps the upstream constant-time-oriented default.\n- This commit is a dependency/build foundation only. It does not enable `isAvailable()`, and does not change encrypted create/restore behavior.\n- Remaining reverse-engineering blocker: use reference implementation behavior or valid encrypted fixtures to prove the chunk protocol (nonce and AAD byte framing, chunk lengths, tag layout, and output/error contracts) before connecting the primitive to SBA.\n
