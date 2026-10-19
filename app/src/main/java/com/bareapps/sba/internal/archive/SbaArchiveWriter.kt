@@ -88,11 +88,16 @@ internal object SbaArchiveWriter {
                     for (i in sourcePaths.indices) {
                         checkCancelled(progress)
                         val source = Path.of(sourcePaths[i]).toAbsolutePath().normalize()
-                        require(Files.exists(source)) { "SBA source does not exist: $source" }
+                        val sourceExists = Files.exists(source)
+                        require(sourceExists || entryModes[i] and 16 != 0) { "SBA source does not exist: $source" }
                         val tarTemp = Files.createTempFile(parent, ".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
                         val producerStart = System.nanoTime()
-                        writeTar(source, tarTemp, entryModes[i], includePaths[i] ?: emptyArray(), excludePaths[i] ?: emptyArray(), progress)
+                        if (sourceExists) {
+                            writeTar(source, tarTemp, entryModes[i], includePaths[i] ?: emptyArray(), excludePaths[i] ?: emptyArray(), progress)
+                        } else {
+                            Files.newOutputStream(tarTemp).use { it.write(ByteArray(TAR_BLOCK * 2)) }
+                        }
                         producerMillis += elapsedMillis(producerStart)
                         val tarSize = Files.size(tarTemp)
                         require(tarSize >= TAR_BLOCK * 2 && tarSize % TAR_BLOCK == 0L) { "Generated TAR payload is not block aligned" }
