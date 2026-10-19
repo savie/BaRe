@@ -171,7 +171,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             var flags = if (entry.includeRootDirectory) 8 else 0
             if (!entry.includePaths.isNullOrEmpty()) flags = flags or 1
             if (!entry.excludePaths.isNullOrEmpty()) flags = flags or 4
-            if (request.useShizuku) flags = flags or 16
+            if (request.allowMissingSource) flags = flags or 16
             entryModes[index] = flags
             includes.add(entry.includePaths)
             excludes.add(entry.excludePaths)
