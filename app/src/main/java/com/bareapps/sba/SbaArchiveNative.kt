@@ -72,8 +72,8 @@ class SbaArchiveNative private constructor() {
                 ?: throw IOException("SBA entry not found: $entryName")
             FileInputStream(path).use { archive ->
                 return if (info.compressionMethod == 1) {
-                    SbaBareTarNative.instance.extractTarZstdFromDescriptor(
-                        archive.fd, entry.payloadOffset, entry.compressedSize,
+                    SbaBareTarNative.instance.extractTarZstdFromDescriptorBounded(
+                        archive.fd, entry.payloadOffset, entry.compressedSize, entry.tarSize,
                         destination, flags, includes, progress,
                     )
                 } else {
