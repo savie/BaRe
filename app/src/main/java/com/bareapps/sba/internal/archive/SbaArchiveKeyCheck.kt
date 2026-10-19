@@ -72,6 +72,33 @@ internal object SbaArchiveKeyCheck {
         return true
     }
 
+    /** Validate caller-supplied key material against the archive before using it. */
+    fun verifyProvidedKey(info: SbaArchiveInfo, key: ByteArray, archivePath: String) {
+        if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
+            throw IOException("Archive does not use a supported SBA AEGIS encryption method")
+        }
+        val expectedLength = if (info.encryptionMethod == 4) 32 else 16
+        if (key.size != expectedLength) throw IOException("Invalid SBA AEGIS key length")
+        val fullCheck = MessageDigest.getInstance("SHA-256").run {
+            update((if (info.encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
+                else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8))
+            update(info.salt)
+            update(info.nonceSeed)
+            update(key)
+            digest()
+        }
+        val expectedCheck = fullCheck.copyOf(16)
+        try {
+            if (!MessageDigest.isEqual(info.keyCheck, expectedCheck)) {
+                throw IOException("SBA supplied key does not match the archive key-check")
+            }
+            if (info.version >= 2) verifyV2IndexMac(archivePath, info, key)
+        } finally {
+            Arrays.fill(fullCheck, 0)
+            Arrays.fill(expectedCheck, 0)
+        }
+    }
+
     /** Returns key bytes only after both the header key-check and, for v2, index MAC pass. */
     fun deriveVerifiedKey(
         info: SbaArchiveInfo,
