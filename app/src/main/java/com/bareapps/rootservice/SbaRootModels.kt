@@ -32,10 +32,9 @@ data class SbaCreateRequest(
     val outputPath: String,
     val entries: ArrayList<SbaCreateEntry>,
     val mode: Int,
-    val encryptionFlag: Int,
     val compressionMethod: Int,
     val compressionLevel: Int,
-    val optionFlag: Int,
+    val encryptionMethod: Int,
     val password: CharArray?,
     val metadataJson: String?,
     val progressIntervalMs: Long,
@@ -43,12 +42,12 @@ data class SbaCreateRequest(
 ) : Parcelable {
     private constructor(p: Parcel) : this(
         p.readString().orEmpty(), p.createTypedArrayList(SbaCreateEntry.CREATOR) ?: arrayListOf(),
-        p.readInt(), p.readInt(), p.readInt(), p.readInt(), p.readInt(),
+        p.readInt(), p.readInt(), p.readInt(), p.readInt(),
         p.createCharArray(), p.readString(), p.readLong(), p.readInt() != 0,
     )
     override fun writeToParcel(p: Parcel, flags: Int) {
-        p.writeString(outputPath); p.writeTypedList(entries); p.writeInt(mode); p.writeInt(encryptionFlag)
-        p.writeInt(compressionMethod); p.writeInt(compressionLevel); p.writeInt(optionFlag)
+        p.writeString(outputPath); p.writeTypedList(entries); p.writeInt(mode); p.writeInt(compressionMethod)
+        p.writeInt(compressionLevel); p.writeInt(encryptionMethod)
         p.writeCharArray(password); p.writeString(metadataJson); p.writeLong(progressIntervalMs)
         p.writeInt(if (useShizuku) 1 else 0)
     }
