@@ -236,10 +236,15 @@ bool deriveNonce(JNIEnv* env, int method, const std::vector<uint8_t>& nonceSeed,
                                      : "SBA1-AEGIS128X2-entry-chunk-nonce-v1";
     const size_t domainLength = std::strlen(domain);
     std::vector<uint8_t> input;
-    input.reserve(domainLength + nonceSeed.size() + 8 + entryName.size() + 8);
+    input.reserve(domainLength + nonceSeed.size() + 8 + 4 + entryName.size() + 8);
     input.insert(input.end(), domain, domain + domainLength);
     input.insert(input.end(), nonceSeed.begin(), nonceSeed.end());
     appendBe64(&input, entryOrder);
+    const uint32_t nameLength = static_cast<uint32_t>(entryName.size());
+    input.push_back(static_cast<uint8_t>((nameLength >> 24) & 0xffU));
+    input.push_back(static_cast<uint8_t>((nameLength >> 16) & 0xffU));
+    input.push_back(static_cast<uint8_t>((nameLength >> 8) & 0xffU));
+    input.push_back(static_cast<uint8_t>(nameLength & 0xffU));
     input.insert(input.end(), entryName.begin(), entryName.end());
     appendBe64(&input, chunkIndex);
     std::array<uint8_t, 32> digest{};
@@ -264,7 +269,11 @@ std::vector<uint8_t> buildAad(int method, const std::vector<uint8_t>& entryName,
     aad.reserve(domainLength + 8 + 4 + entryName.size() + 16);
     aad.insert(aad.end(), domain, domain + domainLength);
     appendBe64(&aad, entryOrder);
-    aad.insert(aad.end(), 4, 0);
+    const uint32_t nameLength = static_cast<uint32_t>(entryName.size());
+    aad.push_back(static_cast<uint8_t>((nameLength >> 24) & 0xffU));
+    aad.push_back(static_cast<uint8_t>((nameLength >> 16) & 0xffU));
+    aad.push_back(static_cast<uint8_t>((nameLength >> 8) & 0xffU));
+    aad.push_back(static_cast<uint8_t>(nameLength & 0xffU));
     aad.insert(aad.end(), entryName.begin(), entryName.end());
     appendBe64(&aad, chunkIndex);
     appendBe64(&aad, chunkOffset);
@@ -300,15 +309,15 @@ bool protocolSelfTest(JNIEnv* env) {
     const bool nonceOk =
         deriveNonce(env, 4, seed, name, 2, 3, &nonce256) &&
         deriveNonce(env, 5, seed, name, 2, 3, &nonce128) &&
-        nonce256 == decodeHex("3a5523ba3b42b916073019d043dffb4834452b8442d4d12d1443accce10aaa82") &&
-        nonce128 == decodeHex("23dc3317d45eb74abf5c3b04bc451c20");
+        nonce256 == decodeHex("40192d2b333b7352a7842299fc17a537675cbffeeb9d5b8aad32f53f9e8ba3c5") &&
+        nonce128 == decodeHex("d828f60de94474604cda740cb9d6dd44");
     const bool aadOk =
         buildAad(4, name, 2, 3, 4096) == decodeHex(
             "534241312d41454749533235362d656e7472792d6368756e6b2d6161642d7631"
-            "0000000000000002000000006170707300000000000000030000000000001000") &&
+            "0000000000000002000000046170707300000000000000030000000000001000") &&
         buildAad(5, name, 2, 3, 4096) == decodeHex(
             "534241312d414547495331323858322d656e7472792d6368756e6b2d6161642d7631"
-            "0000000000000002000000006170707300000000000000030000000000001000");
+            "0000000000000002000000046170707300000000000000030000000000001000");
     std::fill(seed.begin(), seed.end(), 0);
     std::fill(nonce256.begin(), nonce256.end(), 0);
     std::fill(nonce128.begin(), nonce128.end(), 0);
@@ -439,7 +448,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
         if (!deriveNonce(env, method, nonceSeed, entryName, static_cast<uint64_t>(entryOrder),
                          chunkIndex, &nonce)) return nullptr;
         std::vector<uint8_t> aad = buildAad(method, entryName, static_cast<uint64_t>(entryOrder),
-                                            chunkIndex, plainDone);
+                                            chunkIndex, chunkLength);
         VectorWiper wipeAad{aad};
         int cryptoResult = -1;
         if (method == 4) {
