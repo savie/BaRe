@@ -102,8 +102,8 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
-| TAR listing | Target native parser exists and constructs target entry objects | Partial | Compare PAX/GNU/sparse/link/xattr/device cases against reference |
-| TAR extraction | Target native extraction exists; path hardening and offset bounds have recent fixes | Partial | Compare file bytes, permissions, links, filters, cancellation, errors, and stats |
+| TAR listing | Target native parser constructs entry objects and now consumes GNU long-name (L) and long-link (K) metadata records | Partial | PAX/global-PAX, GNU sparse, xattrs, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
+| TAR extraction | Target native extractor now applies GNU long path (L) metadata to following entries; secure path handling and physical offset checks exist | Partial | GNU long-link materialization, PAX/global-PAX, sparse files, xattrs, exact links/filters/cancellation/errors/stats remain unimplemented/unverified |
 | TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
 | Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
 | Zstandard byte decompression | SbaZstdNative.decompressZstdBytes now decodes through ZstdInputStream | Implemented path; parity unverified | Compare multi-frame/trailing-frame/error semantics with reference |
@@ -166,3 +166,12 @@ Commits made in this continuation:
 - 0d231f9d8ebe7f020a92197b801022867028ef7f — Argon2id output-size bounds aligned to reference.
 
 No GitHub Actions run or combined status checks were returned for the latest commit. Android Gradle/native builds and reference-vs-target runtime tests have not been executed. The archive writer/framing and AEGIS remain hard blockers, not completed work.
+
+
+## Latest implementation checkpoint — 2026-10-19
+
+- Added bounded parsing of GNU TAR long-name (L) and long-link (K) payload records. Listing applies the next long path/link to the following entry and omits the metadata record itself.
+- Extraction consumes the same GNU metadata records and applies the long path to the next extracted entry; link entries remain intentionally unmaterialized for path-safety reasons.
+- Long metadata payloads are capped at 16 MiB, require a non-empty NUL/newline-trimmed value, and use positional reads. Offset overflow is rejected.
+- Commits: 9b61fd65270797e9794332badb4cf26bba1b826e (GNU long records), cb4ca708550a0d137dd4761eb14df618ef163c42 (offset guard).
+- No Android/NDK build or runtime tests have been run. This increment is source-level only and does not change the overall “not ready for CI as a completed port” status.
