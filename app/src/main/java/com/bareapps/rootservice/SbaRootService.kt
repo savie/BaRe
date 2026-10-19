@@ -107,6 +107,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         var verifiedKey: ByteArray? = null
         try {
             val info = readNativeInfo(path)
+            if (info.isEncrypted) configureSbaTemporaryDirectory()
             if (info.isEncrypted && (password == null || password.isEmpty())) {
                 throw RemoteException("Password is required for encrypted SBA entry listing")
             }
@@ -165,6 +166,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         var handedOff = false
         try {
             if (request.mode !in 1..2) throw RemoteException("Unknown SBA archive mode")
+            if (request.mode == 2) configureSbaTemporaryDirectory()
             if (request.mode == 1) {
                 if (request.encryptionMethod != 0 || (passwordCopy != null && passwordCopy.isNotEmpty())) {
                     throw RemoteException("Unencrypted SBA creation must not specify encryption or a password")
@@ -231,6 +233,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         var handedOff = false
         try {
             val info = readNativeInfo(request.sourcePath)
+            if (info.isEncrypted) configureSbaTemporaryDirectory()
             if (info.isEncrypted && (passwordCopy == null || passwordCopy.isEmpty())) {
                 throw RemoteException("Password is required for encrypted SBA extraction")
             }
@@ -491,6 +494,14 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             )
         } catch (_: RemoteException) {
             // A disconnected callback must not cancel the archive operation.
+        }
+    }
+
+    private fun configureSbaTemporaryDirectory() {
+        try {
+            SbaArchiveNative.setTemporaryDirectory(applicationContext().cacheDir.absolutePath)
+        } catch (failure: IOException) {
+            throw RemoteException("Unable to configure private SBA staging directory: " + failure.message)
         }
     }
 
