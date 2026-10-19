@@ -1,8 +1,11 @@
 package com.bareapps.barebackup.apptasks.sba
 
 import com.bareapps.sba.SbaArchiveNative
+import com.bareapps.sba.SbaBareTarNative
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import java.io.Closeable
+import java.io.FileInputStream
+import java.io.IOException
 import java.io.InterruptedIOException
 import java.nio.file.Files
 import java.nio.file.LinkOption
@@ -32,6 +35,13 @@ data class SbaExtractTaskRequest(
     val includes: List<String> = emptyList(),
 )
 
+data class SbaTarExtractTaskRequest(
+    val sourcePath: String,
+    val destination: String,
+    val flags: Int = 0x1ff,
+    val includes: List<String> = emptyList(),
+)
+
 data class SbaTaskBackendResult(
     val outputPath: String?,
     val bytesProcessed: Long = 0,
@@ -50,6 +60,7 @@ data class SbaTaskBackendResult(
 interface SbaTaskBackend {
     fun create(request: SbaCreateTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult
     fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult
+    fun extractTar(request: SbaTarExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult
 }
 
 private object NativeSbaTaskBackend : SbaTaskBackend {
@@ -165,6 +176,31 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         )
     }
 
+    override fun extractTar(request: SbaTarExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
+        val source = Path.of(request.sourcePath).toAbsolutePath().normalize()
+        if (!Files.isRegularFile(source)) throw IOException("TAR source is not a regular file: $source")
+        val tarBytes = Files.size(source)
+        val started = System.nanoTime()
+        val stats = FileInputStream(source.toFile()).use { input ->
+            SbaBareTarNative.instance.extractTarFromDescriptorWithStats(
+                input.fd, tarBytes, request.destination, request.flags, request.includes.toTypedArray(), progress,
+            )
+        }
+        return SbaTaskBackendResult(
+            outputPath = request.destination,
+            bytesProcessed = stats.getOrElse(0) { tarBytes },
+            durationMillis = stats.getOrElse(16) { (System.nanoTime() - started) / 1_000_000L },
+            tarEntryCount = stats.getOrElse(1) { 0L },
+            regularFileCount = stats.getOrElse(2) { 0L },
+            directoryCount = stats.getOrElse(3) { 0L },
+            symlinkCount = stats.getOrElse(4) { 0L },
+            hardlinkCount = stats.getOrElse(5) { 0L },
+            otherEntryCount = stats.getOrElse(6) { 0L },
+            skippedEntryCount = stats.getOrElse(7) { 0L },
+            regularFileBytes = stats.getOrElse(8) { 0L },
+        )
+    }
+
     private fun safeAdd(a: Long, b: Long): Long {
         require(b >= 0L && a <= Long.MAX_VALUE - b) { "SBA statistics overflow" }
         return a + b
@@ -277,6 +313,20 @@ class SbaArchiveTaskRunner(
         return submit(onUpdate) { operation, progress ->
             backend.extract(request, progress)
         }
+    }
+
+    fun submitTarExtract(
+        request: SbaTarExtractTaskRequest,
+        onUpdate: ((SbaOperationSnapshot) -> Unit)? = null,
+    ): Long {
+        require(request.sourcePath.isNotBlank() && Path.of(request.sourcePath).isAbsolute) {
+            "TAR source path must be absolute"
+        }
+        require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
+            "TAR extraction destination must be absolute"
+        }
+        require(request.flags in 0..0x1ff) { "Invalid TAR permission mask" }
+        return submit(onUpdate) { _, progress -> backend.extractTar(request, progress) }
     }
 
     fun cancel(operationId: Long): Boolean {
