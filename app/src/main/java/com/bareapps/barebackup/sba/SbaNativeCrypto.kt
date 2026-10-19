@@ -10,7 +10,16 @@ import org.bouncycastle.crypto.params.Argon2Parameters
  * iterations, memory in KiB, parallelism, and output length in bytes.
  */
 class SbaNativeCrypto private constructor() {
-    fun deriveArgon2id(
+    external fun deriveArgon2id(
+        password: ByteArray,
+        salt: ByteArray,
+        iterations: Int,
+        memoryKiB: Int,
+        parallelism: Int,
+        outputLength: Int,
+    ): ByteArray
+
+    private fun deriveArgon2idPortable(
         password: ByteArray,
         salt: ByteArray,
         iterations: Int,
@@ -45,5 +54,6 @@ class SbaNativeCrypto private constructor() {
 
     companion object {
         @JvmField val a = SbaNativeCrypto()
+        init { System.loadLibrary("sba_archive") }
     }
 }
