@@ -92,7 +92,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 )
                 key = material.key
                 keyCheck = material.keyCheck
-            } else if (!request.password.isNullOrEmpty() || request.encryptionMethod != 0) {
+            } else if (!(request.password == null || request.password.isEmpty()) || request.encryptionMethod != 0) {
                 throw IOException("Password/encryption method supplied for unencrypted SBA creation")
             }
             val keyLength = if (request.encryptionMethod == 4) 32 else if (request.encryptionMethod == 5) 16 else 0
@@ -178,7 +178,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         if (info.isEncrypted && request.password.isNullOrEmpty()) {
             throw IOException("Password is required for encrypted SBA restore")
         }
-        if (!info.isEncrypted && !request.password.isNullOrEmpty()) {
+        if (!info.isEncrypted && (request.password != null && request.password.isNotEmpty())) {
             throw IOException("Password supplied for an unencrypted SBA archive")
         }
         try {
