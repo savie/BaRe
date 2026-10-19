@@ -7,9 +7,9 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
 /**
- * Byte framing recovered from the reference ARM64 JNI chunk path.
- * This currently exposes the verified AAD encoding only; nonce derivation remains separate
- * because its two-string SHA-256 serialization still needs complete field-boundary confirmation.
+ * Per-chunk nonce and AAD framing recovered from the reference ARM64 JNI chunk path.
+ * Nonces are SHA-256 over the reference domain-separated field sequence; AAD uses the
+ * reference big-endian fields and its four-byte zero reserved field.
  */
 internal object SbaAegisChunkProtocol {
     fun nonce(
