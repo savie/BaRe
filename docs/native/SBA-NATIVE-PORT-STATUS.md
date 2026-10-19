@@ -6,7 +6,7 @@ Last reviewed: 2026-10-19.
 
 ## Current verdict
 
-**NOT GO for proven reference parity yet.** The rewrite now creates and reads v1 SBA archives with AEGIS-256 or AEGIS-128X2 chunk encryption, derives and checks reference-compatible Argon2id keys, authenticates v2 index metadata, decrypts encrypted entries to private staging files, and validates the resulting TAR before reporting encrypted creation as successful. The native implementation has protocol and primitive self-tests. However, there is still no reference-created encrypted .sba fixture in the supplied artifacts, and no runtime test has proven SwiftBackup-to-rewrite and rewrite-to-SwiftBackup interoperability. Do not claim full encryption parity until those acceptance tests pass.
+**NOT GO for proven reference parity yet.** The rewrite now creates and reads v1 SBA archives with AEGIS-256 or AEGIS-128X2 chunk encryption, derives and checks reference-compatible Argon2id keys, authenticates v2 index metadata, decrypts encrypted entries to private staging files, and validates the resulting TAR before reporting encrypted creation as successful. The native implementation has protocol and primitive self-tests. A real reference-generated encrypted v2 .sba container was found inside the supplied backup archive. Its header, footer CRC, index CRC, entry offsets, stored sizes, and v2 TAR counts validate structurally. Its password is not present in the supplied artifacts, so payload decryption and full two-way interoperability remain unproven. Do not claim full encryption parity until those acceptance tests pass.
 
 ## Required source locations
 
@@ -35,7 +35,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 
 ## Blocking work
 
-1. **Reference interoperability proof:** chunk nonce/AAD and tag framing have been recovered from ARM64 code and are implemented, but a reference-created encrypted .sba fixture is still absent from the supplied APK/decompilation/backup artifacts. Obtain or generate a valid reference fixture and test both directions before declaring GO.
+1. **Reference interoperability proof:** a real reference-generated encrypted v2 container is now located in the supplied backup archive and its structural fields/CRCs are validated. The password is not present in the artifacts, so it cannot yet serve as a plaintext oracle. Obtain the archive password or another reference fixture with a known test password, then test reference-created -> rewrite decrypt and rewrite-created -> reference decrypt.
 2. **SBA v2 writer:** rewrite creation currently emits v1 containers. The reader validates v2 containers and the v2 index MAC, but v2 archive creation/count fields/index-MAC generation are not yet implemented.
 3. **Other encryption modes:** the reader now validates headers and stored sizes for reference methods 1–3, but decryption/encryption for 7zAES, AES-GCM, and AES-GCM-SIV is not implemented.
 4. **Runtime/device verification:** CI validates unit tests and release assembly only; Shizuku lifecycle, private-temp staging, native chunk execution, cancellation, restore, and real-device round trips still need Android runtime coverage.
@@ -46,7 +46,8 @@ SBA source files must remain in these established placeholder trees. Do not recr
 
 - Argon2id known-answer and parameter-boundary tests.
 - SBA writer/reader framing and footer CRC tests, including reference entry flags for encrypted and unencrypted methods.
-- Synthetic encrypted index parsing for AEGIS-256, AES-GCM, and AES-GCM-SIV header variants.
+- Synthetic encrypted index parsing for AEGIS-256, AES-GCM, AES-GCM-SIV, and AES-CBC compatibility header variants.
+- Sanitized two-entry v2 regression fixture using entry offsets, chunk sizes, flags, and TAR counts observed in the real reference backup container.
 - AEGIS nonce/AAD byte-layout known-answer tests, upstream libaegis AEGIS-128X2 primitive vector, and native startup self-tests.
 - Caller-supplied AEGIS key-check verification before encrypted entry access.
 - Zstandard-compressed SBA writer/reader test.
@@ -56,7 +57,7 @@ SBA source files must remain in these established placeholder trees. Do not recr
 - Existing generic ustar writer tests.
 - SBA task-runner state, progress, result and cancellation tests (using an injectable fake backend).
 
-The repository workflow runs on pushes to rewrite. The last verified successful build before the recent protocol and parser hardening was run 39272778766. The current head 50c441fa has CI run 39284341450 queued at last inspection. Do not report full SBA parity until current CI succeeds and encrypted reference-vs-target archive/restore/corruption tests pass.
+The repository workflow runs on pushes to rewrite. The last verified successful build before the recent protocol and parser hardening was run 39272778766. The current head 9fc90c32 has CI run 39285387054 queued at last inspection. Do not report full SBA parity until current CI succeeds and encrypted reference-vs-target archive/restore/corruption tests pass.
 
 ## Latest implementation notes
 
@@ -78,7 +79,7 @@ Static decompilation of SwiftBackup 5.1.0 (620) narrowed the AEGIS entry-decrypt
 - Authentication errors are translated to a reference-level “Failed to authenticate SBA … payload” error. Cancellation is also translated distinctly.
 - The ARM64 path and string references establish method-specific nonce/AAD domains, field order and byte order, per-chunk tag placement, and the stored-size formula. These are implemented in the rewrite; a real reference-created fixture is still required to validate the complete path end to end.
 
-Implementation guardrail: `isAvailable()` is gated by primitive and protocol known-answer self-tests, but those are not interoperability proof. Required acceptance evidence remains reference-created encrypted fixture -> rewrite decrypt, rewrite-created encrypted fixture -> reference decrypt, both AEGIS variants, multi-chunk and partial final chunk, empty entry, tampered tag, wrong key, cancellation, and bounded FD handling. A valid reference encrypted SBA fixture is not present in the uploaded backup/decompilation archives inspected so far.
+Implementation guardrail: `isAvailable()` is gated by primitive and protocol known-answer self-tests, but those are not interoperability proof. Required acceptance evidence remains reference-created encrypted fixture -> rewrite decrypt, rewrite-created encrypted fixture -> reference decrypt, both AEGIS variants, multi-chunk and partial final chunk, empty entry, tampered tag, wrong key, cancellation, and bounded FD handling. A reference encrypted SBA v2 fixture is present in backup_swift_com.bare.zip as com.bare/20260919-184357-CO/com.bare.dat; the password is not included.
 
 ## AEGIS header/index and key-check implementation (2026-10-19)
 
