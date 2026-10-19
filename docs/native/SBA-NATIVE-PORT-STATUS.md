@@ -114,7 +114,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | Zstandard FD/file compression exports | Orphan exports still fail closed; semantic signatures are unverified | Not implemented | Recover signatures/callers; do not guess |
 | Argon2id | Public Kotlin declaration is native with descriptor `([B[BIIII)[B`; C++ JNI delegates to `SbaArgon2idPortable`, which uses Bouncy Castle and remains host-testable. Parameter validation and known-answer tests cover reference bounds and empty-password/minimum-salt behavior | API surface and implementation path aligned to reference evidence; runtime parity unverified | Build native library and run device/instrumentation tests; compare outputs and exception mapping against reference JNI |
 | AEGIS | Availability reports unavailable; encryption/decryption exports fail closed | Not implemented | Identify exact AEGIS variant, chunk framing, nonce/tag/AAD rules from evidence |
-| SBA framing/metadata/archive creation | JNI delegates to SbaArchiveWriter for unencrypted v1 framing, source-path TAR generation, POSIX modes, symlinks, optional Zstandard compression, index/footer CRC and diagnostics; SbaArchiveReader validates framing and entry bounds; unit tests cover framing, CRC and fail-safe replacement | Implemented path; unverified | Run Gradle/JUnit, parse produced archives with the reference parser, compare byte layout, exercise empty/multi-entry/large-file/filter cases; encryption remains unsupported |
+| SBA framing/metadata/archive creation | JNI delegates to SbaArchiveWriter for unencrypted v1 framing, source-path TAR generation, POSIX modes, symlinks, optional Zstandard compression, index/footer CRC and diagnostics; SbaArchiveReader validates unencrypted v1/v2 framing and entry bounds; unit tests cover framing, CRC and fail-safe replacement | Implemented path; unverified | Run Gradle/JUnit, parse produced archives with the reference parser, compare byte layout, exercise empty/multi-entry/large-file/filter cases; encryption remains unsupported |
 | Four-ABI/device validation | Reference has 4 ABIs; target build/runtime validation not recorded | Unverified | Build all ABIs and run real backup/restore/corruption tests |
 
 ### Current measurable summary
@@ -306,7 +306,7 @@ Limits:
 - Corrected `SbaArchiveNative.createArchive` source arguments from `ByteArray[]` to `String[]`, matching the reference call site, which passes source paths.
 - Replaced the archive-creation fail-closed JNI stub with a bridge to `SbaArchiveWriter`.
 - Added unencrypted v1 SBA framing for `SBA1`, `SAE1`, `SAI1`, and `SAF1`, including index records, CRCs, source-directory/file TAR payloads, optional Zstandard compression, progress cancellation, and atomic destination replacement.
-- Added SbaArchiveReader for strict unencrypted v1 header/index/entry/footer validation, UTF-8 and path safety checks, bounds/overflow checks, and CRC verification.
+- Added SbaArchiveReader for strict unencrypted v1/v2 header/index/entry/footer validation, UTF-8 and path safety checks, bounds/overflow checks, and CRC verification.
 - Exposed SBA magic detection, archive-info reading, and unencrypted entry extraction through SbaArchiveNative.
 - Added unit coverage for uncompressed and Zstandard-compressed writer/reader output, footer CRC validation, and preserving an existing destination when encrypted mode is rejected.
 - The writer explicitly rejects encrypted mode; this does not implement AEGIS or encrypted archive parity.
