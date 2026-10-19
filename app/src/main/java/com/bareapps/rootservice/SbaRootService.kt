@@ -27,7 +27,11 @@ import java.nio.file.Path
 import java.util.Locale
 
 /** Shizuku user-service Binder adapter for SBA operations. */
-class SbaRootService : IRootAidlInterface.Stub(), Closeable {
+class SbaRootService private constructor(private val injectedContext: Context?) :
+    IRootAidlInterface.Stub(), Closeable {
+    constructor() : this(null)
+    constructor(context: Context) : this(context.applicationContext)
+
     private val taskRunner = SbaArchiveTaskRunner()
     private data class CacheRecord<T>(
         val value: T,
@@ -448,6 +452,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     private fun applicationContext(): Context {
+        injectedContext?.let { return it }
         return try {
             val activityThread = Class.forName("android.app.ActivityThread")
             activityThread.getDeclaredMethod("currentApplication").invoke(null) as? Context
