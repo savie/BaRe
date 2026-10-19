@@ -229,6 +229,8 @@ internal object SbaArchiveWriter {
         val includeRoot = flags and 8 != 0
         val includeSet = includes.filter { it.isNotBlank() }.toSet()
         val excludeSet = excludes.filter { it.isNotBlank() }.toSet()
+        val effectiveIncludes = if (flags and 1 != 0) includeSet else emptySet()
+        val effectiveExcludes = if (flags and 4 != 0) excludeSet else emptySet()
         val paths = if (source.isDirectory()) Files.walk(source).use { it.sorted().iterator().asSequence().toList() } else listOf(source)
         var emitted = 0
         Files.newOutputStream(destination).use { raw ->
@@ -238,10 +240,10 @@ internal object SbaArchiveWriter {
                     val relative = if (path == source) { if (source.isDirectory()) Path.of("") else source.fileName } else source.relativize(path)
                     val relText = relative.toString().replace('\\', '/')
                     if (relText.isEmpty() && source.isDirectory() && !includeRoot) continue
-                    if (relText.isNotEmpty() && !selected(relText, includeSet, excludeSet)) continue
+                    val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
+                    if (relText.isNotEmpty() && !selected(relText, effectiveIncludes, effectiveExcludes, attrs.isDirectory)) continue
                     val archiveName = if (includeRoot && source.isDirectory()) source.fileName.toString() + if (relText.isEmpty()) "" else "/$relText" else relText
                     if (archiveName.isEmpty()) continue
-                    val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
                     if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
                     val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
                     writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis(), readMode(path, attrs.isDirectory, attrs.isSymbolicLink), linkTarget)
@@ -266,14 +268,20 @@ internal object SbaArchiveWriter {
         }
     }
 
-    private fun selected(path: String, includes: Set<String>, excludes: Set<String>): Boolean {
+    private fun selected(
+        path: String,
+        includes: Set<String>,
+        excludes: Set<String>,
+        isDirectory: Boolean,
+    ): Boolean {
         fun matches(pattern: String): Boolean {
             if (path == pattern || path.startsWith("$pattern/")) return true
             return try { java.nio.file.FileSystems.getDefault().getPathMatcher("glob:$pattern").matches(Path.of(path)) }
             catch (_: Exception) { false }
         }
         if (excludes.any(::matches)) return false
-        return includes.isEmpty() || includes.any(::matches)
+        if (includes.isEmpty() || includes.any(::matches)) return true
+        return isDirectory && includes.any { it.startsWith("$path/") }
     }
 
     private fun writeTarHeader(
