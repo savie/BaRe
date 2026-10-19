@@ -1,11 +1,14 @@
 package com.bareapps.sba.internal.archive
 
 import androidx.annotation.Keep
+import com.bareapps.sba.SbaLibaegisCryptoNative
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdOutputStream
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.IOException
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
@@ -16,10 +19,11 @@ import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.Locale
+import java.security.MessageDigest
 import java.util.zip.CRC32
 import kotlin.io.path.isDirectory
 
-/** Independent SBA v1 writer for unencrypted archives. */
+/** Independent SBA v1 writer for unencrypted and AEGIS-encrypted archives. */
 @Keep
 internal object SbaArchiveWriter {
     private const val FILE_HEADER_SIZE = 96
@@ -50,7 +54,8 @@ internal object SbaArchiveWriter {
         progress: SbaNativeProgressListener?,
     ): LongArray {
         val started = System.nanoTime()
-        require(mode == 1) { "Encrypted SBA creation is not enabled in this writer" }
+        val encrypted = mode == 2
+        require(mode == 1 || encrypted) { "Unsupported SBA archive mode" }
         require(metadata.size <= MAX_METADATA) { "SBA archive metadata exceeds 1 MiB" }
         require(sourcePaths.size == entryNames.size && sourcePaths.size == entryModes.size &&
             sourcePaths.size == includePaths.size && sourcePaths.size == excludePaths.size) {
@@ -60,11 +65,33 @@ internal object SbaArchiveWriter {
         require(outputPath.isNotBlank() && sourcePaths.all { it.isNotBlank() }) { "SBA paths must not be blank" }
         require(option0 in 0..1) { "Unsupported SBA compression method: $option0" }
         require(if (option0 == 0) option1 == 0 else option1 in 1..22) { "Invalid SBA Zstandard compression level" }
-        require(listOf(option2, option3, option4, option5, option6, option7, option8, option9).all { it == 0 }) {
-            "Unsupported encryption or format options for unencrypted SBA v1"
-        }
-        require(key0 == null && key1 == null && key2 == null && key3 == null) {
-            "Key material must be absent for unencrypted SBA creation"
+        if (encrypted) {
+            require(option2 in 4..5 && option3 == 1 && option4 == 3 &&
+                option5 == 16384 && option6 == 1 && option7 in 4096..16777216 &&
+                option8 == 1 && option9 == if (option2 == 4) 32 else 16) {
+                "Invalid SBA AEGIS/KDF options"
+            }
+            require(key0?.size == option9 && key1?.size == 16 && key2?.size == 16 && key3?.size == 16) {
+                "Invalid SBA AEGIS key material"
+            }
+            val keyCheck = MessageDigest.getInstance("SHA-256").run {
+                update((if (option2 == 4) "SBA1-AEGIS256-key-check-v1" else
+                    "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8))
+                update(key2)
+                update(key3)
+                update(key0)
+                digest().copyOf(16)
+            }
+            val validKeyCheck = MessageDigest.isEqual(keyCheck, key1)
+            java.util.Arrays.fill(keyCheck, 0)
+            require(validKeyCheck) { "SBA AEGIS key-check does not match the supplied key material" }
+        } else {
+            require(listOf(option2, option3, option4, option5, option6, option7, option8, option9).all { it == 0 }) {
+                "Unsupported encryption or format options for unencrypted SBA v1"
+            }
+            require(key0 == null && key1 == null && key2 == null && key3 == null) {
+                "Key material must be absent for unencrypted SBA creation"
+            }
         }
         require(entryNames.toSet().size == entryNames.size) { "Duplicate SBA entry name" }
         entryNames.forEach {
@@ -78,6 +105,7 @@ internal object SbaArchiveWriter {
         val temporary = Files.createTempFile(parent, ".bare-sba-", ".tmp")
         val tarTemps = ArrayList<Path>()
         val compressedTemps = ArrayList<Path>()
+        val encryptedTemps = ArrayList<Path>()
         var headerMillis = 0L
         var payloadMillis = 0L
         var producerMillis = 0L
@@ -88,7 +116,7 @@ internal object SbaArchiveWriter {
             Files.newOutputStream(temporary, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE).use { raw ->
                 BufferedOutputStream(raw).use { out ->
                     val headerStart = System.nanoTime()
-                    out.write(fileHeader(option0, option1))
+                    out.write(fileHeader(option0, option1, if (encrypted) option2 else 0, if (encrypted) option3 else 0, if (encrypted) option4 else 0, if (encrypted) option7 else 0, if (encrypted) key1 else null, if (encrypted) key2 else null, if (encrypted) key3 else null))
                     out.flush()
                     headerMillis = elapsedMillis(headerStart)
 
@@ -129,16 +157,48 @@ internal object SbaArchiveWriter {
                             payloadMillis += elapsedMillis(compressStart)
                             compressed
                         }
-                        val storedSize = Files.size(payloadTemp)
+                        val compressedSize = Files.size(payloadTemp)
+                        val storedPayload = if (!encrypted) payloadTemp else {
+                            val encryptedTemp = Files.createTempFile(parent, ".bare-sba-aegis-", ".tmp")
+                            encryptedTemps.add(encryptedTemp)
+                            FileInputStream(payloadTemp.toFile()).use { input ->
+                                FileOutputStream(encryptedTemp.toFile()).use { output ->
+                                    val encryptedCounts = if (option2 == 4) {
+                                        SbaLibaegisCryptoNative.a.encryptAegis256ChunkedEntryFdRaw(
+                                            input.fd, compressedSize, output.fd, key0!!, key3!!,
+                                            entryNames[i].toByteArray(StandardCharsets.UTF_8), i.toLong(),
+                                            option7, progress,
+                                        )
+                                    } else {
+                                        SbaLibaegisCryptoNative.a.encryptAegis128X2ChunkedEntryFdRaw(
+                                            input.fd, compressedSize, output.fd, key0!!, key3!!,
+                                            entryNames[i].toByteArray(StandardCharsets.UTF_8), i.toLong(),
+                                            option7, progress,
+                                        )
+                                    }
+                                    output.flush()
+                                    val expectedChunks = if (compressedSize == 0L) 0L else
+                                        (compressedSize - 1L) / option7.toLong() + 1L
+                                    val expectedStored = compressedSize + expectedChunks * 16L
+                                    if (encryptedCounts.size < 2 || encryptedCounts[0] != expectedStored ||
+                                        encryptedCounts[1] != compressedSize) {
+                                        throw IOException("native SBA AEGIS encrypted byte count mismatch")
+                                    }
+                                }
+                            }
+                            encryptedTemp
+                        }
+                        val storedSize = Files.size(storedPayload)
                         val name = entryNames[i].toByteArray(StandardCharsets.UTF_8)
                         out.flush()
                         val entryOffset = Files.size(temporary)
-                        val flags = if (option0 == 1) 1 else 0
+                        val baseFlags = if (option0 == 1) 3 else 1
+                        val flags = if (encrypted) baseFlags or 20 else if (option0 == 1) 1 else 0
                         val header = entryHeader(flags, name)
                         out.write(header)
                         out.write(name)
                         val payloadOffset = entryOffset + header.size + name.size
-                        Files.newInputStream(payloadTemp).use { input ->
+                        Files.newInputStream(storedPayload).use { input ->
                             val buffer = ByteArray(64 * 1024)
                             while (true) {
                                 checkCancelled(progress)
@@ -148,7 +208,7 @@ internal object SbaArchiveWriter {
                             }
                         }
                         out.flush()
-                        records.add(EntryRecord(name, entryOffset, payloadOffset, storedSize, storedSize, tarSize, flags))
+                        records.add(EntryRecord(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, flags))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
                     }
 
@@ -176,19 +236,30 @@ internal object SbaArchiveWriter {
             Files.deleteIfExists(temporary)
             tarTemps.forEach { Files.deleteIfExists(it) }
             compressedTemps.forEach { Files.deleteIfExists(it) }
+            encryptedTemps.forEach { Files.deleteIfExists(it) }
         }
     }
 
-    private fun fileHeader(compression: Int, level: Int): ByteArray {
+    private fun fileHeader(
+        compression: Int, level: Int, encryptionMethod: Int, kdfMethod: Int, iterations: Int,
+        chunkSize: Int, keyCheck: ByteArray?, salt: ByteArray?, nonceSeed: ByteArray?,
+    ): ByteArray {
+        val encrypted = encryptionMethod != 0
         val b = ByteBuffer.allocate(FILE_HEADER_SIZE).order(ByteOrder.BIG_ENDIAN)
         b.put("SBA1".toByteArray(StandardCharsets.US_ASCII))
         b.putShort(1); b.putShort(FILE_HEADER_SIZE.toShort())
-        b.putInt(if (compression == 1) 1 else 0)
+        b.putInt((if (compression == 1) 1 else 0) or (if (encrypted) 2 else 0))
         b.putLong(System.currentTimeMillis())
         b.putShort(compression.toShort()); b.putShort(level.toShort())
-        repeat(6) { b.putShort(0) }
-        b.put(ByteArray(48))
-        b.putShort(0); b.putShort(0); b.putInt(0); b.putInt(0)
+        b.putShort(encryptionMethod.toShort()); b.putShort(kdfMethod.toShort())
+        b.putShort(iterations.toShort())
+        b.putShort(if (encrypted) 16 else 0)
+        b.putShort(if (encrypted) 16 else 0)
+        b.putShort(if (encrypted) 16 else 0)
+        b.put(keyCheck ?: ByteArray(16))
+        b.put(salt ?: ByteArray(16))
+        b.put(nonceSeed ?: ByteArray(16))
+        b.putShort(0); b.putShort(0); b.putInt(if (encrypted) chunkSize else 0); b.putInt(0)
         check(b.position() == FILE_HEADER_SIZE)
         return b.array()
     }
