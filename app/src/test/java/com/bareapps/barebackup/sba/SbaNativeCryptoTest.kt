@@ -21,6 +21,10 @@ class SbaNativeCryptoTest {
 
         assertEquals(32, first.size)
         assertArrayEquals(first, second)
+        assertArrayEquals(
+            hexToBytes("1e5579a1bb8d903890049babb3a95c6076d72c05490b19f5efd7a2fe3ec6b924"),
+            first,
+        )
     }
 
     @Test
@@ -34,6 +38,9 @@ class SbaNativeCryptoTest {
 
         assertFalse(first.contentEquals(second))
     }
+
+    private fun hexToBytes(value: String): ByteArray =
+        value.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 
     @Test
     fun rejectsInvalidArgon2Parameters() {
