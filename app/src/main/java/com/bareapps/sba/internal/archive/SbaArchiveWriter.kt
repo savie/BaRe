@@ -88,7 +88,7 @@ internal object SbaArchiveWriter {
                     for (i in sourcePaths.indices) {
                         checkCancelled(progress)
                         val source = Path.of(sourcePaths[i]).toAbsolutePath().normalize()
-                        val sourceExists = Files.exists(source)
+                        val sourceExists = Files.exists(source, LinkOption.NOFOLLOW_LINKS)
                         require(sourceExists || entryModes[i] and 16 != 0) { "SBA source does not exist: $source" }
                         val tarTemp = Files.createTempFile(parent, ".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
