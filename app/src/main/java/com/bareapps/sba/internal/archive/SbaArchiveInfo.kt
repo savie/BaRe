@@ -32,6 +32,8 @@ data class SbaArchiveInfo(
     val salt: ByteArray = ByteArray(0),
     val nonceSeed: ByteArray = ByteArray(0),
     val chunkSize: Int = 0,
+    val kdfMemoryKiB: Int = 0,
+    val kdfParallelism: Int = 0,
 ) {
     val isEncrypted: Boolean get() = encryptionMethod != 0
 }
