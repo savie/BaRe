@@ -95,7 +95,7 @@ class SbaArchiveWriterTest {
             val bytes = Files.readAllBytes(destination)
             assertEquals(2, ByteBuffer.wrap(bytes, 4, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
             assertEquals(144, ByteBuffer.wrap(bytes, 6, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
-            assertEquals(2, ByteBuffer.wrap(bytes, bytes.size - 30, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(2, ByteBuffer.wrap(bytes, bytes.size - 26, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
             val parsed = SbaArchiveReader.read(destination.toString())
             assertEquals(2, parsed.version)
             assertEquals(listOf(2L), parsed.entries.map { it.tarEntryCount })
