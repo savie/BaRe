@@ -633,12 +633,16 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 }
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
-                        jint modeMask, jobjectArray includes, jobject progress) {
-    if (fd < 0 || startOffset < 0 || destination == nullptr || modeMask < 0 || modeMask > 0777) {
+                        jint options, jobjectArray includes, jobject progress) {
+    if (fd < 0 || startOffset < 0 || destination == nullptr || options < 0 ||
+        (options & ~0xdf) != 0) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
         return nullptr;
     }
+    const bool restorePermissions = (options & 1) != 0;
+    const bool restoreTimestamps = (options & 2) != 0;
+    const bool restoreSpecialModeBits = (options & 128) != 0;
     struct stat extractInputStat{};
     if (fstat(fd, &extractInputStat) == 0 && S_ISREG(extractInputStat.st_mode) &&
         startOffset > static_cast<jlong>(extractInputStat.st_size)) {
@@ -929,7 +933,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(dirFd);
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
-            pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL),
+            pendingDirectories.push_back({name, static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
                                            entryMtimeMillis});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
@@ -982,11 +986,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
-            const mode_t safeMode = static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL);
+            const mode_t safeMode = static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0600ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
             millisToTimespec(entryMtimeMillis, &fileTimes[1]);
-            if (fchmod(out, safeMode) != 0 || futimens(out, fileTimes) != 0) {
+            if ((restorePermissions && fchmod(out, safeMode) != 0) ||
+                (restoreTimestamps && futimens(out, fileTimes) != 0)) {
                 close(out);
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
@@ -1084,9 +1089,10 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         millisToTimespec(it->mtimeMillis, &directoryTimes[1]);
         // Archive-provided directory modes must never restore setuid,
         // setgid, or sticky bits in the extraction destination.
-        const mode_t safeDirectoryMode = static_cast<mode_t>(it->mode & modeMask & 0777);
-        const int metadataResult = fchmod(dirFd, safeDirectoryMode) == 0
-            ? futimens(dirFd, directoryTimes) : -1;
+        const mode_t safeDirectoryMode = it->mode;
+        int metadataResult = 0;
+        if (restorePermissions && fchmod(dirFd, safeDirectoryMode) != 0) metadataResult = -1;
+        if (metadataResult == 0 && restoreTimestamps && futimens(dirFd, directoryTimes) != 0) metadataResult = -1;
         close(dirFd);
         if (metadataResult != 0) {
             close(rootFd);
