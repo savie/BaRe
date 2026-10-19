@@ -61,12 +61,13 @@ Important distinction: an ELF export is not proof that the decompiled app declar
 
 The current `app/src/main/cpp/sba_archive.cpp` has target-package exports for the audited
 symbol inventory. Runtime version reports a target build marker; AEGIS availability returns
-false; unsupported operations throw `UnsupportedOperationException`. No archive algorithm
-is implemented by those placeholders. They are diagnostic scaffolding, not a backup engine.
+false; unsupported operations throw `UnsupportedOperationException`. TAR listing/extraction has
+partial independent implementation, while archive creation/framing and AEGIS remain fail-closed.
+The target is not yet a complete backup engine.
 
 Still required for a truthful feature-parity claim:
 1. Recover exact JNI descriptors for every exported symbol from the reference DEX/smali or
-   native disassembly, including the three ELF-only exports.
+   native disassembly, including the four ELF-only exports.
 2. Implement or legitimately link audited Argon2id, Zstandard, and AEGIS implementations.
 3. Implement the SBA framing/metadata/cryptographic format and TAR semantics from evidence
    and test fixtures, with path traversal protection and correct progress/error mapping.
@@ -117,9 +118,9 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 ### Current measurable summary
 
 - Reference native inventory: **20/20 symbols mapped by name**.
-- Reference declaration inventory: **17/20 exports have DEX declarations; 3/20 remain orphan exports**.
+- Reference declaration inventory: **16/20 exports have DEX declarations; 4/20 remain orphan exports**.
 - Fully proven end-to-end behavioral parity: **0 areas certified** (no reference-vs-target runtime test suite has been run).
-- Source-level implementation exists but is not certified: TAR listing/extraction, TAR entry model, Zstandard descriptor helpers, Argon2id.
+- Source-level implementation exists but is not certified: TAR listing/extraction (including GNU L/K, POSIX PAX and guarded links), TAR entry model, Zstandard descriptor helpers, Argon2id.
 - Known incomplete critical paths: TAR writer, SBA archive creation/framing, AEGIS, and orphan Zstandard compression exports.
 
 The **0 certified** figure is a test-evidence status, not a claim that zero code exists. No whole-project percentage is reported because counting methods would inflate progress: a small model getter and full archive creation are not equivalent units.
@@ -171,7 +172,7 @@ No GitHub Actions run or combined status checks were returned for the latest com
 ## Latest implementation checkpoint — 2026-10-19
 
 - Added bounded parsing of GNU TAR long-name (L) and long-link (K) payload records. Listing applies the next long path/link to the following entry and omits the metadata record itself.
-- Extraction consumes the same GNU metadata records and applies the long path to the next extracted entry; link entries remain intentionally unmaterialized for path-safety reasons.
+- Extraction consumes GNU metadata records, applies long paths/links, and materializes links only after containment and target checks.
 - Long metadata payloads are capped at 16 MiB, require a non-empty NUL/newline-trimmed value, and use positional reads. Offset overflow is rejected.
 - Commits: 9b61fd65270797e9794332badb4cf26bba1b826e (GNU long records), cb4ca708550a0d137dd4761eb14df618ef163c42 (offset guard).
 - No Android/NDK build or runtime tests have been run. This increment is source-level only and does not change the overall “not ready for CI as a completed port” status.
@@ -184,7 +185,7 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - Listing reports extended-attribute names from `SCHILY.xattr.*` and `LIBARCHIVE.xattr.*` PAX keys; actual xattr values are not yet restored during extraction.
 - TAR listing and extraction now consume local (`x`) and global (`g`) PAX headers; `path`, `linkpath`, and decimal/fractional `mtime` are applied to following entries. Empty local attributes mask inherited global attributes; empty global attributes remove them.
 - File extraction preserves millisecond precision from PAX `mtime`. Directory metadata currently stores whole seconds only.
-- PAX `size` overrides, GNU sparse maps, xattrs and exact reference semantics remain open. This is partial parity, not GO.
+- GNU sparse maps, xattr value restoration and exact reference semantics remain open. This is partial parity, not GO.
 - Commits: abcfedf85562a01bdb926a21b1475cd1efae0b59 (bounded parser), e13db3ab11b7917fd06c87c644addef6c8b34c3c, 423cc361b14e668c404588a904b743c84cb83f59, 44a8c709d393f828649ce944c3999654a5d4b504, 770492b256f1f3985a31b8c624b28bea453e0429, 29687c3132e33944e2792d38c65ad2942742fe6e and 222aeb83c98c6016b5b1df9bea595ea4a8f10ebf (PAX size and scope fixes), 6e267ad23ac66aabd36efd7edbe87d86f875daa3 (fractional file timestamps).
 - No Android/NDK build or runtime tests have been run; source correctness is not yet verified by CI.
 
@@ -203,3 +204,12 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - TAR entry listing now collects xattr names from `SCHILY.xattr.*` and `LIBARCHIVE.xattr.*` keys, merging local/global PAX attributes with local empty values masking inherited attributes.
 - Xattr values are not restored on extraction; GNU sparse maps, device metadata and full native parity remain open.
 - Commits: 72bb4df11de09141b9dee6809b82da895157f382 and f4ed2c6e39ca3593d6fa28d108a990c785228504.
+
+
+## Source checkpoint update — 2026-10-19
+
+- TAR extraction now materializes relative symlinks after rejecting absolute/backslash/NUL targets and targets that lexically escape the extraction root. Hardlinks require an already-extracted regular file within the same root and are checked without following source symlinks.
+- PAX local/global `path`, `linkpath`, `mtime`, and `size` values are applied to listing/extraction; local state is consumed after the next real entry. Listing surfaces PAX xattr names, but extraction does not yet restore xattr values.
+- Path and symlink target validation now rejects embedded NUL bytes.
+- Relevant commits: 3fdce91e3a3dc9282d23bb5c9af270335bbbc767, 644d5b6289ba1de679bb79c14c1c00d66a1b1ced, 2235b237a480577a8ad884206cd145c96ab3a9ce, 70e9e3b8ae028ab3a446bdba1292e8fbd554c4ef, 72bb4df11de09141b9dee6809b82da895157f382, f4ed2c6e39ca3593d6fa28d108a990c785228504.
+- No native compile, Android build or runtime parity test has run. The status remains partial and is not GO.
