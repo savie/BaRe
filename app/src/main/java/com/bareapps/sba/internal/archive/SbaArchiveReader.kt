@@ -73,10 +73,11 @@ internal object SbaArchiveReader {
             extensionBytes = ByteArray(32).also { h.get(it) }
             reserved = ByteArray(8).also { h.get(it) }
         }
-        if (flags != (if (compressionMethod == 1) 1 else 0) || compressionMethod !in 0..1 ||
+        if (compressionMethod !in 0..1 ||
             (compressionMethod == 0 && compressionLevel != 0) ||
             (compressionMethod == 1 && compressionLevel !in 1..22) ||
-            ((flags and 1) != (if (compressionMethod == 1) 1 else 0))) {
+            (flags and 1) != (if (compressionMethod == 1) 1 else 0) ||
+            (flags and 2) != (if (encryptionMethod != 0) 2 else 0)) {
             throw IOException("Invalid SBA compression header")
         }
         if (reserved.any { it.toInt() != 0 }) throw IOException("Invalid SBA reserved header bytes")
@@ -177,7 +178,7 @@ internal object SbaArchiveReader {
                 0 -> if (compressionMethod == 1) 1 else 0
                 1 -> if (compressionMethod == 1) 13 else 12
                 2, 3 -> if (compressionMethod == 1) 15 else 14
-                4, 5 -> if (compressionMethod == 1) 23 else 22
+                4, 5 -> if (compressionMethod == 1) 23 else 21
                 else -> -1
             }
             val expectedStoredSize = when (encryptionMethod) {
