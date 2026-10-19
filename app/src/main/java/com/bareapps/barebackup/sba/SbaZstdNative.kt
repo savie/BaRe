@@ -219,6 +219,16 @@ class SbaZstdNative private constructor() {
     companion object {
         @JvmField val instance = SbaZstdNative()
         @JvmField val a = instance
+
+        /** Semantic equivalent of the reference's descriptor-to-descriptor helper. */
+        @JvmStatic
+        @Throws(IOException::class)
+        fun decompressDescriptor(
+            input: FileDescriptor,
+            output: FileDescriptor,
+            progress: SbaNativeProgressListener?,
+        ): LongArray = instance.decompressDescriptorToDescriptor(input, output, progress, -1L)
+
         init { System.loadLibrary("sba_archive") }
     }
 }
