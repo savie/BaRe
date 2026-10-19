@@ -109,7 +109,6 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
 
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
-        val info = SbaArchiveNative.readArchiveInfo(request.archivePath)
         val allEntries = SbaArchiveNative.listEntryTarEntries(request.archivePath, request.entryName)
         val extracted = SbaArchiveNative.extractEntry(
             request.archivePath,
@@ -120,14 +119,21 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             progress,
         )
         val root = Path.of(request.destination).toAbsolutePath().normalize()
-        val extractedNames = extracted.toSet()
+        val extractedNameCounts = extracted.groupingBy { it }.eachCount().toMutableMap()
+        val extractedEntries = allEntries.filter { entry ->
+            val remaining = extractedNameCounts[entry.name] ?: 0
+            if (remaining <= 0) false else {
+                extractedNameCounts[entry.name] = remaining - 1
+                true
+            }
+        }
         var files = 0L
         var directories = 0L
         var symlinks = 0L
         var hardlinks = 0L
         var otherEntries = 0L
         var bytes = 0L
-        allEntries.filter { it.name in extractedNames }.forEach { entry ->
+        extractedEntries.forEach { entry ->
             when (entry.type) {
                 com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_FILE -> {
                     files++
@@ -148,13 +154,13 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             outputPath = request.destination,
             bytesProcessed = bytes,
             durationMillis = (System.nanoTime() - started) / 1_000_000L,
-            tarEntryCount = extracted.size.toLong(),
+            tarEntryCount = extractedEntries.size.toLong(),
             regularFileCount = files,
             directoryCount = directories,
             symlinkCount = symlinks,
             hardlinkCount = hardlinks,
             otherEntryCount = otherEntries,
-            skippedEntryCount = (allEntries.size - extracted.size).coerceAtLeast(0).toLong(),
+            skippedEntryCount = (allEntries.size - extractedEntries.size).coerceAtLeast(0).toLong(),
             regularFileBytes = bytes,
         )
     }
