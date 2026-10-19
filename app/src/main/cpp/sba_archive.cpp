@@ -78,6 +78,24 @@ std::string tarName(const TarHeader& h) {
     return std::string(h.prefix, p) + "/" + std::string(h.name, n);
 }
 
+/**
+ * GNU TAR long-name (L) and long-link (K) records store a NUL-terminated
+ * pathname in their payload. Bound allocation before reading untrusted sizes.
+ */
+bool readTarTextAt(int fd, uint64_t offset, uint64_t size, std::string* value) {
+    constexpr uint64_t kMaxTarText = 16ULL * 1024ULL * 1024ULL;
+    if (value == nullptr || size == 0 || size > kMaxTarText ||
+        offset > static_cast<uint64_t>(INT64_MAX) ||
+        size > static_cast<uint64_t>(INT64_MAX) - offset) return false;
+    std::vector<char> bytes(static_cast<size_t>(size));
+    if (!readExactAt(fd, bytes.data(), bytes.size(), static_cast<off_t>(offset))) return false;
+    const auto terminator = std::find(bytes.begin(), bytes.end(), '\0');
+    size_t length = static_cast<size_t>(terminator - bytes.begin());
+    while (length > 0 && (bytes[length - 1] == '\n' || bytes[length - 1] == '\r')) --length;
+    value->assign(bytes.data(), length);
+    return !value->empty();
+}
+
 jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     if (fd < 0 || startOffset < 0 ||
         static_cast<uint64_t>(startOffset) > static_cast<uint64_t>(INT64_MAX)) {
@@ -98,6 +116,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         "(Ljava/lang/String;ILjava/lang/String;IJJJZ[Ljava/lang/String;)V");
     if (!ctor) return nullptr;
     std::vector<jobject> entries;
+    std::string pendingLongName;
+    std::string pendingLongLink;
     off_t offset = static_cast<off_t>(startOffset);
     size_t count = 0;
     for (; count < 1000000; ++count) {
@@ -145,6 +165,27 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                 return nullptr;
             }
         }
+        if (h.typeflag == 'L' || h.typeflag == 'K') {
+            std::string value;
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            if (!readTarTextAt(fd, payloadOffset, size, &value)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated GNU TAR long-name record");
+                for (jobject entry : entries) env->DeleteLocalRef(entry);
+                return nullptr;
+            }
+            if (h.typeflag == 'L') pendingLongName = value;
+            else pendingLongLink = value;
+            const uint64_t step = 512ULL + blocksForBounds * 512ULL;
+            if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "TAR long-name offset overflow");
+                for (jobject entry : entries) env->DeleteLocalRef(entry);
+                return nullptr;
+            }
+            offset += static_cast<off_t>(step);
+            continue;
+        }
         const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
         const uint64_t mode = parseOctal(h.mode, sizeof(h.mode));
         if (mtime == UINT64_MAX || mode == UINT64_MAX ||
@@ -155,14 +196,18 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        std::string name = tarName(h);
+        std::string name = pendingLongName.empty() ? tarName(h) : pendingLongName;
+        pendingLongName.clear();
         if (name.empty()) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry has an empty path");
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        std::string link(h.linkname, strnlen(h.linkname, sizeof(h.linkname)));
+        std::string link = pendingLongLink.empty()
+            ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
+            : pendingLongLink;
+        pendingLongLink.clear();
         jint type = 1;
         switch (h.typeflag) {
             case '5': type = 2; break;
@@ -427,6 +472,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         return nullptr;
     }
     offset = static_cast<off_t>(startOffset);
+    std::string pendingLongName;
+    std::string pendingLongLink;
     size_t extractionCount = 0;
     for (; extractionCount < 1000000; ++extractionCount) {
         TarHeader h{};
@@ -486,7 +533,22 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const std::string name = tarName(h);
+        if (h.typeflag == 'L' || h.typeflag == 'K') {
+            std::string value;
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            if (!readTarTextAt(fd, payloadOffset, size, &value)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated GNU TAR long-name record");
+                return nullptr;
+            }
+            if (h.typeflag == 'L') pendingLongName = value;
+            else pendingLongLink = value;
+            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            continue;
+        }
+        const std::string name = pendingLongName.empty() ? tarName(h) : pendingLongName;
+        pendingLongName.clear();
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
