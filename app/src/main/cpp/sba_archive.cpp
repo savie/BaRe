@@ -481,12 +481,25 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to securely open TAR parent directory");
                 return nullptr;
             }
-            int out = openat(parentFd, leaf.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
+            // Never open an existing inode for truncation: a pre-existing hard
+            // link in the destination could make that truncate affect a file
+            // outside the extraction tree. Remove the directory entry first,
+            // then require exclusive creation so a concurrent replacement cannot
+            // redirect the write to a symlink or hard link.
+            if (unlinkat(parentFd, leaf.c_str(), 0) != 0 && errno != ENOENT) {
+                close(parentFd);
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to safely replace existing TAR output");
+                return nullptr;
+            }
+            int out = openat(parentFd, leaf.c_str(),
+                             O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0600);
             close(parentFd);
             if (out < 0) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
-                if (e) env->ThrowNew(e, "Unable to create extracted TAR file");
+                if (e) env->ThrowNew(e, "Unable to exclusively create extracted TAR file");
                 return nullptr;
             }
             char buffer[32768]; uint64_t copied = 0;
