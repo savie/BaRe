@@ -9,11 +9,11 @@ import java.io.InputStream
 
 /** JNI surface for SBA TAR operations. Caller-owned descriptors are never closed. */
 class SbaSwiftTarNative private constructor() {
-    external fun extractTarFromFdRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
+    private external fun extractTarFromFdRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
     private external fun extractTarFromFdWithStatsRaw(fd: Int, offset: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): LongArray
-    external fun extractTarZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
-    external fun listTarEntriesFromFdRaw(fd: Int, offset: Long): Array<SbaTarEntryInfo>
-    external fun listTarEntriesZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo>
+    private external fun extractTarZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String>
+    private external fun listTarEntriesFromFdRaw(fd: Int, offset: Long): Array<SbaTarEntryInfo>
+    private external fun listTarEntriesZstdFromFdRaw(fd: Int, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo>
 
     external fun extractAegisArchiveEntry(
         archivePath: String, offset: Long, size: Long, compressedSize: Long, tarSize: Long,
