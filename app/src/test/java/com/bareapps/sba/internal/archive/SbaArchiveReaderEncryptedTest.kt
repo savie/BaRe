@@ -6,6 +6,7 @@ import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.util.zip.CRC32
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
@@ -108,6 +109,15 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(0xbee65f82.toInt(), parsed.indexCrc32)
             assertEquals(0xf38f2f7e.toInt(), parsed.footerCrc32)
             assertEquals(4, parsed.encryptionMethod)
+            assertEquals(1, parsed.compressionMethod)
+            assertEquals(1, parsed.kdfMethod)
+            assertEquals(3, parsed.kdfIterations)
+            assertEquals(16384, parsed.kdfMemoryKiB)
+            assertEquals(1, parsed.kdfParallelism)
+            assertEquals(1 shl 20, parsed.chunkSize)
+            assertArrayEquals(hex("62cf4f8e264a386d1837b2f8ff5cb86f"), parsed.keyCheck)
+            assertArrayEquals(hex("cc33f61d5f089e01c1c9779b037497a0"), parsed.salt)
+            assertArrayEquals(hex("6158af709aa1bdd92b3ea9e68beebe32"), parsed.nonceSeed)
             assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
             assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
             assertEquals(listOf(5L, 1L), parsed.entries.map { it.tarEntryCount })
