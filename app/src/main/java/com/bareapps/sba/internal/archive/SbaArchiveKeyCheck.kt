@@ -15,6 +15,57 @@ import javax.crypto.spec.SecretKeySpec
 
 /** Implements the reference SBA1 key-check digest; it does not decrypt payload chunks. */
 internal object SbaArchiveKeyCheck {
+    data class CreatedKeyMaterial(val key: ByteArray, val keyCheck: ByteArray)
+
+    fun deriveForCreation(
+        encryptionMethod: Int,
+        password: CharArray,
+        salt: ByteArray,
+        nonceSeed: ByteArray,
+        iterations: Int = 3,
+        memoryKiB: Int = 16384,
+        parallelism: Int = 1,
+    ): CreatedKeyMaterial {
+        if (encryptionMethod != 4 && encryptionMethod != 5) {
+            throw IOException("Unsupported SBA AEGIS encryption method")
+        }
+        if (salt.size != 16 || nonceSeed.size != 16) throw IOException("SBA salt and nonce seed must be 16 bytes")
+        if (password.isEmpty()) throw IOException("SBA encryption password must not be empty")
+        val passwordCopy = password.copyOf()
+        val encoded = try {
+            val buffer = StandardCharsets.UTF_8.newEncoder()
+                .onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT)
+                .encode(CharBuffer.wrap(passwordCopy))
+            ByteArray(buffer.remaining()).also { buffer.get(it) }
+        } catch (failure: Exception) {
+            throw IOException("SBA password is not valid UTF-8", failure)
+        } finally {
+            Arrays.fill(passwordCopy, '\u0000')
+        }
+        var key = ByteArray(0)
+        try {
+            key = SbaArgon2idPortable.deriveArgon2id(
+                encoded, salt, iterations, memoryKiB, parallelism,
+                if (encryptionMethod == 4) 32 else 16,
+            )
+            val digest = MessageDigest.getInstance("SHA-256")
+            digest.update(
+                (if (encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
+                else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8)
+            )
+            digest.update(salt)
+            digest.update(nonceSeed)
+            digest.update(key)
+            return CreatedKeyMaterial(key, digest.digest().copyOf(16))
+        } catch (failure: Throwable) {
+            Arrays.fill(key, 0)
+            throw failure
+        } finally {
+            Arrays.fill(encoded, 0)
+        }
+    }
+
     fun verify(info: SbaArchiveInfo, password: CharArray, archivePath: String? = null): Boolean {
         val key = deriveVerifiedKey(info, password, archivePath) ?: return false
         Arrays.fill(key, 0)
