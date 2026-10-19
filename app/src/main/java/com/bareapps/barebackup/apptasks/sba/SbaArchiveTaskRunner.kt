@@ -134,7 +134,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
             archiveInfo.entries.forEach { archiveEntry ->
                 val tarInfo = if (archiveInfo.isEncrypted) {
-                    SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(
+                    SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(
                         request.outputPath, archiveEntry.name, key, progress,
                     )
                 } else {
@@ -199,7 +199,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             }
             val allEntries = targetEntries.flatMap { archiveEntry ->
                 (if (info.isEncrypted) {
-                    SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(
+                    SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(
                         request.archivePath, archiveEntry.name, verifiedKey!!, progress,
                     )
                 } else {
@@ -209,7 +209,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             val extracted = ArrayList<String>()
             targetEntries.forEach { archiveEntry ->
                 extracted.addAll(if (info.isEncrypted) {
-                    SbaArchiveNative.extractEncryptedEntryWithKey(
+                    SbaArchiveNative.extractEncryptedEntryWithVerifiedKey(
                         request.archivePath, archiveEntry.name, verifiedKey!!,
                         request.destination, request.flags, request.includes.toTypedArray(), progress,
                     )
