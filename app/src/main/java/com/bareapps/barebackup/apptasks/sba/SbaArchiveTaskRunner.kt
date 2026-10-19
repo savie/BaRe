@@ -29,7 +29,7 @@ data class SbaCreateTaskRequest(
 
 data class SbaExtractTaskRequest(
     val archivePath: String,
-    val entryName: String,
+    val entryName: String?,
     val destination: String,
     val flags: Int = 0x1ff,
     val includes: List<String> = emptyList(),
@@ -120,15 +120,25 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
 
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
-        val allEntries = SbaArchiveNative.listEntryTarEntries(request.archivePath, request.entryName)
-        val extracted = SbaArchiveNative.extractEntry(
-            request.archivePath,
-            request.entryName,
-            request.destination,
-            request.flags,
-            request.includes.toTypedArray(),
-            progress,
-        )
+        val info = SbaArchiveNative.readArchiveInfo(request.archivePath)
+        val targetEntries = if (request.entryName.isNullOrBlank()) info.entries else {
+            listOf(info.entries.firstOrNull { it.name == request.entryName }
+                ?: throw IOException("SBA entry not found: " + request.entryName))
+        }
+        val allEntries = targetEntries.flatMap { archiveEntry ->
+            SbaArchiveNative.listEntryTarEntries(request.archivePath, archiveEntry.name).toList()
+        }
+        val extracted = ArrayList<String>()
+        targetEntries.forEach { archiveEntry ->
+            extracted.addAll(SbaArchiveNative.extractEntry(
+                request.archivePath,
+                archiveEntry.name,
+                request.destination,
+                request.flags,
+                request.includes.toTypedArray(),
+                progress,
+            ))
+        }
         val root = Path.of(request.destination).toAbsolutePath().normalize()
         val extractedNameCounts = extracted.groupingBy { it }.eachCount().toMutableMap()
         val extractedEntries = allEntries.filter { entry ->
@@ -156,10 +166,9 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 else -> otherEntries++
             }
         }
-        // Validate that returned names resolve within the requested destination.
         extracted.forEach { name ->
             val path = root.resolve(name).normalize()
-            if (!path.startsWith(root)) throw java.io.IOException("TAR extractor returned a path outside its destination")
+            if (!path.startsWith(root)) throw IOException("TAR extractor returned a path outside its destination")
         }
         return SbaTaskBackendResult(
             outputPath = request.destination,
@@ -305,7 +314,7 @@ class SbaArchiveTaskRunner(
         require(request.archivePath.isNotBlank() && Path.of(request.archivePath).isAbsolute) {
             "SBA archive path must be absolute"
         }
-        require(request.entryName.isNotBlank()) { "SBA entry name must not be blank" }
+        require(request.entryName == null || request.entryName.isNotBlank()) { "SBA entry name must not be blank" }
         require(request.destination.isNotBlank() && Path.of(request.destination).isAbsolute) {
             "SBA extraction destination must be absolute"
         }
