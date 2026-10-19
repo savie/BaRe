@@ -343,7 +343,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     uint64_t total = 0, processed = 0;
     // First pass computes the regular-file payload total for progress reporting.
     off_t offset = static_cast<off_t>(startOffset);
-    for (size_t count = 0; count < 1000000; ++count) {
+    size_t sizingCount = 0;
+    for (; sizingCount < 1000000; ++sizingCount) {
         TarHeader h{};
         if (!readExactAt(fd, &h, sizeof(h), offset)) {
             if (isAtRegularFileEnd(fd, offset)) break;
@@ -398,8 +399,15 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
     }
+    if (sizingCount == 1000000) {
+        close(rootFd);
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "TAR entry count exceeds the supported limit");
+        return nullptr;
+    }
     offset = static_cast<off_t>(startOffset);
-    for (size_t count = 0; count < 1000000; ++count) {
+    size_t extractionCount = 0;
+    for (; extractionCount < 1000000; ++extractionCount) {
         TarHeader h{};
         if (!readExactAt(fd, &h, sizeof(h), offset)) {
             // The archive may have changed between the sizing and extraction
@@ -559,6 +567,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         } else if (type == '2' || type == '1') {
             // Links are intentionally not materialized: never let archive links escape destination.
         }
+    }
+    if (extractionCount == 1000000) {
+        close(rootFd);
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "TAR entry count exceeds the supported limit");
+        return nullptr;
     }
     // Restore directory metadata deepest-first, after all entries are written.
     for (auto it = pendingDirectories.rbegin(); it != pendingDirectories.rend(); ++it) {
