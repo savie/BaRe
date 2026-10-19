@@ -158,7 +158,7 @@ internal object SbaArchiveWriter {
                         require(tarSize >= TAR_BLOCK * 2 && tarSize % TAR_BLOCK == 0L) { "Generated TAR payload is not block aligned" }
 
                         val payloadTemp = if (option0 == 0) tarTemp else {
-                            val compressed = SbaArchiveNative.createStagingTempFile(".bare-sba-zstd-", ".tmp")
+                            val compressed = SbaArchiveStaging.createTempFile(".bare-sba-zstd-", ".tmp")
                             compressedTemps.add(compressed)
                             val compressStart = System.nanoTime()
                             BufferedInputStream(Files.newInputStream(tarTemp)).use { input ->
@@ -179,7 +179,7 @@ internal object SbaArchiveWriter {
                         }
                         val compressedSize = Files.size(payloadTemp)
                         val storedPayload = if (!encrypted) payloadTemp else {
-                            val encryptedTemp = SbaArchiveNative.createStagingTempFile(".bare-sba-aegis-", ".tmp")
+                            val encryptedTemp = SbaArchiveStaging.createTempFile(".bare-sba-aegis-", ".tmp")
                             encryptedTemps.add(encryptedTemp)
                             FileInputStream(payloadTemp.toFile()).use { input ->
                                 FileOutputStream(encryptedTemp.toFile()).use { output ->
