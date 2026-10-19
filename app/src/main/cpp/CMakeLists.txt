@@ -4,8 +4,9 @@ project(bare_native_lib LANGUAGES C CXX)
 include(FetchContent)
 
 # Pin the upstream, portable AEGIS implementation rather than reimplementing
-# the primitive locally. SBA's chunk framing is layered above this API and is
-# kept fail-closed until the reference framing is verified independently.
+# the primitive locally. The independent SBA chunk framing lives in sba_aegis.cpp;
+# it follows the recovered reference domains and byte layout and remains subject
+# to reference-fixture interoperability testing.
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(FAVOR_PERFORMANCE OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(
