@@ -54,6 +54,7 @@ interface SbaTaskBackend {
 
 private object NativeSbaTaskBackend : SbaTaskBackend {
     override fun create(request: SbaCreateTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
+        val started = System.nanoTime()
         val stats = SbaArchiveNative.a.createArchive(
             1,
             request.outputPath,
@@ -69,16 +70,47 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             null, null, null, null,
             progress,
         )
+        var tarEntries = 0L
+        var regularFiles = 0L
+        var directories = 0L
+        var symlinks = 0L
+        var hardlinks = 0L
+        var otherEntries = 0L
+        var regularBytes = 0L
+        val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
+        archiveInfo.entries.forEach { archiveEntry ->
+            SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name).forEach { entry ->
+                tarEntries++
+                when (entry.type) {
+                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_FILE -> {
+                        regularFiles++
+                        regularBytes = safeAdd(regularBytes, entry.realSize)
+                    }
+                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_DIRECTORY -> directories++
+                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_SYMLINK -> symlinks++
+                    com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_HARDLINK -> hardlinks++
+                    else -> otherEntries++
+                }
+            }
+        }
         return SbaTaskBackendResult(
             outputPath = request.outputPath,
             bytesProcessed = stats.getOrElse(0) { 0L },
-            durationMillis = stats.getOrElse(8) { 0L },
-            tarEntryCount = request.sourcePaths.size.toLong(),
+            durationMillis = (System.nanoTime() - started) / 1_000_000L,
+            tarEntryCount = tarEntries,
+            regularFileCount = regularFiles,
+            directoryCount = directories,
+            symlinkCount = symlinks,
+            hardlinkCount = hardlinks,
+            otherEntryCount = otherEntries,
+            regularFileBytes = regularBytes,
         )
     }
 
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
+        val info = SbaArchiveNative.readArchiveInfo(request.archivePath)
+        val allEntries = SbaArchiveNative.listEntryTarEntries(request.archivePath, request.entryName)
         val extracted = SbaArchiveNative.extractEntry(
             request.archivePath,
             request.entryName,
@@ -88,21 +120,29 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             progress,
         )
         val root = Path.of(request.destination).toAbsolutePath().normalize()
+        val extractedNames = extracted.toSet()
         var files = 0L
         var directories = 0L
         var symlinks = 0L
+        var hardlinks = 0L
+        var otherEntries = 0L
         var bytes = 0L
+        allEntries.filter { it.name in extractedNames }.forEach { entry ->
+            when (entry.type) {
+                com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_FILE -> {
+                    files++
+                    bytes = safeAdd(bytes, entry.realSize)
+                }
+                com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_DIRECTORY -> directories++
+                com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_SYMLINK -> symlinks++
+                com.bareapps.sba.internal.tar.SbaTarEntryInfo.TYPE_HARDLINK -> hardlinks++
+                else -> otherEntries++
+            }
+        }
+        // Validate that returned names resolve within the requested destination.
         extracted.forEach { name ->
             val path = root.resolve(name).normalize()
-            if (!path.startsWith(root) || !Files.exists(path, LinkOption.NOFOLLOW_LINKS)) return@forEach
-            when {
-                Files.isSymbolicLink(path) -> symlinks++
-                Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS) -> directories++
-                Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS) -> {
-                    files++
-                    bytes += Files.size(path)
-                }
-            }
+            if (!path.startsWith(root)) throw java.io.IOException("TAR extractor returned a path outside its destination")
         }
         return SbaTaskBackendResult(
             outputPath = request.destination,
@@ -112,8 +152,16 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             regularFileCount = files,
             directoryCount = directories,
             symlinkCount = symlinks,
+            hardlinkCount = hardlinks,
+            otherEntryCount = otherEntries,
+            skippedEntryCount = (allEntries.size - extracted.size).coerceAtLeast(0).toLong(),
             regularFileBytes = bytes,
         )
+    }
+
+    private fun safeAdd(a: Long, b: Long): Long {
+        require(b >= 0L && a <= Long.MAX_VALUE - b) { "SBA statistics overflow" }
+        return a + b
     }
 }
 
