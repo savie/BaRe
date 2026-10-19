@@ -186,7 +186,7 @@ internal object SbaArchiveReader {
         }
         if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
         if (expectedEntryOffset != indexOffset) throw IOException("SBA entries do not end at index offset")
-        SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize)
+        SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize, expectedIndexCrc, expectedFooterCrc)
     }
 
     private fun expectMagic(buffer: ByteBuffer, expected: String, part: String) {
