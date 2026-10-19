@@ -196,7 +196,8 @@ class SbaArchiveWriterTest {
             if (tar[offset] == 0.toByte()) break
             val type = tar[offset + 156].toInt().toChar()
             val nameEnd = (offset until offset + 100).firstOrNull { tar[it] == 0.toByte() } ?: (offset + 100)
-            val name = String(tar, offset, nameEnd - offset, StandardCharsets.UTF_8)
+            val rawName = String(tar, offset, nameEnd - offset, StandardCharsets.UTF_8)
+            val name = if (type == '5') rawName.trimEnd('/') else rawName
             val size = parseTarOctal(tar, offset + 124, 12)
             if (type != 'x' && type != 'g' && type != 'L' && type != 'K') names.add(name)
             offset += 512 + (((size + 511) / 512) * 512).toInt()
