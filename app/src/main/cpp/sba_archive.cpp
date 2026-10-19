@@ -783,7 +783,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
             struct timespec fileTimes[2]{};
             fileTimes[0].tv_nsec = UTIME_OMIT;
-            fileTimes[1].tv_sec = static_cast<time_t>(entryMtime);
+            fileTimes[1].tv_sec = static_cast<time_t>(entryMtimeMillis / 1000);
+            fileTimes[1].tv_nsec = static_cast<long>((entryMtimeMillis % 1000) * 1000000LL);
             if (fchmod(out, safeMode) != 0 || futimens(out, fileTimes) != 0) {
                 close(out);
                 close(rootFd);
