@@ -7,6 +7,7 @@ import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.Arrays
+import java.util.zip.CRC32
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -178,19 +179,52 @@ internal object SbaArchiveKeyCheck {
             digest()
         }
         var header = ByteArray(0)
+        var storedHeaderMac = ByteArray(0)
+        var footer = ByteArray(0)
         var index = ByteArray(0)
         var actualMac = ByteArray(0)
         return try {
             RandomAccessFile(path, "r").use { file ->
+                if (file.length() != info.fileSize) throw IOException("SBA archive changed during index MAC verification")
                 val headerSize = if (info.version == 1) 96 else 144
                 header = ByteArray(headerSize)
                 file.seek(0L)
                 file.readFully(header)
+                storedHeaderMac = header.copyOfRange(104, 136)
+                if (!MessageDigest.isEqual(info.indexMac, storedHeaderMac)) {
+                    throw IOException("SBA encrypted index MAC field changed during verification")
+                }
                 Arrays.fill(header, 104, 136, 0.toByte())
+
+                footer = ByteArray(32)
+                file.seek(info.fileSize - 32L)
+                file.readFully(footer)
+                val footerBuffer = ByteBuffer.wrap(footer).order(ByteOrder.BIG_ENDIAN)
+                val footerMagic = ByteArray(4).also { footerBuffer.get(it) }
+                if (!footerMagic.contentEquals("SAF1".toByteArray(StandardCharsets.US_ASCII)) ||
+                    (footerBuffer.short.toInt() and 0xffff) != 32 ||
+                    (footerBuffer.short.toInt() and 0xffff) != info.version) {
+                    throw IOException("SBA footer changed during index MAC verification")
+                }
+                val footerOffset = footerBuffer.long
+                val footerSize = footerBuffer.long
+                val footerIndexCrc = footerBuffer.int
+                val footerCrc = footerBuffer.int
+                val actualFooterCrc = CRC32().apply { update(footer, 0, 28) }.value.toInt()
+                if (footerOffset != info.indexOffset || footerSize != info.indexSize ||
+                    footerIndexCrc != info.indexCrc32 || footerCrc != info.footerCrc32 ||
+                    footerCrc != actualFooterCrc || footerOffset + footerSize != info.fileSize - 32L) {
+                    throw IOException("SBA footer changed during index MAC verification")
+                }
+
                 if (info.indexSize > Int.MAX_VALUE) throw IOException("SBA index too large for verification")
                 index = ByteArray(info.indexSize.toInt())
                 file.seek(info.indexOffset)
                 file.readFully(index)
+                val actualIndexCrc = CRC32().apply { update(index) }.value.toInt()
+                if (actualIndexCrc != info.indexCrc32) {
+                    throw IOException("SBA index changed during MAC verification")
+                }
             }
             val mac = Mac.getInstance("HmacSHA256")
             mac.init(SecretKeySpec(secondaryKey, "HmacSHA256"))
@@ -208,6 +242,8 @@ internal object SbaArchiveKeyCheck {
         } finally {
             Arrays.fill(secondaryKey, 0)
             Arrays.fill(header, 0)
+            Arrays.fill(storedHeaderMac, 0)
+            Arrays.fill(footer, 0)
             Arrays.fill(index, 0)
             Arrays.fill(actualMac, 0)
         }
