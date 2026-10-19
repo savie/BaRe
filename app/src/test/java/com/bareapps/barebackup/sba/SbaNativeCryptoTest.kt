@@ -12,10 +12,10 @@ class SbaNativeCryptoTest {
         val password = "correct horse battery staple".toByteArray(Charsets.UTF_8)
         val salt = ByteArray(16) { it.toByte() }
 
-        val first = SbaNativeCrypto.a.deriveArgon2id(
+        val first = SbaArgon2idPortable.deriveArgon2id(
             password, salt, iterations = 2, memoryKiB = 16_384, parallelism = 1, outputLength = 32,
         )
-        val second = SbaNativeCrypto.a.deriveArgon2id(
+        val second = SbaArgon2idPortable.deriveArgon2id(
             password, salt, iterations = 2, memoryKiB = 16_384, parallelism = 1, outputLength = 32,
         )
 
@@ -29,7 +29,7 @@ class SbaNativeCryptoTest {
 
     @Test
     fun acceptsEmptyPasswordAndMinimumArgon2SaltLength() {
-        val output = SbaNativeCrypto.a.deriveArgon2id(
+        val output = SbaArgon2idPortable.deriveArgon2id(
             password = ByteArray(0),
             salt = ByteArray(8) { it.toByte() },
             iterations = 2,
@@ -48,8 +48,8 @@ class SbaNativeCryptoTest {
         val firstSalt = ByteArray(16) { 1 }
         val secondSalt = ByteArray(16) { 2 }
 
-        val first = SbaNativeCrypto.a.deriveArgon2id(password, firstSalt, 2, 16_384, 1, 32)
-        val second = SbaNativeCrypto.a.deriveArgon2id(password, secondSalt, 2, 16_384, 1, 32)
+        val first = SbaArgon2idPortable.deriveArgon2id(password, firstSalt, 2, 16_384, 1, 32)
+        val second = SbaArgon2idPortable.deriveArgon2id(password, secondSalt, 2, 16_384, 1, 32)
 
         assertFalse(first.contentEquals(second))
     }
@@ -63,26 +63,26 @@ class SbaNativeCryptoTest {
         val salt = ByteArray(16) { 1 }
 
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 0, 16_384, 1, 32)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 0, 16_384, 1, 32)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 7, 1, 32)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 2, 7, 1, 32)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 16_384, 0, 32)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 2, 16_384, 0, 32)
         }
         assertThrows(IllegalArgumentException::class.java) {
             // 8 * parallelism overflows Int; validation must use a wider integer type.
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 16_384, Int.MAX_VALUE, 32)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 2, 16_384, Int.MAX_VALUE, 32)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 16_384, 1, 15)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 2, 16_384, 1, 15)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 16_384, 1, 129)
+            SbaArgon2idPortable.deriveArgon2id(password, salt, 2, 16_384, 1, 129)
         }
         assertThrows(IllegalArgumentException::class.java) {
-            SbaNativeCrypto.a.deriveArgon2id(password, ByteArray(7), 2, 16_384, 1, 32)
+            SbaArgon2idPortable.deriveArgon2id(password, ByteArray(7), 2, 16_384, 1, 32)
         }
     }
 }
