@@ -22,7 +22,7 @@ class SbaNativeCryptoTest {
         assertEquals(32, first.size)
         assertArrayEquals(first, second)
         assertArrayEquals(
-            hexToBytes("1e5579a1bb8d903890049babb3a95c6076d72c05490b19f5efd7a2fe3ec6b924"),
+            hexToBytes("7cfb910f4bd460566328e3bad06e93c339eea042b331c8215ee9b478f9851668"),
             first,
         )
     }
@@ -33,8 +33,8 @@ class SbaNativeCryptoTest {
         val firstSalt = ByteArray(16) { 1 }
         val secondSalt = ByteArray(16) { 2 }
 
-        val first = SbaNativeCrypto.a.deriveArgon2id(password, firstSalt, 2, 32, 1, 32)
-        val second = SbaNativeCrypto.a.deriveArgon2id(password, secondSalt, 2, 32, 1, 32)
+        val first = SbaNativeCrypto.a.deriveArgon2id(password, firstSalt, 2, 16_384, 1, 32)
+        val second = SbaNativeCrypto.a.deriveArgon2id(password, secondSalt, 2, 16_384, 1, 32)
 
         assertFalse(first.contentEquals(second))
     }
