@@ -192,7 +192,7 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             archivePath = request.sourcePath,
             entryName = request.entryName,
             destination = request.targetPath,
-            flags = request.restoreProfile,
+            flags = restoreOptions(request.restoreProfile),
             includes = request.includePaths ?: emptyList(),
         )
         return taskRunner.submitExtract(taskRequest, callbackFor(callback, request.progressIntervalMs))
@@ -373,6 +373,13 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
             sparse = entry.sparse,
             xattrNames = ArrayList(entry.getXattrNames().toList()),
         )
+    }
+
+    private fun restoreOptions(profile: Int): Int = when (profile) {
+        0 -> 2       // Basic: timestamps
+        1 -> 75      // Fidelity: timestamps, permissions, xattrs and sparse files
+        2 -> 223     // Root fidelity: all implemented metadata options
+        else -> throw RemoteException("Unknown SBA restore profile")
     }
 
     private fun pageRange(total: Int, start: Int, pageSize: Int): Pair<Int, Int> {
