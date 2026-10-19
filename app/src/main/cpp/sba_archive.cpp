@@ -225,7 +225,19 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        const uint64_t headerSize = parseOctal(h.size, sizeof(h.size));
+        const bool metadataRecord = h.typeflag == 'x' || h.typeflag == 'g' ||
+                                    h.typeflag == 'L' || h.typeflag == 'K';
+        uint64_t size = headerSize;
+        if (!metadataRecord) {
+            const std::string* paxSize = paxValue(pendingPax, globalPax, "size");
+            if (paxSize != nullptr && !parsePaxUnsigned(*paxSize, &size)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid POSIX PAX size");
+                for (jobject entry : entries) env->DeleteLocalRef(entry);
+                return nullptr;
+            }
+        }
         // Reject unsupported/non-octal sizes instead of interpreting malformed
         // archive metadata as a zero-byte entry. parseOctal returns UINT64_MAX
         // for invalid input; all later offset arithmetic is checked below.
@@ -235,7 +247,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        const uint64_t blocksForBounds = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        const uint64_t boundsSize = metadataRecord ? headerSize : size;
+        const uint64_t blocksForBounds = boundsSize / 512ULL + ((boundsSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         struct stat archiveStat{};
         if (fstat(fd, &archiveStat) == 0 && S_ISREG(archiveStat.st_mode)) {
             if (offset < 0 || offset > archiveStat.st_size ||
@@ -351,7 +364,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         entries.push_back(entry);
-        const uint64_t blocks = size / 512ULL + ((size % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        const uint64_t payloadSize = metadataRecord ? headerSize : size;
+        const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
             env->DeleteLocalRef(entry);
             jclass e = env->FindClass("java/io/IOException");
@@ -546,7 +560,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        const uint64_t headerSize = parseOctal(h.size, sizeof(h.size));
+        const bool metadataRecord = h.typeflag == 'x' || h.typeflag == 'g' ||
+                                    h.typeflag == 'L' || h.typeflag == 'K';
+        uint64_t size = headerSize;
+        if (!metadataRecord) {
+            const std::string* paxSize = paxValue(sizingPendingPax, sizingGlobalPax, "size");
+            if (paxSize != nullptr && !parsePaxUnsigned(*paxSize, &size)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid POSIX PAX size");
+                close(rootFd);
+                return nullptr;
+            }
+        }
         if (size == UINT64_MAX || offset > static_cast<off_t>(INT64_MAX - 512LL) ||
             size > static_cast<uint64_t>(INT64_MAX - offset - 512LL)) {
             jclass e = env->FindClass("java/io/IOException");
@@ -628,7 +654,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             close(rootFd);
             return nullptr;
         }
-        const uint64_t size = parseOctal(h.size, sizeof(h.size));
+        const uint64_t headerSize = parseOctal(h.size, sizeof(h.size));
+        const bool metadataRecord = h.typeflag == 'x' || h.typeflag == 'g' ||
+                                    h.typeflag == 'L' || h.typeflag == 'K';
+        uint64_t size = headerSize;
+        if (!metadataRecord) {
+            const std::string* paxSize = paxValue(pendingPax, globalPax, "size");
+            if (paxSize != nullptr && !parsePaxUnsigned(*paxSize, &size)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid POSIX PAX size");
+                return nullptr;
+            }
+        }
         if (size == UINT64_MAX || offset > static_cast<off_t>(INT64_MAX - 512LL) ||
             size > static_cast<uint64_t>(INT64_MAX - offset - 512LL)) {
             jclass e = env->FindClass("java/io/IOException");
