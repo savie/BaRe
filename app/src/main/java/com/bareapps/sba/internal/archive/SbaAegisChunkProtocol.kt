@@ -31,13 +31,16 @@ internal object SbaAegisChunkProtocol {
         } else {
             "SBA1-AEGIS128X2-entry-chunk-nonce-v1"
         }).toByteArray(StandardCharsets.US_ASCII)
+        if (entryNameUtf8.size < 0) throw IOException("Invalid SBA AEGIS entry name length")
         val entryOrderBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(entryOrder).array()
+        val nameLengthBytes = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(entryNameUtf8.size).array()
         val chunkIndexBytes = ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(chunkIndex).array()
         return try {
             MessageDigest.getInstance("SHA-256").run {
                 update(domain)
                 update(nonceSeed)
                 update(entryOrderBytes)
+                update(nameLengthBytes)
                 update(entryNameUtf8)
                 update(chunkIndexBytes)
                 digest().let { full ->
@@ -46,6 +49,7 @@ internal object SbaAegisChunkProtocol {
             }
         } finally {
             entryOrderBytes.fill(0)
+            nameLengthBytes.fill(0)
             chunkIndexBytes.fill(0)
         }
     }
@@ -55,12 +59,12 @@ internal object SbaAegisChunkProtocol {
         entryNameUtf8: ByteArray,
         entryOrder: Long,
         chunkIndex: Long,
-        chunkOffset: Long,
+        chunkLength: Long,
     ): ByteArray {
         if (encryptionMethod != 4 && encryptionMethod != 5) {
             throw IOException("Unsupported SBA AEGIS method: $encryptionMethod")
         }
-        if (entryOrder < 0 || chunkIndex < 0 || chunkOffset < 0) {
+        if (entryOrder < 0 || chunkIndex < 0 || chunkLength < 0) {
             throw IOException("SBA AEGIS entry order/chunk position must be non-negative")
         }
         val domain = (if (encryptionMethod == 4) {
@@ -71,7 +75,7 @@ internal object SbaAegisChunkProtocol {
         val scalarBytes = ByteBuffer.allocate(8 * 3).order(ByteOrder.BIG_ENDIAN)
             .putLong(entryOrder)
             .putLong(chunkIndex)
-            .putLong(chunkOffset)
+            .putLong(chunkLength)
             .array()
         // Reference AAD serializer reserves four zero bytes after the entry-order field.
         return ByteArray(domain.size + 8 + 4 + entryNameUtf8.size + 16).also { output ->
