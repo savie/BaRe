@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/xattr.h>
 #include <limits.h>
 #include <cstddef>
 #include <time.h>
@@ -192,6 +193,40 @@ const std::string* paxValue(const std::map<std::string, std::string>& local,
         return globalIt->second.empty() ? nullptr : &globalIt->second;
     }
     return nullptr;
+}
+
+std::map<std::string, std::string> collectPaxXattrs(
+    const std::map<std::string, std::string>& local,
+    const std::map<std::string, std::string>& global,
+    bool restoreXattrs,
+    bool restoreSelinux) {
+    std::map<std::string, std::string> result;
+    auto scan = [&](const std::map<std::string, std::string>& records) {
+        for (const auto& record : records) {
+            const std::string* attributeName = nullptr;
+            std::string name;
+            constexpr const char* kSchilyPrefix = "SCHILY.xattr.";
+            constexpr const char* kLibarchivePrefix = "LIBARCHIVE.xattr.";
+            if (record.first.compare(0, std::strlen(kSchilyPrefix), kSchilyPrefix) == 0) {
+                name = record.first.substr(std::strlen(kSchilyPrefix));
+            } else if (record.first.compare(0, std::strlen(kLibarchivePrefix), kLibarchivePrefix) == 0) {
+                name = record.first.substr(std::strlen(kLibarchivePrefix));
+            } else {
+                continue;
+            }
+            const std::string* value = paxValue(local, global, record.first.c_str());
+            const bool selinux = name == "security.selinux";
+            if (value == nullptr || name.empty() ||
+                (selinux ? !restoreSelinux : !restoreXattrs)) {
+                result.erase(name);
+            } else {
+                result[name] = *value;
+            }
+        }
+    };
+    scan(global);
+    scan(local);
+    return result;
 }
 
 bool parsePaxUnsigned(const std::string& value, uint64_t* result) {
@@ -643,6 +678,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     const bool restorePermissions = (options & 1) != 0;
     const bool restoreTimestamps = (options & 2) != 0;
     const bool restoreOwnership = (options & 4) != 0;
+    const bool restoreXattrs = (options & 8) != 0;
+    const bool restoreSelinux = (options & 16) != 0;
     const bool restoreSpecialModeBits = (options & 128) != 0;
     struct stat extractInputStat{};
     if (fstat(fd, &extractInputStat) == 0 && S_ISREG(extractInputStat.st_mode) &&
@@ -688,6 +725,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         jlong mtimeMillis;
         uint64_t uid;
         uint64_t gid;
+        std::map<std::string, std::string> xattrs;
     };
     std::vector<PendingDirectoryMetadata> pendingDirectories;
     uint64_t total = 0, processed = 0;
@@ -919,6 +957,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             : (pendingLongLink.empty()
                 ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
                 : pendingLongLink);
+        const auto entryXattrs = collectPaxXattrs(
+            pendingPax, globalPax, restoreXattrs, restoreSelinux);
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
@@ -948,7 +988,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // creating children otherwise changes the directory mtime again.
             pendingDirectories.push_back({name,
                 static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0700ULL),
-                entryMtimeMillis, entryUid, entryGid});
+                entryMtimeMillis, entryUid, entryGid, entryXattrs});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
             std::string leaf;
@@ -1004,6 +1044,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
                 entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
                 (void)fchown(out, static_cast<uid_t>(entryUid), static_cast<gid_t>(entryGid));
+            }
+            for (const auto& attribute : entryXattrs) {
+                std::string value = attribute.second;
+                if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
+                (void)fsetxattr(out, attribute.first.c_str(), value.data(), value.size(), 0);
             }
             const mode_t safeMode = static_cast<mode_t>(restorePermissions ? (entryMode & (restoreSpecialModeBits ? 07777ULL : 0777ULL)) : 0600ULL);
             struct timespec fileTimes[2]{};
@@ -1084,6 +1129,26 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 (void)utimensat(parentFd, leaf.c_str(), linkTimes,
                     type == '2' ? AT_SYMLINK_NOFOLLOW : 0);
             }
+            if (linkResult == 0 && !entryXattrs.empty()) {
+                if (type == '2') {
+                    const std::string procPath = "/proc/self/fd/" + std::to_string(parentFd) + "/" + leaf;
+                    for (const auto& attribute : entryXattrs) {
+                        std::string value = attribute.second;
+                        if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
+                        (void)lsetxattr(procPath.c_str(), attribute.first.c_str(), value.data(), value.size(), 0);
+                    }
+                } else {
+                    int linkFd = openat(parentFd, leaf.c_str(), O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
+                    if (linkFd >= 0) {
+                        for (const auto& attribute : entryXattrs) {
+                            std::string value = attribute.second;
+                            if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
+                            (void)fsetxattr(linkFd, attribute.first.c_str(), value.data(), value.size(), 0);
+                        }
+                        close(linkFd);
+                    }
+                }
+            }
             close(parentFd);
             if (targetParentFd >= 0) close(targetParentFd);
             if (linkResult != 0) {
@@ -1119,6 +1184,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             it->uid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
             it->gid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
             (void)fchown(dirFd, static_cast<uid_t>(it->uid), static_cast<gid_t>(it->gid));
+        }
+        for (const auto& attribute : it->xattrs) {
+            std::string value = attribute.second;
+            if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
+            (void)fsetxattr(dirFd, attribute.first.c_str(), value.data(), value.size(), 0);
         }
         const mode_t safeDirectoryMode = it->mode;
         int metadataResult = 0;
