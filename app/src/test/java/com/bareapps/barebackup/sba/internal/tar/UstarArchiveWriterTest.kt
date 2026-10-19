@@ -19,14 +19,14 @@ class UstarArchiveWriterTest {
             )
 
             val archive = Files.readAllBytes(destination)
-            assertEquals(1536, archive.size)
+            assertEquals(2048, archive.size)
             assertEquals("file.bin", String(archive, 0, 8, Charsets.US_ASCII).trimEnd('\u0000'))
             assertEquals("dir", String(archive, 345, 3, Charsets.US_ASCII))
             assertEquals('0'.code.toByte(), archive[156])
             assertEquals(3L, parseOctal(archive, 124, 12))
             assertTrue(archive.copyOfRange(512, 515).contentEquals(payload))
             assertTrue(archive.copyOfRange(515, 1024).all { it == 0.toByte() })
-            assertTrue(archive.copyOfRange(1024, 1536).all { it == 0.toByte() })
+            assertTrue(archive.copyOfRange(1024, 2048).all { it == 0.toByte() })
 
             val expectedChecksum = archive.copyOfRange(0, 512).mapIndexed { index, byte ->
                 if (index in 148..155) 32 else byte.toInt() and 0xff
