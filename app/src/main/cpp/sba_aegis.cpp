@@ -332,7 +332,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
     uint64_t chunkIndex = 0;
     while (plainDone < plainSize) {
         if (isCancelled(env, progress, cancelledMethod)) {
-            if (!env->ExceptionCheck()) throwJava(env, "java/io/InterruptedIOException", "SBA AEGIS operation cancelled");
+            if (!env->ExceptionCheck()) throwJava(env, "java/io/InterruptedIOException", "SBA operation cancelled");
             return nullptr;
         }
         if (env->ExceptionCheck()) return nullptr;
