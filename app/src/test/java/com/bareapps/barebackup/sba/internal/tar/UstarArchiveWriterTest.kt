@@ -20,8 +20,8 @@ class UstarArchiveWriterTest {
 
             val archive = Files.readAllBytes(destination)
             assertEquals(2048, archive.size)
-            assertEquals("file.bin", String(archive, 0, 8, Charsets.US_ASCII).trimEnd('\u0000'))
-            assertEquals("dir", String(archive, 345, 3, Charsets.US_ASCII))
+            assertEquals("dir/file.bin", String(archive, 0, 100, Charsets.US_ASCII).trimEnd('\u0000'))
+            assertTrue(archive.copyOfRange(345, 500).all { it == 0.toByte() })
             assertEquals('0'.code.toByte(), archive[156])
             assertEquals(3L, parseOctal(archive, 124, 12))
             assertTrue(archive.copyOfRange(512, 515).contentEquals(payload))
