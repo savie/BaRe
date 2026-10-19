@@ -42,6 +42,7 @@ class SbaNativeCryptoTest {
             output,
         )
     }
+
     @Test
     fun saltChangeChangesDerivedOutput() {
         val password = "password".toByteArray(Charsets.UTF_8)
