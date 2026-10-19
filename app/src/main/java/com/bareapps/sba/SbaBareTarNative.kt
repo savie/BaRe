@@ -31,10 +31,10 @@ class SbaBareTarNative private constructor() {
 
     @Throws(IOException::class)
     fun extractTarFromDescriptorWithStats(
-        descriptor: FileDescriptor, offset: Long, destination: String, flags: Int,
+        descriptor: FileDescriptor, tarBytes: Long, destination: String, flags: Int,
         includes: Array<String>, progress: SbaNativeProgressListener?,
     ): LongArray = withDuplicate(descriptor) {
-        extractTarFromFdWithStatsRaw(it, offset, destination, flags, includes, progress)
+        extractTarFromFdWithStatsRaw(it, tarBytes, destination, flags, includes, progress)
     }
 
     @Throws(IOException::class)
@@ -171,13 +171,13 @@ class SbaBareTarNative private constructor() {
         @Throws(IOException::class)
         fun extractTarWithStats(
             descriptor: FileDescriptor,
-            offset: Long,
+            tarBytes: Long,
             destination: String,
             flags: Int,
             includes: Array<String>,
             progress: SbaNativeProgressListener?,
         ): LongArray = instance.extractTarFromDescriptorWithStats(
-            descriptor, offset, destination, flags, includes, progress
+            descriptor, tarBytes, destination, flags, includes, progress
         )
 
         @JvmStatic
