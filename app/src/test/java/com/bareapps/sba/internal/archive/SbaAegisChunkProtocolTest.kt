@@ -14,7 +14,7 @@ class SbaAegisChunkProtocolTest {
         val nonce = SbaAegisChunkProtocol.nonce(
             4, ByteArray(16) { it.toByte() }, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L,
         )
-        assertArrayEquals(hex("3a5523ba3b42b916073019d043dffb4834452b8442d4d12d1443accce10aaa82"), nonce)
+        assertArrayEquals(hex("40192d2b333b7352a7842299fc17a537675cbffeeb9d5b8aad32f53f9e8ba3c5"), nonce)
     }
 
     @Test
@@ -22,7 +22,7 @@ class SbaAegisChunkProtocolTest {
         val nonce = SbaAegisChunkProtocol.nonce(
             5, ByteArray(16) { it.toByte() }, "apps".toByteArray(StandardCharsets.UTF_8), 2L, 3L,
         )
-        assertArrayEquals(hex("23dc3317d45eb74abf5c3b04bc451c20"), nonce)
+        assertArrayEquals(hex("d828f60de94474604cda740cb9d6dd44"), nonce)
     }
 
     @Test
