@@ -24,6 +24,9 @@ internal object UstarArchiveWriter {
     @Throws(IOException::class)
     fun write(destination: Path, entries: List<Entry>) {
         entries.forEach(::validateEntry)
+        require(entries.map { it.name }.toSet().size == entries.size) {
+            "TAR entry names must be unique"
+        }
         val parent = destination.toAbsolutePath().parent
             ?: throw IOException("Destination must have a parent directory")
         Files.createDirectories(parent)
