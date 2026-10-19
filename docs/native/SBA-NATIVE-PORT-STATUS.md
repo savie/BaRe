@@ -17,6 +17,8 @@ feature parity.
 
 Direct `nm -D --defined-only` inspection of all four reference ELFs produced the same
 20 exported JNI names in each ABI: `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`.
+The DEX/JADX class declarations account for 16 of these exports; four are ELF-only and
+must remain unimplemented until their exact descriptors/callers are established.
 
 | # | Reference class | Exported JNI method | Java/smali declaration in decompile |
 |---:|---|---|---|
@@ -41,12 +43,13 @@ Direct `nm -D --defined-only` inspection of all four reference ELFs produced the
 | 19 | SbaZstdNative | decompressZstdBytes | Present |
 | 20 | SbaZstdNative | decompressZstdFdToFdRaw | Present, private native |
 
-Important distinction: an ELF export is not proof that the decompiled app declares or calls it. The three orphan exports above are recorded in the C++ boundary as fail-closed placeholders because their exact signatures/semantics are not supported by the decompiled class declarations. Do not present their ABI as verified.
+Important distinction: an ELF export is not proof that the decompiled app declares or calls it. The four orphan exports above are recorded in the C++ boundary as fail-closed placeholders because their exact signatures/semantics are not supported by the decompiled class declarations. Do not present their ABI as verified.
 
 ## Kotlin declaration parity
 
 - `SbaArchiveNative.createArchive`: argument types match the decompiled reference declaration.
 - `SbaLibaegisCryptoNative`: declarations are aligned with the decompiled class; the ELF-only encrypt export is not exposed as a Kotlin method.
+- Four ELF-only exports are confirmed by the actual reference class source to be absent from DEX declarations: `encryptAegis256ChunkedEntryFdRaw`, `createTarToFdWithWriteStatsRaw`, `compressZstdFdToFdRaw`, and `compressZstdFileToFdRaw`.
 - `SbaRuntimeNative.version`: declaration matches.
 - `SbaSwiftTarNative`: declared methods and parameter/return types match the decompiled reference class.
 - `SbaZstdNative`: declared methods and parameter/return types match the decompiled reference class.
@@ -96,8 +99,8 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 
 | Scope | Current evidence | Parity status | Remaining proof/work |
 |---|---|---|---|
-| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ declares corresponding names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
-| Kotlin/JNI declarations | 17 reference declarations identified; 3 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
+| JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
+| Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
 | TAR listing | Target native parser exists and constructs target entry objects | Partial | Compare PAX/GNU/sparse/link/xattr/device cases against reference |
 | TAR extraction | Target native extraction exists; path hardening and offset bounds have recent fixes | Partial | Compare file bytes, permissions, links, filters, cancellation, errors, and stats |
