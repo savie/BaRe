@@ -116,7 +116,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             }
             if (info.isEncrypted) {
                 verifiedKey = try {
-                    SbaArchiveNative.deriveVerifiedArchiveKey(path, password!!)
+                    SbaArchiveNative.deriveVerifiedArchiveKey(info, path, password!!)
                 } catch (failure: IOException) {
                     throw RemoteException("Unable to authenticate encrypted SBA archive: " + failure.message)
                 }
@@ -128,7 +128,7 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             val all = try {
                 selected.flatMap { entry ->
                     if (info.isEncrypted) {
-                        SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(path, entry.name, verifiedKey!!).toList()
+                        SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(path, info, entry.name, verifiedKey!!).toList()
                     } else {
                         listArchiveTarEntries(path, entry.name)
                     }
