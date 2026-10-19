@@ -347,18 +347,39 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             case '4': type = 7; break;
             default: type = (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') ? 1 : 99; break;
         }
+        std::map<std::string, std::string> effectivePax = globalPax;
+        for (const auto& item : pendingPax) {
+            if (item.second.empty()) effectivePax.erase(item.first);
+            else effectivePax[item.first] = item.second;
+        }
+        std::vector<std::string> xattrNames;
+        const std::string paxXattrPrefix = "SCHILY.xattr.";
+        const std::string libarchiveXattrPrefix = "LIBARCHIVE.xattr.";
+        for (const auto& item : effectivePax) {
+            if (item.first.compare(0, paxXattrPrefix.size(), paxXattrPrefix) == 0) {
+                xattrNames.push_back(item.first.substr(paxXattrPrefix.size()));
+            } else if (item.first.compare(0, libarchiveXattrPrefix.size(), libarchiveXattrPrefix) == 0) {
+                xattrNames.push_back(item.first.substr(libarchiveXattrPrefix.size()));
+            }
+        }
         jstring jname = env->NewStringUTF(name.c_str());
         jstring jlink = link.empty() ? nullptr : env->NewStringUTF(link.c_str());
-        jstring empty = env->NewStringUTF("");
-        jobjectArray xattrs = env->NewObjectArray(0, env->FindClass("java/lang/String"), empty);
+        jclass stringClass = env->FindClass("java/lang/String");
+        jobjectArray xattrs = stringClass
+            ? env->NewObjectArray(static_cast<jsize>(xattrNames.size()), stringClass, nullptr) : nullptr;
+        for (jsize i = 0; xattrs && i < static_cast<jsize>(xattrNames.size()); ++i) {
+            jstring xattr = env->NewStringUTF(xattrNames[static_cast<size_t>(i)].c_str());
+            env->SetObjectArrayElement(xattrs, i, xattr);
+            env->DeleteLocalRef(xattr);
+        }
         jobject entry = env->NewObject(entryClass, ctor, jname, type, jlink,
             static_cast<jint>(mode),
             static_cast<jlong>(size), static_cast<jlong>(size),
             mtimeMillis, JNI_FALSE, xattrs);
         if (jname) env->DeleteLocalRef(jname);
         if (jlink) env->DeleteLocalRef(jlink);
-        if (empty) env->DeleteLocalRef(empty);
         if (xattrs) env->DeleteLocalRef(xattrs);
+        if (stringClass) env->DeleteLocalRef(stringClass);
         if (!entry) {
             for (jobject previous : entries) env->DeleteLocalRef(previous);
             return nullptr;
