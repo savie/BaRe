@@ -37,7 +37,7 @@ internal object SbaArchiveReader {
         expectMagic(h, "SBA1", "file header")
         val version = h.short.toInt() and 0xffff
         val headerSize = h.short.toInt() and 0xffff
-        if (version !in 1..2 || headerSize != if (version == 1) HEADER_SIZE else 144) {
+        if (version !in 1..2 || headerSize != (if (version == 1) HEADER_SIZE else 144)) {
             throw IOException("Unsupported SBA header version/size")
         }
         val flags = h.int
@@ -154,7 +154,7 @@ internal object SbaArchiveReader {
                 storedSize < 0 || compressedSize < 0 || tarSize < TAR_BLOCK * 2 ||
                 tarSize % TAR_BLOCK != 0L || storedSize != compressedSize ||
                 (compressionMethod == 0 && (storedSize != tarSize || compressedSize != tarSize)) ||
-                entryFlags != if (compressionMethod == 1) 1 else 0) {
+                entryFlags != (if (compressionMethod == 1) 1 else 0)) {
                 throw IOException("Invalid SBA entry sizes or offsets")
             }
             val nameBytes = ByteArray(nameLength).also { b.get(it) }
