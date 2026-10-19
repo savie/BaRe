@@ -1,7 +1,10 @@
 package com.bareapps.sba.internal.archive
 
+import java.io.IOException
+import java.util.Arrays
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class SbaArchiveKeyCheckTest {
@@ -13,6 +16,20 @@ class SbaArchiveKeyCheckTest {
         )
         assertTrue(SbaArchiveKeyCheck.verify(info, "correct horse battery staple".toCharArray()))
         assertFalse(SbaArchiveKeyCheck.verify(info, "incorrect password".toCharArray()))
+    }
+
+    @Test
+    fun verifiesCallerSuppliedKeyAndRejectsWrongKey() {
+        val info = info(4, hex("fe13ad2ca2dfe86c242fcae9b2f28f1e"))
+        val key = SbaArchiveKeyCheck.deriveVerifiedKey(info, "correct horse battery staple".toCharArray())!!
+        try {
+            SbaArchiveKeyCheck.verifyProvidedKey(info, key, "")
+            assertThrows(IOException::class.java) {
+                SbaArchiveKeyCheck.verifyProvidedKey(info, ByteArray(32), "")
+            }
+        } finally {
+            Arrays.fill(key, 0)
+        }
     }
 
     @Test
