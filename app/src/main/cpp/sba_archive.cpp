@@ -151,6 +151,19 @@ const std::string* paxValue(const std::map<std::string, std::string>& local,
     return nullptr;
 }
 
+bool parsePaxUnsigned(const std::string& value, uint64_t* result) {
+    if (result == nullptr || value.empty()) return false;
+    uint64_t parsed = 0;
+    for (const unsigned char ch : value) {
+        if (ch < '0' || ch > '9') return false;
+        const uint64_t digit = static_cast<uint64_t>(ch - '0');
+        if (parsed > (UINT64_MAX - digit) / 10ULL) return false;
+        parsed = parsed * 10ULL + digit;
+    }
+    *result = parsed;
+    return true;
+}
+
 bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
     if (millis == nullptr || value.empty()) return false;
     char* end = nullptr;
