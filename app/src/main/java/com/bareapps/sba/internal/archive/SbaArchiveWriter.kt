@@ -115,7 +115,15 @@ internal object SbaArchiveWriter {
                             val compressStart = System.nanoTime()
                             BufferedInputStream(Files.newInputStream(tarTemp)).use { input ->
                                 Files.newOutputStream(compressed).use { sink ->
-                                    ZstdOutputStream(sink, option1).use { encoder -> input.copyTo(encoder) }
+                                    ZstdOutputStream(sink, option1).use { encoder ->
+                                        val buffer = ByteArray(64 * 1024)
+                                        while (true) {
+                                            checkCancelled(progress)
+                                            val count = input.read(buffer)
+                                            if (count < 0) break
+                                            if (count > 0) encoder.write(buffer, 0, count)
+                                        }
+                                    }
                                 }
                             }
                             payloadMillis += elapsedMillis(compressStart)
@@ -130,7 +138,15 @@ internal object SbaArchiveWriter {
                         out.write(header)
                         out.write(name)
                         val payloadOffset = entryOffset + header.size + name.size
-                        Files.newInputStream(payloadTemp).use { it.copyTo(out) }
+                        Files.newInputStream(payloadTemp).use { input ->
+                            val buffer = ByteArray(64 * 1024)
+                            while (true) {
+                                checkCancelled(progress)
+                                val count = input.read(buffer)
+                                if (count < 0) break
+                                if (count > 0) out.write(buffer, 0, count)
+                            }
+                        }
                         out.flush()
                         records.add(EntryRecord(name, entryOffset, payloadOffset, storedSize, storedSize, tarSize, flags))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
