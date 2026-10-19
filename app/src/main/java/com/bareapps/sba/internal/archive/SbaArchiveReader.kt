@@ -1,0 +1,194 @@
+package com.bareapps.sba.internal.archive
+
+import androidx.annotation.Keep
+import java.io.EOFException
+import java.io.IOException
+import java.io.RandomAccessFile
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.charset.CodingErrorAction
+import java.nio.charset.StandardCharsets
+import java.nio.file.Path
+import java.util.zip.CRC32
+
+/** Strict reader for the independently implemented, unencrypted SBA v1 container. */
+@Keep
+internal object SbaArchiveReader {
+    private const val HEADER_SIZE = 96
+    private const val ENTRY_HEADER_SIZE = 24
+    private const val INDEX_HEADER_SIZE = 16
+    private const val INDEX_RECORD_SIZE = 84
+    private const val FOOTER_SIZE = 32
+    private const val MAX_METADATA = 1 shl 20
+    private const val MAX_INDEX_BYTES = 256 shl 20
+    private const val MAX_ENTRIES = 1_000_000
+    private const val TAR_BLOCK = 512
+
+    @JvmStatic
+    @Keep
+    @Throws(IOException::class)
+    fun read(path: String): SbaArchiveInfo = RandomAccessFile(path, "r").use { file ->
+        val fileSize = file.length()
+        if (fileSize < HEADER_SIZE + INDEX_HEADER_SIZE + FOOTER_SIZE) throw EOFException("SBA file is truncated")
+        val header = ByteArray(HEADER_SIZE)
+        file.seek(0)
+        file.readFully(header)
+        val h = ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN)
+        expectMagic(h, "SBA1", "file header")
+        val version = h.short.toInt() and 0xffff
+        val headerSize = h.short.toInt() and 0xffff
+        if (version != 1 || headerSize != HEADER_SIZE) throw IOException("Unsupported SBA header version/size")
+        val flags = h.int
+        if (flags and -4 != 0) throw IOException("Unsupported SBA archive flags")
+        val createdAt = h.long
+        if (createdAt < 0) throw IOException("Invalid SBA creation time")
+        val compressionMethod = h.short.toInt() and 0xffff
+        val compressionLevel = h.short.toInt() and 0xffff
+        val encryptionMethod = h.short.toInt() and 0xffff
+        val kdfMethod = h.short.toInt() and 0xffff
+        val iterations = h.short.toInt() and 0xffff
+        val keyCheckLength = h.short.toInt() and 0xffff
+        val saltLength = h.short.toInt() and 0xffff
+        val nonceSeedLength = h.short.toInt() and 0xffff
+        val macMethod = h.short.toInt() and 0xffff
+        val macLength = h.short.toInt() and 0xffff
+        val cryptoBytes = ByteArray(48).also(h::get)
+        val trailingMacMethod = h.short.toInt() and 0xffff
+        val trailingMacLength = h.short.toInt() and 0xffff
+        val chunkSize = h.int
+        val reserved = ByteArray(4).also(h::get)
+        if (compressionMethod !in 0..1 ||
+            (compressionMethod == 0 && compressionLevel != 0) ||
+            (compressionMethod == 1 && compressionLevel !in 1..22) ||
+            ((flags and 1) != (if (compressionMethod == 1) 1 else 0))) {
+            throw IOException("Invalid SBA compression header")
+        }
+        if (encryptionMethod != 0 || kdfMethod != 0 || iterations != 0 ||
+            keyCheckLength != 0 || saltLength != 0 || nonceSeedLength != 0 ||
+            macMethod != 0 || macLength != 0 || trailingMacMethod != 0 ||
+            trailingMacLength != 0 || chunkSize != 0 ||
+            cryptoBytes.any { it.toInt() != 0 } || reserved.any { it.toInt() != 0 }) {
+            throw IOException("Encrypted SBA v1 archives are not supported by this reader")
+        }
+
+        file.seek(fileSize - FOOTER_SIZE)
+        val footer = ByteArray(FOOTER_SIZE)
+        file.readFully(footer)
+        val f = ByteBuffer.wrap(footer).order(ByteOrder.BIG_ENDIAN)
+        expectMagic(f, "SAF1", "footer")
+        if ((f.short.toInt() and 0xffff) != FOOTER_SIZE || (f.short.toInt() and 0xffff) != version) {
+            throw IOException("Invalid SBA footer version/size")
+        }
+        val indexOffset = f.long
+        val indexSize = f.long
+        val expectedIndexCrc = f.int
+        val expectedFooterCrc = f.int
+        if (crc32(footer, 0, 28) != expectedFooterCrc) throw IOException("SBA footer CRC mismatch")
+        if (indexOffset < HEADER_SIZE || indexSize < INDEX_HEADER_SIZE ||
+            indexSize > MAX_INDEX_BYTES || indexOffset > Long.MAX_VALUE - indexSize ||
+            indexOffset + indexSize != fileSize - FOOTER_SIZE) {
+            throw IOException("Invalid SBA index bounds")
+        }
+        val index = ByteArray(indexSize.toInt())
+        file.seek(indexOffset)
+        file.readFully(index)
+        if (crc32(index) != expectedIndexCrc) throw IOException("SBA index CRC mismatch")
+
+        val b = ByteBuffer.wrap(index).order(ByteOrder.BIG_ENDIAN)
+        expectMagic(b, "SAI1", "index")
+        if ((b.short.toInt() and 0xffff) != INDEX_HEADER_SIZE ||
+            (b.short.toInt() and 0xffff) != version) throw IOException("Invalid SBA index version/size")
+        val entryCount = b.int
+        val metadataLength = b.int
+        if (entryCount < 0 || entryCount > MAX_ENTRIES ||
+            metadataLength < 0 || metadataLength > MAX_METADATA ||
+            metadataLength > b.remaining()) throw IOException("Invalid SBA index counts")
+        val minimumRecords = entryCount.toLong() * INDEX_RECORD_SIZE
+        if (minimumRecords > b.remaining().toLong() - metadataLength) throw IOException("SBA index records exceed bounds")
+        val metadata = ByteArray(metadataLength).also(b::get)
+        val entries = ArrayList<SbaArchiveEntry>(entryCount)
+        val names = HashSet<String>()
+        var expectedEntryOffset = HEADER_SIZE.toLong()
+        repeat(entryCount) {
+            if (b.remaining() < INDEX_RECORD_SIZE) throw EOFException("Truncated SBA index record")
+            val entryOffset = b.long
+            val payloadOffset = b.long
+            val storedSize = b.long
+            val compressedSize = b.long
+            val tarSize = b.long
+            val entryFlags = b.int
+            val nameLength = b.short.toInt() and 0xffff
+            val entryMetadataLength = b.int
+            val reservedField = b.short.toInt() and 0xffff
+            val hmac = ByteArray(32).also(b::get)
+            if (nameLength == 0 || entryMetadataLength != 0 || reservedField != 0 ||
+                hmac.any { it.toInt() != 0 } || b.remaining() < nameLength) {
+                throw IOException("Invalid SBA index record fields")
+            }
+            if (entryOffset != expectedEntryOffset || entryOffset < HEADER_SIZE ||
+                storedSize < 0 || compressedSize < 0 || tarSize < TAR_BLOCK * 2 ||
+                tarSize % TAR_BLOCK != 0L || storedSize != compressedSize ||
+                (compressionMethod == 0 && (storedSize != tarSize || compressedSize != tarSize)) ||
+                entryFlags != if (compressionMethod == 1) 1 else 0) {
+                throw IOException("Invalid SBA entry sizes or offsets")
+            }
+            val nameBytes = ByteArray(nameLength).also(b::get)
+            val name = decodeUtf8(nameBytes)
+            validateName(name)
+            if (!names.add(name)) throw IOException("Duplicate SBA entry name: $name")
+            val expectedPayloadOffset = checkedAdd(checkedAdd(entryOffset, ENTRY_HEADER_SIZE.toLong()), nameLength.toLong())
+            if (payloadOffset != expectedPayloadOffset || payloadOffset > indexOffset ||
+                storedSize > indexOffset - payloadOffset) throw IOException("SBA entry payload is out of bounds")
+
+            file.seek(entryOffset)
+            val entryHeader = ByteArray(ENTRY_HEADER_SIZE)
+            file.readFully(entryHeader)
+            val eh = ByteBuffer.wrap(entryHeader).order(ByteOrder.BIG_ENDIAN)
+            expectMagic(eh, "SAE1", "entry header")
+            if ((eh.short.toInt() and 0xffff) != ENTRY_HEADER_SIZE ||
+                (eh.short.toInt() and 0xffff) != 0 || eh.int != entryFlags ||
+                (eh.short.toInt() and 0xffff) != nameLength || eh.int != 0 ||
+                ByteArray(6).also(eh::get).any { it.toInt() != 0 }) {
+                throw IOException("Invalid SBA entry header")
+            }
+            val actualName = ByteArray(nameLength)
+            file.readFully(actualName)
+            if (!actualName.contentEquals(nameBytes)) throw IOException("SBA entry header/index name mismatch")
+            entries.add(SbaArchiveEntry(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, entryFlags))
+            expectedEntryOffset = checkedAdd(payloadOffset, storedSize)
+        }
+        if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
+        if (expectedEntryOffset != indexOffset) throw IOException("SBA entries do not end at index offset")
+        SbaArchiveInfo(version, createdAt, compressionMethod, compressionLevel, metadata, entries, fileSize, indexOffset, indexSize)
+    }
+
+    private fun expectMagic(buffer: ByteBuffer, expected: String, part: String) {
+        if (buffer.remaining() < 4) throw EOFException("Truncated SBA $part")
+        val actual = ByteArray(4).also(buffer::get).toString(StandardCharsets.US_ASCII)
+        if (actual != expected) throw IOException("Invalid SBA $part magic")
+    }
+
+    private fun decodeUtf8(bytes: ByteArray): String = try {
+        StandardCharsets.UTF_8.newDecoder()
+            .onMalformedInput(CodingErrorAction.REPORT)
+            .onUnmappableCharacter(CodingErrorAction.REPORT)
+            .decode(ByteBuffer.wrap(bytes)).toString()
+    } catch (failure: Exception) {
+        throw IOException("Invalid UTF-8 in SBA entry name", failure)
+    }
+
+    private fun validateName(name: String) {
+        if (name.isBlank() || '\u0000' in name || name.startsWith("/") || '\\' in name ||
+            name.split('/').any { it.isEmpty() || it == "." || it == ".." }) {
+            throw IOException("Unsafe SBA entry name")
+        }
+    }
+
+    private fun checkedAdd(a: Long, b: Long): Long {
+        if (a < 0 || b < 0 || a > Long.MAX_VALUE - b) throw IOException("SBA offset overflow")
+        return a + b
+    }
+
+    private fun crc32(bytes: ByteArray, offset: Int = 0, length: Int = bytes.size): Int =
+        CRC32().apply { update(bytes, offset, length) }.value.toInt()
+}
