@@ -387,11 +387,10 @@ class SbaRootService private constructor(private val injectedContext: Context?) 
         )
     }
 
-    private fun restoreOptions(profile: Int): Int = when (profile) {
-        0 -> 511     // Basic: reference mode mask 0777
-        1 -> 468     // Fidelity: reference mode mask 0724
-        2 -> 384     // RootFidelity: reference mode mask 0600
-        else -> throw RemoteException("Unknown SBA restore profile")
+    private fun restoreOptions(profile: Int): Int = try {
+        SbaRestoreProfileMasks.fromProfile(profile)
+    } catch (_: IllegalArgumentException) {
+        throw RemoteException("Unknown SBA restore profile")
     }
 
     private fun pageRange(total: Int, start: Int, pageSize: Int): Pair<Int, Int> {
