@@ -8,7 +8,6 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
-import java.nio.file.Path
 import java.util.zip.CRC32
 
 /** Strict reader for the independently implemented, unencrypted SBA v1 container. */
