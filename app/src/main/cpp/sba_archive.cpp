@@ -520,7 +520,14 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
                 if (env->ExceptionCheck()) { close(out); close(rootFd); return nullptr; }
             }
-            close(out);
+            // Delayed I/O errors (for example ENOSPC) can surface only on
+            // close, so do not report an entry as extracted until close succeeds.
+            if (close(out) != 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Failed finalizing extracted TAR file");
+                return nullptr;
+            }
             extracted.push_back(name);
         } else if (type == '2' || type == '1') {
             // Links are intentionally not materialized: never let archive links escape destination.
