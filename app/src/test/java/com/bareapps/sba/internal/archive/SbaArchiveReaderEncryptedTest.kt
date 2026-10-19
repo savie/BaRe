@@ -101,6 +101,19 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(4096, parsed.chunkSize)
             assertEquals(listOf("apps"), parsed.entries.map { it.name })
             assertEquals(storedSize, parsed.entries.single().storedSize)
+
+            // The same AEAD chunk-size/tag framing is used by the reference AES-GCM and
+            // AES-GCM-SIV modes; archive-info parsing must not misclassify them as AEGIS.
+            for (method in 2..3) {
+                val alternate = Files.readAllBytes(path)
+                ByteBuffer.wrap(alternate).order(ByteOrder.BIG_ENDIAN).putShort(24, method.toShort())
+                val alternatePath = root.resolve("encrypted-$method.sba")
+                Files.write(alternatePath, alternate)
+                val alternateInfo = SbaArchiveReader.read(alternatePath.toString())
+                assertEquals(method, alternateInfo.encryptionMethod)
+                assertEquals(21, alternateInfo.entries.single().flags)
+                assertEquals(storedSize, alternateInfo.entries.single().storedSize)
+            }
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
