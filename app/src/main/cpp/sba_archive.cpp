@@ -1534,21 +1534,8 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
     return result;
 }
 
-extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry(
-    JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
-    jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
-    throwUnsupported(env, "AEGIS archive entry extraction");
-    return nullptr;
-}
-
-extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
-    JNIEnv* env, jobject, jstring, jlong, jlong, jlong, jlong, jstring, jint,
-    jobjectArray, jint, jint, jbyteArray, jbyteArray, jbyteArray, jlong, jint, jobject) {
-    throwUnsupported(env, "fused AEGIS archive entry extraction");
-    return nullptr;
-}
+// AEGIS archive-entry facade methods are implemented in Kotlin and route through
+// the authenticated staging/decryption path; they are intentionally not JNI exports.
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
