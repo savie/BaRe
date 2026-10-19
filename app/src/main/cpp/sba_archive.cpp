@@ -704,7 +704,8 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 }
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
-                        jint modeMask, jobjectArray includes, jobject progress) {
+                        jint modeMask, jobjectArray includes, jobject progress,
+                        jlong* metadataMillis = nullptr) {
     if (fd < 0 || startOffset < 0 || destination == nullptr || modeMask < 0 || modeMask > 0777) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
@@ -1220,6 +1221,12 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         return nullptr;
     }
     // Restore directory metadata deepest-first, after all entries are written.
+    const auto metadataClockMillis = []() -> jlong {
+        struct timespec ts{};
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+        return static_cast<jlong>(ts.tv_sec) * 1000LL + static_cast<jlong>(ts.tv_nsec) / 1000000LL;
+    };
+    const jlong metadataStartMillis = metadataClockMillis();
     for (auto it = pendingDirectories.rbegin(); it != pendingDirectories.rend(); ++it) {
         int dirFd = openDirectoryAt(rootFd, it->path, false);
         if (dirFd < 0) {
@@ -1249,6 +1256,9 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         close(dirFd);
     }
     close(rootFd);
+    if (metadataMillis != nullptr) {
+        *metadataMillis = std::max<jlong>(0, metadataClockMillis() - metadataStartMillis);
+    }
     jclass stringClass = env->FindClass("java/lang/String");
     jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), stringClass, nullptr);
     for (jsize i = 0; result && i < static_cast<jsize>(extracted.size()); ++i) {
@@ -1483,12 +1493,13 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     env->DeleteLocalRef(entryClass);
 
     const jlong dataStart = started();
-    jobjectArray extracted = extractTar(env, fd, 0, destination, flags, includes, progress);
+    jlong metadataMillis = 0;
+    jobjectArray extracted = extractTar(env, fd, 0, destination, flags, includes, progress, &metadataMillis);
     if (extracted == nullptr || env->ExceptionCheck()) {
         env->DeleteLocalRef(listed);
         return nullptr;
     }
-    const jlong dataMillis = started() - dataStart;
+    const jlong dataMillis = std::max<jlong>(0, started() - dataStart - metadataMillis);
     const jsize extractedCount = env->GetArrayLength(extracted);
 
     // Counter order is the reference SbaSwiftTarExtractStats contract.
@@ -1505,6 +1516,7 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     values[16] = started() - totalStart;
     values[17] = headerMillis;
     values[18] = dataMillis;
+    values[19] = metadataMillis;
     jlongArray result = env->NewLongArray(20);
     if (result != nullptr) env->SetLongArrayRegion(result, 0, 20, values);
     env->DeleteLocalRef(extracted);
