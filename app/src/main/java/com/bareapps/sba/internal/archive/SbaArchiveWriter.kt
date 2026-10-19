@@ -2,8 +2,6 @@ package com.bareapps.sba.internal.archive
 
 import androidx.annotation.Keep
 import com.bareapps.sba.SbaLibaegisCryptoNative
-import com.bareapps.sba.SbaBareTarNative
-import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdOutputStream
 import java.io.BufferedInputStream
@@ -149,10 +147,11 @@ internal object SbaArchiveWriter {
                         val tarTemp = Files.createTempFile(parent, ".bare-sba-tar-", ".tmp")
                         tarTemps.add(tarTemp)
                         val producerStart = System.nanoTime()
-                        if (sourceExists) {
+                        val tarCounts = if (sourceExists) {
                             writeTar(source, tarTemp, entryModes[i], includePaths[i] ?: emptyArray(), excludePaths[i] ?: emptyArray(), progress)
                         } else {
                             Files.newOutputStream(tarTemp).use { it.write(ByteArray(TAR_BLOCK * 2)) }
+                            TarCounts(0, 0, 0)
                         }
                         producerMillis += elapsedMillis(producerStart)
                         val tarSize = Files.size(tarTemp)
@@ -229,10 +228,11 @@ internal object SbaArchiveWriter {
                             }
                         }
                         out.flush()
-                        val counts = if (version == 2) countTarEntries(tarTemp) else TarCounts(0, 0, 0)
                         records.add(EntryRecord(
                             name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, flags,
-                            counts.entries, counts.regularFiles, counts.directories,
+                            if (version == 2) tarCounts.entries else 0,
+                            if (version == 2) tarCounts.regularFiles else 0,
+                            if (version == 2) tarCounts.directories else 0,
                         ))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
                     }
@@ -361,15 +361,6 @@ internal object SbaArchiveWriter {
         return b.array()
     }
 
-    private fun countTarEntries(tarPath: Path): TarCounts = FileInputStream(tarPath.toFile()).use { input ->
-        val entries = SbaBareTarNative.instance.listTarEntriesFromDescriptor(input.fd, 0L)
-        TarCounts(
-            entries.size.toLong(),
-            entries.count { it.type == SbaTarEntryInfo.TYPE_FILE }.toLong(),
-            entries.count { it.type == SbaTarEntryInfo.TYPE_DIRECTORY }.toLong(),
-        )
-    }
-
     private fun computeV2IndexMac(
         headerWithZeroMac: ByteArray, indexOffset: Long, indexSize: Long, indexCrc: Int,
         indexBytes: ByteArray, key: ByteArray, salt: ByteArray, nonceSeed: ByteArray,
@@ -393,7 +384,7 @@ internal object SbaArchiveWriter {
         }
     }
 
-    private fun writeTar(source: Path, destination: Path, flags: Int, includes: Array<String>, excludes: Array<String>, progress: SbaNativeProgressListener?) {
+    private fun writeTar(source: Path, destination: Path, flags: Int, includes: Array<String>, excludes: Array<String>, progress: SbaNativeProgressListener?): TarCounts {
         val includeRoot = flags and 8 != 0
         val includeSet = includes.filter { it.isNotBlank() }.toSet()
         val excludeSet = excludes.filter { it.isNotBlank() }.toSet()
@@ -401,6 +392,8 @@ internal object SbaArchiveWriter {
         val effectiveExcludes = if (flags and 4 != 0) excludeSet else emptySet()
         val paths = if (source.isDirectory()) Files.walk(source).use { it.sorted().iterator().asSequence().toList() } else listOf(source)
         var emitted = 0
+        var regularFileCount = 0L
+        var directoryCount = 0L
         Files.newOutputStream(destination).use { raw ->
             BufferedOutputStream(raw).use { out ->
                 for (path in paths) {
@@ -429,11 +422,14 @@ internal object SbaArchiveWriter {
                         if (pad > 0) out.write(ByteArray(pad))
                     }
                     emitted++
+                    if (attrs.isRegularFile) regularFileCount++
+                    if (attrs.isDirectory) directoryCount++
                 }
                 if (emitted == 0) throw IOException("SBA entry selection produced an empty TAR payload")
                 out.write(ByteArray(TAR_BLOCK * 2))
             }
         }
+        return TarCounts(emitted.toLong(), regularFileCount, directoryCount)
     }
 
     private fun selected(
