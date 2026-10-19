@@ -331,6 +331,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     jmethodID cancelled = callbackClass ? env->GetMethodID(callbackClass, "isCancellationRequested", "()Z") : nullptr;
     jmethodID onProgress = callbackClass ? env->GetMethodID(callbackClass, "onProgress", "(JJ)V") : nullptr;
     std::vector<std::string> extracted;
+    struct PendingDirectoryMetadata { std::string path; mode_t mode; time_t mtime; };
+    std::vector<PendingDirectoryMetadata> pendingDirectories;
     uint64_t total = 0, processed = 0;
     // First pass computes the regular-file payload total for progress reporting.
     off_t offset = static_cast<off_t>(startOffset);
@@ -471,21 +473,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to securely create TAR directory");
                 return nullptr;
             }
-            // Preserve ordinary permission bits and modification time from
-            // the TAR header. Special bits are deliberately masked so extraction
-            // cannot grant setuid/setgid privileges.
-            const mode_t safeMode = static_cast<mode_t>(entryMode & 0777ULL);
-            struct timespec directoryTimes[2]{};
-            directoryTimes[0].tv_nsec = UTIME_OMIT;
-            directoryTimes[1].tv_sec = static_cast<time_t>(entryMtime);
-            if (fchmod(dirFd, safeMode) != 0 || futimens(dirFd, directoryTimes) != 0) {
-                close(dirFd);
-                close(rootFd);
-                jclass e = env->FindClass("java/io/IOException");
-                if (e) env->ThrowNew(e, "Unable to apply TAR directory metadata");
-                return nullptr;
-            }
             close(dirFd);
+            // Apply directory metadata after all children have been written;
+            // creating children otherwise changes the directory mtime again.
+            pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & 0777ULL),
+                                           static_cast<time_t>(entryMtime)});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
             std::string leaf;
@@ -559,6 +551,28 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             extracted.push_back(name);
         } else if (type == '2' || type == '1') {
             // Links are intentionally not materialized: never let archive links escape destination.
+        }
+    }
+    // Restore directory metadata deepest-first, after all entries are written.
+    for (auto it = pendingDirectories.rbegin(); it != pendingDirectories.rend(); ++it) {
+        int dirFd = openDirectoryAt(rootFd, it->path, false);
+        if (dirFd < 0) {
+            close(rootFd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Unable to reopen TAR directory for metadata");
+            return nullptr;
+        }
+        struct timespec directoryTimes[2]{};
+        directoryTimes[0].tv_nsec = UTIME_OMIT;
+        directoryTimes[1].tv_sec = it->mtime;
+        const int metadataResult = fchmod(dirFd, it->mode) == 0
+            ? futimens(dirFd, directoryTimes) : -1;
+        close(dirFd);
+        if (metadataResult != 0) {
+            close(rootFd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Unable to apply TAR directory metadata");
+            return nullptr;
         }
     }
     close(rootFd);
