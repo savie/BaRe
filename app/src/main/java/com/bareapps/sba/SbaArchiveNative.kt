@@ -294,18 +294,27 @@ class SbaArchiveNative private constructor() {
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
                     FileOutputStream(temp.toFile()).use { output ->
-                        val decoded = if (info.encryptionMethod == 4) {
-                            SbaLibaegisCryptoNative.a.decryptAegis256ChunkedEntryFdRaw(
-                                input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
-                                entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
-                                entry.compressedSize, info.chunkSize, progress,
-                            )
-                        } else {
-                            SbaLibaegisCryptoNative.a.decryptAegis128X2ChunkedEntryFdRaw(
-                                input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
-                                entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
-                                entry.compressedSize, info.chunkSize, progress,
-                            )
+                        val decoded = try {
+                            if (info.encryptionMethod == 4) {
+                                SbaLibaegisCryptoNative.a.decryptAegis256ChunkedEntryFdRaw(
+                                    input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
+                                    entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
+                                    entry.compressedSize, info.chunkSize, progress,
+                                )
+                            } else {
+                                SbaLibaegisCryptoNative.a.decryptAegis128X2ChunkedEntryFdRaw(
+                                    input.fd, entry.storedSize, output.fd, key, info.nonceSeed,
+                                    entry.name.toByteArray(StandardCharsets.UTF_8), entryIndex.toLong(),
+                                    entry.compressedSize, info.chunkSize, progress,
+                                )
+                            }
+                        } catch (failure: IOException) {
+                            val message = failure.message.orEmpty()
+                            if (message.contains("authentication failed", ignoreCase = true)) {
+                                val method = if (info.encryptionMethod == 4) "Aegis256" else "Aegis128X2"
+                                throw IOException("Failed to authenticate SBA $method payload", failure)
+                            }
+                            throw failure
                         }
                         output.flush()
                         if (decoded.size < 2 || decoded[0] != entry.storedSize ||
