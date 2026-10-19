@@ -8,7 +8,7 @@ class SbaArchiveNative private constructor() {
         mode: Int,
         outputPath: String,
         metadata: ByteArray,
-        payloads: Array<ByteArray>,
+        sourcePaths: Array<String>,
         entryNames: Array<String>,
         entryModes: IntArray,
         includePaths: Array<Array<String>>,
@@ -23,10 +23,10 @@ class SbaArchiveNative private constructor() {
         option7: Int,
         option8: Int,
         option9: Int,
-        key0: ByteArray,
-        key1: ByteArray,
-        key2: ByteArray,
-        key3: ByteArray,
+        key0: ByteArray?,
+        key1: ByteArray?,
+        key2: ByteArray?,
+        key3: ByteArray?,
         progress: SbaNativeProgressListener?,
     ): LongArray
 
