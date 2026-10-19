@@ -114,9 +114,52 @@ class SbaArchiveReaderEncryptedTest {
                 assertEquals(21, alternateInfo.entries.single().flags)
                 assertEquals(storedSize, alternateInfo.entries.single().storedSize)
             }
+
+            val aesCbcPath = root.resolve("aes-cbc.sba")
+            Files.write(aesCbcPath, convertAegisFixtureToAesCbc(Files.readAllBytes(path)))
+            val aesCbcInfo = SbaArchiveReader.read(aesCbcPath.toString())
+            assertEquals(1, aesCbcInfo.encryptionMethod)
+            assertEquals(13, aesCbcInfo.entries.single().flags)
+            assertEquals(tarSize, aesCbcInfo.entries.single().storedSize)
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
+    }
+
+    private fun convertAegisFixtureToAesCbc(source: ByteArray): ByteArray {
+        val footerOffset = source.size - 32
+        val oldIndexOffset = ByteBuffer.wrap(source, footerOffset + 8, 8).order(ByteOrder.BIG_ENDIAN).long.toInt()
+        val indexSize = ByteBuffer.wrap(source, footerOffset + 16, 8).order(ByteOrder.BIG_ENDIAN).long.toInt()
+        val payloadOffset = 96 + 24 + 4
+        val storedSize = 1024
+        val newIndexOffset = payloadOffset + storedSize
+        val index = source.copyOfRange(oldIndexOffset, oldIndexOffset + indexSize)
+        val recordOffset = 16 + 2 // 16-byte index header + two-byte metadata "{}"
+        ByteBuffer.wrap(index).order(ByteOrder.BIG_ENDIAN).putLong(recordOffset + 16, storedSize.toLong())
+        ByteBuffer.wrap(index).order(ByteOrder.BIG_ENDIAN).putInt(recordOffset + 40, 13)
+        index.fill(0x5a.toByte(), recordOffset + 52, recordOffset + 84) // AES-CBC compatibility entry HMAC.
+        val indexCrc = crc(index)
+
+        val header = source.copyOfRange(0, 96)
+        ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN).putShort(24, 1)
+        ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN).putShort(84, 1)
+        ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN).putShort(86, 32)
+        ByteBuffer.wrap(header).order(ByteOrder.BIG_ENDIAN).putInt(88, 0)
+        val entryHeader = source.copyOfRange(96, 120)
+        ByteBuffer.wrap(entryHeader).order(ByteOrder.BIG_ENDIAN).putInt(8, 13)
+        val name = source.copyOfRange(120, payloadOffset)
+        val payload = source.copyOfRange(payloadOffset, payloadOffset + storedSize)
+        val footer = ByteBuffer.allocate(32).order(ByteOrder.BIG_ENDIAN)
+        footer.put("SAF1".toByteArray(StandardCharsets.US_ASCII))
+        footer.putShort(32)
+        footer.putShort(1)
+        footer.putLong(newIndexOffset.toLong())
+        footer.putLong(index.size.toLong())
+        footer.putInt(indexCrc)
+        footer.putInt(crc(footer.array().copyOfRange(0, 28)))
+        return ByteArrayOutputStream().apply {
+            write(header); write(entryHeader); write(name); write(payload); write(index); write(footer.array())
+        }.toByteArray()
     }
 
     private fun crc(bytes: ByteArray): Int = CRC32().apply { update(bytes) }.value.toInt()
