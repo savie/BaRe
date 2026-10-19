@@ -128,8 +128,9 @@ class SbaArchiveNative private constructor() {
             val entry = info.entries[entryIndex]
             val key = SbaArchiveKeyCheck.deriveVerifiedKey(info, password, path)
                 ?: throw IOException("Incorrect SBA password")
-            val temporary = Files.createTempFile("bare-sba-aegis-", ".payload")
+            var temporary: java.nio.file.Path? = null
             try {
+                temporary = Files.createTempFile("bare-sba-aegis-", ".payload")
                 RandomAccessFile(path, "r").use { input ->
                     input.seek(entry.payloadOffset)
                     FileOutputStream(temporary.toFile()).use { output ->
@@ -153,12 +154,12 @@ class SbaArchiveNative private constructor() {
                         }
                     }
                 }
-                FileInputStream(temporary.toFile()).use { payload ->
+                FileInputStream(temporary!!.toFile()).use { payload ->
                     return block(info, entry, payload.fd)
                 }
             } finally {
                 java.util.Arrays.fill(key, 0)
-                Files.deleteIfExists(temporary)
+                temporary?.let { Files.deleteIfExists(it) }
             }
         }
 
