@@ -201,6 +201,22 @@ void reportProgress(JNIEnv* env, jobject progress, jmethodID progressMethod,
                         static_cast<jlong>(total));
 }
 
+int descriptorValue(JNIEnv* env, jobject descriptor) {
+    if (descriptor == nullptr) {
+        throwJava(env, "java/lang/NullPointerException", "fileDescriptor");
+        return -1;
+    }
+    jclass cls = env->FindClass("java/io/FileDescriptor");
+    jfieldID field = cls ? env->GetFieldID(cls, "descriptor", "I") : nullptr;
+    if (field == nullptr) {
+        if (cls) env->DeleteLocalRef(cls);
+        return -1;
+    }
+    const jint value = env->GetIntField(descriptor, field);
+    env->DeleteLocalRef(cls);
+    return value;
+}
+
 jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
                           jint inputFd, jlong inputByteCount, jint outputFd,
                           jbyteArray keyArray, jbyteArray nonceSeedArray,
@@ -350,9 +366,12 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint inputFd, jlong storedSize, jint outputFd, jbyteArray key,
+    JNIEnv* env, jobject, jobject inputDescriptor, jlong storedSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jlong compressedSize,
     jint chunkSize, jobject progress) {
+    const jint inputFd = descriptorValue(env, inputDescriptor);
+    const jint outputFd = descriptorValue(env, outputDescriptor);
+    if (env->ExceptionCheck()) return nullptr;
     return processChunked(env, 4, false, inputFd, storedSize, outputFd, key, nonceSeed,
                           entryNameUtf8, entryOrder, compressedSize, chunkSize, progress);
 }
@@ -362,15 +381,21 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw
     JNIEnv* env, jobject, jint inputFd, jlong storedSize, jint outputFd, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jlong compressedSize,
     jint chunkSize, jobject progress) {
+    const jint inputFd = descriptorValue(env, inputDescriptor);
+    const jint outputFd = descriptorValue(env, outputDescriptor);
+    if (env->ExceptionCheck()) return nullptr;
     return processChunked(env, 5, false, inputFd, storedSize, outputFd, key, nonceSeed,
                           entryNameUtf8, entryOrder, compressedSize, chunkSize, progress);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env, jobject, jint inputFd, jlong plainSize, jint outputFd, jbyteArray key,
+    JNIEnv* env, jobject, jobject inputDescriptor, jlong plainSize, jobject outputDescriptor, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jint chunkSize,
     jobject progress) {
+    const jint inputFd = descriptorValue(env, inputDescriptor);
+    const jint outputFd = descriptorValue(env, outputDescriptor);
+    if (env->ExceptionCheck()) return nullptr;
     const uint64_t plain = plainSize < 0 ? 0 : static_cast<uint64_t>(plainSize);
     const uint64_t chunks = plain == 0 ? 0 : (plain - 1) / static_cast<uint64_t>(std::max<jint>(chunkSize, 1)) + 1;
     if (plainSize < 0 || chunks > (std::numeric_limits<uint64_t>::max() - plain) / kTagBytes) {
@@ -387,6 +412,9 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis128X2ChunkedEntryFdRaw
     JNIEnv* env, jobject, jint inputFd, jlong plainSize, jint outputFd, jbyteArray key,
     jbyteArray nonceSeed, jbyteArray entryNameUtf8, jlong entryOrder, jint chunkSize,
     jobject progress) {
+    const jint inputFd = descriptorValue(env, inputDescriptor);
+    const jint outputFd = descriptorValue(env, outputDescriptor);
+    if (env->ExceptionCheck()) return nullptr;
     const uint64_t plain = plainSize < 0 ? 0 : static_cast<uint64_t>(plainSize);
     const uint64_t chunks = plain == 0 ? 0 : (plain - 1) / static_cast<uint64_t>(std::max<jint>(chunkSize, 1)) + 1;
     if (plainSize < 0 || chunks > (std::numeric_limits<uint64_t>::max() - plain) / kTagBytes) {
