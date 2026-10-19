@@ -100,7 +100,8 @@ bool readTarTextAt(int fd, uint64_t offset, uint64_t size, std::string* value) {
 }
 
 /** Parse POSIX PAX length-prefixed records without trusting their declared lengths. */
-bool parsePaxRecords(const std::string& payload, std::map<std::string, std::string>* records) {
+bool parsePaxRecords(const std::string& payload, std::map<std::string, std::string>* records,
+                     bool globalRecords) {
     if (records == nullptr) return false;
     size_t at = 0;
     while (at < payload.size()) {
@@ -122,7 +123,7 @@ bool parsePaxRecords(const std::string& payload, std::map<std::string, std::stri
         if (equals == std::string::npos || equals >= recordEnd - 1 || equals == space + 1) return false;
         const std::string key = payload.substr(space + 1, equals - (space + 1));
         const std::string value = payload.substr(equals + 1, recordEnd - equals - 2);
-        if (value.empty()) records->erase(key);
+        if (value.empty() && globalRecords) records->erase(key);
         else (*records)[key] = value;
         at = recordEnd;
     }
@@ -130,14 +131,24 @@ bool parsePaxRecords(const std::string& payload, std::map<std::string, std::stri
 }
 
 bool readPaxRecordsAt(int fd, uint64_t offset, uint64_t size,
-                      std::map<std::string, std::string>* records) {
+                      std::map<std::string, std::string>* records, bool globalRecords) {
     constexpr uint64_t kMaxPaxPayload = 16ULL * 1024ULL * 1024ULL;
     if (records == nullptr || size == 0 || size > kMaxPaxPayload ||
         offset > static_cast<uint64_t>(INT64_MAX) ||
         size > static_cast<uint64_t>(INT64_MAX) - offset) return false;
     std::string payload(static_cast<size_t>(size), '\0');
     if (!readExactAt(fd, payload.data(), payload.size(), static_cast<off_t>(offset))) return false;
-    return parsePaxRecords(payload, records);
+    return parsePaxRecords(payload, records, globalRecords);
+}
+
+const std::string* paxValue(const std::map<std::string, std::string>& local,
+                       const std::map<std::string, std::string>& global,
+                       const char* key) {
+    const auto localIt = local.find(key);
+    if (localIt != local.end()) return localIt->second.empty() ? nullptr : &localIt->second;
+    const auto globalIt = global.find(key);
+    if (globalIt != global.end()) return globalIt->second.empty() ? nullptr : &globalIt->second;
+    return nullptr;
 }
 
 bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
@@ -174,6 +185,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
     std::vector<jobject> entries;
     std::string pendingLongName;
     std::string pendingLongLink;
+    std::map<std::string, std::string> globalPax;
+    std::map<std::string, std::string> pendingPax;
     off_t offset = static_cast<off_t>(startOffset);
     size_t count = 0;
     for (; count < 1000000; ++count) {
@@ -221,6 +234,39 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
                 return nullptr;
             }
         }
+        if (h.typeflag == 'x' || h.typeflag == 'g') {
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            const bool isGlobal = h.typeflag == 'g';
+            auto& destination = isGlobal ? globalPax : pendingPax;
+            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
+                for (jobject entry : entries) env->DeleteLocalRef(entry);
+                return nullptr;
+            }
+            const uint64_t step = 512ULL + blocksForBounds * 512ULL;
+            if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "PAX header offset overflow");
+                for (jobject entry : entries) env->DeleteLocalRef(entry);
+                return nullptr;
+            }
+            offset += static_cast<off_t>(step);
+            continue;
+        }
+        if (h.typeflag == 'x' || h.typeflag == 'g') {
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            const bool isGlobal = h.typeflag == 'g';
+            auto& destination = isGlobal ? globalPax : pendingPax;
+            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
+                return nullptr;
+            }
+            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            continue;
+        }
         if (h.typeflag == 'L' || h.typeflag == 'K') {
             std::string value;
             const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
@@ -244,15 +290,26 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         }
         const uint64_t mtime = parseOctal(h.mtime, sizeof(h.mtime));
         const uint64_t mode = parseOctal(h.mode, sizeof(h.mode));
+        jlong mtimeMillis = mtime <= static_cast<uint64_t>(INT64_MAX) / 1000ULL
+            ? static_cast<jlong>(mtime * 1000ULL) : -1;
+        const std::string* paxMtime = paxValue(pendingPax, globalPax, "mtime");
+        if (paxMtime != nullptr && !parsePaxMtimeMillis(*paxMtime, &mtimeMillis)) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid POSIX PAX mtime");
+            for (jobject entry : entries) env->DeleteLocalRef(entry);
+            return nullptr;
+        }
         if (mtime == UINT64_MAX || mode == UINT64_MAX ||
             mode > static_cast<uint64_t>(INT_MAX) ||
-            mtime > static_cast<uint64_t>(INT64_MAX) / 1000ULL) {
+            (paxMtime == nullptr && mtimeMillis < 0)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR mode or modification time");
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        std::string name = pendingLongName.empty() ? tarName(h) : pendingLongName;
+        const std::string* paxPath = paxValue(pendingPax, globalPax, "path");
+        std::string name = paxPath != nullptr ? *paxPath
+            : (pendingLongName.empty() ? tarName(h) : pendingLongName);
         pendingLongName.clear();
         if (name.empty()) {
             jclass e = env->FindClass("java/io/IOException");
@@ -260,10 +317,13 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             for (jobject entry : entries) env->DeleteLocalRef(entry);
             return nullptr;
         }
-        std::string link = pendingLongLink.empty()
-            ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
-            : pendingLongLink;
+        const std::string* paxLink = paxValue(pendingPax, globalPax, "linkpath");
+        std::string link = paxLink != nullptr ? *paxLink
+            : (pendingLongLink.empty()
+                ? std::string(h.linkname, strnlen(h.linkname, sizeof(h.linkname)))
+                : pendingLongLink);
         pendingLongLink.clear();
+        pendingPax.clear();
         jint type = 1;
         switch (h.typeflag) {
             case '5': type = 2; break;
@@ -281,7 +341,7 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         jobject entry = env->NewObject(entryClass, ctor, jname, type, jlink,
             static_cast<jint>(mode),
             static_cast<jlong>(size), static_cast<jlong>(size),
-            static_cast<jlong>(mtime * 1000ULL), JNI_FALSE, xattrs);
+            mtimeMillis, JNI_FALSE, xattrs);
         if (jname) env->DeleteLocalRef(jname);
         if (jlink) env->DeleteLocalRef(jlink);
         if (empty) env->DeleteLocalRef(empty);
@@ -465,6 +525,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     uint64_t total = 0, processed = 0;
     // First pass computes the regular-file payload total for progress reporting.
     off_t offset = static_cast<off_t>(startOffset);
+    std::map<std::string, std::string> sizingGlobalPax;
+    std::map<std::string, std::string> sizingPendingPax;
     size_t sizingCount = 0;
     for (; sizingCount < 1000000; ++sizingCount) {
         TarHeader h{};
@@ -504,6 +566,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 return nullptr;
             }
         }
+        if (h.typeflag == 'x' || h.typeflag == 'g') {
+            const uint64_t payloadOffset = static_cast<uint64_t>(offset) + 512ULL;
+            const bool isGlobal = h.typeflag == 'g';
+            auto& destination = isGlobal ? sizingGlobalPax : sizingPendingPax;
+            if (!readPaxRecordsAt(fd, payloadOffset, size, &destination, isGlobal)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid or truncated POSIX PAX header");
+                close(rootFd);
+                return nullptr;
+            }
+            offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+            continue;
+        }
         if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
@@ -529,6 +604,9 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
     }
     offset = static_cast<off_t>(startOffset);
     std::string pendingLongName;
+    std::string pendingLongLink;
+    std::map<std::string, std::string> globalPax;
+    std::map<std::string, std::string> pendingPax;
     size_t extractionCount = 0;
     for (; extractionCount < 1000000; ++extractionCount) {
         TarHeader h{};
@@ -581,8 +659,17 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
         const uint64_t entryMode = parseOctal(h.mode, sizeof(h.mode));
         const uint64_t entryMtime = parseOctal(h.mtime, sizeof(h.mtime));
+        jlong entryMtimeMillis = entryMtime <= static_cast<uint64_t>(INT64_MAX) / 1000ULL
+            ? static_cast<jlong>(entryMtime * 1000ULL) : -1;
+        const std::string* paxMtime = paxValue(pendingPax, globalPax, "mtime");
+        if (paxMtime != nullptr && !parsePaxMtimeMillis(*paxMtime, &entryMtimeMillis)) {
+            close(rootFd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid POSIX PAX mtime");
+            return nullptr;
+        }
         if (entryMode == UINT64_MAX || entryMode > static_cast<uint64_t>(INT_MAX) ||
-            entryMtime == UINT64_MAX || entryMtime > static_cast<uint64_t>(INT64_MAX) / 1000ULL) {
+            entryMtime == UINT64_MAX || (paxMtime == nullptr && entryMtimeMillis < 0)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Invalid TAR mode or modification time");
             close(rootFd);
@@ -598,6 +685,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 return nullptr;
             }
             if (h.typeflag == 'L') pendingLongName = value;
+            else pendingLongLink = value;
             const uint64_t step = 512ULL + blocks * 512ULL;
             if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
                 close(rootFd);
@@ -608,7 +696,9 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             offset += static_cast<off_t>(step);
             continue;
         }
-        const std::string name = pendingLongName.empty() ? tarName(h) : pendingLongName;
+        const std::string* paxPath = paxValue(pendingPax, globalPax, "path");
+        std::string name = paxPath != nullptr ? *paxPath
+            : (pendingLongName.empty() ? tarName(h) : pendingLongName);
         pendingLongName.clear();
         const char type = h.typeflag;
         const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
@@ -623,6 +713,8 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         for (const auto& filter : filters) {
             if (name == filter || (name.size() > filter.size() && name.compare(0, filter.size(), filter) == 0 && name[filter.size()] == '/')) { selected = true; break; }
         }
+        pendingPax.clear();
+        pendingLongLink.clear();
         if (!selected) { if (type == 0 || type == '0' || type == '7') processed += size; continue; }
         if (type == '5') {
             int dirFd = openDirectoryAt(rootFd, name, true);
@@ -636,7 +728,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             // Apply directory metadata after all children have been written;
             // creating children otherwise changes the directory mtime again.
             pendingDirectories.push_back({name, static_cast<mode_t>(entryMode & 0777ULL),
-                                           static_cast<time_t>(entryMtime)});
+                                           static_cast<time_t>(entryMtimeMillis / 1000)});
             extracted.push_back(name);
         } else if (type == 0 || type == '0' || type == '7') {
             std::string leaf;
