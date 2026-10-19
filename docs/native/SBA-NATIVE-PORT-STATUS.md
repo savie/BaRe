@@ -260,3 +260,21 @@ Validation performed after these changes:
 - Rechecked interoperability using the system `tar` utility; it listed the archive and extracted payload bytes `1, 2, 3`.
 
 This remains generic ustar hardening only. It does not complete SBA container framing, AEGIS, Argon2id JNI compatibility, or end-to-end backup/restore, and does not change the overall NOT GO status.
+
+
+## Work entry — Argon2id contract regression tests (2026-10-19)
+
+Commits:
+- `43a7cdbf77b4f19e49cbe1319caa4905fd9d888c` — add tests for deterministic output, salt sensitivity, output length, and invalid-parameter rejection.
+- `ac25ed26db0c0034680386f718da08a7a3202500` — remove an unused test import.
+- `08775bb73c4d0616766b1263e5e93390754c807f` — pin the test to a fixed 32-byte output vector.
+
+Independent local check:
+- Compiled the current Argon2id implementation shape against Bouncy Castle 1.80 using the installed Kotlin compiler.
+- For password UTF-8 `correct horse battery staple`, salt bytes `00..0f`, Argon2id v=19, iterations=2, memory=32 KiB, parallelism=1, output length=32, Bouncy Castle produced `1e5579a1bb8d903890049babb3a95c6076d72c05490b19f5efd7a2fe3ec6b924`.
+- Python argon2-cffi independently produced the same vector.
+
+Limitations:
+- This checks the Kotlin/Bouncy Castle implementation against an independent Argon2 implementation; it does not prove byte-for-byte equivalence to the reference native Argon2id wrapper for all parameter combinations.
+- The repository's Gradle/JUnit task has not been run. The JNI symbol with the same method name remains a fail-closed placeholder, while the Kotlin API currently performs the KDF in-process.
+- SBA framing, AEGIS chunk encryption/decryption, and backup/restore integration remain incomplete; overall status is still NOT GO.
