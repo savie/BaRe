@@ -151,7 +151,7 @@ internal object SbaArchiveWriter {
                             writeTar(source, tarTemp, entryModes[i], includePaths[i] ?: emptyArray(), excludePaths[i] ?: emptyArray(), progress)
                         } else {
                             Files.newOutputStream(tarTemp).use { it.write(ByteArray(TAR_BLOCK * 2)) }
-                            TarCounts(0, 0, 0)
+                            TarCounts(0L, 0L, 0L)
                         }
                         producerMillis += elapsedMillis(producerStart)
                         val tarSize = Files.size(tarTemp)
@@ -230,9 +230,9 @@ internal object SbaArchiveWriter {
                         out.flush()
                         records.add(EntryRecord(
                             name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, flags,
-                            if (version == 2) tarCounts.entries else 0,
-                            if (version == 2) tarCounts.regularFiles else 0,
-                            if (version == 2) tarCounts.directories else 0,
+                            if (version == 2) tarCounts.entries else 0L,
+                            if (version == 2) tarCounts.regularFiles else 0L,
+                            if (version == 2) tarCounts.directories else 0L,
                         ))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
                     }
