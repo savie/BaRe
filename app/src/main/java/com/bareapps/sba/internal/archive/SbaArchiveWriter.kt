@@ -169,7 +169,7 @@ internal object SbaArchiveWriter {
         b.putInt(if (compression == 1) 1 else 0)
         b.putLong(System.currentTimeMillis())
         b.putShort(compression.toShort()); b.putShort(level.toShort())
-        repeat(8) { b.putShort(0) }
+        repeat(6) { b.putShort(0) }
         b.put(ByteArray(48))
         b.putShort(0); b.putShort(0); b.putInt(0); b.putInt(0)
         check(b.position() == FILE_HEADER_SIZE)
