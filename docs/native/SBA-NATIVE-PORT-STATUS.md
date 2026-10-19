@@ -103,7 +103,7 @@ This ledger separates API/structure coverage from behavioral parity. A method be
 | JNI symbol inventory | 20 reference exports across 4 ABIs; target C++ has symbol stubs for the audited names | Inventory mapped; behavior not implied | Build target and inspect symbols for every ABI |
 | Kotlin/JNI declarations | 16 reference declarations identified; 4 ELF-only exports remain unverified | Partial API mapping | Recover orphan signatures only from call sites/disassembly |
 | TAR entry model | Constructor descriptor, type mapping, defensive xattr copy, equality/hash/string behavior ported | Source-level mapping; tests not run | Add contract tests against reference-produced entry fixtures |
-| TAR listing | Target parser handles GNU L/K records, bounded POSIX PAX path/linkpath/mtime/size and xattr names from PAX keys | Partial | GNU sparse, device metadata, exact realSize and reference error semantics remain unimplemented/unverified |
+| TAR listing | Target parser handles GNU L/K records, bounded POSIX PAX path/linkpath/mtime/size, xattr names, and PAX GNU sparse logical-size metadata | Partial | Full sparse extent-map decoding, device metadata, exact realSize across formats and reference error semantics remain unimplemented/unverified |
 | TAR extraction | Target extractor applies GNU L paths and POSIX PAX path/linkpath/mtime/size metadata; symlinks and hardlinks are materialized only after containment/target checks | Partial | GNU sparse, xattr value restoration, symlink timestamp semantics, exact filters/cancellation/errors/stats remain unimplemented/unverified |
 | TAR write + stats | createTarToFdWithWriteStatsRaw remains fail-closed; exact orphan signature is not established | Not implemented | Recover signature and byte-level format before implementation |
 | Zstandard byte compression | SbaZstdNative.compressZstdBytes now calls zstd-jni Zstd.compress(input, level) rather than the target JNI placeholder | Implemented path; parity unverified | Compare reference output/decompression across levels, empty input, malformed input |
@@ -213,3 +213,10 @@ No GitHub Actions run or combined status checks were returned for the latest com
 - Path and symlink target validation now rejects embedded NUL bytes.
 - Relevant commits: 3fdce91e3a3dc9282d23bb5c9af270335bbbc767, 644d5b6289ba1de679bb79c14c1c00d66a1b1ced, 2235b237a480577a8ad884206cd145c96ab3a9ce, 70e9e3b8ae028ab3a446bdba1292e8fbd554c4ef, 72bb4df11de09141b9dee6809b82da895157f382, f4ed2c6e39ca3593d6fa28d108a990c785228504.
 - No native compile, Android build or runtime parity test has run. The status remains partial and is not GO.
+
+
+## GNU sparse metadata listing checkpoint — 2026-10-19
+
+- TAR listing now marks entries sparse when PAX `GNU.sparse.map`, `GNU.sparse.realsize`, or `GNU.sparse.size` is present and uses the declared logical size for `realSize` when available.
+- This is metadata exposure only. Sparse extent-map parsing and sparse extraction are still not implemented or tested.
+- Commit: f4f1bae4e867354136e9b37f0684e677a09007c6.
