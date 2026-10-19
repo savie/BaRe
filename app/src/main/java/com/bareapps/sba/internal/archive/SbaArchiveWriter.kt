@@ -221,7 +221,7 @@ internal object SbaArchiveWriter {
                     val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
                     if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
                     val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
-                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis() / 1000, linkTarget)
+                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis() / 1000, readMode(path, attrs.isDirectory, attrs.isSymbolicLink), linkTarget)
                     if (attrs.isRegularFile) {
                         Files.newInputStream(path).use { input ->
                             val buffer = ByteArray(64 * 1024)
@@ -253,11 +253,11 @@ internal object SbaArchiveWriter {
         return includes.isEmpty() || includes.any(::matches)
     }
 
-    private fun writeTarHeader(out: java.io.OutputStream, name: String, directory: Boolean, size: Long, mtime: Long, linkTarget: String? = null) {
+    private fun writeTarHeader(out: java.io.OutputStream, name: String, directory: Boolean, size: Long, mtime: Long, mode: Int, linkTarget: String? = null) {
         val split = splitName(name) ?: throw IOException("TAR path exceeds ustar limits: $name")
         val header = ByteArray(TAR_BLOCK)
         putText(header, 0, 100, split.second)
-        putOctal(header, 100, 8, if (linkTarget != null) 0x1ff else if (directory) 0x1ed else 0x1a4)
+        putOctal(header, 100, 8, mode.toLong())
         putOctal(header, 108, 8, 0); putOctal(header, 116, 8, 0)
         putOctal(header, 124, 12, if (directory) 0 else size)
         putOctal(header, 136, 12, mtime.coerceAtLeast(0))
@@ -274,6 +274,26 @@ internal object SbaArchiveWriter {
         putText(header, 148, 6, String.format(Locale.ROOT, "%06o", sum))
         header[154] = 0; header[155] = ' '.code.toByte()
         out.write(header)
+    }
+
+    private fun readMode(path: Path, directory: Boolean, symbolicLink: Boolean): Int {
+        if (symbolicLink) return 0x1ff
+        return try {
+            val permissions = Files.getPosixFilePermissions(path, LinkOption.NOFOLLOW_LINKS)
+            var mode = 0
+            if (java.nio.file.attribute.PosixFilePermission.OWNER_READ in permissions) mode = mode or 0x100
+            if (java.nio.file.attribute.PosixFilePermission.OWNER_WRITE in permissions) mode = mode or 0x80
+            if (java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE in permissions) mode = mode or 0x40
+            if (java.nio.file.attribute.PosixFilePermission.GROUP_READ in permissions) mode = mode or 0x20
+            if (java.nio.file.attribute.PosixFilePermission.GROUP_WRITE in permissions) mode = mode or 0x10
+            if (java.nio.file.attribute.PosixFilePermission.GROUP_EXECUTE in permissions) mode = mode or 0x8
+            if (java.nio.file.attribute.PosixFilePermission.OTHERS_READ in permissions) mode = mode or 0x4
+            if (java.nio.file.attribute.PosixFilePermission.OTHERS_WRITE in permissions) mode = mode or 0x2
+            if (java.nio.file.attribute.PosixFilePermission.OTHERS_EXECUTE in permissions) mode = mode or 0x1
+            mode
+        } catch (_: UnsupportedOperationException) {
+            if (directory) 0x1ed else 0x1a4
+        }
     }
 
     private fun splitName(name: String): Pair<String, String>? {
