@@ -71,6 +71,8 @@ class SbaArchiveTaskRunnerTest {
 
             override fun extract(request: SbaExtractTaskRequest, progress: com.bareapps.sba.internal.progress.SbaNativeProgressListener) =
                 error("not used")
+            override fun extractTar(request: SbaTarExtractTaskRequest, progress: com.bareapps.sba.internal.progress.SbaNativeProgressListener) =
+                error("not used")
         }
         val runner = SbaArchiveTaskRunner(backend = backend)
         try {
