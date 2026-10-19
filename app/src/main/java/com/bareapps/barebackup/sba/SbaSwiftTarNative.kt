@@ -160,7 +160,7 @@ class SbaSwiftTarNative private constructor() {
          */
         @JvmStatic
         @Throws(IOException::class)
-        fun extractTarFromDescriptorWithStats(
+        fun extractTarWithStats(
             descriptor: FileDescriptor,
             offset: Long,
             destination: String,
@@ -173,7 +173,7 @@ class SbaSwiftTarNative private constructor() {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun extractTarFromDescriptor(
+        fun extractTar(
             descriptor: FileDescriptor,
             offset: Long,
             destination: String,
@@ -186,7 +186,7 @@ class SbaSwiftTarNative private constructor() {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun extractTarZstdFromDescriptor(
+        fun extractTarZstd(
             descriptor: FileDescriptor,
             offset: Long,
             compressedSize: Long,
@@ -200,14 +200,14 @@ class SbaSwiftTarNative private constructor() {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun listTarEntriesFromDescriptor(
+        fun listTarEntries(
             descriptor: FileDescriptor,
             offset: Long,
         ): Array<SbaTarEntryInfo> = instance.listTarEntriesFromDescriptor(descriptor, offset)
 
         @JvmStatic
         @Throws(IOException::class)
-        fun listTarEntriesZstdFromDescriptor(
+        fun listTarEntriesZstd(
             descriptor: FileDescriptor,
             offset: Long,
             compressedSize: Long,
