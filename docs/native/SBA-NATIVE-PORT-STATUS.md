@@ -143,3 +143,23 @@ Changed only SbaZstdNative.kt:
 - Made each duplicated descriptor have one explicit stream owner in FD-to-FD compression/decompression paths, including bounded-range decompression.
 - This addresses a descriptor lifetime hazard where two independently closeable wrappers could refer to the same duplicated descriptor.
 - Behavior/parity tests and Android compilation have not been run; this is a resource-ownership correction, not a claim that the Zstandard FD contract is reference-equivalent.
+
+
+### Work entry — Argon2id output-size validation
+
+Commit: 0d231f9d8ebe7f020a92197b801022867028ef7f
+
+Changed only SbaNativeCrypto.kt:
+- Restricted outputLength to 16..128 bytes.
+- This bound is grounded in the reference ELF diagnostic string: "Argon2id outputBytes must be in 16..128".
+- Argon2id byte-for-byte parity remains unverified; this change aligns one confirmed validation contract only.
+
+### Verification checkpoint — 2026-10-19
+
+Commits made in this continuation:
+- d21ba70f61683f1740d833a838621f4fc8af713d — Zstandard byte-array implementation through zstd-jni.
+- ecf182a03d3d2af9b2b714b6e7eedaedc0868ecb — descriptor stream ownership correction.
+- e97244d0ae84b3ab2bb01026c6a2b1f62c5c7359 — cleanup hardened when Zstandard decoder setup or processing fails.
+- 0d231f9d8ebe7f020a92197b801022867028ef7f — Argon2id output-size bounds aligned to reference.
+
+No GitHub Actions run or combined status checks were returned for the latest commit. Android Gradle/native builds and reference-vs-target runtime tests have not been executed. The archive writer/framing and AEGIS remain hard blockers, not completed work.
