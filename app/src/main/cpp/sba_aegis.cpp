@@ -27,6 +27,52 @@ void ensureAegisInitialized() {
     std::call_once(gAegisInitOnce, [] { gAegisInitResult = aegis_init(); });
 }
 
+std::once_flag gAegisSelfTestOnce;
+bool gAegisSelfTestPassed = false;
+
+bool primitiveSelfTest() {
+    const std::array<uint8_t, 7> message{{0x42, 0x41, 0x52, 0x45, 0x2d, 0x53, 0x42}};
+    const std::array<uint8_t, 5> associated{{0x53, 0x42, 0x41, 0x31, 0x01}};
+    {
+        std::array<uint8_t, 32> key{};
+        std::array<uint8_t, 32> nonce{};
+        std::array<uint8_t, message.size()> cipher{}, recovered{};
+        std::array<uint8_t, kTagBytes> tag{};
+        if (aegis256_encrypt_detached(cipher.data(), tag.data(), tag.size(),
+                message.data(), message.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) != 0) return false;
+        if (aegis256_decrypt_detached(recovered.data(), cipher.data(), cipher.size(),
+                tag.data(), tag.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) != 0 || recovered != message) return false;
+        tag[0] ^= 1;
+        if (aegis256_decrypt_detached(recovered.data(), cipher.data(), cipher.size(),
+                tag.data(), tag.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) == 0) return false;
+    }
+    {
+        std::array<uint8_t, 16> key{};
+        std::array<uint8_t, 16> nonce{};
+        std::array<uint8_t, message.size()> cipher{}, recovered{};
+        std::array<uint8_t, kTagBytes> tag{};
+        if (aegis128x2_encrypt_detached(cipher.data(), tag.data(), tag.size(),
+                message.data(), message.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) != 0) return false;
+        if (aegis128x2_decrypt_detached(recovered.data(), cipher.data(), cipher.size(),
+                tag.data(), tag.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) != 0 || recovered != message) return false;
+        tag[0] ^= 1;
+        if (aegis128x2_decrypt_detached(recovered.data(), cipher.data(), cipher.size(),
+                tag.data(), tag.size(), associated.data(), associated.size(),
+                nonce.data(), key.data()) == 0) return false;
+    }
+    return true;
+}
+
+bool ensurePrimitiveSelfTest() {
+    std::call_once(gAegisSelfTestOnce, [] { gAegisSelfTestPassed = primitiveSelfTest(); });
+    return gAegisSelfTestPassed;
+}
+
 void throwJava(JNIEnv* env, const char* className, const std::string& message) {
     if (env->ExceptionCheck()) return;
     jclass cls = env->FindClass(className);
@@ -382,8 +428,8 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 
 extern "C" JNIEXPORT jboolean JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
-    std::call_once(gAegisInitOnce, [] { gAegisInitResult = aegis_init(); });
-    return gAegisInitResult == 0 ? JNI_TRUE : JNI_FALSE;
+    ensureAegisInitialized();
+    return gAegisInitResult == 0 && ensurePrimitiveSelfTest() ? JNI_TRUE : JNI_FALSE;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
