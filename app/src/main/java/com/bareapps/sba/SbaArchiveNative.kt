@@ -52,7 +52,7 @@ class SbaArchiveNative private constructor() {
         /** Configure an app-private directory for authenticated plaintext staging. */
         @JvmStatic
         @Throws(IOException::class)
-        fun setTemporaryDirectory(path: String) {
+        internal fun setTemporaryDirectory(path: String) {
             if (path.isBlank()) throw IOException("SBA temporary directory path must not be blank")
             val directory = java.nio.file.Path.of(path).toAbsolutePath().normalize()
             Files.createDirectories(directory)
