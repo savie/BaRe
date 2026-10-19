@@ -4,9 +4,11 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
+import java.io.IOException
 import java.util.zip.CRC32
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -77,6 +79,29 @@ class SbaArchiveWriterTest {
             assertEquals(stats[0], Files.size(destination))
             assertEquals(1, parsed.entries.size)
             assertTrue(parsed.entries.single().compressedSize < parsed.entries.single().tarSize)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
+        }
+    }
+
+    @Test
+    fun rejectsArchiveWithCorruptedFooterCrc() {
+        val root = Files.createTempDirectory("sba-corruption-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.bin"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("valid.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val bytes = Files.readAllBytes(destination)
+            bytes[bytes.lastIndex] = (bytes.last().toInt() xor 1).toByte()
+            val corrupt = root.resolve("corrupt.sba")
+            Files.write(corrupt, bytes)
+            assertThrows(IOException::class.java) { SbaArchiveReader.read(corrupt.toString()) }
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach(Files::deleteIfExists)
         }
