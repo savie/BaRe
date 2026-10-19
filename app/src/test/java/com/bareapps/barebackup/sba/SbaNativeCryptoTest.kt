@@ -57,6 +57,10 @@ class SbaNativeCryptoTest {
             SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 32, 0, 32)
         }
         assertThrows(IllegalArgumentException::class.java) {
+            // 8 * parallelism overflows Int; validation must use a wider integer type.
+            SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 32, Int.MAX_VALUE, 32)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
             SbaNativeCrypto.a.deriveArgon2id(password, salt, 2, 32, 1, 15)
         }
         assertThrows(IllegalArgumentException::class.java) {
