@@ -79,10 +79,23 @@ bool validTarChecksum(const TarHeader& h) {
 }
 
 bool readExactAt(int fd, void* out, size_t size, off_t offset) {
+    if (fd < 0 || offset < 0 ||
+        static_cast<uint64_t>(offset) > static_cast<uint64_t>(INT64_MAX) ||
+        size > static_cast<uint64_t>(INT64_MAX) - static_cast<uint64_t>(offset)) {
+        errno = EOVERFLOW;
+        return false;
+    }
     auto* p = static_cast<unsigned char*>(out);
     size_t done = 0;
     while (done < size) {
-        const ssize_t n = pread(fd, p + done, size - done, offset + static_cast<off_t>(done));
+        // Validate before casting/addition: malformed archive sizes must never
+        // wrap a positional read back to an earlier part of the file.
+        if (done > static_cast<size_t>(INT64_MAX - offset)) {
+            errno = EOVERFLOW;
+            return false;
+        }
+        const off_t current = offset + static_cast<off_t>(done);
+        const ssize_t n = pread(fd, p + done, size - done, current);
         if (n < 0 && errno == EINTR) continue;
         if (n <= 0) return false;
         done += static_cast<size_t>(n);
