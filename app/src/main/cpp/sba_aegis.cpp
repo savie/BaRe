@@ -62,6 +62,16 @@ bool writeExact(int fd, const uint8_t* input, size_t size) {
     return true;
 }
 
+struct VectorWiper {
+    std::vector<uint8_t>& value;
+    ~VectorWiper() { std::fill(value.begin(), value.end(), 0); }
+};
+template <size_t N>
+struct ArrayWiper {
+    std::array<uint8_t, N>& value;
+    ~ArrayWiper() { std::fill(value.begin(), value.end(), 0); }
+};
+
 void appendBe64(std::vector<uint8_t>* out, uint64_t value) {
     for (int shift = 56; shift >= 0; shift -= 8) {
         out->push_back(static_cast<uint8_t>((value >> shift) & 0xffU));
@@ -230,6 +240,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
     }
     const size_t keyLength = method == 4 ? kAegis256KeyBytes : kAegis128X2KeyBytes;
     std::vector<uint8_t> key, nonceSeed, entryName;
+    VectorWiper wipeKey{key}, wipeSeed{nonceSeed}, wipeName{entryName};
     if (!copyByteArray(env, keyArray, &key, keyLength, "key") ||
         !copyByteArray(env, nonceSeedArray, &nonceSeed, kNonceSeedBytes, "nonce seed") ||
         !copyVariableByteArray(env, entryNameArray, &entryName, 1024 * 1024, "entry name")) {
@@ -267,7 +278,9 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 
     std::vector<uint8_t> inputChunk;
     std::vector<uint8_t> outputChunk;
+    VectorWiper wipeInput{inputChunk}, wipeOutput{outputChunk};
     std::array<uint8_t, kTagBytes> tag{};
+    ArrayWiper<kTagBytes> wipeTag{tag};
     uint64_t storedDone = 0;
     uint64_t plainDone = 0;
     uint64_t chunkIndex = 0;
@@ -276,6 +289,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
             if (!env->ExceptionCheck()) throwJava(env, "java/io/InterruptedIOException", "SBA AEGIS operation cancelled");
             return nullptr;
         }
+        if (env->ExceptionCheck()) return nullptr;
         const size_t chunkLength = static_cast<size_t>(
             std::min<uint64_t>(static_cast<uint64_t>(chunkSize), plainSize - plainDone));
         inputChunk.resize(chunkLength);
@@ -293,10 +307,12 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
             }
         }
         std::vector<uint8_t> nonce;
+        VectorWiper wipeNonce{nonce};
         if (!deriveNonce(env, method, nonceSeed, entryName, static_cast<uint64_t>(entryOrder),
                          chunkIndex, &nonce)) return nullptr;
         std::vector<uint8_t> aad = buildAad(method, entryName, static_cast<uint64_t>(entryOrder),
                                             chunkIndex, plainDone);
+        VectorWiper wipeAad{aad};
         int cryptoResult = -1;
         if (method == 4) {
             if (encrypt) {
