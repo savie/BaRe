@@ -382,8 +382,8 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 
 extern "C" JNIEXPORT jboolean JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
-    std::call_once(initOnce, [] { initResult = aegis_init(); });
-    return initResult == 0 ? JNI_TRUE : JNI_FALSE;
+    std::call_once(gAegisInitOnce, [] { gAegisInitResult = aegis_init(); });
+    return gAegisInitResult == 0 ? JNI_TRUE : JNI_FALSE;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
