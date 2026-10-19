@@ -175,7 +175,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
     override fun extract(request: SbaExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
         val info = SbaArchiveNative.readArchiveInfo(request.archivePath)
-        if (info.isEncrypted && request.password.isNullOrEmpty()) {
+        if (info.isEncrypted && (request.password == null || request.password.isEmpty())) {
             throw IOException("Password is required for encrypted SBA restore")
         }
         if (!info.isEncrypted && (request.password != null && request.password.isNotEmpty())) {
