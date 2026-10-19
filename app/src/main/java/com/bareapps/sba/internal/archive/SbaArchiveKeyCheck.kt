@@ -16,6 +16,17 @@ import javax.crypto.spec.SecretKeySpec
 /** Implements the reference SBA1 key-check digest; it does not decrypt payload chunks. */
 internal object SbaArchiveKeyCheck {
     fun verify(info: SbaArchiveInfo, password: CharArray, archivePath: String? = null): Boolean {
+        val key = deriveVerifiedKey(info, password, archivePath) ?: return false
+        Arrays.fill(key, 0)
+        return true
+    }
+
+    /** Returns key bytes only after both the header key-check and, for v2, index MAC pass. */
+    fun deriveVerifiedKey(
+        info: SbaArchiveInfo,
+        password: CharArray,
+        archivePath: String? = null,
+    ): ByteArray? {
         if (!info.isEncrypted) throw IOException("SBA archive is not encrypted")
         if (info.encryptionMethod != 4 && info.encryptionMethod != 5) {
             throw IOException("Password verification is not implemented for this SBA encryption method")
@@ -36,7 +47,8 @@ internal object SbaArchiveKeyCheck {
         var key = ByteArray(0)
         var fullCheck = ByteArray(0)
         var expectedCheck = ByteArray(0)
-        return try {
+        var retainKey = false
+        try {
             val keyLength = if (info.encryptionMethod == 4) 32 else 16
             key = SbaArgon2idPortable.deriveArgon2id(
                 encoded, info.salt, info.kdfIterations, info.kdfMemoryKiB,
@@ -52,20 +64,21 @@ internal object SbaArchiveKeyCheck {
             digest.update(key)
             fullCheck = digest.digest()
             expectedCheck = fullCheck.copyOf(16)
-            if (!MessageDigest.isEqual(info.keyCheck, expectedCheck)) return false
+            if (!MessageDigest.isEqual(info.keyCheck, expectedCheck)) return null
             if (info.version >= 2) {
                 val path = archivePath ?: throw IOException("SBA v2 index MAC verification requires the archive path")
-                return verifyV2IndexMac(path, info, key)
+                verifyV2IndexMac(path, info, key)
             }
-            true
+            retainKey = true
+            return key
         } finally {
             Arrays.fill(encoded, 0)
-            Arrays.fill(key, 0)
             Arrays.fill(fullCheck, 0)
             Arrays.fill(expectedCheck, 0)
+            if (!retainKey) Arrays.fill(key, 0)
         }
     }
-    
+
     private fun verifyV2IndexMac(path: String, info: SbaArchiveInfo, derivedKey: ByteArray): Boolean {
         if (info.indexMac.size != 32) throw IOException("Invalid SBA v2 index MAC length")
         val secondaryKey = MessageDigest.getInstance("SHA-256").run {
