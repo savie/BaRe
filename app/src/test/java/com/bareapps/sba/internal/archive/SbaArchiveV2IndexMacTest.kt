@@ -161,7 +161,7 @@ class SbaArchiveV2IndexMacTest {
     private class ByteArrayOutputStreamBuilder {
         fun build(vararg parts: ByteArray): ByteArray {
             val output = java.io.ByteArrayOutputStream()
-            parts.forEach(output::write)
+            parts.forEach { output.write(it) }
             return output.toByteArray()
         }
     }
