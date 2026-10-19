@@ -3,6 +3,7 @@ package com.bareapps.sba
 import com.bareapps.sba.internal.archive.SbaArchiveInfo
 import com.bareapps.sba.internal.archive.SbaArchiveReader
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import java.io.FileInputStream
 import java.io.IOException
 
@@ -56,6 +57,23 @@ class SbaArchiveNative private constructor() {
         @JvmStatic
         @Throws(IOException::class)
         fun readArchiveInfo(path: String): SbaArchiveInfo = SbaArchiveReader.read(path)
+
+        @JvmStatic
+        @Throws(IOException::class)
+        fun listEntryTarEntries(path: String, entryName: String): Array<SbaTarEntryInfo> {
+            val info = SbaArchiveReader.read(path)
+            val entry = info.entries.firstOrNull { it.name == entryName }
+                ?: throw IOException("SBA entry not found: $entryName")
+            FileInputStream(path).use { archive ->
+                return if (info.compressionMethod == 1) {
+                    SbaBareTarNative.instance.listTarEntriesZstdFromDescriptorBounded(
+                        archive.fd, entry.payloadOffset, entry.compressedSize, entry.tarSize,
+                    )
+                } else {
+                    SbaBareTarNative.instance.listTarEntriesFromDescriptor(archive.fd, entry.payloadOffset)
+                }
+            }
+        }
 
         @JvmStatic
         @Throws(IOException::class)
