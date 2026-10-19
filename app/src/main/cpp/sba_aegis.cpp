@@ -509,7 +509,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
 }  // namespace
 
 extern "C" JNIEXPORT jboolean JNICALL
-Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv*, jobject) {
+Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv* env, jobject) {
     ensureAegisInitialized();
     return gAegisInitResult == 0 && ensurePrimitiveSelfTest() && ensureProtocolSelfTest(env) ? JNI_TRUE : JNI_FALSE;
 }
