@@ -47,16 +47,31 @@ class SbaBareTarNative private constructor() {
      * so the native extractor can validate and extract it using its normal code path.
      */
     @Throws(IOException::class)
-    fun extractTarZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String> {
+    fun extractTarZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String> =
+        extractTarZstdFromDescriptorBounded(descriptor, offset, compressedSize, null, destination, flags, includes, progress)
+
+    /** SBA index-backed restore path: enforce the declared uncompressed TAR length. */
+    @Throws(IOException::class)
+    fun extractTarZstdFromDescriptorBounded(
+        descriptor: FileDescriptor,
+        offset: Long,
+        compressedSize: Long,
+        expectedOutputSize: Long?,
+        destination: String,
+        flags: Int,
+        includes: Array<String>,
+        progress: SbaNativeProgressListener?,
+    ): Array<String> {
         validateRange(offset, compressedSize)
+        require(expectedOutputSize == null || expectedOutputSize >= 0L) { "Invalid expected TAR size" }
         val tarFile = java.io.File.createTempFile("bare-sba-", ".tar")
         try {
-            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile) { written ->
+            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile, { written ->
                 if (progress?.isCancellationRequested() == true) {
                     throw java.io.InterruptedIOException("Zstandard TAR extraction cancelled")
                 }
-                progress?.onProgress(written, -1L)
-            }
+                progress?.onProgress(written, expectedOutputSize ?: -1L)
+            }, expectedOutputSize)
             java.io.FileInputStream(tarFile).use { tar ->
                 return withDuplicate(tar.fd) { extractTarFromFdRaw(it, 0L, destination, flags, includes, progress) }
             }
@@ -96,6 +111,7 @@ class SbaBareTarNative private constructor() {
         length: Long,
         destination: java.io.File,
         onProgress: ((Long) -> Unit)?,
+        expectedOutputSize: Long? = null,
     ) {
         ParcelFileDescriptor.dup(descriptor).use { duplicate ->
             val bounded = DescriptorRangeInputStream(duplicate.fileDescriptor, offset, length)
@@ -107,9 +123,16 @@ class SbaBareTarNative private constructor() {
                         val count = decoder.read(buffer)
                         if (count < 0) break
                         if (count == 0) continue
+                        if (expectedOutputSize != null &&
+                            (written > expectedOutputSize || count.toLong() > expectedOutputSize - written)) {
+                            throw IOException("Decoded TAR exceeds the SBA index size")
+                        }
                         sink.write(buffer, 0, count)
                         written += count.toLong()
                         onProgress?.invoke(written)
+                    }
+                    if (expectedOutputSize != null && written != expectedOutputSize) {
+                        throw java.io.EOFException("Decoded TAR size does not match the SBA index")
                     }
                 }
             }
