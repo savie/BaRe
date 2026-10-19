@@ -384,9 +384,9 @@ class SbaRootService : IRootAidlInterface.Stub(), Closeable {
     }
 
     private fun restoreOptions(profile: Int): Int = when (profile) {
-        0 -> 2       // Basic: timestamps
-        1 -> 75      // Fidelity: timestamps, permissions, xattrs and sparse files
-        2 -> 223     // Root fidelity: all implemented metadata options
+        0 -> 511     // Basic: reference mode mask 0777
+        1 -> 468     // Fidelity: reference mode mask 0724
+        2 -> 384     // RootFidelity: reference mode mask 0600
         else -> throw RemoteException("Unknown SBA restore profile")
     }
 
