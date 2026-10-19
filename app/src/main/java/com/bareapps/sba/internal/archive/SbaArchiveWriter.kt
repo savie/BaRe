@@ -77,9 +77,9 @@ internal object SbaArchiveWriter {
             val keyCheck = MessageDigest.getInstance("SHA-256").run {
                 update((if (option2 == 4) "SBA1-AEGIS256-key-check-v1" else
                     "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8))
-                update(key2)
-                update(key3)
-                update(key0)
+                update(key2!!)
+                update(key3!!)
+                update(key0!!)
                 digest().copyOf(16)
             }
             val validKeyCheck = MessageDigest.isEqual(keyCheck, key1)
