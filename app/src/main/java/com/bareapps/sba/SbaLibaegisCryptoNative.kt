@@ -16,15 +16,27 @@ class SbaLibaegisCryptoNative private constructor() {
      * entryNameUtf8 is UTF-8 bytes, entryIndex is the zero-based SBA index-record order,
      * compressedSize is the decrypted/compressed byte count, and chunkSize is the archive chunk size.
      */
-    private external fun decryptAegis128X2ChunkedEntryFdRaw(
+    internal external fun decryptAegis128X2ChunkedEntryFdRaw(
         inputFd: Int, storedSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryIndex: Long, compressedSize: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
 
-    private external fun decryptAegis256ChunkedEntryFdRaw(
+    internal external fun decryptAegis256ChunkedEntryFdRaw(
         inputFd: Int, storedSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
         entryNameUtf8: ByteArray, entryIndex: Long, compressedSize: Long, chunkSize: Int,
+        progress: SbaNativeProgressListener?,
+    ): LongArray
+
+    internal external fun encryptAegis128X2ChunkedEntryFdRaw(
+        inputFd: Int, plainSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        entryNameUtf8: ByteArray, entryOrder: Long, chunkSize: Int,
+        progress: SbaNativeProgressListener?,
+    ): LongArray
+
+    internal external fun encryptAegis256ChunkedEntryFdRaw(
+        inputFd: Int, plainSize: Long, outputFd: Int, key: ByteArray, nonceSeed: ByteArray,
+        entryNameUtf8: ByteArray, entryOrder: Long, chunkSize: Int,
         progress: SbaNativeProgressListener?,
     ): LongArray
 
