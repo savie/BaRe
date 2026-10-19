@@ -1135,13 +1135,13 @@ extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_barebackup_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject receiver, jbyteArray password, jbyteArray salt,
     jint iterations, jint memoryKiB, jint parallelism, jint outputLength) {
-    jclass cryptoClass = env->GetObjectClass(receiver);
+    jclass cryptoClass = env->FindClass("com/bareapps/barebackup/sba/SbaArgon2idPortable");
     if (cryptoClass == nullptr) return nullptr;
-    jmethodID derive = env->GetMethodID(
-        cryptoClass, "deriveArgon2idPortable", "([B[BIIII)[B");
+    jmethodID derive = env->GetStaticMethodID(
+        cryptoClass, "deriveArgon2id", "([B[BIIII)[B");
     if (derive == nullptr) return nullptr;
-    return static_cast<jbyteArray>(env->CallObjectMethod(
-        receiver, derive, password, salt, iterations, memoryKiB, parallelism, outputLength));
+    return static_cast<jbyteArray>(env->CallStaticObjectMethod(
+        cryptoClass, derive, password, salt, iterations, memoryKiB, parallelism, outputLength));
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
