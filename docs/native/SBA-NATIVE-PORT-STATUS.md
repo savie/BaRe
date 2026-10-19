@@ -8,7 +8,7 @@ JNI declarations were cross-checked against JADX Java and apktool smali under
 `output/jadx/sources/com/swiftapps/sba/` and `output/apktool/smali/com/swiftapps/sba/`.
 
 The reference's exported JNI namespace is `com.swiftapps.sba`; the target namespace is
-`com.bareapps.barebackup.sba`. Renaming Kotlin packages alone does not make the original
+`com.bareapps.sba`. Renaming Kotlin packages alone does not make the original
 ELF bind to the target. The current target `sba_archive.cpp` exports the corresponding
 target-package names, but its algorithm methods are fail-closed placeholders. It is not
 feature parity.
