@@ -5,6 +5,7 @@ import com.bareapps.barebackup.sba.internal.progress.SbaNativeProgressListener
 import com.bareapps.barebackup.sba.internal.tar.SbaTarEntryInfo
 import java.io.FileDescriptor
 import java.io.IOException
+import java.io.InputStream
 
 /** JNI surface for SBA TAR operations. Caller-owned descriptors are never closed. */
 class SbaSwiftTarNative private constructor() {
@@ -41,43 +42,26 @@ class SbaSwiftTarNative private constructor() {
         withDuplicate(descriptor) { extractTarFromFdRaw(it, offset, destination, flags, includes, progress) }
 
     /**
-     * Decompresses only the declared Zstandard frame range to a private temporary TAR,
-     * then runs the same validated TAR extractor. The caller's descriptor stays open.
+     * Decodes only the declared compressed range using positional reads. The compressed
+     * bytes are never copied to a second temporary file; only the decoded TAR is spooled
+     * so the native extractor can validate and extract it using its normal code path.
      */
     @Throws(IOException::class)
     fun extractTarZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long, destination: String, flags: Int, includes: Array<String>, progress: SbaNativeProgressListener?): Array<String> {
-        require(offset >= 0L && compressedSize >= 0L && offset <= Long.MAX_VALUE - compressedSize) {
-            "Invalid compressed TAR range"
-        }
-        val compressed = java.io.File.createTempFile("bare-sba-zstd-", ".zst")
+        validateRange(offset, compressedSize)
         val tarFile = java.io.File.createTempFile("bare-sba-", ".tar")
         try {
-            copyDescriptorRange(descriptor, offset, compressedSize, compressed)
-            java.io.FileInputStream(compressed).use { source ->
-                java.io.FileOutputStream(tarFile).use { sink ->
-                    com.github.luben.zstd.ZstdInputStream(source).use { decoder ->
-                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                        var written = 0L
-                        while (true) {
-                            if (progress?.isCancellationRequested() == true) {
-                                throw java.io.InterruptedIOException("Zstandard TAR extraction cancelled")
-                            }
-                            val count = decoder.read(buffer)
-                            if (count < 0) break
-                            if (count == 0) continue
-                            sink.write(buffer, 0, count)
-                            written += count.toLong()
-                            progress?.onProgress(written, -1L)
-                        }
-                    }
+            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile) { written ->
+                if (progress?.isCancellationRequested() == true) {
+                    throw java.io.InterruptedIOException("Zstandard TAR extraction cancelled")
                 }
+                progress?.onProgress(written, -1L)
             }
             java.io.FileInputStream(tarFile).use { tar ->
                 return withDuplicate(tar.fd) { extractTarFromFdRaw(it, 0L, destination, flags, includes, progress) }
             }
         } finally {
-            compressed.delete()
-            tarFile.delete()
+            if (!tarFile.delete()) tarFile.deleteOnExit()
         }
     }
 
@@ -87,61 +71,86 @@ class SbaSwiftTarNative private constructor() {
 
     @Throws(IOException::class)
     fun listTarEntriesZstdFromDescriptor(descriptor: FileDescriptor, offset: Long, compressedSize: Long): Array<SbaTarEntryInfo> {
-        require(offset >= 0L && compressedSize >= 0L && offset <= Long.MAX_VALUE - compressedSize) {
-            "Invalid compressed TAR range"
-        }
-        val compressed = java.io.File.createTempFile("bare-sba-list-zstd-", ".zst")
+        validateRange(offset, compressedSize)
         val tarFile = java.io.File.createTempFile("bare-sba-list-", ".tar")
         try {
-            copyDescriptorRange(descriptor, offset, compressedSize, compressed)
-            java.io.FileInputStream(compressed).use { source ->
-                java.io.FileOutputStream(tarFile).use { sink ->
-                    com.github.luben.zstd.ZstdInputStream(source).use { decoder ->
-                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                        while (true) {
-                            val count = decoder.read(buffer)
-                            if (count < 0) break
-                            if (count == 0) continue
-                            sink.write(buffer, 0, count)
-                        }
-                    }
-                }
-            }
+            decodeDescriptorRangeToFile(descriptor, offset, compressedSize, tarFile, null)
             java.io.FileInputStream(tarFile).use { tar ->
                 return withDuplicate(tar.fd) { listTarEntriesFromFdRaw(it, 0L) }
             }
         } finally {
-            compressed.delete()
-            tarFile.delete()
+            if (!tarFile.delete()) tarFile.deleteOnExit()
         }
     }
 
-    /**
-     * Uses positional reads so duplicated descriptors' shared file offsets are untouched.
-     */
+    private fun validateRange(offset: Long, length: Long) {
+        require(offset >= 0L && length >= 0L && offset <= Long.MAX_VALUE - length) {
+            "Invalid compressed TAR range"
+        }
+    }
+
     @Throws(IOException::class)
-    private fun copyDescriptorRange(
+    private fun decodeDescriptorRangeToFile(
         descriptor: FileDescriptor,
         offset: Long,
         length: Long,
         destination: java.io.File,
+        onProgress: ((Long) -> Unit)?,
     ) {
-        java.io.FileOutputStream(destination).use { output ->
-            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            var position = offset
-            var remaining = length
-            while (remaining > 0L) {
-                val requested = minOf(buffer.size.toLong(), remaining).toInt()
-                val count = try {
-                    android.system.Os.pread(descriptor, buffer, 0, requested, position)
-                } catch (error: android.system.ErrnoException) {
-                    throw IOException("Unable to read compressed TAR range", error)
+        ParcelFileDescriptor.dup(descriptor).use { duplicate ->
+            val bounded = DescriptorRangeInputStream(duplicate.fileDescriptor, offset, length)
+            java.io.FileOutputStream(destination).use { sink ->
+                com.github.luben.zstd.ZstdInputStream(bounded).use { decoder ->
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    var written = 0L
+                    while (true) {
+                        val count = decoder.read(buffer)
+                        if (count < 0) break
+                        if (count == 0) continue
+                        sink.write(buffer, 0, count)
+                        written += count.toLong()
+                        onProgress?.invoke(written)
+                    }
                 }
-                if (count <= 0) throw java.io.EOFException("Compressed TAR range is truncated")
-                output.write(buffer, 0, count)
-                position += count.toLong()
-                remaining -= count.toLong()
             }
+        }
+    }
+
+    /** Bounded positional reader that cannot consume the next archive record. */
+    private class DescriptorRangeInputStream(
+        private val descriptor: FileDescriptor,
+        offset: Long,
+        length: Long,
+    ) : InputStream() {
+        private var position = offset
+        private var remaining = length
+
+        override fun read(): Int {
+            val single = ByteArray(1)
+            val count = read(single, 0, 1)
+            return if (count < 0) -1 else single[0].toInt() and 0xff
+        }
+
+        override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
+            if (offset < 0 || length < 0 || length > buffer.size - offset) {
+                throw IndexOutOfBoundsException()
+            }
+            if (length == 0) return 0
+            if (remaining == 0L) return -1
+            val requested = minOf(length.toLong(), remaining).toInt()
+            val count = try {
+                android.system.Os.pread(descriptor, buffer, offset, requested, position)
+            } catch (error: android.system.ErrnoException) {
+                throw IOException("Unable to read compressed TAR range", error)
+            }
+            if (count <= 0) throw java.io.EOFException("Compressed TAR range is truncated")
+            position += count.toLong()
+            remaining -= count.toLong()
+            return count
+        }
+
+        override fun close() {
+            // The enclosing ParcelFileDescriptor owns this descriptor.
         }
     }
 
