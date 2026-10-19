@@ -3,12 +3,7 @@ package com.bareapps.barebackup.sba
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator
 import org.bouncycastle.crypto.params.Argon2Parameters
 
-/**
- * Argon2id key derivation used by the SBA archive pipeline.
- *
- * The parameter order intentionally matches the reference JNI contract:
- * iterations, memory in KiB, parallelism, and output length in bytes.
- */
+/** Reference-compatible JNI surface for SBA Argon2id derivation. */
 class SbaNativeCrypto private constructor() {
     external fun deriveArgon2id(
         password: ByteArray,
@@ -19,7 +14,16 @@ class SbaNativeCrypto private constructor() {
         outputLength: Int,
     ): ByteArray
 
-    private fun deriveArgon2idPortable(
+    companion object {
+        @JvmField val a = SbaNativeCrypto()
+        init { System.loadLibrary("sba_archive") }
+    }
+}
+
+/** Pure Kotlin implementation used by the JNI adapter and host-side known-answer tests. */
+internal object SbaArgon2idPortable {
+    @JvmStatic
+    fun deriveArgon2id(
         password: ByteArray,
         salt: ByteArray,
         iterations: Int,
@@ -52,8 +56,4 @@ class SbaNativeCrypto private constructor() {
         }
     }
 
-    companion object {
-        @JvmField val a = SbaNativeCrypto()
-        init { System.loadLibrary("sba_archive") }
-    }
 }
