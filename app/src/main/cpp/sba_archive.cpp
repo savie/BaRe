@@ -1263,21 +1263,98 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
-    JNIEnv* env, jobject, jint fd, jlong offset, jstring destination, jint flags,
+    JNIEnv* env, jobject, jint fd, jlong tarBytes, jstring destination, jint flags,
     jobjectArray includes, jobject progress) {
-    jobjectArray extracted = extractTar(env, fd, offset, destination, includes, progress);
-    if (extracted == nullptr || env->ExceptionCheck()) return nullptr;
-    const jsize count = env->GetArrayLength(extracted);
-    // The reference contract consumes exactly 20 counters. Populate only counters
-    // that this implementation can truthfully measure; unsupported fast-path and
-    // timing counters remain zero rather than being fabricated.
-    jlong values[20] = {};
-    values[1] = count; // entryCount
+    const auto started = []() -> jlong {
+        struct timespec ts{};
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+        return static_cast<jlong>(ts.tv_sec) * 1000LL + static_cast<jlong>(ts.tv_nsec) / 1000000LL;
+    };
+    const jlong totalStart = started();
+    if (fd < 0 || tarBytes < 0) {
+        jclass e = env->FindClass("java/lang/IllegalArgumentException");
+        if (e) env->ThrowNew(e, "Invalid TAR descriptor or byte length");
+        return nullptr;
+    }
+    struct stat inputStat{};
+    if (fstat(fd, &inputStat) == 0 && S_ISREG(inputStat.st_mode) && tarBytes > inputStat.st_size) {
+        jclass e = env->FindClass("java/io/EOFException");
+        if (e) env->ThrowNew(e, "TAR byte length exceeds input file size");
+        return nullptr;
+    }
+
+    const jlong headerStart = started();
+    jobjectArray listed = listTar(env, fd, 0);
+    if (listed == nullptr || env->ExceptionCheck()) return nullptr;
+    const jlong headerMillis = started() - headerStart;
+    const jsize entryCount = env->GetArrayLength(listed);
+    jlong regularFiles = 0, directories = 0, symlinks = 0, hardlinks = 0;
+    jlong otherEntries = 0, regularFileBytes = 0;
     jclass entryClass = env->FindClass("com/bareapps/sba/internal/tar/SbaTarEntryInfo");
-    (void)entryClass;
+    jmethodID getType = entryClass ? env->GetMethodID(entryClass, "getType", "()I") : nullptr;
+    jmethodID getRealSize = entryClass ? env->GetMethodID(entryClass, "getRealSize", "()J") : nullptr;
+    if (!getType || !getRealSize) {
+        env->DeleteLocalRef(listed);
+        return nullptr;
+    }
+    for (jsize i = 0; i < entryCount; ++i) {
+        jobject entry = env->GetObjectArrayElement(listed, i);
+        if (entry == nullptr) continue;
+        const jint type = env->CallIntMethod(entry, getType);
+        const jlong size = env->CallLongMethod(entry, getRealSize);
+        if (env->ExceptionCheck()) {
+            env->DeleteLocalRef(entry);
+            env->DeleteLocalRef(listed);
+            return nullptr;
+        }
+        switch (type) {
+            case 1:
+                ++regularFiles;
+                if (size > 0 && regularFileBytes <= INT64_MAX - size) regularFileBytes += size;
+                else if (size > 0) {
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "TAR regular-file byte count overflow");
+                    env->DeleteLocalRef(entry);
+                    env->DeleteLocalRef(listed);
+                    return nullptr;
+                }
+                break;
+            case 2: ++directories; break;
+            case 3: ++symlinks; break;
+            case 4: ++hardlinks; break;
+            default: ++otherEntries; break;
+        }
+        env->DeleteLocalRef(entry);
+    }
+    env->DeleteLocalRef(entryClass);
+
+    const jlong dataStart = started();
+    jobjectArray extracted = extractTar(env, fd, 0, destination, includes, progress);
+    if (extracted == nullptr || env->ExceptionCheck()) {
+        env->DeleteLocalRef(listed);
+        return nullptr;
+    }
+    const jlong dataMillis = started() - dataStart;
+    const jsize extractedCount = env->GetArrayLength(extracted);
+
+    // Counter order is the reference SbaSwiftTarExtractStats contract.
+    jlong values[20] = {};
+    values[0] = tarBytes;
+    values[1] = entryCount;
+    values[2] = regularFiles;
+    values[3] = directories;
+    values[4] = symlinks;
+    values[5] = hardlinks;
+    values[6] = otherEntries;
+    values[7] = entryCount > extractedCount ? entryCount - extractedCount : 0;
+    values[8] = regularFileBytes;
+    values[16] = started() - totalStart;
+    values[17] = headerMillis;
+    values[18] = dataMillis;
     jlongArray result = env->NewLongArray(20);
     if (result != nullptr) env->SetLongArrayRegion(result, 0, 20, values);
     env->DeleteLocalRef(extracted);
+    env->DeleteLocalRef(listed);
     return result;
 }
 
