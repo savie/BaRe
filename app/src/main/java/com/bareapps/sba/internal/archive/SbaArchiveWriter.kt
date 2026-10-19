@@ -11,6 +11,7 @@ import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.LinkOption
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.nio.file.attribute.BasicFileAttributes
@@ -212,8 +213,9 @@ internal object SbaArchiveWriter {
                     if (relText.isNotEmpty() && !selected(relText, includeSet, excludeSet)) continue
                     val archiveName = if (includeRoot && source.isDirectory()) source.fileName.toString() + if (relText.isEmpty()) "" else "/$relText" else relText
                     if (archiveName.isEmpty()) continue
-                    val attrs = Files.readAttributes(path, BasicFileAttributes::class.java)
-                    if (attrs.isSymbolicLink || (!attrs.isDirectory && !attrs.isRegularFile)) continue
+                    val attrs = Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
+                    if (attrs.isSymbolicLink) throw IOException("Symbolic-link TAR entries are not supported by this writer: $path")
+                    if (!attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
                     writeTarHeader(out, archiveName, attrs.isDirectory, attrs.size(), attrs.lastModifiedTime().toMillis() / 1000)
                     if (attrs.isRegularFile) {
                         Files.newInputStream(path).use { input ->
