@@ -66,6 +66,7 @@ class SbaArchiveNative private constructor() {
         @Throws(IOException::class)
         fun listEntryTarEntries(path: String, entryName: String): Array<SbaTarEntryInfo> {
             val info = SbaArchiveReader.read(path)
+            if (info.isEncrypted) throw IOException("Encrypted SBA payload decoding is not implemented yet")
             val entry = info.entries.firstOrNull { it.name == entryName }
                 ?: throw IOException("SBA entry not found: $entryName")
             FileInputStream(path).use { archive ->
@@ -90,6 +91,7 @@ class SbaArchiveNative private constructor() {
             progress: SbaNativeProgressListener?,
         ): Array<String> {
             val info = SbaArchiveReader.read(path)
+            if (info.isEncrypted) throw IOException("Encrypted SBA payload decoding is not implemented yet")
             val entry = info.entries.firstOrNull { it.name == entryName }
                 ?: throw IOException("SBA entry not found: $entryName")
             FileInputStream(path).use { archive ->
