@@ -47,34 +47,19 @@ class SbaArchiveNative private constructor() {
     companion object {
         @JvmField val a = SbaArchiveNative()
 
-        @Volatile private var configuredTemporaryDirectory: java.nio.file.Path? = null
-
         /** Configure an app-private directory for authenticated plaintext staging. */
         @JvmStatic
         @Throws(IOException::class)
-        internal fun setTemporaryDirectory(path: String) {
-            if (path.isBlank()) throw IOException("SBA temporary directory path must not be blank")
-            val directory = java.nio.file.Path.of(path).toAbsolutePath().normalize()
-            Files.createDirectories(directory)
-            if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
-                throw IOException("SBA temporary directory is not writable")
-            }
-            configuredTemporaryDirectory = directory
-        }
+        internal fun setTemporaryDirectory(path: String) = SbaArchiveStaging.setTemporaryDirectory(path)
 
         /** Create sensitive TAR/compressed/plaintext staging outside the user-selected output directory. */
         @JvmStatic
         @Throws(IOException::class)
-        internal fun createStagingTempFile(prefix: String, suffix: String): java.nio.file.Path {
-            configuredTemporaryDirectory?.let { return Files.createTempFile(it, prefix, suffix) }
-            // Direct API callers may not have configured an app-private cache. Use the
-            // platform temp directory; if unavailable, fail closed rather than spill plaintext
-            // beside an archive on shared/external storage.
-            return Files.createTempFile(prefix, suffix)
-        }
+        internal fun createStagingTempFile(prefix: String, suffix: String): java.nio.file.Path =
+            SbaArchiveStaging.createTempFile(prefix, suffix)
 
         private fun createDecryptedPayloadTemp(): java.nio.file.Path =
-            createStagingTempFile(".bare-sba-aegis-", ".payload")
+            SbaArchiveStaging.createTempFile(".bare-sba-aegis-", ".payload")
 
         @JvmStatic
         fun isSbaFile(path: String): Boolean = try {
