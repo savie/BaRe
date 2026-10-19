@@ -2,6 +2,8 @@ package com.bareapps.sba.internal.archive
 
 import androidx.annotation.Keep
 import com.bareapps.sba.SbaLibaegisCryptoNative
+import com.bareapps.sba.SbaBareTarNative
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import com.github.luben.zstd.ZstdOutputStream
 import java.io.BufferedInputStream
@@ -9,6 +11,7 @@ import java.io.BufferedOutputStream
 import java.io.IOException
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
@@ -20,16 +23,20 @@ import java.nio.file.StandardOpenOption
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.Locale
 import java.security.MessageDigest
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 import java.util.zip.CRC32
 import kotlin.io.path.isDirectory
 
-/** Independent SBA v1 writer for unencrypted and AEGIS-encrypted archives. */
+/** Independent SBA v1/v2 writer for unencrypted and AEGIS-encrypted archives. */
 @Keep
 internal object SbaArchiveWriter {
     private const val FILE_HEADER_SIZE = 96
+    private const val FILE_HEADER_SIZE_V2 = 144
     private const val ENTRY_HEADER_SIZE = 24
     private const val INDEX_HEADER_SIZE = 16
     private const val INDEX_RECORD_SIZE_V1 = 84
+    private const val INDEX_RECORD_SIZE_V2 = 108
     private const val FOOTER_SIZE = 32
     private const val MAX_METADATA = 1 shl 20
     private const val MAX_ENTRIES = 1_000_000
@@ -40,7 +47,9 @@ internal object SbaArchiveWriter {
     private data class EntryRecord(
         val name: ByteArray, val entryOffset: Long, val payloadOffset: Long,
         val storedSize: Long, val compressedSize: Long, val tarSize: Long, val flags: Int,
+        val tarEntryCount: Long = 0, val regularFileCount: Long = 0, val directoryCount: Long = 0,
     )
+    private data class TarCounts(val entries: Long, val regularFiles: Long, val directories: Long)
 
     @JvmStatic
     @Keep
@@ -55,6 +64,7 @@ internal object SbaArchiveWriter {
     ): LongArray {
         val started = System.nanoTime()
         val encrypted = mode == 2
+        val version = if (option8 == 2) 2 else 1
         require(mode == 1 || encrypted) { "Unsupported SBA archive mode" }
         require(metadata.size <= MAX_METADATA) { "SBA archive metadata exceeds 1 MiB" }
         require(sourcePaths.size == entryNames.size && sourcePaths.size == entryModes.size &&
@@ -68,7 +78,7 @@ internal object SbaArchiveWriter {
         if (encrypted) {
             require(option2 in 4..5 && option3 == 1 && option4 == 3 &&
                 option5 == 16384 && option6 == 1 && option7 in 4096..16777216 &&
-                option8 == 1 && option9 == if (option2 == 4) 32 else 16) {
+                option8 in 1..2 && option9 == if (option2 == 4) 32 else 16) {
                 "Invalid SBA AEGIS/KDF options"
             }
             require(key0?.size == option9 && key1?.size == 16 && key2?.size == 16 && key3?.size == 16) {
@@ -86,8 +96,9 @@ internal object SbaArchiveWriter {
             java.util.Arrays.fill(keyCheck, 0)
             require(validKeyCheck) { "SBA AEGIS key-check does not match the supplied key material" }
         } else {
-            require(listOf(option2, option3, option4, option5, option6, option7, option8, option9).all { it == 0 }) {
-                "Unsupported encryption or format options for unencrypted SBA v1"
+            require(listOf(option2, option3, option4, option5, option6, option7, option9).all { it == 0 } &&
+                option8 in 0..2) {
+                "Unsupported encryption or format options for unencrypted SBA"
             }
             require(key0 == null && key1 == null && key2 == null && key3 == null) {
                 "Key material must be absent for unencrypted SBA creation"
@@ -111,12 +122,22 @@ internal object SbaArchiveWriter {
         var producerMillis = 0L
         var indexFooterMillis = 0L
         var result = LongArray(9)
+        var headerBytes = ByteArray(0)
+        var indexMacToWrite: ByteArray? = null
         try {
             val records = ArrayList<EntryRecord>(sourcePaths.size)
             Files.newOutputStream(temporary, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE).use { raw ->
                 BufferedOutputStream(raw).use { out ->
                     val headerStart = System.nanoTime()
-                    out.write(fileHeader(option0, option1, if (encrypted) option2 else 0, if (encrypted) option3 else 0, if (encrypted) option4 else 0, if (encrypted) option7 else 0, if (encrypted) key1 else null, if (encrypted) key2 else null, if (encrypted) key3 else null))
+                    headerBytes = fileHeader(
+                        version, option0, option1,
+                        if (encrypted) option2 else 0, if (encrypted) option3 else 0,
+                        if (encrypted) option4 else 0, if (encrypted) option7 else 0,
+                        if (encrypted) option5 else 0, if (encrypted) option6 else 0,
+                        if (encrypted) key1 else null, if (encrypted) key2 else null,
+                        if (encrypted) key3 else null,
+                    )
+                    out.write(headerBytes)
                     out.flush()
                     headerMillis = elapsedMillis(headerStart)
 
@@ -208,15 +229,26 @@ internal object SbaArchiveWriter {
                             }
                         }
                         out.flush()
-                        records.add(EntryRecord(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, flags))
+                        val counts = if (version == 2) countTarEntries(tarTemp) else TarCounts(0, 0, 0)
+                        records.add(EntryRecord(
+                            name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, flags,
+                            counts.entries, counts.regularFiles, counts.directories,
+                        ))
                         progress?.onProgress(i + 1L, sourcePaths.size.toLong())
                     }
 
                     val indexStart = System.nanoTime()
                     val indexOffset = Files.size(temporary)
-                    val index = indexBytes(metadata, records)
+                    val index = indexBytes(metadata, records, version)
+                    val indexCrc = crc32(index)
                     out.write(index)
-                    out.write(footer(indexOffset, index.size.toLong(), crc32(index)))
+                    out.write(footer(indexOffset, index.size.toLong(), indexCrc, version))
+                    if (encrypted && version == 2) {
+                        indexMacToWrite = computeV2IndexMac(
+                            headerBytes, indexOffset, index.size.toLong(), indexCrc, index,
+                            key0!!, key2!!, key3!!,
+                        )
+                    }
                     out.flush()
                     indexFooterMillis = elapsedMillis(indexStart)
                     result = longArrayOf(
@@ -226,6 +258,20 @@ internal object SbaArchiveWriter {
                 }
             }
             checkCancelled(progress)
+            indexMacToWrite?.let { indexMac ->
+                RandomAccessFile(temporary.toFile(), "rw").use { file ->
+                    file.seek(104L)
+                    file.write(indexMac)
+                    file.fd.sync()
+                }
+                try {
+                    val parsed = SbaArchiveReader.read(temporary.toString())
+                    SbaArchiveKeyCheck.verifyProvidedKey(parsed, key0!!, temporary.toString())
+                } finally {
+                    java.util.Arrays.fill(indexMac, 0)
+                    indexMacToWrite = null
+                }
+            }
             try {
                 Files.move(temporary, output, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
             } catch (_: java.nio.file.AtomicMoveNotSupportedException) {
@@ -241,13 +287,15 @@ internal object SbaArchiveWriter {
     }
 
     private fun fileHeader(
-        compression: Int, level: Int, encryptionMethod: Int, kdfMethod: Int, iterations: Int,
-        chunkSize: Int, keyCheck: ByteArray?, salt: ByteArray?, nonceSeed: ByteArray?,
+        version: Int, compression: Int, level: Int, encryptionMethod: Int, kdfMethod: Int,
+        iterations: Int, chunkSize: Int, memoryKiB: Int, parallelism: Int,
+        keyCheck: ByteArray?, salt: ByteArray?, nonceSeed: ByteArray?,
     ): ByteArray {
         val encrypted = encryptionMethod != 0
-        val b = ByteBuffer.allocate(FILE_HEADER_SIZE).order(ByteOrder.BIG_ENDIAN)
+        val headerSize = if (version == 1) FILE_HEADER_SIZE else FILE_HEADER_SIZE_V2
+        val b = ByteBuffer.allocate(headerSize).order(ByteOrder.BIG_ENDIAN)
         b.put("SBA1".toByteArray(StandardCharsets.US_ASCII))
-        b.putShort(1); b.putShort(FILE_HEADER_SIZE.toShort())
+        b.putShort(version.toShort()); b.putShort(headerSize.toShort())
         b.putInt((if (compression == 1) 1 else 0) or (if (encrypted) 2 else 0))
         b.putLong(System.currentTimeMillis())
         b.putShort(compression.toShort()); b.putShort(level.toShort())
@@ -259,8 +307,19 @@ internal object SbaArchiveWriter {
         b.put(keyCheck ?: ByteArray(16))
         b.put(salt ?: ByteArray(16))
         b.put(nonceSeed ?: ByteArray(16))
-        b.putShort(0); b.putShort(0); b.putInt(if (encrypted) chunkSize else 0); b.putInt(0)
-        check(b.position() == FILE_HEADER_SIZE)
+        b.putShort(0); b.putShort(0); b.putInt(if (encrypted) chunkSize else 0)
+        if (version == 1) {
+            b.putInt(0)
+        } else {
+            b.putInt(if (encrypted) memoryKiB else 0)
+            b.putShort(if (encrypted) parallelism.toShort() else 0)
+            b.putShort(if (encrypted) 1 else 0)
+            b.putShort(if (encrypted) 32 else 0)
+            b.putShort(if (encrypted) 1 else 0)
+            b.put(ByteArray(32)) // Index MAC is patched after the index/footer are finalized.
+            b.put(ByteArray(8))
+        }
+        check(b.position() == headerSize)
         return b.array()
     }
 
@@ -273,27 +332,65 @@ internal object SbaArchiveWriter {
         return b.array()
     }
 
-    private fun indexBytes(metadata: ByteArray, records: List<EntryRecord>): ByteArray {
-        val size = INDEX_HEADER_SIZE.toLong() + metadata.size + records.sumOf { INDEX_RECORD_SIZE_V1.toLong() + it.name.size }
+    private fun indexBytes(metadata: ByteArray, records: List<EntryRecord>, version: Int): ByteArray {
+        val recordSize = if (version == 1) INDEX_RECORD_SIZE_V1 else INDEX_RECORD_SIZE_V2
+        val size = INDEX_HEADER_SIZE.toLong() + metadata.size + records.sumOf { recordSize.toLong() + it.name.size }
         require(size <= MAX_INDEX_BYTES && size <= Int.MAX_VALUE) { "SBA index is too large" }
         val b = ByteBuffer.allocate(size.toInt()).order(ByteOrder.BIG_ENDIAN)
         b.put("SAI1".toByteArray(StandardCharsets.US_ASCII))
-        b.putShort(INDEX_HEADER_SIZE.toShort()); b.putShort(1); b.putInt(records.size); b.putInt(metadata.size)
+        b.putShort(INDEX_HEADER_SIZE.toShort()); b.putShort(version.toShort()); b.putInt(records.size); b.putInt(metadata.size)
         b.put(metadata)
         records.forEach { r ->
             b.putLong(r.entryOffset); b.putLong(r.payloadOffset); b.putLong(r.storedSize)
             b.putLong(r.compressedSize); b.putLong(r.tarSize); b.putInt(r.flags)
-            b.putShort(r.name.size.toShort()); b.putInt(0); b.putShort(0); b.put(ByteArray(32)); b.put(r.name)
+            b.putShort(r.name.size.toShort()); b.putInt(0); b.putShort(0); b.put(ByteArray(32))
+            if (version >= 2) {
+                b.putLong(r.tarEntryCount); b.putLong(r.regularFileCount); b.putLong(r.directoryCount)
+            }
+            b.put(r.name)
         }
         return b.array()
     }
 
-    private fun footer(indexOffset: Long, indexSize: Long, indexCrc: Int): ByteArray {
+    private fun footer(indexOffset: Long, indexSize: Long, indexCrc: Int, version: Int): ByteArray {
         val b = ByteBuffer.allocate(FOOTER_SIZE).order(ByteOrder.BIG_ENDIAN)
         b.put("SAF1".toByteArray(StandardCharsets.US_ASCII))
-        b.putShort(FOOTER_SIZE.toShort()); b.putShort(1); b.putLong(indexOffset); b.putLong(indexSize); b.putInt(indexCrc)
+        b.putShort(FOOTER_SIZE.toShort()); b.putShort(version.toShort())
+        b.putLong(indexOffset); b.putLong(indexSize); b.putInt(indexCrc)
         b.putInt(CRC32().apply { update(b.array(), 0, 28) }.value.toInt())
         return b.array()
+    }
+
+    private fun countTarEntries(tarPath: Path): TarCounts = FileInputStream(tarPath.toFile()).use { input ->
+        val entries = SbaBareTarNative.instance.listTarEntriesFromDescriptor(input.fd, 0L)
+        TarCounts(
+            entries.size.toLong(),
+            entries.count { it.type == SbaTarEntryInfo.TYPE_FILE }.toLong(),
+            entries.count { it.type == SbaTarEntryInfo.TYPE_DIRECTORY }.toLong(),
+        )
+    }
+
+    private fun computeV2IndexMac(
+        headerWithZeroMac: ByteArray, indexOffset: Long, indexSize: Long, indexCrc: Int,
+        indexBytes: ByteArray, key: ByteArray, salt: ByteArray, nonceSeed: ByteArray,
+    ): ByteArray {
+        val secondaryKey = MessageDigest.getInstance("SHA-256").run {
+            update("SBA2-index-mac-key-v1".toByteArray(StandardCharsets.UTF_8))
+            update(salt); update(nonceSeed); update(key); digest()
+        }
+        try {
+            val mac = Mac.getInstance("HmacSHA256")
+            mac.init(SecretKeySpec(secondaryKey, "HmacSHA256"))
+            mac.update("SBA2-index-metadata-mac-v1".toByteArray(StandardCharsets.UTF_8))
+            mac.update(headerWithZeroMac)
+            mac.update(ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(indexOffset).array())
+            mac.update(ByteBuffer.allocate(8).order(ByteOrder.BIG_ENDIAN).putLong(indexSize).array())
+            mac.update(ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(indexCrc).array())
+            mac.update(indexBytes)
+            return mac.doFinal()
+        } finally {
+            java.util.Arrays.fill(secondaryKey, 0)
+        }
     }
 
     private fun writeTar(source: Path, destination: Path, flags: Int, includes: Array<String>, excludes: Array<String>, progress: SbaNativeProgressListener?) {
