@@ -106,10 +106,10 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
     ): SbaTarEntryPage {
         try {
             val info = readNativeInfo(path)
-            if (info.isEncrypted && password.isNullOrEmpty()) {
+            if (info.isEncrypted && (password == null || password.isEmpty())) {
                 throw RemoteException("Password is required for encrypted SBA entry listing")
             }
-            if (!info.isEncrypted && !password.isNullOrEmpty()) {
+            if (!info.isEncrypted && (password != null && password.isNotEmpty())) {
                 throw RemoteException("Password supplied for an unencrypted SBA archive")
             }
             val selected = if (entryName.isBlank()) info.entries else {
@@ -210,10 +210,10 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
         var handedOff = false
         try {
             val info = readNativeInfo(request.sourcePath)
-            if (info.isEncrypted && passwordCopy.isNullOrEmpty()) {
+            if (info.isEncrypted && (passwordCopy == null || passwordCopy.isEmpty())) {
                 throw RemoteException("Password is required for encrypted SBA extraction")
             }
-            if (!info.isEncrypted && !passwordCopy.isNullOrEmpty()) {
+            if (!info.isEncrypted && (passwordCopy != null && passwordCopy.isNotEmpty())) {
                 throw RemoteException("Password supplied for an unencrypted SBA archive")
             }
             val taskRequest = SbaExtractTaskRequest(
