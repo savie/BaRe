@@ -201,7 +201,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             regularFileBytes = bytes,
             )
         } finally {
-            request.password?.fill('\\u0000')
+            request.password?.fill('\u0000')
         }
     }
 
