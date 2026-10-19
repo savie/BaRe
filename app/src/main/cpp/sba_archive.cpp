@@ -355,7 +355,9 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         }
         if (sparseMap != nullptr || sparseRealSize != nullptr) {
             sparseEntry = true;
-            if (sparseRealSize != nullptr && !parsePaxUnsigned(*sparseRealSize, &realSize)) {
+            if (sparseRealSize != nullptr &&
+                (!parsePaxUnsigned(*sparseRealSize, &realSize) ||
+                 realSize > static_cast<uint64_t>(INT64_MAX))) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
                 for (jobject previous : entries) env->DeleteLocalRef(previous);
