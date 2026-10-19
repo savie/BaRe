@@ -58,14 +58,19 @@ class SbaAegisChunkProtocolTest {
     }
 
     @Test
-    fun serializesAegis128X2DomainAndRejectsNegativeEntryOrder() {
-        val actual = SbaAegisChunkProtocol.aad(
-            5, "apps/db".toByteArray(StandardCharsets.UTF_8), 1L, 0L, 0L,
-        )
-        assertArrayEquals(
-            "SBA1-AEGIS128X2-entry-chunk-aad-v1".toByteArray(StandardCharsets.US_ASCII),
-            actual.copyOfRange(0, "SBA1-AEGIS128X2-entry-chunk-aad-v1".length),
-        )
+    fun serializesAegis128X2AllAadFieldsAndRejectsNegativeEntryOrder() {
+        val name = "apps/db".toByteArray(StandardCharsets.UTF_8)
+        val actual = SbaAegisChunkProtocol.aad(5, name, 1L, 0L, 0L)
+        val domain = "SBA1-AEGIS128X2-entry-chunk-aad-v1".toByteArray(StandardCharsets.US_ASCII)
+        val expected = ByteBuffer.allocate(domain.size + 8 + 4 + name.size + 16)
+            .order(ByteOrder.BIG_ENDIAN)
+        expected.put(domain)
+        expected.putLong(1L)
+        expected.putInt(name.size)
+        expected.put(name)
+        expected.putLong(0L)
+        expected.putLong(0L)
+        assertArrayEquals(expected.array(), actual)
         assertThrows(IOException::class.java) {
             SbaAegisChunkProtocol.aad(4, byteArrayOf(), -1L, 0L, 0L)
         }
