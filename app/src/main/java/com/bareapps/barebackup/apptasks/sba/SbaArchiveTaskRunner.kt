@@ -31,7 +31,7 @@ data class SbaExtractTaskRequest(
     val archivePath: String,
     val entryName: String?,
     val destination: String,
-    val flags: Int = 2,
+    val flags: Int = 0x1ff,
     val includes: List<String> = emptyList(),
 )
 
@@ -359,8 +359,7 @@ class SbaArchiveTaskRunner(
         return operations.values.sortedBy { it.id }.map(::snapshot)
     }
 
-    private fun validRestoreOptions(flags: Int): Boolean =
-        flags >= 0 && flags <= 0xdf && (flags and 0x20) == 0
+    private fun validRestoreOptions(flags: Int): Boolean = flags in 0..0x1ff
 
     private fun validateCreate(request: SbaCreateTaskRequest) {
         require(request.outputPath.isNotBlank() && Path.of(request.outputPath).isAbsolute) {
