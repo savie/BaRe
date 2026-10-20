@@ -232,7 +232,7 @@ internal object SbaArchiveReader {
             file.readFully(actualName)
             if (!actualName.contentEquals(nameBytes)) throw IOException("SBA entry header/index name mismatch")
             entries.add(SbaArchiveEntry(name, entryOffset, payloadOffset, storedSize, compressedSize, tarSize, entryFlags,
-                tarEntryCount, regularFileCount, directoryCount))
+                tarEntryCount, regularFileCount, directoryCount, hmac))
             expectedEntryOffset = checkedAdd(payloadOffset, storedSize)
         }
         if (b.hasRemaining()) throw IOException("Trailing bytes in SBA index")
