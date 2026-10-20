@@ -22,6 +22,7 @@ import android.os.Build
 import android.os.LocaleList
 import android.os.Process
 import android.os.StrictMode
+import android.util.AtomicFile
 import android.util.Base64
 import android.util.Log
 import androidx.annotation.Keep
@@ -34,8 +35,13 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.topjohnwu.superuser.Shell
 import java.io.File
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.security.MessageDigest
@@ -114,6 +120,7 @@ class BareApp : Application() {
         initializeCrashlyticsIdentityTracking()
         initializeFirebaseConnectivityTracking()
         registerPackageChangeReceiver()
+        reconcileDataSyncRuntimeLedger()
         startupScope.launch { logProcessStartupDiagnostics() }
         reconcileStrictModePolicy()
 
@@ -155,6 +162,9 @@ class BareApp : Application() {
     fun removePackageChangeListener(listener: (PackageChangeEvent) -> Unit) {
         packageChangeListeners.remove(listener)
     }
+
+    val firebaseConnectionStatus: Boolean?
+        get() = firebaseConnected
 
     fun sharedPreferences(): SharedPreferences {
         check(::preferences.isInitialized) { "BareApp preferences have not been initialized" }
@@ -510,6 +520,72 @@ class BareApp : Application() {
         }
     }
 
+    /**
+     * Closes any foreground data-sync sessions left open by a previous process,
+     * then applies the reference ledger's 24-hour retention and 200-entry cap.
+     */
+    private fun reconcileDataSyncRuntimeLedger() {
+        synchronized(DATA_SYNC_LEDGER_LOCK) {
+            val file = File(filesDir, DATA_SYNC_LEDGER_PATH)
+            if (!file.exists()) return
+
+            try {
+                val atomicFile = AtomicFile(file)
+                val ledger = atomicFile.openRead().use { input ->
+                    InputStreamReader(input, StandardCharsets.UTF_8).use { reader ->
+                        JsonParser.parseReader(reader).asJsonArray
+                    }
+                }
+                val now = System.currentTimeMillis()
+                var changed = false
+                val normalized = JsonArray()
+
+                for (element in ledger) {
+                    if (!element.isJsonObject) continue
+                    val entry = element.asJsonObject
+                    val end = entry.get("endMs")
+                    if (end == null || end.isJsonNull) {
+                        entry.addProperty("endMs", now)
+                        entry.addProperty("outcome", "PROCESS_RESTARTED")
+                        changed = true
+                        Log.w(
+                            TAG_DATA_SYNC_LEDGER,
+                            "Closed stale dataSync FGS session id=${entry.get("id")?.asString}",
+                        )
+                    }
+                    val endMs = entry.get("endMs")?.takeUnless { it.isJsonNull }?.asLong ?: now
+                    if (endMs >= now - DATA_SYNC_LEDGER_RETENTION_MS) {
+                        normalized.add(entry)
+                    } else {
+                        changed = true
+                    }
+                }
+
+                while (normalized.size() > DATA_SYNC_LEDGER_MAX_ENTRIES) {
+                    normalized.remove(0)
+                    changed = true
+                }
+
+                if (changed) {
+                    val output = atomicFile.startWrite()
+                    try {
+                        output.write(normalized.toString().toByteArray(StandardCharsets.UTF_8))
+                        atomicFile.finishWrite(output)
+                    } catch (error: Exception) {
+                        atomicFile.failWrite(output)
+                        throw error
+                    }
+                    Log.i(
+                        TAG_DATA_SYNC_LEDGER,
+                        "Reconciled stale dataSync FGS sessions from previous process",
+                    )
+                }
+            } catch (error: Exception) {
+                Log.e(TAG_DATA_SYNC_LEDGER, "Failed to reconcile dataSync FGS ledger", error)
+            }
+        }
+    }
+
     private fun logProcessStartupDiagnostics() {
         try {
             val activityManager = getSystemService(ActivityManager::class.java) ?: return
@@ -596,6 +672,7 @@ class BareApp : Application() {
         private const val TAG_ROOT = "RootShell"
         private const val TAG_STORAGE = "LabsSettingsFragment"
         private const val TAG_NETWORK = "FirebaseConnection"
+        private const val TAG_DATA_SYNC_LEDGER = "DataSyncFgsRuntimeLedger"
 
         private const val PREF_USE_SAF = "use_saf"
         private const val PREF_APP_LOCALE = "app_locale"
@@ -609,6 +686,10 @@ class BareApp : Application() {
 
         private const val CRASH_NOTIFICATION_ID = 912
         private const val CRASH_FILE_NAME = "error.txt"
+        private const val DATA_SYNC_LEDGER_PATH = "diagnostics/data_sync_fgs_runtime_ledger.json"
+        private const val DATA_SYNC_LEDGER_RETENTION_MS = 86_400_000L
+        private const val DATA_SYNC_LEDGER_MAX_ENTRIES = 200
+        private val DATA_SYNC_LEDGER_LOCK = Any()
 
         @Volatile
         private var instance: BareApp? = null
