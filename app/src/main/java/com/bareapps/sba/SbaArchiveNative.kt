@@ -95,8 +95,8 @@ class SbaArchiveNative private constructor() {
         @JvmStatic
         @Throws(IOException::class)
         fun deriveVerifiedArchiveKey(info: SbaArchiveInfo, path: String, password: CharArray): ByteArray {
-            if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
-                throw IOException("Archive does not use a supported SBA AEGIS encryption method")
+            if (!info.isEncrypted || info.encryptionMethod !in 1..5) {
+                throw IOException("Archive does not use a supported SBA encryption method")
             }
             return SbaArchiveKeyCheck.deriveVerifiedKey(info, password, path)
                 ?: throw IOException("Incorrect SBA password")
