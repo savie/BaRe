@@ -517,7 +517,7 @@ internal object SbaArchiveWriter {
         if (mtimeNeedsPax) pax["mtime"] = java.math.BigDecimal.valueOf(mtimeMillis, 3).stripTrailingZeros().toPlainString()
         pax.putAll(extraPax)
 
-        if (pax.isNotEmpty()) {
+        if (pax.isNotEmpty() || extraPaxBytes.isNotEmpty()) {
             val payload = encodePaxRecords(pax, extraPaxBytes)
             if (payload.size > (16 shl 20)) throw IOException("TAR PAX metadata exceeds 16 MiB")
             writeRawTarHeader(out, "PaxHeaders/entry", false, payload.size.toLong(),
