@@ -11,6 +11,7 @@ data class SbaArchiveEntry(
     val tarEntryCount: Long? = null,
     val regularFileCount: Long? = null,
     val directoryCount: Long? = null,
+    val payloadHmac: ByteArray = ByteArray(0),
 )
 
 data class SbaArchiveInfo(
