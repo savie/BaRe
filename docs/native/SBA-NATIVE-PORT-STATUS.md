@@ -108,3 +108,17 @@ Implementation guardrail: `isAvailable()` is gated by primitive and protocol kno
 The uploaded `backup_swift_com.bare.zip` does contain a real reference-created encrypted SBA v2 container at `com.bare/20260919-184357-CO/com.bare.dat` (1,669 bytes). This corrects the earlier assumption that no encrypted SBA fixture existed. The archive is AEGIS-256 + Zstandard, chunk size 1,048,576, Argon2id (3 iterations, 16,384 KiB, parallelism 1), and has a 144-byte header, a 533-byte index at offset 1,104, and a 32-byte footer. Its two index records are `data` (stored 642, compressed 626, TAR 9,728, counts 5/2/3) and `data_de` (stored 259, compressed 243, TAR 2,560, counts 1/0/1); both use AEGIS-256/Zstandard entry flags 23. Header/footer/index CRCs and offsets are internally consistent.
 
 A sanitized regression test now reconstructs this exact *container structure* with synthetic payload, key-check, salt, nonce seed, metadata and index MAC. It verifies the target reader against observed reference offsets, lengths, header parameters and TAR counts without checking in the user's original payload or pretending that the synthetic ciphertext can be decrypted. The original fixture's password is not present in the supplied files, so it still cannot prove chunk-level interoperability.
+
+## TAR and encryption-header parity expansion (2026-10-20)
+
+The rewrite now includes the following implementation additions, beyond the previous AEGIS/container work:
+
+- GNU sparse PAX 1.0 map parsing and sparse-file restoration. The map's newline-delimited extent count/offset/length values are bounded, padded to 512 bytes, validated for ordered non-overlapping extents, and restored with ftruncate plus positional writes so holes remain holes.
+- Legacy GNU TAR typeflag S parsing, including the four inline extents, continuation blocks, logical size, and extension-block offset accounting.
+- GNU sparse PAX 1.0 source writing when the filesystem supports SEEK_DATA/SEEK_HOLE and the resulting payload is smaller than the dense file. Unsupported filesystems fall back to ordinary dense TAR entries.
+- TAR source metadata now includes numeric UID/GID, hard-link relationships within a TAR entry, FIFO and character/block device entries, UTF-8 user xattrs, and readable SELinux labels. Unsupported special types and xattrs that cannot be represented safely as text PAX fail rather than being silently rewritten as regular files.
+- Archive creation checks source attributes after each entry and aborts if size, modification time, file identity, or type changed while the archive was being written.
+- TAR extraction statistics now instrument fallback read/write calls and bytes, successful sendfile calls and bytes, and output-file opens. Large dense payloads use sendfile with a read/write fallback when the platform does not support it.
+- Password/key-check derivation now recognizes the reference's five method-specific key-check domains and key lengths (methods 1–4 use 32-byte derived keys; method 5 uses 16 bytes). This extends password verification and v2 index-MAC validation, but does not implement the 7zAES/AES-GCM/AES-GCM-SIV payload cipher backends.
+
+These are source implementations. CI/build status is tracked by the repository workflow; no claim of full reference parity is implied by this note. The non-AEGIS payload backends, binary xattr encoding, device/runtime execution, and known-password reference interoperability still need implementation or verification.
