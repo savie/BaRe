@@ -19,7 +19,7 @@ class SbaArchiveReaderEncryptedTest {
         try {
             val path = root.resolve("synthetic-layout.sba")
             // Synthetic metadata and verifier fields keep this test independent of any real backup.
-            val metadata = """{"fixture":"synthetic","encrypted":true,"entries":["data","data_de"]}"""
+            val metadata = """{"fixture":"synthetic","encrypted":true,"entries":["alpha","beta"]}"""
                 .padEnd(290, ' ')
                 .toByteArray(StandardCharsets.UTF_8)
             val records = listOf(
@@ -74,7 +74,7 @@ class SbaArchiveReaderEncryptedTest {
             header.putShort(1)
             header.putShort(32)
             header.putShort(1)
-            header.put(ByteArray(32)) // Sanitized fixture intentionally omits the password-dependent index MAC.
+            header.put(ByteArray(32)) // Synthetic fixture intentionally omits the password-dependent index MAC.
             header.put(ByteArray(8))
             val footer = ByteBuffer.allocate(32).order(ByteOrder.BIG_ENDIAN)
             footer.put("SAF1".toByteArray(StandardCharsets.US_ASCII))
