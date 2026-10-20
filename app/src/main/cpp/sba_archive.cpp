@@ -1818,7 +1818,8 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getPaxXattrs(
             encoded.push_back(i + 1 < value.size() ? kBase64[(triple >> 6U) & 0x3fU] : '=');
             encoded.push_back(i + 2 < value.size() ? kBase64[triple & 0x3fU] : '=');
         }
-        if (totalEncodedBytes > kMaxXattrList - name.size() - encoded.size()) {
+        if (name.size() > kMaxXattrList || encoded.size() > kMaxXattrList - name.size() ||
+            totalEncodedBytes > kMaxXattrList - name.size() - encoded.size()) {
             env->ReleaseStringUTFChars(pathString, path);
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Total TAR xattr metadata exceeds supported size");
