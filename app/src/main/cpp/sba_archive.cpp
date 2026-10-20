@@ -1656,6 +1656,7 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSelinuxLabel(
     while (length > 0 && value[length - 1] == '\0') --length;
     if (length == 0 || std::memchr(value.data(), '\0', length) != nullptr) return nullptr;
     value.resize(length);
+    value.push_back('\0');
     return env->NewStringUTF(value.data());
 }
 
