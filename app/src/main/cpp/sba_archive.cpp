@@ -1580,6 +1580,36 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
 #endif
 }
 
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSelinuxLabel(
+    JNIEnv* env, jclass, jstring pathString) {
+    if (pathString == nullptr) return nullptr;
+    const char* path = env->GetStringUTFChars(pathString, nullptr);
+    if (path == nullptr) return nullptr;
+    errno = 0;
+    const ssize_t required = lgetxattr(path, "security.selinux", nullptr, 0);
+    if (required < 0) {
+        const int error = errno;
+        env->ReleaseStringUTFChars(pathString, path);
+        if (error == ENODATA || error == ENOTSUP || error == EOPNOTSUPP ||
+            error == EACCES || error == EPERM) return nullptr;
+        return nullptr;
+    }
+    if (required == 0 || required > (1 << 20)) {
+        env->ReleaseStringUTFChars(pathString, path);
+        return nullptr;
+    }
+    std::vector<char> value(static_cast<size_t>(required));
+    const ssize_t actual = lgetxattr(path, "security.selinux", value.data(), value.size());
+    env->ReleaseStringUTFChars(pathString, path);
+    if (actual <= 0 || actual > required) return nullptr;
+    size_t length = static_cast<size_t>(actual);
+    while (length > 0 && value[length - 1] == '\0') --length;
+    if (length == 0 || std::memchr(value.data(), '\0', length) != nullptr) return nullptr;
+    value.resize(length);
+    return env->NewStringUTF(value.data());
+}
+
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject receiver, jbyteArray password, jbyteArray salt,
