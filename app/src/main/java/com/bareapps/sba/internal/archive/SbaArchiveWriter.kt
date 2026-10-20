@@ -19,7 +19,6 @@ import java.nio.file.LinkOption
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.nio.file.attribute.BasicFileAttributes
-import java.nio.file.attribute.UserDefinedFileAttributeView
 import java.util.Locale
 import java.security.MessageDigest
 import javax.crypto.Mac
@@ -428,10 +427,7 @@ internal object SbaArchiveWriter {
                         else -> null
                     }
                     val paxMetadata = linkedMapOf<String, String>()
-                    val paxRawMetadata = if (!isHardLink && !attrs.isSymbolicLink) readUserXattrs(path) else emptyMap()
-                    SbaSparseNative.getSelinuxLabel(path.toString())?.let { label ->
-                        if ('\n' !in label && '\u0000' !in label) paxMetadata["SCHILY.xattr.security.selinux"] = label
-                    }
+                    val paxRawMetadata = if (!isHardLink) readPaxXattrs(path) else emptyMap()
                     sparse?.paxEntries?.let {
                         paxMetadata.putAll(it)
                         paxMetadata["GNU.sparse.name"] = archiveName
@@ -612,23 +608,29 @@ internal object SbaArchiveWriter {
         return out.toByteArray()
     }
 
-    private fun readUserXattrs(path: Path): Map<String, ByteArray> {
-        val view = try {
-            Files.getFileAttributeView(path, UserDefinedFileAttributeView::class.java, LinkOption.NOFOLLOW_LINKS)
-        } catch (_: Exception) {
-            null
-        } ?: return emptyMap()
+    private fun readPaxXattrs(path: Path): Map<String, ByteArray> {
+        val encoded = SbaSparseNative.getPaxXattrs(path.toString())
+        if (encoded.isEmpty()) return emptyMap()
+        if ((encoded.size and 1) != 0) throw IOException("Native xattr query returned an incomplete result")
         val result = linkedMapOf<String, ByteArray>()
-        for (name in view.list().sorted()) {
+        var totalBytes = 0L
+        var i = 0
+        while (i < encoded.size) {
+            val name = encoded[i]
             if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) {
-                throw IOException("User xattr name cannot be represented in PAX: $name")
+                throw IOException("Xattr name cannot be represented in PAX: $name")
             }
-            val size = view.size(name)
-            if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
-            val buffer = java.nio.ByteBuffer.allocate(size)
-            view.read(name, buffer)
-            result["SCHILY.xattr." + (if (name.startsWith("user.")) name else "user.$name")] =
-                buffer.array().copyOf(size)
+            val value = try {
+                android.util.Base64.decode(encoded[i + 1], android.util.Base64.NO_WRAP)
+            } catch (failure: Exception) {
+                throw IOException("Native xattr query returned invalid Base64 for $name", failure)
+            }
+            if (value.size > (1 shl 20) || totalBytes > (16L shl 20) - value.size) {
+                throw IOException("TAR xattr metadata exceeds supported size")
+            }
+            totalBytes += value.size
+            result["SCHILY.xattr.$name"] = value
+            i += 2
         }
         return result
     }
