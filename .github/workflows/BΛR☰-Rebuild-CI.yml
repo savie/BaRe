@@ -81,9 +81,11 @@ jobs:
         timeout-minutes: 15
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 34
           arch: x86_64
           profile: pixel_2
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none -no-snapshot-save -no-snapshot-load -wipe-data
+          disable-animations: true
           script: gradle --no-daemon --console=plain :app:connectedDebugAndroidTest --info
 
       - name: Assemble release APK
