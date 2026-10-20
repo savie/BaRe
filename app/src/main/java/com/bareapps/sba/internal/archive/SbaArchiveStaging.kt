@@ -44,7 +44,7 @@ internal object SbaArchiveStaging {
         val candidates = buildList {
             if (canUseAppCache && !preferredPath.isNullOrBlank()) add(preferredPath)
             if (shellTempPath.isNotBlank()) add(shellTempPath)
-            System.getProperty("java.io.tmpdir")?.takeIf { it.isNotBlank() }?.let(::add)
+            System.getProperty("java.io.tmpdir")?.takeIf { it.isNotBlank() }?.let { add(it) }
         }.distinct()
         var lastFailure: Exception? = null
         for (candidate in candidates) {
