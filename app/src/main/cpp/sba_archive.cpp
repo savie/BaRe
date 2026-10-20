@@ -1496,6 +1496,90 @@ Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
 }
 
 
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
+    JNIEnv* env, jclass, jstring pathString) {
+    if (pathString == nullptr) {
+        jclass e = env->FindClass("java/lang/NullPointerException");
+        if (e) env->ThrowNew(e, "path");
+        return nullptr;
+    }
+    const char* path = env->GetStringUTFChars(pathString, nullptr);
+    if (path == nullptr) return nullptr;
+    const int fd = open(path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
+    env->ReleaseStringUTFChars(pathString, path);
+    if (fd < 0) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to open file for sparse extent discovery");
+        return nullptr;
+    }
+    struct stat st{};
+    if (fstat(fd, &st) != 0 || !S_ISREG(st.st_mode) || st.st_size < 0) {
+        close(fd);
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Sparse extent source is not a regular file");
+        return nullptr;
+    }
+    const uint64_t logicalSize = static_cast<uint64_t>(st.st_size);
+    std::vector<uint64_t> extents;
+#if defined(SEEK_DATA) && defined(SEEK_HOLE)
+    uint64_t position = 0;
+    bool supported = true;
+    while (position < logicalSize) {
+        errno = 0;
+        const off_t data = lseek(fd, static_cast<off_t>(position), SEEK_DATA);
+        if (data < 0) {
+            if (errno == ENXIO) break;
+            if (errno == EINVAL || errno == ENOTSUP || errno == EOPNOTSUPP) {
+                supported = false;
+                break;
+            }
+            close(fd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Failed to inspect sparse file data extents");
+            return nullptr;
+        }
+        if (static_cast<uint64_t>(data) >= logicalSize) break;
+        const off_t hole = lseek(fd, data, SEEK_HOLE);
+        if (hole < 0) {
+            if (errno == EINVAL || errno == ENOTSUP || errno == EOPNOTSUPP) {
+                supported = false;
+                break;
+            }
+            close(fd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Failed to inspect sparse file hole extents");
+            return nullptr;
+        }
+        const uint64_t start = static_cast<uint64_t>(data);
+        const uint64_t end = std::min<uint64_t>(static_cast<uint64_t>(hole), logicalSize);
+        if (end <= start || extents.size() > 2000000U) {
+            supported = false;
+            break;
+        }
+        extents.push_back(start);
+        extents.push_back(end - start);
+        position = end;
+    }
+    close(fd);
+    if (!supported) return env->NewLongArray(0);
+    if (logicalSize > 0 && extents.size() == 2 &&
+        extents[0] == 0 && extents[1] == logicalSize) extents.clear();
+    const jsize count = static_cast<jsize>(2 + extents.size());
+    jlongArray result = env->NewLongArray(count);
+    if (result == nullptr) return nullptr;
+    std::vector<jlong> values(static_cast<size_t>(count));
+    values[0] = static_cast<jlong>(logicalSize);
+    values[1] = static_cast<jlong>(extents.size() / 2);
+    for (size_t i = 0; i < extents.size(); ++i) values[i + 2] = static_cast<jlong>(extents[i]);
+    env->SetLongArrayRegion(result, 0, count, values.data());
+    return result;
+#else
+    close(fd);
+    return env->NewLongArray(0);
+#endif
+}
+
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject receiver, jbyteArray password, jbyteArray salt,
