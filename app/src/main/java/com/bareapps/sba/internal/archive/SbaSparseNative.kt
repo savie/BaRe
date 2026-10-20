@@ -3,18 +3,31 @@ package com.bareapps.sba.internal.archive
 import androidx.annotation.Keep
 
 /**
- * Queries filesystem data extents for sparse TAR emission. Empty results mean
- * the filesystem cannot report useful holes and callers should write dense data.
+ * Native filesystem metadata helpers. Sparse discovery is an optimization; on
+ * host JVMs without the Android native library callers safely use dense TAR.
  */
 @Keep
 internal object SbaSparseNative {
-    init { System.loadLibrary("sba_archive") }
+    private val nativeAvailable: Boolean = try {
+        System.loadLibrary("sba_archive")
+        true
+    } catch (_: UnsatisfiedLinkError) {
+        false
+    }
 
-    /** [logicalSize, extentCount, offset0, length0, ...], or an empty array if unsupported/dense. */
+    /** [logicalSize, extentCount, offset0, length0, ...], or empty if unavailable/dense. */
     @JvmStatic
-    external fun getSparseExtents(path: String): LongArray
+    fun getSparseExtents(path: String): LongArray =
+        if (nativeAvailable) nativeGetSparseExtents(path) else LongArray(0)
 
-    /** Alternating xattr-name and Base64-value pairs, without following a symlink. */
+    /** Alternating xattr-name and Base64-value pairs, without following symlinks. */
     @JvmStatic
-    external fun getPaxXattrs(path: String): Array<String>
+    fun getPaxXattrs(path: String): Array<String> =
+        if (nativeAvailable) nativeGetPaxXattrs(path) else emptyArray()
+
+    @JvmStatic
+    private external fun nativeGetSparseExtents(path: String): LongArray
+
+    @JvmStatic
+    private external fun nativeGetPaxXattrs(path: String): Array<String>
 }
