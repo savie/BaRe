@@ -565,23 +565,6 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
             tarCache.clear()
         }
     }
-}
-) || command.contains('>') ||
-            command.contains('<') || command.contains('(') ||
-            command.contains(')') || command.contains('{') ||
-            command.contains('}')) {
-            throw RemoteException("Unsupported shell command")
-        }
-        if (!command.startsWith("pm grant ") && !command.startsWith("appops set ")) {
-            throw RemoteException("Unsupported shell command")
-        }
-        val process = ProcessBuilder("sh", "-c", command)
-            .redirectErrorStream(true)
-            .start()
-        val output = process.inputStream.bufferedReader().use { it.readText() }
-        val exitCode = process.waitFor()
-        return "$exitCode\\n$output"
-    }
 
     override fun getPackageArchiveInfo(path: String, flags: Int): PackageInfo? {
         validateAbsolutePath(path)
