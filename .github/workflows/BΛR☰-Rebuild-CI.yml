@@ -119,7 +119,7 @@ jobs:
   # Emulator instrumentation is deliberately optional and isolated from APK production.
   # A flaky/offline ADB transport must not prevent a signed release APK from being uploaded.
   native-tests:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_native_tests == true }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.run_native_tests == true) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[native-tests]')) }}
     needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 40
