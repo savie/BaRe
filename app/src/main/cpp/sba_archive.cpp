@@ -278,6 +278,75 @@ bool parseSparseMap(const std::string& value, uint64_t realSize, uint64_t packed
     return packedTotal == packedSize;
 }
 
+// GNU PAX sparse 1.0 stores its extent map as newline-delimited decimal values
+// at the start of the member data, padded to a 512-byte boundary. The member's
+// header size includes both this map and the packed extent bytes.
+bool parseSparsePax10Map(int fd, uint64_t dataOffset, uint64_t storedSize,
+                         uint64_t logicalSize, std::vector<SparseExtent>* extents,
+                         uint64_t* mapPaddedSize, uint64_t* packedSize) {
+    if (extents == nullptr || mapPaddedSize == nullptr || packedSize == nullptr ||
+        storedSize == 0 || storedSize > static_cast<uint64_t>(INT64_MAX) ||
+        dataOffset > static_cast<uint64_t>(INT64_MAX) - storedSize) return false;
+    constexpr uint64_t kMaxMapBytes = 16ULL * 1024ULL * 1024ULL;
+    constexpr uint64_t kMaxExtents = 1000000ULL;
+    std::vector<uint64_t> values;
+    std::string line;
+    uint64_t consumed = 0;
+    uint64_t expectedValues = UINT64_MAX;
+    bool complete = false;
+    while (consumed < std::min<uint64_t>(storedSize, kMaxMapBytes) && !complete) {
+        const uint64_t blockOffset = consumed;
+        const size_t blockSize = static_cast<size_t>(
+            std::min<uint64_t>(512ULL, std::min<uint64_t>(storedSize, kMaxMapBytes) - consumed));
+        char block[512];
+        if (!readExactAt(fd, block, blockSize, static_cast<off_t>(dataOffset + blockOffset))) return false;
+        for (size_t i = 0; i < blockSize; ++i) {
+            ++consumed;
+            const char ch = block[i];
+            if (ch == '\n') {
+                uint64_t value = 0;
+                if (!parsePaxUnsigned(line, &value)) return false;
+                values.push_back(value);
+                line.clear();
+                if (values.size() == 1) {
+                    if (value > kMaxExtents || value > (UINT64_MAX - 1ULL) / 2ULL) return false;
+                    expectedValues = 1ULL + value * 2ULL;
+                }
+                if (values.size() == expectedValues) {
+                    complete = true;
+                    break;
+                }
+            } else {
+                if (ch < '0' || ch > '9' || line.size() >= 20) return false;
+                line.push_back(ch);
+            }
+        }
+    }
+    if (!complete || !line.empty() || values.empty()) return false;
+    if (consumed > UINT64_MAX - 511ULL) return false;
+    const uint64_t padded = ((consumed + 511ULL) / 512ULL) * 512ULL;
+    if (padded > storedSize) return false;
+    const uint64_t packed = storedSize - padded;
+    extents->clear();
+    uint64_t packedTotal = 0;
+    for (size_t i = 1; i < values.size(); i += 2) {
+        const uint64_t extentOffset = values[i];
+        const uint64_t extentLength = values[i + 1];
+        if (extentOffset > logicalSize || extentLength > logicalSize - extentOffset ||
+            packedTotal > UINT64_MAX - extentLength) return false;
+        if (!extents->empty()) {
+            const SparseExtent& previous = extents->back();
+            if (extentOffset < previous.offset + previous.length) return false;
+        }
+        packedTotal += extentLength;
+        extents->push_back({extentOffset, extentLength});
+    }
+    if (packedTotal != packed) return false;
+    *mapPaddedSize = padded;
+    *packedSize = packed;
+    return true;
+}
+
 bool parsePaxMtimeMillis(const std::string& value, jlong* millis) {
     if (millis == nullptr || value.empty()) return false;
     char* end = nullptr;
@@ -999,20 +1068,44 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const std::string* sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.realsize");
         if (sparseSize == nullptr) sparseSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
         const std::string* sparseMajor = paxValue(pendingPax, globalPax, "GNU.sparse.major");
+        const std::string* sparseMinor = paxValue(pendingPax, globalPax, "GNU.sparse.minor");
         std::vector<SparseExtent> sparseExtents;
-        bool sparseEntry = sparseMap != nullptr || sparseSize != nullptr || h.typeflag == 'S';
-        uint64_t logicalSize = size;
-        if (sparseMajor != nullptr && *sparseMajor == "1") {
+        const bool sparsePax10 = sparseMajor != nullptr && *sparseMajor == "1";
+        if (sparsePax10 && sparseMinor != nullptr && *sparseMinor != "0") {
             close(rootFd);
             jclass e = env->FindClass("java/io/IOException");
-            if (e) env->ThrowNew(e, "GNU sparse PAX 1.0 map encoding is not supported");
+            if (e) env->ThrowNew(e, "Unsupported GNU sparse PAX version");
             return nullptr;
         }
+        bool sparseEntry = sparseMap != nullptr || sparseSize != nullptr || h.typeflag == 'S' || sparsePax10;
+        uint64_t logicalSize = size;
+        uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
+        uint64_t payloadSize = size;
+        uint64_t sparseMapPaddedSize = 0;
         if (sparseEntry) {
-            if (sparseMap == nullptr || sparseSize == nullptr ||
+            if (sparseSize == nullptr ||
                 !parsePaxUnsigned(*sparseSize, &logicalSize) ||
-                logicalSize > static_cast<uint64_t>(INT64_MAX) ||
-                !parseSparseMap(*sparseMap, logicalSize, size, &sparseExtents)) {
+                logicalSize > static_cast<uint64_t>(INT64_MAX)) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
+                return nullptr;
+            }
+            bool sparseValid = false;
+            if (sparsePax10) {
+                uint64_t packedSize = 0;
+                sparseValid = parseSparsePax10Map(fd, dataOffset, size, logicalSize,
+                    &sparseExtents, &sparseMapPaddedSize, &packedSize);
+                if (sparseValid) {
+                    dataOffset += sparseMapPaddedSize;
+                    payloadSize = packedSize;
+                }
+            } else if (sparseMap != nullptr) {
+                sparseValid = parseSparseMap(*sparseMap, logicalSize, size, &sparseExtents);
+            } else if (h.typeflag == 'S') {
+                sparseValid = false; // Old GNU sparse headers are handled below only when their extension map is decoded.
+            }
+            if (!sparseValid) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid or unsupported GNU sparse TAR metadata");
@@ -1020,7 +1113,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
         }
         const char type = h.typeflag;
-        const uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         offset += static_cast<off_t>(512ULL + blocks * 512ULL);
         if (!safeRelativePath(name)) {
             jclass e = env->FindClass("java/io/IOException");
@@ -1080,23 +1172,54 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to exclusively create extracted TAR file");
                 return nullptr;
             }
-            char buffer[32768]; uint64_t copied = 0;
-            while (copied < size) {
-                if (cancelled && env->CallBooleanMethod(progress, cancelled)) {
-                    close(out); close(rootFd); jclass e = env->FindClass("java/io/InterruptedIOException"); if (e) env->ThrowNew(e, "TAR extraction cancelled"); return nullptr;
-                }
-                size_t chunk = static_cast<size_t>(std::min<uint64_t>(sizeof(buffer), size - copied));
-                if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(dataOffset + copied))) { close(out); close(rootFd); jclass e = env->FindClass("java/io/EOFException"); if (e) env->ThrowNew(e, "Truncated TAR entry"); return nullptr; }
-                size_t written = 0;
-                while (written < chunk) {
-                    ssize_t n = write(out, buffer + written, chunk - written);
-                    if (n < 0 && errno == EINTR) continue;
-                    if (n <= 0) { close(out); close(rootFd); jclass e = env->FindClass("java/io/IOException"); if (e) env->ThrowNew(e, "Failed writing extracted TAR file"); return nullptr; }
-                    written += static_cast<size_t>(n);
-                }
-                copied += chunk; processed += chunk;
+            if (sparseEntry && ftruncate(out, static_cast<off_t>(logicalSize)) != 0) {
+                close(out); close(rootFd); jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to size sparse TAR output file");
+                return nullptr;
+            }
+            if (sparsePax10 && sparseMapPaddedSize > 0) {
+                processed += sparseMapPaddedSize;
                 if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
                 if (env->ExceptionCheck()) { close(out); close(rootFd); return nullptr; }
+            }
+            char buffer[32768];
+            auto copyExtent = [&](uint64_t sourceOffset, uint64_t targetOffset, uint64_t length) -> bool {
+                uint64_t copied = 0;
+                while (copied < length) {
+                    if (cancelled && env->CallBooleanMethod(progress, cancelled)) return false;
+                    const size_t chunk = static_cast<size_t>(std::min<uint64_t>(sizeof(buffer), length - copied));
+                    if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(sourceOffset + copied))) return false;
+                    size_t written = 0;
+                    while (written < chunk) {
+                        const ssize_t n = pwrite(out, buffer + written, chunk - written,
+                            static_cast<off_t>(targetOffset + copied + written));
+                        if (n < 0 && errno == EINTR) continue;
+                        if (n <= 0) return false;
+                        written += static_cast<size_t>(n);
+                    }
+                    copied += chunk;
+                    processed += chunk;
+                    if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
+                    if (env->ExceptionCheck()) return false;
+                }
+                return true;
+            };
+            bool copyOk = true;
+            if (sparseEntry) {
+                uint64_t packedOffset = 0;
+                for (const SparseExtent& extent : sparseExtents) {
+                    if (!copyExtent(dataOffset + packedOffset, extent.offset, extent.length)) { copyOk = false; break; }
+                    packedOffset += extent.length;
+                }
+            } else {
+                copyOk = copyExtent(dataOffset, 0, payloadSize);
+            }
+            if (!copyOk) {
+                const bool wasCancelled = cancelled && env->CallBooleanMethod(progress, cancelled);
+                close(out); close(rootFd);
+                jclass e = env->FindClass(wasCancelled ? "java/io/InterruptedIOException" : "java/io/IOException");
+                if (e) env->ThrowNew(e, wasCancelled ? "TAR extraction cancelled" : "Truncated TAR entry or failed writing extracted file");
+                return nullptr;
             }
             // Apply only ordinary permission bits, then preserve mtime. Do
             // this before close so delayed metadata/write errors are surfaced.
