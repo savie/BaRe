@@ -137,3 +137,8 @@ These are source implementations. CI/build status is tracked by the repository w
 ## Metadata bound parity (2026-10-20)
 
 The reference index parser bounds metadata by the remaining index bytes rather than a separate 1 MiB ceiling. Rewrite now allows metadata up to the 64 MiB index bound, still checks the complete index size, and rejects malformed UTF-8 at creation time so the writer cannot produce an archive its own reader rejects. Unit coverage includes metadata larger than 1 MiB and malformed UTF-8 rejection.
+
+
+## Encrypted archive acceptance coverage added (2026-10-20)
+
+A new Android instrumentation test now exercises the full rewrite path for both encryption methods 4 (AEGIS-256) and 5 (AEGIS-128X2): create a v2 Zstandard-compressed SBA, parse the header/index, verify the password-derived key and v2 index MAC, list and restore TAR entries, verify stored chunk sizing, reject a wrong password, reject index tampering even after an attacker recomputes the non-cryptographic CRCs, and reject a modified ciphertext/tag. A separate unit test covers shell-UID staging selection and owner-only temp-file permissions. These tests are added to the source; their pass/fail state must be taken from the latest tagged CI run, not assumed from their presence.
