@@ -36,12 +36,6 @@ internal object IntroPermissionGrantCoordinator {
         false
     }
 
-    fun hasShizukuManager(context: Context): Boolean = try {
-        context.packageManager.getLaunchIntentForPackage(SHIZUKU_MANAGER_PACKAGE) != null
-    } catch (_: Exception) {
-        false
-    }
-
     fun launchShizukuManager(context: Context): Boolean {
         return try {
             val intent = context.packageManager.getLaunchIntentForPackage(SHIZUKU_MANAGER_PACKAGE)
@@ -154,7 +148,7 @@ internal object IntroPermissionGrantCoordinator {
             )
         }
 
-        if (isXiaomiFamily() && declaresInstalledAppsPermission(context)) {
+        if (supportsInstalledAppsPermission(context)) {
             commands += GrantCommand(
                 "Installed apps visibility",
                 "pm grant $packageName com.android.permission.GET_INSTALLED_APPS",
@@ -163,6 +157,9 @@ internal object IntroPermissionGrantCoordinator {
 
         return commands
     }
+
+    fun supportsInstalledAppsPermission(context: Context): Boolean =
+        isXiaomiFamily() && declaresInstalledAppsPermission(context)
 
     private fun declaresInstalledAppsPermission(context: Context): Boolean = try {
         context.packageManager.getPermissionInfo("com.android.permission.GET_INSTALLED_APPS", 0)
