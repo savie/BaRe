@@ -84,7 +84,7 @@ internal object SbaArchiveKeyCheck {
             throw IOException("Archive does not use a supported SBA encryption method")
         }
         val expectedLength = if (info.encryptionMethod == 5) 16 else 32
-        if (key.size != expectedLength) throw IOException("Invalid SBA AEGIS key length")
+        if (key.size != expectedLength) throw IOException("Invalid SBA derived key length")
         val fullCheck = MessageDigest.getInstance("SHA-256").run {
             update(keyCheckDomain(info.encryptionMethod).toByteArray(StandardCharsets.UTF_8))
             update(info.salt)
