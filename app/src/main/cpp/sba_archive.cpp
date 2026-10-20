@@ -1226,6 +1226,9 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 }
             } else if (sparseMap != nullptr) {
                 sparseValid = parseSparseMap(*sparseMap, logicalSize, size, &sparseExtents);
+            } else if (!oldGnuSparse && !sparsePax10) {
+                // GNU sparse PAX 0.0 may omit repeated offset/numbytes fields for an all-hole file.
+                sparseValid = parseSparseMap("", logicalSize, size, &sparseExtents);
             }
             if (!sparseValid) {
                 close(rootFd);
