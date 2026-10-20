@@ -125,6 +125,7 @@ class BareApp : Application() {
         reconcileStrictModePolicy()
 
         Log.d(TAG, "init() complete")
+        ConnectivityTracker.register(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -185,12 +186,14 @@ class BareApp : Application() {
     }
 
     private fun configureDefaultRootShell() {
-        // Reference builder: flags=10 and a 10-second command timeout.
+        // SwiftBackup's mp6 builder sets flags=10 and a 10-second timeout.
+        // Preserve the exact flag value: replacing it with FLAG_MOUNT_MASTER alone
+        // drops the reference builder's remaining flag bits and changes fallback behavior.
         // Root is not requested eagerly; libsu creates the shell on demand.
         try {
             Shell.setDefaultBuilder(
                 Shell.Builder.create()
-                    .setFlags(Shell.FLAG_MOUNT_MASTER)
+                    .setFlags(10)
                     .setTimeout(10),
             )
         } catch (error: RuntimeException) {
@@ -617,14 +620,39 @@ class BareApp : Application() {
                 if (start != null) {
                     Log.i(
                         TAG,
-                        "ApplicationStartInfo: reason=${start.reason}, " +
-                            "startType=${start.startType}, wasForceStopped=${start.wasForceStopped()}",
+                        "ApplicationStartInfo: startReason=${applicationStartReasonName(start.reason)}, " +
+                            "startType=${applicationStartTypeName(start.startType)}, " +
+                            "wasForceStopped=${start.wasForceStopped()}",
                     )
                 }
             }
         } catch (error: Throwable) {
             Log.w(TAG, "Unable to collect process startup/exit diagnostics", error)
         }
+    }
+
+    private fun applicationStartReasonName(reason: Int): String = when (reason) {
+        0 -> "ALARM"
+        1 -> "BACKUP"
+        2 -> "BOOT COMPLETE"
+        3 -> "BROADCAST"
+        4 -> "CONTENT PROVIDER"
+        5 -> "JOB"
+        6 -> "LAUNCHER"
+        7 -> "LAUNCHER RECENTS"
+        8 -> "OTHER"
+        9 -> "PUSH"
+        10 -> "SERVICE"
+        11 -> "START ACTIVITY"
+        else -> "UNKNOWN"
+    }
+
+    private fun applicationStartTypeName(type: Int): String = when (type) {
+        0 -> "UNSET"
+        1 -> "COLD"
+        2 -> "WARM"
+        3 -> "HOT"
+        else -> "UNKNOWN"
     }
 
     private fun reconcileStrictModePolicy() {
