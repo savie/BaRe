@@ -48,10 +48,17 @@ class SbaArchiveNative private constructor() {
     companion object {
         @JvmField val a = SbaArchiveNative()
 
-        /** Configure an app-private directory for authenticated plaintext staging. */
+        /** Configure staging according to the UID used by the app or Shizuku UserService. */
         @JvmStatic
         @Throws(IOException::class)
-        internal fun setTemporaryDirectory(path: String) = SbaArchiveStaging.setTemporaryDirectory(path)
+        internal fun configureTemporaryDirectoryForService(
+            preferredPath: String?,
+            serviceUid: Int,
+            appUid: Int,
+        ) = SbaArchiveStaging.configureForService(preferredPath, serviceUid, appUid)
+
+        @JvmStatic
+        internal fun clearTemporaryDirectory() = SbaArchiveStaging.clearTemporaryDirectory()
 
         /** Create sensitive TAR/compressed/plaintext staging outside the user-selected output directory. */
         @JvmStatic

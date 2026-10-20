@@ -498,10 +498,18 @@ class SbaRootService() : IRootAidlInterface.Stub(), Closeable {
     }
 
     private fun configureSbaTemporaryDirectory() {
+        val serviceUid = Process.myUid()
+        val context = try { applicationContext() } catch (_: Exception) { null }
+        val appUid = try { context?.applicationInfo?.uid ?: -1 } catch (_: Exception) { -1 }
+        val preferredPath = if (serviceUid == 0 || (appUid >= 0 && serviceUid == appUid)) {
+            try { context?.cacheDir?.absolutePath } catch (_: Exception) { null }
+        } else {
+            null
+        }
         try {
-            SbaArchiveNative.setTemporaryDirectory(applicationContext().cacheDir.absolutePath)
+            SbaArchiveNative.configureTemporaryDirectoryForService(preferredPath, serviceUid, appUid)
         } catch (failure: IOException) {
-            throw RemoteException("Unable to configure private SBA staging directory: " + failure.message)
+            throw RemoteException("Unable to configure SBA staging directory: " + failure.message)
         }
     }
 
