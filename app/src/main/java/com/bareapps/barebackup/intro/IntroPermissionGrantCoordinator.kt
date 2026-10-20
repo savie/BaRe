@@ -1,9 +1,15 @@
 package com.bareapps.barebackup.intro
 
 import android.content.Context
+import android.content.ComponentName
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.IBinder
+import android.os.RemoteException
 import android.util.Log
+import com.bareapps.rootservice.IRootAidlInterface
+import com.bareapps.rootservice.SbaRootService
+import java.util.concurrent.CountDownLatch
 import com.topjohnwu.superuser.Shell
 import rikka.shizuku.Shizuku
 import java.util.concurrent.TimeUnit
@@ -79,28 +85,61 @@ internal object IntroPermissionGrantCoordinator {
         if (!hasShizukuPermission()) return Attempt(available = false)
         val commands = commandsFor(context)
         val failed = ArrayList<String>()
-        commands.forEach { command ->
-            try {
-                val process = Shizuku.newProcess(
-                    arrayOf("sh", "-c", command.command + " 2>&1"),
-                    null,
-                    null,
-                )
-                val finished = process.waitFor(15, TimeUnit.SECONDS)
-                if (!finished) {
-                    process.destroyForcibly()
-                    failed += command.label
-                    Log.w(TAG, "Shizuku permission command timed out for ${command.label}")
-                } else {
-                    val output = process.inputStream.bufferedReader().use { it.readText() }
-                    if (process.exitValue() != 0) {
+        val connected = CountDownLatch(1)
+        @Volatile var remote: IRootAidlInterface? = null
+        val args = Shizuku.UserServiceArgs(ComponentName(context.applicationContext, SbaRootService::class.java))
+            .daemon(false)
+            .processNameSuffix("intro-permissions")
+            .debuggable(false)
+            .version(1)
+        val connection = object : android.content.ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
+                remote = IRootAidlInterface.Stub.asInterface(binder)
+                connected.countDown()
+            }
+            override fun onServiceDisconnected(name: ComponentName?) {
+                remote = null
+            }
+            override fun onBindingDied(name: ComponentName?) {
+                remote = null
+                connected.countDown()
+            }
+            override fun onNullBinding(name: ComponentName?) {
+                remote = null
+                connected.countDown()
+            }
+        }
+        var bound = false
+        try {
+            Shizuku.bindUserService(args, connection)
+            bound = true
+            if (!connected.await(10, TimeUnit.SECONDS) || remote == null) {
+                return Attempt(available = true, attempted = 0, failed = commands.map { it.label })
+            }
+            commands.forEach { command ->
+                try {
+                    val result = remote!!.executeShellCommand(command.command)
+                    val exitCode = result.substringBefore('\\n').toIntOrNull() ?: -1
+                    val output = result.substringAfter('\\n', "")
+                    if (exitCode != 0) {
                         failed += command.label
                         Log.w(TAG, "Shizuku permission command failed for ${command.label}: $output")
                     }
+                } catch (error: Exception) {
+                    failed += command.label
+                    Log.w(TAG, "Shizuku permission command threw for ${command.label}", error)
                 }
-            } catch (error: Exception) {
-                failed += command.label
-                Log.w(TAG, "Shizuku permission command threw for ${command.label}", error)
+            }
+        } catch (error: Exception) {
+            Log.w(TAG, "Unable to bind Shizuku permission service", error)
+            return Attempt(available = true, attempted = 0, failed = commands.map { it.label })
+        } finally {
+            if (bound) {
+                try {
+                    Shizuku.unbindUserService(args, connection, true)
+                } catch (error: Exception) {
+                    Log.w(TAG, "Unable to unbind Shizuku permission service", error)
+                }
             }
         }
         return Attempt(available = true, attempted = commands.size, failed = failed)
