@@ -78,8 +78,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
         var nonceSeed = ByteArray(0)
         var key = ByteArray(0)
         var keyCheck = ByteArray(0)
-        var archiveCreated = false
-        var archiveVerified = false
+        var stagedOutput: Path? = null
         try {
             require(request.mode == 1 || (request.mode == 2 && request.encryptionMethod in 4..5)) {
                 "Unsupported SBA mode/encryption method"
@@ -97,10 +96,17 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             } else if (!(request.password == null || request.password.isEmpty()) || request.encryptionMethod != 0) {
                 throw IOException("Password/encryption method supplied for unencrypted SBA creation")
             }
+            val finalOutput = Path.of(request.outputPath).toAbsolutePath().normalize()
+            val parent = finalOutput.parent ?: throw IOException("SBA output path must have a parent")
+            Files.createDirectories(parent)
+            // Build and validate a sibling staging archive first. The existing destination is
+            // not replaced until every entry has been decrypted/listed successfully.
+            stagedOutput = Files.createTempFile(parent, ".bare-sba-verified-", ".tmp")
+            val stagedPath = stagedOutput.toString()
             val keyLength = if (request.encryptionMethod == 4) 32 else if (request.encryptionMethod == 5) 16 else 0
             val stats = SbaArchiveNative.a.createArchive(
                 request.mode,
-                request.outputPath,
+                stagedPath,
                 request.metadata,
                 request.sourcePaths.toTypedArray(),
                 request.entryNames.toTypedArray(),
@@ -123,7 +129,6 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 if (encrypted) nonceSeed else null,
                 progress,
             )
-            archiveCreated = true
             var tarEntries = 0L
             var regularFiles = 0L
             var directories = 0L
@@ -131,14 +136,14 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             var hardlinks = 0L
             var otherEntries = 0L
             var regularBytes = 0L
-            val archiveInfo = SbaArchiveNative.readArchiveInfo(request.outputPath)
+            val archiveInfo = SbaArchiveNative.readArchiveInfo(stagedPath)
             archiveInfo.entries.forEach { archiveEntry ->
                 val tarInfo = if (archiveInfo.isEncrypted) {
                     SbaArchiveNative.listEncryptedEntryTarEntriesWithVerifiedKey(
-                        request.outputPath, archiveInfo, archiveEntry.name, key, progress,
+                        stagedPath, archiveInfo, archiveEntry.name, key, progress,
                     )
                 } else {
-                    SbaArchiveNative.listEntryTarEntries(request.outputPath, archiveEntry.name)
+                    SbaArchiveNative.listEntryTarEntries(stagedPath, archiveEntry.name)
                 }
                 tarInfo.forEach { entry ->
                     tarEntries++
@@ -154,9 +159,17 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                     }
                 }
             }
-            archiveVerified = true
+            if (progress.isCancellationRequested()) throw InterruptedIOException("SBA operation cancelled")
+            try {
+                Files.move(stagedOutput!!, finalOutput,
+                    java.nio.file.StandardCopyOption.ATOMIC_MOVE,
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            } catch (_: java.nio.file.AtomicMoveNotSupportedException) {
+                Files.move(stagedOutput!!, finalOutput, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            }
+            stagedOutput = null
             return SbaTaskBackendResult(
-                outputPath = request.outputPath,
+                outputPath = finalOutput.toString(),
                 bytesProcessed = stats.getOrElse(0) { 0L },
                 durationMillis = (System.nanoTime() - started) / 1_000_000L,
                 tarEntryCount = tarEntries,
@@ -168,9 +181,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 regularFileBytes = regularBytes,
             )
         } finally {
-            if (encrypted && archiveCreated && !archiveVerified) {
-                try { Files.deleteIfExists(Path.of(request.outputPath)) } catch (_: Exception) { }
-            }
+            stagedOutput?.let { try { Files.deleteIfExists(it) } catch (_: Exception) { } }
             request.password?.fill('\u0000')
             Arrays.fill(salt, 0)
             Arrays.fill(nonceSeed, 0)
