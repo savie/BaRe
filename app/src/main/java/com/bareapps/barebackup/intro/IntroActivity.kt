@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -60,7 +61,7 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) refreshPermissionCards()
+        if (findViewById<View>(R.id.container_permissions) != null) refreshPermissionCards()
     }
 
     private fun requestStorageAccess() {
