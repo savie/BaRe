@@ -275,13 +275,6 @@ class IntroActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.btn_anonymous)?.isEnabled = enabled
     }
 
-    private fun isXiaomiFamily(): Boolean {
-        val manufacturer = Build.MANUFACTURER.orEmpty().lowercase()
-        return manufacturer.contains("xiaomi") ||
-            manufacturer.contains("redmi") ||
-            manufacturer.contains("poco")
-    }
-
     private fun updateDeviceSpecificCards() {
         findViewById<View>(R.id.container_xiaomi_installed_apps_perm)?.visibility =
             if (IntroPermissionGrantCoordinator.supportsInstalledAppsPermission(this)) {
