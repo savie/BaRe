@@ -429,7 +429,10 @@ internal object SbaArchiveWriter {
                     }
                     val paxMetadata = linkedMapOf<String, String>()
                     if (!isHardLink && !attrs.isSymbolicLink) paxMetadata.putAll(readUserXattrs(path))
-                    sparse?.paxEntries?.let { paxMetadata.putAll(it) }
+                    sparse?.paxEntries?.let {
+                        paxMetadata.putAll(it)
+                        paxMetadata["GNU.sparse.name"] = archiveName
+                    }
                     writeTarHeader(
                         out, archiveName, attrs.isDirectory, tarPayloadSize,
                         attrs.lastModifiedTime().toMillis(),
