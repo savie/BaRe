@@ -17,17 +17,16 @@ class SbaArchiveReaderEncryptedTest {
     fun parsesSyntheticTwoEntryV2Layout() {
         val root = Files.createTempDirectory("sba-synthetic-v2-layout")
         try {
-            val path = root.resolve("reference-layout.sba")
-            // Synthetic metadata preserves the reference record length without publishing
-            // app-specific backup metadata or password-verification material from the supplied archive.
+            val path = root.resolve("synthetic-layout.sba")
+            // Synthetic metadata and verifier fields keep this test independent of any real backup.
             val metadata = """{"fixture":"synthetic","encrypted":true,"entries":["data","data_de"]}"""
                 .padEnd(290, ' ')
                 .toByteArray(StandardCharsets.UTF_8)
             val records = listOf(
-                Triple("data", longArrayOf(144, 172, 642, 626, 9728), longArrayOf(5, 2, 3)),
-                Triple("data_de", longArrayOf(814, 845, 259, 243, 2560), longArrayOf(1, 0, 1)),
+                Triple("alpha", longArrayOf(144, 173, 136, 120, 1024), longArrayOf(3, 1, 2)),
+                Triple("beta", longArrayOf(309, 337, 216, 200, 1536), longArrayOf(2, 1, 1)),
             )
-            val indexOffset = 1104L
+            val indexOffset = 553L
             val index = ByteBuffer.allocate(
                 16 + metadata.size + records.sumOf { 108 + it.first.toByteArray(StandardCharsets.UTF_8).size },
             ).order(ByteOrder.BIG_ENDIAN)
@@ -69,7 +68,7 @@ class SbaArchiveReaderEncryptedTest {
             header.put(ByteArray(16) { (0x60 + it).toByte() }) // synthetic nonce seed
             header.putShort(0)
             header.putShort(0)
-            header.putInt(1 shl 20)
+            header.putInt(4096)
             header.putInt(16384)
             header.putShort(1)
             header.putShort(1)
@@ -89,41 +88,41 @@ class SbaArchiveReaderEncryptedTest {
                 out.write(header.array())
                 out.write("SAE1".toByteArray(StandardCharsets.US_ASCII))
                 out.write(ByteBuffer.allocate(20).order(ByteOrder.BIG_ENDIAN).apply {
-                    putShort(24); putShort(0); putInt(23); putShort(4); putInt(0); put(ByteArray(6))
+                    putShort(24); putShort(0); putInt(23); putShort(5); putInt(0); put(ByteArray(6))
                 }.array())
-                out.write("data".toByteArray(StandardCharsets.UTF_8))
-                out.write(ByteArray(642))
+                out.write("alpha".toByteArray(StandardCharsets.UTF_8))
+                out.write(ByteArray(136))
                 out.write("SAE1".toByteArray(StandardCharsets.US_ASCII))
                 out.write(ByteBuffer.allocate(20).order(ByteOrder.BIG_ENDIAN).apply {
-                    putShort(24); putShort(0); putInt(23); putShort(7); putInt(0); put(ByteArray(6))
+                    putShort(24); putShort(0); putInt(23); putShort(4); putInt(0); put(ByteArray(6))
                 }.array())
-                out.write("data_de".toByteArray(StandardCharsets.UTF_8))
-                out.write(ByteArray(259))
+                out.write("beta".toByteArray(StandardCharsets.UTF_8))
+                out.write(ByteArray(216))
                 out.write(indexBytes)
                 out.write(footer.array())
             }
             val parsed = SbaArchiveReader.read(path.toString())
             assertEquals(2, parsed.version)
-            assertEquals(1669L, parsed.fileSize)
-            assertEquals(1104L, parsed.indexOffset)
-            assertEquals(533L, parsed.indexSize)
-            assertEquals(0xbee65f82.toInt(), parsed.indexCrc32)
-            assertEquals(0xf38f2f7e.toInt(), parsed.footerCrc32)
+            assertEquals(1116L, parsed.fileSize)
+            assertEquals(553L, parsed.indexOffset)
+            assertEquals(531L, parsed.indexSize)
+            assertEquals(indexCrc, parsed.indexCrc32)
+            assertEquals(ByteBuffer.wrap(footer.array()).order(ByteOrder.BIG_ENDIAN).getInt(28), parsed.footerCrc32)
             assertEquals(4, parsed.encryptionMethod)
             assertEquals(1, parsed.compressionMethod)
             assertEquals(1, parsed.kdfMethod)
             assertEquals(3, parsed.kdfIterations)
             assertEquals(16384, parsed.kdfMemoryKiB)
             assertEquals(1, parsed.kdfParallelism)
-            assertEquals(1 shl 20, parsed.chunkSize)
+            assertEquals(4096, parsed.chunkSize)
             assertArrayEquals(ByteArray(16) { (0x40 + it).toByte() }, parsed.keyCheck)
             assertArrayEquals(ByteArray(16) { (0x50 + it).toByte() }, parsed.salt)
             assertArrayEquals(ByteArray(16) { (0x60 + it).toByte() }, parsed.nonceSeed)
-            assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
-            assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
-            assertEquals(listOf(5L, 1L), parsed.entries.map { it.tarEntryCount })
-            assertEquals(listOf(2L, 0L), parsed.entries.map { it.regularFileCount })
-            assertEquals(listOf(3L, 1L), parsed.entries.map { it.directoryCount })
+            assertEquals(listOf("alpha", "beta"), parsed.entries.map { it.name })
+            assertEquals(listOf(136L, 216L), parsed.entries.map { it.storedSize })
+            assertEquals(listOf(3L, 2L), parsed.entries.map { it.tarEntryCount })
+            assertEquals(listOf(1L, 1L), parsed.entries.map { it.regularFileCount })
+            assertEquals(listOf(2L, 1L), parsed.entries.map { it.directoryCount })
         } finally {
             Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
         }
