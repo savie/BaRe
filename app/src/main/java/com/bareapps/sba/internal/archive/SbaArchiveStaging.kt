@@ -40,7 +40,7 @@ internal object SbaArchiveStaging {
         appUid: Int,
         shellTempPath: String = "/data/local/tmp",
     ) {
-        val canUseAppCache = serviceUid == 0 || (appUid >= 0 && serviceUid == appUid)
+        val canUseAppCache = serviceUid == 0 || (serviceUid != 2000 && appUid >= 0 && serviceUid == appUid)
         val candidates = buildList {
             if (canUseAppCache && !preferredPath.isNullOrBlank()) add(preferredPath)
             if (shellTempPath.isNotBlank()) add(shellTempPath)
