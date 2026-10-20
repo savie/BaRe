@@ -439,7 +439,7 @@ internal object SbaArchiveWriter {
                         readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
                         linkTarget, if (isHardLink) '1' else special?.typeFlag,
                         special?.major ?: 0L, special?.minor ?: 0L,
-                        paxMetadata,
+                        paxMetadata, readUnixId(path, "unix:uid"), readUnixId(path, "unix:gid"),
                     )
                     if (attrs.isRegularFile && !isHardLink) {
                         if (sparse != null) {
@@ -497,6 +497,8 @@ internal object SbaArchiveWriter {
         devMajor: Long = 0L,
         devMinor: Long = 0L,
         extraPax: Map<String, String> = emptyMap(),
+        uid: Long = 0L,
+        gid: Long = 0L,
     ) {
         val split = splitName(name)
         val linkTooLong = linkTarget != null && linkTarget.toByteArray(StandardCharsets.UTF_8).size > 100
@@ -507,6 +509,8 @@ internal object SbaArchiveWriter {
         if (split == null) pax["path"] = name
         if (linkTooLong && linkTarget != null) pax["linkpath"] = linkTarget
         if (sizeNeedsPax) pax["size"] = size.toString()
+        if (uidNeedsPax) pax["uid"] = uid.toString()
+        if (gidNeedsPax) pax["gid"] = gid.toString()
         if (mtimeNeedsPax) pax["mtime"] = java.math.BigDecimal.valueOf(mtimeMillis, 3).stripTrailingZeros().toPlainString()
         pax.putAll(extraPax)
 
@@ -525,7 +529,10 @@ internal object SbaArchiveWriter {
         val headerSize = if (sizeNeedsPax) 0L else size
         val headerMtime = if (mtimeNeedsPax) 0L else mtimeSeconds
         val type = specialTypeFlag ?: if (linkTarget != null) '2' else if (directory) '5' else '0'
-        writeRawTarHeader(out, headerName, directory, headerSize, headerMtime, mode, headerLink, type, devMajor, devMinor)
+        writeRawTarHeader(
+            out, headerName, directory, headerSize, headerMtime, mode, headerLink, type,
+            devMajor, devMinor, if (uidNeedsPax) 0L else uid, if (gidNeedsPax) 0L else gid,
+        )
     }
 
     private fun writeRawTarHeader(
@@ -539,12 +546,15 @@ internal object SbaArchiveWriter {
         typeFlag: Char,
         devMajor: Long = 0L,
         devMinor: Long = 0L,
+        uid: Long = 0L,
+        gid: Long = 0L,
     ) {
         val split = splitName(name) ?: throw IOException("Internal TAR header name exceeds ustar limits")
         val header = ByteArray(TAR_BLOCK)
         putText(header, 0, 100, split.second)
         putOctal(header, 100, 8, mode.toLong())
-        putOctal(header, 108, 8, 0); putOctal(header, 116, 8, 0)
+        putOctal(header, 108, 8, uid.coerceAtLeast(0L))
+        putOctal(header, 116, 8, gid.coerceAtLeast(0L))
         putOctal(header, 124, 12, if (directory && typeFlag == '5') 0 else size)
         putOctal(header, 136, 12, mtimeSeconds.coerceIn(0L, MAX_TAR_OCTAL))
         putOctal(header, 329, 8, devMajor)
@@ -620,6 +630,12 @@ internal object SbaArchiveWriter {
             }
         }
         return result
+    }
+
+    private fun readUnixId(path: Path, attribute: String): Long = try {
+        (Files.getAttribute(path, attribute, LinkOption.NOFOLLOW_LINKS) as Number).toLong().coerceAtLeast(0L)
+    } catch (_: Exception) {
+        0L
     }
 
     private fun readHardLinkIdentity(path: Path): Pair<Long, Long>? {
