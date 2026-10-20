@@ -284,7 +284,11 @@ class IntroActivity : AppCompatActivity() {
 
     private fun updateDeviceSpecificCards() {
         findViewById<View>(R.id.container_xiaomi_installed_apps_perm)?.visibility =
-            if (isXiaomiFamily()) View.VISIBLE else View.GONE
+            if (IntroPermissionGrantCoordinator.supportsInstalledAppsPermission(this)) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
     }
 
     private fun requestStorageAccess() {
@@ -360,7 +364,9 @@ class IntroActivity : AppCompatActivity() {
         findViewById<View>(R.id.container_notifications_perm)?.visibility =
             if (notificationsGranted) View.GONE else View.VISIBLE
 
-        val installedAppsGranted = !isXiaomiFamily() ||
+        val installedAppsSupported =
+            IntroPermissionGrantCoordinator.supportsInstalledAppsPermission(this)
+        val installedAppsGranted = !installedAppsSupported ||
             isPermissionGranted("com.android.permission.GET_INSTALLED_APPS")
         findViewById<View>(R.id.container_xiaomi_installed_apps_perm)?.visibility =
             if (installedAppsGranted) View.GONE else View.VISIBLE
@@ -380,7 +386,7 @@ class IntroActivity : AppCompatActivity() {
         }
         val bulkPermissionMissing = bulkPermissions.any { !isPermissionGranted(it) } ||
             !storageGranted ||
-            (isXiaomiFamily() && !installedAppsGranted)
+            (installedAppsSupported && !installedAppsGranted)
         findViewById<View>(R.id.container_root_permissions)?.visibility =
             if (bulkPermissionMissing) View.VISIBLE else View.GONE
     }
