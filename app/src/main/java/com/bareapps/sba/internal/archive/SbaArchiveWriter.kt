@@ -428,7 +428,10 @@ internal object SbaArchiveWriter {
                         else -> null
                     }
                     val paxMetadata = linkedMapOf<String, String>()
-                    if (!isHardLink && !attrs.isSymbolicLink) paxMetadata.putAll(readUserXattrs(path))
+                    val paxRawMetadata = if (!isHardLink && !attrs.isSymbolicLink) readUserXattrs(path) else emptyMap()
+                    SbaSparseNative.getSelinuxLabel(path.toString())?.let { label ->
+                        if ('\n' !in label && '\u0000' !in label) paxMetadata["SCHILY.xattr.security.selinux"] = label
+                    }
                     sparse?.paxEntries?.let {
                         paxMetadata.putAll(it)
                         paxMetadata["GNU.sparse.name"] = archiveName
@@ -439,7 +442,7 @@ internal object SbaArchiveWriter {
                         readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
                         linkTarget, if (isHardLink) '1' else special?.typeFlag,
                         special?.major ?: 0L, special?.minor ?: 0L,
-                        paxMetadata, readUnixId(path, "unix:uid"), readUnixId(path, "unix:gid"),
+                        paxMetadata, paxRawMetadata, readUnixId(path, "unix:uid"), readUnixId(path, "unix:gid"),
                     )
                     if (attrs.isRegularFile && !isHardLink) {
                         if (sparse != null) {
@@ -498,6 +501,7 @@ internal object SbaArchiveWriter {
         devMajor: Long = 0L,
         devMinor: Long = 0L,
         extraPax: Map<String, String> = emptyMap(),
+        extraPaxBytes: Map<String, ByteArray> = emptyMap(),
         uid: Long = 0L,
         gid: Long = 0L,
     ) {
@@ -518,7 +522,7 @@ internal object SbaArchiveWriter {
         pax.putAll(extraPax)
 
         if (pax.isNotEmpty()) {
-            val payload = encodePaxRecords(pax)
+            val payload = encodePaxRecords(pax, extraPaxBytes)
             if (payload.size > (16 shl 20)) throw IOException("TAR PAX metadata exceeds 16 MiB")
             writeRawTarHeader(out, "PaxHeaders/entry", false, payload.size.toLong(),
                 mtimeSeconds.coerceIn(0L, MAX_TAR_OCTAL), 0x1a4, null, 'x')
@@ -577,60 +581,54 @@ internal object SbaArchiveWriter {
         out.write(header)
     }
 
-    private fun encodePaxRecords(values: Map<String, String>): ByteArray {
+    private fun encodePaxRecords(
+        values: Map<String, String>,
+        rawValues: Map<String, ByteArray> = emptyMap(),
+    ): ByteArray {
         val out = java.io.ByteArrayOutputStream()
-        values.forEach { (key, value) ->
+        require(values.keys.intersect(rawValues.keys).isEmpty()) { "Duplicate text/raw PAX keys" }
+        for (key in (values.keys + rawValues.keys).sorted()) {
             require(key.isNotBlank() && '=' !in key && '\n' !in key && '\u0000' !in key)
-            require('\n' !in value && '\u0000' !in value)
-            val body = "$key=$value\n".toByteArray(StandardCharsets.UTF_8)
-            var recordLength = body.size + 2
+            val raw = rawValues[key]
+            val value = values[key]
+            if (raw == null) require(value != null && '\n' !in value && '\u0000' !in value)
+            val valueBytes = raw ?: value!!.toByteArray(StandardCharsets.UTF_8)
+            val keyBytes = key.toByteArray(StandardCharsets.UTF_8)
+            val body = java.io.ByteArrayOutputStream(keyBytes.size + valueBytes.size + 2)
+            body.write(keyBytes)
+            body.write('=')
+            body.write(valueBytes)
+            body.write('\n'.code)
+            val bodyBytes = body.toByteArray()
+            var recordLength = bodyBytes.size + 2
             while (true) {
-                val updated = body.size + recordLength.toString().length + 1
+                val updated = bodyBytes.size + recordLength.toString().length + 1
                 if (updated == recordLength) break
                 recordLength = updated
             }
             out.write("$recordLength ".toByteArray(StandardCharsets.US_ASCII))
-            out.write(body)
+            out.write(bodyBytes)
         }
         return out.toByteArray()
     }
 
-    private fun readUserXattrs(path: Path): Map<String, String> {
+    private fun readUserXattrs(path: Path): Map<String, ByteArray> {
         val view = try {
             Files.getFileAttributeView(path, UserDefinedFileAttributeView::class.java, LinkOption.NOFOLLOW_LINKS)
         } catch (_: Exception) {
             null
-        }
-        val result = linkedMapOf<String, String>()
-        if (view != null) {
-            for (name in view.list().sorted()) {
-                if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) continue
-                val size = view.size(name)
-                if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
-                val buffer = java.nio.ByteBuffer.allocate(size)
-                view.read(name, buffer)
-                buffer.flip()
-                val value = try {
-                    StandardCharsets.UTF_8.newDecoder()
-                        .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
-                        .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
-                        .decode(buffer).toString()
-                } catch (failure: Exception) {
-                    // The reference's PAX xattr reader applies value bytes directly;
-                    // a non-UTF-8 value cannot be represented safely by this text PAX writer.
-                    throw IOException("Cannot safely encode non-UTF-8 user xattr in TAR: $name", failure)
-                }
-                if ('\n' in value || '\u0000' in value) {
-                    throw IOException("Cannot safely encode control bytes in TAR xattr: $name")
-                }
-                val paxName = if (name.startsWith("user.")) name else "user.$name"
-                result["SCHILY.xattr.$paxName"] = value
+        } ?: return emptyMap()
+        val result = linkedMapOf<String, ByteArray>()
+        for (name in view.list().sorted()) {
+            if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) {
+                throw IOException("User xattr name cannot be represented in PAX: $name")
             }
-        }
-        SbaSparseNative.getSelinuxLabel(path.toString())?.let { label ->
-            if ('\n' !in label && '\u0000' !in label) {
-                result["SCHILY.xattr.security.selinux"] = label
-            }
+            val size = view.size(name)
+            if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
+            val buffer = java.nio.ByteBuffer.allocate(size)
+            view.read(name, buffer)
+            result["SCHILY.xattr." + (if (name.startsWith("user.")) name else "user.$name")] =
+                buffer.array().copyOf(size)
         }
         return result
     }
