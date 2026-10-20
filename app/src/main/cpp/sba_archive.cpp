@@ -578,8 +578,10 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             return nullptr;
         }
         const std::string* paxPath = paxValue(pendingPax, globalPax, "path");
+        const std::string* sparseName = paxValue(pendingPax, globalPax, "GNU.sparse.name");
         std::string name = paxPath != nullptr ? *paxPath
-            : (pendingLongName.empty() ? tarName(h) : pendingLongName);
+            : (sparseName != nullptr ? *sparseName
+                : (pendingLongName.empty() ? tarName(h) : pendingLongName));
         pendingLongName.clear();
         if (name.empty()) {
             jclass e = env->FindClass("java/io/IOException");
@@ -1127,8 +1129,10 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             continue;
         }
         const std::string* paxPath = paxValue(pendingPax, globalPax, "path");
+        const std::string* sparseName = paxValue(pendingPax, globalPax, "GNU.sparse.name");
         std::string name = paxPath != nullptr ? *paxPath
-            : (pendingLongName.empty() ? tarName(h) : pendingLongName);
+            : (sparseName != nullptr ? *sparseName
+                : (pendingLongName.empty() ? tarName(h) : pendingLongName));
         pendingLongName.clear();
         const std::string* paxLink = paxValue(pendingPax, globalPax, "linkpath");
         std::string link = paxLink != nullptr ? *paxLink
