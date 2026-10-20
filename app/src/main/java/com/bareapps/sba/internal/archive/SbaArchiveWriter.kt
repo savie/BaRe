@@ -409,25 +409,37 @@ internal object SbaArchiveWriter {
                     if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile && special == null) {
                         throw IOException("Unsupported TAR source type: $path")
                     }
+                    val sparse = if (attrs.isRegularFile && attrs.size() >= (1L shl 20)) {
+                        discoverSparseSource(path, attrs.size())
+                    } else null
+                    val tarPayloadSize = when {
+                        sparse != null -> sparse.storedSize
+                        attrs.isSymbolicLink || special != null || attrs.isDirectory -> 0L
+                        else -> attrs.size()
+                    }
                     val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
                     writeTarHeader(
-                        out, archiveName, attrs.isDirectory,
-                        if (attrs.isSymbolicLink || special != null) 0L else attrs.size(),
+                        out, archiveName, attrs.isDirectory, tarPayloadSize,
                         attrs.lastModifiedTime().toMillis(),
                         readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
                         linkTarget, special?.typeFlag, special?.major ?: 0L, special?.minor ?: 0L,
+                        sparse?.paxEntries ?: emptyMap(),
                     )
                     if (attrs.isRegularFile) {
-                        Files.newInputStream(path).use { input ->
-                            val buffer = ByteArray(64 * 1024)
-                            while (true) {
-                                checkCancelled(progress)
-                                val n = input.read(buffer)
-                                if (n < 0) break
-                                if (n > 0) out.write(buffer, 0, n)
+                        if (sparse != null) {
+                            writeSparsePayload(out, path, sparse, progress)
+                        } else {
+                            Files.newInputStream(path).use { input ->
+                                val buffer = ByteArray(64 * 1024)
+                                while (true) {
+                                    checkCancelled(progress)
+                                    val n = input.read(buffer)
+                                    if (n < 0) break
+                                    if (n > 0) out.write(buffer, 0, n)
+                                }
                             }
                         }
-                        val pad = ((TAR_BLOCK - attrs.size() % TAR_BLOCK) % TAR_BLOCK).toInt()
+                        val pad = ((TAR_BLOCK - tarPayloadSize % TAR_BLOCK) % TAR_BLOCK).toInt()
                         if (pad > 0) out.write(ByteArray(pad))
                     }
                     emitted++
@@ -468,6 +480,7 @@ internal object SbaArchiveWriter {
         specialTypeFlag: Char? = null,
         devMajor: Long = 0L,
         devMinor: Long = 0L,
+        extraPax: Map<String, String> = emptyMap(),
     ) {
         val split = splitName(name)
         val linkTooLong = linkTarget != null && linkTarget.toByteArray(StandardCharsets.UTF_8).size > 100
@@ -479,6 +492,7 @@ internal object SbaArchiveWriter {
         if (linkTooLong && linkTarget != null) pax["linkpath"] = linkTarget
         if (sizeNeedsPax) pax["size"] = size.toString()
         if (mtimeNeedsPax) pax["mtime"] = java.math.BigDecimal.valueOf(mtimeMillis, 3).stripTrailingZeros().toPlainString()
+        pax.putAll(extraPax)
 
         if (pax.isNotEmpty()) {
             val payload = encodePaxRecords(pax)
@@ -550,6 +564,83 @@ internal object SbaArchiveWriter {
             out.write(body)
         }
         return out.toByteArray()
+    }
+
+    private data class SparseSource(
+        val logicalSize: Long,
+        val extents: List<Pair<Long, Long>>,
+        val mapBytes: ByteArray,
+        val mapPaddedSize: Long,
+        val packedSize: Long,
+        val storedSize: Long,
+        val paxEntries: Map<String, String>,
+    )
+
+    private fun discoverSparseSource(path: Path, expectedSize: Long): SparseSource? {
+        val encoded = SbaSparseNative.getSparseExtents(path.toString())
+        if (encoded.isEmpty()) return null
+        if (encoded.size < 2 || encoded[0] != expectedSize || encoded[1] < 0 ||
+            encoded[1] > 1_000_000L || encoded.size.toLong() != 2L + encoded[1] * 2L) return null
+        val extents = ArrayList<Pair<Long, Long>>(encoded[1].toInt())
+        var packed = 0L
+        var previousEnd = 0L
+        for (i in 0 until encoded[1].toInt()) {
+            val start = encoded[2 + i * 2]
+            val length = encoded[3 + i * 2]
+            if (start < previousEnd || length <= 0L || start < 0L ||
+                start > expectedSize || length > expectedSize - start ||
+                packed > Long.MAX_VALUE - length) return null
+            extents.add(start to length)
+            packed += length
+            previousEnd = start + length
+        }
+        val map = buildString {
+            append(extents.size).append('\n')
+            extents.forEach { (start, length) ->
+                append(start).append('\n')
+                append(length).append('\n')
+            }
+        }.toByteArray(StandardCharsets.US_ASCII)
+        val padded = ((map.size.toLong() + TAR_BLOCK - 1L) / TAR_BLOCK) * TAR_BLOCK
+        if (padded > Long.MAX_VALUE - packed) return null
+        val stored = padded + packed
+        // Emit sparse framing only when it actually saves payload bytes.
+        if (stored >= expectedSize) return null
+        return SparseSource(
+            expectedSize, extents, map, padded, packed, stored,
+            mapOf("GNU.sparse.major" to "1", "GNU.sparse.minor" to "0",
+                "GNU.sparse.realsize" to expectedSize.toString()),
+        )
+    }
+
+    private fun writeSparsePayload(
+        out: java.io.OutputStream,
+        path: Path,
+        sparse: SparseSource,
+        progress: SbaNativeProgressListener?,
+    ) {
+        out.write(sparse.mapBytes)
+        val mapPadding = sparse.mapPaddedSize - sparse.mapBytes.size
+        if (mapPadding > 0) out.write(ByteArray(mapPadding.toInt()))
+        java.nio.channels.FileChannel.open(path, StandardOpenOption.READ).use { channel ->
+            if (channel.size() != sparse.logicalSize) throw IOException("Sparse source changed while creating TAR: $path")
+            val buffer = java.nio.ByteBuffer.allocate(64 * 1024)
+            for ((start, length) in sparse.extents) {
+                var copied = 0L
+                while (copied < length) {
+                    checkCancelled(progress)
+                    buffer.clear()
+                    buffer.limit(minOf(buffer.capacity().toLong(), length - copied).toInt())
+                    val n = channel.read(buffer, start + copied)
+                    if (n <= 0) throw IOException("Unable to read sparse source extent: $path")
+                    out.write(buffer.array(), 0, n)
+                    copied += n
+                }
+            }
+            if (sparse.packedSize != sparse.extents.sumOf { it.second }) {
+                throw IOException("Sparse source extent size changed while creating TAR: $path")
+            }
+        }
     }
 
     private data class SpecialTarType(val typeFlag: Char, val major: Long = 0L, val minor: Long = 0L)
