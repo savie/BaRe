@@ -10,6 +10,7 @@ import java.io.RandomAccessFile
 import java.nio.charset.StandardCharsets
 import java.util.Arrays
 import java.util.Random
+import java.util.zip.CRC32
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -70,6 +71,14 @@ class SbaEncryptedArchiveRoundTripInstrumentedTest {
                     } finally {
                         Arrays.fill(verifiedKey, 0)
                     }
+                    val wrongPassword = "wrong-password-$method".toCharArray()
+                    try {
+                        assertThrows(IOException::class.java) {
+                            SbaArchiveNative.deriveVerifiedArchiveKey(info, archive.absolutePath, wrongPassword)
+                        }
+                    } finally {
+                        Arrays.fill(wrongPassword, '\u0000')
+                    }
 
                     val listed = SbaArchiveNative.listEncryptedEntryTarEntriesWithKey(
                         archive.absolutePath, "data", material.key, null,
@@ -81,6 +90,40 @@ class SbaEncryptedArchiveRoundTripInstrumentedTest {
                     )
                     assertTrue(extracted.contains("payload.bin"))
                     assertArrayEquals(payload, File(destination, "payload.bin").readBytes())
+
+                    val tamperedIndex = File(root, "tampered-index-$method.sba")
+                    try {
+                        Files.copy(archive.toPath(), tamperedIndex.toPath())
+                        RandomAccessFile(tamperedIndex, "rw").use { file ->
+                            val metadataByteOffset = info.indexOffset + 16L + 2L
+                            file.seek(metadataByteOffset)
+                            val original = file.readUnsignedByte()
+                            file.seek(metadataByteOffset)
+                            file.writeByte(if (original == 'k'.code) 'x'.code else original xor 1)
+
+                            val indexBytes = ByteArray(info.indexSize.toInt())
+                            file.seek(info.indexOffset)
+                            file.readFully(indexBytes)
+                            val indexCrc = CRC32().apply { update(indexBytes) }.value.toInt()
+                            val footerOffset = file.length() - 32L
+                            file.seek(footerOffset + 24L)
+                            file.writeInt(indexCrc)
+                            file.seek(footerOffset)
+                            val footerPrefix = ByteArray(28)
+                            file.readFully(footerPrefix)
+                            val footerCrc = CRC32().apply { update(footerPrefix) }.value.toInt()
+                            file.seek(footerOffset + 28L)
+                            file.writeInt(footerCrc)
+                        }
+                        val tamperedInfo = SbaArchiveNative.readArchiveInfo(tamperedIndex.absolutePath)
+                        assertThrows(IOException::class.java) {
+                            SbaArchiveNative.deriveVerifiedArchiveKey(
+                                tamperedInfo, tamperedIndex.absolutePath, password,
+                            )
+                        }
+                    } finally {
+                        tamperedIndex.delete()
+                    }
 
                     RandomAccessFile(archive, "rw").use { file ->
                         val offset = entry.payloadOffset + 3L
