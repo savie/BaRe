@@ -142,21 +142,11 @@ class IntroActivity : AppCompatActivity() {
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_language -> {
-                        startActivity(
-                            Intent().setClassName(
-                                this@IntroActivity,
-                                "$packageName.locale.LocaleActivity",
-                            ),
-                        )
+                        launchIntroMenuDestination("$packageName.locale.LocaleActivity")
                         true
                     }
                     R.id.action_barelogger -> {
-                        startActivity(
-                            Intent().setClassName(
-                                this@IntroActivity,
-                                "$packageName.slog.SLogActivity",
-                            ),
-                        )
+                        launchIntroMenuDestination("$packageName.slog.SLogActivity")
                         true
                     }
                     R.id.action_restart -> {
@@ -167,6 +157,15 @@ class IntroActivity : AppCompatActivity() {
                 }
             }
             show()
+        }
+    }
+
+    private fun launchIntroMenuDestination(className: String) {
+        try {
+            startActivity(Intent().setClassName(this, className))
+        } catch (error: Exception) {
+            Log.w(TAG, "Intro menu destination is unavailable: $className", error)
+            Toast.makeText(this, R.string.permission_error, Toast.LENGTH_SHORT).show()
         }
     }
 
