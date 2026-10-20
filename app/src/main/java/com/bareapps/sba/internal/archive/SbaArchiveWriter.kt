@@ -394,6 +394,7 @@ internal object SbaArchiveWriter {
         var emitted = 0
         var regularFileCount = 0L
         var directoryCount = 0L
+        val firstHardLinkByInode = HashMap<Pair<Long, Long>, String>()
         Files.newOutputStream(destination).use { raw ->
             BufferedOutputStream(raw).use { out ->
                 for (path in paths) {
@@ -409,23 +410,31 @@ internal object SbaArchiveWriter {
                     if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile && special == null) {
                         throw IOException("Unsupported TAR source type: $path")
                     }
-                    val sparse = if (attrs.isRegularFile && attrs.size() >= (1L shl 20)) {
+                    val inode = if (attrs.isRegularFile) readHardLinkIdentity(path) else null
+                    val priorHardLink = if (inode != null) firstHardLinkByInode.putIfAbsent(inode, archiveName) else null
+                    val isHardLink = priorHardLink != null
+                    val sparse = if (attrs.isRegularFile && !isHardLink && attrs.size() >= (1L shl 20)) {
                         discoverSparseSource(path, attrs.size())
                     } else null
                     val tarPayloadSize = when {
+                        isHardLink || attrs.isSymbolicLink || special != null || attrs.isDirectory -> 0L
                         sparse != null -> sparse.storedSize
-                        attrs.isSymbolicLink || special != null || attrs.isDirectory -> 0L
                         else -> attrs.size()
                     }
-                    val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
+                    val linkTarget = when {
+                        isHardLink -> priorHardLink
+                        attrs.isSymbolicLink -> Files.readSymbolicLink(path).toString()
+                        else -> null
+                    }
                     writeTarHeader(
                         out, archiveName, attrs.isDirectory, tarPayloadSize,
                         attrs.lastModifiedTime().toMillis(),
                         readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
-                        linkTarget, special?.typeFlag, special?.major ?: 0L, special?.minor ?: 0L,
+                        linkTarget, if (isHardLink) '1' else special?.typeFlag,
+                        special?.major ?: 0L, special?.minor ?: 0L,
                         sparse?.paxEntries ?: emptyMap(),
                     )
-                    if (attrs.isRegularFile) {
+                    if (attrs.isRegularFile && !isHardLink) {
                         if (sparse != null) {
                             writeSparsePayload(out, path, sparse, progress)
                         } else {
@@ -443,7 +452,7 @@ internal object SbaArchiveWriter {
                         if (pad > 0) out.write(ByteArray(pad))
                     }
                     emitted++
-                    if (attrs.isRegularFile) regularFileCount++
+                    if (attrs.isRegularFile && !isHardLink) regularFileCount++
                     if (attrs.isDirectory) directoryCount++
                 }
                 if (emitted == 0) throw IOException("SBA entry selection produced an empty TAR payload")
@@ -564,6 +573,19 @@ internal object SbaArchiveWriter {
             out.write(body)
         }
         return out.toByteArray()
+    }
+
+    private fun readHardLinkIdentity(path: Path): Pair<Long, Long>? {
+        return try {
+            val linkCount = (Files.getAttribute(path, "unix:nlink", LinkOption.NOFOLLOW_LINKS) as Number).toLong()
+            if (linkCount < 2L) return null
+            val device = (Files.getAttribute(path, "unix:dev", LinkOption.NOFOLLOW_LINKS) as Number).toLong()
+            val inode = (Files.getAttribute(path, "unix:ino", LinkOption.NOFOLLOW_LINKS) as Number).toLong()
+            device to inode
+        } catch (_: Exception) {
+            // Filesystems without stable inode metadata remain correct, but are emitted as independent files.
+            null
+        }
     }
 
     private data class SparseSource(
