@@ -70,6 +70,31 @@ interface SbaTaskBackend {
     fun extractTar(request: SbaTarExtractTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult
 }
 
+internal object SbaArchiveOutputTransaction {
+    /** Create a sibling staging file; the caller must commit only after verification succeeds. */
+    @Throws(IOException::class)
+    fun createStagingFile(outputPath: String): Pair<Path, Path> {
+        if (outputPath.isBlank()) throw IOException("SBA output path must not be blank")
+        val finalOutput = Path.of(outputPath).toAbsolutePath().normalize()
+        val parent = finalOutput.parent ?: throw IOException("SBA output path must have a parent")
+        Files.createDirectories(parent)
+        val staged = Files.createTempFile(parent, ".bare-sba-verified-", ".tmp")
+        return finalOutput to staged
+    }
+
+    /** Atomically replace the destination only after the staged archive has been verified. */
+    @Throws(IOException::class)
+    fun commit(staged: Path, finalOutput: Path) {
+        try {
+            Files.move(staged, finalOutput,
+                java.nio.file.StandardCopyOption.ATOMIC_MOVE,
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        } catch (_: java.nio.file.AtomicMoveNotSupportedException) {
+            Files.move(staged, finalOutput, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
 private object NativeSbaTaskBackend : SbaTaskBackend {
     override fun create(request: SbaCreateTaskRequest, progress: SbaNativeProgressListener): SbaTaskBackendResult {
         val started = System.nanoTime()
@@ -96,13 +121,11 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
             } else if (!(request.password == null || request.password.isEmpty()) || request.encryptionMethod != 0) {
                 throw IOException("Password/encryption method supplied for unencrypted SBA creation")
             }
-            val finalOutput = Path.of(request.outputPath).toAbsolutePath().normalize()
-            val parent = finalOutput.parent ?: throw IOException("SBA output path must have a parent")
-            Files.createDirectories(parent)
             // Build and validate a sibling staging archive first. The existing destination is
             // not replaced until every entry has been decrypted/listed successfully.
-            stagedOutput = Files.createTempFile(parent, ".bare-sba-verified-", ".tmp")
-            val stagedPath = stagedOutput.toString()
+            val (finalOutput, stage) = SbaArchiveOutputTransaction.createStagingFile(request.outputPath)
+            stagedOutput = stage
+            val stagedPath = stage.toString()
             val keyLength = if (request.encryptionMethod == 4) 32 else if (request.encryptionMethod == 5) 16 else 0
             val stats = SbaArchiveNative.a.createArchive(
                 request.mode,
@@ -160,13 +183,7 @@ private object NativeSbaTaskBackend : SbaTaskBackend {
                 }
             }
             if (progress.isCancellationRequested()) throw InterruptedIOException("SBA operation cancelled")
-            try {
-                Files.move(stagedOutput!!, finalOutput,
-                    java.nio.file.StandardCopyOption.ATOMIC_MOVE,
-                    java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-            } catch (_: java.nio.file.AtomicMoveNotSupportedException) {
-                Files.move(stagedOutput!!, finalOutput, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-            }
+            SbaArchiveOutputTransaction.commit(stagedOutput!!, finalOutput)
             stagedOutput = null
             return SbaTaskBackendResult(
                 outputPath = finalOutput.toString(),
