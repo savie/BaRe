@@ -366,7 +366,6 @@ class IntroActivity : AppCompatActivity() {
 
         val bulkPermissions = buildList {
             add(Manifest.permission.READ_SMS)
-            add("android.permission.WRITE_SMS")
             add(Manifest.permission.READ_CONTACTS)
             add(Manifest.permission.READ_CALL_LOG)
             add(Manifest.permission.WRITE_CALL_LOG)
