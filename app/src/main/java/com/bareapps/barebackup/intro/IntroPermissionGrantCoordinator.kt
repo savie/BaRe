@@ -42,15 +42,17 @@ internal object IntroPermissionGrantCoordinator {
         false
     }
 
-    fun launchShizukuManager(context: Context): Boolean = try {
-        val intent = context.packageManager.getLaunchIntentForPackage(SHIZUKU_MANAGER_PACKAGE)
-            ?: return false
-        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(intent)
-        true
-    } catch (error: Exception) {
-        Log.w(TAG, "Unable to open Shizuku manager", error)
-        false
+    fun launchShizukuManager(context: Context): Boolean {
+        return try {
+            val intent = context.packageManager.getLaunchIntentForPackage(SHIZUKU_MANAGER_PACKAGE)
+                ?: return false
+            intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+            true
+        } catch (error: Exception) {
+            Log.w(TAG, "Unable to open Shizuku manager", error)
+            false
+        }
     }
 
     fun grantWithRoot(context: Context): Attempt {
