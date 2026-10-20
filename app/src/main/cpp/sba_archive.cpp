@@ -707,8 +707,8 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
         env->DeleteLocalRef(entry);
         if (env->ExceptionCheck()) return nullptr;
         pendingPax.clear();
-        const uint64_t payloadSize = metadataRecord ? headerSize : size;
-        const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        const uint64_t recordPayloadSize = metadataRecord ? headerSize : size;
+        const uint64_t blocks = recordPayloadSize / 512ULL + ((recordPayloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
         if (blocks > (static_cast<uint64_t>(INT64_MAX) / 512ULL)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
@@ -1184,6 +1184,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const std::string* sparseMajor = paxValue(pendingPax, globalPax, "GNU.sparse.major");
         const std::string* sparseMinor = paxValue(pendingPax, globalPax, "GNU.sparse.minor");
         std::vector<SparseExtent> sparseExtents;
+        uint64_t logicalSize = size;
         uint64_t oldSparseExtensionBlocks = 0;
         const bool sparsePax10 = sparseMajor != nullptr && *sparseMajor == "1";
         const bool oldGnuSparse = h.typeflag == 'S' && sparseMap == nullptr && !sparsePax10;
@@ -1201,7 +1202,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             return nullptr;
         }
         bool sparseEntry = sparseMap != nullptr || sparseSize != nullptr || h.typeflag == 'S' || sparsePax10;
-        uint64_t logicalSize = size;
         uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         uint64_t payloadSize = size;
         uint64_t sparseMapPaddedSize = 0;
