@@ -405,9 +405,18 @@ internal object SbaArchiveWriter {
                     if (relText.isNotEmpty() && !selected(relText, effectiveIncludes, effectiveExcludes, attrs.isDirectory)) continue
                     val archiveName = if (includeRoot && source.isDirectory()) source.fileName.toString() + if (relText.isEmpty()) "" else "/$relText" else relText
                     if (archiveName.isEmpty()) continue
-                    if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile) throw IOException("Unsupported TAR source type: $path")
+                    val special = if (attrs.isOther) readSpecialTarType(path) else null
+                    if (!attrs.isSymbolicLink && !attrs.isDirectory && !attrs.isRegularFile && special == null) {
+                        throw IOException("Unsupported TAR source type: $path")
+                    }
                     val linkTarget = if (attrs.isSymbolicLink) Files.readSymbolicLink(path).toString() else null
-                    writeTarHeader(out, archiveName, attrs.isDirectory, if (attrs.isSymbolicLink) 0L else attrs.size(), attrs.lastModifiedTime().toMillis(), readMode(path, attrs.isDirectory, attrs.isSymbolicLink), linkTarget)
+                    writeTarHeader(
+                        out, archiveName, attrs.isDirectory,
+                        if (attrs.isSymbolicLink || special != null) 0L else attrs.size(),
+                        attrs.lastModifiedTime().toMillis(),
+                        readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
+                        linkTarget, special?.typeFlag, special?.major ?: 0L, special?.minor ?: 0L,
+                    )
                     if (attrs.isRegularFile) {
                         Files.newInputStream(path).use { input ->
                             val buffer = ByteArray(64 * 1024)
@@ -456,6 +465,9 @@ internal object SbaArchiveWriter {
         mtimeMillis: Long,
         mode: Int,
         linkTarget: String? = null,
+        specialTypeFlag: Char? = null,
+        devMajor: Long = 0L,
+        devMinor: Long = 0L,
     ) {
         val split = splitName(name)
         val linkTooLong = linkTarget != null && linkTarget.toByteArray(StandardCharsets.UTF_8).size > 100
@@ -482,8 +494,8 @@ internal object SbaArchiveWriter {
         val headerLink = if (linkTooLong) null else linkTarget
         val headerSize = if (sizeNeedsPax) 0L else size
         val headerMtime = if (mtimeNeedsPax) 0L else mtimeSeconds
-        val type = if (linkTarget != null) '2' else if (directory) '5' else '0'
-        writeRawTarHeader(out, headerName, directory, headerSize, headerMtime, mode, headerLink, type)
+        val type = specialTypeFlag ?: if (linkTarget != null) '2' else if (directory) '5' else '0'
+        writeRawTarHeader(out, headerName, directory, headerSize, headerMtime, mode, headerLink, type, devMajor, devMinor)
     }
 
     private fun writeRawTarHeader(
@@ -495,6 +507,8 @@ internal object SbaArchiveWriter {
         mode: Int,
         linkTarget: String?,
         typeFlag: Char,
+        devMajor: Long = 0L,
+        devMinor: Long = 0L,
     ) {
         val split = splitName(name) ?: throw IOException("Internal TAR header name exceeds ustar limits")
         val header = ByteArray(TAR_BLOCK)
@@ -503,6 +517,8 @@ internal object SbaArchiveWriter {
         putOctal(header, 108, 8, 0); putOctal(header, 116, 8, 0)
         putOctal(header, 124, 12, if (directory && typeFlag == '5') 0 else size)
         putOctal(header, 136, 12, mtimeSeconds.coerceIn(0L, MAX_TAR_OCTAL))
+        putOctal(header, 329, 8, devMajor)
+        putOctal(header, 337, 8, devMinor)
         for (i in 148 until 156) header[i] = 0x20
         header[156] = typeFlag.code.toByte()
         if (linkTarget != null) {
@@ -534,6 +550,31 @@ internal object SbaArchiveWriter {
             out.write(body)
         }
         return out.toByteArray()
+    }
+
+    private data class SpecialTarType(val typeFlag: Char, val major: Long = 0L, val minor: Long = 0L)
+
+    private fun readSpecialTarType(path: Path): SpecialTarType {
+        val mode = try {
+            (Files.getAttribute(path, "unix:mode", LinkOption.NOFOLLOW_LINKS) as Number).toLong()
+        } catch (failure: Exception) {
+            throw IOException("Unable to inspect special filesystem object type: $path", failure)
+        }
+        return when ((mode.toInt() and 0xF000)) {
+            0x1000 -> SpecialTarType('6') // FIFO
+            0x2000, 0x6000 -> {
+                val device = try {
+                    (Files.getAttribute(path, "unix:rdev", LinkOption.NOFOLLOW_LINKS) as Number).toLong()
+                } catch (failure: Exception) {
+                    throw IOException("Unable to read device number for TAR source: $path", failure)
+                }
+                // Linux glibc-compatible major/minor extraction from dev_t.
+                val major = ((device ushr 8) and 0xFFF) or ((device ushr 32) and 0xFFFFF000L)
+                val minor = (device and 0xFF) or ((device ushr 12) and 0xFFFFFF00L)
+                SpecialTarType(if ((mode.toInt() and 0xF000) == 0x2000) '3' else '4', major, minor)
+            }
+            else -> throw IOException("Unsupported TAR special source type (socket/unknown): $path")
+        }
     }
 
     private fun readMode(path: Path, directory: Boolean, symbolicLink: Boolean): Int {
