@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 #include <sys/sendfile.h>
 #include <sys/xattr.h>
 #include <limits>
@@ -1474,6 +1475,68 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 if (e) env->ThrowNew(e, "Unable to safely materialize TAR link");
                 return nullptr;
             }
+            extracted.push_back(name);
+        } else if (type == '6' || type == '3' || type == '4') {
+            std::string leaf;
+            int parentFd = openParentAt(rootFd, name, true, &leaf);
+            if (parentFd < 0) {
+                close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to securely open TAR special-file parent");
+                return nullptr;
+            }
+            if (unlinkat(parentFd, leaf.c_str(), 0) != 0 && errno != ENOENT) {
+                close(parentFd); close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to safely replace existing TAR special file");
+                return nullptr;
+            }
+            const mode_t safeMode = static_cast<mode_t>(entryMode & static_cast<uint64_t>(modeMask) & 0777ULL);
+            int createResult = -1;
+            if (type == '6') {
+                createResult = mkfifoat(parentFd, leaf.c_str(), safeMode);
+            } else {
+                const uint64_t deviceMajor = parseTarNumber(h.devmajor, sizeof(h.devmajor));
+                const uint64_t deviceMinor = parseTarNumber(h.devminor, sizeof(h.devminor));
+                if (geteuid() != 0 || deviceMajor == UINT64_MAX || deviceMinor == UINT64_MAX ||
+                    deviceMajor > UINT_MAX || deviceMinor > UINT_MAX) {
+                    close(parentFd); close(rootFd);
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Restoring TAR device nodes requires root and valid device numbers");
+                    return nullptr;
+                }
+                const mode_t deviceType = type == '3' ? S_IFCHR : S_IFBLK;
+                createResult = mknodat(parentFd, leaf.c_str(), deviceType | safeMode,
+                    makedev(static_cast<unsigned int>(deviceMajor), static_cast<unsigned int>(deviceMinor)));
+            }
+            if (createResult != 0) {
+                close(parentFd); close(rootFd);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Unable to create TAR FIFO/device node");
+                return nullptr;
+            }
+            const jlong specialMetadataStartMillis = metadataClockMillis();
+            if (entryUid != UINT64_MAX && entryGid != UINT64_MAX &&
+                entryUid <= static_cast<uint64_t>(std::numeric_limits<uid_t>::max()) &&
+                entryGid <= static_cast<uint64_t>(std::numeric_limits<gid_t>::max())) {
+                (void)fchownat(parentFd, leaf.c_str(), static_cast<uid_t>(entryUid),
+                    static_cast<gid_t>(entryGid), AT_SYMLINK_NOFOLLOW);
+            }
+            (void)fchmodat(parentFd, leaf.c_str(), safeMode, 0);
+            struct timespec specialTimes[2]{};
+            specialTimes[0].tv_nsec = UTIME_OMIT;
+            millisToTimespec(entryMtimeMillis, &specialTimes[1]);
+            (void)utimensat(parentFd, leaf.c_str(), specialTimes, AT_SYMLINK_NOFOLLOW);
+            if (!entryXattrs.empty()) {
+                const std::string procPath = "/proc/self/fd/" + std::to_string(parentFd) + "/" + leaf;
+                for (const auto& attribute : entryXattrs) {
+                    std::string value = attribute.second;
+                    if (attribute.first == "security.selinux" && (value.empty() || value.back() != '\0')) value.push_back('\0');
+                    (void)lsetxattr(procPath.c_str(), attribute.first.c_str(), value.data(), value.size(), 0);
+                }
+            }
+            metadataElapsedMillis += std::max<jlong>(0, metadataClockMillis() - specialMetadataStartMillis);
+            close(parentFd);
             extracted.push_back(name);
         }
     }
