@@ -278,6 +278,56 @@ bool parseSparseMap(const std::string& value, uint64_t realSize, uint64_t packed
     return packedTotal == packedSize;
 }
 
+// Decode the legacy GNU TAR typeflag 'S' sparse map. Its four inline extents
+// are in the main header; continuation blocks contain 21 extents and a flag
+// byte at offset 504. Continuation blocks precede the packed payload.
+bool parseOldGnuSparse(int fd, off_t headerOffset, const TarHeader& header,
+                       uint64_t packedSize, uint64_t* logicalSize,
+                       std::vector<SparseExtent>* extents, uint64_t* extensionBlocks) {
+    if (logicalSize == nullptr || extents == nullptr || extensionBlocks == nullptr ||
+        header.typeflag != 'S' || headerOffset < 0) return false;
+    const auto* raw = reinterpret_cast<const unsigned char*>(&header);
+    uint64_t realSize = parseTarNumber(reinterpret_cast<const char*>(raw + 483), 12);
+    if (realSize == UINT64_MAX || realSize > static_cast<uint64_t>(INT64_MAX)) return false;
+    extents->clear();
+    uint64_t packedTotal = 0;
+    auto appendExtent = [&](const unsigned char* pair) -> bool {
+        const uint64_t start = parseTarNumber(reinterpret_cast<const char*>(pair), 12);
+        const uint64_t length = parseTarNumber(reinterpret_cast<const char*>(pair + 12), 12);
+        if (start == UINT64_MAX || length == UINT64_MAX) return false;
+        if (start == 0 && length == 0) return true;
+        if (length == 0 || start > realSize || length > realSize - start ||
+            packedTotal > UINT64_MAX - length) return false;
+        if (!extents->empty()) {
+            const SparseExtent& previous = extents->back();
+            if (start < previous.offset + previous.length) return false;
+        }
+        packedTotal += length;
+        extents->push_back({start, length});
+        return true;
+    };
+    for (size_t i = 0; i < 4; ++i) {
+        if (!appendExtent(raw + 386 + i * 24)) return false;
+    }
+    uint64_t continuations = 0;
+    bool more = raw[482] != 0 && raw[482] != ' ' && raw[482] != '0';
+    while (more) {
+        if (++continuations > 1000000ULL ||
+            static_cast<uint64_t>(headerOffset) > static_cast<uint64_t>(INT64_MAX) - 512ULL - continuations * 512ULL) return false;
+        unsigned char block[512];
+        const off_t blockOffset = headerOffset + static_cast<off_t>(512ULL + (continuations - 1ULL) * 512ULL);
+        if (!readExactAt(fd, block, sizeof(block), blockOffset)) return false;
+        for (size_t i = 0; i < 21; ++i) {
+            if (!appendExtent(block + i * 24)) return false;
+        }
+        more = block[504] != 0 && block[504] != ' ' && block[504] != '0';
+    }
+    if (packedTotal != packedSize) return false;
+    *logicalSize = realSize;
+    *extensionBlocks = continuations;
+    return true;
+}
+
 // GNU PAX sparse 1.0 stores its extent map as newline-delimited decimal values
 // at the start of the member data, padded to a 512-byte boundary. The member's
 // header size includes both this map and the packed extent bytes.
