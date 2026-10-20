@@ -299,4 +299,35 @@ class SbaArchiveWriterTest {
             Files.walk(root).sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) }
         }
     }
+
+    @Test
+    fun acceptsMetadataBeyondOneMiBWithinTheIndexBoundAndRejectsMalformedUtf8() {
+        val root = Files.createTempDirectory("sba-writer-metadata-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("large-metadata.sba")
+            val metadata = ByteArray((1 shl 20) + 1) { ' '.code.toByte() }
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), metadata,
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                null, null, null, null, null,
+            )
+            assertArrayEquals(metadata, SbaArchiveReader.read(destination.toString()).metadata)
+
+            assertThrows(IOException::class.java) {
+                SbaArchiveWriter.createArchive(
+                    1, root.resolve("invalid-metadata.sba").toString(), byteArrayOf(0xff.toByte()),
+                    arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                    arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                    0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                    null, null, null, null, null,
+                )
+            }
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) }
+        }
+    }
 }

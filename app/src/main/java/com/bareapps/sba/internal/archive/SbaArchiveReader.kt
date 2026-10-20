@@ -19,7 +19,7 @@ internal object SbaArchiveReader {
     private const val INDEX_RECORD_SIZE_V1 = 84
     private const val INDEX_RECORD_SIZE_V2 = 108
     private const val FOOTER_SIZE = 32
-    private const val MAX_METADATA = 1 shl 20
+    private const val MAX_METADATA = (64 shl 20) - INDEX_HEADER_SIZE
     private const val MAX_INDEX_BYTES = 64 shl 20
     private const val MAX_ENTRIES = 1_000_000
     private const val TAR_BLOCK = 512

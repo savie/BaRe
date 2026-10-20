@@ -132,3 +132,8 @@ The rewrite now includes the following implementation additions, beyond the prev
 - Password/key-check derivation now recognizes the reference's five method-specific key-check domains and key lengths (methods 1–4 use 32-byte derived keys; method 5 uses 16 bytes). This extends password verification and v2 index-MAC validation, but does not implement the 7zAES/AES-GCM/AES-GCM-SIV payload cipher backends.
 
 These are source implementations. CI/build status is tracked by the repository workflow; no claim of full reference parity is implied by this note. The non-AEGIS payload backends, binary xattr encoding, device/runtime execution, and known-password reference interoperability still need implementation or verification.
+
+
+## Metadata bound parity (2026-10-20)
+
+The reference index parser bounds metadata by the remaining index bytes rather than a separate 1 MiB ceiling. Rewrite now allows metadata up to the 64 MiB index bound, still checks the complete index size, and rejects malformed UTF-8 at creation time so the writer cannot produce an archive its own reader rejects. Unit coverage includes metadata larger than 1 MiB and malformed UTF-8 rejection.

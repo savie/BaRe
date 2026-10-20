@@ -36,7 +36,7 @@ internal object SbaArchiveWriter {
     private const val INDEX_RECORD_SIZE_V1 = 84
     private const val INDEX_RECORD_SIZE_V2 = 108
     private const val FOOTER_SIZE = 32
-    private const val MAX_METADATA = 1 shl 20
+    private const val MAX_METADATA = (64 shl 20) - INDEX_HEADER_SIZE
     private const val MAX_ENTRIES = 1_000_000
     private const val MAX_INDEX_BYTES = 64 shl 20
     private const val TAR_BLOCK = 512
@@ -64,7 +64,8 @@ internal object SbaArchiveWriter {
         val encrypted = mode == 2
         val version = if (option8 == 2) 2 else 1
         require(mode == 1 || encrypted) { "Unsupported SBA archive mode" }
-        require(metadata.size <= MAX_METADATA) { "SBA archive metadata exceeds 1 MiB" }
+        require(metadata.size <= MAX_METADATA) { "SBA archive metadata exceeds the supported index bound" }
+        validateMetadataUtf8(metadata)
         require(sourcePaths.size == entryNames.size && sourcePaths.size == entryModes.size &&
             sourcePaths.size == includePaths.size && sourcePaths.size == excludePaths.size) {
             "SBA entry arrays must have identical lengths"
@@ -814,6 +815,17 @@ internal object SbaArchiveWriter {
         require(encoded.length <= length - 1) { "TAR numeric field overflow" }
         putText(target, offset, length - 1, encoded)
         target[offset + length - 1] = 0
+    }
+
+    private fun validateMetadataUtf8(metadata: ByteArray) {
+        try {
+            StandardCharsets.UTF_8.newDecoder()
+                .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
+                .decode(ByteBuffer.wrap(metadata))
+        } catch (failure: Exception) {
+            throw IOException("SBA archive metadata is not valid UTF-8", failure)
+        }
     }
 
     private fun validateEntryName(name: String) {
