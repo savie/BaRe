@@ -14,8 +14,8 @@ import org.junit.Test
 
 class SbaArchiveReaderEncryptedTest {
     @Test
-    fun parsesSanitizedTwoEntryV2LayoutRecoveredFromReferenceBackup() {
-        val root = Files.createTempDirectory("sba-reference-v2-layout")
+    fun parsesSyntheticTwoEntryV2Layout() {
+        val root = Files.createTempDirectory("sba-synthetic-v2-layout")
         try {
             val path = root.resolve("reference-layout.sba")
             // Synthetic metadata preserves the reference record length without publishing
