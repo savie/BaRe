@@ -18,9 +18,10 @@ class SbaArchiveReaderEncryptedTest {
         val root = Files.createTempDirectory("sba-reference-v2-layout")
         try {
             val path = root.resolve("reference-layout.sba")
-            // Metadata is the non-sensitive reference header JSON. Ciphertext payloads
-            // and the password-derived header index MAC are deliberately replaced below.
-            val metadata = """{"appId":"combare","backupCache":false,"compressionLevel":"FASTEST","dataSize":19456,"deDataSize":171008,"encrypted":true,"entries":["data","data_de"],"includeDeviceProtectedData":true,"kind":"swiftbackup.app-data","packageName":"com.bare","version":1,"versionCode":333,"versionName":"1.0"}"""
+            // Synthetic metadata preserves the reference record length without publishing
+            // app-specific backup metadata or password-verification material from the supplied archive.
+            val metadata = """{"fixture":"synthetic","encrypted":true,"entries":["data","data_de"]}"""
+                .padEnd(290, ' ')
                 .toByteArray(StandardCharsets.UTF_8)
             val records = listOf(
                 Triple("data", longArrayOf(144, 172, 642, 626, 9728), longArrayOf(5, 2, 3)),
@@ -54,7 +55,7 @@ class SbaArchiveReaderEncryptedTest {
             header.putShort(2)
             header.putShort(144)
             header.putInt(3)
-            header.putLong(1789818238000L)
+            header.putLong(1700000000000L)
             header.putShort(1)
             header.putShort(1)
             header.putShort(4)
@@ -63,9 +64,9 @@ class SbaArchiveReaderEncryptedTest {
             header.putShort(16)
             header.putShort(16)
             header.putShort(16)
-            header.put(hex("62cf4f8e264a386d1837b2f8ff5cb86f"))
-            header.put(hex("cc33f61d5f089e01c1c9779b037497a0"))
-            header.put(hex("6158af709aa1bdd92b3ea9e68beebe32"))
+            header.put(ByteArray(16) { (0x40 + it).toByte() }) // synthetic key-check
+            header.put(ByteArray(16) { (0x50 + it).toByte() }) // synthetic salt
+            header.put(ByteArray(16) { (0x60 + it).toByte() }) // synthetic nonce seed
             header.putShort(0)
             header.putShort(0)
             header.putInt(1 shl 20)
@@ -115,9 +116,9 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(16384, parsed.kdfMemoryKiB)
             assertEquals(1, parsed.kdfParallelism)
             assertEquals(1 shl 20, parsed.chunkSize)
-            assertArrayEquals(hex("62cf4f8e264a386d1837b2f8ff5cb86f"), parsed.keyCheck)
-            assertArrayEquals(hex("cc33f61d5f089e01c1c9779b037497a0"), parsed.salt)
-            assertArrayEquals(hex("6158af709aa1bdd92b3ea9e68beebe32"), parsed.nonceSeed)
+            assertArrayEquals(ByteArray(16) { (0x40 + it).toByte() }, parsed.keyCheck)
+            assertArrayEquals(ByteArray(16) { (0x50 + it).toByte() }, parsed.salt)
+            assertArrayEquals(ByteArray(16) { (0x60 + it).toByte() }, parsed.nonceSeed)
             assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
             assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
             assertEquals(listOf(5L, 1L), parsed.entries.map { it.tarEntryCount })
