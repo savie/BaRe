@@ -262,6 +262,120 @@ class SbaArchiveReaderEncryptedTest {
         }
     }
 
+
+    @Test
+    fun parsesSanitizedReferenceObservedV2AegisArchiveLayout() {
+        val root = Files.createTempDirectory("sba-reference-observed-v2")
+        try {
+            val path = root.resolve("reference-layout.sba")
+            // Values below are taken from the structure of the user-provided SwiftBackup
+            // 5.1.0 (620) com.bare.dat archive. Payload bytes, key material, metadata, and
+            // index MAC are replaced with synthetic values; this is not a decrypt fixture.
+            val metadata = """{"fixture":"reference-observed","encrypted":true,"entries":["data","data_de"]}"""
+                .padEnd(290, ' ')
+                .toByteArray(StandardCharsets.UTF_8)
+            val records = listOf(
+                Triple("data", longArrayOf(144, 172, 642, 626, 9728), longArrayOf(5, 2, 3)),
+                Triple("data_de", longArrayOf(814, 845, 259, 243, 2560), longArrayOf(1, 0, 1)),
+            )
+            val index = ByteBuffer.allocate(533).order(ByteOrder.BIG_ENDIAN)
+            index.put("SAI1".toByteArray(StandardCharsets.US_ASCII))
+            index.putShort(16)
+            index.putShort(2)
+            index.putInt(2)
+            index.putInt(metadata.size)
+            index.put(metadata)
+            records.forEach { (nameString, values, counts) ->
+                val name = nameString.toByteArray(StandardCharsets.UTF_8)
+                values.forEach(index::putLong)
+                index.putInt(23)
+                index.putShort(name.size.toShort())
+                index.putInt(0)
+                index.putShort(0)
+                index.put(ByteArray(32))
+                counts.forEach(index::putLong)
+                index.put(name)
+            }
+            val indexBytes = index.array()
+            val indexCrc = crc(indexBytes)
+
+            val header = ByteBuffer.allocate(144).order(ByteOrder.BIG_ENDIAN)
+            header.put("SBA1".toByteArray(StandardCharsets.US_ASCII))
+            header.putShort(2)
+            header.putShort(144)
+            header.putInt(3)
+            header.putLong(1789818238000L)
+            header.putShort(1) // Zstandard
+            header.putShort(1) // FASTEST
+            header.putShort(4) // AEGIS-256
+            header.putShort(1) // Argon2id
+            header.putShort(3)
+            header.putShort(16)
+            header.putShort(16)
+            header.putShort(16)
+            header.put(ByteArray(16) { (it + 1).toByte() })
+            header.put(ByteArray(16) { (it + 17).toByte() })
+            header.put(ByteArray(16) { (it + 33).toByte() })
+            header.putShort(0)
+            header.putShort(0)
+            header.putInt(1 shl 20)
+            header.putInt(16384)
+            header.putShort(1)
+            header.putShort(1)
+            header.putShort(32)
+            header.putShort(1)
+            header.put(ByteArray(32) { (it + 65).toByte() }) // synthetic v2 index MAC
+            header.put(ByteArray(8))
+
+            val output = java.io.ByteArrayOutputStream()
+            output.write(header.array())
+            records.forEach { (nameString, values, _) ->
+                val name = nameString.toByteArray(StandardCharsets.UTF_8)
+                val entryHeader = ByteBuffer.allocate(24).order(ByteOrder.BIG_ENDIAN)
+                entryHeader.put("SAE1".toByteArray(StandardCharsets.US_ASCII))
+                entryHeader.putShort(24)
+                entryHeader.putShort(0)
+                entryHeader.putInt(23)
+                entryHeader.putShort(name.size.toShort())
+                entryHeader.putInt(0)
+                entryHeader.put(ByteArray(6))
+                output.write(entryHeader.array())
+                output.write(name)
+                output.write(ByteArray(values[2].toInt()))
+            }
+            assertEquals(1104, output.size())
+            output.write(indexBytes)
+            val footer = ByteBuffer.allocate(32).order(ByteOrder.BIG_ENDIAN)
+            footer.put("SAF1".toByteArray(StandardCharsets.US_ASCII))
+            footer.putShort(32)
+            footer.putShort(2)
+            footer.putLong(1104L)
+            footer.putLong(indexBytes.size.toLong())
+            footer.putInt(indexCrc)
+            footer.putInt(crc(footer.array().copyOfRange(0, 28)))
+            output.write(footer.array())
+            Files.write(path, output.toByteArray())
+
+            val parsed = SbaArchiveReader.read(path.toString())
+            assertEquals(1669L, parsed.fileSize)
+            assertEquals(1104L, parsed.indexOffset)
+            assertEquals(533L, parsed.indexSize)
+            assertEquals(1048576, parsed.chunkSize)
+            assertEquals(16384, parsed.kdfMemoryKiB)
+            assertEquals(1, parsed.kdfParallelism)
+            assertArrayEquals(ByteArray(32) { (it + 65).toByte() }, parsed.indexMac)
+            assertEquals(listOf("data", "data_de"), parsed.entries.map { it.name })
+            assertEquals(listOf(642L, 259L), parsed.entries.map { it.storedSize })
+            assertEquals(listOf(626L, 243L), parsed.entries.map { it.compressedSize })
+            assertEquals(listOf(9728L, 2560L), parsed.entries.map { it.tarSize })
+            assertEquals(listOf(5L, 1L), parsed.entries.map { it.tarEntryCount })
+            assertEquals(listOf(2L, 0L), parsed.entries.map { it.regularFileCount })
+            assertEquals(listOf(3L, 1L), parsed.entries.map { it.directoryCount })
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
     private fun convertAegisFixtureToAesCbc(source: ByteArray): ByteArray {
         val footerOffset = source.size - 32
         val oldIndexOffset = ByteBuffer.wrap(source, footerOffset + 8, 8).order(ByteOrder.BIG_ENDIAN).long.toInt()
