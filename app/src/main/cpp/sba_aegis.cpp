@@ -404,7 +404,7 @@ jlongArray processChunked(JNIEnv* env, int method, bool encrypt,
     VectorWiper wipeKey{key}, wipeSeed{nonceSeed}, wipeName{entryName};
     if (!copyByteArray(env, keyArray, &key, keyLength, "key") ||
         !copyByteArray(env, nonceSeedArray, &nonceSeed, kNonceSeedBytes, "nonce seed") ||
-        !copyVariableByteArray(env, entryNameArray, &entryName, 1024 * 1024, "entry name")) {
+        !copyVariableByteArray(env, entryNameArray, &entryName, 65536, "entry name")) {
         return nullptr;
     }
     const uint64_t plainSize = static_cast<uint64_t>(plainByteCount);
