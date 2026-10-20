@@ -165,7 +165,7 @@ jobs:
             for attempt in $(seq 1 60); do
               state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
               if [ "$state" = "device" ]; then break; fi
-              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 || [ "$attempt" -eq 40 ]; then
+              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 ] || [ "$attempt" -eq 40 ]; then
                 adb reconnect offline || true
               fi
               sleep 2
