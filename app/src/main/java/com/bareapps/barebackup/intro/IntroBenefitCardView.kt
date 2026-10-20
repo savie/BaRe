@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import com.bareapps.barebackup.R
 import com.google.android.material.card.MaterialCardView
 
 class IntroBenefitCardView @JvmOverloads constructor(
