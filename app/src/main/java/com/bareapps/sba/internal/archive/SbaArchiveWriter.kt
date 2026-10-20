@@ -584,29 +584,37 @@ internal object SbaArchiveWriter {
             Files.getFileAttributeView(path, UserDefinedFileAttributeView::class.java, LinkOption.NOFOLLOW_LINKS)
         } catch (_: Exception) {
             null
-        } ?: return emptyMap()
+        }
         val result = linkedMapOf<String, String>()
-        for (name in view.list().sorted()) {
-            if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) continue
-            val size = view.size(name)
-            if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
-            val buffer = java.nio.ByteBuffer.allocate(size)
-            view.read(name, buffer)
-            buffer.flip()
-            val value = try {
-                StandardCharsets.UTF_8.newDecoder()
-                    .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
-                    .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
-                    .decode(buffer).toString()
-            } catch (failure: Exception) {
-                // The reference's PAX xattr reader applies the value bytes directly;
-                // a non-UTF-8 value cannot be represented safely by this text PAX writer.
-                throw IOException("Cannot safely encode non-UTF-8 user xattr in TAR: $name", failure)
+        if (view != null) {
+            for (name in view.list().sorted()) {
+                if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) continue
+                val size = view.size(name)
+                if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
+                val buffer = java.nio.ByteBuffer.allocate(size)
+                view.read(name, buffer)
+                buffer.flip()
+                val value = try {
+                    StandardCharsets.UTF_8.newDecoder()
+                        .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                        .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
+                        .decode(buffer).toString()
+                } catch (failure: Exception) {
+                    // The reference's PAX xattr reader applies value bytes directly;
+                    // a non-UTF-8 value cannot be represented safely by this text PAX writer.
+                    throw IOException("Cannot safely encode non-UTF-8 user xattr in TAR: $name", failure)
+                }
+                if ('\n' in value || '\u0000' in value) {
+                    throw IOException("Cannot safely encode control bytes in TAR xattr: $name")
+                }
+                val paxName = if (name.startsWith("user.")) name else "user.$name"
+                result["SCHILY.xattr.$paxName"] = value
             }
-            if ('\n' in value || '\u0000' in value) {
-                throw IOException("Cannot safely encode control bytes in TAR xattr: $name")
+        }
+        SbaSparseNative.getSelinuxLabel(path.toString())?.let { label ->
+            if ('\n' !in label && '\u0000' !in label) {
+                result["SCHILY.xattr.security.selinux"] = label
             }
-            result["SCHILY.xattr.user.$name"] = value
         }
         return result
     }
