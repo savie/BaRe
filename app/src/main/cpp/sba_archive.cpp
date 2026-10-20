@@ -1676,7 +1676,7 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
     close(fd);
     if (!supported) return env->NewLongArray(0);
     if (logicalSize > 0 && extents.size() == 2 &&
-        extents[0] == 0 && extents[1] == logicalSize) extents.clear();
+        extents[0] == 0 && extents[1] == logicalSize) return env->NewLongArray(0);
     const jsize count = static_cast<jsize>(2 + extents.size());
     jlongArray result = env->NewLongArray(count);
     if (result == nullptr) return nullptr;
