@@ -23,7 +23,7 @@
 - **Performance:** App backups and restores are now faster and show better task progress with the new backup format.
 - **Backup details:** Added a new view in the app detail screen under the backup’s 3-dot menu.
 - **APK sharing:** Export and import APKs from installed apps and app backups, including split APK sets, through Android’s share menu.
-- **Installed apps visibility:** Improved handling on Xiaomi/HyperOS, OPPO/ColorOS, and other devices that require a separate installed apps permission, with new diagnostics in Settings > BΛR☰ Labs.
+- **Installed apps visibility:** Improved handling on Xiaomi/HyperOS, OPPO/ColorOS, and other devices that require a separate installed apps permission, with new diagnostics in Settings > Bare Labs.
 - **In-place downgrades:** Added optional support for compatible ROMs or modules such as CorePatch. Configure this in Settings > Apps > App data.
 
 **WiFi**
@@ -40,7 +40,7 @@
 
 **Schedules**
 - Reorder schedules or run them manually even when they are turned off.
-- Improved handling when Android applies background time limits to backup and restore services. Root users can extend the time limit in Settings > BΛR☰ Labs.
+- Improved handling when Android applies background time limits to backup and restore services. Root users can extend the time limit in Settings > Bare Labs.
 
 **Design and Usability**
 - Added search on the Home screen to quickly find apps, folder setups, shortcuts, and quick actions.
@@ -50,5 +50,5 @@
 **Other Improvements**
 - Added Ukrainian language support.
 - **Storage troubleshooting:** Added guidance for storage utilities, Magisk/LSPosed modules, bind mounts, and similar configurations that can make backup storage unavailable.
-- **BΛR☰ Logger:** Added text sharing, faster export preparation, and more reliable handling of large log histories.
+- **BareLogger:** Added text sharing, faster export preparation, and more reliable handling of large log histories.
 - Various layout and translation fixes.
