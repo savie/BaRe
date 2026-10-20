@@ -143,6 +143,9 @@ bool parsePaxRecords(const std::string& payload, std::map<std::string, std::stri
                      bool globalRecords) {
     if (records == nullptr) return false;
     size_t at = 0;
+    std::vector<std::string> repeatedSparseValues;
+    bool expectSparseOffset = true;
+    bool sparseMapInPayload = false;
     while (at < payload.size()) {
         const size_t space = payload.find(' ', at);
         if (space == std::string::npos || space == at) return false;
@@ -162,9 +165,27 @@ bool parsePaxRecords(const std::string& payload, std::map<std::string, std::stri
         if (equals == std::string::npos || equals >= recordEnd - 1 || equals == space + 1) return false;
         const std::string key = payload.substr(space + 1, equals - (space + 1));
         const std::string value = payload.substr(equals + 1, recordEnd - equals - 2);
-        if (value.empty() && globalRecords) records->erase(key);
-        else (*records)[key] = value;
+        if (key == "GNU.sparse.offset" || key == "GNU.sparse.numbytes") {
+            const bool isOffset = key == "GNU.sparse.offset";
+            if (value.empty() || isOffset != expectSparseOffset ||
+                repeatedSparseValues.size() >= 2000000U) return false;
+            repeatedSparseValues.push_back(value);
+            expectSparseOffset = !expectSparseOffset;
+        } else {
+            if (key == "GNU.sparse.map") sparseMapInPayload = true;
+            if (value.empty() && globalRecords) records->erase(key);
+            else (*records)[key] = value;
+        }
         at = recordEnd;
+    }
+    if (!repeatedSparseValues.empty()) {
+        if (expectSparseOffset || sparseMapInPayload) return false;
+        std::string map;
+        for (const std::string& value : repeatedSparseValues) {
+            if (!map.empty()) map.push_back(',');
+            map += value;
+        }
+        (*records)["GNU.sparse.map"] = std::move(map);
     }
     return at == payload.size();
 }
