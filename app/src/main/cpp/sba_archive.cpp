@@ -1326,6 +1326,11 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                         std::min<uint64_t>(1024ULL * 1024ULL, payloadSize - copied));
                     const ssize_t n = sendfile(out, fd, &sourceOffset, requested);
                     if (n < 0 && errno == EINTR) continue;
+                    if (n < 0 && (errno == EINVAL || errno == ENOSYS ||
+                                  errno == EOPNOTSUPP || errno == ENOTSUP)) {
+                        copyOk = copyExtent(dataOffset + copied, copied, payloadSize - copied);
+                        break;
+                    }
                     if (n <= 0) { copyOk = false; break; }
                     if (ioStats != nullptr) {
                         ++ioStats->sendfileCalls;
