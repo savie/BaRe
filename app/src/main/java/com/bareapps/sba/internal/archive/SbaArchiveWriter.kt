@@ -19,6 +19,7 @@ import java.nio.file.LinkOption
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.nio.file.attribute.BasicFileAttributes
+import java.nio.file.attribute.UserDefinedFileAttributeView
 import java.util.Locale
 import java.security.MessageDigest
 import javax.crypto.Mac
@@ -426,13 +427,16 @@ internal object SbaArchiveWriter {
                         attrs.isSymbolicLink -> Files.readSymbolicLink(path).toString()
                         else -> null
                     }
+                    val paxMetadata = linkedMapOf<String, String>()
+                    if (!isHardLink && !attrs.isSymbolicLink) paxMetadata.putAll(readUserXattrs(path))
+                    sparse?.paxEntries?.let { paxMetadata.putAll(it) }
                     writeTarHeader(
                         out, archiveName, attrs.isDirectory, tarPayloadSize,
                         attrs.lastModifiedTime().toMillis(),
                         readMode(path, attrs.isDirectory, attrs.isSymbolicLink),
                         linkTarget, if (isHardLink) '1' else special?.typeFlag,
                         special?.major ?: 0L, special?.minor ?: 0L,
-                        sparse?.paxEntries ?: emptyMap(),
+                        paxMetadata,
                     )
                     if (attrs.isRegularFile && !isHardLink) {
                         if (sparse != null) {
@@ -573,6 +577,38 @@ internal object SbaArchiveWriter {
             out.write(body)
         }
         return out.toByteArray()
+    }
+
+    private fun readUserXattrs(path: Path): Map<String, String> {
+        val view = try {
+            Files.getFileAttributeView(path, UserDefinedFileAttributeView::class.java, LinkOption.NOFOLLOW_LINKS)
+        } catch (_: Exception) {
+            null
+        } ?: return emptyMap()
+        val result = linkedMapOf<String, String>()
+        for (name in view.list().sorted()) {
+            if (name.isBlank() || '=' in name || '\n' in name || '\u0000' in name) continue
+            val size = view.size(name)
+            if (size < 0 || size > (1 shl 20)) throw IOException("TAR xattr exceeds supported size: $name")
+            val buffer = java.nio.ByteBuffer.allocate(size)
+            view.read(name, buffer)
+            buffer.flip()
+            val value = try {
+                StandardCharsets.UTF_8.newDecoder()
+                    .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                    .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
+                    .decode(buffer).toString()
+            } catch (failure: Exception) {
+                // The reference's PAX xattr reader applies the value bytes directly;
+                // a non-UTF-8 value cannot be represented safely by this text PAX writer.
+                throw IOException("Cannot safely encode non-UTF-8 user xattr in TAR: $name", failure)
+            }
+            if ('\n' in value || '\u0000' in value) {
+                throw IOException("Cannot safely encode control bytes in TAR xattr: $name")
+            }
+            result["SCHILY.xattr.user.$name"] = value
+        }
+        return result
     }
 
     private fun readHardLinkIdentity(path: Path): Pair<Long, Long>? {
