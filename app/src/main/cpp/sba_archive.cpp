@@ -179,7 +179,7 @@ bool parsePaxRecords(const std::string& payload, std::map<std::string, std::stri
         at = recordEnd;
     }
     if (!repeatedSparseValues.empty()) {
-        if (expectSparseOffset || sparseMapInPayload) return false;
+        if (!expectSparseOffset || sparseMapInPayload) return false;
         std::string map;
         for (const std::string& value : repeatedSparseValues) {
             if (!map.empty()) map.push_back(',');
