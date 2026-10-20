@@ -103,6 +103,16 @@ Implementation guardrail: `isAvailable()` is gated by primitive and protocol kno
 - SBA entry flags now follow reference us2.q(): unencrypted entries use 1/3, AES-CBC compatibility uses base flags OR 12, and AEAD methods use base flags OR 20. Entry-name validation also matches the reference's acceptance of non-empty whitespace-only names.
 - Caller-supplied keys are checked against the archive key-check and v2 index MAC before encrypted entry processing. Encrypted restore staging is configured to use the app-private cache directory through the root service.
 
+### Instruction-level cross-check of the AEGIS chunk protocol
+
+The protocol layout above is now cross-checked against the reference ARM64 instructions, not inferred from the domain labels alone:
+
+- The nonce-input builder at reference VA `0x6ec94` hashes the nonce-domain bytes, the 16-byte nonce seed, a big-endian 64-bit entry order, a big-endian 32-bit UTF-8 name length, the name bytes, and a big-endian 64-bit chunk index. Its SHA-256 output buffer is 32 bytes; the AEGIS-128X2 call consumes the first 16 bytes as its nonce.
+- The AAD builder at reference VA `0x6f1e8` explicitly serializes BE64(entry order), BE32(name length), the entry-name bytes, BE64(chunk index), and BE64(chunk length), appended after the variant-specific AAD domain.
+- The decrypt loop reads each ciphertext chunk followed by a 16-byte tag, passes the current chunk length (min(remaining plaintext, configured chunk size)) into AAD construction, then increments the chunk index. This confirms tag placement and final-partial-chunk handling.
+- The Java caller seeks the archive file descriptor to the indexed payload offset before calling JNI. The native long parameter is the stored payload byte count; the integer parameter in that bridge is the output FD, despite the decompiler's misleading parameter names. The rewrite wrapper preserves this contract by seeking first and passing the stored byte count separately.
+- These checks confirm the byte framing used by `SbaAegisChunkProtocol.kt` and `sba_aegis.cpp`. They do not replace decrypting a reference-generated payload with a known password or verifying rewrite-created payloads in the reference application.
+
 ## Reference container fixture recovered and structurally matched (2026-10-20)
 
 The uploaded `backup_swift_com.bare.zip` does contain a real reference-created encrypted SBA v2 container at `com.bare/20260919-184357-CO/com.bare.dat` (1,669 bytes). This corrects the earlier assumption that no encrypted SBA fixture existed. The archive is AEGIS-256 + Zstandard, chunk size 1,048,576, Argon2id (3 iterations, 16,384 KiB, parallelism 1), and has a 144-byte header, a 533-byte index at offset 1,104, and a 32-byte footer. Its two index records are `data` (stored 642, compressed 626, TAR 9,728, counts 5/2/3) and `data_de` (stored 259, compressed 243, TAR 2,560, counts 1/0/1); both use AEGIS-256/Zstandard entry flags 23. Header/footer/index CRCs and offsets are internally consistent.
