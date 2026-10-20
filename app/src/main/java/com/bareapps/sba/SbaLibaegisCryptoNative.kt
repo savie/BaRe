@@ -4,15 +4,14 @@ import com.bareapps.sba.internal.progress.SbaNativeProgressListener
 import java.io.FileDescriptor
 
 /**
- * Stable Kotlin facade for the rewrite's AEGIS chunk JNI implementation.
- * Decryption declarations follow the reference parameter semantics; encryption wrappers are
- * target-side additions used by the rewrite writer because the reference DEX omits declarations.
+ * Stable Kotlin facade for the rewrite's independent AEGIS chunk JNI implementation.
+ * Its public Kotlin API is target-owned; JNI consumes file descriptors and chunk metadata.
  */
 class SbaLibaegisCryptoNative private constructor() {
     external fun isAvailable(): Boolean
 
     /**
-     * Reference JNI contract: inputFd is already positioned at the encrypted payload;
+     * SBA chunk contract: inputFd is already positioned at the encrypted payload;
      * storedSize is the ciphertext byte count; outputFd is the destination pipe/file descriptor.
      * entryNameUtf8 is UTF-8 bytes, entryIndex is the zero-based SBA index-record order,
      * compressedSize is the decrypted/compressed byte count, and chunkSize is the archive chunk size.
