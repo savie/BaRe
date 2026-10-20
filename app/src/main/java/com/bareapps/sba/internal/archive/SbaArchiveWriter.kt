@@ -596,7 +596,7 @@ internal object SbaArchiveWriter {
             val keyBytes = key.toByteArray(StandardCharsets.UTF_8)
             val body = java.io.ByteArrayOutputStream(keyBytes.size + valueBytes.size + 2)
             body.write(keyBytes)
-            body.write('=')
+            body.write('='.code)
             body.write(valueBytes)
             body.write('\n'.code)
             val bodyBytes = body.toByteArray()
