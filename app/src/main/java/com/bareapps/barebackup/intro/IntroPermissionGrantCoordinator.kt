@@ -92,15 +92,17 @@ internal object IntroPermissionGrantCoordinator {
                     null,
                     null,
                 )
-                val output = process.inputStream.bufferedReader().use { it.readText() }
                 val finished = process.waitFor(15, TimeUnit.SECONDS)
                 if (!finished) {
                     process.destroyForcibly()
                     failed += command.label
                     Log.w(TAG, "Shizuku permission command timed out for ${command.label}")
-                } else if (process.exitValue() != 0) {
-                    failed += command.label
-                    Log.w(TAG, "Shizuku permission command failed for ${command.label}: $output")
+                } else {
+                    val output = process.inputStream.bufferedReader().use { it.readText() }
+                    if (process.exitValue() != 0) {
+                        failed += command.label
+                        Log.w(TAG, "Shizuku permission command failed for ${command.label}: $output")
+                    }
                 }
             } catch (error: Exception) {
                 failed += command.label
