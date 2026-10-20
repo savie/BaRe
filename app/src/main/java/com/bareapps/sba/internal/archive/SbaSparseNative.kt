@@ -14,7 +14,7 @@ internal object SbaSparseNative {
     @JvmStatic
     external fun getSparseExtents(path: String): LongArray
 
-    /** Returns the source SELinux label when readable, otherwise null. */
+    /** Alternating xattr-name and Base64-value pairs, without following a symlink. */
     @JvmStatic
-    external fun getSelinuxLabel(path: String): String?
+    external fun getPaxXattrs(path: String): Array<String>
 }
