@@ -28,6 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Keep SwiftBackup reference artifacts out of rewrite
+        shell: bash
+        run: |
+          if grep -R -n -E 'com\\.swiftapps\\.sba|swiftbackupReferenceApk|libref_archive\\.so|extractSwiftBackupReferenceAegis' app/src app/build.gradle app/proguard-rules.pro; then
+            echo "Reference-only packages and binary loading must stay outside the rewrite project."
+            exit 1
+          fi
+
       - name: Setup Java 17
         uses: actions/setup-java@v5
         with:
