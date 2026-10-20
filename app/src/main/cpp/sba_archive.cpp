@@ -267,12 +267,14 @@ bool parseSparseMap(const std::string& value, uint64_t realSize, uint64_t packed
         if (at == value.size()) return false;
     }
     if ((numbers.size() & 1U) != 0U) return false;
+    uint64_t previousEnd = 0;
     for (size_t i = 0; i < numbers.size(); i += 2) {
         const uint64_t offset = numbers[i];
         const uint64_t length = numbers[i + 1];
-        if (offset > realSize || length > realSize - offset ||
-            packedTotal > UINT64_MAX - length) return false;
+        if (length == 0 || offset < previousEnd || offset > realSize ||
+            length > realSize - offset || packedTotal > UINT64_MAX - length) return false;
         packedTotal += length;
+        previousEnd = offset + length;
         extents->push_back({offset, length});
     }
     return packedTotal == packedSize;
@@ -382,7 +384,8 @@ bool parseSparsePax10Map(int fd, uint64_t dataOffset, uint64_t storedSize,
     for (size_t i = 1; i < values.size(); i += 2) {
         const uint64_t extentOffset = values[i];
         const uint64_t extentLength = values[i + 1];
-        if (extentOffset > logicalSize || extentLength > logicalSize - extentOffset ||
+        if (extentLength == 0 || extentOffset > logicalSize ||
+            extentLength > logicalSize - extentOffset ||
             packedTotal > UINT64_MAX - extentLength) return false;
         if (!extents->empty()) {
             const SparseExtent& previous = extents->back();
