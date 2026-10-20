@@ -138,16 +138,29 @@ class IntroActivity : AppCompatActivity() {
 
     private fun showIntroMenu(anchor: View) {
         androidx.appcompat.widget.PopupMenu(this, anchor).apply {
-            menu.add(0, MENU_CONTINUE, 0, R.string.skip_for_now)
-            menu.add(0, MENU_REFRESH, 0, R.string.required_permissions)
+            menuInflater.inflate(R.menu.menu_intro, menu)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    MENU_CONTINUE -> {
-                        continueAnonymously()
+                    R.id.action_language -> {
+                        startActivity(
+                            Intent().setClassName(
+                                this@IntroActivity,
+                                "$packageName.locale.LocaleActivity",
+                            ),
+                        )
                         true
                     }
-                    MENU_REFRESH -> {
-                        refreshPermissionCards()
+                    R.id.action_barelogger -> {
+                        startActivity(
+                            Intent().setClassName(
+                                this@IntroActivity,
+                                "$packageName.slog.SLogActivity",
+                            ),
+                        )
+                        true
+                    }
+                    R.id.action_restart -> {
+                        recreate()
                         true
                     }
                     else -> false
@@ -453,8 +466,6 @@ class IntroActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "IntroActivity"
         private const val KEY_FIRST_START = "KEY_FIRST_START"
-        private const val MENU_CONTINUE = 1
-        private const val MENU_REFRESH = 2
         private const val REQUEST_SHIZUKU_PERMISSION = 6417
     }
 }
