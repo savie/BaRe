@@ -7,6 +7,7 @@ import com.bareapps.sba.internal.tar.SbaTarEntryInfo
 import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
+import java.nio.file.Files
 import java.nio.charset.StandardCharsets
 import java.util.Arrays
 import java.util.Random
