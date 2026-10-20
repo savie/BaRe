@@ -1825,6 +1825,12 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getPaxXattrs(
             if (e) env->ThrowNew(e, "Total TAR xattr metadata exceeds supported size");
             return nullptr;
         }
+        if (pairs.size() >= 8192U) {
+            env->ReleaseStringUTFChars(pathString, path);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR source has too many extended attributes");
+            return nullptr;
+        }
         totalEncodedBytes += name.size() + encoded.size();
         pairs.push_back(std::move(name));
         pairs.push_back(std::move(encoded));
