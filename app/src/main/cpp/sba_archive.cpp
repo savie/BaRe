@@ -1631,7 +1631,7 @@ Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
 
 
 extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
+Java_com_bareapps_sba_internal_archive_SbaSparseNative_nativeGetSparseExtents(
     JNIEnv* env, jclass, jstring pathString) {
     if (pathString == nullptr) {
         jclass e = env->FindClass("java/lang/NullPointerException");
@@ -1715,7 +1715,7 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
-Java_com_bareapps_sba_internal_archive_SbaSparseNative_getPaxXattrs(
+Java_com_bareapps_sba_internal_archive_SbaSparseNative_nativeGetPaxXattrs(
     JNIEnv* env, jclass, jstring pathString) {
     jclass stringClass = env->FindClass("java/lang/String");
     if (stringClass == nullptr) return nullptr;
