@@ -192,12 +192,13 @@ class IntroActivity : AppCompatActivity() {
                     .getCredential(this@IntroActivity, request)
                     .credential
 
+                val customCredential = credential as? CustomCredential
+                    ?: error("Google ID token credential was not returned")
                 check(
-                    credential is CustomCredential &&
-                        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                    customCredential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
                 ) { "Google ID token credential was not returned" }
 
-                val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                val googleCredential = GoogleIdTokenCredential.createFrom(customCredential.data)
                 val firebaseCredential = GoogleAuthProvider.getCredential(googleCredential.idToken, null)
                 val auth = FirebaseAuth.getInstance()
                 val currentUser = auth.currentUser
