@@ -239,7 +239,7 @@ class SbaArchiveReaderEncryptedTest {
             assertEquals(1, aesCbcInfo.encryptionMethod)
             assertEquals(13, aesCbcInfo.entries.single().flags)
             assertEquals(tarSize, aesCbcInfo.entries.single().storedSize)
-            assertArrayEquals(ByteArray(32) { 0x5a }, aesCbcInfo.entries.single().payloadHmac)
+            assertArrayEquals(ByteArray(32) { 0x5a.toByte() }, aesCbcInfo.entries.single().payloadHmac)
 
             val invalidGcm = Files.readAllBytes(root.resolve("encrypted-2.sba"))
             ByteBuffer.wrap(invalidGcm).order(ByteOrder.BIG_ENDIAN).putInt(88, 0)
