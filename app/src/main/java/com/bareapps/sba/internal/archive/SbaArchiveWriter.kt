@@ -506,6 +506,8 @@ internal object SbaArchiveWriter {
         val mtimeSeconds = Math.floorDiv(mtimeMillis, 1000L)
         val mtimeNeedsPax = mtimeMillis < 0L || mtimeSeconds > MAX_TAR_OCTAL || mtimeMillis % 1000L != 0L
         val sizeNeedsPax = size > MAX_TAR_OCTAL
+        val uidNeedsPax = uid < 0L || uid > MAX_TAR_OCTAL
+        val gidNeedsPax = gid < 0L || gid > MAX_TAR_OCTAL
         val pax = linkedMapOf<String, String>()
         if (split == null) pax["path"] = name
         if (linkTooLong && linkTarget != null) pax["linkpath"] = linkTarget
