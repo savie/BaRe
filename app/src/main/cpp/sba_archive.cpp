@@ -1225,7 +1225,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
         pendingPax.clear();
         pendingLongLink.clear();
-        if (!selected) { if (type == 0 || type == '0' || type == '7') processed += size; continue; }
+        if (!selected) { if (type == 0 || type == '0' || type == '7' || type == 'S') processed += size; continue; }
         if (type == '5') {
             int dirFd = openDirectoryAt(rootFd, name, true);
             if (dirFd < 0) {
