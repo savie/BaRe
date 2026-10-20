@@ -276,13 +276,16 @@ class IntroActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.btn_anonymous)?.isEnabled = enabled
     }
 
-    private fun updateDeviceSpecificCards() {
+    private fun isXiaomiFamily(): Boolean {
         val manufacturer = Build.MANUFACTURER.orEmpty().lowercase()
-        val isXiaomiFamily = manufacturer.contains("xiaomi") ||
+        return manufacturer.contains("xiaomi") ||
             manufacturer.contains("redmi") ||
             manufacturer.contains("poco")
+    }
+
+    private fun updateDeviceSpecificCards() {
         findViewById<View>(R.id.container_xiaomi_installed_apps_perm)?.visibility =
-            if (isXiaomiFamily) View.VISIBLE else View.GONE
+            if (isXiaomiFamily()) View.VISIBLE else View.GONE
     }
 
     private fun requestStorageAccess() {
@@ -347,28 +350,46 @@ class IntroActivity : AppCompatActivity() {
         val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             EnvironmentCompat.hasAllFilesAccess()
         } else {
-            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED &&
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED
+            isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE) &&
+                isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-        findViewById<IntroPermissionCardView>(R.id.container_storage_perm)
-            ?.getActionButton()?.isEnabled = !storageGranted
+        findViewById<View>(R.id.container_storage_perm)?.visibility =
+            if (storageGranted) View.GONE else View.VISIBLE
 
         val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
-            PackageManager.PERMISSION_GRANTED
-        findViewById<IntroPermissionCardView>(R.id.container_notifications_perm)
-            ?.getActionButton()?.isEnabled = !notificationsGranted
+            isPermissionGranted(Manifest.permission.POST_NOTIFICATIONS)
+        findViewById<View>(R.id.container_notifications_perm)?.visibility =
+            if (notificationsGranted) View.GONE else View.VISIBLE
 
-        val installedAppsGranted = try {
-            checkSelfPermission("com.android.permission.GET_INSTALLED_APPS") ==
-                PackageManager.PERMISSION_GRANTED
-        } catch (_: RuntimeException) {
-            false
+        val installedAppsGranted = !isXiaomiFamily() ||
+            isPermissionGranted("com.android.permission.GET_INSTALLED_APPS")
+        findViewById<View>(R.id.container_xiaomi_installed_apps_perm)?.visibility =
+            if (installedAppsGranted) View.GONE else View.VISIBLE
+
+        val bulkPermissions = buildList {
+            add(Manifest.permission.READ_SMS)
+            add(Manifest.permission.WRITE_SMS)
+            add(Manifest.permission.READ_CONTACTS)
+            add(Manifest.permission.READ_CALL_LOG)
+            add(Manifest.permission.WRITE_CALL_LOG)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            if (Build.VERSION.SDK_INT >= 36) {
+                add("android.permission.ACCESS_LOCAL_NETWORK")
+            }
         }
-        findViewById<IntroPermissionCardView>(R.id.container_xiaomi_installed_apps_perm)
-            ?.getActionButton()?.isEnabled = !installedAppsGranted
+        val bulkPermissionMissing = bulkPermissions.any { !isPermissionGranted(it) } ||
+            !storageGranted ||
+            (isXiaomiFamily() && !installedAppsGranted)
+        findViewById<View>(R.id.container_root_permissions)?.visibility =
+            if (bulkPermissionMissing) View.VISIBLE else View.GONE
+    }
+
+    private fun isPermissionGranted(permission: String): Boolean = try {
+        checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    } catch (_: RuntimeException) {
+        false
     }
 
     private fun grantAllPermissionsWithRootOrShizuku() {
