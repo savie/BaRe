@@ -24,6 +24,12 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val preferences = getSharedPreferences("${packageName}_preferences", MODE_PRIVATE)
+        if (!preferences.getBoolean(KEY_FIRST_START, true)) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+            return
+        }
         setContentView(R.layout.intro_activity)
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle).setText(R.string.signin_intro_subtitle)
@@ -54,7 +60,7 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ::class.java != null) refreshPermissionCards()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) refreshPermissionCards()
     }
 
     private fun requestStorageAccess() {
@@ -101,13 +107,14 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun continueToHome() {
-        getSharedPreferences("barebackup", MODE_PRIVATE).edit()
-            .putBoolean("KEY_FIRST_START", false).apply()
+        getSharedPreferences("${packageName}_preferences", MODE_PRIVATE).edit()
+            .putBoolean(KEY_FIRST_START, false).apply()
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 
     companion object {
         private const val REQUEST_STORAGE = 4201
+        private const val KEY_FIRST_START = "KEY_FIRST_START"
     }
 }

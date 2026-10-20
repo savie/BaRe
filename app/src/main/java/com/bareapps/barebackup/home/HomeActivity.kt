@@ -26,6 +26,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         findViewById<TextView>(R.id.tv_barebackup).text =
             packageManager.getApplicationLabel(applicationInfo).toString()
+        findViewById<ImageView>(R.id.iv_user).setImageResource(R.drawable.ic_user_default)
 
         pager = findViewById(R.id.viewPager)
         navigation = findViewById(R.id.primaryNavigation)
@@ -55,11 +56,9 @@ class HomeActivity : AppCompatActivity() {
             pager.currentItem = index
             true
         }
-        navigation.setOnItemReselectedListener { item ->
-            if (navigation.selectedItemId == item.itemId) {
-                val page = pager.getChildAt(pager.currentItem)
-                page?.let { it.requestFocus() }
-            }
+        navigation.setOnItemReselectedListener {
+            val currentPage = pager.getChildAt(pager.currentItem)
+            currentPage?.requestFocus()
         }
         findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
