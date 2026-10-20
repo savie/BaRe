@@ -31,6 +31,9 @@ import androidx.core.content.FileProvider
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.PrintWriter
@@ -38,6 +41,10 @@ import java.io.StringWriter
 import java.security.MessageDigest
 import java.util.Locale
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 /**
@@ -58,7 +65,10 @@ class BareApp : Application() {
         private set
 
     private var authStateListener: FirebaseAuth.AuthStateListener? = null
+    private var firebaseConnectionListener: ValueEventListener? = null
     private var packageReceiverRegistered = false
+    @Volatile private var firebaseConnected: Boolean? = null
+    private val startupScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val packageChangeListeners =
         CopyOnWriteArrayList<(PackageChangeEvent) -> Unit>()
@@ -101,9 +111,10 @@ class BareApp : Application() {
         // JNI symbols are bound to BΛR☰'s Application class, not SwiftApp.
         System.loadLibrary("native-lib")
 
-        registerPackageChangeReceiver()
         initializeCrashlyticsIdentityTracking()
-        logProcessStartupDiagnostics()
+        initializeFirebaseConnectivityTracking()
+        registerPackageChangeReceiver()
+        startupScope.launch { logProcessStartupDiagnostics() }
         reconcileStrictModePolicy()
 
         Log.d(TAG, "init() complete")
@@ -478,6 +489,27 @@ class BareApp : Application() {
         }
     }
 
+    private fun initializeFirebaseConnectivityTracking() {
+        try {
+            val listener = object : ValueEventListener {
+                override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
+                    firebaseConnected = snapshot.getValue(Boolean::class.java)
+                    Log.d(TAG_NETWORK, "Firebase Realtime Database connected: $firebaseConnected")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG_NETWORK, "Firebase connection listener cancelled: ${error.message}")
+                }
+            }
+            FirebaseDatabase.getInstance()
+                .getReference(".info/connected")
+                .addValueEventListener(listener)
+            firebaseConnectionListener = listener
+        } catch (error: Exception) {
+            Log.e(TAG_NETWORK, "Unable to register Firebase connection listener", error)
+        }
+    }
+
     private fun logProcessStartupDiagnostics() {
         try {
             val activityManager = getSystemService(ActivityManager::class.java) ?: return
@@ -563,6 +595,7 @@ class BareApp : Application() {
         private const val TAG_PACKAGE = "LocalAppChangeReceiver"
         private const val TAG_ROOT = "RootShell"
         private const val TAG_STORAGE = "LabsSettingsFragment"
+        private const val TAG_NETWORK = "FirebaseConnection"
 
         private const val PREF_USE_SAF = "use_saf"
         private const val PREF_APP_LOCALE = "app_locale"
