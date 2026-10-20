@@ -13,4 +13,8 @@ internal object SbaSparseNative {
     /** [logicalSize, extentCount, offset0, length0, ...], or an empty array if unsupported/dense. */
     @JvmStatic
     external fun getSparseExtents(path: String): LongArray
+
+    /** Returns the source SELinux label when readable, otherwise null. */
+    @JvmStatic
+    external fun getSelinuxLabel(path: String): String?
 }
