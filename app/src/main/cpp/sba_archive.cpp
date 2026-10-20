@@ -601,23 +601,29 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
             case '6': type = 5; break;
             case '3': type = 6; break;
             case '4': type = 7; break;
-            default: type = (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') ? 1 : 99; break;
+            default: type = (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7' || h.typeflag == 'S') ? 1 : 99; break;
         }
         bool sparseEntry = false;
         uint64_t realSize = size;
+        uint64_t oldSparseExtensionBlocks = 0;
         const std::string* sparseMap = paxValue(pendingPax, globalPax, "GNU.sparse.map");
         const std::string* sparseRealSize = paxValue(pendingPax, globalPax, "GNU.sparse.realsize");
-        if (sparseRealSize == nullptr) {
-            sparseRealSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
-        }
-        if (sparseMap != nullptr || sparseRealSize != nullptr) {
+        if (sparseRealSize == nullptr) sparseRealSize = paxValue(pendingPax, globalPax, "GNU.sparse.size");
+        if (sparseMap != nullptr || sparseRealSize != nullptr || h.typeflag == 'S') {
             sparseEntry = true;
+            if (h.typeflag == 'S') {
+                std::vector<SparseExtent> oldExtents;
+                if (!parseOldGnuSparse(fd, offset, h, size, &realSize, &oldExtents, &oldSparseExtensionBlocks)) {
+                    jclass e = env->FindClass("java/io/IOException");
+                    if (e) env->ThrowNew(e, "Invalid legacy GNU sparse TAR header");
+                    return nullptr;
+                }
+                type = 1;
+            }
             if (sparseRealSize != nullptr &&
-                (!parsePaxUnsigned(*sparseRealSize, &realSize) ||
-                 realSize > static_cast<uint64_t>(INT64_MAX))) {
+                (!parsePaxUnsigned(*sparseRealSize, &realSize) || realSize > static_cast<uint64_t>(INT64_MAX))) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
-
                 return nullptr;
             }
         }
@@ -670,7 +676,13 @@ jobjectArray listTar(JNIEnv* env, int fd, jlong startOffset) {
 
             return nullptr;
         }
-        const uint64_t step = 512ULL + blocks * 512ULL;
+        const uint64_t stepBlocks = blocks + oldSparseExtensionBlocks;
+        if (stepBlocks > UINT64_MAX / 512ULL) {
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR entry offset overflow");
+            return nullptr;
+        }
+        const uint64_t step = 512ULL + stepBlocks * 512ULL;
         if (step > static_cast<uint64_t>(INT64_MAX - offset)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
@@ -929,11 +941,22 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         }
         const uint64_t payloadSize = metadataRecord ? headerSize : size;
         const uint64_t blocks = payloadSize / 512ULL + ((payloadSize % 512ULL) != 0ULL ? 1ULL : 0ULL);
+        uint64_t oldSparseExtensionBlocks = 0;
+        if (h.typeflag == 'S') {
+            uint64_t sparseLogicalSize = 0;
+            std::vector<SparseExtent> sparseExtents;
+            if (!parseOldGnuSparse(fd, offset, h, size, &sparseLogicalSize, &sparseExtents, &oldSparseExtensionBlocks)) {
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "Invalid legacy GNU sparse TAR header");
+                close(rootFd);
+                return nullptr;
+            }
+        }
         struct stat archiveStat{};
         if (fstat(fd, &archiveStat) == 0 && S_ISREG(archiveStat.st_mode)) {
             if (offset < 0 || offset > archiveStat.st_size ||
                 archiveStat.st_size - offset < static_cast<off_t>(512) ||
-                blocks > static_cast<uint64_t>((archiveStat.st_size - offset - 512) / 512)) {
+                blocks + oldSparseExtensionBlocks > static_cast<uint64_t>((archiveStat.st_size - offset - 512) / 512)) {
                 jclass e = env->FindClass("java/io/EOFException");
                 if (e) env->ThrowNew(e, "TAR entry payload extends beyond end of archive");
                 close(rootFd);
@@ -953,13 +976,13 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             offset += static_cast<off_t>(512ULL + blocks * 512ULL);
             continue;
         }
-        if (blocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
+        if (blocks + oldSparseExtensionBlocks > (static_cast<uint64_t>(INT64_MAX - offset) - 512ULL) / 512ULL) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "TAR entry offset overflow");
             close(rootFd);
             return nullptr;
         }
-        if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7') {
+        if (h.typeflag == 0 || h.typeflag == '0' || h.typeflag == '7' || h.typeflag == 'S') {
             if (total > UINT64_MAX - size) {
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "TAR payload total overflow");
@@ -969,7 +992,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             total += size;
         }
         if (!metadataRecord) sizingPendingPax.clear();
-        offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+        offset += static_cast<off_t>(512ULL + (blocks + oldSparseExtensionBlocks) * 512ULL);
     }
     if (sizingCount == 1000000) {
         close(rootFd);
@@ -1120,7 +1143,16 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         const std::string* sparseMajor = paxValue(pendingPax, globalPax, "GNU.sparse.major");
         const std::string* sparseMinor = paxValue(pendingPax, globalPax, "GNU.sparse.minor");
         std::vector<SparseExtent> sparseExtents;
+        uint64_t oldSparseExtensionBlocks = 0;
         const bool sparsePax10 = sparseMajor != nullptr && *sparseMajor == "1";
+        const bool oldGnuSparse = h.typeflag == 'S' && sparseMap == nullptr && !sparsePax10;
+        if (oldGnuSparse && !parseOldGnuSparse(fd, offset, h, size, &logicalSize,
+            &sparseExtents, &oldSparseExtensionBlocks)) {
+            close(rootFd);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Invalid legacy GNU sparse TAR header");
+            return nullptr;
+        }
         if (sparsePax10 && sparseMinor != nullptr && *sparseMinor != "0") {
             close(rootFd);
             jclass e = env->FindClass("java/io/IOException");
@@ -1132,16 +1164,17 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
         uint64_t dataOffset = static_cast<uint64_t>(offset) + 512ULL;
         uint64_t payloadSize = size;
         uint64_t sparseMapPaddedSize = 0;
+        if (oldGnuSparse) dataOffset += oldSparseExtensionBlocks * 512ULL;
         if (sparseEntry) {
-            if (sparseSize == nullptr ||
+            if (!oldGnuSparse && (sparseSize == nullptr ||
                 !parsePaxUnsigned(*sparseSize, &logicalSize) ||
-                logicalSize > static_cast<uint64_t>(INT64_MAX)) {
+                logicalSize > static_cast<uint64_t>(INT64_MAX))) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
                 if (e) env->ThrowNew(e, "Invalid GNU sparse logical size");
                 return nullptr;
             }
-            bool sparseValid = false;
+            bool sparseValid = oldGnuSparse;
             if (sparsePax10) {
                 uint64_t packedSize = 0;
                 sparseValid = parseSparsePax10Map(fd, dataOffset, size, logicalSize,
@@ -1152,8 +1185,6 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 }
             } else if (sparseMap != nullptr) {
                 sparseValid = parseSparseMap(*sparseMap, logicalSize, size, &sparseExtents);
-            } else if (h.typeflag == 'S') {
-                sparseValid = false; // Old GNU sparse headers are handled below only when their extension map is decoded.
             }
             if (!sparseValid) {
                 close(rootFd);
@@ -1163,7 +1194,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             }
         }
         const char type = h.typeflag;
-        offset += static_cast<off_t>(512ULL + blocks * 512ULL);
+        offset += static_cast<off_t>(512ULL + (blocks + oldSparseExtensionBlocks) * 512ULL);
         if (!safeRelativePath(name)) {
             jclass e = env->FindClass("java/io/IOException");
             if (e) env->ThrowNew(e, "Unsafe path in TAR archive");
