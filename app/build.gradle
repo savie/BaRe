@@ -17,10 +17,11 @@ android {
 
     buildTypes {
         debug {
-            // Shrink code and resources in the CI APK to reduce size and unused dex classes.
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            // Keep the instrumentation target unshrunk: AndroidX's test runner resolves
+            // Kotlin runtime APIs dynamically before test discovery, so R8 must not remove
+            // classes such as kotlin.LazyKt. Release remains minified and resource-shrunk.
+            minifyEnabled false
+            shrinkResources false
         }
         release {
             minifyEnabled true
