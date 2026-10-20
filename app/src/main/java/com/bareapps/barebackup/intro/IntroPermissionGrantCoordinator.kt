@@ -169,7 +169,6 @@ internal object IntroPermissionGrantCoordinator {
 
         val runtimePermissions = buildList {
             add("android.permission.READ_SMS")
-            add("android.permission.WRITE_SMS")
             add("android.permission.READ_CONTACTS")
             add("android.permission.READ_CALL_LOG")
             add("android.permission.WRITE_CALL_LOG")
