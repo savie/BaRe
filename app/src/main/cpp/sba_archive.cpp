@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/sendfile.h>
 #include <sys/xattr.h>
 #include <limits>
 #include <limits.h>
@@ -241,6 +242,16 @@ bool parsePaxUnsigned(const std::string& value, uint64_t* result) {
     *result = parsed;
     return true;
 }
+
+struct TarIoStats {
+    jlong fallbackReadCalls = 0;
+    jlong fallbackReadBytes = 0;
+    jlong sendfileCalls = 0;
+    jlong sendfileBytes = 0;
+    jlong fallbackWriteCalls = 0;
+    jlong fallbackWriteBytes = 0;
+    jlong outputOpenCalls = 0;
+};
 
 struct SparseExtent {
     uint64_t offset;
@@ -841,7 +852,7 @@ int openParentAt(int rootFd, const std::string& relative, bool create, std::stri
 
 jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destination,
                         jint modeMask, jobjectArray includes, jobject progress,
-                        jlong* metadataMillis = nullptr) {
+                        jlong* metadataMillis = nullptr, TarIoStats* ioStats = nullptr) {
     if (fd < 0 || startOffset < 0 || destination == nullptr || modeMask < 0 || modeMask > 0777) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR offset or destination");
@@ -1254,6 +1265,7 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
             int out = openat(parentFd, leaf.c_str(),
                              O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0600);
             close(parentFd);
+            if (out >= 0 && ioStats != nullptr) ++ioStats->outputOpenCalls;
             if (out < 0) {
                 close(rootFd);
                 jclass e = env->FindClass("java/io/IOException");
@@ -1276,13 +1288,19 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 while (copied < length) {
                     if (cancelled && env->CallBooleanMethod(progress, cancelled)) return false;
                     const size_t chunk = static_cast<size_t>(std::min<uint64_t>(sizeof(buffer), length - copied));
+                    if (ioStats != nullptr) ++ioStats->fallbackReadCalls;
                     if (!readExactAt(fd, buffer, chunk, static_cast<off_t>(sourceOffset + copied))) return false;
+                    if (ioStats != nullptr) ioStats->fallbackReadBytes += static_cast<jlong>(chunk);
                     size_t written = 0;
                     while (written < chunk) {
                         const ssize_t n = pwrite(out, buffer + written, chunk - written,
                             static_cast<off_t>(targetOffset + copied + written));
                         if (n < 0 && errno == EINTR) continue;
                         if (n <= 0) return false;
+                        if (ioStats != nullptr) {
+                            ++ioStats->fallbackWriteCalls;
+                            ioStats->fallbackWriteBytes += static_cast<jlong>(n);
+                        }
                         written += static_cast<size_t>(n);
                     }
                     copied += chunk;
@@ -1298,6 +1316,25 @@ jobjectArray extractTar(JNIEnv* env, int fd, jlong startOffset, jstring destinat
                 for (const SparseExtent& extent : sparseExtents) {
                     if (!copyExtent(dataOffset + packedOffset, extent.offset, extent.length)) { copyOk = false; break; }
                     packedOffset += extent.length;
+                }
+            } else if (payloadSize >= (256ULL * 1024ULL)) {
+                uint64_t copied = 0;
+                off_t sourceOffset = static_cast<off_t>(dataOffset);
+                while (copied < payloadSize) {
+                    if (cancelled && env->CallBooleanMethod(progress, cancelled)) { copyOk = false; break; }
+                    const size_t requested = static_cast<size_t>(
+                        std::min<uint64_t>(1024ULL * 1024ULL, payloadSize - copied));
+                    const ssize_t n = sendfile(out, fd, &sourceOffset, requested);
+                    if (n < 0 && errno == EINTR) continue;
+                    if (n <= 0) { copyOk = false; break; }
+                    if (ioStats != nullptr) {
+                        ++ioStats->sendfileCalls;
+                        ioStats->sendfileBytes += static_cast<jlong>(n);
+                    }
+                    copied += static_cast<uint64_t>(n);
+                    processed += static_cast<uint64_t>(n);
+                    if (onProgress) env->CallVoidMethod(progress, onProgress, static_cast<jlong>(processed), static_cast<jlong>(total));
+                    if (env->ExceptionCheck()) { copyOk = false; break; }
                 }
             } else {
                 copyOk = copyExtent(dataOffset, 0, payloadSize);
@@ -1737,6 +1774,7 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
         return static_cast<jlong>(ts.tv_sec) * 1000LL + static_cast<jlong>(ts.tv_nsec) / 1000000LL;
     };
     const jlong totalStart = started();
+    TarIoStats ioStats{};
     if (fd < 0 || tarBytes < 0) {
         jclass e = env->FindClass("java/lang/IllegalArgumentException");
         if (e) env->ThrowNew(e, "Invalid TAR descriptor or byte length");
@@ -1796,7 +1834,7 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
 
     const jlong dataStart = started();
     jlong metadataMillis = 0;
-    jobjectArray extracted = extractTar(env, fd, 0, destination, flags, includes, progress, &metadataMillis);
+    jobjectArray extracted = extractTar(env, fd, 0, destination, flags, includes, progress, &metadataMillis, &ioStats);
     if (extracted == nullptr || env->ExceptionCheck()) {
         env->DeleteLocalRef(listed);
         return nullptr;
@@ -1815,6 +1853,13 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     values[6] = otherEntries;
     values[7] = entryCount > extractedCount ? entryCount - extractedCount : 0;
     values[8] = regularFileBytes;
+    values[9] = ioStats.fallbackReadCalls;
+    values[10] = ioStats.fallbackReadBytes;
+    values[11] = ioStats.sendfileCalls;
+    values[12] = ioStats.sendfileBytes;
+    values[13] = ioStats.fallbackWriteCalls;
+    values[14] = ioStats.fallbackWriteBytes;
+    values[15] = ioStats.outputOpenCalls;
     values[16] = started() - totalStart;
     values[17] = headerMillis;
     values[18] = dataMillis;
