@@ -19,7 +19,7 @@ permissions:
 
 # Avoid concurrent Android SDK/emulator installs when several commits land in quick succession.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-apk-fastpath
   cancel-in-progress: true
 
 jobs:
