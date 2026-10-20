@@ -17,6 +17,9 @@ import android.content.pm.Signature
 import android.content.pm.SigningInfo
 import android.content.res.Configuration
 import android.media.AudioAttributes
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.LocaleList
@@ -73,6 +76,22 @@ class BareApp : Application() {
     private var authStateListener: FirebaseAuth.AuthStateListener? = null
     private var firebaseConnectionListener: ValueEventListener? = null
     private var packageReceiverRegistered = false
+    @Volatile private var connectivityReceiverRegistered = false
+    @Volatile private var wifiOrEthernetConnected = false
+    private var hasPreviousNetworkInfo = false
+    private var previousNetworkInfo: NetworkInfo? = null
+
+    // SwiftApp registers this receiver from its startup coroutine; keep this
+    // behavior inside the Application because the reference has no standalone tracker.
+    private val connectivityChangeReceiver = object : BroadcastReceiver() {
+        @Suppress("DEPRECATION")
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action != ACTION_CONNECTIVITY_CHANGE) return
+            val appContext = context?.applicationContext ?: return
+            val manager = appContext.getSystemService(ConnectivityManager::class.java) ?: return
+            recordConnectivityChange(manager, manager.activeNetworkInfo)
+        }
+    }
     @Volatile private var firebaseConnected: Boolean? = null
     private val startupScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -125,7 +144,7 @@ class BareApp : Application() {
         reconcileStrictModePolicy()
 
         Log.d(TAG, "init() complete")
-        ConnectivityTracker.register(this)
+        registerConnectivityChangeReceiver()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -170,6 +189,46 @@ class BareApp : Application() {
     fun sharedPreferences(): SharedPreferences {
         check(::preferences.isInitialized) { "BareApp preferences have not been initialized" }
         return preferences
+    }
+
+    private fun registerConnectivityChangeReceiver() {
+        if (connectivityReceiverRegistered) return
+        try {
+            ContextCompat.registerReceiver(
+                applicationContext,
+                connectivityChangeReceiver,
+                IntentFilter(ACTION_CONNECTIVITY_CHANGE),
+                ContextCompat.RECEIVER_EXPORTED,
+            )
+            connectivityReceiverRegistered = true
+        } catch (error: Exception) {
+            Log.e(TAG_NETWORK, "Unable to register connectivity-change receiver", error)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    @Synchronized
+    private fun recordConnectivityChange(
+        manager: ConnectivityManager,
+        networkInfo: NetworkInfo?,
+    ) {
+        if (hasPreviousNetworkInfo && previousNetworkInfo == networkInfo) return
+        hasPreviousNetworkInfo = true
+        previousNetworkInfo = networkInfo
+
+        wifiOrEthernetConnected = try {
+            val activeNetwork = manager.activeNetwork
+            val capabilities = activeNetwork?.let(manager::getNetworkCapabilities)
+            capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true ||
+                capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) == true
+        } catch (error: RuntimeException) {
+            Log.w(TAG_NETWORK, "Unable to determine active network transports", error)
+            false
+        }
+        Log.i(
+            TAG_NETWORK,
+            "Network change: $networkInfo. isWifiOrEthernetConnected: $wifiOrEthernetConnected",
+        )
     }
 
     private fun initializePreferences() {
@@ -700,6 +759,7 @@ class BareApp : Application() {
         private const val TAG_ROOT = "RootShell"
         private const val TAG_STORAGE = "LabsSettingsFragment"
         private const val TAG_NETWORK = "FirebaseConnection"
+        private const val ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE"
         private const val TAG_DATA_SYNC_LEDGER = "DataSyncFgsRuntimeLedger"
 
         private const val PREF_USE_SAF = "use_saf"
