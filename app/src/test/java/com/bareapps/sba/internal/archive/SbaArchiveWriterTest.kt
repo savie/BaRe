@@ -274,19 +274,24 @@ class SbaArchiveWriterTest {
     }
 
     @Test
-    fun rejectsEncryptedModeWithoutReplacingExistingDestination() {
+    fun rejectsInvalidEncryptedOptionsWithoutReplacingExistingDestination() {
         val root = Files.createTempDirectory("sba-writer-test")
         try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.txt"), byteArrayOf(1, 2, 3))
             val destination = root.resolve("existing.sba")
             val sentinel = byteArrayOf(9, 8, 7)
             Files.write(destination, sentinel)
             try {
+                // Mode 2 is implemented, but an encrypted request must explicitly select
+                // AEGIS, Argon2id parameters, chunk size, format version, and key material.
                 SbaArchiveWriter.createArchive(
-                    2, destination.toString(), byteArrayOf(), emptyArray(), emptyArray(), intArrayOf(),
-                    emptyArray(), emptyArray(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    2, destination.toString(), byteArrayOf(), arrayOf(source.toString()),
+                    arrayOf("data"), intArrayOf(8), arrayOf(emptyArray<String>()),
+                    arrayOf(emptyArray<String>()), 0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
                     null, null, null, null, null,
                 )
-                throw AssertionError("encrypted mode should be rejected by the unencrypted writer")
+                throw AssertionError("invalid encrypted options should be rejected")
             } catch (_: IllegalArgumentException) {
                 assertArrayEquals(sentinel, Files.readAllBytes(destination))
             }
