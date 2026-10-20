@@ -458,6 +458,7 @@ internal object SbaArchiveWriter {
                         val pad = ((TAR_BLOCK - tarPayloadSize % TAR_BLOCK) % TAR_BLOCK).toInt()
                         if (pad > 0) out.write(ByteArray(pad))
                     }
+                    ensureSourceUnchanged(path, attrs)
                     emitted++
                     if (attrs.isRegularFile && !isHardLink) regularFileCount++
                     if (attrs.isDirectory) directoryCount++
@@ -630,6 +631,22 @@ internal object SbaArchiveWriter {
             }
         }
         return result
+    }
+
+    private fun ensureSourceUnchanged(path: Path, original: BasicFileAttributes) {
+        val current = try {
+            Files.readAttributes(path, BasicFileAttributes::class.java, LinkOption.NOFOLLOW_LINKS)
+        } catch (failure: Exception) {
+            throw IOException("TAR source disappeared or became unreadable during archive creation: $path", failure)
+        }
+        if (current.size() != original.size() ||
+            current.lastModifiedTime() != original.lastModifiedTime() ||
+            (original.fileKey() != null && current.fileKey() != original.fileKey()) ||
+            current.isDirectory != original.isDirectory ||
+            current.isRegularFile != original.isRegularFile ||
+            current.isSymbolicLink != original.isSymbolicLink) {
+            throw IOException("TAR source changed during archive creation: $path")
+        }
     }
 
     private fun readUnixId(path: Path, attribute: String): Long = try {
