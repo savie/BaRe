@@ -1714,35 +1714,136 @@ Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSparseExtents(
 #endif
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_bareapps_sba_internal_archive_SbaSparseNative_getSelinuxLabel(
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_internal_archive_SbaSparseNative_getPaxXattrs(
     JNIEnv* env, jclass, jstring pathString) {
-    if (pathString == nullptr) return nullptr;
+    jclass stringClass = env->FindClass("java/lang/String");
+    if (stringClass == nullptr) return nullptr;
+    auto emptyResult = [&]() -> jobjectArray {
+        return env->NewObjectArray(0, stringClass, nullptr);
+    };
+    if (pathString == nullptr) {
+        jclass e = env->FindClass("java/lang/NullPointerException");
+        if (e) env->ThrowNew(e, "path");
+        return nullptr;
+    }
     const char* path = env->GetStringUTFChars(pathString, nullptr);
     if (path == nullptr) return nullptr;
+    constexpr size_t kMaxXattrList = 16U * 1024U * 1024U;
+    constexpr size_t kMaxXattrValue = 1U * 1024U * 1024U;
     errno = 0;
-    const ssize_t required = lgetxattr(path, "security.selinux", nullptr, 0);
+    const ssize_t required = llistxattr(path, nullptr, 0);
     if (required < 0) {
         const int error = errno;
         env->ReleaseStringUTFChars(pathString, path);
         if (error == ENODATA || error == ENOTSUP || error == EOPNOTSUPP ||
-            error == EACCES || error == EPERM) return nullptr;
+            error == EACCES || error == EPERM) return emptyResult();
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to list TAR source extended attributes");
         return nullptr;
     }
-    if (required == 0 || required > (1 << 20)) {
+    if (static_cast<uint64_t>(required) > kMaxXattrList) {
         env->ReleaseStringUTFChars(pathString, path);
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "TAR source xattr list exceeds supported size");
         return nullptr;
     }
-    std::vector<char> value(static_cast<size_t>(required));
-    const ssize_t actual = lgetxattr(path, "security.selinux", value.data(), value.size());
+    std::vector<char> names(static_cast<size_t>(required));
+    const ssize_t actualList = required == 0 ? 0 : llistxattr(path, names.data(), names.size());
+    if (actualList < 0 || actualList > required) {
+        env->ReleaseStringUTFChars(pathString, path);
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Unable to read TAR source extended attribute names");
+        return nullptr;
+    }
+    static constexpr char kBase64[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::vector<std::string> pairs;
+    size_t at = 0;
+    size_t totalEncodedBytes = 0;
+    while (at < static_cast<size_t>(actualList)) {
+        const size_t remaining = static_cast<size_t>(actualList) - at;
+        const size_t length = strnlen(names.data() + at, remaining);
+        if (length == 0 || length == remaining) {
+            env->ReleaseStringUTFChars(pathString, path);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Malformed TAR source xattr name list");
+            return nullptr;
+        }
+        std::string name(names.data() + at, length);
+        at += length + 1;
+        for (const unsigned char ch : name) {
+            if (ch < 0x20U || ch > 0x7eU || ch == '=' || ch == '\n' || ch == '\r') {
+                env->ReleaseStringUTFChars(pathString, path);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "TAR xattr name cannot be represented safely in PAX");
+                return nullptr;
+            }
+        }
+        errno = 0;
+        const ssize_t valueSize = lgetxattr(path, name.c_str(), nullptr, 0);
+        if (valueSize < 0) {
+            if (errno == ENODATA || errno == EACCES || errno == EPERM) continue;
+            if (errno == ENOTSUP || errno == EOPNOTSUPP) continue;
+            env->ReleaseStringUTFChars(pathString, path);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Unable to read TAR source xattr size");
+            return nullptr;
+        }
+        if (static_cast<uint64_t>(valueSize) > kMaxXattrValue) {
+            env->ReleaseStringUTFChars(pathString, path);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "TAR source xattr exceeds supported size");
+            return nullptr;
+        }
+        std::vector<unsigned char> value(static_cast<size_t>(valueSize));
+        if (valueSize > 0) {
+            const ssize_t actualValue = lgetxattr(path, name.c_str(), value.data(), value.size());
+            if (actualValue < 0 || actualValue != valueSize) {
+                env->ReleaseStringUTFChars(pathString, path);
+                jclass e = env->FindClass("java/io/IOException");
+                if (e) env->ThrowNew(e, "TAR source xattr changed while reading");
+                return nullptr;
+            }
+        }
+        std::string encoded;
+        encoded.reserve(((value.size() + 2U) / 3U) * 4U);
+        for (size_t i = 0; i < value.size(); i += 3) {
+            const uint32_t a = value[i];
+            const uint32_t b = i + 1 < value.size() ? value[i + 1] : 0U;
+            const uint32_t d = i + 2 < value.size() ? value[i + 2] : 0U;
+            const uint32_t triple = (a << 16U) | (b << 8U) | d;
+            encoded.push_back(kBase64[(triple >> 18U) & 0x3fU]);
+            encoded.push_back(kBase64[(triple >> 12U) & 0x3fU]);
+            encoded.push_back(i + 1 < value.size() ? kBase64[(triple >> 6U) & 0x3fU] : '=');
+            encoded.push_back(i + 2 < value.size() ? kBase64[triple & 0x3fU] : '=');
+        }
+        if (totalEncodedBytes > kMaxXattrList - name.size() - encoded.size()) {
+            env->ReleaseStringUTFChars(pathString, path);
+            jclass e = env->FindClass("java/io/IOException");
+            if (e) env->ThrowNew(e, "Total TAR xattr metadata exceeds supported size");
+            return nullptr;
+        }
+        totalEncodedBytes += name.size() + encoded.size();
+        pairs.push_back(std::move(name));
+        pairs.push_back(std::move(encoded));
+    }
     env->ReleaseStringUTFChars(pathString, path);
-    if (actual <= 0 || actual > required) return nullptr;
-    size_t length = static_cast<size_t>(actual);
-    while (length > 0 && value[length - 1] == '\0') --length;
-    if (length == 0 || std::memchr(value.data(), '\0', length) != nullptr) return nullptr;
-    value.resize(length);
-    value.push_back('\0');
-    return env->NewStringUTF(value.data());
+    if (pairs.size() > static_cast<size_t>(INT_MAX)) {
+        jclass e = env->FindClass("java/io/IOException");
+        if (e) env->ThrowNew(e, "Too many TAR source extended attributes");
+        return nullptr;
+    }
+    jobjectArray result = env->NewObjectArray(static_cast<jsize>(pairs.size()), stringClass, nullptr);
+    if (result == nullptr) return nullptr;
+    for (jsize i = 0; i < static_cast<jsize>(pairs.size()); ++i) {
+        jstring value = env->NewStringUTF(pairs[static_cast<size_t>(i)].c_str());
+        if (value == nullptr) return nullptr;
+        env->SetObjectArrayElement(result, i, value);
+        env->DeleteLocalRef(value);
+        if (env->ExceptionCheck()) return nullptr;
+    }
+    return result;
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
