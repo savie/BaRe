@@ -189,8 +189,8 @@ class BareApp : Application() {
         // Root is not requested eagerly; libsu creates the shell on demand.
         try {
             Shell.setDefaultBuilder(
-                Shell.Builder()
-                    .setFlags(10)
+                Shell.Builder.create()
+                    .setFlags(Shell.FLAG_MOUNT_MASTER)
                     .setTimeout(10),
             )
         } catch (error: RuntimeException) {
@@ -617,8 +617,8 @@ class BareApp : Application() {
                 if (start != null) {
                     Log.i(
                         TAG,
-                        "ApplicationStartInfo: startReason=${start.startReason}, " +
-                            "startType=${start.startType}, wasForceStopped=${start.wasForceStopped}",
+                        "ApplicationStartInfo: reason=${start.reason}, " +
+                            "startType=${start.startType}, wasForceStopped=${start.wasForceStopped()}",
                     )
                 }
             }
