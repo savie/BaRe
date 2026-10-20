@@ -98,7 +98,20 @@ Implementation guardrail: `isAvailable()` is gated by primitive and protocol kno
 - Per-chunk AAD is domain || BE64(entryOrder) || BE32(UTF-8 entry-name length) || entry-name bytes || BE64(chunkIndex) || BE64(current plaintext chunk length). The four-byte field is the encoded entry-name length, not reserved zero bytes; the last scalar is the current chunk length (shortened for the final chunk), not the running offset.
 - Ciphertext is stored followed by its 16-byte detached tag for each chunk. The last chunk length is derived from the declared compressed/plain payload size; stored size is payload size plus 16 bytes per chunk.
 - These byte layouts are encoded in `SbaAegisChunkProtocol.kt` and `sba_aegis.cpp`. The unit tests validate the derived byte framing and SHA-256 outputs, but those tests are not a substitute for a real SwiftBackup encrypted archive fixture.
-- Native AEGIS entry methods are exposed through private JNI entrypoints and stable Kotlin wrappers. Archive creation performs a post-write decrypt/list pass; if that verification fails, the newly created output is deleted rather than left behind as an apparently valid archive.
+- Native AEGIS entry methods are exposed through private JNI entrypoints and stable Kotlin wrappers. Task-runner archive creation writes to a sibling staging path and performs a decrypt/list pass before atomically replacing the requested destination; verification failure preserves any existing destination.
 - Native startup availability now requires round-trip/tamper tests for both AEGIS variants, the upstream AEGIS-128X2 known-answer vector, the RFC 10032 AEGIS-256 16-byte-tag vector (Appendix A.3.4), and hard-coded nonce/AAD protocol vectors. This verifies primitive correctness and target framing consistency, not external archive interoperability.
 - SBA entry flags now follow reference us2.q(): unencrypted entries use 1/3, AES-CBC compatibility uses base flags OR 12, and AEAD methods use base flags OR 20. Entry-name validation also matches the reference's acceptance of non-empty whitespace-only names.
 - Caller-supplied keys are checked against the archive key-check and v2 index MAC before encrypted entry processing. Encrypted restore staging is configured to use the app-private cache directory through the root service.
+
+
+## Direct reference-native chunk oracle (optional)
+
+A local-only instrumentation oracle can call the original SwiftBackup 5.1.0 (620) AEGIS JNI decryptors directly. It extracts the reference x86_64 `libsba_archive.so` from a user-supplied APK into Gradle's generated build assets, patches its SONAME to avoid colliding with BΛR☰'s native library, and does not add the proprietary binary to source control or release APKs.
+
+Run on an x86_64 Android emulator with the reference APK available locally:
+
+```sh
+gradle -PswiftbackupReferenceApk="/path/to/5.1.0 (620).apk" :app:connectedDebugAndroidTest
+```
+
+The oracle encrypts a multi-chunk payload with a partial final chunk using rewrite, then asks the reference JNI decryptor to authenticate/decrypt it for AEGIS-256 and AEGIS-128X2. Without the Gradle property, this one oracle test is skipped; ordinary CI self-tests and target round-trip tests still run. This proves target-to-reference chunk interoperability when run with the supplied APK, but is not by itself proof of full archive-level two-way parity.

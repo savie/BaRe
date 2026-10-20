@@ -10,3 +10,6 @@
 # Keep these runtime classes through the debug and androidTest R8 passes (e.g. kotlin.LazyKt).
 -keep class kotlin.** { *; }
 -keep class kotlin.Metadata { *; }
+
+# Keep the test-only SwiftBackup JNI oracle's exact exported JNI package/class names.
+-keep class com.swiftapps.sba.** { *; }
