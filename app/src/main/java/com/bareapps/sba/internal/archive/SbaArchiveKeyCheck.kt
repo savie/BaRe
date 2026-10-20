@@ -27,9 +27,7 @@ internal object SbaArchiveKeyCheck {
         memoryKiB: Int = 16384,
         parallelism: Int = 1,
     ): CreatedKeyMaterial {
-        if (encryptionMethod != 4 && encryptionMethod != 5) {
-            throw IOException("Unsupported SBA AEGIS encryption method")
-        }
+        if (encryptionMethod !in 1..5) throw IOException("Unsupported SBA encryption method")
         if (salt.size != 16 || nonceSeed.size != 16) throw IOException("SBA salt and nonce seed must be 16 bytes")
         if (password.isEmpty()) throw IOException("SBA encryption password must not be empty")
         val passwordCopy = password.copyOf()
@@ -51,12 +49,11 @@ internal object SbaArchiveKeyCheck {
         try {
             key = SbaArgon2idPortable.deriveArgon2id(
                 encoded, salt, iterations, memoryKiB, parallelism,
-                if (encryptionMethod == 4) 32 else 16,
+                if (encryptionMethod == 5) 16 else 32,
             )
             val digest = MessageDigest.getInstance("SHA-256")
             digest.update(
-                (if (encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
-                else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8)
+                keyCheckDomain(encryptionMethod).toByteArray(StandardCharsets.UTF_8)
             )
             digest.update(salt)
             digest.update(nonceSeed)
@@ -83,14 +80,13 @@ internal object SbaArchiveKeyCheck {
 
     /** Validate caller-supplied key material against the archive before using it. */
     fun verifyProvidedKey(info: SbaArchiveInfo, key: ByteArray, archivePath: String) {
-        if (!info.isEncrypted || info.encryptionMethod !in 4..5) {
-            throw IOException("Archive does not use a supported SBA AEGIS encryption method")
+        if (!info.isEncrypted || info.encryptionMethod !in 1..5) {
+            throw IOException("Archive does not use a supported SBA encryption method")
         }
-        val expectedLength = if (info.encryptionMethod == 4) 32 else 16
+        val expectedLength = if (info.encryptionMethod == 5) 16 else 32
         if (key.size != expectedLength) throw IOException("Invalid SBA AEGIS key length")
         val fullCheck = MessageDigest.getInstance("SHA-256").run {
-            update((if (info.encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
-                else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8))
+            update(keyCheckDomain(info.encryptionMethod).toByteArray(StandardCharsets.UTF_8))
             update(info.salt)
             update(info.nonceSeed)
             update(key)
@@ -115,9 +111,7 @@ internal object SbaArchiveKeyCheck {
         archivePath: String? = null,
     ): ByteArray? {
         if (!info.isEncrypted) throw IOException("SBA archive is not encrypted")
-        if (info.encryptionMethod != 4 && info.encryptionMethod != 5) {
-            throw IOException("Password verification is not implemented for this SBA encryption method")
-        }
+        if (info.encryptionMethod !in 1..5) throw IOException("Unsupported SBA encryption method")
         if (password.isEmpty()) throw IOException("SBA encryption password must not be empty")
         val passwordCopy = password.copyOf()
         val encoded = try {
@@ -139,15 +133,14 @@ internal object SbaArchiveKeyCheck {
         var expectedCheck = ByteArray(0)
         var retainKey = false
         try {
-            val keyLength = if (info.encryptionMethod == 4) 32 else 16
+            val keyLength = if (info.encryptionMethod == 5) 16 else 32
             key = SbaArgon2idPortable.deriveArgon2id(
                 encoded, info.salt, info.kdfIterations, info.kdfMemoryKiB,
                 info.kdfParallelism, keyLength,
             )
             val digest = MessageDigest.getInstance("SHA-256")
             digest.update(
-                (if (info.encryptionMethod == 4) "SBA1-AEGIS256-key-check-v1"
-                else "SBA1-AEGIS128X2-key-check-v1").toByteArray(StandardCharsets.UTF_8)
+                keyCheckDomain(info.encryptionMethod).toByteArray(StandardCharsets.UTF_8)
             )
             digest.update(info.salt)
             digest.update(info.nonceSeed)
@@ -167,6 +160,15 @@ internal object SbaArchiveKeyCheck {
             Arrays.fill(expectedCheck, 0)
             if (!retainKey) Arrays.fill(key, 0)
         }
+    }
+
+    private fun keyCheckDomain(encryptionMethod: Int): String = when (encryptionMethod) {
+        1 -> "SBA1-7zAES-key-check-v1"
+        2 -> "SBA1-AES256GCM-key-check-v1"
+        3 -> "SBA1-AES256GCMSIV-key-check-v1"
+        4 -> "SBA1-AEGIS256-key-check-v1"
+        5 -> "SBA1-AEGIS128X2-key-check-v1"
+        else -> throw IOException("Unsupported SBA encryption method")
     }
 
     private fun verifyV2IndexMac(path: String, info: SbaArchiveInfo, derivedKey: ByteArray): Boolean {
