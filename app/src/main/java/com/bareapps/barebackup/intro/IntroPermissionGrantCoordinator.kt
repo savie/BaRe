@@ -86,7 +86,7 @@ internal object IntroPermissionGrantCoordinator {
         val commands = commandsFor(context)
         val failed = ArrayList<String>()
         val connected = CountDownLatch(1)
-        @Volatile var remote: IRootAidlInterface? = null
+        var remote: IRootAidlInterface? = null
         val args = Shizuku.UserServiceArgs(ComponentName(context.applicationContext, SbaRootService::class.java))
             .daemon(false)
             .processNameSuffix("intro-permissions")
@@ -119,8 +119,8 @@ internal object IntroPermissionGrantCoordinator {
             commands.forEach { command ->
                 try {
                     val result = remote!!.executeShellCommand(command.command)
-                    val exitCode = result.substringBefore('\\n').toIntOrNull() ?: -1
-                    val output = result.substringAfter('\\n', "")
+                    val exitCode = result.substringBefore('\n').toIntOrNull() ?: -1
+                    val output = result.substringAfter('\n', "")
                     if (exitCode != 0) {
                         failed += command.label
                         Log.w(TAG, "Shizuku permission command failed for ${command.label}: $output")
