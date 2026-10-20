@@ -63,54 +63,6 @@ android {
     }
 }
 
-// Optional direct oracle test against the exact SwiftBackup native implementation.
-// The proprietary reference library is extracted only into build/ from a user-supplied APK;
-// it is never checked into the repository or included in release APKs.
-def swiftBackupReferenceApk = providers.gradleProperty("swiftbackupReferenceApk")
-def swiftBackupReferenceAssets = layout.buildDirectory.dir("generated/swiftbackupReferenceAssets")
-android.sourceSets.androidTest.assets.srcDir(swiftBackupReferenceAssets)
-if (swiftBackupReferenceApk.isPresent()) {
-    def referenceAsset = swiftBackupReferenceAssets.map { it.file("reference/libsba_archive.so") }
-    def extractSwiftBackupReferenceAegis = tasks.register("extractSwiftBackupReferenceAegis") {
-        inputs.file(file(swiftBackupReferenceApk.get()))
-        outputs.file(referenceAsset)
-        doLast {
-            def apkFile = file(swiftBackupReferenceApk.get())
-            if (!apkFile.isFile()) throw new GradleException("SwiftBackup reference APK not found: " + apkFile)
-            def apk = new java.util.zip.ZipFile(apkFile)
-            try {
-                def entry = apk.getEntry("lib/x86_64/libsba_archive.so")
-                if (entry == null) throw new GradleException("Reference APK has no x86_64/libsba_archive.so")
-                byte[] bytes = apk.getInputStream(entry).withCloseable { it.bytes }
-                byte[] oldName = "libsba_archive.so".getBytes(java.nio.charset.StandardCharsets.US_ASCII)
-                byte[] newName = "libref_archive.so".getBytes(java.nio.charset.StandardCharsets.US_ASCII)
-                if (oldName.length != newName.length) throw new GradleException("Reference SONAME patch lengths differ")
-                int matches = 0
-                for (int i = 0; i <= bytes.length - oldName.length; i++) {
-                    boolean match = true
-                    for (int j = 0; j < oldName.length; j++) {
-                        if (bytes[i + j] != oldName[j]) { match = false; break }
-                    }
-                    if (match) {
-                        System.arraycopy(newName, 0, bytes, i, newName.length)
-                        matches++
-                        i += oldName.length - 1
-                    }
-                }
-                if (matches == 0) throw new GradleException("Could not isolate reference library SONAME")
-                def output = referenceAsset.get().asFile
-                output.parentFile.mkdirs()
-                output.bytes = bytes
-            } finally {
-                apk.close()
-            }
-        }
-    }
-    tasks.named("mergeDebugAndroidTestAssets").configure {
-        dependsOn(extractSwiftBackupReferenceAegis)
-    }
-}
-
 dependencies {
     // Explicit AndroidX/runtime libraries verified in the local SwiftBackup 5.1.0 (620)
     // APK's META-INF version metadata. Some may arrive transitively today; declaring them
