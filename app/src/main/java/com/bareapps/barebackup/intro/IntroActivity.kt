@@ -99,7 +99,7 @@ class IntroActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_menu).setOnClickListener { showIntroMenu(it) }
         findViewById<MaterialButton>(R.id.btn_google).setOnClickListener { signInWithGoogle() }
-        findViewById<MaterialButton>(R.id.btn_anonymous).setOnClickListener { continueAnonymously() }
+        findViewById<MaterialButton>(R.id.btn_anonymous).setOnClickListener { showGoogleSignInRequiredDialog() }
 
         findViewById<IntroPermissionCardView>(R.id.container_storage_perm)
             .getActionButton().setOnClickListener { requestStorageAccess() }
@@ -123,8 +123,6 @@ class IntroActivity : AppCompatActivity() {
         updateDeviceSpecificCards()
         refreshPermissionCards()
 
-        // Match the reference intro flow: show the account-choice dialog over the intro page.
-        if (savedInstanceState == null) showGoogleSignInRequiredDialog()
     }
 
     private fun showGoogleSignInRequiredDialog() {
@@ -177,7 +175,7 @@ class IntroActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_menu).setOnClickListener { showIntroMenu(it) }
         findViewById<MaterialButton>(R.id.btn_google).setOnClickListener { signInWithGoogle() }
-        findViewById<MaterialButton>(R.id.btn_anonymous).setOnClickListener { continueAnonymously() }
+        findViewById<MaterialButton>(R.id.btn_anonymous).setOnClickListener { showGoogleSignInRequiredDialog() }
         updateDeviceSpecificCards()
         refreshPermissionCards()
     }
