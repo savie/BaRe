@@ -40,7 +40,7 @@ internal object WifiProfileBackup {
                 ?: throw IllegalStateException("Android did not return saved Wi-Fi networks")
             return networks.map(::fromConfiguration)
                 .filter { it.ssid.isNotBlank() && it.ssid != "<unknown ssid>" }
-                .distinctBy { it.ssid }
+                .distinctBy { it.ssid + "|" + it.keyManagement.joinToString(",") }
                 .sortedBy { it.ssid.lowercase() }
         }
 
