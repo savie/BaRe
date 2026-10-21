@@ -40,7 +40,11 @@ class WifiActivity : AppCompatActivity() {
     private var pendingRestoreProfile: WifiProfile? = null
 
     private val locationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) refreshSystemProfiles()
+        val pending = pendingRestoreProfile
+        pendingRestoreProfile = null
+        if (granted && pending != null) restoreProfile(pending)
+        else if (granted) refreshSystemProfiles()
+        else if (pending != null) Toast.makeText(this, "Location permission was denied; Wi-Fi restore was cancelled", Toast.LENGTH_LONG).show()
         else showCardError(R.id.wifi_card_system, "Location permission is needed to read saved Wi-Fi profiles on this Android version.")
     }
     private val nearbyPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -162,6 +166,10 @@ class WifiActivity : AppCompatActivity() {
     }
 
     private fun selectSystemProfile(profile: WifiProfile) {
+        if (profile.isEnterprise) {
+            Toast.makeText(this, "Enterprise Wi-Fi profiles are not supported by this backup format yet", Toast.LENGTH_LONG).show()
+            return
+        }
         selectedSystemProfile = profile
         selectedLocalFile = null
         selectedCloudFile = null
@@ -212,12 +220,21 @@ class WifiActivity : AppCompatActivity() {
         val button = error.findViewById<MaterialButton>(R.id.el_btn)
         button.visibility = if (showCloudButton) View.VISIBLE else View.GONE
         if (showCloudButton) {
-            button.setText(R.string.choose_storage)
+            button.setText(R.string.backup_storage_location)
             button.setOnClickListener { openCloudTab() }
         }
     }
 
     private fun backupLocal(profile: WifiProfile) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Back up Wi-Fi credentials?")
+            .setMessage("This backup contains the saved Wi-Fi password, if available. Keep the file in a trusted location.")
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.backup) { _, _ -> writeLocalBackup(profile) }
+            .show()
+    }
+
+    private fun writeLocalBackup(profile: WifiProfile) {
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
@@ -234,6 +251,15 @@ class WifiActivity : AppCompatActivity() {
     }
 
     private fun backupCloud(profile: WifiProfile) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Back up Wi-Fi credentials?")
+            .setMessage("This backup contains the saved Wi-Fi password, if available. Store it only in a trusted cloud folder.")
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.backup_to_cloud) { _, _ -> writeCloudBackup(profile) }
+            .show()
+    }
+
+    private fun writeCloudBackup(profile: WifiProfile) {
         val destination = CloudStorageDestination.createFile(this, "application/json", fileName(profile.ssid))
         if (destination == null) {
             openCloudTab()
@@ -298,6 +324,13 @@ class WifiActivity : AppCompatActivity() {
     }
 
     private fun restoreProfile(profile: WifiProfile) {
+        if (Build.VERSION.SDK_INT < 33 &&
+            checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingRestoreProfile = profile
+            locationPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
+        }
         if (Build.VERSION.SDK_INT >= 33 &&
             checkSelfPermission(Manifest.permission.NEARBY_WIFI_DEVICES) != PackageManager.PERMISSION_GRANTED
         ) {
