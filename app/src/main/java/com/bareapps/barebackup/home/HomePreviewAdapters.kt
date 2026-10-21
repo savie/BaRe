@@ -27,14 +27,13 @@ internal class QuickActionPreviewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionHolder =
         ActionHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.home_search_quick_action_item, parent, false))
+            .inflate(R.layout.quick_action_item, parent, false))
 
     override fun onBindViewHolder(holder: ActionHolder, position: Int) {
         val action = actions[position]
         holder.title.setText(action.titleRes)
         holder.summary.setText(action.summaryRes)
-        holder.icon.setImageResource(action.iconRes)
-        holder.icon.visibility = View.VISIBLE
+        holder.icon.visibility = View.GONE
         holder.actionContainer.visibility = if (action.showRestoreSources) View.VISIBLE else View.GONE
         val notReady = View.OnClickListener {
             Toast.makeText(holder.itemView.context,
@@ -49,11 +48,11 @@ internal class QuickActionPreviewAdapter(
 
     internal class ActionHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.tv_title)
-        val summary: TextView = view.findViewById(R.id.tv_subtitle)
-        val icon: ImageView = view.findViewById(R.id.iv_icon)
-        val actionContainer: View = view.findViewById(R.id.container_actions)
-        val fromDevice: MaterialButton = view.findViewById(R.id.btn_local)
-        val fromCloud: MaterialButton = view.findViewById(R.id.btn_cloud)
+        val summary: TextView = view.findViewById(R.id.tv_subtitle1)
+        val icon: ImageView = view.findViewById(R.id.iv_root_needed)
+        val actionContainer: View = view.findViewById(R.id.bottom_view)
+        val fromDevice: MaterialButton = view.findViewById(R.id.btn_from_local)
+        val fromCloud: MaterialButton = view.findViewById(R.id.btn_from_cloud)
     }
 }
 
