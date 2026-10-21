@@ -50,7 +50,8 @@ class LocalAccountRecovery(context: Context) {
                 "Saved local identity contains an invalid UID"
             }
             persistPrivateCopy(uid)
-            Log.i(TAG, "Recovered portable local account identity")
+            ensureAccountDirectories(uid)
+            Log.i(TAG, "Recovered portable local account identity; accountDir=" + accountDirectoryName(uid))
             return Result(Status.READY, uid, restored = true)
         }
 
@@ -65,7 +66,8 @@ class LocalAccountRecovery(context: Context) {
         val uid = existingPrivate ?: UUID.randomUUID().toString()
         writeMarkerAtomically(marker, uid)
         persistPrivateCopy(uid)
-        Log.i(TAG, if (existingPrivate == null) "Created portable local account identity" else "Migrated private local identity to portable marker")
+        ensureAccountDirectories(uid)
+        Log.i(TAG, "Local account identity ready; accountDir=" + accountDirectoryName(uid) + "; restored=" + (existingPrivate != null))
         return Result(Status.READY, uid, restored = existingPrivate != null)
     }
 
@@ -140,6 +142,38 @@ class LocalAccountRecovery(context: Context) {
         }
     }
 
+    /** Match reference layout: MD5(UID), first 16 hexadecimal characters. */
+    private fun ensureAccountDirectories(uid: String) {
+        val root = File(Environment.getExternalStorageDirectory(), ROOT_DIRECTORY)
+        val accounts = File(root, "accounts")
+        val account = File(accounts, accountDirectoryName(uid))
+        val directories = listOf(
+            root, accounts, account,
+            File(account, "backups"),
+            File(account, "backups/apps"), File(account, "backups/apps/local"), File(account, "backups/apps/cloud"),
+            File(account, "backups/sms"), File(account, "backups/sms/local"), File(account, "backups/sms/cloud"),
+            File(account, "backups/calls"), File(account, "backups/calls/local"), File(account, "backups/calls/cloud"),
+            File(account, "backups/wifi"), File(account, "backups/wifi/local"), File(account, "backups/wifi/cloud"),
+            File(account, "backups/walls"), File(account, "backups/walls/applied"), File(account, "backups/walls/local"), File(account, "backups/walls/cloud"),
+            File(account, "backups/folders"), File(account, "backups/folders/local"), File(account, "backups/folders/cloud"),
+            File(account, "cache"), File(root, "icon_cache"),
+        )
+        directories.forEach { directory ->
+            if (!directory.isDirectory && !directory.mkdirs() && !directory.isDirectory) {
+                throw java.io.IOException("Unable to create local account directory: " + directory.absolutePath)
+            }
+        }
+        val noMedia = File(root, ".nomedia")
+        if (!noMedia.exists() && !noMedia.createNewFile()) {
+            throw java.io.IOException("Unable to create " + noMedia.absolutePath)
+        }
+    }
+
+    private fun accountDirectoryName(uid: String): String {
+        val digest = MessageDigest.getInstance("MD5").digest(uid.toByteArray(StandardCharsets.UTF_8))
+        return digest.joinToString("") { byte -> "%02x".format(java.util.Locale.ROOT, byte.toInt() and 0xff) }.take(16)
+    }
+
     private fun privateFile(): File = File(app.filesDir, PRIVATE_UID_FILE)
 
     private fun readPrivateCopy(): String? {
@@ -169,6 +203,7 @@ class LocalAccountRecovery(context: Context) {
     companion object {
         private const val TAG = "LocalAccountRecovery"
         private const val MARKER_NAME = ".bare_local_identity.enc"
+        private const val ROOT_DIRECTORY = "BΛR☰"
         private const val PRIVATE_UID_FILE = "bare_local_account_uid"
         private const val LEGACY_PREFS = "bare_local_account"
         private const val LEGACY_UID_KEY = "local_uid"
