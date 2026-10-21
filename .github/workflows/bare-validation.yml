@@ -44,7 +44,14 @@ jobs:
           aapt dump badging "$APK" | grep -F "application-label:'BΛR☰'"
           apksigner verify "$APK"
 
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: bare-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
       - name: Smoke test core screens on Android emulator
+        timeout-minutes: 8
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -56,7 +63,7 @@ jobs:
           script: |
             set -e
             APK="app/build/outputs/apk/debug/app-debug.apk"
-            adb install -r "$APK"
+            timeout 60s adb install -r "$APK"
             adb logcat -c
             for ACTIVITY in \
               "com.bareapps.barebackup.home.HomeActivity" \
@@ -65,7 +72,7 @@ jobs:
               "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
               "com.bareapps.barebackup.wifi.WifiActivity"; do
               adb shell am force-stop com.bareapps.barebackup || true
-              adb shell am start -n "com.bareapps.barebackup/$ACTIVITY"
+              timeout 30s adb shell am start -n "com.bareapps.barebackup/$ACTIVITY"
               sleep 3
             done
             LOG="$(adb logcat -d -t 3000)"
@@ -74,9 +81,3 @@ jobs:
               exit 1
             fi
 
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v6
-        with:
-          name: bare-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
