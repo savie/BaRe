@@ -30,6 +30,13 @@ internal object IntroPermissionGrantCoordinator {
         val succeeded: Boolean get() = available && failed.isEmpty()
     }
 
+    fun isRootAvailable(): Boolean = try {
+        Shell.getShell().isRoot
+    } catch (error: Exception) {
+        Log.w(TAG, "Unable to check root shell", error)
+        false
+    }
+
     fun isShizukuRunning(): Boolean = try {
         Shizuku.pingBinder()
     } catch (_: Exception) {
