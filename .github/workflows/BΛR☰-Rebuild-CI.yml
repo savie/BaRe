@@ -3,6 +3,9 @@ name: BΛR☰ Rebuild CI
 run-name: "BΛR☰ Rebuild CI #${{ github.run_number }} - ${{ github.ref_name }}"
 
 on:
+  push:
+    branches:
+      - work/bare-release-artifact
   # Manual runs are always available from the Actions tab.
   workflow_dispatch:
     # Skip and not need to execution this native test
@@ -118,7 +121,7 @@ jobs:
   # Emulator instrumentation is deliberately optional and isolated from APK production.
   # A flaky/offline ADB transport must not prevent a signed release APK from being uploaded.
   native-tests:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_native_tests == true }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.run_native_tests == true) || github.event_name == 'push' }}
     needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 40
