@@ -50,6 +50,7 @@ class LocalAccountRecovery(context: Context) {
                 "Saved local identity contains an invalid UID"
             }
             persistPrivateCopy(uid)
+            persistActiveLocalAccount(uid)
             ensureAccountDirectories(uid)
             Log.i(TAG, "Recovered portable local account identity; accountDir=" + accountDirectoryName(uid))
             return Result(Status.READY, uid, restored = true)
@@ -66,6 +67,7 @@ class LocalAccountRecovery(context: Context) {
         val uid = existingPrivate ?: UUID.randomUUID().toString()
         writeMarkerAtomically(marker, uid)
         persistPrivateCopy(uid)
+        persistActiveLocalAccount(uid)
         ensureAccountDirectories(uid)
         Log.i(TAG, "Local account identity ready; accountDir=" + accountDirectoryName(uid) + "; restored=" + (existingPrivate != null))
         return Result(Status.READY, uid, restored = existingPrivate != null)
@@ -172,6 +174,14 @@ class LocalAccountRecovery(context: Context) {
     private fun accountDirectoryName(uid: String): String {
         val digest = MessageDigest.getInstance("MD5").digest(uid.toByteArray(StandardCharsets.UTF_8))
         return digest.joinToString("") { byte -> "%02x".format(java.util.Locale.ROOT, byte.toInt() and 0xff) }.take(16)
+    }
+
+    private fun persistActiveLocalAccount(uid: String) {
+        app.getSharedPreferences(LEGACY_PREFS, Context.MODE_PRIVATE).edit()
+            .putString("active_uid", uid)
+            .putString("active_kind", "local")
+            .putString(LEGACY_UID_KEY, uid)
+            .apply()
     }
 
     private fun privateFile(): File = File(app.filesDir, PRIVATE_UID_FILE)
