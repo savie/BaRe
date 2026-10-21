@@ -54,7 +54,14 @@ class LocalAccountRecovery(context: Context) {
             return Result(Status.READY, uid, restored = true)
         }
 
+        // Migrate the legacy local UID from the backup branch's private preference
+        // store when no portable marker has been written yet. This avoids rotating an
+        // existing local identity during an upgrade.
         val existingPrivate = readPrivateCopy()
+            ?: app.getSharedPreferences(LEGACY_PREFS, Context.MODE_PRIVATE)
+                .getString(LEGACY_UID_KEY, null)
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() && it.length <= MAX_UID_LENGTH }
         val uid = existingPrivate ?: UUID.randomUUID().toString()
         writeMarkerAtomically(marker, uid)
         persistPrivateCopy(uid)
@@ -163,6 +170,8 @@ class LocalAccountRecovery(context: Context) {
         private const val TAG = "LocalAccountRecovery"
         private const val MARKER_NAME = ".bare_local_identity.enc"
         private const val PRIVATE_UID_FILE = "bare_local_account_uid"
+        private const val LEGACY_PREFS = "bare_local_account"
+        private const val LEGACY_UID_KEY = "local_uid"
         private const val KEY_DOMAIN = "BΛR☰-local-identity-v1"
         private const val IV_BYTES = 12
         private const val GCM_TAG_BITS = 128
