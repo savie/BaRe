@@ -19,14 +19,14 @@ internal class QuickActionPreviewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionHolder =
         ActionHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.quick_action_item, parent, false)
+                .inflate(R.layout.home_search_quick_action_item, parent, false)
         )
 
     override fun onBindViewHolder(holder: ActionHolder, position: Int) {
         val action = actions[position]
         holder.title.setText(action.titleRes)
         holder.summary.setText(action.summaryRes)
-        // Keep the reference's two destination controls visible, but presentation-only for this pass.
+        holder.icon.setImageResource(R.drawable.ic_home)
         holder.fromDevice.setOnClickListener { }
         holder.fromCloud.setOnClickListener { }
     }
@@ -35,9 +35,10 @@ internal class QuickActionPreviewAdapter(
 
     internal class ActionHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.tv_title)
-        val summary: TextView = view.findViewById(R.id.tv_subtitle1)
-        val fromDevice: MaterialButton = view.findViewById(R.id.btn_from_local)
-        val fromCloud: MaterialButton = view.findViewById(R.id.btn_from_cloud)
+        val summary: TextView = view.findViewById(R.id.tv_subtitle)
+        val icon: ImageView = view.findViewById(R.id.iv_icon)
+        val fromDevice: MaterialButton = view.findViewById(R.id.btn_local)
+        val fromCloud: MaterialButton = view.findViewById(R.id.btn_cloud)
     }
 }
 
