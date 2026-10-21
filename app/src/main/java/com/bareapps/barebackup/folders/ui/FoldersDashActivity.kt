@@ -312,21 +312,20 @@ class FoldersDashActivity : AppCompatActivity() {
                         // been fully staged. If the provider rejects the final rename, try to put
                         // the previous file back instead of silently destroying its contents.
                         val previousName = ".bare-previous-$entryCount.tmp"
-                        var previousMoved = false
+                        var previousFile: DocumentFile? = null
                         if (existing != null) {
                             check(existing.renameTo(previousName)) {
                                 "Could not safely replace existing file $leaf"
                             }
-                            previousMoved = true
+                            previousFile = parent.findFile(previousName)
+                                ?: error("Could not locate the staged previous file $leaf")
                         }
                         if (!stagedDocument.renameTo(leaf)) {
-                            if (previousMoved) {
-                                existing?.renameTo(leaf)
-                            }
+                            previousFile?.renameTo(leaf)
                             stagedDocument.delete()
                             error("Could not finalize restored file $leaf")
                         }
-                        if (previousMoved) existing?.delete()
+                        previousFile?.delete()
                         stagedFile.delete()
                     }
                     zip.closeEntry()
