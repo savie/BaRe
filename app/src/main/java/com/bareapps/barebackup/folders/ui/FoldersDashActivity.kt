@@ -260,7 +260,7 @@ class FoldersDashActivity : AppCompatActivity() {
         var totalBytes = 0L
         var entryCount = 0
         val stagedEntries = mutableListOf<StagedEntry>()
-        val archivePaths = linkedMapOf<String, Boolean>()
+        val archivePaths = mutableListOf<Pair<String, Boolean>>()
         val stagingDirectory = File(cacheDir, "folder-restore-${System.currentTimeMillis()}")
         check(stagingDirectory.mkdirs()) { "Could not prepare safe restore staging area" }
         try {
@@ -274,20 +274,7 @@ class FoldersDashActivity : AppCompatActivity() {
                     val segments = FolderArchivePathValidator.validate(entry.name)
                     val path = segments.joinToString("/")
                     val isDirectory = entry.isDirectory || entry.name.endsWith("/")
-                    require(!archivePaths.containsKey(path)) { "Archive contains a duplicate path: $path" }
-                    var parentPath = ""
-                    segments.dropLast(1).forEach { segment ->
-                        parentPath = if (parentPath.isEmpty()) segment else "$parentPath/$segment"
-                        require(archivePaths[parentPath] != false) {
-                            "Archive contains a file used as a folder: $parentPath"
-                        }
-                    }
-                    if (!isDirectory) {
-                        require(archivePaths.keys.none { it.startsWith("$path/") }) {
-                            "Archive contains a file/folder path conflict: $path"
-                        }
-                    }
-                    archivePaths[path] = isDirectory
+                    archivePaths += path to isDirectory
 
                     if (isDirectory) {
                         require(zip.read() == -1) { "Directory entry contains unexpected file data" }
@@ -305,6 +292,7 @@ class FoldersDashActivity : AppCompatActivity() {
                     zip.closeEntry()
                 }
             }
+            FolderArchivePathValidator.validateArchiveStructure(archivePaths)
 
             // Second pass: apply only after archive structure and all file payloads are validated.
             // Files are still staged individually before replacing existing destination files.
