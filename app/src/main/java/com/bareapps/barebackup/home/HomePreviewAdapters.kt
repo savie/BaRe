@@ -1,0 +1,96 @@
+package com.bareapps.barebackup.home
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bareapps.barebackup.R
+import com.google.android.material.button.MaterialButton
+
+/** Static presentation models for the reference home surfaces. Actions intentionally do not start work yet. */
+internal data class PreviewAction(val titleRes: Int, val summaryRes: Int)
+
+internal class QuickActionPreviewAdapter(
+    private val actions: List<PreviewAction>
+) : RecyclerView.Adapter<QuickActionPreviewAdapter.ActionHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionHolder =
+        ActionHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.quick_action_item, parent, false)
+        )
+
+    override fun onBindViewHolder(holder: ActionHolder, position: Int) {
+        val action = actions[position]
+        holder.title.setText(action.titleRes)
+        holder.summary.setText(action.summaryRes)
+        // Keep the reference's two destination controls visible, but presentation-only for this pass.
+        holder.fromDevice.setOnClickListener { }
+        holder.fromCloud.setOnClickListener { }
+    }
+
+    override fun getItemCount(): Int = actions.size
+
+    internal class ActionHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.tv_title)
+        val summary: TextView = view.findViewById(R.id.tv_subtitle1)
+        val fromDevice: MaterialButton = view.findViewById(R.id.btn_from_local)
+        val fromCloud: MaterialButton = view.findViewById(R.id.btn_from_cloud)
+    }
+}
+
+internal data class PreviewShortcut(val titleRes: Int, val iconRes: Int)
+
+internal class HomeShortcutPreviewAdapter(
+    private val shortcuts: List<PreviewShortcut>
+) : RecyclerView.Adapter<HomeShortcutPreviewAdapter.ShortcutHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortcutHolder =
+        ShortcutHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.dash_shortcut_item_normal, parent, false)
+        )
+
+    override fun onBindViewHolder(holder: ShortcutHolder, position: Int) {
+        val shortcut = shortcuts[position]
+        holder.button.setText(shortcut.titleRes)
+        holder.icon.setImageResource(shortcut.iconRes)
+        holder.button.setOnClickListener { }
+    }
+
+    override fun getItemCount(): Int = shortcuts.size
+
+    internal class ShortcutHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val button: MaterialButton = view.findViewById(R.id.btn)
+        val icon: ImageView = view.findViewById(R.id.image_icon)
+    }
+}
+
+internal data class PreviewSetting(val titleRes: Int, val iconRes: Int)
+
+internal class AccountSettingsPreviewAdapter(
+    private val settings: List<PreviewSetting>
+) : RecyclerView.Adapter<AccountSettingsPreviewAdapter.SettingHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingHolder =
+        SettingHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.more_list_item, parent, false)
+        )
+
+    override fun onBindViewHolder(holder: SettingHolder, position: Int) {
+        val setting = settings[position]
+        holder.title.setText(setting.titleRes)
+        holder.icon.setImageResource(setting.iconRes)
+        holder.itemView.setOnClickListener { }
+    }
+
+    override fun getItemCount(): Int = settings.size
+
+    internal class SettingHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.tv_more_list_item)
+        val icon: ImageView = view.findViewById(R.id.iv_more_list_item)
+    }
+}

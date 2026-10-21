@@ -2,6 +2,7 @@ package com.bareapps.barebackup.home
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,11 +12,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bareapps.barebackup.R
 import com.bareapps.barebackup.intro.IntroActivity
 import com.google.firebase.auth.FirebaseAuth
 
-/** Account tab. Account-specific actions belong to this fragment, not a generic layout host. */
+/** Account and settings tab. Existing strings are reused without editing resource files. */
 class AccountFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,12 +34,43 @@ class AccountFragment : Fragment() {
                 .setPositiveButton(R.string.sign_out) { _, _ -> signOut() }
                 .show()
         }
+
+        val user = FirebaseAuth.getInstance().currentUser
         profile.findViewById<TextView>(R.id.tv_user_name).text =
-            FirebaseAuth.getInstance().currentUser?.displayName ?: getString(R.string.account)
+            user?.displayName ?: getString(R.string.account)
         profile.findViewById<TextView>(R.id.tv_user_email).text =
-            FirebaseAuth.getInstance().currentUser?.email
-                ?: getString(R.string.sign_in_required_for_full_features)
+            user?.email ?: getString(R.string.sign_in_required_for_full_features)
+        profile.findViewById<TextView>(R.id.tv_device).text = deviceLabel()
+        // BΛR☰ has no premium paywall; reuse the existing neutral About label for this slot.
+        profile.findViewById<View>(R.id.btn_upgrade)?.let { button ->
+            (button as? com.google.android.material.button.MaterialButton)?.setText(R.string.about)
+            button.setOnClickListener { }
+        }
+
+        view.findViewById<RecyclerView>(R.id.rv_more_items).apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            adapter = AccountSettingsPreviewAdapter(
+                listOf(
+                    PreviewSetting(R.string.app_backup_settings, R.drawable.ic_chevron_right),
+                    PreviewSetting(R.string.storage_and_security, R.drawable.ic_chevron_right),
+                    PreviewSetting(R.string.wifi, R.drawable.ic_chevron_right),
+                    PreviewSetting(R.string.wallpapers, R.drawable.ic_chevron_right),
+                    PreviewSetting(R.string.about, R.drawable.ic_chevron_right)
+                )
+            )
+            isNestedScrollingEnabled = false
+        }
         return view
+    }
+
+    private fun deviceLabel(): String {
+        val manufacturer = Build.MANUFACTURER.orEmpty().trim()
+        val model = Build.MODEL.orEmpty().trim()
+        return listOf(manufacturer, model)
+            .filter { it.isNotBlank() }
+            .distinct()
+            .joinToString(" ")
+            .ifBlank { getString(R.string.not_available) }
     }
 
     private fun signOut() {
