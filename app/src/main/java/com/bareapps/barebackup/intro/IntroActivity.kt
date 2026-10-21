@@ -83,7 +83,7 @@ class IntroActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.intro_activity_permissions).visibility = View.GONE
+        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.GONE
         findViewById<View>(R.id.container_permissions).visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
@@ -160,7 +160,7 @@ class IntroActivity : AppCompatActivity() {
     private fun showSignInScreen() {
         showingRequiredPermissions = false
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.intro_activity_permissions).visibility = View.GONE
+        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.GONE
         findViewById<View>(R.id.container_permissions).visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
