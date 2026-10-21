@@ -78,6 +78,9 @@ internal object WifiProfileBackup {
     fun restoreProfile(context: Context, profile: WifiProfile): String {
         require(profile.ssid.isNotBlank()) { "Wi-Fi backup has no network name" }
         require(!profile.isEnterprise) { "Enterprise Wi-Fi profiles need manual setup on this Android version" }
+        require(profile.isOpen || profile.preSharedKey.isNotBlank()) {
+            "This backup does not contain a usable password for the selected secured network"
+        }
         val manager = context.applicationContext.getSystemService(WifiManager::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val builder = WifiNetworkSuggestion.Builder()
