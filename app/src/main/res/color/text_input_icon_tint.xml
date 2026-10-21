@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:color="?colorError2" app:state_error="true" />
+    <item android:state_focused="true" android:color="?colorPrimary" />
+    <item android:state_enabled="false" android:color="?colorOnSurfaceVariant" android:alpha="@dimen/material_emphasis_disabled" />
+    <item android:color="?colorOnSurfaceVariant" />
+</selector>
