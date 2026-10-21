@@ -251,38 +251,46 @@ class FoldersDashActivity : AppCompatActivity() {
     private fun restoreZip(rawInput: InputStream, destinationTree: Uri) {
         val root = DocumentFile.fromTreeUri(this, destinationTree)
             ?: error("Could not access the destination folder")
+        data class StagedEntry(
+            val segments: List<String>,
+            val isDirectory: Boolean,
+            val stagedFile: File? = null
+        )
+
         var totalBytes = 0L
         var entryCount = 0
+        val stagedEntries = mutableListOf<StagedEntry>()
+        val archivePaths = linkedMapOf<String, Boolean>()
         val stagingDirectory = File(cacheDir, "folder-restore-${System.currentTimeMillis()}")
         check(stagingDirectory.mkdirs()) { "Could not prepare safe restore staging area" }
         try {
+            // First pass: validate and fully extract the archive locally. Do not modify the
+            // user's destination until the entire ZIP has been read without corruption/errors.
             ZipInputStream(rawInput).use { zip ->
                 while (true) {
                     val entry = zip.nextEntry ?: break
                     entryCount++
                     require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
                     val segments = FolderArchivePathValidator.validate(entry.name)
-
-                    var parent = root
+                    val path = segments.joinToString("/")
+                    val isDirectory = entry.isDirectory || entry.name.endsWith("/")
+                    require(!archivePaths.containsKey(path)) { "Archive contains a duplicate path: $path" }
+                    var parentPath = ""
                     segments.dropLast(1).forEach { segment ->
-                        val existingParent = parent.findFile(segment)
-                        parent = when {
-                            existingParent == null ->
-                                parent.createDirectory(segment) ?: error("Could not create folder $segment")
-                            existingParent.isDirectory -> existingParent
-                            else -> error("Cannot restore into $segment because a file blocks the destination path")
+                        parentPath = if (parentPath.isEmpty()) segment else "$parentPath/$segment"
+                        require(archivePaths[parentPath] != false) {
+                            "Archive contains a file used as a folder: $parentPath"
                         }
                     }
-                    val leaf = segments.last()
-                    if (entry.isDirectory) {
-                        val existingDirectory = parent.findFile(leaf)
-                        if (existingDirectory == null) {
-                            parent.createDirectory(leaf) ?: error("Could not create folder $leaf")
-                        } else {
-                            require(existingDirectory.isDirectory) {
-                                "Cannot restore folder $leaf because a file with that name already exists"
-                            }
+                    if (!isDirectory) {
+                        require(archivePaths.keys.none { it.startsWith("$path/") }) {
+                            "Archive contains a file/folder path conflict: $path"
                         }
+                    }
+                    archivePaths[path] = isDirectory
+
+                    if (isDirectory) {
+                        stagedEntries += StagedEntry(segments, true)
                     } else {
                         val remainingBytes = MAX_RESTORE_BYTES - totalBytes
                         require(remainingBytes > 0L) { "Archive exceeds the restore size limit" }
@@ -291,47 +299,69 @@ class FoldersDashActivity : AppCompatActivity() {
                             copyCurrentEntry(zip, output, remainingBytes)
                         }
                         totalBytes += copied
-
-                        // Preserve any existing destination until the complete entry has been read
-                        // and validated; a truncated/corrupt archive must not erase the old file.
-                        val existing = parent.findFile(leaf)
-                        require(existing == null || existing.isFile) {
-                            "Cannot restore file $leaf because a folder with that name already exists"
-                        }
-                        val stagedName = ".bare-restore-$entryCount.tmp"
-                        val stagedDocument = parent.createFile("application/octet-stream", stagedName)
-                            ?: error("Could not stage restored file $leaf")
-                        try {
-                            contentResolver.openOutputStream(stagedDocument.uri, "w").use { rawOutput ->
-                                val output = checkNotNull(rawOutput) { "Could not write staged file $leaf" }
-                                FileInputStream(stagedFile).use { input -> input.copyTo(output) }
-                            }
-                        } catch (error: Exception) {
-                            stagedDocument.delete()
-                            throw error
-                        }
-
-                        // Rename the previous file out of the way only after the replacement has
-                        // been fully staged. If the provider rejects the final rename, try to put
-                        // the previous file back instead of silently destroying its contents.
-                        val previousName = ".bare-previous-$entryCount.tmp"
-                        var previousFile: DocumentFile? = null
-                        if (existing != null) {
-                            check(existing.renameTo(previousName)) {
-                                "Could not safely replace existing file $leaf"
-                            }
-                            previousFile = parent.findFile(previousName)
-                                ?: error("Could not locate the staged previous file $leaf")
-                        }
-                        if (!stagedDocument.renameTo(leaf)) {
-                            previousFile?.renameTo(leaf)
-                            stagedDocument.delete()
-                            error("Could not finalize restored file $leaf")
-                        }
-                        previousFile?.delete()
-                        stagedFile.delete()
+                        stagedEntries += StagedEntry(segments, false, stagedFile)
                     }
                     zip.closeEntry()
+                }
+            }
+
+            // Second pass: apply only after archive structure and all file payloads are validated.
+            // Files are still staged individually before replacing existing destination files.
+            stagedEntries.forEach { staged ->
+                var parent = root
+                staged.segments.dropLast(1).forEach { segment ->
+                    val existingParent = parent.findFile(segment)
+                    parent = when {
+                        existingParent == null ->
+                            parent.createDirectory(segment) ?: error("Could not create folder $segment")
+                        existingParent.isDirectory -> existingParent
+                        else -> error("Cannot restore into $segment because a file blocks the destination path")
+                    }
+                }
+                val leaf = staged.segments.last()
+                if (staged.isDirectory) {
+                    val existingDirectory = parent.findFile(leaf)
+                    if (existingDirectory == null) {
+                        parent.createDirectory(leaf) ?: error("Could not create folder $leaf")
+                    } else {
+                        require(existingDirectory.isDirectory) {
+                            "Cannot restore folder $leaf because a file with that name already exists"
+                        }
+                    }
+                } else {
+                    val stagedFile = checkNotNull(staged.stagedFile)
+                    val existing = parent.findFile(leaf)
+                    require(existing == null || existing.isFile) {
+                        "Cannot restore file $leaf because a folder with that name already exists"
+                    }
+                    val stagedName = ".bare-restore-${stagedFile.nameWithoutExtension}.tmp"
+                    val stagedDocument = parent.createFile("application/octet-stream", stagedName)
+                        ?: error("Could not stage restored file $leaf")
+                    try {
+                        contentResolver.openOutputStream(stagedDocument.uri, "w").use { rawOutput ->
+                            val output = checkNotNull(rawOutput) { "Could not write staged file $leaf" }
+                            FileInputStream(stagedFile).use { input -> input.copyTo(output) }
+                        }
+                    } catch (error: Exception) {
+                        stagedDocument.delete()
+                        throw error
+                    }
+
+                    val previousName = ".bare-previous-${stagedFile.nameWithoutExtension}.tmp"
+                    var previousFile: DocumentFile? = null
+                    if (existing != null) {
+                        check(existing.renameTo(previousName)) {
+                            "Could not safely replace existing file $leaf"
+                        }
+                        previousFile = parent.findFile(previousName)
+                            ?: error("Could not locate the staged previous file $leaf")
+                    }
+                    if (!stagedDocument.renameTo(leaf)) {
+                        previousFile?.renameTo(leaf)
+                        stagedDocument.delete()
+                        error("Could not finalize restored file $leaf")
+                    }
+                    previousFile?.delete()
                 }
             }
         } finally {
