@@ -44,6 +44,7 @@ class IntroActivity : AppCompatActivity() {
     private var authInProgress = false
     private var permissionGrantInProgress = false
     private var shizukuListenerRegistered = false
+    private var pendingLocalIdentityRecovery = false
 
     private val notificationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -123,6 +124,9 @@ class IntroActivity : AppCompatActivity() {
         if (findViewById<View>(R.id.container_permissions) != null) {
             updateDeviceSpecificCards()
             refreshPermissionCards()
+            if (pendingLocalIdentityRecovery && hasRequiredStorageAccess()) {
+                initializeLocalAccount()
+            }
         }
     }
 
@@ -248,6 +252,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun initializeLocalAccount() {
+        pendingLocalIdentityRecovery = true
         try {
             val recovery = LocalAccountRecovery(this).ensureIdentity()
             if (recovery.status == LocalAccountRecovery.Status.STORAGE_ACCESS_REQUIRED) {
@@ -255,12 +260,17 @@ class IntroActivity : AppCompatActivity() {
                 requestStorageAccess()
                 return
             }
+            pendingLocalIdentityRecovery = false
             Log.i(TAG, "Local account ready; restored=" + recovery.restored)
         } catch (error: Exception) {
             Log.e(TAG, "Local account recovery/setup failed", error)
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
         }
     }
+
+    private fun hasRequiredStorageAccess(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) EnvironmentCompat.hasAllFilesAccess()
+        else isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     private fun showRequiredPermissionsScreen() {
         setContentView(R.layout.intro_permissions_screen)
