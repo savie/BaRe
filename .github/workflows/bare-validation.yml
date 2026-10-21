@@ -62,6 +62,7 @@ jobs:
               "com.bareapps.barebackup.home.HomeActivity" \
               "com.bareapps.barebackup.home.search.HomeSearchActivity" \
               "com.bareapps.barebackup.appslist.ui.list.AppListActivity" \
+              "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
               "com.bareapps.barebackup.wifi.WifiActivity"; do
               adb shell am force-stop com.bareapps.barebackup || true
               adb shell am start -W -n "com.bareapps.barebackup/$ACTIVITY"
