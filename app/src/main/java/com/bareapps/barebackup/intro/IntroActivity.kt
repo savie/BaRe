@@ -309,25 +309,27 @@ class IntroActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
 
-        // Firebase Authentication creates the auth user, but profile data is a separate
-        // concern. Persist the UID locally first so the account identity survives even when
-        // Realtime Database is not configured or temporarily unavailable.
-        val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
-        val accountSaved = accountPrefs.edit()
-            .putString("google_uid", user.uid)
-            .putString("active_uid", user.uid)
-            .putString("active_kind", "google")
-            .commit()
-        if (!accountSaved) {
-            // Local preference persistence must never block an already successful Google
-            // authentication from advancing to the required-permissions step.
-            Log.e(TAG, "Google authentication succeeded but account ID could not be persisted locally")
+        // Authentication has already succeeded. Advance the UI first so local identity
+        // persistence or recovery can never strand the user on the sign-in screen.
+        showRequiredPermissionsScreen()
+
+        try {
+            val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
+            val accountSaved = accountPrefs.edit()
+                .putString("google_uid", user.uid)
+                .putString("active_uid", user.uid)
+                .putString("active_kind", "google")
+                .commit()
+            if (!accountSaved) {
+                Log.e(TAG, "Google authentication succeeded but account ID could not be persisted locally")
+            }
+        } catch (error: Exception) {
+            Log.e(TAG, "Google authentication succeeded but local account ID persistence threw an exception", error)
         }
 
         // Keep a device-local recovery identity alongside the cloud identity. If storage
         // access is not available yet, the dedicated permission screen stays visible and
         // onResume retries recovery after the user grants access.
-        showRequiredPermissionsScreen()
         initializeLocalAccount()
     }
 
