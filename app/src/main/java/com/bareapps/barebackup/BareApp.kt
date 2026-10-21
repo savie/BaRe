@@ -124,6 +124,21 @@ class BareApp : Application() {
         instance = this
         Log.d(TAG, "onCreate")
 
+        // Initialize Firebase explicitly before any component requests FirebaseAuth,
+        // FirebaseDatabase, or Crashlytics. This also gives a clear startup error if
+        // the generated Firebase options are missing from this build variant.
+        try {
+            if (FirebaseApp.getApps(this).isEmpty()) {
+                val firebaseApp = FirebaseApp.initializeApp(this)
+                checkNotNull(firebaseApp) {
+                    "Firebase initialization returned null; verify google-services.json and the Google Services Gradle plugin"
+                }
+            }
+            Log.i(TAG, "Firebase initialized")
+        } catch (error: Exception) {
+            Log.e(TAG, "Firebase initialization failed", error)
+        }
+
         createReferenceNotificationChannels()
         notificationManager().cancelAll()
         installCrashHandler()
