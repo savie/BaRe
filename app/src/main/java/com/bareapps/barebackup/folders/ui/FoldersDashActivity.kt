@@ -261,16 +261,7 @@ class FoldersDashActivity : AppCompatActivity() {
                     val entry = zip.nextEntry ?: break
                     entryCount++
                     require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
-                    val entryName = entry.name
-                    require(!entryName.startsWith("/") && '\\' !in entryName) {
-                        "Archive contains an absolute path"
-                    }
-                    val segments = entryName.split('/').filter { it.isNotEmpty() }
-                    require(
-                        segments.isNotEmpty() &&
-                            segments.size <= MAX_RESTORE_PATH_DEPTH &&
-                            segments.none { it == "." || it == ".." || it.length > MAX_PATH_SEGMENT_LENGTH }
-                    ) { "Archive contains an unsafe path" }
+                    val segments = FolderArchivePathValidator.validate(entry.name)
 
                     var parent = root
                     segments.dropLast(1).forEach { segment ->
@@ -377,7 +368,5 @@ class FoldersDashActivity : AppCompatActivity() {
         private const val LOCAL_BACKUP_DIR = "folder-backups"
         private const val MAX_RESTORE_BYTES = 10L * 1024L * 1024L * 1024L
         private const val MAX_RESTORE_ENTRIES = 100_000
-        private const val MAX_RESTORE_PATH_DEPTH = 64
-        private const val MAX_PATH_SEGMENT_LENGTH = 255
     }
 }
