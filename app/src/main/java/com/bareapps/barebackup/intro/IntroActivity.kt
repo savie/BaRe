@@ -316,25 +316,16 @@ class IntroActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
 
-        // Persist the Firebase Google UID before any onboarding or local-storage work.
-        // Google identity and the device-local identity are separate; never replace the
-        // Google UID with LocalAccountRecovery's UID.
-        try {
-            val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
-            val accountSaved = accountPrefs.edit()
+        // Google identity is separate from the permanent device-local account identity.
+        // Do not write Google UID into active_uid or change the local account selection.
+        val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
+        check(
+            accountPrefs.edit()
                 .putString("google_uid", user.uid)
-                .putString("active_uid", user.uid)
-                .putString("active_kind", "google")
                 .commit()
-            if (!accountSaved) {
-                Log.e(TAG, "Firebase Google sign-in succeeded but Google account ID could not be persisted locally")
-            }
-        } catch (error: Exception) {
-            Log.e(TAG, "Firebase Google sign-in succeeded but saving Google account ID failed", error)
-        }
+        ) { "Could not persist Google account ID" }
 
-        // Navigating to required permissions is independent of local-account recovery.
-        // A local storage/recovery problem must not undo or block a successful Google sign-in.
+        // Required-permissions onboarding is independent of local-account recovery.
         showRequiredPermissionsScreen()
         initializeLocalAccount()
     }
