@@ -179,11 +179,10 @@ class LocalAccountRecovery(context: Context) {
     private fun persistActiveLocalAccount(uid: String) {
         val prefs = app.getSharedPreferences(LEGACY_PREFS, Context.MODE_PRIVATE)
         val editor = prefs.edit().putString(LEGACY_UID_KEY, uid)
-        // Recovery must preserve a currently selected Google/cloud account. The local UID
-        // remains available independently for sign-out and local backup paths.
-        if (prefs.getString("active_kind", null) != "google") {
-            editor.putString("active_uid", uid).putString("active_kind", "local")
-        }
+        // The portable local UID is the only identity used for /BΛR☰/accounts/*.
+        // Google sign-in is tracked separately by FirebaseAuth and google_uid; it must
+        // never replace or freeze the local account identity.
+        editor.putString("active_uid", uid).putString("active_kind", "local")
         editor.apply()
     }
 
