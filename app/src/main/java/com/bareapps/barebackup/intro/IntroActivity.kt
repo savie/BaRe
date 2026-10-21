@@ -245,16 +245,13 @@ class IntroActivity : AppCompatActivity() {
         // Do not continue into local mode until its portable recovery marker is readable
         // or safely created; otherwise a later reinstall could silently mint a new UID.
         try {
-            when (val recovery = LocalAccountRecovery(this).ensureIdentity()) {
-                is LocalAccountRecovery.Result -> {
-                    if (recovery.status == LocalAccountRecovery.Status.STORAGE_ACCESS_REQUIRED) {
-                        Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
-                        requestStorageAccess()
-                        return
-                    }
-                    Log.i(TAG, "Local account identity ready; restored=${recovery.restored}")
-                }
+            val recovery = LocalAccountRecovery(this).ensureIdentity()
+            if (recovery.status == LocalAccountRecovery.Status.STORAGE_ACCESS_REQUIRED) {
+                Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
+                requestStorageAccess()
+                return
             }
+            Log.i(TAG, "Local account identity ready; restored=${recovery.restored}")
         } catch (error: Exception) {
             Log.e(TAG, "Local account recovery failed; refusing to create a replacement identity", error)
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
