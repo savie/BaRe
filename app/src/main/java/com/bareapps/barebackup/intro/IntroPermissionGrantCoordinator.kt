@@ -185,9 +185,11 @@ internal object IntroPermissionGrantCoordinator {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 add("android.permission.POST_NOTIFICATIONS")
             }
-            if (Build.VERSION.SDK_INT >= 36) {
-                add("android.permission.ACCESS_LOCAL_NETWORK")
-            }
+            // ACCESS_LOCAL_NETWORK is not a grantable runtime permission on all Android 16
+            // builds. Do not issue pm grant for it: PackageManager rejects it as unknown
+            // on devices where the permission is not defined, which makes the bulk grant
+            // report a misleading generic permission error.
+
         }
         runtimePermissions.forEach { permission ->
             commands += GrantCommand(
