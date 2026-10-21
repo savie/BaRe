@@ -62,7 +62,35 @@ jobs:
           emulator-options: -no-window -no-audio -no-boot-anim -camera-back none
           script: |
             set -eu
-            timeout 30s adb wait-for-device
+            adb devices -l
+            # "wait-for-device" can return while ADB still reports the emulator as offline.
+            # Wait for the transport to be online and Android's boot-completed property.
+            for attempt in $(seq 1 60); do
+              state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
+              if [ "$state" = "device" ]; then break; fi
+              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 ] || [ "$attempt" -eq 40 ]; then
+                adb reconnect offline || true
+              fi
+              sleep 2
+            done
+            state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
+            if [ "$state" != "device" ]; then
+              adb devices -l
+              echo "Android emulator ADB transport never reached the online device state."
+              exit 1
+            fi
+            adb -s emulator-5554 wait-for-device
+            for attempt in $(seq 1 60); do
+              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+              [ "$boot" = "1" ] && break
+              sleep 2
+            done
+            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+            if [ "$boot" != "1" ]; then
+              adb devices -l
+              echo "Android emulator did not complete boot."
+              exit 1
+            fi
             timeout 10s adb -s emulator-5554 shell settings put global window_animation_scale 0.0 || true
             timeout 10s adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 || true
             timeout 10s adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 || true
