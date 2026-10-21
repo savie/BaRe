@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_info_filled" android:title="@string/version" android:key="version" android:summary="v1.0" />
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_new_releases_filled" android:title="@string/changelog" android:key="changelog" android:summary="" />
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_campaign_filled" android:title="@string/announcements_from_developer" android:key="notes_from_developer" android:summary="" />
+    <PreferenceCategory android:title="@string/privacy_legal">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_policy_filled" android:title="@string/privacy_policy" android:key="privacy_policy" android:summary="" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_gavel_filled" android:title="@string/terms_of_service" android:key="tos" android:summary="" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_article_filled" android:title="@string/notices" android:key="notices" android:summary="" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
