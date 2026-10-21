@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bareapps.barebackup.R
@@ -19,7 +18,7 @@ class CloudInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<TextView>(R.id.tv_account_id)?.setText(R.string.not_connected)
-        view.findViewById<TextView>(R.id.tvUsage)?.setText(R.string.not_connected)
+        view.findViewById<TextView>(R.id.tvUsage)?.setText(R.string.storage_info_not_provided)
         view.findViewById<View>(R.id.btn_disconnect)?.visibility = View.GONE
         view.findViewById<View>(R.id.tv_cloud_folder_label)?.visibility = View.GONE
         view.findViewById<View>(R.id.tv_cloud_folder_name)?.visibility = View.GONE
@@ -29,14 +28,8 @@ class CloudInfoFragment : Fragment() {
 
         // Fill the included dropdown rather than leaving the pale pill empty.
         view.findViewById<View>(R.id.dropdown_active_tag)?.let { dropdown ->
-            dropdown.findViewById<TextView>(R.id.tv_header)?.setText(R.string.cloud_backup_tag)
-            dropdown.findViewById<TextView>(R.id.tv_value)?.setText(R.string.not_connected)
-            dropdown.findViewById<ImageView>(R.id.iv_icon)?.setImageResource(R.drawable.ic_create_new_folder)
-            dropdown.findViewById<View>(R.id.rv_values)?.visibility = View.GONE
         }
 
-        view.findViewById<View>(R.id.backup_info_empty_state)?.visibility = View.VISIBLE
-        view.findViewById<View>(R.id.backup_info_container)?.visibility = View.GONE
         view.findViewById<View>(R.id.btn_delete_active_tag)?.visibility = View.GONE
 
         view.findViewById<View>(R.id.btn_i_understand)?.setOnClickListener {
