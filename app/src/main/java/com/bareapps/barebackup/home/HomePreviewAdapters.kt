@@ -70,63 +70,26 @@ internal class HomeShortcutPreviewAdapter(
     }
 }
 
-/** Settings rows are built in Kotlin to avoid inflating a missing decompiled custom view. */
-internal data class PreviewSetting(val titleRes: Int, val iconRes: Int)
+/** Uses the repository's original list-item XML rather than a hand-built row. */
+internal data class PreviewSetting(val titleRes: Int)
 
 internal class AccountSettingsPreviewAdapter(
     private val settings: List<PreviewSetting>
 ) : RecyclerView.Adapter<AccountSettingsPreviewAdapter.SettingHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingHolder {
-        val context = parent.context
-        val density = context.resources.displayMetrics.density
-        val row = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            layoutParams = RecyclerView.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            minimumHeight = (56 * density).toInt()
-            setPadding((16 * density).toInt(), (8 * density).toInt(),
-                (16 * density).toInt(), (8 * density).toInt())
-            isClickable = true
-            isFocusable = true
-            val value = TypedValue()
-            context.theme.resolveAttribute(android.R.attr.selectableItemBackground, value, true)
-            setBackgroundResource(value.resourceId)
-        }
-        val leading = ImageView(context).apply {
-            setImageResource(R.drawable.ic_chevron_right)
-            val size = (24 * density).toInt()
-            layoutParams = LinearLayout.LayoutParams(size, size).apply {
-                marginEnd = (24 * density).toInt()
-            }
-            imageTintList = android.content.res.ColorStateList.valueOf(
-                android.graphics.Color.parseColor("#202124"))
-        }
-        val title = TextView(context).apply {
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-            setTextColor(android.graphics.Color.parseColor("#494949"))
-            typeface = Typeface.create("sans-serif", Typeface.NORMAL)
-            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        }
-        val trailing = ImageView(context).apply {
-            setImageResource(R.drawable.ic_chevron_right)
-            val size = (24 * density).toInt()
-            layoutParams = LinearLayout.LayoutParams(size, size)
-            imageTintList = android.content.res.ColorStateList.valueOf(
-                android.graphics.Color.parseColor("#202124"))
-        }
-        row.addView(leading)
-        row.addView(title)
-        row.addView(trailing)
-        return SettingHolder(row, title)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingHolder =
+        SettingHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.more_list_item, parent, false))
 
     override fun onBindViewHolder(holder: SettingHolder, position: Int) {
         holder.title.setText(settings[position].titleRes)
+        holder.trailingIcon.setImageResource(R.drawable.ic_chevron_right)
     }
 
     override fun getItemCount(): Int = settings.size
 
-    internal class SettingHolder(view: View, val title: TextView) : RecyclerView.ViewHolder(view)
+    internal class SettingHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.tv_more_list_item)
+        val trailingIcon: ImageView = view.findViewById(R.id.iv_more_list_item)
+    }
 }
