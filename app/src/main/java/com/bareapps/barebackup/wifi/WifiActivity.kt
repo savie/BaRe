@@ -269,7 +269,7 @@ class WifiActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val profile = FileInputStream(file).use(WifiProfileBackup::readProfile)
+                    val profile = FileInputStream(file).use { input -> WifiProfileBackup.readProfile(input) }
                     WifiProfileBackup.restoreProfile(this@WifiActivity, profile)
                 }
             }
