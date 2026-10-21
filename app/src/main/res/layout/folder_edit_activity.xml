@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/appbar_layout" layout="@layout/appbar" />
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more">
+                <com.google.android.material.textfield.TextInputLayout android:id="@id/til_folder_path" android:focusable="false" android:clickable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/folder_to_backup" android:layout_marginHorizontal="@dimen/spacing_normal" app:startIconDrawable="@drawable/ic_folder" style="@style/M3TilFilledDense">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@id/et_folder_path" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_low" android:inputType="textMultiLine" android:fontFamily="@font/main_regular" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View android:id="@id/til_folder_path_overlay" android:layout_width="match_parent" android:layout_height="match_parent" />
+            </FrameLayout>
+            <com.google.android.material.textfield.TextInputLayout android:id="@id/til_display_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:hint="@string/display_name" android:layout_marginHorizontal="@dimen/spacing_normal" app:counterEnabled="true" app:counterMaxLength="30" app:startIconDrawable="@drawable/ic_edit_pencil" style="@style/M3TilFilledDense">
+                <com.google.android.material.textfield.TextInputEditText android:id="@id/et_display_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_low" android:maxLines="1" android:maxLength="30" android:inputType="text" android:fontFamily="@font/main_regular" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout android:layout_gravity="end|bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more">
+                <com.google.android.material.button.MaterialButton android:textColor="?android:textColorSecondary" android:layout_gravity="center_horizontal" android:id="@id/btn_cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cancel" android:textAllCaps="false" android:backgroundTint="@color/trans" app:rippleColor="?dividerColor" style="@style/M3ButtonFilled.Large" />
+                <com.google.android.material.button.MaterialButton android:layout_gravity="center_horizontal" android:id="@id/btn_save" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:text="@string/save" android:paddingStart="@dimen/spacing_larger" android:paddingEnd="@dimen/spacing_larger" style="@style/M3ButtonFilled.Large" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

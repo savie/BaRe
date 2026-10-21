@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:layout_width="@dimen/wall_thumb_width" android:layout_height="@dimen/wall_thumb_height" android:layout_marginTop="@dimen/spacing_normal" android:layout_marginStart="@dimen/spacing_normal" app:cardCornerRadius="4.0dp" app:cardElevation="0.0dp" app:strokeColor="@color/wht02" app:strokeWidth="0.5dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:id="@id/iv_placeholder" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/wall_thumb_placeholder" android:adjustViewBounds="true" android:tint="?android:textColorSecondary" />
+        <ImageView android:id="@id/iv_wall" android:layout_width="match_parent" android:layout_height="match_parent" android:adjustViewBounds="true" android:transitionName="wall" />
+        <ImageView android:id="@id/iv_download_indicator" android:visibility="gone" android:layout_width="18.0dp" android:layout_height="18.0dp" android:layout_marginBottom="@dimen/spacing_medium" android:src="@drawable/ic_cloud_download" android:tint="@color/wht" android:layout_alignBottom="@id/iv_wall" android:alpha="1.0" android:layout_marginEnd="@dimen/spacing_medium" android:layout_alignEnd="@id/iv_wall" android:elevation="@dimen/spacing_medium" />
+        <ImageView android:id="@id/iv_selected_indicator" android:background="@color/blk" android:padding="@dimen/spacing_normal" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_check_circle_mini" android:tint="@color/wht" android:layout_alignTop="@id/iv_wall" android:layout_alignBottom="@id/iv_wall" android:layout_alignStart="@id/iv_wall" android:layout_alignEnd="@id/iv_wall" android:backgroundTint="@color/blu50" />
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
