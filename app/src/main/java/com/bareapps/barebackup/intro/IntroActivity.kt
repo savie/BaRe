@@ -45,6 +45,7 @@ class IntroActivity : AppCompatActivity() {
     private var permissionGrantInProgress = false
     private var shizukuListenerRegistered = false
     private var pendingLocalIdentityRecovery = false
+    private var showingRequiredPermissions = false
 
     private val notificationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -139,6 +140,36 @@ class IntroActivity : AppCompatActivity() {
         dialogView.findViewById<View>(R.id.btn_cancel).setOnClickListener { dialog.dismiss() }
         dialog.setOnCancelListener { }
         dialog.show()
+    }
+
+    @Suppress("DEPRECATION")
+    override fun onBackPressed() {
+        if (showingRequiredPermissions) {
+            showSignInScreen()
+            return
+        }
+        super.onBackPressed()
+    }
+
+    private fun showSignInScreen() {
+        showingRequiredPermissions = false
+        setContentView(R.layout.intro_activity)
+
+        findViewById<TextView>(R.id.tv_sign_in_subtitle)
+            .setText(R.string.signin_intro_subtitle)
+        findViewById<TextView>(R.id.tv_privacy_policy).apply {
+            text = Html.fromHtml(
+                getString(R.string.tos_privacy_agreement),
+                Html.FROM_HTML_MODE_LEGACY,
+            )
+            movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        findViewById<ImageView>(R.id.iv_menu).setOnClickListener { showIntroMenu(it) }
+        findViewById<MaterialButton>(R.id.btn_google).setOnClickListener { signInWithGoogle() }
+        findViewById<MaterialButton>(R.id.btn_anonymous).setOnClickListener { continueAnonymously() }
+        updateDeviceSpecificCards()
+        refreshPermissionCards()
     }
 
     override fun onResume() {
@@ -317,6 +348,7 @@ class IntroActivity : AppCompatActivity() {
         else isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     private fun showRequiredPermissionsScreen() {
+        showingRequiredPermissions = true
         // The reference keeps sign-in and required permissions as sections of intro_activity.
         // Reuse that fixed layout and switch sections in Kotlin instead of inventing a layout resource.
         setContentView(R.layout.intro_activity)
@@ -552,6 +584,8 @@ class IntroActivity : AppCompatActivity() {
                 )
             }
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
+            // Partial/restricted grants must not trap the user on the permissions page.
+            continueToHome()
         } else {
             Toast.makeText(this, R.string.all_permissions_granted, Toast.LENGTH_LONG).show()
             continueToHome()
