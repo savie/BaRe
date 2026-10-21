@@ -43,23 +43,23 @@ class DashboardFragment : Fragment() {
 
         bindCategory(
             view, R.id.dash_card_quick_actions_apps, R.string.quick_actions_apps, R.drawable.ic_app_tinted,
-            PreviewAction(R.string.backup_all_apps, R.string.backup_all_apps_summary, R.drawable.ic_app),
-            PreviewAction(R.string.restore_all_apps, R.string.restore_all_apps_summary, R.drawable.ic_app, true)
+            PreviewAction(R.string.backup_all_apps, R.string.backup_all_apps_summary, R.drawable.ic_home_selector),
+            PreviewAction(R.string.restore_all_apps, R.string.restore_all_apps_summary, R.drawable.ic_home_selector, true)
         )
         bindCategory(
             view, R.id.dash_card_quick_actions_messages, R.string.quick_actions_messages, R.drawable.ic_message_full,
-            PreviewAction(R.string.backup_messages, R.string.backup_messages_summary, R.drawable.ic_message_full),
-            PreviewAction(R.string.restore_messages, R.string.restore_messages_summary, R.drawable.ic_message_full, true)
+            PreviewAction(R.string.backup_messages, R.string.backup_messages_summary, R.drawable.ic_home_selector),
+            PreviewAction(R.string.restore_messages, R.string.restore_messages_summary, R.drawable.ic_home_selector, true)
         )
         bindCategory(
             view, R.id.dash_card_quick_actions_calls, R.string.quick_actions_calls, R.drawable.ic_call_log,
-            PreviewAction(R.string.backup_call_logs, R.string.backup_call_logs_summary, R.drawable.ic_call_log),
-            PreviewAction(R.string.restore_call_logs, R.string.restore_call_logs_summary, R.drawable.ic_call_log, true)
+            PreviewAction(R.string.backup_call_logs, R.string.backup_call_logs_summary, R.drawable.ic_home_selector),
+            PreviewAction(R.string.restore_call_logs, R.string.restore_call_logs_summary, R.drawable.ic_home_selector, true)
         )
         bindCategory(
             view, R.id.dash_card_quick_actions_folders, R.string.quick_actions_folders, R.drawable.ic_folder_full,
-            PreviewAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_folder_full),
-            PreviewAction(R.string.restore_folders, R.string.restore_folders_summary, R.drawable.ic_folder_full, true)
+            PreviewAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_home_selector),
+            PreviewAction(R.string.restore_folders, R.string.restore_folders_summary, R.drawable.ic_home_selector, true)
         )
     }
 
