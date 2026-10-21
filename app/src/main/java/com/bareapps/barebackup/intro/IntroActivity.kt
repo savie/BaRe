@@ -83,7 +83,9 @@ class IntroActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.container_permissions)?.visibility = View.GONE
+        // Hide the included permissions section through its real child; the include ID
+        // itself is not reliably returned by findViewById in this generated layout.
+        (findViewById<View>(R.id.tv_header)?.parent as? View)?.visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -138,7 +140,8 @@ class IntroActivity : AppCompatActivity() {
             dialog.dismiss()
             continueAnonymously()
         }
-        dialogView.findViewById<View>(R.id.btn_cancel).setOnClickListener { dialog.dismiss() }
+        // The reference dialog has no Cancel action.
+        dialogView.findViewById<View>(R.id.btn_cancel).visibility = View.GONE
         dialog.setOnCancelListener { }
         dialog.show()
         // Match the reference dialog's narrower centered card instead of the platform
@@ -159,7 +162,7 @@ class IntroActivity : AppCompatActivity() {
     private fun showSignInScreen() {
         showingRequiredPermissions = false
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.container_permissions)?.visibility = View.GONE
+        (findViewById<View>(R.id.tv_header)?.parent as? View)?.visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -365,7 +368,7 @@ class IntroActivity : AppCompatActivity() {
         findViewById<View>(R.id.container_sign_in_actions)?.visibility = View.GONE
         findViewById<View>(R.id.tv_privacy_policy)?.visibility = View.GONE
         findViewById<View>(R.id.firebase_connection_error_view)?.visibility = View.GONE
-        findViewById<View>(R.id.container_permissions)?.visibility = View.VISIBLE
+        (findViewById<View>(R.id.tv_header)?.parent as? View)?.visibility = View.VISIBLE
 
         findViewById<View>(R.id.iv_menu)?.setOnClickListener { showIntroMenu(it) }
         findViewById<MaterialButton>(R.id.btn_root_permissions)?.setOnClickListener {
