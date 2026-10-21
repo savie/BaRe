@@ -241,9 +241,13 @@ class IntroActivity : AppCompatActivity() {
     private fun continueAnonymously() {
         if (authInProgress || navigatingHome) return
 
-        // The device-local account identity is independent of Firebase Anonymous Auth.
-        // Do not continue into local mode until its portable recovery marker is readable
-        // or safely created; otherwise a later reinstall could silently mint a new UID.
+        // Match the reference flow: Skip selects a local account, then opens a dedicated
+        // required-permissions screen. Local mode must not create a Firebase anonymous user.
+        showRequiredPermissionsScreen()
+        initializeLocalAccount()
+    }
+
+    private fun initializeLocalAccount() {
         try {
             val recovery = LocalAccountRecovery(this).ensureIdentity()
             if (recovery.status == LocalAccountRecovery.Status.STORAGE_ACCESS_REQUIRED) {
@@ -251,42 +255,27 @@ class IntroActivity : AppCompatActivity() {
                 requestStorageAccess()
                 return
             }
-            Log.i(TAG, "Local account identity ready; restored=${recovery.restored}")
+            Log.i(TAG, "Local account ready; restored=" + recovery.restored)
         } catch (error: Exception) {
-            Log.e(TAG, "Local account recovery failed; refusing to create a replacement identity", error)
+            Log.e(TAG, "Local account recovery/setup failed", error)
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
-            return
         }
+    }
 
-        val auth = try {
-            FirebaseAuth.getInstance()
-        } catch (error: Exception) {
-            Log.e(TAG, "Unable to initialize Firebase Auth for anonymous sign-in", error)
-            showAnonymousSignInFailure()
-            return
+    private fun showRequiredPermissionsScreen() {
+        setContentView(R.layout.intro_permissions_screen)
+        findViewById<View>(R.id.iv_menu)?.setOnClickListener { showIntroMenu(it) }
+        findViewById<MaterialButton>(R.id.btn_root_permissions)?.setOnClickListener {
+            grantAllPermissionsWithRootOrShizuku()
         }
-
-        if (auth.currentUser != null) {
-            continueToHome()
-            return
-        }
-
-        authInProgress = true
-        setAuthButtonsEnabled(false)
-        lifecycleScope.launch {
-            try {
-                auth.signInAnonymously().await()
-                continueToHome()
-            } catch (cancelled: CancellationException) {
-                throw cancelled
-            } catch (error: Exception) {
-                Log.e(TAG, "Anonymous sign-in failed", error)
-                showAnonymousSignInFailure()
-            } finally {
-                authInProgress = false
-                if (!isFinishing && !navigatingHome) setAuthButtonsEnabled(true)
-            }
-        }
+        findViewById<IntroPermissionCardView>(R.id.container_storage_perm)
+            .getActionButton().setOnClickListener { requestStorageAccess() }
+        findViewById<IntroPermissionCardView>(R.id.container_notifications_perm)
+            .getActionButton().setOnClickListener { requestNotificationAccess() }
+        findViewById<IntroPermissionCardView>(R.id.container_xiaomi_installed_apps_perm)
+            .getActionButton().setOnClickListener { openInstalledAppsSettings() }
+        updateDeviceSpecificCards()
+        refreshPermissionCards()
     }
 
     private fun showAnonymousSignInFailure() {
