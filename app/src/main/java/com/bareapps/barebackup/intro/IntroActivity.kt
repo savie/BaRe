@@ -83,8 +83,7 @@ class IntroActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.GONE
-        findViewById<View>(R.id.container_permissions).visibility = View.GONE
+        findViewById<View>(R.id.container_permissions)?.visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -160,8 +159,7 @@ class IntroActivity : AppCompatActivity() {
     private fun showSignInScreen() {
         showingRequiredPermissions = false
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.GONE
-        findViewById<View>(R.id.container_permissions).visibility = View.GONE
+        findViewById<View>(R.id.container_permissions)?.visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -362,7 +360,6 @@ class IntroActivity : AppCompatActivity() {
         // Reuse that fixed layout and switch sections in Kotlin instead of inventing a layout resource.
         setContentView(R.layout.intro_activity)
         findViewById<View>(R.id.intro_activity_sign_in)?.visibility = View.GONE
-        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.VISIBLE
         findViewById<View>(R.id.container_sign_in_actions)?.visibility = View.GONE
         findViewById<View>(R.id.tv_privacy_policy)?.visibility = View.GONE
         findViewById<View>(R.id.firebase_connection_error_view)?.visibility = View.GONE
