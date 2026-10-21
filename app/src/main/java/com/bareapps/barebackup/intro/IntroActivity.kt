@@ -218,7 +218,17 @@ class IntroActivity : AppCompatActivity() {
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
-                Log.e(TAG, "Google sign-in failed", error)
+                val stage = when {
+                    error is androidx.credentials.exceptions.GetCredentialException -> "credential_manager"
+                    error is com.google.firebase.auth.FirebaseAuthException -> "firebase_auth"
+                    error is com.google.firebase.FirebaseException -> "firebase"
+                    else -> "google_token_or_unknown"
+                }
+                Log.e(
+                    TAG,
+                    "Google sign-in failed at stage=$stage; exception=${error.javaClass.name}; message=${error.message}",
+                    error,
+                )
                 Toast.makeText(this@IntroActivity, R.string.auth_failed, Toast.LENGTH_LONG).show()
             } finally {
                 authInProgress = false
