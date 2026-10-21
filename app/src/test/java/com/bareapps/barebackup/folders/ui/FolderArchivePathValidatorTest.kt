@@ -13,7 +13,7 @@ class FolderArchivePathValidatorTest {
 
     @Test
     fun rejectsAbsoluteAndTraversalPaths() {
-        listOf("/etc/passwd", "../escape.txt", "folder/../../escape.txt", "folder\\escape.txt").forEach { path ->
+        listOf("/etc/passwd", "../escape.txt", "folder/../../escape.txt", "folder\\\\escape.txt").forEach { path ->
             assertThrows(IllegalArgumentException::class.java) {
                 FolderArchivePathValidator.validate(path)
             }
