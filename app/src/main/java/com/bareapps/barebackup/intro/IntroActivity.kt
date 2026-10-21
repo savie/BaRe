@@ -243,6 +243,7 @@ class IntroActivity : AppCompatActivity() {
         setAuthButtonsEnabled(false)
 
         lifecycleScope.launch {
+            var firebaseAuthenticationSucceeded = false
             try {
                 val webClientId = (application as BareApp).getGoogleAuthWebClientId()
                 check(webClientId.isNotBlank()) { "Google OAuth Web Client ID is empty" }
@@ -280,6 +281,7 @@ class IntroActivity : AppCompatActivity() {
                     auth.signInWithCredential(firebaseCredential).await()
                 }
 
+                firebaseAuthenticationSucceeded = true
                 completeGoogleAccountSetup()
             } catch (cancelled: GetCredentialCancellationException) {
                 Log.i(TAG, "Google sign-in was cancelled by the user")
@@ -297,7 +299,20 @@ class IntroActivity : AppCompatActivity() {
                     "Google sign-in failed at stage=$stage; exception=${error.javaClass.name}; message=${error.message}",
                     error,
                 )
-                Toast.makeText(this@IntroActivity, R.string.auth_failed, Toast.LENGTH_LONG).show()
+                if (firebaseAuthenticationSucceeded) {
+                    // Firebase accepted the Google credential. A later onboarding/UI error
+                    // must not be reported as an authentication failure or strand the user
+                    // on the sign-in screen.
+                    try {
+                        showRequiredPermissionsScreen()
+                        initializeLocalAccount()
+                    } catch (onboardingError: Exception) {
+                        Log.e(TAG, "Google authentication succeeded but required-permissions onboarding failed", onboardingError)
+                        Toast.makeText(this@IntroActivity, R.string.permission_error, Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this@IntroActivity, R.string.auth_failed, Toast.LENGTH_LONG).show()
+                }
             } finally {
                 authInProgress = false
                 if (!isFinishing && !navigatingHome) setAuthButtonsEnabled(true)
@@ -381,11 +396,11 @@ class IntroActivity : AppCompatActivity() {
             grantAllPermissionsWithRootOrShizuku()
         }
         findViewById<IntroPermissionCardView>(R.id.container_storage_perm)
-            .getActionButton().setOnClickListener { requestStorageAccess() }
+            ?.getActionButton()?.setOnClickListener { requestStorageAccess() }
         findViewById<IntroPermissionCardView>(R.id.container_notifications_perm)
-            .getActionButton().setOnClickListener { requestNotificationAccess() }
+            ?.getActionButton()?.setOnClickListener { requestNotificationAccess() }
         findViewById<IntroPermissionCardView>(R.id.container_xiaomi_installed_apps_perm)
-            .getActionButton().setOnClickListener { openInstalledAppsSettings() }
+            ?.getActionButton()?.setOnClickListener { openInstalledAppsSettings() }
         updateDeviceSpecificCards()
         refreshPermissionCards()
         continueIfRequiredPermissionsGranted()
