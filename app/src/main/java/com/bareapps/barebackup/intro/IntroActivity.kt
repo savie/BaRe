@@ -519,18 +519,22 @@ class IntroActivity : AppCompatActivity() {
 
         // Match the reference interaction: explain the exact permissions first,
         // then run the bulk grant only after the user confirms.
+        val permissionList = listOf(
+            getString(R.string.android_permission_name_storage),
+            getString(R.string.android_permission_name_sms),
+            getString(R.string.android_permission_name_call_logs),
+            getString(R.string.android_permission_name_contacts),
+            getString(R.string.notifications_perm_title),
+        ).joinToString("\\n") { "• $it" }
+
         AlertDialog.Builder(this)
-            .setTitle("Grant permissions with Root access or Shizuku")
+            .setTitle(R.string.root_grant_permissions_dialog_title)
             .setMessage(
-                "Grant below permissions to BΛR☰ in one click using Root access or Shizuku.\n\n" +
-                    "• Storage\n" +
-                    "• SMS\n" +
-                    "• Call Logs\n" +
-                    "• Contacts\n" +
-                    "• Notifications"
+                getString(R.string.root_grant_permissions_dialog_msg_prefix) +
+                    "\\n\\n" + permissionList
             )
             .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton("Grant permissions") { _, _ -> startBulkPermissionGrant() }
+            .setPositiveButton(R.string.grant_permissions) { _, _ -> startBulkPermissionGrant() }
             .show()
     }
 
