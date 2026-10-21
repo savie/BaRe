@@ -51,11 +51,11 @@ class AccountFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = AccountSettingsPreviewAdapter(
                 listOf(
-                    PreviewSetting(R.string.app_backup_settings, R.drawable.ic_chevron_right),
-                    PreviewSetting(R.string.storage_and_security, R.drawable.ic_chevron_right),
-                    PreviewSetting(R.string.wifi, R.drawable.ic_chevron_right),
-                    PreviewSetting(R.string.wallpapers, R.drawable.ic_chevron_right),
-                    PreviewSetting(R.string.about, R.drawable.ic_chevron_right)
+                    PreviewSetting(R.string.app_backup_settings),
+                    PreviewSetting(R.string.storage_and_security),
+                    PreviewSetting(R.string.wifi),
+                    PreviewSetting(R.string.wallpapers),
+                    PreviewSetting(R.string.about)
                 )
             )
             isNestedScrollingEnabled = false
