@@ -49,13 +49,13 @@ class AccountFragment : Fragment() {
 
         view.findViewById<RecyclerView>(R.id.rv_more_items).apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = AccountSettingsPreviewAdapter(
+            adapter = AccountSettingsAdapter(
                 listOf(
-                    PreviewSetting(R.string.app_backup_settings),
-                    PreviewSetting(R.string.storage_and_security),
-                    PreviewSetting(R.string.wifi),
-                    PreviewSetting(R.string.wallpapers),
-                    PreviewSetting(R.string.about)
+                    AccountSetting(R.string.app_backup_settings),
+                    AccountSetting(R.string.storage_and_security),
+                    AccountSetting(R.string.wifi),
+                    AccountSetting(R.string.wallpapers),
+                    AccountSetting(R.string.about)
                 )
             )
             isNestedScrollingEnabled = false
