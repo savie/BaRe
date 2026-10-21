@@ -51,12 +51,14 @@ class IntroActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) {
         refreshPermissionCards()
+        continueIfRequiredPermissionsGranted()
     }
 
     private val legacyStoragePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
         refreshPermissionCards()
+        continueIfRequiredPermissionsGranted()
     }
 
     private val shizukuPermissionResultListener =
@@ -180,6 +182,7 @@ class IntroActivity : AppCompatActivity() {
             if (pendingLocalIdentityRecovery && hasRequiredStorageAccess()) {
                 initializeLocalAccount()
             }
+            continueIfRequiredPermissionsGranted()
         }
     }
 
@@ -370,6 +373,7 @@ class IntroActivity : AppCompatActivity() {
             .getActionButton().setOnClickListener { openInstalledAppsSettings() }
         updateDeviceSpecificCards()
         refreshPermissionCards()
+        continueIfRequiredPermissionsGranted()
     }
 
     private fun showAnonymousSignInFailure() {
@@ -584,10 +588,34 @@ class IntroActivity : AppCompatActivity() {
                 )
             }
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
-            // Partial/restricted grants must not trap the user on the permissions page.
-            continueToHome()
+            continueIfRequiredPermissionsGranted()
         } else {
             Toast.makeText(this, R.string.all_permissions_granted, Toast.LENGTH_LONG).show()
+            continueToHome()
+        }
+    }
+
+    private fun continueIfRequiredPermissionsGranted() {
+        if (!showingRequiredPermissions || navigatingHome || isFinishing || isDestroyed) return
+
+        val storageGranted = hasRequiredStorageAccess()
+        val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            isPermissionGranted(Manifest.permission.POST_NOTIFICATIONS)
+        val installedAppsGranted =
+            !IntroPermissionGrantCoordinator.supportsInstalledAppsPermission(this) ||
+                isPermissionGranted("com.android.permission.GET_INSTALLED_APPS")
+        val corePermissions = listOf(
+            Manifest.permission.READ_SMS,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.WRITE_CALL_LOG,
+        ).all(::isPermissionGranted)
+        val localNetworkGranted = Build.VERSION.SDK_INT < 36 ||
+            isPermissionGranted("android.permission.ACCESS_LOCAL_NETWORK")
+
+        if (storageGranted && notificationsGranted && installedAppsGranted &&
+            corePermissions && localNetworkGranted
+        ) {
             continueToHome()
         }
     }
