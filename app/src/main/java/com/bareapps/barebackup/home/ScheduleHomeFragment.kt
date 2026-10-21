@@ -25,21 +25,10 @@ class ScheduleHomeFragment : Fragment() {
         view.findViewById<View>(R.id.progress_bar)?.visibility = View.GONE
         view.findViewById<View>(R.id.tv_schedule_header_error)?.visibility = View.GONE
 
-        bindDropdown(view, R.id.time_dropdown, "TIME", R.string.not_available, R.drawable.ic_clock_selector)
-        bindDropdown(view, R.id.charging_dropdown, "CHARGING", R.string.not_available, R.drawable.ic_flash_circle_36)
-
         // Scheduling actions are deliberately disabled until persistence and execution are wired.
         view.findViewById<View>(R.id.btn_add_first_schedule)?.setOnClickListener { }
         view.findViewById<View>(R.id.btn_run_all)?.setOnClickListener { }
         view.findViewById<View>(R.id.schedule_header_click_target)?.setOnClickListener { }
     }
 
-    private fun bindDropdown(root: View, id: Int, title: String, value: Int, icon: Int) {
-        root.findViewById<View>(id)?.let { dropdown ->
-            dropdown.findViewById<TextView>(R.id.tv_header)?.text = title
-            dropdown.findViewById<TextView>(R.id.tv_value)?.setText(value)
-            dropdown.findViewById<ImageView>(R.id.iv_icon)?.setImageResource(icon)
-            dropdown.findViewById<View>(R.id.rv_values)?.visibility = View.GONE
-        }
-    }
 }
