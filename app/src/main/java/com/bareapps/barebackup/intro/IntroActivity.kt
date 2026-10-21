@@ -31,6 +31,8 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -305,13 +307,13 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
-    private fun completeGoogleAccountSetup() {
+    private suspend fun completeGoogleAccountSetup() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
 
-        // Persist the Firebase account ID before starting local-storage recovery. Recovery can
-        // return early while storage permission is missing; the Google identity must still exist
-        // and remain the selected account in that state.
+        // Firebase Authentication creates the auth user, but profile data is a separate
+        // concern. Persist the UID locally first so the account identity survives even when
+        // Realtime Database is not configured or temporarily unavailable.
         val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
         check(
             accountPrefs.edit()
@@ -321,11 +323,41 @@ class IntroActivity : AppCompatActivity() {
                 .commit()
         ) { "Could not persist Google account ID" }
 
+        syncFirebaseAccountProfile(user)
+
         // Keep a device-local recovery identity alongside the cloud identity. If storage
         // access is not available yet, the dedicated permission screen stays visible and
         // onResume retries recovery after the user grants access.
         showRequiredPermissionsScreen()
         initializeLocalAccount()
+    }
+
+    private suspend fun syncFirebaseAccountProfile(user: com.google.firebase.auth.FirebaseUser) {
+        val profile = hashMapOf<String, Any?>(
+            "uid" to user.uid,
+            "displayName" to user.displayName,
+            "email" to user.email,
+            "photoUrl" to user.photoUrl?.toString(),
+            "provider" to "google",
+            "lastSignInAt" to ServerValue.TIMESTAMP,
+            "updatedAt" to ServerValue.TIMESTAMP,
+        )
+
+        try {
+            FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.uid)
+                .updateChildren(profile)
+                .await()
+            Log.i(TAG, "Firebase profile synced for uid=${user.uid}")
+        } catch (error: Exception) {
+            // Auth success must not be undone by an unavailable/misconfigured profile database.
+            Log.e(
+                TAG,
+                "Google authentication succeeded but Firebase Realtime Database profile sync failed for uid=${user.uid}",
+                error,
+            )
+        }
     }
 
     private fun continueAnonymously() {
