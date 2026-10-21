@@ -554,13 +554,26 @@ class AppListActivity : AppCompatActivity() {
         try {
             val packageFiles = linkedMapOf<String, MutableList<File>>()
             val archiveVersionCodes = mutableMapOf<String, Long>()
+            var totalBytes = 0L
+            var entryCount = 0
             contentResolver.openInputStream(source).use { raw ->
                 val input = checkNotNull(raw) { "Could not open the selected archive" }
                 ZipInputStream(input).use { zip ->
                     while (true) {
                         val entry = zip.nextEntry ?: break
+                        entryCount++
+                        require(entryCount <= MAX_RESTORE_ARCHIVE_ENTRIES) { "Archive contains too many entries" }
+                        val segments = entry.name.split('/').filter { it.isNotEmpty() }
+                        require(
+                            !entry.name.startsWith("/") &&
+                                '\\' !in entry.name &&
+                                segments.isNotEmpty() &&
+                                segments.none { it == "." || it == ".." || it.length > MAX_RESTORE_PATH_SEGMENT_LENGTH }
+                        ) { "Archive contains an unsafe path" }
+
                         if (!entry.isDirectory && entry.name == "manifest.csv") {
-                            val csv = zip.readBytes().toString(Charsets.UTF_8)
+                            val manifest = zip.readBoundedBytes(MAX_RESTORE_MANIFEST_BYTES)
+                            val csv = manifest.toString(Charsets.UTF_8)
                             var isHeader = true
                             var packageColumn = -1
                             var versionColumn = -1
@@ -569,20 +582,40 @@ class AppListActivity : AppCompatActivity() {
                                     packageColumn = fields.indexOf("package")
                                     versionColumn = fields.indexOf("version_code")
                                     isHeader = false
-                                } else if (packageColumn >= 0 && versionColumn >= 0 && fields.size > maxOf(packageColumn, versionColumn)) {
+                                } else if (
+                                    packageColumn >= 0 && versionColumn >= 0 &&
+                                    fields.size > maxOf(packageColumn, versionColumn)
+                                ) {
+                                    val packageName = fields[packageColumn]
                                     val version = fields[versionColumn].toLongOrNull()
-                                    if (version != null) archiveVersionCodes[fields[packageColumn]] = version
+                                    if (packageName.isValidPackageKey() && version != null) {
+                                        archiveVersionCodes[packageName] = version
+                                    }
                                 }
                             }
                         } else if (!entry.isDirectory && entry.name.endsWith(".apk", ignoreCase = true)) {
-                            val segments = entry.name.split('/').filter { it.isNotBlank() }
-                            val first = segments.firstOrNull().orEmpty()
-                            val packageKey = if (segments.size > 1 && first.matches(Regex("[A-Za-z0-9_.]+"))) first else "single"
+                            val packageKey = if (segments.size > 1) segments.first() else "single"
+                            require(packageKey == "single" || packageKey.isValidPackageKey()) {
+                                "Archive contains an invalid package path"
+                            }
                             val fileName = segments.last()
+                            require(fileName.matches(Regex("(base|split_[A-Za-z0-9_.-]+)\\.apk", RegexOption.IGNORE_CASE))) {
+                                "Archive contains an invalid APK filename"
+                            }
                             val directory = File(tempRoot, packageKey)
                             if (!directory.exists()) check(directory.mkdirs()) { "Could not prepare package directory" }
                             val file = File(directory, fileName)
-                            FileOutputStream(file).use { output -> copyCurrentZipEntry(zip, output) }
+                            val canonicalRoot = tempRoot.canonicalFile
+                            require(file.canonicalFile.toPath().startsWith(canonicalRoot.toPath())) {
+                                "Archive entry escapes the restore directory"
+                            }
+                            require(!file.exists()) { "Archive contains duplicate APK entry $fileName" }
+                            val remaining = MAX_RESTORE_ARCHIVE_BYTES - totalBytes
+                            require(remaining > 0L) { "Archive exceeds the restore size limit" }
+                            val copied = FileOutputStream(file).use { output ->
+                                copyCurrentZipEntry(zip, output, remaining)
+                            }
+                            totalBytes += copied
                             packageFiles.getOrPut(packageKey) { mutableListOf() }.add(file)
                         }
                         zip.closeEntry()
@@ -592,7 +625,9 @@ class AppListActivity : AppCompatActivity() {
             check(packageFiles.isNotEmpty()) { "Archive does not contain APK files" }
             val actionId = intent.getStringExtra(DashboardFragment.EXTRA_ACTION_ID)
             val isFilteredRestore = actionId == "ID_RESTORE_MISSING_APPS" || actionId == "ID_RESTORE_NEW_VERSIONS_APPS"
-            check(!isFilteredRestore || !packageFiles.containsKey("single")) { "Filtered restore requires a BΛR☰ bulk APK archive with package folders" }
+            check(!isFilteredRestore || !packageFiles.containsKey("single")) {
+                "Filtered restore requires a BΛR☰ bulk APK archive with package folders"
+            }
             val selectedPackages = packageFiles.filter { (packageName, _) ->
                 when (actionId) {
                     "ID_RESTORE_MISSING_APPS" -> installedVersionCode(packageName) == null
@@ -610,14 +645,31 @@ class AppListActivity : AppCompatActivity() {
                 else "Archive does not contain installable APKs"
             }
             selectedPackages.values.forEachIndexed { index, files ->
-                check(files.any { it.name == "base.apk" } || (selectedPackages.size == 1 && files.size == 1)) { "Package archive is missing base.apk" }
-                val ordered = files.sortedWith(compareBy<File> { if (it.name == "base.apk") 0 else 1 }.thenBy { it.name })
+                check(files.any { it.name.equals("base.apk", true) } ||
+                    (selectedPackages.size == 1 && files.size == 1)
+                ) { "Package archive is missing base.apk" }
+                val ordered = files.sortedWith(compareBy<File> { if (it.name.equals("base.apk", true)) 0 else 1 }.thenBy { it.name })
                 installPackageFiles(ordered, tempRoot.name.hashCode() + index)
             }
             return selectedPackages.size
         } finally {
             tempRoot.deleteRecursively()
         }
+    }
+
+    private fun String.isValidPackageKey(): Boolean =
+        length in 3..255 &&
+            !startsWith(".") && !endsWith(".") && !contains("..") &&
+            split('.').all { segment ->
+                segment.isNotEmpty() &&
+                    (segment.first().isLetter() || segment.first() == '_') &&
+                    segment.all { it.isLetterOrDigit() || it == '_' }
+            }
+
+    private fun ZipInputStream.readBoundedBytes(maxBytes: Long): ByteArray {
+        val output = java.io.ByteArrayOutputStream()
+        copyCurrentZipEntry(this, output, maxBytes)
+        return output.toByteArray()
     }
 
     private fun installedVersionCode(packageName: String): Long? = try {
@@ -664,13 +716,23 @@ class AppListActivity : AppCompatActivity() {
         }
     }
 
-    private fun copyCurrentZipEntry(zip: ZipInputStream, output: java.io.OutputStream) {
+    private fun copyCurrentZipEntry(
+        zip: ZipInputStream,
+        output: java.io.OutputStream,
+        maxBytes: Long = MAX_RESTORE_ARCHIVE_BYTES
+    ): Long {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var copied = 0L
         while (true) {
             val count = zip.read(buffer)
             if (count < 0) break
-            if (count > 0) output.write(buffer, 0, count)
+            if (count > 0) {
+                require(copied <= maxBytes - count) { "Archive exceeds the restore size limit" }
+                copied += count
+                output.write(buffer, 0, count)
+            }
         }
+        return copied
     }
 
     private fun queryDisplayName(uri: Uri): String? {
@@ -715,6 +777,11 @@ class AppListActivity : AppCompatActivity() {
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     companion object {
+        private const val MAX_RESTORE_ARCHIVE_BYTES = 10L * 1024L * 1024L * 1024L
+        private const val MAX_RESTORE_ARCHIVE_ENTRIES = 100_000
+        private const val MAX_RESTORE_PATH_SEGMENT_LENGTH = 255
+        private const val MAX_RESTORE_MANIFEST_BYTES = 5L * 1024L * 1024L
+
         const val EXTRA_FOCUS_SEARCH = "com.bareapps.barebackup.extra.FOCUS_SEARCH"
         const val EXTRA_INITIAL_QUERY = "com.bareapps.barebackup.extra.INITIAL_QUERY"
         private const val TYPE_EMPTY = 0
