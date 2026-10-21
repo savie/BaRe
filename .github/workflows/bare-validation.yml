@@ -1,0 +1,86 @@
+name: BΛR☰ validation
+
+on:
+  pull_request:
+    branches:
+      - work/ci-base-fast
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ANDROID_HOME: /usr/local/lib/android/sdk
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install Android 36 SDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/build-tools/36.0.0" >> "$GITHUB_PATH"
+
+      - name: Run unit tests and assemble debug APK
+        run: gradle :app:testDebugUnitTest :app:assembleDebug --stacktrace
+
+      - name: Verify APK identity and signature
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          aapt dump badging "$APK" | grep -F "package: name='com.bareapps.barebackup'"
+          aapt dump badging "$APK" | grep -F "application-label:'BΛR☰'"
+          apksigner verify "$APK"
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: bare-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+      - name: Smoke test core screens on Android emulator
+        timeout-minutes: 12
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: false
+          emulator-options: -no-window -no-audio -no-boot-anim -camera-back none
+          script: |
+            set -euo pipefail
+            timeout 30s adb wait-for-device
+            timeout 10s adb -s emulator-5554 shell settings put global window_animation_scale 0.0 || true
+            timeout 10s adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 || true
+            timeout 10s adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 || true
+            timeout 60s adb install -r "app/build/outputs/apk/debug/app-debug.apk"
+            adb logcat -c
+            for ACTIVITY in \
+              "com.bareapps.barebackup.home.HomeActivity" \
+              "com.bareapps.barebackup.home.search.HomeSearchActivity" \
+              "com.bareapps.barebackup.appslist.ui.list.AppListActivity" \
+              "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
+              "com.bareapps.barebackup.wifi.WifiActivity"; do
+              adb shell am force-stop com.bareapps.barebackup || true
+              timeout 30s adb shell am start -n "com.bareapps.barebackup/$ACTIVITY"
+              sleep 3
+            done
+            LOG="$(adb logcat -d -t 3000)"
+            if printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
+              printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
+              exit 1
+            fi
+
