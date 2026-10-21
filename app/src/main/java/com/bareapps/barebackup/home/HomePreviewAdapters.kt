@@ -5,13 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bareapps.barebackup.R
 import com.google.android.material.button.MaterialButton
 
-/** Static presentation models for the reference home surfaces. Actions intentionally do not start work yet. */
-internal data class PreviewAction(val titleRes: Int, val summaryRes: Int, val iconRes: Int)
+internal data class PreviewAction(
+    val titleRes: Int,
+    val summaryRes: Int,
+    val iconRes: Int,
+    val showRestoreSources: Boolean = false
+)
 
+/**
+ * Reference-compatible dashboard rows. Backup/restore execution is not wired in this port yet;
+ * taps report that explicitly instead of silently doing nothing.
+ */
 internal class QuickActionPreviewAdapter(
     private val actions: List<PreviewAction>
 ) : RecyclerView.Adapter<QuickActionPreviewAdapter.ActionHolder>() {
@@ -26,8 +35,14 @@ internal class QuickActionPreviewAdapter(
         holder.summary.setText(action.summaryRes)
         holder.icon.setImageResource(action.iconRes)
         holder.icon.visibility = View.VISIBLE
-        holder.fromDevice.visibility = View.GONE
-        holder.fromCloud.visibility = View.GONE
+        holder.actionContainer.visibility = if (action.showRestoreSources) View.VISIBLE else View.GONE
+        val notReady = View.OnClickListener {
+            Toast.makeText(holder.itemView.context,
+                R.string.intro_feature_not_available_yet, Toast.LENGTH_SHORT).show()
+        }
+        holder.itemView.setOnClickListener(notReady)
+        holder.fromDevice.setOnClickListener(notReady)
+        holder.fromCloud.setOnClickListener(notReady)
     }
 
     override fun getItemCount(): Int = actions.size
@@ -36,6 +51,7 @@ internal class QuickActionPreviewAdapter(
         val title: TextView = view.findViewById(R.id.tv_title)
         val summary: TextView = view.findViewById(R.id.tv_subtitle)
         val icon: ImageView = view.findViewById(R.id.iv_icon)
+        val actionContainer: View = view.findViewById(R.id.container_actions)
         val fromDevice: MaterialButton = view.findViewById(R.id.btn_local)
         val fromCloud: MaterialButton = view.findViewById(R.id.btn_cloud)
     }
@@ -55,7 +71,10 @@ internal class HomeShortcutPreviewAdapter(
         val shortcut = shortcuts[position]
         holder.button.setText(shortcut.titleRes)
         holder.icon.setImageResource(shortcut.iconRes)
-        holder.button.setOnClickListener { }
+        holder.button.setOnClickListener {
+            Toast.makeText(holder.itemView.context,
+                R.string.intro_feature_not_available_yet, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int = shortcuts.size
