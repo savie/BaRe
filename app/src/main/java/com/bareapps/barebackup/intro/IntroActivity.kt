@@ -117,6 +117,28 @@ class IntroActivity : AppCompatActivity() {
 
         updateDeviceSpecificCards()
         refreshPermissionCards()
+
+        // Match the reference intro flow: show the account-choice dialog over the intro page.
+        if (savedInstanceState == null) showGoogleSignInRequiredDialog()
+    }
+
+    private fun showGoogleSignInRequiredDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.google_sign_in_required_dialog, null, false)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<View>(R.id.btn_google).setOnClickListener {
+            dialog.dismiss()
+            signInWithGoogle()
+        }
+        dialogView.findViewById<View>(R.id.btn_anonymous).setOnClickListener {
+            dialog.dismiss()
+            continueAnonymously()
+        }
+        dialogView.findViewById<View>(R.id.btn_cancel).setOnClickListener { dialog.dismiss() }
+        dialog.setOnCancelListener { }
+        dialog.show()
     }
 
     override fun onResume() {
@@ -532,6 +554,7 @@ class IntroActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(this, R.string.all_permissions_granted, Toast.LENGTH_LONG).show()
+            continueToHome()
         }
     }
 
