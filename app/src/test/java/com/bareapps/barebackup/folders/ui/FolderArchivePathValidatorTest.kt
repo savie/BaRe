@@ -30,6 +30,33 @@ class FolderArchivePathValidatorTest {
     }
 
     @Test
+    fun rejectsDuplicateArchivePaths() {
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderArchivePathValidator.validateArchiveStructure(
+                listOf("docs/readme.txt" to false, "docs/readme.txt" to false)
+            )
+        }
+    }
+
+    @Test
+    fun rejectsFileDirectoryConflictsInEitherOrder() {
+        val fileBeforeChild = listOf("docs" to false, "docs/readme.txt" to false)
+        val childBeforeFile = listOf("docs/readme.txt" to false, "docs" to false)
+        listOf(fileBeforeChild, childBeforeFile).forEach { entries ->
+            assertThrows(IllegalArgumentException::class.java) {
+                FolderArchivePathValidator.validateArchiveStructure(entries)
+            }
+        }
+    }
+
+    @Test
+    fun acceptsExplicitDirectoryAndItsChildren() {
+        FolderArchivePathValidator.validateArchiveStructure(
+            listOf("docs" to true, "docs/readme.txt" to false)
+        )
+    }
+
+    @Test
     fun rejectsExcessiveDepthAndLongSegments() {
         val tooDeep = (1..65).joinToString("/") { "d" }
         val tooLong = "a".repeat(256)
