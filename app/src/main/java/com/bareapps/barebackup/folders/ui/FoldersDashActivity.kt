@@ -290,6 +290,7 @@ class FoldersDashActivity : AppCompatActivity() {
                     archivePaths[path] = isDirectory
 
                     if (isDirectory) {
+                        require(zip.read() == -1) { "Directory entry contains unexpected file data" }
                         stagedEntries += StagedEntry(segments, true)
                     } else {
                         val remainingBytes = MAX_RESTORE_BYTES - totalBytes
