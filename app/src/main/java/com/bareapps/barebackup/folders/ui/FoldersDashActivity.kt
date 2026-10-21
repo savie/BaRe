@@ -294,7 +294,37 @@ class FoldersDashActivity : AppCompatActivity() {
             }
             FolderArchivePathValidator.validateArchiveStructure(archivePaths)
 
-            // Second pass: apply only after archive structure and all file payloads are validated.
+            // Preflight every destination conflict before making any changes. This prevents a
+            // late file/folder collision from leaving a partially restored destination tree.
+            stagedEntries.forEach { staged ->
+                var parent: DocumentFile? = root
+                for (segment in staged.segments.dropLast(1)) {
+                    val current = parent ?: break
+                    val existingParent = current.findFile(segment)
+                    if (existingParent == null) {
+                        parent = null
+                        break
+                    }
+                    require(existingParent.isDirectory) {
+                        "Cannot restore into $segment because a file blocks the destination path"
+                    }
+                    parent = existingParent
+                }
+                val existingParent = parent ?: return@forEach
+                val existing = existingParent.findFile(staged.segments.last())
+                if (staged.isDirectory) {
+                    require(existing == null || existing.isDirectory) {
+                        "Cannot restore folder ${staged.segments.last()} because a file with that name already exists"
+                    }
+                } else {
+                    require(existing == null || existing.isFile) {
+                        "Cannot restore file ${staged.segments.last()} because a folder with that name already exists"
+                    }
+                }
+            }
+
+            // Second pass: apply only after archive structure, file payloads, and destination
+            // type conflicts have been validated.
             // Files are still staged individually before replacing existing destination files.
             stagedEntries.forEach { staged ->
                 var parent = root
