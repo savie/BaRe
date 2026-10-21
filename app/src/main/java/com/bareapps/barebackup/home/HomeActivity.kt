@@ -34,31 +34,30 @@ class HomeActivity : AppCompatActivity() {
         pager.adapter = object : FragmentPagerAdapter(
             supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         ) {
-            override fun getCount() = 4
-            override fun getItem(position: Int): Fragment = HomeTabFragment.newInstance(
-                when (position) {
-                    0 -> R.layout.dash_fragment
-                    1 -> R.layout.cloud_info_fragment
-                    2 -> R.layout.schedule_fragment
-                    else -> R.layout.account_fragment
-                }
-            )
+            override fun getCount() = TAB_COUNT
+
+            override fun getItem(position: Int): Fragment = when (position) {
+                TAB_HOME -> DashboardFragment()
+                TAB_CLOUD -> CloudInfoFragment()
+                TAB_SCHEDULE -> ScheduleHomeFragment()
+                TAB_ACCOUNT -> AccountFragment()
+                else -> error("No home tab for position $position")
+            }
         }
 
         navigation.setOnItemSelectedListener { item ->
             val index = when (item.itemId) {
-                R.id.nav_home -> 0
-                R.id.nav_cloud -> 1
-                R.id.nav_schedule -> 2
-                R.id.nav_account -> 3
+                R.id.nav_home -> TAB_HOME
+                R.id.nav_cloud -> TAB_CLOUD
+                R.id.nav_schedule -> TAB_SCHEDULE
+                R.id.nav_account -> TAB_ACCOUNT
                 else -> return@setOnItemSelectedListener false
             }
             pager.currentItem = index
             true
         }
         navigation.setOnItemReselectedListener {
-            val currentPage = pager.getChildAt(pager.currentItem)
-            currentPage?.requestFocus()
+            pager.getChildAt(pager.currentItem)?.requestFocus()
         }
         findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
@@ -76,5 +75,12 @@ class HomeActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    companion object { private const val KEY_SELECTED_TAB = "saved_fragment" }
+    companion object {
+        private const val KEY_SELECTED_TAB = "saved_fragment"
+        private const val TAB_COUNT = 4
+        private const val TAB_HOME = 0
+        private const val TAB_CLOUD = 1
+        private const val TAB_SCHEDULE = 2
+        private const val TAB_ACCOUNT = 3
+    }
 }
