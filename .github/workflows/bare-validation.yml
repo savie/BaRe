@@ -1,0 +1,47 @@
+name: BΛR☰ validation
+
+on:
+  pull_request:
+    branches:
+      - work/ci-base
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android 36 SDK
+        run: sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Run unit tests and assemble debug APK
+        run: gradle :app:testDebugUnitTest :app:assembleDebug --stacktrace
+
+      - name: Verify APK identity and signature
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          aapt dump badging "$APK" | grep -F "package: name='com.bareapps.barebackup'"
+          aapt dump badging "$APK" | grep -F "application-label:'BΛR☰'"
+          apksigner verify "$APK"
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: bare-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
