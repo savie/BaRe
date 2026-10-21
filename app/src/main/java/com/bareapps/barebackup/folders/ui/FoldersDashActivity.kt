@@ -74,6 +74,7 @@ class FoldersDashActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.folders)
         toolbar.setNavigationOnClickListener { finish() }
 
         val pager = findViewById<ViewPager>(R.id.viewPager)
