@@ -252,46 +252,87 @@ class FoldersDashActivity : AppCompatActivity() {
         val root = DocumentFile.fromTreeUri(this, destinationTree)
             ?: error("Could not access the destination folder")
         var totalBytes = 0L
-        ZipInputStream(rawInput).use { zip ->
-            while (true) {
-                val entry = zip.nextEntry ?: break
-                val entryName = entry.name
-                require(!entryName.startsWith("/") && '\\' !in entryName) { "Archive contains an absolute path" }
-                val segments = entryName.split('/').filter { it.isNotEmpty() }
-                require(segments.isNotEmpty() && segments.none { it == "." || it == ".." }) {
-                    "Archive contains an unsafe path"
-                }
-                var parent = root
-                segments.dropLast(1).forEach { segment ->
-                    parent = parent.findFile(segment)?.takeIf { it.isDirectory }
-                        ?: parent.createDirectory(segment)
-                        ?: error("Could not create folder $segment")
-                }
-                val leaf = segments.last()
-                if (entry.isDirectory) {
-                    if (parent.findFile(leaf) == null) parent.createDirectory(leaf)
-                } else {
-                    parent.findFile(leaf)?.delete()
-                    val target = parent.createFile("application/octet-stream", leaf)
-                        ?: error("Could not create file $leaf")
-                    contentResolver.openOutputStream(target.uri).use { rawOutput ->
-                        val output = checkNotNull(rawOutput) { "Could not write $leaf" }
-                        totalBytes += copyCurrentEntry(zip, output)
+        var entryCount = 0
+        val stagingDirectory = File(cacheDir, "folder-restore-${System.currentTimeMillis()}")
+        check(stagingDirectory.mkdirs()) { "Could not prepare safe restore staging area" }
+        try {
+            ZipInputStream(rawInput).use { zip ->
+                while (true) {
+                    val entry = zip.nextEntry ?: break
+                    entryCount++
+                    require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
+                    val entryName = entry.name
+                    require(!entryName.startsWith("/") && '\\' !in entryName) {
+                        "Archive contains an absolute path"
                     }
-                    require(totalBytes <= MAX_RESTORE_BYTES) { "Archive exceeds the restore size limit" }
+                    val segments = entryName.split('/').filter { it.isNotEmpty() }
+                    require(
+                        segments.isNotEmpty() &&
+                            segments.size <= MAX_RESTORE_PATH_DEPTH &&
+                            segments.none { it == "." || it == ".." || it.length > MAX_PATH_SEGMENT_LENGTH }
+                    ) { "Archive contains an unsafe path" }
+
+                    var parent = root
+                    segments.dropLast(1).forEach { segment ->
+                        parent = parent.findFile(segment)?.takeIf { it.isDirectory }
+                            ?: parent.createDirectory(segment)
+                            ?: error("Could not create folder $segment")
+                    }
+                    val leaf = segments.last()
+                    if (entry.isDirectory) {
+                        if (parent.findFile(leaf) == null) {
+                            parent.createDirectory(leaf) ?: error("Could not create folder $leaf")
+                        }
+                    } else {
+                        val remainingBytes = MAX_RESTORE_BYTES - totalBytes
+                        require(remainingBytes > 0L) { "Archive exceeds the restore size limit" }
+                        val stagedFile = File(stagingDirectory, "entry-$entryCount.tmp")
+                        val copied = FileOutputStream(stagedFile).use { output ->
+                            copyCurrentEntry(zip, output, remainingBytes)
+                        }
+                        totalBytes += copied
+
+                        // Preserve any existing destination until the complete entry has been read
+                        // and validated; a truncated/corrupt archive must not erase the old file.
+                        val existing = parent.findFile(leaf)
+                        val target = parent.createFile("application/octet-stream", leaf)
+                            ?: error("Could not create file $leaf")
+                        try {
+                            contentResolver.openOutputStream(target.uri, "w").use { rawOutput ->
+                                val output = checkNotNull(rawOutput) { "Could not write $leaf" }
+                                FileInputStream(stagedFile).use { input -> input.copyTo(output) }
+                            }
+                        } catch (error: Exception) {
+                            target.delete()
+                            throw error
+                        }
+                        if (existing != null && existing.uri != target.uri) {
+                            // Some document providers permit duplicate names; remove the previous
+                            // entry only after the new content has been written successfully.
+                            existing.delete()
+                        }
+                        stagedFile.delete()
+                    }
+                    zip.closeEntry()
                 }
-                zip.closeEntry()
             }
+        } finally {
+            stagingDirectory.deleteRecursively()
         }
     }
 
-    private fun copyCurrentEntry(input: ZipInputStream, output: java.io.OutputStream): Long {
+    private fun copyCurrentEntry(
+        input: ZipInputStream,
+        output: java.io.OutputStream,
+        maxBytes: Long
+    ): Long {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         var copied = 0L
         while (true) {
             val count = input.read(buffer)
             if (count < 0) break
             if (count > 0) {
+                require(copied <= maxBytes - count) { "Archive exceeds the restore size limit" }
                 copied += count
                 output.write(buffer, 0, count)
             }
@@ -320,5 +361,8 @@ class FoldersDashActivity : AppCompatActivity() {
     companion object {
         private const val LOCAL_BACKUP_DIR = "folder-backups"
         private const val MAX_RESTORE_BYTES = 10L * 1024L * 1024L * 1024L
+        private const val MAX_RESTORE_ENTRIES = 100_000
+        private const val MAX_RESTORE_PATH_DEPTH = 64
+        private const val MAX_PATH_SEGMENT_LENGTH = 255
     }
 }
