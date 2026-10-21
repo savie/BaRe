@@ -524,14 +524,14 @@ class IntroActivity : AppCompatActivity() {
             getString(R.string.android_permission_name_sms),
             getString(R.string.android_permission_name_call_logs),
             getString(R.string.android_permission_name_contacts),
-            getString(R.string.notifications_perm_title),
-        ).joinToString("\\n") { "• $it" }
+            getString(R.string.notifications),
+        ).joinToString("\n") { "• $it" }
 
         AlertDialog.Builder(this)
             .setTitle(R.string.root_grant_permissions_dialog_title)
             .setMessage(
                 getString(R.string.root_grant_permissions_dialog_msg_prefix) +
-                    "\\n\\n" + permissionList
+                    "\n\n" + permissionList
             )
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.grant_permissions) { _, _ -> startBulkPermissionGrant() }
