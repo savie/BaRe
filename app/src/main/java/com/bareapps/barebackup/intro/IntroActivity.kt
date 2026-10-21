@@ -334,13 +334,13 @@ class IntroActivity : AppCompatActivity() {
 
     private suspend fun syncFirebaseAccountProfile(user: com.google.firebase.auth.FirebaseUser) {
         val profile = hashMapOf<String, Any?>(
-            "uid" to user.uid,
-            "displayName" to user.displayName,
-            "email" to user.email,
-            "photoUrl" to user.photoUrl?.toString(),
-            "provider" to "google",
-            "lastSignInAt" to ServerValue.TIMESTAMP,
-            "updatedAt" to ServerValue.TIMESTAMP,
+            getString(R.string.firebase_profile_field_uid) to user.uid,
+            getString(R.string.firebase_profile_field_display_name) to user.displayName,
+            getString(R.string.firebase_profile_field_email) to user.email,
+            getString(R.string.firebase_profile_field_photo_url) to user.photoUrl?.toString(),
+            getString(R.string.firebase_profile_field_provider) to getString(R.string.firebase_profile_provider_google),
+            getString(R.string.firebase_profile_field_last_sign_in_at) to ServerValue.TIMESTAMP,
+            getString(R.string.firebase_profile_field_updated_at) to ServerValue.TIMESTAMP,
         )
 
         try {
