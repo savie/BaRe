@@ -265,14 +265,23 @@ class FoldersDashActivity : AppCompatActivity() {
 
                     var parent = root
                     segments.dropLast(1).forEach { segment ->
-                        parent = parent.findFile(segment)?.takeIf { it.isDirectory }
-                            ?: parent.createDirectory(segment)
-                            ?: error("Could not create folder $segment")
+                        val existingParent = parent.findFile(segment)
+                        parent = when {
+                            existingParent == null ->
+                                parent.createDirectory(segment) ?: error("Could not create folder $segment")
+                            existingParent.isDirectory -> existingParent
+                            else -> error("Cannot restore into $segment because a file blocks the destination path")
+                        }
                     }
                     val leaf = segments.last()
                     if (entry.isDirectory) {
-                        if (parent.findFile(leaf) == null) {
+                        val existingDirectory = parent.findFile(leaf)
+                        if (existingDirectory == null) {
                             parent.createDirectory(leaf) ?: error("Could not create folder $leaf")
+                        } else {
+                            require(existingDirectory.isDirectory) {
+                                "Cannot restore folder $leaf because a file with that name already exists"
+                            }
                         }
                     } else {
                         val remainingBytes = MAX_RESTORE_BYTES - totalBytes
@@ -286,6 +295,9 @@ class FoldersDashActivity : AppCompatActivity() {
                         // Preserve any existing destination until the complete entry has been read
                         // and validated; a truncated/corrupt archive must not erase the old file.
                         val existing = parent.findFile(leaf)
+                        require(existing == null || existing.isFile) {
+                            "Cannot restore file $leaf because a folder with that name already exists"
+                        }
                         val stagedName = ".bare-restore-$entryCount.tmp"
                         val stagedDocument = parent.createFile("application/octet-stream", stagedName)
                             ?: error("Could not stage restored file $leaf")
