@@ -14,7 +14,7 @@ import com.bareapps.barebackup.R
 import com.google.android.material.button.MaterialButton
 
 /** Static presentation models for the reference home surfaces. Actions intentionally do not start work yet. */
-internal data class PreviewAction(val titleRes: Int, val summaryRes: Int)
+internal data class PreviewAction(val titleRes: Int, val summaryRes: Int, val iconRes: Int)
 
 internal class QuickActionPreviewAdapter(
     private val actions: List<PreviewAction>
@@ -28,9 +28,10 @@ internal class QuickActionPreviewAdapter(
         val action = actions[position]
         holder.title.setText(action.titleRes)
         holder.summary.setText(action.summaryRes)
-        holder.icon.setImageResource(R.drawable.ic_home)
-        holder.fromDevice.setOnClickListener { }
-        holder.fromCloud.setOnClickListener { }
+        holder.icon.setImageResource(action.iconRes)
+        holder.icon.visibility = View.VISIBLE
+        holder.fromDevice.visibility = View.GONE
+        holder.fromCloud.visibility = View.GONE
     }
 
     override fun getItemCount(): Int = actions.size
@@ -91,42 +92,41 @@ internal class AccountSettingsPreviewAdapter(
             isFocusable = true
             val value = TypedValue()
             context.theme.resolveAttribute(android.R.attr.selectableItemBackground, value, true)
-            if (value.resourceId != 0) setBackgroundResource(value.resourceId)
+            setBackgroundResource(value.resourceId)
         }
-        val icon = ImageView(context).apply {
-            layoutParams = LinearLayout.LayoutParams((24 * density).toInt(), (24 * density).toInt())
-            scaleType = ImageView.ScaleType.CENTER_INSIDE
+        val leading = ImageView(context).apply {
+            setImageResource(R.drawable.ic_chevron_right)
+            val size = (24 * density).toInt()
+            layoutParams = LinearLayout.LayoutParams(size, size).apply {
+                marginEnd = (24 * density).toInt()
+            }
+            imageTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor("#202124"))
         }
         val title = TextView(context).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            setTextColor(android.graphics.Color.parseColor("#494949"))
+            typeface = Typeface.create("sans-serif", Typeface.NORMAL)
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                .apply { marginStart = (16 * density).toInt() }
-            textSize = 16f
-            setTypeface(typeface, Typeface.NORMAL)
         }
-        val chevron = ImageView(context).apply {
-            layoutParams = LinearLayout.LayoutParams((20 * density).toInt(), (20 * density).toInt())
+        val trailing = ImageView(context).apply {
             setImageResource(R.drawable.ic_chevron_right)
-            scaleType = ImageView.ScaleType.CENTER_INSIDE
-            contentDescription = null
+            val size = (24 * density).toInt()
+            layoutParams = LinearLayout.LayoutParams(size, size)
+            imageTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor("#202124"))
         }
-        row.addView(icon)
+        row.addView(leading)
         row.addView(title)
-        row.addView(chevron)
-        return SettingHolder(row, title, icon)
+        row.addView(trailing)
+        return SettingHolder(row, title)
     }
 
     override fun onBindViewHolder(holder: SettingHolder, position: Int) {
-        val setting = settings[position]
-        holder.title.setText(setting.titleRes)
-        holder.icon.setImageResource(setting.iconRes)
-        holder.itemView.setOnClickListener { }
+        holder.title.setText(settings[position].titleRes)
     }
 
     override fun getItemCount(): Int = settings.size
 
-    internal class SettingHolder(
-        view: View,
-        val title: TextView,
-        val icon: ImageView
-    ) : RecyclerView.ViewHolder(view)
+    internal class SettingHolder(view: View, val title: TextView) : RecyclerView.ViewHolder(view)
 }
