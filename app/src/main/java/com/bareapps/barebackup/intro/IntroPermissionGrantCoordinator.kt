@@ -71,7 +71,10 @@ internal object IntroPermissionGrantCoordinator {
                 val result = Shell.cmd(command.command).exec()
                 if (!result.isSuccess) {
                     failed += command.label
-                    Log.w(TAG, "Root permission command failed for ${command.label}: ${result.out}")
+                    Log.w(
+                        TAG,
+                        "Root permission command failed for ${command.label}; exitCode=${result.code}; stdout=${result.out}; stderr=${result.err}",
+                    )
                 }
             } catch (error: Exception) {
                 failed += command.label
