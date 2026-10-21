@@ -15,7 +15,7 @@ import com.bareapps.barebackup.R
 import com.bareapps.barebackup.common.CloudStorageDestination
 import com.bareapps.barebackup.home.DashboardFragment
 import com.bareapps.barebackup.home.HomeActivity
-import com.google.android.material.appbar.MaterialToolbar
+import androidx.appcompat.widget.Toolbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,7 +71,7 @@ class FoldersDashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.folders_dash_activity)
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
@@ -94,7 +94,7 @@ class FoldersDashActivity : AppCompatActivity() {
 
         val useCloud = intent.getBooleanExtra(DashboardFragment.EXTRA_USE_CLOUD, false)
         if (useCloud) pager.currentItem = 1
-        when (intent.getStringExtra(DashboardFragment.EXTRA_OPERATION)) {
+        if (savedInstanceState == null) when (intent.getStringExtra(DashboardFragment.EXTRA_OPERATION)) {
             DashboardFragment.OP_BACKUP -> window.decorView.post { beginBackup(useCloud) }
             DashboardFragment.OP_RESTORE -> {
                 if (useCloud) pager.currentItem = 1
