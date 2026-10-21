@@ -1,10 +1,10 @@
 package com.bareapps.barebackup.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -63,9 +63,7 @@ class HomeActivity : AppCompatActivity() {
             navigation.selectedItemId = R.id.nav_account
         }
         findViewById<View>(R.id.search_button).setOnClickListener {
-            startActivity(
-                Intent(this, com.bareapps.barebackup.home.search.HomeSearchActivity::class.java)
-            )
+            Toast.makeText(this, R.string.intro_feature_not_available_yet, Toast.LENGTH_SHORT).show()
         }
 
         val restoredId = savedInstanceState?.getInt(KEY_SELECTED_TAB) ?: R.id.nav_home
