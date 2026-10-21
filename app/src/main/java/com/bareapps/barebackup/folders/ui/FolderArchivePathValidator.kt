@@ -23,4 +23,25 @@ internal object FolderArchivePathValidator {
         ) { "Archive contains an unsafe path" }
         return segments
     }
+
+    /** Reject duplicate paths and file/directory collisions before restoring any archive entry. */
+    fun validateArchiveStructure(entries: List<Pair<String, Boolean>>) {
+        val paths = linkedMapOf<String, Boolean>()
+        entries.forEach { (path, isDirectory) ->
+            require(!paths.containsKey(path)) { "Archive contains a duplicate path: $path" }
+            var parentPath = ""
+            path.split('/').dropLast(1).forEach { segment ->
+                parentPath = if (parentPath.isEmpty()) segment else "$parentPath/$segment"
+                require(paths[parentPath] != false) {
+                    "Archive contains a file used as a folder: $parentPath"
+                }
+            }
+            if (!isDirectory) {
+                require(paths.keys.none { it.startsWith("$path/") }) {
+                    "Archive contains a file/folder path conflict: $path"
+                }
+            }
+            paths[path] = isDirectory
+        }
+    }
 }
