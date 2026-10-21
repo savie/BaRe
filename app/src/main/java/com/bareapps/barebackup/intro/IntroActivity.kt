@@ -217,7 +217,7 @@ class IntroActivity : AppCompatActivity() {
                     auth.signInWithCredential(firebaseCredential).await()
                 }
 
-                continueToHome()
+                completeGoogleAccountSetup()
             } catch (cancelled: GetCredentialCancellationException) {
                 Log.i(TAG, "Google sign-in was cancelled by the user")
             } catch (cancelled: CancellationException) {
@@ -240,6 +240,28 @@ class IntroActivity : AppCompatActivity() {
                 if (!isFinishing && !navigatingHome) setAuthButtonsEnabled(true)
             }
         }
+    }
+
+    private fun completeGoogleAccountSetup() {
+        val user = FirebaseAuth.getInstance().currentUser
+            ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
+        val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
+        accountPrefs.edit()
+            .putString("google_uid", user.uid)
+            .putString("active_uid", user.uid)
+            .putString("active_kind", "google")
+            .apply()
+
+        // Keep a device-local recovery identity alongside the cloud identity. If storage
+        // access is not available yet, the dedicated permission screen stays visible and
+        // onResume retries recovery after the user grants access.
+        showRequiredPermissionsScreen()
+        initializeLocalAccount()
+        accountPrefs.edit()
+            .putString("google_uid", user.uid)
+            .putString("active_uid", user.uid)
+            .putString("active_kind", "google")
+            .apply()
     }
 
     private fun continueAnonymously() {
