@@ -31,8 +31,6 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -323,41 +321,11 @@ class IntroActivity : AppCompatActivity() {
                 .commit()
         ) { "Could not persist Google account ID" }
 
-        syncFirebaseAccountProfile(user)
-
         // Keep a device-local recovery identity alongside the cloud identity. If storage
         // access is not available yet, the dedicated permission screen stays visible and
         // onResume retries recovery after the user grants access.
         showRequiredPermissionsScreen()
         initializeLocalAccount()
-    }
-
-    private suspend fun syncFirebaseAccountProfile(user: com.google.firebase.auth.FirebaseUser) {
-        val profile = hashMapOf<String, Any?>(
-            getString(R.string.firebase_profile_field_uid) to user.uid,
-            getString(R.string.firebase_profile_field_display_name) to user.displayName,
-            getString(R.string.firebase_profile_field_email) to user.email,
-            getString(R.string.firebase_profile_field_photo_url) to user.photoUrl?.toString(),
-            getString(R.string.firebase_profile_field_provider) to getString(R.string.firebase_profile_provider_google),
-            getString(R.string.firebase_profile_field_last_sign_in_at) to ServerValue.TIMESTAMP,
-            getString(R.string.firebase_profile_field_updated_at) to ServerValue.TIMESTAMP,
-        )
-
-        try {
-            FirebaseDatabase.getInstance()
-                .getReference("users")
-                .child(user.uid)
-                .updateChildren(profile)
-                .await()
-            Log.i(TAG, "Firebase profile synced for uid=${user.uid}")
-        } catch (error: Exception) {
-            // Auth success must not be undone by an unavailable/misconfigured profile database.
-            Log.e(
-                TAG,
-                "Google authentication succeeded but Firebase Realtime Database profile sync failed for uid=${user.uid}",
-                error,
-            )
-        }
     }
 
     private fun continueAnonymously() {
