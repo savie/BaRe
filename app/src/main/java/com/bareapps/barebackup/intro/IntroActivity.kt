@@ -308,23 +308,24 @@ class IntroActivity : AppCompatActivity() {
     private fun completeGoogleAccountSetup() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
+
+        // Persist the Firebase account ID before starting local-storage recovery. Recovery can
+        // return early while storage permission is missing; the Google identity must still exist
+        // and remain the selected account in that state.
         val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
-        accountPrefs.edit()
-            .putString("google_uid", user.uid)
-            .putString("active_uid", user.uid)
-            .putString("active_kind", "google")
-            .apply()
+        check(
+            accountPrefs.edit()
+                .putString("google_uid", user.uid)
+                .putString("active_uid", user.uid)
+                .putString("active_kind", "google")
+                .commit()
+        ) { "Could not persist Google account ID" }
 
         // Keep a device-local recovery identity alongside the cloud identity. If storage
         // access is not available yet, the dedicated permission screen stays visible and
         // onResume retries recovery after the user grants access.
         showRequiredPermissionsScreen()
         initializeLocalAccount()
-        accountPrefs.edit()
-            .putString("google_uid", user.uid)
-            .putString("active_uid", user.uid)
-            .putString("active_kind", "google")
-            .apply()
     }
 
     private fun continueAnonymously() {
