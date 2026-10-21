@@ -398,9 +398,16 @@ class IntroActivity : AppCompatActivity() {
             val rootAttempt = withContext(Dispatchers.IO) {
                 IntroPermissionGrantCoordinator.grantWithRoot(this@IntroActivity)
             }
-            if (rootAttempt.available) {
+            if (rootAttempt.available && rootAttempt.succeeded) {
                 finishPermissionGrant(rootAttempt)
                 return@launch
+            }
+
+            if (rootAttempt.available) {
+                Log.w(
+                    TAG,
+                    "Root shell was available but some grants failed: attempted=${rootAttempt.attempted}, failed=${rootAttempt.failed}",
+                )
             }
 
             when {
