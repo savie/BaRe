@@ -44,6 +44,35 @@ jobs:
           aapt dump badging "$APK" | grep -F "application-label:'BΛR☰'"
           apksigner verify "$APK"
 
+      - name: Smoke test core screens on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -camera-back none
+          script: |
+            set -e
+            APK="app/build/outputs/apk/debug/app-debug.apk"
+            adb install -r "$APK"
+            adb logcat -c
+            for ACTIVITY in \
+              "com.bareapps.barebackup.home.HomeActivity" \
+              "com.bareapps.barebackup.home.search.HomeSearchActivity" \
+              "com.bareapps.barebackup.appslist.ui.list.AppListActivity" \
+              "com.bareapps.barebackup.wifi.WifiActivity"; do
+              adb shell am force-stop com.bareapps.barebackup || true
+              adb shell am start -W -n "com.bareapps.barebackup/$ACTIVITY"
+              sleep 3
+            done
+            LOG="$(adb logcat -d -t 3000)"
+            if printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
+              printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
+              exit 1
+            fi
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v6
         with:
