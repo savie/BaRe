@@ -63,7 +63,19 @@ jobs:
           fi
           test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null
-          "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"
+          install_native_tools() {
+            for attempt in 1 2 3; do
+              if "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"; then
+                return 0
+              fi
+              echo "Android NDK/CMake install attempt $attempt failed; cleaning partial packages before retry."
+              rm -rf "$ANDROID_HOME/ndk/27.2.12479018" "$ANDROID_HOME/cmake/3.22.1"
+              sleep 10
+            done
+            echo "Android NDK/CMake installation failed after 3 attempts."
+            return 1
+          }
+          install_native_tools
 
       - name: Prepare stable CI signing key
         env:
@@ -148,7 +160,19 @@ jobs:
           fi
           test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null
-          "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"
+          install_native_tools() {
+            for attempt in 1 2 3; do
+              if "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"; then
+                return 0
+              fi
+              echo "Android NDK/CMake install attempt $attempt failed; cleaning partial packages before retry."
+              rm -rf "$ANDROID_HOME/ndk/27.2.12479018" "$ANDROID_HOME/cmake/3.22.1"
+              sleep 10
+            done
+            echo "Android NDK/CMake installation failed after 3 attempts."
+            return 1
+          }
+          install_native_tools
 
       - name: Run AEGIS native instrumentation tests on Android
         timeout-minutes: 30
@@ -162,7 +186,7 @@ jobs:
           # Avoid the action's unbounded pre-script ADB settings calls; apply animations settings with explicit timeouts after boot.
           disable-animations: false
           script: |
-            set -euo pipefail
+            set -eu
             trap 'adb logcat -d -v time > "$RUNNER_TEMP/sba-native-logcat.txt" 2>/dev/null || true' EXIT
             adb devices -l
             # Wait for a fully online transport; the emulator can briefly appear as "offline" during boot.
@@ -197,7 +221,7 @@ jobs:
             timeout 10s adb -s emulator-5554 shell settings put global window_animation_scale 0.0 || echo "Skipping window animation setting"
             timeout 10s adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 || echo "Skipping transition animation setting"
             timeout 10s adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 || echo "Skipping animator duration setting"
-            timeout 15m gradle --no-daemon --console=plain :app:connectedDebugAndroidTest --info 2>&1 | tee "$RUNNER_TEMP/sba-native-tests.log"
+            bash -o pipefail -c 'timeout 15m gradle --no-daemon --console=plain :app:connectedDebugAndroidTest --info 2>&1 | tee "$RUNNER_TEMP/sba-native-tests.log"'
 
       - name: Upload native test reports
         if: ${{ always() }}
