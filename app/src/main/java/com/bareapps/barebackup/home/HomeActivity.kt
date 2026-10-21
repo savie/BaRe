@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.bareapps.barebackup.R
 import com.bareapps.barebackup.appslist.ui.list.AppListActivity
 import com.bareapps.barebackup.home.cloud.CloudInfoFragment
+import com.bareapps.barebackup.home.schedule.ScheduleHomeFragment
 import com.bareapps.barebackup.home.search.HomeSearchActivity
 import com.bareapps.barebackup.views.NoSwipeViewPager
 import com.google.android.material.appbar.MaterialToolbar
