@@ -1,115 +1,238 @@
 package com.bareapps.barebackup.folders.ui
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager.widget.ViewPager
+import com.bareapps.barebackup.R
+import com.bareapps.barebackup.common.CloudStorageDestination
+import com.bareapps.barebackup.home.DashboardFragment
+import com.bareapps.barebackup.home.HomeActivity
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.bareapps.barebackup.R
-import com.bareapps.barebackup.home.DashboardFragment
-import com.bareapps.barebackup.common.CloudStorageDestination
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-/** SAF-based folder backup/restore. User explicitly chooses both source and destination trees. */
+/** Kotlin port of the reference FoldersDashActivity using folders_dash_activity.xml and its tab fragments. */
 class FoldersDashActivity : AppCompatActivity() {
-    private var selectedTree: Uri? = null
-    private val chooseTree = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
-        if (uri != null) {
-            selectedTree = uri
-            try { contentResolver.takePersistableUriPermission(uri, IntentFlags.READ_WRITE) } catch (_: Exception) {}
-            status.text = "Selected folder: ${DocumentFile.fromTreeUri(this, uri)?.name ?: uri}"
-            when (intent.getStringExtra(DashboardFragment.EXTRA_OPERATION)) {
-                DashboardFragment.OP_BACKUP -> {
-                    val destination = if (intent.getBooleanExtra(DashboardFragment.EXTRA_USE_CLOUD, false)) {
-                        CloudStorageDestination.createFile(this, "application/zip", "bare-folder-backup.zip")
-                    } else null
-                    if (destination != null) backupTree(uri, destination) else exportZip.launch("bare-folder-backup.zip")
-                }
-                DashboardFragment.OP_RESTORE -> importZip.launch(arrayOf("application/zip", "application/octet-stream"))
-            }
+    private var pendingRestoreEntry: FolderBackupEntry? = null
+    private var pendingImportUri: Uri? = null
+    private var pendingBackupCloud = false
+
+    private val chooseTree = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { treeUri ->
+        if (treeUri == null) {
+            pendingRestoreEntry = null
+            pendingImportUri = null
+            return@registerForActivityResult
+        }
+        try {
+            contentResolver.takePersistableUriPermission(
+                treeUri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        } catch (_: Exception) {
+            // Some providers do not grant persistable permissions; the current activity can still use the URI.
+        }
+        val restoreEntry = pendingRestoreEntry
+        val importUri = pendingImportUri
+        pendingRestoreEntry = null
+        pendingImportUri = null
+        when {
+            restoreEntry != null -> restoreArchiveToTree(restoreEntry, treeUri)
+            importUri != null -> restoreArchiveToTree(importUri, treeUri)
+            else -> backupTree(treeUri, pendingBackupCloud)
         }
     }
-    private val exportZip = registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
-        if (uri != null) selectedTree?.let { backupTree(it, uri) }
-    }
+
     private val importZip = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) selectedTree?.let { restoreTree(uri, it) }
+        if (uri != null) {
+            pendingImportUri = uri
+            pendingRestoreEntry = null
+            chooseTree.launch(null)
+        }
     }
-    private lateinit var status: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp(16), 0, dp(16), dp(16))
-        }
-        root.addView(MaterialToolbar(this).apply {
-            title = getString(R.string.folders)
-            navigationIcon = getDrawable(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener { finish() }
-        })
-        status = TextView(this).apply {
-            text = "Choose a folder before backing up or restoring files."
-            setPadding(0, dp(12), 0, dp(16))
-        }
-        root.addView(status)
-        root.addView(MaterialButton(this).apply {
-            text = "Choose folder"
-            setOnClickListener { chooseTree.launch(selectedTree) }
-        })
-        root.addView(MaterialButton(this).apply {
-            text = "Back up folder to ZIP"
-            setOnClickListener {
-                if (selectedTree == null) toast("Choose a source folder first")
-                else exportZip.launch("bare-folder-backup.zip")
-            }
-        })
-        root.addView(MaterialButton(this).apply {
-            text = "Restore ZIP into folder"
-            setOnClickListener {
-                if (selectedTree == null) toast("Choose a destination folder first")
-                else importZip.launch(arrayOf("application/zip", "application/octet-stream"))
-            }
-        })
-        setContentView(root)
-        if (intent.getStringExtra(DashboardFragment.EXTRA_OPERATION) == DashboardFragment.OP_BACKUP ||
-            intent.getStringExtra(DashboardFragment.EXTRA_OPERATION) == DashboardFragment.OP_RESTORE
+        setContentView(R.layout.folders_dash_activity)
+
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
+
+        val pager = findViewById<ViewPager>(R.id.viewPager)
+        pager.offscreenPageLimit = 1
+        pager.adapter = object : FragmentPagerAdapter(
+            supportFragmentManager,
+            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         ) {
-            window.decorView.post { chooseTree.launch(selectedTree) }
+            override fun getCount(): Int = 2
+
+            override fun getItem(position: Int): Fragment =
+                FoldersDashFragment.newInstance(position == 1)
+
+            override fun getPageTitle(position: Int): CharSequence =
+                if (position == 0) "Local" else "Cloud"
+        }
+        findViewById<TabLayout>(R.id.tabLayout).setupWithViewPager(pager)
+
+        val useCloud = intent.getBooleanExtra(DashboardFragment.EXTRA_USE_CLOUD, false)
+        if (useCloud) pager.currentItem = 1
+        when (intent.getStringExtra(DashboardFragment.EXTRA_OPERATION)) {
+            DashboardFragment.OP_BACKUP -> window.decorView.post { beginBackup(useCloud) }
+            DashboardFragment.OP_RESTORE -> {
+                if (useCloud) pager.currentItem = 1
+                else window.decorView.post { beginRestoreFromFile() }
+            }
         }
     }
 
-    private fun backupTree(treeUri: Uri, destination: Uri) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val result = runCatching {
-                val root = DocumentFile.fromTreeUri(this@FoldersDashActivity, treeUri)
-                    ?: error("Could not access selected folder")
-                contentResolver.openOutputStream(destination).use { raw ->
-                    val output = checkNotNull(raw) { "Could not open ZIP destination" }
-                    ZipOutputStream(output).use { zip -> addDirectoryToZip(root, "", zip) }
+    fun beginBackup(toCloud: Boolean) {
+        if (toCloud && CloudStorageDestination.tree(this) == null) {
+            openCloudTab()
+            toast("Choose a cloud storage folder first")
+            return
+        }
+        pendingBackupCloud = toCloud
+        pendingRestoreEntry = null
+        pendingImportUri = null
+        chooseTree.launch(null)
+    }
+
+    fun beginRestoreFromFile() {
+        pendingRestoreEntry = null
+        pendingImportUri = null
+        importZip.launch(arrayOf("application/zip", "application/octet-stream"))
+    }
+
+    fun restoreBackup(entry: FolderBackupEntry) {
+        pendingRestoreEntry = entry
+        pendingImportUri = null
+        chooseTree.launch(null)
+    }
+
+    fun deleteBackup(entry: FolderBackupEntry) {
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    when {
+                        entry.localFile != null -> check(entry.localFile.delete()) { "Could not delete local backup" }
+                        entry.cloudFile != null -> check(entry.cloudFile.delete()) { "Could not delete cloud backup" }
+                        else -> error("Unknown folder backup location")
+                    }
                 }
             }
-            runOnUiThread {
-                if (result.isSuccess) toast("Folder backup completed")
-                else toast("Folder backup failed: " + (result.exceptionOrNull()?.message ?: "I/O error"))
+            result.onSuccess {
+                toast("Folder backup deleted")
+                refreshFragments()
+            }.onFailure { toast(it.message ?: "Could not delete folder backup") }
+        }
+    }
+
+    private fun backupTree(sourceUri: Uri, toCloud: Boolean) {
+        val root = DocumentFile.fromTreeUri(this, sourceUri)
+        if (root == null) {
+            toast("Could not access the selected folder")
+            return
+        }
+        val folderName = safeName(root.name ?: "folder")
+        val filename = "$folderName-${System.currentTimeMillis()}.zip"
+        val destinationUri: Uri?
+        val localFile: File?
+        if (toCloud) {
+            destinationUri = CloudStorageDestination.createFile(this, "application/zip", filename)
+            localFile = null
+            if (destinationUri == null) {
+                openCloudTab()
+                toast("Cloud storage is not configured")
+                return
+            }
+        } else {
+            localFile = File(localBackupDirectory(), filename)
+            destinationUri = null
+        }
+
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    if (localFile != null) {
+                        FileOutputStream(localFile).use { output ->
+                            ZipOutputStream(output).use { zip -> addDirectoryToZip(root, "", zip) }
+                        }
+                    } else {
+                        val output = contentResolver.openOutputStream(checkNotNull(destinationUri))
+                            ?: error("Could not open the cloud backup destination")
+                        ZipOutputStream(output).use { zip -> addDirectoryToZip(root, "", zip) }
+                    }
+                }
+            }
+            result.onSuccess {
+                toast("Folder backup completed")
+                refreshFragments()
+            }.onFailure { error ->
+                localFile?.delete()
+                toast("Folder backup failed: ${error.message ?: "I/O error"}")
             }
         }
     }
 
-        private fun addDirectoryToZip(directory: DocumentFile, prefix: String, zip: ZipOutputStream) {
+    private fun restoreArchiveToTree(entry: FolderBackupEntry, destinationTree: Uri) {
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    val input = when {
+                        entry.localFile != null -> FileInputStream(entry.localFile)
+                        entry.cloudFile != null -> contentResolver.openInputStream(entry.cloudFile.uri)
+                        else -> null
+                    } ?: error("Could not open the selected folder backup")
+                    restoreZip(input, destinationTree)
+                }
+            }
+            result.onSuccess {
+                toast("Folder restore completed")
+            }.onFailure {
+                toast("Folder restore failed: ${it.message ?: "I/O error"}")
+            }
+        }
+    }
+
+    private fun restoreArchiveToTree(archiveUri: Uri, destinationTree: Uri) {
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    val input = contentResolver.openInputStream(archiveUri)
+                        ?: error("Could not open ZIP archive")
+                    restoreZip(input, destinationTree)
+                }
+            }
+            result.onSuccess { toast("Folder restore completed") }
+                .onFailure { toast("Folder restore failed: ${it.message ?: "I/O error"}") }
+        }
+    }
+
+    private fun addDirectoryToZip(directory: DocumentFile, prefix: String, zip: ZipOutputStream) {
         directory.listFiles().forEach { child ->
-            val name = prefix + (child.name ?: "unnamed")
+            val childName = child.name ?: "unnamed"
+            require(childName != "." && childName != ".." && '/' !in childName && '\\' !in childName) {
+                "Folder contains an invalid file name"
+            }
+            val name = prefix + childName
             if (child.isDirectory) {
                 zip.putNextEntry(ZipEntry("$name/"))
                 zip.closeEntry()
@@ -124,65 +247,77 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
-    private fun restoreTree(archive: Uri, treeUri: Uri) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val result = runCatching {
-                val root = DocumentFile.fromTreeUri(this@FoldersDashActivity, treeUri)
-                    ?: error("Could not access destination folder")
-                contentResolver.openInputStream(archive).use { raw ->
-                    val input = checkNotNull(raw) { "Could not open ZIP archive" }
-                    ZipInputStream(input).use { zip ->
-                        while (true) {
-                            val entry = zip.nextEntry ?: break
-                            val segments = entry.name.split('/').filter { it.isNotBlank() }
-                            if (segments.isNotEmpty()) {
-                                require(segments.none { it == ".." }) { "Archive contains an unsafe path" }
-                                var parent = root
-                                segments.dropLast(1).forEach { segment ->
-                                    parent = parent.findFile(segment)?.takeIf { it.isDirectory }
-                                        ?: parent.createDirectory(segment)
-                                        ?: error("Could not create folder " + segment)
-                                }
-                                val leaf = segments.last()
-                                if (entry.isDirectory) {
-                                    if (parent.findFile(leaf) == null) parent.createDirectory(leaf)
-                                } else {
-                                    val target = parent.findFile(leaf)
-                                    if (target != null) target.delete()
-                                    val created = parent.createFile("application/octet-stream", leaf)
-                                        ?: error("Could not create file " + leaf)
-                                    contentResolver.openOutputStream(created.uri).use { rawOutput ->
-                                        val output = checkNotNull(rawOutput) { "Could not write " + leaf }
-                                        copyCurrentEntry(zip, output)
-                                    }
-                                }
-                            }
-                            zip.closeEntry()
-                        }
-                    }
+    private fun restoreZip(rawInput: InputStream, destinationTree: Uri) {
+        val root = DocumentFile.fromTreeUri(this, destinationTree)
+            ?: error("Could not access the destination folder")
+        var totalBytes = 0L
+        ZipInputStream(rawInput).use { zip ->
+            while (true) {
+                val entry = zip.nextEntry ?: break
+                val entryName = entry.name
+                require(!entryName.startsWith("/") && '\\' !in entryName) { "Archive contains an absolute path" }
+                val segments = entryName.split('/').filter { it.isNotEmpty() }
+                require(segments.isNotEmpty() && segments.none { it == "." || it == ".." }) {
+                    "Archive contains an unsafe path"
                 }
-            }
-            runOnUiThread {
-                if (result.isSuccess) toast("Folder restore completed")
-                else toast("Folder restore failed: " + (result.exceptionOrNull()?.message ?: "I/O error"))
+                var parent = root
+                segments.dropLast(1).forEach { segment ->
+                    parent = parent.findFile(segment)?.takeIf { it.isDirectory }
+                        ?: parent.createDirectory(segment)
+                        ?: error("Could not create folder $segment")
+                }
+                val leaf = segments.last()
+                if (entry.isDirectory) {
+                    if (parent.findFile(leaf) == null) parent.createDirectory(leaf)
+                } else {
+                    parent.findFile(leaf)?.delete()
+                    val target = parent.createFile("application/octet-stream", leaf)
+                        ?: error("Could not create file $leaf")
+                    contentResolver.openOutputStream(target.uri).use { rawOutput ->
+                        val output = checkNotNull(rawOutput) { "Could not write $leaf" }
+                        totalBytes += copyCurrentEntry(zip, output)
+                    }
+                    require(totalBytes <= MAX_RESTORE_BYTES) { "Archive exceeds the restore size limit" }
+                }
+                zip.closeEntry()
             }
         }
     }
 
-        private fun copyCurrentEntry(input: ZipInputStream, output: java.io.OutputStream) {
+    private fun copyCurrentEntry(input: ZipInputStream, output: java.io.OutputStream): Long {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var copied = 0L
         while (true) {
             val count = input.read(buffer)
             if (count < 0) break
-            if (count > 0) output.write(buffer, 0, count)
+            if (count > 0) {
+                copied += count
+                output.write(buffer, 0, count)
+            }
         }
+        return copied
+    }
+
+    private fun refreshFragments() {
+        supportFragmentManager.fragments.filterIsInstance<FoldersDashFragment>().forEach { it.refresh() }
+    }
+
+    private fun localBackupDirectory(): File =
+        File(filesDir, LOCAL_BACKUP_DIR).apply { mkdirs() }
+
+    private fun safeName(value: String): String =
+        value.replace(Regex("[^A-Za-z0-9._-]"), "_").take(48).ifBlank { "folder" }
+
+    private fun openCloudTab() {
+        startActivity(Intent(this, HomeActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            .putExtra(HomeActivity.EXTRA_OPEN_CLOUD_TAB, true))
     }
 
     private fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
 
-    private object IntentFlags {
-        val READ_WRITE = android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or
-            android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+    companion object {
+        private const val LOCAL_BACKUP_DIR = "folder-backups"
+        private const val MAX_RESTORE_BYTES = 10L * 1024L * 1024L * 1024L
     }
 }
