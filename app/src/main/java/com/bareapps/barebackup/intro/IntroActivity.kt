@@ -295,7 +295,15 @@ class IntroActivity : AppCompatActivity() {
         else isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     private fun showRequiredPermissionsScreen() {
-        setContentView(R.layout.intro_permissions_screen)
+        // The reference keeps sign-in and required permissions as sections of intro_activity.
+        // Reuse that fixed layout and switch sections in Kotlin instead of inventing a layout resource.
+        setContentView(R.layout.intro_activity)
+        findViewById<View>(R.id.intro_activity_sign_in)?.visibility = View.GONE
+        findViewById<View>(R.id.container_sign_in_actions)?.visibility = View.GONE
+        findViewById<View>(R.id.tv_privacy_policy)?.visibility = View.GONE
+        findViewById<View>(R.id.firebase_connection_error_view)?.visibility = View.GONE
+        findViewById<View>(R.id.container_permissions)?.visibility = View.VISIBLE
+
         findViewById<View>(R.id.iv_menu)?.setOnClickListener { showIntroMenu(it) }
         findViewById<MaterialButton>(R.id.btn_root_permissions)?.setOnClickListener {
             grantAllPermissionsWithRootOrShizuku()
