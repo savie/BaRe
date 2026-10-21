@@ -295,22 +295,38 @@ class FoldersDashActivity : AppCompatActivity() {
                         // Preserve any existing destination until the complete entry has been read
                         // and validated; a truncated/corrupt archive must not erase the old file.
                         val existing = parent.findFile(leaf)
-                        val target = parent.createFile("application/octet-stream", leaf)
-                            ?: error("Could not create file $leaf")
+                        val stagedName = ".bare-restore-$entryCount.tmp"
+                        val stagedDocument = parent.createFile("application/octet-stream", stagedName)
+                            ?: error("Could not stage restored file $leaf")
                         try {
-                            contentResolver.openOutputStream(target.uri, "w").use { rawOutput ->
-                                val output = checkNotNull(rawOutput) { "Could not write $leaf" }
+                            contentResolver.openOutputStream(stagedDocument.uri, "w").use { rawOutput ->
+                                val output = checkNotNull(rawOutput) { "Could not write staged file $leaf" }
                                 FileInputStream(stagedFile).use { input -> input.copyTo(output) }
                             }
                         } catch (error: Exception) {
-                            target.delete()
+                            stagedDocument.delete()
                             throw error
                         }
-                        if (existing != null && existing.uri != target.uri) {
-                            // Some document providers permit duplicate names; remove the previous
-                            // entry only after the new content has been written successfully.
-                            existing.delete()
+
+                        // Rename the previous file out of the way only after the replacement has
+                        // been fully staged. If the provider rejects the final rename, try to put
+                        // the previous file back instead of silently destroying its contents.
+                        val previousName = ".bare-previous-$entryCount.tmp"
+                        var previousMoved = false
+                        if (existing != null) {
+                            check(existing.renameTo(previousName)) {
+                                "Could not safely replace existing file $leaf"
+                            }
+                            previousMoved = true
                         }
+                        if (!stagedDocument.renameTo(leaf)) {
+                            if (previousMoved) {
+                                existing?.renameTo(leaf)
+                            }
+                            stagedDocument.delete()
+                            error("Could not finalize restored file $leaf")
+                        }
+                        if (previousMoved) existing?.delete()
                         stagedFile.delete()
                     }
                     zip.closeEntry()
