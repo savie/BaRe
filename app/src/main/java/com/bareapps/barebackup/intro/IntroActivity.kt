@@ -359,7 +359,9 @@ class IntroActivity : AppCompatActivity() {
         // The reference keeps sign-in and required permissions as sections of intro_activity.
         // Reuse that fixed layout and switch sections in Kotlin instead of inventing a layout resource.
         setContentView(R.layout.intro_activity)
-        findViewById<View>(R.id.intro_activity_sign_in)?.visibility = View.GONE
+        // Include wrapper IDs are not consistently resolvable in this layout.
+        // Hide the actual sign-in section root via a stable child from its included layout.
+        (findViewById<View>(R.id.tv_sign_in_title)?.parent as? View)?.visibility = View.GONE
         findViewById<View>(R.id.container_sign_in_actions)?.visibility = View.GONE
         findViewById<View>(R.id.tv_privacy_policy)?.visibility = View.GONE
         findViewById<View>(R.id.firebase_connection_error_view)?.visibility = View.GONE
