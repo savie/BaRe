@@ -408,17 +408,21 @@ class IntroActivity : AppCompatActivity() {
             val rootAttempt = withContext(Dispatchers.IO) {
                 IntroPermissionGrantCoordinator.grantWithRoot(this@IntroActivity)
             }
-            if (rootAttempt.available && rootAttempt.succeeded) {
+            if (rootAttempt.available) {
+                if (!rootAttempt.succeeded) {
+                    Log.w(
+                        TAG,
+                        "Root shell is available; keeping the root path because some individual grants failed: attempted=${rootAttempt.attempted}, failed=${rootAttempt.failed}",
+                    )
+                }
+                // Do not switch to Shizuku just because one permission is unsupported
+                // or restricted on this Android/ROM. A usable root shell is the preferred
+                // elevated path; report partial grant results instead of launching Shizuku.
                 finishPermissionGrant(rootAttempt)
                 return@launch
             }
 
-            if (rootAttempt.available) {
-                Log.w(
-                    TAG,
-                    "Root shell was available but some grants failed: attempted=${rootAttempt.attempted}, failed=${rootAttempt.failed}",
-                )
-            }
+            Log.w(TAG, "Root shell unavailable; checking whether Shizuku can be used")
 
             when {
                 IntroPermissionGrantCoordinator.hasShizukuPermission() -> grantWithShizuku()
