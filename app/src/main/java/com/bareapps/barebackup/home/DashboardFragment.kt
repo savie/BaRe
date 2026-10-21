@@ -11,6 +11,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.bareapps.barebackup.intro.IntroPermissionGrantCoordinator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +39,11 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bindStorageSummary(view)
-        view.findViewById<TextView>(R.id.tvRootAccess)?.setText(R.string.not_available)
-        view.findViewById<TextView>(R.id.tvRootProvider)?.setText(R.string.root_access_needed)
-        view.findViewById<View>(R.id.iv_refresh_root_access)?.visibility = View.INVISIBLE
+        checkRootStatus(view)
+        view.findViewById<View>(R.id.iv_refresh_root_access)?.apply {
+            visibility = View.VISIBLE
+            setOnClickListener { checkRootStatus(view) }
+        }
 
         view.findViewById<QuickRecyclerView>(R.id.rvDashShortcutsDefault)?.apply {
             visibility = View.VISIBLE
@@ -57,7 +64,6 @@ class DashboardFragment : Fragment() {
 
         view.findViewById<View>(R.id.storage_space_view)?.setOnClickListener { showNotReady() }
         view.findViewById<View>(R.id.iv_switch)?.setOnClickListener { showNotReady() }
-        view.findViewById<View>(R.id.iv_refresh_root_access)?.setOnClickListener { showNotReady() }
 
         bindCategory(
             view, R.id.dash_card_quick_actions_apps, R.string.quick_actions_apps, R.drawable.ic_app_tinted,
@@ -79,6 +85,21 @@ class DashboardFragment : Fragment() {
             PreviewAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_home_selector),
             PreviewAction(R.string.restore_folders, R.string.restore_folders_summary, R.drawable.ic_home_selector, true)
         )
+    }
+
+    private fun checkRootStatus(root: View) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val hasRoot = withContext(Dispatchers.IO) {
+                IntroPermissionGrantCoordinator.isRootAvailable()
+            }
+            if (!isAdded || view !== root) return@launch
+            root.findViewById<TextView>(R.id.tvRootAccess)?.setText(
+                if (hasRoot) R.string.granted else R.string.not_available
+            )
+            root.findViewById<TextView>(R.id.tvRootProvider)?.text =
+                if (hasRoot) "su" else getString(R.string.root_access_needed)
+            root.findViewById<View>(R.id.iv_refresh_root_access)?.isSelected = hasRoot
+        }
     }
 
     private fun bindStorageSummary(root: View) {
