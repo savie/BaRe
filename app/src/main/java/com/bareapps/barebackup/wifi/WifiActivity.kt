@@ -157,6 +157,10 @@ class WifiActivity : AppCompatActivity() {
             Toast.makeText(this, "Enterprise Wi-Fi profiles are not supported by this backup format yet", Toast.LENGTH_LONG).show()
             return
         }
+        if (!profile.isOpen && profile.preSharedKey.isBlank()) {
+            Toast.makeText(this, "Android did not expose a usable password for this secured network", Toast.LENGTH_LONG).show()
+            return
+        }
         configureShortcuts(
             R.id.wifi_card_system,
             R.string.backup,
@@ -186,6 +190,7 @@ class WifiActivity : AppCompatActivity() {
     private fun bindRows(cardId: Int, rows: List<WifiRow>, emptyMessage: String, emptyIcon: Int) {
         val card = findViewById<View>(cardId)
         card.findViewById<QuickRecyclerView>(R.id.recycler_view).adapter = WifiRowsAdapter(rows)
+        card.findViewById<View>(R.id.shortcuts_container).visibility = View.GONE
         val error = card.findViewById<View>(R.id.error_container_parent)
         error.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
         error.findViewById<TextView>(R.id.el_tv)?.text = emptyMessage
