@@ -14,6 +14,7 @@ import com.bareapps.rootservice.ISbaOperationCallback;
 interface IRootAidlInterface {
     int getPid();
     int getUid();
+    String executeShellCommand(String command);
     PackageInfo getPackageArchiveInfo(String path, int flags);
     ParcelFileDescriptor getParcelFileDescriptor(String path, int mode);
     String getSbaNativeVersion();
