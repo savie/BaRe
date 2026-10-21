@@ -1,5 +1,8 @@
 package com.bareapps.barebackup.home
 
+import android.app.WallpaperManager
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.os.StatFs
@@ -7,26 +10,24 @@ import android.text.format.Formatter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import com.bareapps.barebackup.R
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity
 import com.bareapps.barebackup.intro.IntroPermissionGrantCoordinator
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity
+import com.bareapps.barebackup.walls.WallsDashActivity
+import com.bareapps.barebackup.wifi.WifiActivity
+import com.bareapps.barebackup.views.QuickRecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bareapps.barebackup.R
-import com.bareapps.barebackup.views.QuickRecyclerView
 
-/**
- * Dashboard port based on the decompiled SwiftBackup dashboard structure:
- * summary card + four category sections, each with backup and restore rows.
- * Feature operations are not yet ported; the UI reports that rather than silently no-op.
- */
+/** Dashboard fragment mapped to SwiftBackup defpackage.x92. */
 class DashboardFragment : Fragment() {
 
     override fun onCreateView(
@@ -37,54 +38,61 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         bindStorageSummary(view)
-        checkRootStatus(view)
-        view.findViewById<View>(R.id.iv_refresh_root_access)?.apply {
-            visibility = View.VISIBLE
-            setOnClickListener { checkRootStatus(view) }
-        }
+        bindRootStatus(view)
 
         view.findViewById<QuickRecyclerView>(R.id.rvDashShortcutsDefault)?.apply {
             visibility = View.VISIBLE
             layoutManager = GridLayoutManager(context, 3)
             isNestedScrollingEnabled = false
-            adapter = DashboardShortcutAdapter(
-                listOf(
-                    DashboardShortcut(R.string.apps, R.drawable.ic_app),
-                    DashboardShortcut(R.string.messages, R.drawable.ic_message_full),
-                    DashboardShortcut(R.string.call_logs, R.drawable.ic_call_log),
-                    DashboardShortcut(R.string.folders, R.drawable.ic_folder_full),
-                    DashboardShortcut(R.string.wallpapers, R.drawable.ic_folder_full),
-                    DashboardShortcut(R.string.wifi, R.drawable.ic_wifi_raster)
-                )
-            )
+            adapter = DashboardShortcutAdapter(buildShortcutItems(), onShortcutClick = ::openShortcut)
         }
+        // The compact list is selected by the original compact-storage preference. Until that
+        // preference is ported, keep the reference's default shortcut presentation.
         view.findViewById<View>(R.id.rvDashShortcutsCompact)?.visibility = View.GONE
+    }
 
-        view.findViewById<View>(R.id.storage_space_view)?.setOnClickListener { showNotReady() }
-        view.findViewById<View>(R.id.iv_switch)?.setOnClickListener { showNotReady() }
+    private fun buildShortcutItems(): List<DashboardShortcut> {
+        val context = requireContext()
+        val items = mutableListOf(
+            DashboardShortcut(1, R.string.apps, R.drawable.ic_app, R.color.apps)
+        )
+        val hasTelephony = context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
+        if (hasTelephony) {
+            items += DashboardShortcut(2, R.string.messages, R.drawable.ic_message_full, R.color.messages)
+            items += DashboardShortcut(3, R.string.call_logs, R.drawable.ic_call_log, R.color.calls)
+        }
+        val wallpaperSupported = try {
+            WallpaperManager.getInstance(context).isWallpaperSupported
+        } catch (_: Exception) {
+            false
+        }
+        items += DashboardShortcut(6, R.string.folders, R.drawable.ic_folder_full, R.color.folders)
+        if (wallpaperSupported) {
+            items += DashboardShortcut(4, R.string.wallpapers, R.drawable.ic_photo_full, R.color.walls)
+        }
+        items += DashboardShortcut(5, R.string.wifi, R.drawable.ic_wifi_full, R.color.wifi)
+        return items
+    }
 
-        bindCategory(
-            view, R.id.dash_card_quick_actions_apps, R.string.quick_actions_apps, R.drawable.ic_app_tinted,
-            DashboardAction(R.string.backup_all_apps, R.string.backup_all_apps_summary, R.drawable.ic_home_selector),
-            DashboardAction(R.string.restore_all_apps, R.string.restore_all_apps_summary, R.drawable.ic_home_selector, true)
-        )
-        bindCategory(
-            view, R.id.dash_card_quick_actions_messages, R.string.quick_actions_messages, R.drawable.ic_message_full,
-            DashboardAction(R.string.backup_messages, R.string.backup_messages_summary, R.drawable.ic_home_selector),
-            DashboardAction(R.string.restore_messages, R.string.restore_messages_summary, R.drawable.ic_home_selector, true)
-        )
-        bindCategory(
-            view, R.id.dash_card_quick_actions_calls, R.string.quick_actions_calls, R.drawable.ic_call_log,
-            DashboardAction(R.string.backup_call_logs, R.string.backup_call_logs_summary, R.drawable.ic_home_selector),
-            DashboardAction(R.string.restore_call_logs, R.string.restore_call_logs_summary, R.drawable.ic_home_selector, true)
-        )
-        bindCategory(
-            view, R.id.dash_card_quick_actions_folders, R.string.quick_actions_folders, R.drawable.ic_folder_full,
-            DashboardAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_home_selector),
-            DashboardAction(R.string.restore_folders, R.string.restore_folders_summary, R.drawable.ic_home_selector, true)
-        )
+    private fun openShortcut(item: DashboardShortcut) {
+        val intent = when (item.actionId) {
+            1 -> Intent(requireContext(), AppListActivity::class.java)
+            2 -> Intent(requireContext(), MessagesDashActivity::class.java)
+            3 -> Intent(requireContext(), CallsDashActivity::class.java)
+            4 -> Intent(requireContext(), WallsDashActivity::class.java)
+            5 -> Intent(requireContext(), WifiActivity::class.java)
+            6 -> Intent(requireContext(), FoldersDashActivity::class.java)
+            else -> return
+        }
+        startActivity(intent)
+    }
+
+    private fun bindRootStatus(root: View) {
+        root.findViewById<View>(R.id.iv_refresh_root_access)?.setOnClickListener {
+            checkRootStatus(root)
+        }
+        checkRootStatus(root)
     }
 
     private fun checkRootStatus(root: View) {
@@ -108,8 +116,7 @@ class DashboardFragment : Fragment() {
             val total = stat.totalBytes
             val available = stat.availableBytes
             val used = (total - available).coerceAtLeast(0L)
-            val usage = root.findViewById<TextView>(R.id.tvUsage)
-            usage?.text = getString(
+            root.findViewById<TextView>(R.id.tvUsage)?.text = getString(
                 R.string.free_storage_of_total_text,
                 Formatter.formatFileSize(requireContext(), available),
                 Formatter.formatFileSize(requireContext(), total)
@@ -130,31 +137,5 @@ class DashboardFragment : Fragment() {
             root.findViewById<View>(R.id.progressBarStorage)?.visibility = View.GONE
             root.findViewById<View>(R.id.tvUsedPercent)?.visibility = View.GONE
         }
-    }
-
-    private fun bindCategory(
-        root: View,
-        cardId: Int,
-        titleRes: Int,
-        headerIconRes: Int,
-        backup: DashboardAction,
-        restore: DashboardAction
-    ) {
-        val card = root.findViewById<View>(cardId) ?: return
-        card.findViewById<TextView>(R.id.tv_card_title).setText(titleRes)
-        card.findViewById<ImageView>(R.id.iv_icon).apply {
-            setImageResource(headerIconRes)
-            visibility = View.VISIBLE
-        }
-        card.findViewById<View>(R.id.tv_root_needed).visibility = View.GONE
-        card.findViewById<QuickRecyclerView>(R.id.rv_quick_actions).apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            isNestedScrollingEnabled = false
-            adapter = DashboardActionAdapter(listOf(backup, restore))
-        }
-    }
-
-    private fun showNotReady() {
-        Toast.makeText(requireContext(), R.string.intro_feature_not_available_yet, Toast.LENGTH_SHORT).show()
     }
 }
