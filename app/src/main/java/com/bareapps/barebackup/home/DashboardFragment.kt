@@ -34,13 +34,13 @@ class DashboardFragment : Fragment() {
         view.findViewById<View>(R.id.rvDashShortcutsCompact)?.visibility = View.GONE
 
         bindQuickAction(view, R.id.dash_card_quick_actions_apps, R.string.apps,
-            PreviewAction(R.string.backup_all_apps, R.string.backup_all_apps_summary, R.drawable.ic_app_tinted))
+            PreviewAction(R.string.backup_all_apps, R.string.backup_all_apps_summary, R.drawable.ic_home_selector))
         bindQuickAction(view, R.id.dash_card_quick_actions_messages, R.string.backup_messages,
-            PreviewAction(R.string.backup_messages, R.string.backup_messages_summary, R.drawable.ic_message_full))
+            PreviewAction(R.string.backup_messages, R.string.backup_messages_summary, R.drawable.ic_home_selector))
         bindQuickAction(view, R.id.dash_card_quick_actions_calls, R.string.backup_call_logs,
-            PreviewAction(R.string.backup_call_logs, R.string.backup_call_logs_summary, R.drawable.ic_call_log))
+            PreviewAction(R.string.backup_call_logs, R.string.backup_call_logs_summary, R.drawable.ic_home_selector))
         bindQuickAction(view, R.id.dash_card_quick_actions_folders, R.string.backup_folders,
-            PreviewAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_create_new_folder))
+            PreviewAction(R.string.backup_folders, R.string.backup_folders_summary, R.drawable.ic_home_selector))
     }
 
     private fun bindQuickAction(root: View, cardId: Int, titleRes: Int, action: PreviewAction) {
