@@ -316,12 +316,15 @@ class IntroActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
 
-        // Google identity is separate from the permanent device-local account identity.
-        // Do not write Google UID into active_uid or change the local account selection.
+        // Keep the permanent local UID in local_uid, but make the selected Google
+        // identity active for this session. LocalAccountRecovery preserves that selection
+        // while maintaining the independent local UID and its portable marker.
         val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
         check(
             accountPrefs.edit()
                 .putString("google_uid", user.uid)
+                .putString("active_uid", user.uid)
+                .putString("active_kind", "google")
                 .commit()
         ) { "Could not persist Google account ID" }
 
@@ -347,6 +350,21 @@ class IntroActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
                 requestStorageAccess()
                 return
+            }
+            // Always preserve/recover the permanent local account first. If Google is
+            // signed in, also materialize its own account directory using the Google UID;
+            // this must not replace the local UID or active local-account selection.
+            val googleUid = getSharedPreferences("bare_local_account", MODE_PRIVATE)
+                .getString("google_uid", null)
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() }
+            if (googleUid != null) {
+                val googleDirectory = LocalAccountRecovery(this).ensureDirectoriesForAccount(googleUid)
+                if (googleDirectory.status == LocalAccountRecovery.Status.STORAGE_ACCESS_REQUIRED) {
+                    Toast.makeText(this, R.string.permission_error, Toast.LENGTH_LONG).show()
+                    requestStorageAccess()
+                    return
+                }
             }
             pendingLocalIdentityRecovery = false
             Log.i(TAG, "Local account ready; restored=" + recovery.restored)
