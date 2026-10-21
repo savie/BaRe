@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bareapps.barebackup.R
-import com.google.android.material.materialswitch.MaterialSwitch
 
 /** Schedule overview. It intentionally shows the reference empty state until schedule operations are connected. */
 class ScheduleHomeFragment : Fragment() {
