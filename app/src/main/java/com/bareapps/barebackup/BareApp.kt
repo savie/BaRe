@@ -403,7 +403,7 @@ class BareApp : Application() {
         manager.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_CRASH,
-                "Crash notification",
+                "BΛR☰ crash notification",
                 NotificationManager.IMPORTANCE_DEFAULT,
             ).apply {
                 setSound(resourceUri(R.raw.task_complete_sound_error), audioAttributes)
@@ -482,7 +482,7 @@ class BareApp : Application() {
         val errorFile = File(cacheDir, CRASH_FILE_NAME)
         val builder = NotificationCompat.Builder(this, CHANNEL_CRASH)
             .setSmallIcon(R.drawable.ic_stat)
-            .setContentTitle("Swift Backup crashed")
+            .setContentTitle("BΛR☰ crashed")
             .setContentText(cause.toString())
             .setStyle(NotificationCompat.BigTextStyle().bigText(cause.toString()))
             .setOnlyAlertOnce(true)
