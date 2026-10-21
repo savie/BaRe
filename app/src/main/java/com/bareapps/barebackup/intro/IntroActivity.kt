@@ -516,8 +516,28 @@ class IntroActivity : AppCompatActivity() {
 
     private fun grantAllPermissionsWithRootOrShizuku() {
         if (permissionGrantInProgress || navigatingHome) return
+
+        // Match the reference interaction: explain the exact permissions first,
+        // then run the bulk grant only after the user confirms.
+        AlertDialog.Builder(this)
+            .setTitle("Grant permissions with Root access or Shizuku")
+            .setMessage(
+                "Grant below permissions to BΛR☰ in one click using Root access or Shizuku.\n\n" +
+                    "• Storage\n" +
+                    "• SMS\n" +
+                    "• Call Logs\n" +
+                    "• Contacts\n" +
+                    "• Notifications"
+            )
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton("Grant permissions") { _, _ -> startBulkPermissionGrant() }
+            .show()
+    }
+
+    private fun startBulkPermissionGrant() {
+        if (permissionGrantInProgress || navigatingHome) return
         permissionGrantInProgress = true
-        findViewById<MaterialButton>(R.id.btn_root_permissions).isEnabled = false
+        findViewById<MaterialButton>(R.id.btn_root_permissions)?.isEnabled = false
 
         lifecycleScope.launch {
             val rootAttempt = withContext(Dispatchers.IO) {
