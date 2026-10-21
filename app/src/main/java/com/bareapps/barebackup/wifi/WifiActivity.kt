@@ -3,7 +3,6 @@ package com.bareapps.barebackup.wifi
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,10 +32,6 @@ import java.io.FileOutputStream
 
 /** Wi-Fi profile backup screen mapped to the reference WifiActivity and its system/local/cloud cards. */
 class WifiActivity : AppCompatActivity() {
-    private var systemProfiles: List<WifiProfile> = emptyList()
-    private var selectedSystemProfile: WifiProfile? = null
-    private var selectedLocalFile: File? = null
-    private var selectedCloudFile: DocumentFile? = null
     private var pendingRestoreProfile: WifiProfile? = null
 
     private val locationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -52,9 +47,6 @@ class WifiActivity : AppCompatActivity() {
         pendingRestoreProfile = null
         if (granted && profile != null) restoreProfile(profile)
         else if (!granted) Toast.makeText(this, "Nearby Wi-Fi permission is required to add a network suggestion", Toast.LENGTH_LONG).show()
-    }
-    private val restoreDocument = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) restoreCloudOrPickedFile(uri)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +87,6 @@ class WifiActivity : AppCompatActivity() {
                 runCatching { WifiProfileBackup.readConfiguredProfiles(this@WifiActivity) }
             }
             result.onSuccess { profiles ->
-                systemProfiles = profiles
                 val rows = profiles.map { profile ->
                     WifiRow(
                         title = profile.ssid,
@@ -120,8 +111,6 @@ class WifiActivity : AppCompatActivity() {
             .sortedByDescending { it.lastModified() }
         val rows = files.map { file ->
             WifiRow(file.nameWithoutExtension, "Saved on this device", R.drawable.ic_wifi_full) {
-                selectedLocalFile = file
-                selectedCloudFile = null
                 configureShortcuts(
                     R.id.wifi_card_local,
                     R.string.delete,
@@ -147,8 +136,6 @@ class WifiActivity : AppCompatActivity() {
             result.onSuccess { files ->
                 val rows = files.map { file ->
                     WifiRow(file.name.orEmpty().removeSuffix(".wfi"), "Stored in selected cloud folder", R.drawable.ic_cloud) {
-                        selectedCloudFile = file
-                        selectedLocalFile = null
                         configureShortcuts(
                             R.id.wifi_card_cloud,
                             R.string.delete,
@@ -170,9 +157,6 @@ class WifiActivity : AppCompatActivity() {
             Toast.makeText(this, "Enterprise Wi-Fi profiles are not supported by this backup format yet", Toast.LENGTH_LONG).show()
             return
         }
-        selectedSystemProfile = profile
-        selectedLocalFile = null
-        selectedCloudFile = null
         configureShortcuts(
             R.id.wifi_card_system,
             R.string.backup,
@@ -309,20 +293,6 @@ class WifiActivity : AppCompatActivity() {
         }
     }
 
-    private fun restoreCloudOrPickedFile(uri: Uri) {
-        lifecycleScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                runCatching {
-                    val input = contentResolver.openInputStream(uri)
-                        ?: throw IllegalStateException("Could not open Wi-Fi backup")
-                    WifiProfileBackup.readProfile(input)
-                }
-            }
-            result.onSuccess(::restoreProfile)
-                .onFailure { Toast.makeText(this@WifiActivity, it.message ?: "Could not read Wi-Fi backup", Toast.LENGTH_LONG).show() }
-        }
-    }
-
     private fun restoreProfile(profile: WifiProfile) {
         if (Build.VERSION.SDK_INT < 33 &&
             checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -349,13 +319,11 @@ class WifiActivity : AppCompatActivity() {
 
     private fun deleteLocalBackup(file: File) {
         if (!file.delete()) Toast.makeText(this, "Could not delete local Wi-Fi backup", Toast.LENGTH_LONG).show()
-        selectedLocalFile = null
         refreshLocalBackups()
     }
 
     private fun deleteCloudBackup(file: DocumentFile) {
         if (!file.delete()) Toast.makeText(this, "Could not delete cloud Wi-Fi backup", Toast.LENGTH_LONG).show()
-        selectedCloudFile = null
         refreshCloudBackups()
     }
 
@@ -394,7 +362,7 @@ class WifiActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val row = rows[position]
-            holder.title.text = row.title
+            holder.title.text = if (row.subtitle.isBlank()) row.title else row.title + "\n" + row.subtitle
             holder.icon.setImageResource(row.iconRes)
             holder.itemView.contentDescription = row.title + ", " + row.subtitle
             holder.itemView.setOnClickListener { row.onClick() }
