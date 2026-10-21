@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/appbar_layout" layout="@layout/appbar" />
+    <androidx.core.widget.NestedScrollView android:id="@id/scroll_view" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <androidx.constraintlayout.widget.ConstraintLayout android:padding="@dimen/spacing_normal" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView android:textColor="?android:textColorPrimary" android:id="@id/tv_message" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/Subtitle.Large" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
