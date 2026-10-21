@@ -316,10 +316,9 @@ class IntroActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
             ?: throw IllegalStateException("Google sign-in completed without an authenticated account")
 
-        // Authentication has already succeeded. Advance the UI first so local identity
-        // persistence or recovery can never strand the user on the sign-in screen.
-        showRequiredPermissionsScreen()
-
+        // Persist the Firebase Google UID before any onboarding or local-storage work.
+        // Google identity and the device-local identity are separate; never replace the
+        // Google UID with LocalAccountRecovery's UID.
         try {
             val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
             val accountSaved = accountPrefs.edit()
@@ -328,15 +327,15 @@ class IntroActivity : AppCompatActivity() {
                 .putString("active_kind", "google")
                 .commit()
             if (!accountSaved) {
-                Log.e(TAG, "Google authentication succeeded but account ID could not be persisted locally")
+                Log.e(TAG, "Firebase Google sign-in succeeded but Google account ID could not be persisted locally")
             }
         } catch (error: Exception) {
-            Log.e(TAG, "Google authentication succeeded but local account ID persistence threw an exception", error)
+            Log.e(TAG, "Firebase Google sign-in succeeded but saving Google account ID failed", error)
         }
 
-        // Keep a device-local recovery identity alongside the cloud identity. If storage
-        // access is not available yet, the dedicated permission screen stays visible and
-        // onResume retries recovery after the user grants access.
+        // Navigating to required permissions is independent of local-account recovery.
+        // A local storage/recovery problem must not undo or block a successful Google sign-in.
+        showRequiredPermissionsScreen()
         initializeLocalAccount()
     }
 
