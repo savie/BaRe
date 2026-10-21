@@ -62,7 +62,14 @@ internal object IntroPermissionGrantCoordinator {
             Log.w(TAG, "Unable to initialize root shell", error)
             return Attempt(available = false)
         }
-        if (!shell.isRoot) return Attempt(available = false)
+        if (!shell.isRoot) {
+            Log.w(
+                TAG,
+                "libsu returned a non-root shell; verify that KSU-Next granted superuser access to this exact installed BΛR☰ APK",
+            )
+            return Attempt(available = false)
+        }
+        Log.i(TAG, "libsu root shell acquired; starting permission grants")
 
         val commands = commandsFor(context)
         val failed = ArrayList<String>()
