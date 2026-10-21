@@ -48,8 +48,8 @@ class DashboardFragment : Fragment() {
                     PreviewShortcut(R.string.messages, R.drawable.ic_message_full),
                     PreviewShortcut(R.string.call_logs, R.drawable.ic_call_log),
                     PreviewShortcut(R.string.folders, R.drawable.ic_folder_full),
-                    PreviewShortcut(R.string.wallpapers, R.drawable.ic_photo_full),
-                    PreviewShortcut(R.string.wifi, R.drawable.ic_wifi_full)
+                    PreviewShortcut(R.string.wallpapers, R.drawable.ic_folder_full),
+                    PreviewShortcut(R.string.wifi, R.drawable.ic_wifi_raster)
                 )
             )
         }
@@ -101,7 +101,7 @@ class DashboardFragment : Fragment() {
                 progress.visibility = View.VISIBLE
             }
             root.findViewById<TextView>(R.id.tvUsedPercent)?.apply {
-                text = getString(R.string.percent_used, if (total > 0) ((used * 100) / total).toInt() else 0)
+                text = "${if (total > 0) ((used * 100) / total).toInt() else 0}% used"
                 visibility = View.VISIBLE
             }
         } catch (_: Exception) {
