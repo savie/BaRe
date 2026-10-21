@@ -83,6 +83,8 @@ class IntroActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.intro_activity)
+        findViewById<View>(R.id.intro_activity_permissions).visibility = View.GONE
+        findViewById<View>(R.id.container_permissions).visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -142,6 +144,10 @@ class IntroActivity : AppCompatActivity() {
         dialogView.findViewById<View>(R.id.btn_cancel).setOnClickListener { dialog.dismiss() }
         dialog.setOnCancelListener { }
         dialog.show()
+        // Match the reference dialog's narrower centered card instead of the platform
+        // default width, which spreads the content too close to the screen edges.
+        val displayWidth = resources.displayMetrics.widthPixels
+        dialog.window?.setLayout((displayWidth * 0.84f).toInt(), android.view.WindowManager.LayoutParams.WRAP_CONTENT)
     }
 
     @Suppress("DEPRECATION")
@@ -156,6 +162,8 @@ class IntroActivity : AppCompatActivity() {
     private fun showSignInScreen() {
         showingRequiredPermissions = false
         setContentView(R.layout.intro_activity)
+        findViewById<View>(R.id.intro_activity_permissions).visibility = View.GONE
+        findViewById<View>(R.id.container_permissions).visibility = View.GONE
 
         findViewById<TextView>(R.id.tv_sign_in_subtitle)
             .setText(R.string.signin_intro_subtitle)
@@ -356,6 +364,7 @@ class IntroActivity : AppCompatActivity() {
         // Reuse that fixed layout and switch sections in Kotlin instead of inventing a layout resource.
         setContentView(R.layout.intro_activity)
         findViewById<View>(R.id.intro_activity_sign_in)?.visibility = View.GONE
+        findViewById<View>(R.id.intro_activity_permissions)?.visibility = View.VISIBLE
         findViewById<View>(R.id.container_sign_in_actions)?.visibility = View.GONE
         findViewById<View>(R.id.tv_privacy_policy)?.visibility = View.GONE
         findViewById<View>(R.id.firebase_connection_error_view)?.visibility = View.GONE
