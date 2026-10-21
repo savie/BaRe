@@ -521,8 +521,8 @@ class IntroActivity : AppCompatActivity() {
         // then run the bulk grant only after the user confirms.
         val permissionList = listOf("Storage", "SMS", "Call Logs", "Contacts", "Notifications")
             .joinToString(separator = "\n") { "• $it" }
-        val message = getString(R.string.root_grant_permissions_dialog_msg_prefix)
-            .replace(getString(R.string.app_name), "Swift Backup") + "\n\n" + permissionList
+        val message = getString(R.string.root_grant_permissions_dialog_msg_prefix) +
+            "\n\n" + permissionList
 
         AlertDialog.Builder(this)
             .setTitle(R.string.root_grant_permissions_dialog_title)
