@@ -47,7 +47,7 @@ jobs:
       - name: Smoke test core screens on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 30
           target: google_apis
           arch: x86_64
           profile: pixel_2
@@ -65,7 +65,7 @@ jobs:
               "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
               "com.bareapps.barebackup.wifi.WifiActivity"; do
               adb shell am force-stop com.bareapps.barebackup || true
-              adb shell am start -W -n "com.bareapps.barebackup/$ACTIVITY"
+              adb shell am start -n "com.bareapps.barebackup/$ACTIVITY"
               sleep 3
             done
             LOG="$(adb logcat -d -t 3000)"
