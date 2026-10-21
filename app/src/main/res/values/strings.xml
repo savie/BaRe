@@ -1429,4 +1429,12 @@ Solution: Format your storage with exFAT and use a kernel that supports mounting
     <string name="yubikit_prompt_plug_in_or_tap">Hold your YubiKey flat against the back of your device, or connect it via USB.</string>
     <string name="yubikit_prompt_wait">Please wait…</string>
     <string name="intro_feature_not_available_yet">This feature is not available in this build yet.</string>
+    <string name="firebase_profile_provider_google">google</string>
+    <string name="firebase_profile_field_uid">uid</string>
+    <string name="firebase_profile_field_display_name">displayName</string>
+    <string name="firebase_profile_field_email">email</string>
+    <string name="firebase_profile_field_photo_url">photoUrl</string>
+    <string name="firebase_profile_field_provider">provider</string>
+    <string name="firebase_profile_field_last_sign_in_at">lastSignInAt</string>
+    <string name="firebase_profile_field_updated_at">updatedAt</string>
 </resources>
