@@ -40,7 +40,7 @@ class WifiActivity : AppCompatActivity() {
         if (granted && pending != null) restoreProfile(pending)
         else if (granted) refreshSystemProfiles()
         else if (pending != null) Toast.makeText(this, "Location permission was denied; Wi-Fi restore was cancelled", Toast.LENGTH_LONG).show()
-        else showCardError(R.id.wifi_card_system, "Location permission is needed to read saved Wi-Fi profiles on this Android version.")
+        else showCardError(R.id.wifi_card_system, "Location permission is needed to read saved Wi-Fi profiles on this Android version.", showRetryButton = true)
     }
     private val nearbyPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         val profile = pendingRestoreProfile
@@ -99,7 +99,7 @@ class WifiActivity : AppCompatActivity() {
                 showCardError(
                     R.id.wifi_card_system,
                     error.message ?: "Could not read saved Wi-Fi profiles. On Android 10 and newer, root access is required.",
-                    showCloudButton = false
+                    showRetryButton = true
                 )
             }
         }
@@ -193,7 +193,12 @@ class WifiActivity : AppCompatActivity() {
         error.findViewById<View>(R.id.el_btn)?.visibility = View.GONE
     }
 
-    private fun showCardError(cardId: Int, message: String, showCloudButton: Boolean = false) {
+    private fun showCardError(
+        cardId: Int,
+        message: String,
+        showCloudButton: Boolean = false,
+        showRetryButton: Boolean = false
+    ) {
         val card = findViewById<View>(cardId)
         card.findViewById<QuickRecyclerView>(R.id.recycler_view).adapter = WifiRowsAdapter(emptyList())
         card.findViewById<View>(R.id.shortcuts_container).visibility = View.GONE
@@ -202,10 +207,16 @@ class WifiActivity : AppCompatActivity() {
         error.findViewById<TextView>(R.id.el_tv)?.text = message
         error.findViewById<ImageView>(R.id.el_iv)?.setImageResource(R.drawable.ic_wifi_full)
         val button = error.findViewById<MaterialButton>(R.id.el_btn)
-        button.visibility = if (showCloudButton) View.VISIBLE else View.GONE
-        if (showCloudButton) {
-            button.setText(R.string.backup_storage_location)
-            button.setOnClickListener { openCloudTab() }
+        button.visibility = if (showCloudButton || showRetryButton) View.VISIBLE else View.GONE
+        when {
+            showCloudButton -> {
+                button.setText(R.string.backup_storage_location)
+                button.setOnClickListener { openCloudTab() }
+            }
+            showRetryButton -> {
+                button.text = "Retry"
+                button.setOnClickListener { refreshSystemProfiles() }
+            }
         }
     }
 
