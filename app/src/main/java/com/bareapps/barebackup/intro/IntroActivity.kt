@@ -313,13 +313,16 @@ class IntroActivity : AppCompatActivity() {
         // concern. Persist the UID locally first so the account identity survives even when
         // Realtime Database is not configured or temporarily unavailable.
         val accountPrefs = getSharedPreferences("bare_local_account", MODE_PRIVATE)
-        check(
-            accountPrefs.edit()
-                .putString("google_uid", user.uid)
-                .putString("active_uid", user.uid)
-                .putString("active_kind", "google")
-                .commit()
-        ) { "Could not persist Google account ID" }
+        val accountSaved = accountPrefs.edit()
+            .putString("google_uid", user.uid)
+            .putString("active_uid", user.uid)
+            .putString("active_kind", "google")
+            .commit()
+        if (!accountSaved) {
+            // Local preference persistence must never block an already successful Google
+            // authentication from advancing to the required-permissions step.
+            Log.e(TAG, "Google authentication succeeded but account ID could not be persisted locally")
+        }
 
         // Keep a device-local recovery identity alongside the cloud identity. If storage
         // access is not available yet, the dedicated permission screen stays visible and
