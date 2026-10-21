@@ -29,7 +29,6 @@ import com.bareapps.barebackup.home.HomeActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CancellationException
@@ -268,18 +267,11 @@ class IntroActivity : AppCompatActivity() {
 
                 val googleCredential = GoogleIdTokenCredential.createFrom(customCredential.data)
                 val firebaseCredential = GoogleAuthProvider.getCredential(googleCredential.idToken, null)
-                val auth = FirebaseAuth.getInstance()
-                val currentUser = auth.currentUser
-
-                try {
-                    if (currentUser?.isAnonymous == true) {
-                        currentUser.linkWithCredential(firebaseCredential).await()
-                    } else {
-                        auth.signInWithCredential(firebaseCredential).await()
-                    }
-                } catch (collision: FirebaseAuthUserCollisionException) {
-                    auth.signInWithCredential(firebaseCredential).await()
-                }
+                // Google sign-in is an independent Firebase account flow. Do not link it
+                // to an anonymous/local session; authenticate directly as the selected Google user.
+                FirebaseAuth.getInstance()
+                    .signInWithCredential(firebaseCredential)
+                    .await()
 
                 firebaseAuthenticationSucceeded = true
                 completeGoogleAccountSetup()
