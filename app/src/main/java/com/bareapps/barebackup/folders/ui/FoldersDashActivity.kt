@@ -122,13 +122,13 @@ class FoldersDashActivity : AppCompatActivity() {
         importZip.launch(arrayOf("application/zip", "application/octet-stream"))
     }
 
-    fun restoreBackup(entry: FolderBackupEntry) {
+    internal fun restoreBackup(entry: FolderBackupEntry) {
         pendingRestoreEntry = entry
         pendingImportUri = null
         chooseTree.launch(null)
     }
 
-    fun deleteBackup(entry: FolderBackupEntry) {
+    internal fun deleteBackup(entry: FolderBackupEntry) {
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
