@@ -271,7 +271,11 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
-    private fun restoreZip(rawInput: InputStream, destinationTree: Uri) {
+    private fun restoreZip(
+        rawInput: InputStream,
+        destinationTree: Uri,
+        replaceTypeConflicts: Set<String> = emptySet()
+    ) {
         val destination = DocumentFile.fromTreeUri(this, destinationTree)
             ?: error("Could not access the destination folder")
         val staging = createTempDir("bare-folder-restore-", directory = cacheDir)
@@ -317,45 +321,64 @@ class FoldersDashActivity : AppCompatActivity() {
                 }
             }
 
-            // Reject all destination type conflicts before applying any staged entry.
-            fun preflight(source: File, targetDirectory: DocumentFile) {
+            // Preflight every destination conflict before making any changes. Incremental
+            // restore may replace a file with a directory (or vice versa) only when the
+            // snapshot history explicitly records that type transition.
+            fun preflight(source: File, targetDirectory: DocumentFile, prefix: String) {
                 source.listFiles().orEmpty().forEach { child ->
+                    val path = if (prefix.isEmpty()) child.name else "$prefix/${child.name}"
                     val existing = targetDirectory.findFile(child.name)
-                    if (existing != null) {
-                        require(existing.isDirectory == child.isDirectory) {
-                            "Restore destination has a file/folder conflict at ${child.name}"
+                    if (existing != null && existing.isDirectory != child.isDirectory) {
+                        require(path in replaceTypeConflicts) {
+                            "Restore destination has a file/folder conflict at $path"
+                        }
+                        if (existing.isDirectory) {
+                            require(existing.listFiles().isEmpty()) {
+                                "Cannot replace non-empty destination folder at $path; its extra files must be preserved"
+                            }
                         }
                     }
-                    if (child.isDirectory && existing != null) {
-                        preflight(child, existing)
+                    if (child.isDirectory && existing != null && existing.isDirectory) {
+                        preflight(child, existing, path)
                     }
                 }
             }
-            preflight(staging, destination)
+            preflight(staging, destination, "")
 
-            fun apply(source: File, targetDirectory: DocumentFile) {
+            fun apply(source: File, targetDirectory: DocumentFile, prefix: String) {
                 source.listFiles().orEmpty().forEach { child ->
+                    val path = if (prefix.isEmpty()) child.name else "$prefix/${child.name}"
                     if (child.isDirectory) {
-                        val target = targetDirectory.findFile(child.name)
+                        var existing = targetDirectory.findFile(child.name)
+                        if (existing != null && !existing.isDirectory && path in replaceTypeConflicts) {
+                            check(existing.delete()) { "Could not replace destination file at $path" }
+                            existing = null
+                        }
+                        val target = existing
                             ?: targetDirectory.createDirectory(child.name)
-                            ?: error("Could not create folder ${child.name}")
-                        require(target.isDirectory) { "Restore destination has a file/folder conflict at ${child.name}" }
-                        apply(child, target)
+                            ?: error("Could not create folder $path")
+                        require(target.isDirectory) { "Restore destination has a file/folder conflict at $path" }
+                        apply(child, target, path)
                     } else {
                         targetDirectory.findFile(child.name)?.let { existing ->
-                            check(existing.delete()) { "Could not replace existing file ${child.name}" }
+                            if (existing.isDirectory) {
+                                require(path in replaceTypeConflicts && existing.listFiles().isEmpty()) {
+                                    "Cannot replace destination folder at $path"
+                                }
+                            }
+                            check(existing.delete()) { "Could not replace existing destination entry at $path" }
                         }
                         val target = targetDirectory.createFile("application/octet-stream", child.name)
-                            ?: error("Could not create file ${child.name}")
+                            ?: error("Could not create file $path")
                         FileInputStream(child).use { input ->
                             contentResolver.openOutputStream(target.uri).use { rawOutput ->
-                                input.copyTo(checkNotNull(rawOutput) { "Could not write ${child.name}" })
+                                input.copyTo(checkNotNull(rawOutput) { "Could not write $path" })
                             }
                         }
                     }
                 }
             }
-            apply(staging, destination)
+            apply(staging, destination, "")
         } finally {
             staging.deleteRecursively()
         }
@@ -715,7 +738,14 @@ class FoldersDashActivity : AppCompatActivity() {
                 }
                 addDirectory(staging, "")
             }
-            restoreZip(FileInputStream(merged), destinationTree)
+            val finalManifest = chain.last().second
+            val finalFiles = finalManifest.files.map { it.path }.toSet()
+            val finalDirectories = finalManifest.directories.toSet()
+            val deletedFiles = chain.flatMap { it.second.deletedPaths }.toSet()
+            val deletedDirectories = chain.flatMap { it.second.deletedDirectories }.toSet()
+            val typeTransitions = (deletedFiles intersect finalDirectories) +
+                (deletedDirectories intersect finalFiles)
+            restoreZip(FileInputStream(merged), destinationTree, typeTransitions)
             val finalPaths = chain.last().second.files.map { it.path }.toSet()
             val deletedPaths = chain.flatMap { it.second.deletedPaths }.toSet().filterNot { deleted ->
                 finalPaths.any { current -> current == deleted || current.startsWith(deleted + "/") }
