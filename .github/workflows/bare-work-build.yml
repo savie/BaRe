@@ -85,11 +85,11 @@ jobs:
             fi
             adb -s emulator-5554 wait-for-device
             for attempt in $(seq 1 60); do
-              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
               [ "$boot" = "1" ] && break
               sleep 2
             done
-            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
             if [ "$boot" != "1" ]; then
               adb devices -l
               echo "Android emulator did not complete boot."
@@ -111,8 +111,8 @@ jobs:
               sleep 3
             done
             LOG="$(adb -s emulator-5554 logcat -d -t 5000)"
-            if printf '%s\\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
-              printf '%s\\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
+            if printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
+              printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
               exit 1
             fi
 
