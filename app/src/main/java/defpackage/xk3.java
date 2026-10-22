@@ -1,7 +1,7 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v0 xk3, still in use, count: 1, list:
@@ -51,8 +51,8 @@ public final class xk3 {
     }
 
     public final String displayString() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(this.stringRes);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(this.stringRes);
         string.getClass();
         return string;
     }

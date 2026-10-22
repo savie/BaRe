@@ -24,12 +24,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -45,8 +45,8 @@ public abstract class vm4 {
             intentPutExtra.getClass();
             homeActivity.startActivity(intentPutExtra);
         } else {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, "Feature not supported on this device");
         }
@@ -736,7 +736,7 @@ public abstract class vm4 {
         if (jArr.length == 20) {
             return new v17(jArr[0], jArr[1], jArr[2], jArr[3], jArr[4], jArr[5], jArr[6], jArr[7], jArr[8], jArr[9], jArr[10], jArr[11], jArr[12], jArr[13], jArr[14], jArr[15], jArr[16], jArr[17], jArr[18], jArr[19]);
         }
-        f6.g(fz5.j(jArr.length, "Unexpected SwiftTar extract stats length: "));
+        f6.g(fz5.j(jArr.length, "Unexpected BareTar extract stats length: "));
         return null;
     }
 

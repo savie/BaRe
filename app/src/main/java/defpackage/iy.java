@@ -13,8 +13,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -105,8 +105,8 @@ public final class iy {
             }
             f = false;
             int i = sxVar == sx.AppSize ? R.string.calculating_app_sizes : R.string.calculating_backup_sizes;
-            SwiftApp.Companion companion = SwiftApp.d;
-            String strConcat = ("\n" + SwiftApp.Companion.c().getString(R.string.slow_app_sort_option_warning)).concat("\n\n");
+            BareApp.Companion companion = BareApp.d;
+            String strConcat = ("\n" + BareApp.Companion.c().getString(R.string.slow_app_sort_option_warning)).concat("\n\n");
             try {
                 Iterator it = arrayList.iterator();
                 int i2 = 0;
@@ -116,8 +116,8 @@ public final class iy {
                     if (!f) {
                         ex6 ex6Var = b;
                         int size = arrayList.size();
-                        SwiftApp.Companion companion2 = SwiftApp.d;
-                        String string = SwiftApp.Companion.c().getString(i);
+                        BareApp.Companion companion2 = BareApp.d;
+                        String string = BareApp.Companion.c().getString(i);
                         string.getClass();
                         ex6Var.k(new ux(string, i2, size, strConcat + jiVar.getName()));
                         long jH = 0;
@@ -178,9 +178,9 @@ public final class iy {
             linkedHashMap.clear();
             mp6 mp6Var = mp6.a;
             if (mp6.f()) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                if (((AppOpsManager) SwiftApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), SwiftApp.Companion.c().getPackageName()) != 0) {
-                    String packageName = SwiftApp.Companion.c().getPackageName();
+                BareApp.Companion companion = BareApp.d;
+                if (((AppOpsManager) BareApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), BareApp.Companion.c().getPackageName()) != 0) {
+                    String packageName = BareApp.Companion.c().getPackageName();
                     packageName.getClass();
                     eu euVar = eu.allow;
                     euVar.getClass();
@@ -190,14 +190,14 @@ public final class iy {
                     mp6Var.j(true, new String[]{String.format(g42.d(), Arrays.copyOf(new Object[]{"set", packageName, "android:get_usage_stats", string}, 4))}, ip6.SHIZUKU);
                 }
             }
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            if (((AppOpsManager) SwiftApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), SwiftApp.Companion.c().getPackageName()) == 0) {
-                if (((AppOpsManager) SwiftApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), SwiftApp.Companion.c().getPackageName()) != 0) {
+            BareApp.Companion companion2 = BareApp.d;
+            if (((AppOpsManager) BareApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), BareApp.Companion.c().getPackageName()) == 0) {
+                if (((AppOpsManager) BareApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), BareApp.Companion.c().getPackageName()) != 0) {
                     c6.f("Usage stats permission not granted!");
                     return null;
                 }
                 long jCurrentTimeMillis = System.currentTimeMillis();
-                Object systemService = SwiftApp.Companion.c().getSystemService((Class<Object>) UsageStatsManager.class);
+                Object systemService = BareApp.Companion.c().getSystemService((Class<Object>) UsageStatsManager.class);
                 systemService.getClass();
                 List<UsageStats> listQueryUsageStats = ((UsageStatsManager) systemService).queryUsageStats(4, jCurrentTimeMillis - 2592000000L, jCurrentTimeMillis);
                 listQueryUsageStats.getClass();

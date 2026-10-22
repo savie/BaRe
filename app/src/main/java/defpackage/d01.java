@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.compress.Packer;
-import org.swiftapps.swiftbackup.model.provider.CallLogItem;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.compress.Packer;
+import com.bareapps.barebackup.model.provider.CallLogItem;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -176,8 +176,8 @@ public abstract class d01 {
     }
 
     public static q63 h() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        return new q63(SwiftApp.Companion.c().getCacheDir(), "calls_backup", 2);
+        BareApp.Companion companion = BareApp.d;
+        return new q63(BareApp.Companion.c().getCacheDir(), "calls_backup", 2);
     }
 
     public static ArrayList i(q63 q63Var) {
@@ -203,14 +203,14 @@ public abstract class d01 {
             }
             HashSet hashSet = mz6.a;
             if (mz6.m(q63Var)) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                File cacheDir = SwiftApp.Companion.c().getCacheDir();
+                BareApp.Companion companion = BareApp.d;
+                File cacheDir = BareApp.Companion.c().getCacheDir();
                 cacheDir.getClass();
                 mz6.j(q63Var, new q63(cacheDir, 2), yx5.b(), null);
                 z = true;
             } else {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                File cacheDir2 = SwiftApp.Companion.c().getCacheDir();
+                BareApp.Companion companion2 = BareApp.d;
+                File cacheDir2 = BareApp.Companion.c().getCacheDir();
                 cacheDir2.getClass();
                 z = Packer.a(q63Var, new q63(cacheDir2, 2), yx5.b(), null, null, null, 56).a;
             }

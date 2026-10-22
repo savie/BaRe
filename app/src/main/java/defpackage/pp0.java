@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -124,7 +124,7 @@ public final class pp0 implements jk8, jo1 {
 
     @Override // defpackage.jk8
     public View getRoot() {
-        return (SwiftSegmentedCardGroup) this.a;
+        return (BareSegmentedCardGroup) this.a;
     }
 
     @Override // defpackage.jo1
@@ -164,8 +164,8 @@ public final class pp0 implements jk8, jo1 {
         throw new IllegalStateException(String.format("Mismatch between `properties` size (%d), `filteredProperties` (%s): should have as many (or `null` for latter)", Integer.valueOf(((List) this.c).size()), Integer.valueOf(((mp0[]) this.d).length)));
     }
 
-    public pp0(SwiftSegmentedCardGroup swiftSegmentedCardGroup, ImageView imageView, RecyclerView recyclerView, QuickRecyclerView quickRecyclerView, ca2 ca2Var, TextView textView, TextView textView2) {
-        this.a = swiftSegmentedCardGroup;
+    public pp0(BareSegmentedCardGroup bareSegmentedCardGroup, ImageView imageView, RecyclerView recyclerView, QuickRecyclerView quickRecyclerView, ca2 ca2Var, TextView textView, TextView textView2) {
+        this.a = bareSegmentedCardGroup;
         this.b = imageView;
         this.c = recyclerView;
         this.d = quickRecyclerView;

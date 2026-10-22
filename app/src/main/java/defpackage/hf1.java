@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.cloud.protocols.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.cloud.protocols.a;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -118,17 +118,17 @@ public final class hf1 extends qo0 {
         }
         int size = arrayList.size() - i3;
         if (!arrayList2.isEmpty()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            string = SwiftApp.Companion.c().getString(R.string.cloud_diagnostics_report_failed, Integer.valueOf(arrayList2.size()), Integer.valueOf(i), Integer.valueOf(i2));
+            BareApp.Companion companion = BareApp.d;
+            string = BareApp.Companion.c().getString(R.string.cloud_diagnostics_report_failed, Integer.valueOf(arrayList2.size()), Integer.valueOf(i), Integer.valueOf(i2));
         } else if (!arrayList3.isEmpty()) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            string = SwiftApp.Companion.c().getString(R.string.cloud_diagnostics_report_action_required, Integer.valueOf(arrayList3.size()), Integer.valueOf(i2));
+            BareApp.Companion companion2 = BareApp.d;
+            string = BareApp.Companion.c().getString(R.string.cloud_diagnostics_report_action_required, Integer.valueOf(arrayList3.size()), Integer.valueOf(i2));
         } else if (size > 0) {
-            SwiftApp.Companion companion3 = SwiftApp.d;
-            string = SwiftApp.Companion.c().getString(R.string.cloud_diagnostics_report_not_finished, Integer.valueOf(i3), Integer.valueOf(size));
+            BareApp.Companion companion3 = BareApp.d;
+            string = BareApp.Companion.c().getString(R.string.cloud_diagnostics_report_not_finished, Integer.valueOf(i3), Integer.valueOf(size));
         } else {
-            SwiftApp.Companion companion4 = SwiftApp.d;
-            string = SwiftApp.Companion.c().getString(R.string.cloud_diagnostics_report_passed, Integer.valueOf(i), Integer.valueOf(i2));
+            BareApp.Companion companion4 = BareApp.d;
+            string = BareApp.Companion.c().getString(R.string.cloud_diagnostics_report_passed, Integer.valueOf(i), Integer.valueOf(i2));
         }
         string.getClass();
         String str2 = ef1Var.b;
@@ -137,8 +137,8 @@ public final class hf1 extends qo0 {
         List<md1> list2 = ef1Var.g;
         ArrayList<he1> arrayList4 = new ArrayList(hl1.G0(list2, 10));
         for (md1 md1Var : list2) {
-            SwiftApp.Companion companion5 = SwiftApp.d;
-            String string2 = SwiftApp.Companion.c().getString(md1Var.a.b);
+            BareApp.Companion companion5 = BareApp.d;
+            String string2 = BareApp.Companion.c().getString(md1Var.a.b);
             string2.getClass();
             arrayList4.add(new he1(string2, md1Var.c, md1Var.d, md1Var.f, md1Var.b, md1Var.a.d));
         }
@@ -390,7 +390,7 @@ public final class hf1 extends qo0 {
             strG = null;
         }
         if (!zM) {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             strG2 = dj7.g(R.string.no_cloud_connected);
         } else if (ki1VarI == null || (strG2 = ki1VarI.a) == null) {
             strG2 = dd1Var.getDisplayName();
@@ -416,17 +416,17 @@ public final class hf1 extends qo0 {
                     strG = str;
                 }
                 if (strG == null) {
-                    SwiftApp.Companion companion2 = SwiftApp.d;
+                    BareApp.Companion companion2 = BareApp.d;
                     i = R.string.connected;
                 }
             } else {
-                SwiftApp.Companion companion3 = SwiftApp.d;
+                BareApp.Companion companion3 = BareApp.d;
                 strG = dj7.g(R.string.no_cloud_connected);
             }
             tb1 tb1Var2 = tb1.a;
             return new ef1(dd1Var, strG2, brandingIconRes, z, strG, qb1.e(), arrayList, zM, false, false);
         }
-        SwiftApp.Companion companion4 = SwiftApp.d;
+        BareApp.Companion companion4 = BareApp.d;
         i = R.string.connect_cloud_subtitle;
         strG = dj7.g(i);
         tb1 tb1Var3 = tb1.a;
@@ -515,7 +515,7 @@ public final class hf1 extends qo0 {
         ix6 ix6Var = this.f;
         if (!zM) {
             ix6Var.k(new cf1(R.string.no_cloud_connected));
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             String strG = dj7.g(R.string.no_cloud_connected);
             if (z) {
                 ix6Var.k(new bf1(strG, false));
@@ -538,7 +538,7 @@ public final class hf1 extends qo0 {
         }
         if (arrayList2.isEmpty()) {
             ix6Var.k(new cf1(R.string.no_tests_selected));
-            SwiftApp.Companion companion2 = SwiftApp.d;
+            BareApp.Companion companion2 = BareApp.d;
             String strG2 = dj7.g(R.string.no_tests_selected);
             if (z) {
                 ix6Var.k(new bf1(strG2, false));

@@ -28,21 +28,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appconfigs.list.a;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appconfigs.list.a;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitsActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -248,8 +248,8 @@ public final /* synthetic */ class ek implements bt3 {
             case 22:
                 mk2 mk2Var = (mk2) obj;
                 ex6 ex6Var = mk2Var.j;
-                SwiftApp.Companion companion = SwiftApp.d;
-                long integer = ((long) SwiftApp.Companion.c().getResources().getInteger(R.integer.activity_transition_time)) + 50;
+                BareApp.Companion companion = BareApp.d;
+                long integer = ((long) BareApp.Companion.c().getResources().getInteger(R.integer.activity_transition_time)) + 50;
                 ji jiVar = mk2Var.e;
                 if (jiVar == null) {
                     pe4.F("app");
@@ -389,10 +389,10 @@ public final /* synthetic */ class ek implements bt3 {
                             }
                             long jH3 = io4.h(jiVar8.getDateInstalled());
                             if (jH2 <= 0 || jH2 <= jH3) {
-                                string = SwiftApp.Companion.c().getString(R.string.installed_time_or_duration, Const.s(jH3));
+                                string = BareApp.Companion.c().getString(R.string.installed_time_or_duration, Const.s(jH3));
                                 string.getClass();
                             } else {
-                                string = dj7.k(SwiftApp.Companion.c().getString(R.string.last_updated), ": ", Const.s(jH2));
+                                string = dj7.k(BareApp.Companion.c().getString(R.string.last_updated), ": ", Const.s(jH2));
                             }
                             StringBuilder sb = new StringBuilder();
                             long totalSize = sizeInfo2.getTotalSize(false);

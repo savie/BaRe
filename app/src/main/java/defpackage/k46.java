@@ -24,7 +24,7 @@ public final class k46 extends fh6 {
         sparseArray.put(R.id.title, textView);
         sparseArray.put(R.id.summary, view.findViewById(R.id.summary));
         sparseArray.put(R.id.icon, view.findViewById(R.id.icon));
-        sparseArray.put(org.swiftapps.swiftbackup.R.id.icon_frame, view.findViewById(org.swiftapps.swiftbackup.R.id.icon_frame));
+        sparseArray.put(com.bareapps.barebackup.R.id.icon_frame, view.findViewById(com.bareapps.barebackup.R.id.icon_frame));
         sparseArray.put(R.id.icon_frame, view.findViewById(R.id.icon_frame));
         this.u = view.getBackground();
         if (textView != null) {

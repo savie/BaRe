@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.view.View;
 import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.b;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.tasks.PreconditionsActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.b;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.tasks.PreconditionsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

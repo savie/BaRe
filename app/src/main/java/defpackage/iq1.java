@@ -46,15 +46,15 @@ public final /* synthetic */ class iq1 implements DialogInterface.OnClickListene
                 default: goto L7;
             }
         L7:
-            org.swiftapps.swiftbackup.tasks.ui.TaskActivity r2 = (org.swiftapps.swiftbackup.tasks.ui.TaskActivity) r2
-            int r3 = org.swiftapps.swiftbackup.tasks.ui.TaskActivity.c0
-            android.app.NotificationManager r3 = org.swiftapps.swiftbackup.common.NotificationHelper.d()
+            com.bareapps.barebackup.tasks.ui.TaskActivity r2 = (com.bareapps.barebackup.tasks.ui.TaskActivity) r2
+            int r3 = com.bareapps.barebackup.tasks.ui.TaskActivity.c0
+            android.app.NotificationManager r3 = com.bareapps.barebackup.common.NotificationHelper.d()
             r3.cancelAll()
             r2.finish()
             return
         L16:
-            org.swiftapps.swiftbackup.slog.SLogActivity r2 = (org.swiftapps.swiftbackup.slog.SLogActivity) r2
-            int r3 = org.swiftapps.swiftbackup.slog.SLogActivity.R
+            com.bareapps.barebackup.slog.SLogActivity r2 = (com.bareapps.barebackup.slog.SLogActivity) r2
+            int r3 = com.bareapps.barebackup.slog.SLogActivity.R
             vr6 r3 = defpackage.vr6.INSTANCE
             zs r4 = new zs
             r0 = 13
@@ -66,8 +66,8 @@ public final /* synthetic */ class iq1 implements DialogInterface.OnClickListene
             r2.finish()
             return
         L2d:
-            org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity r2 = (org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity) r2
-            int r3 = org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity.Z
+            com.bareapps.barebackup.folders.ui.FolderDetailActivity r2 = (com.bareapps.barebackup.folders.ui.FolderDetailActivity) r2
+            int r3 = com.bareapps.barebackup.folders.ui.FolderDetailActivity.Z
             dm3 r2 = r2.U()
             zn4 r3 = defpackage.zn4.a
             kf r3 = new kf
@@ -76,8 +76,8 @@ public final /* synthetic */ class iq1 implements DialogInterface.OnClickListene
             defpackage.zn4.c(r3)
             return
         L42:
-            org.swiftapps.swiftbackup.cloud.connect.CsActivity r2 = (org.swiftapps.swiftbackup.cloud.connect.CsActivity) r2
-            int r3 = org.swiftapps.swiftbackup.cloud.connect.CsActivity.P0
+            com.bareapps.barebackup.cloud.connect.CsActivity r2 = (com.bareapps.barebackup.cloud.connect.CsActivity) r2
+            int r3 = com.bareapps.barebackup.cloud.connect.CsActivity.P0
             r2.getClass()
             android.content.Intent r3 = new android.content.Intent
             java.lang.String r4 = "android.settings.PRIVATE_DNS_SETTINGS"
@@ -116,11 +116,11 @@ public final /* synthetic */ class iq1 implements DialogInterface.OnClickListene
             r2.invoke()
             return
         L92:
-            org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity r2 = (org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity) r2
-            int r3 = org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity.V
+            com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity r2 = (com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity) r2
+            int r3 = com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity.V
             br1 r3 = defpackage.br1.a
             qq1 r3 = r2.V()
-            org.swiftapps.swiftbackup.appconfigs.data.Config r3 = r3.j()
+            com.bareapps.barebackup.appconfigs.data.Config r3 = r3.j()
             java.lang.String r3 = r3.getId()
             dk r4 = new dk
             r0 = 19

@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsData;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsData;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.premium.PremiumActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

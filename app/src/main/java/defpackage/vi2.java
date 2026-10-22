@@ -1,9 +1,9 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.a;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.settings.FolderBackupStrategy;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.settings.FolderBackupStrategy;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

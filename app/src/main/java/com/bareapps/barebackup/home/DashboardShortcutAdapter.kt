@@ -10,7 +10,7 @@ import com.bareapps.barebackup.R
 import com.google.android.material.button.MaterialButton
 
 /**
- * Kotlin port of SwiftBackup's defpackage.ba2 shortcut adapter.
+ * Kotlin port of BareBackup's defpackage.ba2 shortcut adapter.
  * Its item contract is defpackage.d71: action id, label, icon, and color resource.
  */
 internal class DashboardShortcutAdapter(

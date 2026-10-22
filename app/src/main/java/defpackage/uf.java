@@ -1,17 +1,17 @@
 package defpackage;
 
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.cloud.connect.FilenSignInActivity;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

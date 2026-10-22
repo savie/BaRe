@@ -24,30 +24,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import okhttp3.Request;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.PCloudSignInActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -196,7 +196,7 @@ public final /* synthetic */ class hj implements mt3 {
                 if (!z) {
                     ArrayList arrayList = s01Var.b;
                     ((QuickRecyclerView) gv7Var3.getValue()).setLinearLayoutManager(1);
-                    q01 q01Var = new q01(new n01(2, callsBackupsActivity, CallsBackupsActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/model/provider/CallLogBackupItem;)V", 0));
+                    q01 q01Var = new q01(new n01(2, callsBackupsActivity, CallsBackupsActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/model/provider/CallLogBackupItem;)V", 0));
                     q01Var.w(new fm7((List) arrayList, (Set) null, false, (String) null, 30), false);
                     q01Var.j = new rs(callsBackupsActivity, i5);
                     ((QuickRecyclerView) gv7Var3.getValue()).setAdapter(q01Var);
@@ -219,8 +219,8 @@ public final /* synthetic */ class hj implements mt3 {
                 b bVar = (b) obj;
                 bVar.getClass();
                 a.EnumC0013a enumC0013a = a.EnumC0013a.ERROR;
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 String message = ((hi1) ((pe4) obj2)).m.getMessage();
                 return b.a(bVar, enumC0013a, ov2.a, sv2.a, contextC.getString(R.string.cloud_orphan_scan_failed, message != null ? message : ""), 0, 0, 6271);
             case 8:
@@ -335,8 +335,8 @@ public final /* synthetic */ class hj implements mt3 {
                         intentPutExtra.getClass();
                         homeSearchActivity.startActivity(intentPutExtra);
                     } else {
-                        SwiftApp.Companion companion2 = SwiftApp.d;
-                        Context contextC2 = SwiftApp.Companion.c();
+                        BareApp.Companion companion2 = BareApp.d;
+                        Context contextC2 = BareApp.Companion.c();
                         zn4 zn4Var3 = zn4.a;
                         dj7.y(contextC2, "Feature not supported on this device");
                     }
@@ -509,8 +509,8 @@ public final /* synthetic */ class hj implements mt3 {
                         intentPutExtra2.getClass();
                         je5Var.startActivity(intentPutExtra2);
                     } else {
-                        SwiftApp.Companion companion3 = SwiftApp.d;
-                        Context contextC3 = SwiftApp.Companion.c();
+                        BareApp.Companion companion3 = BareApp.d;
+                        Context contextC3 = BareApp.Companion.c();
                         zn4 zn4Var4 = zn4.a;
                         dj7.y(contextC3, "Feature not supported on this device");
                     }

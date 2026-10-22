@@ -59,7 +59,7 @@ import kotlin.system.exitProcess
 /**
  * Process-wide application bootstrap.
  *
- * Ports the self-contained responsibilities of SwiftBackup's SwiftApp
+ * Ports the self-contained responsibilities of BareBackup's BareApp
  * Application class. Feature-specific services remain in their own
  * subsystems; this class owns process startup and global callbacks.
  */
@@ -81,7 +81,7 @@ class BareApp : Application() {
     private var hasPreviousNetworkInfo = false
     private var previousNetworkInfo: NetworkInfo? = null
 
-    // SwiftApp registers this receiver from its startup coroutine; keep this
+    // BareApp registers this receiver from its startup coroutine; keep this
     // behavior inside the Application because the reference has no standalone tracker.
     private val connectivityChangeReceiver = object : BroadcastReceiver() {
         @Suppress("DEPRECATION")
@@ -148,7 +148,7 @@ class BareApp : Application() {
         configureDefaultRootShell()
         initializeApplicationLocale()
 
-        // JNI symbols are bound to BΛR☰'s Application class, not SwiftApp.
+        // JNI symbols are bound to BΛR☰'s Application class, not BareApp.
         System.loadLibrary("native-lib")
 
         initializeCrashlyticsIdentityTracking()
@@ -183,7 +183,7 @@ class BareApp : Application() {
         timeoutMs: Int,
     ): Boolean
 
-    /** Event emitted for package broadcasts that SwiftApp forwarded to its local event bus. */
+    /** Event emitted for package broadcasts that BareApp forwarded to its local event bus. */
     data class PackageChangeEvent(
         val packageName: String,
         val action: String,
@@ -260,7 +260,7 @@ class BareApp : Application() {
     }
 
     private fun configureDefaultRootShell() {
-        // SwiftBackup's mp6 builder sets flags=10 and a 10-second timeout.
+        // BareBackup's mp6 builder sets flags=10 and a 10-second timeout.
         // Preserve the exact flag value: replacing it with FLAG_MOUNT_MASTER alone
         // drops the reference builder's remaining flag bits and changes fallback behavior.
         // Root is not requested eagerly; libsu creates the shell on demand.
@@ -733,7 +733,7 @@ class BareApp : Application() {
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
     }
 
-    /** Reads the APK signing certificates using SwiftApp.Companion.e()'s contract. */
+    /** Reads the APK signing certificates using BareApp.Companion.e()'s contract. */
     fun getApkSignatures(): Array<Signature>? {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

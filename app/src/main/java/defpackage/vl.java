@@ -17,15 +17,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apptasks.notifications.NotificationPolicyProxy;
-import org.swiftapps.swiftbackup.apptasks.sba.a;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.model.app.AppSpecialDataPayload;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.f;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apptasks.notifications.NotificationPolicyProxy;
+import com.bareapps.barebackup.apptasks.sba.a;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.model.app.AppSpecialDataPayload;
+import com.bareapps.barebackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.f;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -258,7 +258,7 @@ public final class vl {
                         hkVar = hkVar2;
                         boolean z6 = z4;
                         ml mlVar = new ml(kh6Var, j4, xkVar, 1);
-                        SwiftApp.Companion companion = SwiftApp.d;
+                        BareApp.Companion companion = BareApp.d;
                         String strG = dj7.g(R.string.backing_up_app);
                         p93 p93Var = p93.a;
                         String strC = p93.c(Long.valueOf(wlVar2.d()));
@@ -307,7 +307,7 @@ public final class vl {
                                 arrayList = arrayList2;
                                 z3 = z7;
                             } else {
-                                SwiftApp.Companion companion2 = SwiftApp.d;
+                                BareApp.Companion companion2 = BareApp.d;
                                 String strG2 = dj7.g(R.string.backing_up_split_apks);
                                 p93 p93Var2 = p93.a;
                                 String strC2 = p93.c(Long.valueOf(dmVar.d()));
@@ -462,7 +462,7 @@ public final class vl {
                                 if (((List) gv7Var2.getValue()).isEmpty()) {
                                     d(ok0Var);
                                 } else {
-                                    SwiftApp.Companion companion3 = SwiftApp.d;
+                                    BareApp.Companion companion3 = BareApp.d;
                                     String strG3 = dj7.g(R.string.backing_up_shared_libraries);
                                     p93 p93Var3 = p93.a;
                                     String strC3 = p93.c(Long.valueOf(cmVar.d()));
@@ -585,7 +585,7 @@ public final class vl {
                                     String strC4 = p93.c(lValueOf2);
                                     vr6 vr6Var3 = vr6.INSTANCE;
                                     vr6.i$default(vr6Var3, "AppBackupTask", "Backing up Data (" + strC4 + ", Cache=" + z7 + ", v6)", null, 4, null);
-                                    SwiftApp.Companion companion4 = SwiftApp.d;
+                                    BareApp.Companion companion4 = BareApp.d;
                                     ex6Var = ex6Var2;
                                     ex6Var.k(dj7.g(R.string.backing_up_data) + " (" + strC4 + ")");
                                     q63 q63VarG = hkVar.g();
@@ -724,7 +724,7 @@ public final class vl {
                                     p93 p93Var5 = p93.a;
                                     String strC5 = p93.c(lValueOf3);
                                     vr6.i$default(vr6.INSTANCE, "AppBackupTask", "Backing up Ext Data (" + strC5 + ", Cache=" + z7 + ", v6)", null, 4, null);
-                                    SwiftApp.Companion companion5 = SwiftApp.d;
+                                    BareApp.Companion companion5 = BareApp.d;
                                     ex6Var2.k(dj7.g(R.string.backing_up_external_data) + " (" + strC5 + ")");
                                     q63 q63VarN = hkVar.n();
                                     iu iuVar3 = iu.EXTDATA;
@@ -768,7 +768,7 @@ public final class vl {
                                         p93 p93Var6 = p93.a;
                                         String strC6 = p93.c(lValueOf4);
                                         vr6.i$default(vr6.INSTANCE, "AppBackupTask", eq3.k("Backing up Media (", strC6, ", v6)"), null, 4, null);
-                                        SwiftApp.Companion companion6 = SwiftApp.d;
+                                        BareApp.Companion companion6 = BareApp.d;
                                         ex6Var2.k(dj7.g(R.string.backing_up_media) + " (" + strC6 + ")");
                                         q63 q63VarQ = hkVar.q();
                                         iu iuVar4 = iu.MEDIA;
@@ -798,7 +798,7 @@ public final class vl {
                                         p93 p93Var7 = p93.a;
                                         String strC7 = p93.c(lValueOf5);
                                         vr6.i$default(vr6.INSTANCE, "AppBackupTask", eq3.k("Backing up Expansion (", strC7, ", v6)"), null, 4, null);
-                                        SwiftApp.Companion companion7 = SwiftApp.d;
+                                        BareApp.Companion companion7 = BareApp.d;
                                         ex6Var2.k(dj7.g(R.string.backing_up_expansion) + " (" + strC7 + ")");
                                         q63 q63VarM = hkVar.m();
                                         if (b(this, zlVar, iu.EXPANSION, jiVar.getExpansionDir(), q63VarM, jiVar.getPackageName(), oy6.j, gz6Var, hzVar.g, qlVar)) {
@@ -969,13 +969,13 @@ public final class vl {
             return tlVar;
         }
         if (mp6.g() && pe4.d(jiVar3.getPackageName(), "moe.shizuku.privileged.api")) {
-            vr6Var.i("AppBackupTask", "Shizuku package shouldn't be backed up or restored when Swift Backup is actively using Shizuku! Skipping.", vr6.a.YELLOW);
+            vr6Var.i("AppBackupTask", "Shizuku package shouldn't be backed up or restored when Bare Backup is actively using Shizuku! Skipping.", vr6.a.YELLOW);
             return tlVar;
         }
         c40 c40Var = this.b;
         ex6 ex6Var = c40Var.i;
-        SwiftApp.Companion companion = SwiftApp.d;
-        ex6Var.k(SwiftApp.Companion.c().getString(R.string.backing_up));
+        BareApp.Companion companion = BareApp.d;
+        ex6Var.k(BareApp.Companion.c().getString(R.string.backing_up));
         String sourceDir = jiVar3.getSourceDir();
         if (sourceDir == null || sourceDir.length() == 0) {
             vr6.e$default(vr6Var, "AppBackupTask", eq3.k("App sourceDir is invalid (", jiVar3.getSourceDir(), "). Probably uninstalled, Skipping..."), null, 4, null);
@@ -1345,7 +1345,7 @@ public final class vl {
                     File fileB = ap5.b("backup");
                     try {
                         try {
-                            List listA = bv.a(NotificationPolicyProxy.class.getName(), "swiftbackup_notification_policy_proxy", fl1.A0("backup", String.valueOf(i3), packageName6, fileB.getAbsolutePath()), null);
+                            List listA = bv.a(NotificationPolicyProxy.class.getName(), "barebackup_notification_policy_proxy", fl1.A0("backup", String.valueOf(i3), packageName6, fileB.getAbsolutePath()), null);
                             if (listA == null || !listA.isEmpty()) {
                                 Iterator it4 = listA.iterator();
                                 while (true) {

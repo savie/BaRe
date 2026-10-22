@@ -14,19 +14,19 @@ import androidx.fragment.app.u;
 import androidx.preference.Preference;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.locale.LocaleActivity;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.locale.LocaleActivity;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -126,7 +126,7 @@ public final class pa7 extends fm0 implements t36 {
             switch (str.hashCode()) {
                 case -1840647503:
                     if (str.equals("translation")) {
-                        ai8.k(requireActivity(), "https://t.me/swifttranslators");
+                        ai8.k(requireActivity(), "https://t.me/baretranslators");
                     }
                     break;
                 case -1725063209:
@@ -201,7 +201,7 @@ public final class pa7 extends fm0 implements t36 {
                     if (str.equals("manage_notifications")) {
                         Intent intent = new Intent();
                         intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                        intent.putExtra("android.provider.extra.APP_PACKAGE", "org.swiftapps.swiftbackup");
+                        intent.putExtra("android.provider.extra.APP_PACKAGE", "com.bareapps.barebackup");
                         SettingsActivity settingsActivity4 = (SettingsActivity) getActivity();
                         if (settingsActivity4 != null) {
                             try {
@@ -243,7 +243,7 @@ public final class pa7 extends fm0 implements t36 {
                     if (str.equals("labs")) {
                         int i5 = SettingsDetailActivity.R;
                         u uVarRequireActivity4 = requireActivity();
-                        String string4 = getString(R.string.swift_labs);
+                        String string4 = getString(R.string.bare_labs);
                         string4.getClass();
                         jb9.g0(uVarRequireActivity4, 4, string4);
                         return false;
@@ -302,7 +302,7 @@ public final class pa7 extends fm0 implements t36 {
                     break;
                 case 761757459:
                     if (str.equals("help_center")) {
-                        Const.B(requireActivity(), "https://www.swiftapps.org/help");
+                        Const.B(requireActivity(), "https://www.bareapps.org/help");
                         return false;
                     }
                     break;
@@ -323,7 +323,7 @@ public final class pa7 extends fm0 implements t36 {
                     }
                     break;
                 case 1536432483:
-                    if (str.equals("swiftlogger")) {
+                    if (str.equals("barelogger")) {
                         ai8.q(requireActivity(), SLogActivity.class);
                         return false;
                     }
@@ -348,7 +348,7 @@ public final class pa7 extends fm0 implements t36 {
                             } catch (Exception unused5) {
                             }
                             if (pe4.d(boolValueOf3, Boolean.TRUE)) {
-                                settingsActivity2.V("application/json", "swift_backup_settings.json", new nk(12));
+                                settingsActivity2.V("application/json", "bare_backup_settings.json", new nk(12));
                             }
                         }
                     }
@@ -510,8 +510,8 @@ public final class pa7 extends fm0 implements t36 {
                         }
                         i = R.string.password_strategy_user_password_title;
                     }
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    String string2 = SwiftApp.Companion.c().getString(i);
+                    BareApp.Companion companion = BareApp.d;
+                    String string2 = BareApp.Companion.c().getString(i);
                     string2.getClass();
                     preference3.B(string2);
                     try {
@@ -561,8 +561,8 @@ public final class pa7 extends fm0 implements t36 {
             }
             i = R.string.password_strategy_user_password_title;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(i);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(i);
         string.getClass();
         preference.B(string);
     }

@@ -19,7 +19,7 @@ public final /* synthetic */ class eg1 implements es5, zt3 {
         Object obj = this.b;
         switch (i) {
             case 0:
-                return new cu3(1, (gg1) obj, gg1.class, "onViewStatusUI", "onViewStatusUI(Lorg/swiftapps/swiftbackup/cloud/clients/CloudClient$ViewStatus;)V", 0);
+                return new cu3(1, (gg1) obj, gg1.class, "onViewStatusUI", "onViewStatusUI(Lorg/bareapps/barebackup/cloud/clients/CloudClient$ViewStatus;)V", 0);
             case 1:
                 return (cz) obj;
             default:

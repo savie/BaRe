@@ -2,8 +2,8 @@ package defpackage;
 
 import android.os.Looper;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -34,7 +34,7 @@ public abstract class np6 {
 
         @Override // defpackage.np6
         public String getRootAccessValueString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.granted);
         }
 
@@ -47,7 +47,7 @@ public abstract class np6 {
             if (version != null) {
                 return version;
             }
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.unknown);
         }
 
@@ -74,13 +74,13 @@ public abstract class np6 {
 
         @Override // defpackage.np6
         public String getRootAccessValueString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.not_available);
         }
 
         @Override // defpackage.np6
         public String getRootProviderValueString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.none);
         }
 
@@ -138,13 +138,13 @@ public abstract class np6 {
 
         @Override // defpackage.np6
         public String getRootAccessValueString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.waiting);
         }
 
         @Override // defpackage.np6
         public String getRootProviderValueString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.waiting);
         }
 
@@ -162,14 +162,14 @@ public abstract class np6 {
     }
 
     public final String getRootAccessString() {
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         return dj7.k(dj7.g(R.string.access), ": ", getRootAccessValueString());
     }
 
     public abstract String getRootAccessValueString();
 
     public final String getRootProviderString() {
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         return dj7.k(dj7.g(R.string.root_provider), ": ", getRootProviderValueString());
     }
 

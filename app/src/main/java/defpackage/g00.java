@@ -29,10 +29,10 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -73,8 +73,8 @@ public final class g00 {
         zmVar.getClass();
         jiVar.getClass();
         if (!jiVar.checkInstalled()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String string = contextC.getString(R.string.not_installed);
             string.getClass();
             zn4.e(new cv(14, contextC, string));
@@ -171,8 +171,8 @@ public final class g00 {
         zmVar.getClass();
         jiVar.getClass();
         if (!jiVar.checkInstalled()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String string = contextC.getString(R.string.not_installed);
             string.getClass();
             zn4.e(new cv(14, contextC, string));
@@ -267,8 +267,8 @@ public final class g00 {
                 return;
             }
             vr6.w$default(vr6.INSTANCE, "AppUtil", "Failed to enable the app due to manufacturer restrictions. Executing a workaround...", null, 4, null);
-            SwiftApp.Companion companion = SwiftApp.d;
-            ai8.j(SwiftApp.Companion.c(), str);
+            BareApp.Companion companion = BareApp.d;
+            ai8.j(BareApp.Companion.c(), str);
             g(str);
         } catch (Exception unused) {
             vr6.e$default(vr6.INSTANCE, "AppUtil", "Workaround to enable app failed", null, 4, null);
@@ -454,15 +454,15 @@ public final class g00 {
         }
         applicationInfo.sourceDir = q63Var.v();
         applicationInfo.publicSourceDir = q63Var.v();
-        SwiftApp.Companion companion = SwiftApp.d;
-        return applicationInfo.loadIcon(SwiftApp.Companion.c().getPackageManager());
+        BareApp.Companion companion = BareApp.d;
+        return applicationInfo.loadIcon(BareApp.Companion.c().getPackageManager());
     }
 
     public static PackageInfo p(q63 q63Var, int i) {
         q63Var.getClass();
         if (!q63Var.b()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            return SwiftApp.Companion.c().getPackageManager().getPackageArchiveInfo(q63Var.v(), i);
+            BareApp.Companion companion = BareApp.d;
+            return BareApp.Companion.c().getPackageManager().getPackageArchiveInfo(q63Var.v(), i);
         }
         z84 z84VarC = aq6.c();
         if (z84VarC != null) {
@@ -483,8 +483,8 @@ public final class g00 {
     }
 
     public static PackageManager r() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        PackageManager packageManager = SwiftApp.Companion.c().getPackageManager();
+        BareApp.Companion companion = BareApp.d;
+        PackageManager packageManager = BareApp.Companion.c().getPackageManager();
         packageManager.getClass();
         return packageManager;
     }
@@ -604,7 +604,7 @@ public final class g00 {
 
     public static boolean w(String str) {
         str.getClass();
-        return nq7.Z(str, "org.swiftapps.swiftbackup", false) || str.equals("com.topjohnwu.magisk");
+        return nq7.Z(str, "com.bareapps.barebackup", false) || str.equals("com.topjohnwu.magisk");
     }
 
     public static boolean x() {

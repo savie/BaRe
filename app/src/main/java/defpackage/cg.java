@@ -5,10 +5,10 @@ import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apkshare.ApkSharePackageMetadata;
-import org.swiftapps.swiftbackup.apkshare.SaiApksMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apkshare.ApkSharePackageMetadata;
+import com.bareapps.barebackup.apkshare.SaiApksMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -54,9 +54,9 @@ public abstract class cg {
         }
         ai6 ai6Var = dg.a;
         String strA = dg.a(packageInfoP != null ? packageInfoP.packageName : null);
-        String strC = (apkSharePackageMetadataB == null || (packageName2 = apkSharePackageMetadataB.getPackageName()) == null) ? null : dg.c(packageName2, "Swift Backup metadata");
+        String strC = (apkSharePackageMetadataB == null || (packageName2 = apkSharePackageMetadataB.getPackageName()) == null) ? null : dg.c(packageName2, "Bare Backup metadata");
         String strC2 = (saiApksMetadataA == null || (packageName = saiApksMetadataA.getPackageName()) == null) ? null : dg.c(packageName, "SAI metadata");
-        dg.b(strC, strA, "Swift Backup metadata");
+        dg.b(strC, strA, "Bare Backup metadata");
         dg.b(strC2, strA, "SAI metadata");
         if (strA == null) {
             str = strC == null ? strC2 : strC;
@@ -116,7 +116,7 @@ public abstract class cg {
                 if (strG != null) {
                     str2 = strG;
                 } else if (str == null) {
-                    SwiftApp.Companion companion = SwiftApp.d;
+                    BareApp.Companion companion = BareApp.d;
                     strG = dj7.g(R.string.unknown);
                     str2 = strG;
                 } else {
@@ -156,7 +156,7 @@ public abstract class cg {
             if (strG != null) {
                 str2 = strG;
             } else if (str == null) {
-                SwiftApp.Companion companion2 = SwiftApp.d;
+                BareApp.Companion companion2 = BareApp.d;
                 strG = dj7.g(R.string.unknown);
                 str2 = strG;
             } else {

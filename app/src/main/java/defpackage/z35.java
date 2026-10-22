@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.ListIterator;
 import java.util.concurrent.locks.ReentrantLock;
-import org.swiftapps.swiftbackup.database.MDatabase_Impl;
+import com.bareapps.barebackup.database.MDatabase_Impl;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -130,7 +130,7 @@ public final class z35 extends gu2 {
         qw7 qw7Var = new qw7("SMessage", linkedHashMap, new LinkedHashSet(), new LinkedHashSet());
         qw7 qw7VarC = zh8.C("SMessage", fw6Var);
         if (!qw7Var.equals(qw7VarC)) {
-            return new ko6("SMessage(org.swiftapps.swiftbackup.model.logger.SMessage).\n Expected:\n" + qw7Var + "\n Found:\n" + qw7VarC, false);
+            return new ko6("SMessage(com.bareapps.barebackup.model.logger.SMessage).\n Expected:\n" + qw7Var + "\n Found:\n" + qw7VarC, false);
         }
         LinkedHashMap linkedHashMap2 = new LinkedHashMap();
         linkedHashMap2.put("pkgName", new nw7("pkgName", "TEXT", true, 1, null, 1));
@@ -144,6 +144,6 @@ public final class z35 extends gu2 {
         if (qw7Var2.equals(qw7VarC2)) {
             return new ko6(null, true);
         }
-        return new ko6("app_cached_data(org.swiftapps.swiftbackup.appslist.data.AppCachedDataItem).\n Expected:\n" + qw7Var2 + "\n Found:\n" + qw7VarC2, false);
+        return new ko6("app_cached_data(com.bareapps.barebackup.appslist.data.AppCachedDataItem).\n Expected:\n" + qw7Var2 + "\n Found:\n" + qw7VarC2, false);
     }
 }

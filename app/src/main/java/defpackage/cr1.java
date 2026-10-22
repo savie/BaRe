@@ -1,9 +1,9 @@
 package defpackage;
 
 import java.io.File;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.cloud.protocols.TokenCredentials;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.cloud.protocols.TokenCredentials;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

@@ -14,14 +14,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -181,8 +181,8 @@ public final /* synthetic */ class nh1 extends cu3 implements mt3 {
                     g00 g00Var = g00.a;
                     boolean zHasSystemFeature = g00.r().hasSystemFeature("android.hardware.telephony");
                     try {
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(SwiftApp.Companion.c());
+                        BareApp.Companion companion = BareApp.d;
+                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(BareApp.Companion.c());
                         boolValueOf = Boolean.valueOf(wallpaperManager != null && wallpaperManager.isWallpaperSupported());
                     } catch (Exception unused) {
                         boolValueOf = null;
@@ -259,14 +259,14 @@ public final /* synthetic */ class nh1 extends cu3 implements mt3 {
                     ArrayList arrayList4 = new ArrayList(hl1.G0(list2, 10));
                     Iterator it3 = list2.iterator();
                     while (it3.hasNext()) {
-                        arrayList4.add(((org.swiftapps.swiftbackup.home.schedule.data.b) it3.next()).q.getItemId());
+                        arrayList4.add(((com.bareapps.barebackup.home.schedule.data.b) it3.next()).q.getItemId());
                     }
                     Iterator it4 = arrayList3.iterator();
                     int i4 = 0;
                     while (true) {
                         if (!it4.hasNext()) {
                             i4 = -1;
-                        } else if (arrayList4.contains(((org.swiftapps.swiftbackup.home.schedule.data.b) it4.next()).q.getItemId())) {
+                        } else if (arrayList4.contains(((com.bareapps.barebackup.home.schedule.data.b) it4.next()).q.getItemId())) {
                             i4++;
                         }
                     }

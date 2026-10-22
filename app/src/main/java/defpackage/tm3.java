@@ -3,11 +3,11 @@ package defpackage;
 import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
-import com.swiftapps.sba.SbaZstdNative;
+import com.bareapps.sba.SbaZstdNative;
 import java.io.IOException;
 import java.util.List;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.folders.data.Manifest;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.folders.data.Manifest;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -87,7 +87,7 @@ public final class tm3 {
         final String strH = q63.H(q63Var);
         String strC0 = nq7.C0(strH, ":::", strH);
         if (!strC0.equals("v1")) {
-            throw new rm3("Manifest version incompatible with current version of Swift Backup: ".concat(strC0));
+            throw new rm3("Manifest version incompatible with current version of Bare Backup: ".concat(strC0));
         }
         List listN0 = el1.N0(1, nq7.x0(strH, new String[]{":::"}, 6));
         gv7 gv7Var = y32.a;

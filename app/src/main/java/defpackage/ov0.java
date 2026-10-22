@@ -1,7 +1,7 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -41,8 +41,8 @@ public final class ov0 extends ws7 implements qt3 {
         g90 g90Var = this.c;
         try {
             zu0 zu0Var = zu0.a;
-            SwiftApp.Companion companion = SwiftApp.d;
-            zu0.h(zu0Var, zu0.a().d(SwiftApp.Companion.c(), g90Var.I()));
+            BareApp.Companion companion = BareApp.d;
+            zu0.h(zu0Var, zu0.a().d(BareApp.Companion.c(), g90Var.I()));
             String str = zu0.c().b;
             bn6Var = Boolean.valueOf(!(str == null || nq7.j0(str)));
         } catch (Throwable th) {

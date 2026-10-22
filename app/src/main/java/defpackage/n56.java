@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.listitem.ListItemLayout;
 import java.util.LinkedHashSet;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -86,8 +86,8 @@ public final class n56 extends gm7 {
             i2 = R.id.expanded_text_bottom_barrier;
             if (((Barrier) ms8.u(view, R.id.expanded_text_bottom_barrier)) != null) {
                 i2 = R.id.item_card;
-                SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                if (swiftListItemCardView != null) {
+                BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                if (bareListItemCardView != null) {
                     i2 = R.id.iv_expand;
                     ImageView imageView = (ImageView) ms8.u(view, R.id.iv_expand);
                     if (imageView != null) {
@@ -114,7 +114,7 @@ public final class n56 extends gm7 {
                                                 if (textView4 != null) {
                                                     jd0 jd0Var = new jd0();
                                                     jd0Var.a = listItemLayout;
-                                                    jd0Var.b = swiftListItemCardView;
+                                                    jd0Var.b = bareListItemCardView;
                                                     jd0Var.c = imageView;
                                                     jd0Var.d = imageView2;
                                                     jd0Var.e = recyclerView;

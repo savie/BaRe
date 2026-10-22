@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -21,24 +21,24 @@ public final class hr4 {
                 throw null;
             }
             z = sharedPreferences.getBoolean("show_system_apps", false);
-            SwiftApp.Companion companion = SwiftApp.d;
-            LabelParams labelParams = new LabelParams("__user_apps", SwiftApp.Companion.c().getString(R.string.user_apps), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
-            LabelParams labelParams2 = new LabelParams("__user_apps_labelled", u48.n(SwiftApp.Companion.c().getString(R.string.user_apps), " (", SwiftApp.Companion.c().getString(R.string.labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
-            LabelParams labelParams3 = new LabelParams("__user_apps_not_labelled", u48.n(SwiftApp.Companion.c().getString(R.string.user_apps), " (", SwiftApp.Companion.c().getString(R.string.not_labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
-            LabelParams labelParams4 = new LabelParams("__favorite_apps", SwiftApp.Companion.c().getString(R.string.favorite_apps), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.favorites) & 16777215)}, 1)));
-            LabelParams labelParams5 = new LabelParams("__system_apps_launchable", SwiftApp.Companion.c().getString(R.string.system_apps_launchable), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
+            BareApp.Companion companion = BareApp.d;
+            LabelParams labelParams = new LabelParams("__user_apps", BareApp.Companion.c().getString(R.string.user_apps), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
+            LabelParams labelParams2 = new LabelParams("__user_apps_labelled", u48.n(BareApp.Companion.c().getString(R.string.user_apps), " (", BareApp.Companion.c().getString(R.string.labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
+            LabelParams labelParams3 = new LabelParams("__user_apps_not_labelled", u48.n(BareApp.Companion.c().getString(R.string.user_apps), " (", BareApp.Companion.c().getString(R.string.not_labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)));
+            LabelParams labelParams4 = new LabelParams("__favorite_apps", BareApp.Companion.c().getString(R.string.favorite_apps), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.favorites) & 16777215)}, 1)));
+            LabelParams labelParams5 = new LabelParams("__system_apps_launchable", BareApp.Companion.c().getString(R.string.system_apps_launchable), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
             if (!z) {
                 labelParams5 = null;
             }
-            LabelParams labelParams6 = new LabelParams("__system_apps_updated", SwiftApp.Companion.c().getString(R.string.system_apps_updated), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
+            LabelParams labelParams6 = new LabelParams("__system_apps_updated", BareApp.Companion.c().getString(R.string.system_apps_updated), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
             if (!z) {
                 labelParams6 = null;
             }
-            LabelParams labelParams7 = new LabelParams("__system_apps_labelled_favorites", SwiftApp.Companion.c().getString(R.string.system_apps_labelled_or_favorites), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
+            LabelParams labelParams7 = new LabelParams("__system_apps_labelled_favorites", BareApp.Companion.c().getString(R.string.system_apps_labelled_or_favorites), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1)));
             if (!z) {
                 labelParams7 = null;
             }
-            return x50.p0(new LabelParams[]{labelParams, labelParams2, labelParams3, labelParams4, labelParams5, labelParams6, labelParams7, z ? new LabelParams("__system_apps_not_labelled", u48.n(SwiftApp.Companion.c().getString(R.string.system_apps), " (", SwiftApp.Companion.c().getString(R.string.not_labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1))) : null, new LabelParams("__installed_from_google_play", SwiftApp.Companion.c().getString(R.string.installed_from_google_play), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__not_installed_from_google_play", SwiftApp.Companion.c().getString(R.string.not_installed_from_google_play), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__apps_with_multiple_backups", SwiftApp.Companion.c().getString(R.string.apps_with_multiple_backpus), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__apps_with_protected_backups", SwiftApp.Companion.c().getString(R.string.apps_with_protected_backpus), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__backups_with_notes", SwiftApp.Companion.c().getString(R.string.backups_with_notes), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(SwiftApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)))});
+            return x50.p0(new LabelParams[]{labelParams, labelParams2, labelParams3, labelParams4, labelParams5, labelParams6, labelParams7, z ? new LabelParams("__system_apps_not_labelled", u48.n(BareApp.Companion.c().getString(R.string.system_apps), " (", BareApp.Companion.c().getString(R.string.not_labelled), ")"), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.system_apps_package_text) & 16777215)}, 1))) : null, new LabelParams("__installed_from_google_play", BareApp.Companion.c().getString(R.string.installed_from_google_play), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__not_installed_from_google_play", BareApp.Companion.c().getString(R.string.not_installed_from_google_play), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__apps_with_multiple_backups", BareApp.Companion.c().getString(R.string.apps_with_multiple_backpus), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__apps_with_protected_backups", BareApp.Companion.c().getString(R.string.apps_with_protected_backpus), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1))), new LabelParams("__backups_with_notes", BareApp.Companion.c().getString(R.string.backups_with_notes), String.format("#%06X", Arrays.copyOf(new Object[]{Integer.valueOf(BareApp.Companion.c().getColor(R.color.grn) & 16777215)}, 1)))});
         } catch (ClassCastException unused) {
         }
     }

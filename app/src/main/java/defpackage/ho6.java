@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -808,7 +808,7 @@ public abstract /* synthetic */ class ho6 {
     public static Intent g(ContentResolver contentResolver, String str, String str2, Uri uri, String str3) {
         str2.getClass();
         Intent intent = new Intent("android.intent.action.SEND");
-        intent.putExtra("android.intent.extra.EMAIL", new String[]{"support@swiftapps.org"});
+        intent.putExtra("android.intent.extra.EMAIL", new String[]{"support@bareapps.org"});
         intent.putExtra("android.intent.extra.SUBJECT", str);
         intent.putExtra("android.intent.extra.TEXT", str2);
         if (uri == null) {
@@ -816,7 +816,7 @@ public abstract /* synthetic */ class ho6 {
             return intent;
         }
         if (str3 == null && (str3 = uri.getLastPathSegment()) == null) {
-            str3 = "SwiftLogger.7z";
+            str3 = "BareLogger.7z";
         }
         intent.putExtra("android.intent.extra.STREAM", uri);
         intent.setClipData(ClipData.newUri(contentResolver, str3, uri));

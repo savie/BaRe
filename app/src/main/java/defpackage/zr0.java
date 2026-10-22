@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.listitem.ListItemLayout;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -32,8 +32,8 @@ public final class zr0 extends kx4 {
                     View viewU = ms8.u(view, R.id.indicator_hidden);
                     if (viewU != null) {
                         i2 = R.id.item_card;
-                        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                        if (swiftListItemCardView != null) {
+                        BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                        if (bareListItemCardView != null) {
                             i2 = R.id.iv_icon;
                             ImageView imageView2 = (ImageView) ms8.u(view, R.id.iv_icon);
                             if (imageView2 != null) {
@@ -51,7 +51,7 @@ public final class zr0 extends kx4 {
                                             xd0Var.b = imageView;
                                             xd0Var.c = linearLayout;
                                             xd0Var.d = viewU;
-                                            xd0Var.e = swiftListItemCardView;
+                                            xd0Var.e = bareListItemCardView;
                                             xd0Var.f = imageView2;
                                             xd0Var.k = textView;
                                             xd0Var.n = textView2;

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$BaseBackup;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$IncrementalBackup;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.folders.data.FolderBackup$BaseBackup;
+import com.bareapps.barebackup.folders.data.FolderBackup$IncrementalBackup;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

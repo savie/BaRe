@@ -6,8 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.appconfigs.data.Config;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.data.Config;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

@@ -4,7 +4,7 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public enum bd4 {
     PackageInstaller("PackageInstaller"),
-    Internal("SwiftBackup");
+    Internal("BareBackup");
 
     private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
     private final String displayName;

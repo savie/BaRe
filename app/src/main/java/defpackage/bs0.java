@@ -5,10 +5,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -46,7 +46,7 @@ public final class bs0 extends gm7 {
         boolean z = blacklistApp.getBlackListType() == is0.Hide.ordinal();
         ((View) xd0Var.d).setVisibility(8);
         textView3.setTextColor(z ? sz8.r(blacklistActivity) : sz8.A(blacklistActivity));
-        ((SwiftListItemCardView) xd0Var.e).setOnClickListener(new xr0(i2, blacklistActivity, blacklistApp, bs0Var));
+        ((BareListItemCardView) xd0Var.e).setOnClickListener(new xr0(i2, blacklistActivity, blacklistApp, bs0Var));
         ((ImageView) xd0Var.b).setOnClickListener(new View.OnClickListener() { // from class: yr0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {

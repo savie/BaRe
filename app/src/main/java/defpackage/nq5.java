@@ -8,8 +8,8 @@ import java.util.List;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.RequestBody$Companion$toRequestBody$1;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -132,8 +132,8 @@ public final class nq5 extends tb1 {
         String strP;
         st5 st5Var = this.h;
         Log.d("OneDriveClient", "startCheckAccess()");
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             return qi1.a;
         }
         jq5 jq5Var = i;

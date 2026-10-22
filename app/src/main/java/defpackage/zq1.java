@@ -4,14 +4,14 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigsData;
-import org.swiftapps.swiftbackup.appconfigs.list.a;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigsData;
+import com.bareapps.barebackup.appconfigs.list.a;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -161,8 +161,8 @@ public final class zq1 extends ws7 implements qt3 {
                             }
                             gv7 gv7Var = av.a;
                             dVar.getClass();
-                            SwiftApp.Companion companion = SwiftApp.d;
-                            String packageName = SwiftApp.Companion.c().getPackageName();
+                            BareApp.Companion companion = BareApp.d;
+                            String packageName = BareApp.Companion.c().getPackageName();
                             packageName.getClass();
                             av.e(packageName, linkedHashSet, false, null);
                             if (Const.b(null, 7)) {
@@ -171,7 +171,7 @@ public final class zq1 extends ws7 implements qt3 {
                                 rkVar = new rk(dVar.p);
                             } else {
                                 zn4 zn4Var3 = zn4.a;
-                                zn4.e(new l30(15, SwiftApp.Companion.c(), "File read/write check failed! Please restart the app."));
+                                zn4.e(new l30(15, BareApp.Companion.c(), "File read/write check failed! Please restart the app."));
                                 SharedPreferences.Editor editor = cz4.k;
                                 if (editor == null) {
                                     pe4.F("editor");

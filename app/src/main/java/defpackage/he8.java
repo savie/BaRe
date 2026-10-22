@@ -1,7 +1,7 @@
 package defpackage;
 
 import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.regex.Pattern;

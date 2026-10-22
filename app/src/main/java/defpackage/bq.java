@@ -19,19 +19,19 @@ public class bq {
     public final Object[] a = new Object[2];
 
     public an a(Context context, AttributeSet attributeSet) {
-        return new an(context, attributeSet, org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle);
+        return new an(context, attributeSet, com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle);
     }
 
     public cn b(Context context, AttributeSet attributeSet) {
-        return new cn(context, attributeSet, org.swiftapps.swiftbackup.R.attr.buttonStyle);
+        return new cn(context, attributeSet, com.bareapps.barebackup.R.attr.buttonStyle);
     }
 
     public en c(Context context, AttributeSet attributeSet) {
-        return new en(context, attributeSet, org.swiftapps.swiftbackup.R.attr.checkboxStyle);
+        return new en(context, attributeSet, com.bareapps.barebackup.R.attr.checkboxStyle);
     }
 
     public so d(Context context, AttributeSet attributeSet) {
-        return new so(context, attributeSet, org.swiftapps.swiftbackup.R.attr.radioButtonStyle);
+        return new so(context, attributeSet, com.bareapps.barebackup.R.attr.radioButtonStyle);
     }
 
     public tp e(Context context, AttributeSet attributeSet) {

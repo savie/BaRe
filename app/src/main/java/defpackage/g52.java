@@ -23,19 +23,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.notice.NoticeItem;
+import com.bareapps.barebackup.walls.WallApplyActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -379,8 +379,8 @@ public final /* synthetic */ class g52 implements bt3 {
                                 Set set = yz4.a;
                                 dd1 dd1VarD2 = csActivity2.d0();
                                 int i13 = Build.VERSION.SDK_INT;
-                                SwiftApp.Companion companion = SwiftApp.d;
-                                int i14 = SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion;
+                                BareApp.Companion companion = BareApp.d;
+                                int i14 = BareApp.Companion.c().getApplicationInfo().targetSdkVersion;
                                 dd1VarD2.getClass();
                                 if (i13 >= 37 && i14 >= 37 && z85.j(dd1VarD2) != null) {
                                     dd1 dd1VarD3 = csActivity2.d0();
@@ -479,8 +479,8 @@ public final /* synthetic */ class g52 implements bt3 {
                                     Set set = yz4.a;
                                     dd1 dd1VarD3 = csActivity2.d0();
                                     int i15 = Build.VERSION.SDK_INT;
-                                    SwiftApp.Companion companion = SwiftApp.d;
-                                    int i16 = SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion;
+                                    BareApp.Companion companion = BareApp.d;
+                                    int i16 = BareApp.Companion.c().getApplicationInfo().targetSdkVersion;
                                     dd1VarD3.getClass();
                                     if (i15 >= 37 && i16 >= 37 && z85.j(dd1VarD3) != null) {
                                         dd1 dd1VarD4 = csActivity2.d0();
@@ -513,9 +513,9 @@ public final /* synthetic */ class g52 implements bt3 {
                 csActivity.a0().p.e(csActivity, new s30(i8, new hj(csActivity, 11)));
                 int i12 = 0;
                 int i13 = 1;
-                csActivity.a0().q.e(csActivity, new s30(i8, new zd1(i13, csActivity, CsActivity.class, "showHostKeyNotVerifiable", "showHostKeyNotVerifiable(Lorg/swiftapps/swiftbackup/cloud/connect/CsVM$HostKeyNotVerifiableData;)V", i12, 1)));
+                csActivity.a0().q.e(csActivity, new s30(i8, new zd1(i13, csActivity, CsActivity.class, "showHostKeyNotVerifiable", "showHostKeyNotVerifiable(Lorg/bareapps/barebackup/cloud/connect/CsVM$HostKeyNotVerifiableData;)V", i12, 1)));
                 int i14 = 2;
-                csActivity.a0().s.e(csActivity, new s30(i8, new ae1(i13, csActivity, CsActivity.class, "showS3EndpointResolutionIssueDialog", "showS3EndpointResolutionIssueDialog(Lorg/swiftapps/swiftbackup/cloud/connect/CsVM$S3EndpointResolutionIssueData;)V", i12, i14)));
+                csActivity.a0().s.e(csActivity, new s30(i8, new ae1(i13, csActivity, CsActivity.class, "showS3EndpointResolutionIssueDialog", "showS3EndpointResolutionIssueDialog(Lorg/bareapps/barebackup/cloud/connect/CsVM$S3EndpointResolutionIssueData;)V", i12, i14)));
                 csActivity.a0().r.e(csActivity, new s30(i8, new ox(csActivity, 9)));
                 csActivity.a0().t.e(csActivity, new s30(i8, new g70(i13, csActivity, CsActivity.class, "showLocalServerDiscoveryCard", "showLocalServerDiscoveryCard(Ljava/util/List;)V", i12, i14)));
                 csActivity.a0().u.e(csActivity, new s30(i8, new s52(i13, csActivity, CsActivity.class, "updateLocalServerDiscoveryScanLoading", "updateLocalServerDiscoveryScanLoading(Z)V", i12, 0)));

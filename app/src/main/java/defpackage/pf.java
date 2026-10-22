@@ -13,12 +13,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitItem;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitItem;
+import com.bareapps.barebackup.slog.SLogActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -118,7 +118,7 @@ public final /* synthetic */ class pf implements g36, OnCompleteListener, h9, er
     public boolean onMenuItemClick(MenuItem menuItem) {
         ApkImportActivity apkImportActivity = (ApkImportActivity) this.b;
         int i = ApkImportActivity.Q;
-        if (menuItem.getItemId() != R.id.action_swiftlogger) {
+        if (menuItem.getItemId() != R.id.action_barelogger) {
             return true;
         }
         ai8.q(apkImportActivity, SLogActivity.class);

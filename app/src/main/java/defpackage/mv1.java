@@ -5,12 +5,12 @@ import android.text.TextWatcher;
 import android.widget.ImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nimbusds.jose.jwk.gen.OctetSequenceKeyGenerator;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.contributor.ContributorRegistration;
-import org.swiftapps.swiftbackup.contributor.a;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.contributor.ContributorRegistration;
+import com.bareapps.barebackup.contributor.a;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

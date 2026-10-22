@@ -3,7 +3,7 @@ package defpackage;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -17,8 +17,8 @@ public final class xj1 extends dv {
         if (!qb1.m()) {
             return new ik6(hk6.DriveNotConnected, null, false, 14);
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             return new ik6(hk6.NetworkError, null, false, 14);
         }
         ui1 ui1VarK = qb1.c().k();

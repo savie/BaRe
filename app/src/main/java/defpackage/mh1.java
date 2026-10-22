@@ -5,10 +5,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.material.listitem.ListItemLayout;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -33,15 +33,15 @@ public final class mh1 extends gm7 {
         il0 il0Var = lh1Var.v;
         wa1 wa1Var = fi1Var.a;
         yz0 yz0Var = lh1Var.w;
-        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) yz0Var.d;
+        BareListItemCardView bareListItemCardView = (BareListItemCardView) yz0Var.d;
         TextView textView = (TextView) yz0Var.f;
         MCheckBox mCheckBox = (MCheckBox) yz0Var.c;
-        swiftListItemCardView.setCheckable(true);
-        SwiftListItemCardView swiftListItemCardView2 = (SwiftListItemCardView) yz0Var.d;
-        swiftListItemCardView2.setChecked(zQ);
+        bareListItemCardView.setCheckable(true);
+        BareListItemCardView bareListItemCardView2 = (BareListItemCardView) yz0Var.d;
+        bareListItemCardView2.setChecked(zQ);
         boolean z2 = !z;
-        swiftListItemCardView2.setEnabled(z2);
-        swiftListItemCardView2.setOnClickListener(z ? null : new nf(lhVar, 3));
+        bareListItemCardView2.setEnabled(z2);
+        bareListItemCardView2.setOnClickListener(z ? null : new nf(lhVar, 3));
         mCheckBox.setChecked(zQ);
         mCheckBox.setEnabled(z2);
         mCheckBox.setOnClickListener(z ? null : new g7(lhVar, 7));
@@ -103,8 +103,8 @@ public final class mh1 extends gm7 {
             i2 = R.id.content;
             if (((LinearLayout) ms8.u(view, R.id.content)) != null) {
                 i2 = R.id.item_card;
-                SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                if (swiftListItemCardView != null) {
+                BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                if (bareListItemCardView != null) {
                     i2 = R.id.iv_feature;
                     ImageView imageView = (ImageView) ms8.u(view, R.id.iv_feature);
                     if (imageView != null) {
@@ -117,7 +117,7 @@ public final class mh1 extends gm7 {
                                 i2 = R.id.tv_title;
                                 TextView textView3 = (TextView) ms8.u(view, R.id.tv_title);
                                 if (textView3 != null) {
-                                    return new lh1(this.l, new yz0((ListItemLayout) view, mCheckBox, swiftListItemCardView, imageView, textView, textView2, textView3, 1));
+                                    return new lh1(this.l, new yz0((ListItemLayout) view, mCheckBox, bareListItemCardView, imageView, textView, textView2, textView3, 1));
                                 }
                             }
                         }

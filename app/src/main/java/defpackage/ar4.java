@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsData;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsData;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -42,8 +42,8 @@ public final class ar4 extends qo0 {
         if (y13.s(labelParams)) {
             string = null;
         } else {
-            SwiftApp.Companion companion = SwiftApp.d;
-            string = SwiftApp.Companion.c().getString(R.string.invalid_label_name);
+            BareApp.Companion companion = BareApp.d;
+            string = BareApp.Companion.c().getString(R.string.invalid_label_name);
         }
         if (string == null || string.length() == 0) {
             lr4 lr4Var = lr4.a;
@@ -59,8 +59,8 @@ public final class ar4 extends qo0 {
                             }
                         } while (!name3.equalsIgnoreCase(((LabelParams) it.next()).getName()));
                         if (this.g == null) {
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                            BareApp.Companion companion2 = BareApp.d;
+                            string = BareApp.Companion.c().getString(R.string.label_already_exists);
                         } else {
                             name = labelParams.getName();
                             if (name != null) {
@@ -81,8 +81,8 @@ public final class ar4 extends qo0 {
                                 lowerCase2.getClass();
                             }
                             if (!pe4.d(lowerCase, lowerCase2)) {
-                                SwiftApp.Companion companion3 = SwiftApp.d;
-                                string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                                BareApp.Companion companion3 = BareApp.d;
+                                string = BareApp.Companion.c().getString(R.string.label_already_exists);
                             }
                         }
                     }
@@ -97,8 +97,8 @@ public final class ar4 extends qo0 {
                                 }
                             } while (!name3.equalsIgnoreCase(((LabelParams) it.next()).getName()));
                             if (this.g == null) {
-                                SwiftApp.Companion companion4 = SwiftApp.d;
-                                string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                                BareApp.Companion companion4 = BareApp.d;
+                                string = BareApp.Companion.c().getString(R.string.label_already_exists);
                             } else {
                                 name = labelParams.getName();
                                 if (name != null) {
@@ -119,8 +119,8 @@ public final class ar4 extends qo0 {
                                     lowerCase2.getClass();
                                 }
                                 if (!pe4.d(lowerCase, lowerCase2)) {
-                                    SwiftApp.Companion companion5 = SwiftApp.d;
-                                    string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                                    BareApp.Companion companion5 = BareApp.d;
+                                    string = BareApp.Companion.c().getString(R.string.label_already_exists);
                                 }
                             }
                         }
@@ -143,8 +143,8 @@ public final class ar4 extends qo0 {
                                 }
                             }
                             if (this.g == null) {
-                                SwiftApp.Companion companion6 = SwiftApp.d;
-                                string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                                BareApp.Companion companion6 = BareApp.d;
+                                string = BareApp.Companion.c().getString(R.string.label_already_exists);
                             } else {
                                 name = labelParams.getName();
                                 if (name != null) {
@@ -165,8 +165,8 @@ public final class ar4 extends qo0 {
                                     lowerCase2.getClass();
                                 }
                                 if (!pe4.d(lowerCase, lowerCase2)) {
-                                    SwiftApp.Companion companion7 = SwiftApp.d;
-                                    string = SwiftApp.Companion.c().getString(R.string.label_already_exists);
+                                    BareApp.Companion companion7 = BareApp.d;
+                                    string = BareApp.Companion.c().getString(R.string.label_already_exists);
                                 }
                             }
                         }

@@ -5,8 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.material.listitem.ListItemLayout;
 import java.util.List;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -44,11 +44,11 @@ public final class op3 implements jk8 {
         return (ListItemLayout) this.a;
     }
 
-    public op3(ListItemLayout listItemLayout, MCheckBox mCheckBox, View view, SwiftListItemCardView swiftListItemCardView, ImageView imageView, View view2, TextView textView, TextView textView2, TextView textView3, TextView textView4) {
+    public op3(ListItemLayout listItemLayout, MCheckBox mCheckBox, View view, BareListItemCardView bareListItemCardView, ImageView imageView, View view2, TextView textView, TextView textView2, TextView textView3, TextView textView4) {
         this.a = listItemLayout;
         this.b = mCheckBox;
         this.c = view;
-        this.e = swiftListItemCardView;
+        this.e = bareListItemCardView;
         this.f = imageView;
         this.d = view2;
         this.k = textView;

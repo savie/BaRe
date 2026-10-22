@@ -40,11 +40,11 @@ public final class lz3 extends mz3 {
         }
         Resources resources = activity.getResources();
         if (i == 1) {
-            string = resources.getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_install_button);
+            string = resources.getString(com.bareapps.barebackup.R.string.common_google_play_services_install_button);
         } else if (i != 2) {
-            string = i != 3 ? resources.getString(R.string.ok) : resources.getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_enable_button);
+            string = i != 3 ? resources.getString(R.string.ok) : resources.getString(com.bareapps.barebackup.R.string.common_google_play_services_enable_button);
         } else {
-            string = resources.getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_update_button);
+            string = resources.getString(com.bareapps.barebackup.R.string.common_google_play_services_update_button);
         }
         if (string != null) {
             builder.setPositiveButton(string, z19Var);
@@ -115,7 +115,7 @@ public final class lz3 extends mz3 {
         }
         String strE = i == 6 ? l19.e(context, "common_google_play_services_resolution_required_title") : l19.c(context, i);
         if (strE == null) {
-            strE = context.getResources().getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_notification_ticker);
+            strE = context.getResources().getString(com.bareapps.barebackup.R.string.common_google_play_services_notification_ticker);
         }
         String strD = (i == 6 || i == 19) ? l19.d(context, "common_google_play_services_resolution_required_text", l19.a(context)) : l19.b(context, i);
         Resources resources = context.getResources();
@@ -137,13 +137,13 @@ public final class lz3 extends mz3 {
             wo5Var.u.icon = context.getApplicationInfo().icon;
             wo5Var.i = 2;
             if (rs9.o(context)) {
-                wo5Var.b.add(new vo5(org.swiftapps.swiftbackup.R.drawable.common_full_open_on_phone, resources.getString(org.swiftapps.swiftbackup.R.string.common_open_on_phone), pendingIntent));
+                wo5Var.b.add(new vo5(com.bareapps.barebackup.R.drawable.common_full_open_on_phone, resources.getString(com.bareapps.barebackup.R.string.common_open_on_phone), pendingIntent));
             } else {
                 wo5Var.g = pendingIntent;
             }
         } else {
             wo5Var.u.icon = R.drawable.stat_sys_warning;
-            wo5Var.u.tickerText = wo5.b(resources.getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_notification_ticker));
+            wo5Var.u.tickerText = wo5.b(resources.getString(com.bareapps.barebackup.R.string.common_google_play_services_notification_ticker));
             wo5Var.u.when = System.currentTimeMillis();
             wo5Var.g = pendingIntent;
             wo5Var.f = wo5.b(strD);
@@ -151,7 +151,7 @@ public final class lz3 extends mz3 {
         synchronized (c) {
         }
         NotificationChannel notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
-        String string = context.getResources().getString(org.swiftapps.swiftbackup.R.string.common_google_play_services_notification_channel_name);
+        String string = context.getResources().getString(com.bareapps.barebackup.R.string.common_google_play_services_notification_channel_name);
         if (notificationChannel == null) {
             notificationManager.createNotificationChannel(new NotificationChannel("com.google.android.gms.availability", string, 4));
         } else if (!string.contentEquals(notificationChannel.getName())) {

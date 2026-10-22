@@ -21,8 +21,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -37,8 +37,8 @@ public final class ff5 extends pw6 {
     public ff5(ArrayList arrayList, q63 q63Var) {
         super(new xy7(nc8.I(q05.CLOUD), true), new df5());
         this.m = "MessagesTask";
-        SwiftApp.Companion companion = SwiftApp.d;
-        ContentResolver contentResolver = SwiftApp.Companion.c().getContentResolver();
+        BareApp.Companion companion = BareApp.d;
+        ContentResolver contentResolver = BareApp.Companion.c().getContentResolver();
         contentResolver.getClass();
         this.q = contentResolver;
         this.r = new LinkedHashMap();
@@ -177,8 +177,8 @@ public final class ff5 extends pw6 {
         List list2 = this.o;
         ex6 ex6Var = this.i;
         if (z5) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.i(SwiftApp.Companion.c().getString(R.string.backing_up));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.i(BareApp.Companion.c().getString(R.string.backing_up));
             xy7 xy7Var2 = (xy7) ((zy7) cz7Var2);
             if (xy7Var2.f) {
                 q63 q63Var = this.p;
@@ -205,7 +205,7 @@ public final class ff5 extends pw6 {
                     str = "prefs";
                     try {
                         try {
-                            q63 q63Var2 = new q63(SwiftApp.Companion.c().getCacheDir(), "temp", 2);
+                            q63 q63Var2 = new q63(BareApp.Companion.c().getCacheDir(), "temp", 2);
                             q63Var2.h();
                             nn4 nn4Var = new nn4(new OutputStreamWriter(q63Var2.F(true), Charset.defaultCharset()));
                             try {
@@ -333,7 +333,7 @@ public final class ff5 extends pw6 {
                                                                 xp1.Companion.getClass();
                                                                 xp1Var = xp1.DEFAULT;
                                                             }
-                                                            mz6.e(q63VarI, q63Var4, cArrH, xp1Var, "swiftbackup.messages.v3");
+                                                            mz6.e(q63VarI, q63Var4, cArrH, xp1Var, "barebackup.messages.v3");
                                                             Arrays.fill(cArrH, 0, cArrH.length, (char) 0);
                                                             ud5.c(false);
                                                             if (!i() && list3.contains(q05.CLOUD)) {
@@ -403,8 +403,8 @@ public final class ff5 extends pw6 {
                             cz7Var = cz7Var2;
                             break;
                         }
-                        SwiftApp.Companion companion2 = SwiftApp.d;
-                        ex6Var.i(SwiftApp.Companion.c().getString(R.string.restoring));
+                        BareApp.Companion companion2 = BareApp.d;
+                        ex6Var.i(BareApp.Companion.c().getString(R.string.restoring));
                         xf5Var = new xf5();
                         arrayList = new ArrayList();
                         it = list.iterator();
@@ -656,10 +656,10 @@ public final class ff5 extends pw6 {
                                         }
                                         string = sharedPreferences.getString("KEY_DEF_SMS_PACKAGE", null);
                                         if (string != null) {
-                                            SwiftApp.Companion companion3 = SwiftApp.d;
-                                            if (!string.equals(SwiftApp.Companion.c().getPackageName())) {
+                                            BareApp.Companion companion3 = BareApp.d;
+                                            if (!string.equals(BareApp.Companion.c().getPackageName())) {
                                                 try {
-                                                    SwiftApp.Companion.c().getPackageManager().getPackageInfo(string, 0);
+                                                    BareApp.Companion.c().getPackageManager().getPackageInfo(string, 0);
                                                 } catch (PackageManager.NameNotFoundException unused5) {
                                                 }
                                             }
@@ -690,8 +690,8 @@ public final class ff5 extends pw6 {
             cz7Var = cz7Var2;
             break;
         }
-        SwiftApp.Companion companion4 = SwiftApp.d;
-        ex6Var.i(SwiftApp.Companion.c().getString(R.string.restoring));
+        BareApp.Companion companion4 = BareApp.d;
+        ex6Var.i(BareApp.Companion.c().getString(R.string.restoring));
         xf5Var = new xf5();
         arrayList = new ArrayList();
         it = list.iterator();
@@ -893,9 +893,9 @@ public final class ff5 extends pw6 {
                 }
                 string = sharedPreferences.getString("KEY_DEF_SMS_PACKAGE", null);
                 if (string != null && string.length() != 0) {
-                    SwiftApp.Companion companion5 = SwiftApp.d;
-                    if (!string.equals(SwiftApp.Companion.c().getPackageName())) {
-                        SwiftApp.Companion.c().getPackageManager().getPackageInfo(string, 0);
+                    BareApp.Companion companion5 = BareApp.d;
+                    if (!string.equals(BareApp.Companion.c().getPackageName())) {
+                        BareApp.Companion.c().getPackageManager().getPackageInfo(string, 0);
                     }
                 }
             }
@@ -922,14 +922,14 @@ public final class ff5 extends pw6 {
 
     @Override // defpackage.pw6
     public final String h() {
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         return dj7.g(R.string.messages);
     }
 
     @Override // defpackage.pw6
     public final String j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(R.string.x_messages, String.valueOf(this.n));
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(R.string.x_messages, String.valueOf(this.n));
         string.getClass();
         return string;
     }
@@ -941,8 +941,8 @@ public final class ff5 extends pw6 {
         LinkedHashMap linkedHashMap = this.r;
         if (!linkedHashMap.containsKey(set)) {
             try {
-                SwiftApp.Companion companion = SwiftApp.d;
-                long orCreateThreadId = Telephony.Threads.getOrCreateThreadId(SwiftApp.Companion.c(), (Set<String>) set);
+                BareApp.Companion companion = BareApp.d;
+                long orCreateThreadId = Telephony.Threads.getOrCreateThreadId(BareApp.Companion.c(), (Set<String>) set);
                 linkedHashMap.put(set, Long.valueOf(orCreateThreadId));
                 return Long.valueOf(orCreateThreadId);
             } catch (Exception e) {
@@ -953,8 +953,8 @@ public final class ff5 extends pw6 {
     }
 
     public final void q(q63 q63Var) {
-        SwiftApp.Companion companion = SwiftApp.d;
-        this.i.i(SwiftApp.Companion.c().getString(R.string.uploading));
+        BareApp.Companion companion = BareApp.d;
+        this.i.i(BareApp.Companion.c().getString(R.string.uploading));
         q63Var.getClass();
         rf8 rf8Var = new rf8(q63Var, 20, true, null, false);
         tb1 tb1Var = tb1.a;
@@ -979,8 +979,8 @@ public final class ff5 extends pw6 {
     public ff5(List list, zy7 zy7Var) {
         super(zy7Var, new df5());
         this.m = "MessagesTask";
-        SwiftApp.Companion companion = SwiftApp.d;
-        ContentResolver contentResolver = SwiftApp.Companion.c().getContentResolver();
+        BareApp.Companion companion = BareApp.d;
+        ContentResolver contentResolver = BareApp.Companion.c().getContentResolver();
         contentResolver.getClass();
         this.q = contentResolver;
         this.r = new LinkedHashMap();

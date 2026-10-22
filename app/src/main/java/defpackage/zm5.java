@@ -56,17 +56,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.crypto.KeyAgreement;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudServiceId;
-import org.swiftapps.swiftbackup.cloud.protocols.TokenCredentials;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudServiceId;
+import com.bareapps.barebackup.cloud.protocols.TokenCredentials;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public abstract class zm5 {
     public static final du9 a = new du9("CLOSED", 2);
-    public static final int[] b = {R.attr.theme, org.swiftapps.swiftbackup.R.attr.theme};
-    public static final int[] c = {org.swiftapps.swiftbackup.R.attr.materialThemeOverlay};
+    public static final int[] b = {R.attr.theme, com.bareapps.barebackup.R.attr.theme};
+    public static final int[] c = {com.bareapps.barebackup.R.attr.materialThemeOverlay};
     public static final char[] d = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     public static String e;
 
@@ -128,8 +128,8 @@ public abstract class zm5 {
     public static void D(Activity activity, ArrayList arrayList, boolean z) {
         g00 g00Var = g00.a;
         if (!g00.r().hasSystemFeature("android.hardware.telephony")) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, "Feature not supported on this device");
             return;
@@ -695,7 +695,7 @@ public abstract class zm5 {
 
     public static ix0 e(Context context) throws Exception {
         context.getClass();
-        int color = context.getColor(sz8.y(context, org.swiftapps.swiftbackup.R.attr.toolbarColor)) | (-16777216);
+        int color = context.getColor(sz8.y(context, com.bareapps.barebackup.R.attr.toolbarColor)) | (-16777216);
         String strP = p(context);
         if (strP == null) {
             throw new Exception("Null custom tab package");

@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderItem;
 import org.xmlpull.v1.XmlPullParser;
 import sun.misc.Unsafe;
 

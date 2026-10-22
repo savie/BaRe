@@ -9,17 +9,17 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.AppItemContentLayout;
-import org.swiftapps.swiftbackup.appslist.ui.AppListItemLayout;
-import org.swiftapps.swiftbackup.appslist.ui.AppRowLabelsView;
-import org.swiftapps.swiftbackup.appslist.ui.AppSwipeActionRevealLayout;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.AppItemContentLayout;
+import com.bareapps.barebackup.appslist.ui.AppListItemLayout;
+import com.bareapps.barebackup.appslist.ui.AppRowLabelsView;
+import com.bareapps.barebackup.appslist.ui.AppSwipeActionRevealLayout;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -39,7 +39,7 @@ public final class tr extends kx4 {
     public final boolean I;
     public final dr J;
     public ji K;
-    public final SwiftListItemCardView L;
+    public final BareListItemCardView L;
     public final ImageView M;
     public final TextView N;
     public final TextView O;
@@ -116,8 +116,8 @@ public final class tr extends kx4 {
                                 ImageView imageView = (ImageView) ms8.u(view, R.id.image_icon);
                                 if (imageView != null) {
                                     i3 = R.id.item_card;
-                                    SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                                    if (swiftListItemCardView != null) {
+                                    BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                                    if (bareListItemCardView != null) {
                                         i3 = R.id.iv_favorite;
                                         ImageView imageView2 = (ImageView) ms8.u(view, R.id.iv_favorite);
                                         if (imageView2 != null) {
@@ -148,8 +148,8 @@ public final class tr extends kx4 {
                                                                             i3 = R.id.tv_title;
                                                                             TextView textView4 = (TextView) ms8.u(view, R.id.tv_title);
                                                                             if (textView4 != null) {
-                                                                                this.J = new dr(appListItemLayout, materialButton, materialButton2, materialButton3, materialButton4, mCheckBox, appListItemLayout, imageView, swiftListItemCardView, imageView2, imageView3, viewU, appSwipeActionRevealLayout, appSwipeActionRevealLayout2, appRowLabelsView, textView, textView2, textView3, textView4);
-                                                                                this.L = swiftListItemCardView;
+                                                                                this.J = new dr(appListItemLayout, materialButton, materialButton2, materialButton3, materialButton4, mCheckBox, appListItemLayout, imageView, bareListItemCardView, imageView2, imageView3, viewU, appSwipeActionRevealLayout, appSwipeActionRevealLayout2, appRowLabelsView, textView, textView2, textView3, textView4);
+                                                                                this.L = bareListItemCardView;
                                                                                 this.M = imageView;
                                                                                 this.N = textView4;
                                                                                 this.O = textView;
@@ -186,7 +186,7 @@ public final class tr extends kx4 {
                                                                                 this.i0 = ov2.a;
                                                                                 this.j0 = -1.0f;
                                                                                 this.k0 = -1;
-                                                                                swiftListItemCardView.J.add(new kr(this));
+                                                                                bareListItemCardView.J.add(new kr(this));
                                                                                 return;
                                                                             }
                                                                         }
@@ -455,11 +455,11 @@ public final class tr extends kx4 {
         this.m0 = oyVar;
         boolean zV = v(this.W, this.Y, this.Z, qyVar, jiVar, this.l0);
         boolean zV2 = v(this.X, this.a0, this.b0, qyVar2, jiVar, this.m0);
-        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) this.J.d;
+        BareListItemCardView bareListItemCardView = (BareListItemCardView) this.J.d;
         if (!zV && !zV2) {
             z2 = false;
         }
-        swiftListItemCardView.setSwipeEnabled(z2);
+        bareListItemCardView.setSwipeEnabled(z2);
         try {
             ((AppListItemLayout) this.J.c).h(this.W, false);
         } catch (IllegalArgumentException unused) {
@@ -469,10 +469,10 @@ public final class tr extends kx4 {
     public final void t(ji jiVar) {
         boolean zQ = this.v.q(jiVar);
         dr drVar = this.J;
-        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) drVar.d;
+        BareListItemCardView bareListItemCardView = (BareListItemCardView) drVar.d;
         boolean z = this.H;
-        swiftListItemCardView.setCheckable(z);
-        ((SwiftListItemCardView) drVar.d).setChecked(z && zQ);
+        bareListItemCardView.setCheckable(z);
+        ((BareListItemCardView) drVar.d).setChecked(z && zQ);
         MCheckBox mCheckBox = this.T;
         sz8.d0(mCheckBox, z);
         if (mCheckBox.isChecked() != zQ) {

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.net.ssl.SSLException;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -110,7 +110,7 @@ public abstract /* synthetic */ class dj7 {
     }
 
     public static String g(int i) {
-        String string = SwiftApp.Companion.c().getString(i);
+        String string = BareApp.Companion.c().getString(i);
         string.getClass();
         return string;
     }

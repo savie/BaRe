@@ -28,36 +28,36 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import okhttp3.Request;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.shortcuts.ShortcutsActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.cloud.connect.BoxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.GmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.OneDriveSignInActivity;
+import com.bareapps.barebackup.cloud.connect.PCloudSignInActivity;
+import com.bareapps.barebackup.cloud.connect.TeraBoxSignInActivity;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.shortcuts.ShortcutsActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -292,8 +292,8 @@ public final /* synthetic */ class e7 implements mt3 {
                                                 intentPutExtra.getClass();
                                                 homeActivity3.startActivity(intentPutExtra);
                                             } else {
-                                                SwiftApp.Companion companion = SwiftApp.d;
-                                                dj7.y(SwiftApp.Companion.c(), "Feature not supported on this device");
+                                                BareApp.Companion companion = BareApp.d;
+                                                dj7.y(BareApp.Companion.c(), "Feature not supported on this device");
                                             }
                                         } else {
                                             if (i16 != 6) {
@@ -381,8 +381,8 @@ public final /* synthetic */ class e7 implements mt3 {
                         intentPutExtra.getClass();
                         homeSearchActivity.startActivity(intentPutExtra);
                     } else {
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        Context contextC = SwiftApp.Companion.c();
+                        BareApp.Companion companion = BareApp.d;
+                        Context contextC = BareApp.Companion.c();
                         zn4 zn4Var3 = zn4.a;
                         dj7.y(contextC, "Feature not supported on this device");
                     }

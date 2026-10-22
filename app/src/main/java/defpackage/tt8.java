@@ -3,12 +3,12 @@ package defpackage;
 import android.util.Log;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleLastRunDetails;
-import org.swiftapps.swiftbackup.home.schedule.data.o;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.ScheduleLastRunDetails;
+import com.bareapps.barebackup.home.schedule.data.o;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -32,8 +32,8 @@ public final class tt8 extends pw6 {
         vr8 vr8Var;
         px pxVar;
         bz7 bz7Var = (bz7) this.a;
-        SwiftApp.Companion companion = SwiftApp.d;
-        this.i.i(SwiftApp.Companion.c().getString(R.string.backing_up));
+        BareApp.Companion companion = BareApp.d;
+        this.i.i(BareApp.Companion.c().getString(R.string.backing_up));
         int i = 1;
         od2 od2VarA = this.m.a(bz7Var, true);
         st8 st8Var = (st8) this.b;
@@ -101,14 +101,14 @@ public final class tt8 extends pw6 {
 
     @Override // defpackage.pw6
     public final String h() {
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         return dj7.g(R.string.wifi);
     }
 
     @Override // defpackage.pw6
     public final String j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(R.string.x_wifi_networks, String.valueOf(this.p.size()));
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(R.string.x_wifi_networks, String.valueOf(this.p.size()));
         string.getClass();
         return string;
     }

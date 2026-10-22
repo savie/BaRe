@@ -3,12 +3,12 @@ package defpackage;
 import android.content.SharedPreferences;
 import android.os.Looper;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.b;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.b;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

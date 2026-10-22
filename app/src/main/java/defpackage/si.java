@@ -6,15 +6,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public final class si extends vi {
     public final ImageView A;
-    public final SwiftBackupMaterialSwitch B;
+    public final BareBackupMaterialSwitch B;
     public final /* synthetic */ wi C;
     public final View u;
     public final TextView v;
@@ -46,8 +46,8 @@ public final class si extends vi {
                             QuickRecyclerView quickRecyclerView = (QuickRecyclerView) ms8.u(view, R.id.rv_labels);
                             if (quickRecyclerView != null) {
                                 i = R.id.swch;
-                                SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) ms8.u(view, R.id.swch);
-                                if (swiftBackupMaterialSwitch != null) {
+                                BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) ms8.u(view, R.id.swch);
+                                if (bareBackupMaterialSwitch != null) {
                                     i = R.id.tv_subtitle;
                                     TextView textView = (TextView) ms8.u(view, R.id.tv_subtitle);
                                     if (textView != null) {
@@ -61,7 +61,7 @@ public final class si extends vi {
                                             this.y = imageView;
                                             this.z = quickRecyclerView;
                                             this.A = imageView2;
-                                            this.B = swiftBackupMaterialSwitch;
+                                            this.B = bareBackupMaterialSwitch;
                                             return;
                                         }
                                     }
@@ -138,12 +138,12 @@ public final class si extends vi {
                 imageView2.setOnClickListener(null);
             }
         }
-        SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = this.B;
-        swiftBackupMaterialSwitch.setOnCheckedChangeListener(null);
-        swiftBackupMaterialSwitch.setClickable(false);
-        sz8.d0(swiftBackupMaterialSwitch, kiVar.i);
-        if (sz8.I(swiftBackupMaterialSwitch)) {
-            swiftBackupMaterialSwitch.setChecked(pe4.d(kiVar.j, Boolean.TRUE));
+        BareBackupMaterialSwitch bareBackupMaterialSwitch = this.B;
+        bareBackupMaterialSwitch.setOnCheckedChangeListener(null);
+        bareBackupMaterialSwitch.setClickable(false);
+        sz8.d0(bareBackupMaterialSwitch, kiVar.i);
+        if (sz8.I(bareBackupMaterialSwitch)) {
+            bareBackupMaterialSwitch.setChecked(pe4.d(kiVar.j, Boolean.TRUE));
         }
         this.u.setOnClickListener(new ri(wiVar, i, i2, piVar));
     }

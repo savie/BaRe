@@ -5,10 +5,10 @@ import android.os.Parcelable;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.model.firebase.AppSettings;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -47,8 +47,8 @@ public final /* synthetic */ class kd6 implements mt3 {
         }
         Parcelable.Creator<zc6> creator2 = zc6.CREATOR;
         int i = zc6Var.b;
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         Toast toast = zc6.G;
         if (toast != null) {
             toast.cancel();

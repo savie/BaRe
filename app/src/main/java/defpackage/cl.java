@@ -11,7 +11,7 @@ import java.util.Locale;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import okhttp3.OkHttpClient;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -88,8 +88,8 @@ public final /* synthetic */ class cl implements bt3 {
             case 13:
                 return re3.b().d("postDataRestoreActions");
             default:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return WallpaperManager.getInstance(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                return WallpaperManager.getInstance(BareApp.Companion.c());
         }
     }
 

@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

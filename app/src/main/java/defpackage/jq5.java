@@ -9,9 +9,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -34,8 +34,8 @@ public final class jq5 {
         cz4.i("onedrive_conformance_client_id");
         cz4.i("onedrive_conformance_refresh_token");
         cz4.i("onedrive_conformance_msal_token_share_mode");
-        SwiftApp.Companion companion = SwiftApp.d;
-        File parentFile = SwiftApp.Companion.c().getFilesDir().getParentFile();
+        BareApp.Companion companion = BareApp.d;
+        File parentFile = BareApp.Companion.c().getFilesDir().getParentFile();
         if (parentFile != null && (fileArrListFiles = nc3.U(parentFile, "shared_prefs").listFiles()) != null) {
             ArrayList arrayList = new ArrayList();
             for (File file : fileArrListFiles) {
@@ -173,8 +173,8 @@ public final class jq5 {
                     if (authorizationAgent != authorizationAgentValueOf) {
                         vr6.i$default(vr6.INSTANCE, "OClient", "Setting OneDrive client application with Authorization Agent: " + bs4.a(), null, 4, null);
                         try {
-                            SwiftApp.Companion companion = SwiftApp.d;
-                            Context contextC = SwiftApp.Companion.c();
+                            BareApp.Companion companion = BareApp.d;
+                            Context contextC = BareApp.Companion.c();
                             if (bs4.a() == AuthorizationAgent.WEBVIEW) {
                                 i = R.raw.odrive_webview;
                             } else {
@@ -191,8 +191,8 @@ public final class jq5 {
                 }
             } else {
                 vr6.i$default(vr6.INSTANCE, "OClient", "Setting OneDrive client application with Authorization Agent: " + bs4.a(), null, 4, null);
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Context contextC2 = SwiftApp.Companion.c();
+                BareApp.Companion companion2 = BareApp.d;
+                Context contextC2 = BareApp.Companion.c();
                 if (bs4.a() == AuthorizationAgent.WEBVIEW) {
                     i = R.raw.odrive_webview;
                 } else {

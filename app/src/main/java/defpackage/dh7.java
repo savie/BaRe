@@ -46,7 +46,7 @@ public final class dh7 extends ws7 implements qt3 {
                 break;
             default:
                 lg7.H(obj);
-                io4.j("SwiftBackupApkSaver", null, true, new qm(18), 10);
+                io4.j("BareBackupApkSaver", null, true, new qm(18), 10);
                 break;
         }
         return be8Var;

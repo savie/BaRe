@@ -5,9 +5,9 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.l4digital.fastscroll.FastScroller;
 import java.util.Set;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.tasks.TaskService;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.tasks.TaskService;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

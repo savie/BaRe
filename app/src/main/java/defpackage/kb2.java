@@ -8,7 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.jcraft.jsch.SftpATTRS;
 import java.nio.ByteBuffer;
 import java.util.List;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -74,9 +74,9 @@ public final class kb2 implements jk8 {
     public void a(int i, int i2, boolean z, mt3 mt3Var) {
         ((ImageView) this.b).setImageResource(i);
         ((TextView) this.c).setText(i2);
-        SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) this.d;
-        swiftBackupMaterialSwitch.setClickable(false);
-        swiftBackupMaterialSwitch.setChecked(z);
+        BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) this.d;
+        bareBackupMaterialSwitch.setClickable(false);
+        bareBackupMaterialSwitch.setChecked(z);
         ((ConstraintLayout) this.a).setOnClickListener(new uf1(2, this, mt3Var));
     }
 
@@ -280,7 +280,7 @@ public final class kb2 implements jk8 {
         this.a = (ConstraintLayout) y8Var.a;
         this.b = (ImageView) y8Var.b;
         this.c = (TextView) y8Var.d;
-        this.d = (SwiftBackupMaterialSwitch) y8Var.c;
+        this.d = (BareBackupMaterialSwitch) y8Var.c;
     }
 
     public kb2(ic2 ic2Var, List list) {

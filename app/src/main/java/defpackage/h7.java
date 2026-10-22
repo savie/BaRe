@@ -12,18 +12,18 @@ import com.ferfalk.simplesearchview.SimpleSearchView;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.FolderRestoreStrategy;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.FolderRestoreStrategy;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -64,7 +64,7 @@ public final /* synthetic */ class h7 implements View.OnClickListener {
                 ((jj0) obj).e.invoke();
                 return;
             case 5:
-                Const.B(((tk0) obj).e, "https://swiftapps.org/faq#pc");
+                Const.B(((tk0) obj).e, "https://bareapps.org/faq#pc");
                 return;
             case 6:
                 int i4 = CloudDiagnosticsActivity.Z;

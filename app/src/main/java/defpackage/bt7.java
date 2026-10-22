@@ -2,7 +2,7 @@ package defpackage;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import org.swiftapps.swiftbackup.settings.SwiftBackupSettingsHelper$SettingsData;
+import com.bareapps.barebackup.settings.BareBackupSettingsHelper$SettingsData;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -33,11 +33,11 @@ public final class bt7 extends ws7 implements qt3 {
         tn2 tn2Var = this.a;
         lg7.H(obj);
         try {
-            vr6.i$default(vr6.INSTANCE, "SwiftBackupSettingsHelper", "Exporting settings to " + tn2Var.e(), null, 4, null);
+            vr6.i$default(vr6.INSTANCE, "BareBackupSettingsHelper", "Exporting settings to " + tn2Var.e(), null, 4, null);
             OutputStream outputStreamOpenOutputStream = f13.d().getContentResolver().openOutputStream(tn2Var.e());
             try {
                 gv7 gv7Var = w14.a;
-                n84.e(w14.d().i(new SwiftBackupSettingsHelper$SettingsData(null, null, null, 7, null)), outputStreamOpenOutputStream, StandardCharsets.UTF_8);
+                n84.e(w14.d().i(new BareBackupSettingsHelper$SettingsData(null, null, null, 7, null)), outputStreamOpenOutputStream, StandardCharsets.UTF_8);
                 rs9.c(outputStreamOpenOutputStream, null);
             } catch (Throwable th) {
                 try {
@@ -48,7 +48,7 @@ public final class bt7 extends ws7 implements qt3 {
                 }
             }
         } catch (Exception e) {
-            vr6.e$default(vr6.INSTANCE, "SwiftBackupSettingsHelper", "exportSettings", e, null, 8, null);
+            vr6.e$default(vr6.INSTANCE, "BareBackupSettingsHelper", "exportSettings", e, null, 8, null);
         }
         return be8.a;
     }

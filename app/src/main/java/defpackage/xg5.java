@@ -8,7 +8,7 @@ import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import java.io.InputStream;
 import java.io.OutputStream;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -80,8 +80,8 @@ public final class xg5 implements Parcelable {
         if (partUri == null) {
             return null;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        return SwiftApp.Companion.c().getContentResolver().openInputStream(partUri);
+        BareApp.Companion companion = BareApp.d;
+        return BareApp.Companion.c().getContentResolver().openInputStream(partUri);
     }
 
     private final boolean isPlainText() {

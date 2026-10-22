@@ -3,13 +3,13 @@ package defpackage;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
 public final class z6 extends kx4 {
-    public final SwiftListItemCardView v;
+    public final BareListItemCardView v;
     public final TextView w;
     public final ImageView x;
     public final /* synthetic */ a7 y;
@@ -19,8 +19,8 @@ public final class z6 extends kx4 {
         super(view);
         this.y = a7Var;
         int i = R.id.item_card;
-        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-        if (swiftListItemCardView != null) {
+        BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+        if (bareListItemCardView != null) {
             i = R.id.item_content;
             View viewU = ms8.u(view, R.id.item_content);
             if (viewU != null) {
@@ -30,7 +30,7 @@ public final class z6 extends kx4 {
                     i2 = R.id.tv_more_list_item;
                     TextView textView = (TextView) ms8.u(viewU, R.id.tv_more_list_item);
                     if (textView != null) {
-                        this.v = swiftListItemCardView;
+                        this.v = bareListItemCardView;
                         this.w = textView;
                         this.x = imageView;
                         return;

@@ -5,8 +5,8 @@ import android.os.Looper;
 import com.microsoft.identity.client.Account;
 import com.microsoft.identity.client.AuthenticationResult;
 import com.microsoft.identity.client.SingleAccountPublicClientApplication;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -41,8 +41,8 @@ public final class tt5 extends ws7 implements qt3 {
         be8 be8Var = be8.a;
         if (singleAccountPublicClientApplicationC == null) {
             vr6.e$default(vr6.INSTANCE, vt5Var.b, "OneDrive client null", null, 4, null);
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String string = contextC.getString(R.string.unknown_error_occured);
             string.getClass();
             zn4 zn4Var = zn4.a;

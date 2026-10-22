@@ -7,10 +7,10 @@ import android.view.View;
 import androidx.credentials.playservices.CredentialProviderPlayServicesImpl;
 import com.google.android.gms.tasks.OnFailureListener;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

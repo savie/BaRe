@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -29,8 +29,8 @@ public final class l20 extends gm7 implements p53 {
         this.n = textView;
         this.o = zsVar;
         this.p = lmVar;
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(z ? R.string.last_synced : R.string.last_backup);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(z ? R.string.last_synced : R.string.last_backup);
         string.getClass();
         this.q = string;
         this.r = V.INSTANCE.getA();

@@ -10,8 +10,8 @@ import com.google.android.play.core.integrity.model.IntegrityErrorCode;
 import com.google.android.play.core.integrity.model.StandardIntegrityErrorCode;
 import java.lang.ref.WeakReference;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -494,8 +494,8 @@ public abstract class cr {
             return false;
         }
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            AdvancedProtectionManager advancedProtectionManager = (AdvancedProtectionManager) SwiftApp.Companion.c().getSystemService(AdvancedProtectionManager.class);
+            BareApp.Companion companion = BareApp.d;
+            AdvancedProtectionManager advancedProtectionManager = (AdvancedProtectionManager) BareApp.Companion.c().getSystemService(AdvancedProtectionManager.class);
             if (advancedProtectionManager == null) {
                 return false;
             }

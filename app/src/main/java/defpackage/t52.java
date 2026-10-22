@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -51,9 +51,9 @@ public final class t52 implements jk8 {
     public final m86 r;
     public final NestedScrollView t;
     public final LinearLayout x;
-    public final SwiftBackupMaterialSwitch y;
+    public final BareBackupMaterialSwitch y;
 
-    public t52(ConstraintLayout constraintLayout, MaterialButton materialButton, MaterialButton materialButton2, View view, View view2, LinearLayout linearLayout, ImageView imageView, ImageView imageView2, ImageView imageView3, ImageView imageView4, m86 m86Var, NestedScrollView nestedScrollView, LinearLayout linearLayout2, SwiftBackupMaterialSwitch swiftBackupMaterialSwitch, FrameLayout frameLayout, TextInputLayout textInputLayout, u00 u00Var, d62 d62Var, dr drVar, bp0 bp0Var, ny1 ny1Var, TextInputLayout textInputLayout2, u94 u94Var, TextInputLayout textInputLayout3, e41 e41Var, s02 s02Var, TextInputLayout textInputLayout4, AutoCompleteTextView autoCompleteTextView, TextView textView, TextView textView2, TextView textView3, TextView textView4, AutoCompleteTextView autoCompleteTextView2, AutoCompleteTextView autoCompleteTextView3, TextView textView5, TextView textView6, AutoCompleteTextView autoCompleteTextView4) {
+    public t52(ConstraintLayout constraintLayout, MaterialButton materialButton, MaterialButton materialButton2, View view, View view2, LinearLayout linearLayout, ImageView imageView, ImageView imageView2, ImageView imageView3, ImageView imageView4, m86 m86Var, NestedScrollView nestedScrollView, LinearLayout linearLayout2, BareBackupMaterialSwitch bareBackupMaterialSwitch, FrameLayout frameLayout, TextInputLayout textInputLayout, u00 u00Var, d62 d62Var, dr drVar, bp0 bp0Var, ny1 ny1Var, TextInputLayout textInputLayout2, u94 u94Var, TextInputLayout textInputLayout3, e41 e41Var, s02 s02Var, TextInputLayout textInputLayout4, AutoCompleteTextView autoCompleteTextView, TextView textView, TextView textView2, TextView textView3, TextView textView4, AutoCompleteTextView autoCompleteTextView2, AutoCompleteTextView autoCompleteTextView3, TextView textView5, TextView textView6, AutoCompleteTextView autoCompleteTextView4) {
         this.a = constraintLayout;
         this.b = materialButton;
         this.c = materialButton2;
@@ -67,7 +67,7 @@ public final class t52 implements jk8 {
         this.r = m86Var;
         this.t = nestedScrollView;
         this.x = linearLayout2;
-        this.y = swiftBackupMaterialSwitch;
+        this.y = bareBackupMaterialSwitch;
         this.G = frameLayout;
         this.H = textInputLayout;
         this.I = u00Var;

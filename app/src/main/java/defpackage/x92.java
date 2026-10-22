@@ -21,12 +21,12 @@ import com.google.android.material.card.MaterialCardView;
 import com.nimbusds.jose.jwk.gen.OctetSequenceKeyGenerator;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.model.StorageInfoLocal;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.model.StorageInfoLocal;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -37,7 +37,7 @@ public final class x92 extends nd6<y92> {
     public final gv7 k;
 
     public x92() {
-        os4 os4VarX = jd4.x(ys4.c, new t30(new t92(this, x92.class, "ctx", "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;", 0), 2));
+        os4 os4VarX = jd4.x(ys4.c, new t30(new t92(this, x92.class, "ctx", "getCtx()Lorg/bareapps/barebackup/home/HomeActivity;", 0), 2));
         this.d = new l90(ph6.a(fa2.class), new u30(os4VarX, 1), new v92(this, os4VarX), new v30(os4VarX, 1));
         this.e = true;
         this.f = true;
@@ -102,7 +102,7 @@ public final class x92 extends nd6<y92> {
                                                         if (textView2 != null) {
                                                             i2 = R.id.tv_root_title;
                                                             if (((TextView) ms8.u(viewU5, R.id.tv_root_title)) != null) {
-                                                                pp0 pp0Var = new pp0((SwiftSegmentedCardGroup) viewU5, imageView, recyclerView, quickRecyclerView, ca2VarA, textView, textView2);
+                                                                pp0 pp0Var = new pp0((BareSegmentedCardGroup) viewU5, imageView, recyclerView, quickRecyclerView, ca2VarA, textView, textView2);
                                                                 NestedScrollView nestedScrollView = (NestedScrollView) viewInflate;
                                                                 i = R.id.dash_secondary_user_warning;
                                                                 View viewU7 = ms8.u(viewInflate, R.id.dash_secondary_user_warning);
@@ -216,16 +216,16 @@ public final class x92 extends nd6<y92> {
         boolean zHasSystemFeature = g00.r().hasSystemFeature("android.hardware.telephony");
         final int i = 1;
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            WallpaperManager wallpaperManager = WallpaperManager.getInstance(SwiftApp.Companion.c());
+            BareApp.Companion companion = BareApp.d;
+            WallpaperManager wallpaperManager = WallpaperManager.getInstance(BareApp.Companion.c());
             boolValueOf = Boolean.valueOf(wallpaperManager != null && wallpaperManager.isWallpaperSupported());
         } catch (Exception unused2) {
             boolValueOf = null;
         }
         boolean zBooleanValue = boolValueOf != null ? boolValueOf.booleanValue() : false;
         ArrayList arrayList = new ArrayList();
-        SwiftApp.Companion companion2 = SwiftApp.d;
-        String string2 = SwiftApp.Companion.c().getString(R.string.apps);
+        BareApp.Companion companion2 = BareApp.d;
+        String string2 = BareApp.Companion.c().getString(R.string.apps);
         d71 d71Var = new d71();
         d71Var.a = 1;
         if (string2 == null) {
@@ -237,7 +237,7 @@ public final class x92 extends nd6<y92> {
         arrayList.add(d71Var);
         int i2 = 2;
         if (zHasSystemFeature) {
-            String string3 = SwiftApp.Companion.c().getString(R.string.messages);
+            String string3 = BareApp.Companion.c().getString(R.string.messages);
             d71 d71Var2 = new d71();
             d71Var2.a = 2;
             if (string3 == null) {
@@ -249,7 +249,7 @@ public final class x92 extends nd6<y92> {
             arrayList.add(d71Var2);
         }
         if (zHasSystemFeature) {
-            String string4 = SwiftApp.Companion.c().getString(R.string.call_logs);
+            String string4 = BareApp.Companion.c().getString(R.string.call_logs);
             d71 d71Var3 = new d71();
             d71Var3.a = 3;
             if (string4 == null) {
@@ -260,7 +260,7 @@ public final class x92 extends nd6<y92> {
             d71Var3.d = R.color.calls;
             arrayList.add(d71Var3);
         }
-        String string5 = SwiftApp.Companion.c().getString(R.string.folders);
+        String string5 = BareApp.Companion.c().getString(R.string.folders);
         d71 d71Var4 = new d71();
         d71Var4.a = 6;
         if (string5 == null) {
@@ -271,7 +271,7 @@ public final class x92 extends nd6<y92> {
         d71Var4.d = R.color.folders;
         arrayList.add(d71Var4);
         if (zBooleanValue) {
-            String string6 = SwiftApp.Companion.c().getString(R.string.wallpapers);
+            String string6 = BareApp.Companion.c().getString(R.string.wallpapers);
             d71 d71Var5 = new d71();
             d71Var5.a = 4;
             if (string6 == null) {
@@ -282,7 +282,7 @@ public final class x92 extends nd6<y92> {
             d71Var5.d = R.color.walls;
             arrayList.add(d71Var5);
         }
-        String string7 = SwiftApp.Companion.c().getString(R.string.wifi);
+        String string7 = BareApp.Companion.c().getString(R.string.wifi);
         d71 d71Var6 = new d71();
         int i3 = 5;
         d71Var6.a = 5;
@@ -345,7 +345,7 @@ public final class x92 extends nd6<y92> {
                 }
             }
         }));
-        SwiftApp.Companion.a().a.e(getViewLifecycleOwner(), new s30(3, new hj(this, 13)));
+        BareApp.Companion.a().a.e(getViewLifecycleOwner(), new s30(3, new hj(this, 13)));
         this.e = m().c.d() == null;
         m().c.e(getViewLifecycleOwner(), new w92(this, objArr == true ? 1 : 0));
         this.f = m().d.d() == null;

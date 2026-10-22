@@ -113,16 +113,16 @@ public class f46 extends hg6 {
                     Context context = preferenceGroup.a;
                     long j = preferenceGroup.c;
                     h03 h03Var = new h03(context);
-                    h03Var.W = org.swiftapps.swiftbackup.R.layout.expand_button;
+                    h03Var.W = com.bareapps.barebackup.R.layout.expand_button;
                     Context context2 = h03Var.a;
-                    Drawable drawableM = iz1.m(context2, org.swiftapps.swiftbackup.R.drawable.ic_arrow_down_24dp);
+                    Drawable drawableM = iz1.m(context2, com.bareapps.barebackup.R.drawable.ic_arrow_down_24dp);
                     if (h03Var.r != drawableM) {
                         h03Var.r = drawableM;
                         h03Var.q = 0;
                         h03Var.h();
                     }
-                    h03Var.q = org.swiftapps.swiftbackup.R.drawable.ic_arrow_down_24dp;
-                    String string2 = context2.getString(org.swiftapps.swiftbackup.R.string.expand_button_title);
+                    h03Var.q = com.bareapps.barebackup.R.drawable.ic_arrow_down_24dp;
+                    String string2 = context2.getString(com.bareapps.barebackup.R.string.expand_button_title);
                     if (!TextUtils.equals(string2, h03Var.n)) {
                         h03Var.n = string2;
                         h03Var.h();
@@ -149,7 +149,7 @@ public class f46 extends hg6 {
                                 arrayList3.add((PreferenceGroup) preference);
                             }
                         } else if (!TextUtils.isEmpty(charSequence)) {
-                            string = string == null ? charSequence : context2.getString(org.swiftapps.swiftbackup.R.string.summary_collapsed_preference_list, string, charSequence);
+                            string = string == null ? charSequence : context2.getString(com.bareapps.barebackup.R.string.summary_collapsed_preference_list, string, charSequence);
                         }
                     }
                     h03Var.B(string);

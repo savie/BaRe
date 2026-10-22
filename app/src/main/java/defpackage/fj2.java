@@ -7,12 +7,12 @@ import android.net.Uri;
 import android.os.Process;
 import android.view.View;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.settings.LicensesActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.messagescalls.backups.MessagesBackupsActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.settings.LicensesActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -60,8 +60,8 @@ public final /* synthetic */ class fj2 implements View.OnClickListener {
                 sx sxVar = fj7Var.a;
                 mp6 mp6Var = mp6.a;
                 if (!mp6.f() && sxVar == sx.DateUsed) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    if (((AppOpsManager) SwiftApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), SwiftApp.Companion.c().getPackageName()) != 0) {
+                    BareApp.Companion companion = BareApp.d;
+                    if (((AppOpsManager) BareApp.Companion.c().getSystemService("appops")).noteOpNoThrow("android:get_usage_stats", Process.myUid(), BareApp.Companion.c().getPackageName()) != 0) {
                         il0 il0Var = hj7Var.l;
                         il0Var.getClass();
                         try {

@@ -12,7 +12,7 @@ public final class ch8 implements Interceptor {
     @Override // okhttp3.Interceptor
     public final Response a(RealInterceptorChain realInterceptorChain) {
         Request.Builder builderA = realInterceptorChain.e.a();
-        builderA.c.d("User-Agent", "SwiftBackup / 5.1.0 (620); ".concat(Build.MANUFACTURER + "/" + Build.MODEL));
+        builderA.c.d("User-Agent", "BareBackup / 5.1.0 (620); ".concat(Build.MANUFACTURER + "/" + Build.MODEL));
         return realInterceptorChain.b(new Request(builderA));
     }
 }

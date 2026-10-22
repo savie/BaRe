@@ -21,24 +21,24 @@ import java.util.List;
 import okhttp3.internal.http2.ErrorCode;
 import okhttp3.internal.http2.Http2Connection;
 import okhttp3.internal.http2.Settings;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apkreader.ApkManifestParser;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigsData;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apkreader.ApkManifestParser;
+import com.bareapps.barebackup.appconfigs.data.ConfigsData;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.appsquickactions.AppsQuickActionsActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.a;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -155,12 +155,12 @@ public final /* synthetic */ class bh implements bt3 {
                 int i9 = ContributorRegActivity.S;
                 return ((ContributorRegActivity) obj).N().p;
             case 18:
-                org.swiftapps.swiftbackup.contributor.a aVar = (org.swiftapps.swiftbackup.contributor.a) obj;
+                com.bareapps.barebackup.contributor.a aVar = (com.bareapps.barebackup.contributor.a) obj;
                 aVar.h(R.string.processing);
                 af3 af3VarC = cf3.c(aVar.e, aVar.g);
                 if (pe4.d(af3VarC, ze3.b)) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     zn4 zn4Var = zn4.a;
                     dj7.y(contextC, "Synced");
                 } else {
@@ -170,8 +170,8 @@ public final /* synthetic */ class bh implements bt3 {
                     }
                     String strJ = xs1.j("Error while saving details: ", ((ye3) af3VarC).b.b);
                     vr6.e$default(vr6.INSTANCE, aVar.b, strJ, null, 4, null);
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    Context contextC2 = SwiftApp.Companion.c();
+                    BareApp.Companion companion2 = BareApp.d;
+                    Context contextC2 = BareApp.Companion.c();
                     zn4 zn4Var2 = zn4.a;
                     dj7.y(contextC2, strJ);
                 }

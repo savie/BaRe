@@ -2,8 +2,8 @@ package defpackage;
 
 import android.content.Context;
 import android.os.Build;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v2 h28, still in use, count: 1, list:
@@ -57,8 +57,8 @@ public final class h28 {
 
     public final String asString() {
         int i;
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         int i2 = g28.a[ordinal()];
         if (i2 == 1) {
             i = R.string.light_theme;

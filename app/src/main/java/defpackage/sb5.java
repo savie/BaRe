@@ -1,10 +1,10 @@
 package defpackage;
 
 import java.util.Arrays;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.clients.MegaClient$Credentials;
-import org.swiftapps.swiftbackup.cloud.protocols.mega.MegaLoginResult;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.clients.MegaClient$Credentials;
+import com.bareapps.barebackup.cloud.protocols.mega.MegaLoginResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -46,9 +46,9 @@ public final class sb5 extends ws7 implements qt3 {
             f6.g(eq3.j(tb5Var.b, ".login"));
             return null;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         boolean z = false;
-        if (ai8.i(SwiftApp.Companion.c())) {
+        if (ai8.i(BareApp.Companion.c())) {
             ((nb5) gv7Var.getValue()).getClass();
             gt7 gt7Var = nb5.b;
             gt7Var.getClass();
@@ -66,11 +66,11 @@ public final class sb5 extends ws7 implements qt3 {
             if (megaLoginResultE instanceof MegaLoginResult.Failed) {
                 Exception e = ((MegaLoginResult.Failed) megaLoginResultE).getE();
                 vr6.e$default(vr6Var, tb5Var.b, "Error: ".concat(io4.b(e)), null, 4, null);
-                ai8.n(SwiftApp.Companion.c(), String.valueOf(e.getMessage()));
+                ai8.n(BareApp.Companion.c(), String.valueOf(e.getMessage()));
             }
         } else {
             vr6.e$default(vr6.INSTANCE, tb5Var.b, "Network not available", null, 4, null);
-            ai8.m(SwiftApp.Companion.c(), R.string.no_internet_connection);
+            ai8.m(BareApp.Companion.c(), R.string.no_internet_connection);
             megaLoginResultE = new MegaLoginResult.Failed(new Exception("Network not available"));
         }
         boolean z2 = megaLoginResultE instanceof MegaLoginResult.Success;

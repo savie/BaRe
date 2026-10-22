@@ -291,7 +291,7 @@ public abstract class zm extends u implements dn {
                                 }
                             }
                             Configuration configurationT = fo.t(context, iC, h05VarP, configuration3, true);
-                            hv1Var = new hv1(context, org.swiftapps.swiftbackup.R.style.Theme_AppCompat_Empty);
+                            hv1Var = new hv1(context, com.bareapps.barebackup.R.style.Theme_AppCompat_Empty);
                             hv1Var.a(configurationT);
                             try {
                                 if (context.getTheme() != null) {
@@ -454,7 +454,7 @@ public abstract class zm extends u implements dn {
                         configuration3 = null;
                     }
                     Configuration configurationT2 = fo.t(context, iC, h05VarP, configuration3, true);
-                    hv1Var = new hv1(context, org.swiftapps.swiftbackup.R.style.Theme_AppCompat_Empty);
+                    hv1Var = new hv1(context, com.bareapps.barebackup.R.style.Theme_AppCompat_Empty);
                     hv1Var.a(configurationT2);
                     if (context.getTheme() != null) {
                         theme = hv1Var.getTheme();
@@ -607,7 +607,7 @@ public abstract class zm extends u implements dn {
                 configuration3 = null;
             }
             Configuration configurationT3 = fo.t(context, iC, h05VarP, configuration3, true);
-            hv1Var = new hv1(context, org.swiftapps.swiftbackup.R.style.Theme_AppCompat_Empty);
+            hv1Var = new hv1(context, com.bareapps.barebackup.R.style.Theme_AppCompat_Empty);
             hv1Var.a(configurationT3);
             if (context.getTheme() != null) {
                 theme = hv1Var.getTheme();

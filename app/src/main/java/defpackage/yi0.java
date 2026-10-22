@@ -2,7 +2,7 @@ package defpackage;
 
 import android.widget.TextView;
 import androidx.credentials.playservices.controllers.identitycredentials.createdigitalcredential.CreateDigitalCredentialController;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

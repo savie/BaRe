@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.intro.IntroActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -85,8 +85,8 @@ public final /* synthetic */ class dw implements mt3 {
                 Log.d("FCW", "IntroActivity.Observer:" + xf3Var);
                 gg3 gg3Var = gg3.a;
                 if (gg3.f()) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    if (ai8.i(SwiftApp.Companion.c())) {
+                    BareApp.Companion companion = BareApp.d;
+                    if (ai8.i(BareApp.Companion.c())) {
                         if (xf3Var == xf3.CONNECTED) {
                             sz8.m(introActivity2.S);
                         }

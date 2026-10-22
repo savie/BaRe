@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -15,8 +15,8 @@ public abstract class t05 {
     public static void a(final sa1 sa1Var, Set set, mt3 mt3Var) {
         sa1Var.getClass();
         String string = q05.DEVICE.toString();
-        SwiftApp.Companion companion = SwiftApp.d;
-        final Map mapR0 = x65.r0(new pw5(string, SwiftApp.Companion.c().getString(R.string.device)), new pw5(q05.CLOUD.toString(), SwiftApp.Companion.c().getString(R.string.cloud)));
+        BareApp.Companion companion = BareApp.d;
+        final Map mapR0 = x65.r0(new pw5(string, BareApp.Companion.c().getString(R.string.device)), new pw5(q05.CLOUD.toString(), BareApp.Companion.c().getString(R.string.cloud)));
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         for (Map.Entry entry : mapR0.entrySet()) {
             if (set.contains(entry.getKey())) {

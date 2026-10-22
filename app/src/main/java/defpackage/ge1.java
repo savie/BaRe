@@ -11,9 +11,9 @@ import com.google.android.material.listitem.ListItemLayout;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.Arrays;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -42,7 +42,7 @@ public final class ge1 extends gm7 {
         boolean z = this.m;
         jf jfVar = new jf(3, fe1Var, this);
         il0 il0Var = fe1Var.v;
-        SwiftListItemCardView swiftListItemCardView = fe1Var.x;
+        BareListItemCardView bareListItemCardView = fe1Var.x;
         xe1 xe1Var = fe1Var.w;
         qd1 qd1Var = md1Var.a;
         rd1 rd1Var = md1Var.c;
@@ -54,11 +54,11 @@ public final class ge1 extends gm7 {
         ImageView imageView = xe1Var.d;
         TextView textView = xe1Var.k;
         listItemLayout.setEnabled(z3 && !z);
-        swiftListItemCardView.setEnabled(true);
-        swiftListItemCardView.setCheckable(true);
-        swiftListItemCardView.setChecked(zQ);
-        swiftListItemCardView.setEnabled(z4);
-        swiftListItemCardView.setAlpha(z3 ? 1.0f : 0.55f);
+        bareListItemCardView.setEnabled(true);
+        bareListItemCardView.setCheckable(true);
+        bareListItemCardView.setChecked(zQ);
+        bareListItemCardView.setEnabled(z4);
+        bareListItemCardView.setAlpha(z3 ? 1.0f : 0.55f);
         String strConcat = null;
         if (z2) {
             i2 = 0;
@@ -67,7 +67,7 @@ public final class ge1 extends gm7 {
             i2 = 0;
             ce1Var = null;
         }
-        swiftListItemCardView.setOnClickListener(ce1Var);
+        bareListItemCardView.setOnClickListener(ce1Var);
         MCheckBox mCheckBox = xe1Var.b;
         mCheckBox.setChecked(zQ);
         mCheckBox.setEnabled(z2);
@@ -259,8 +259,8 @@ public final class ge1 extends gm7 {
                 i2 = R.id.content_container;
                 if (((ConstraintLayout) ms8.u(view, R.id.content_container)) != null) {
                     i2 = R.id.item_card;
-                    SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                    if (swiftListItemCardView != null) {
+                    BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                    if (bareListItemCardView != null) {
                         i2 = R.id.iv_status;
                         ImageView imageView = (ImageView) ms8.u(view, R.id.iv_status);
                         if (imageView != null) {
@@ -281,7 +281,7 @@ public final class ge1 extends gm7 {
                                                 i2 = R.id.tv_title;
                                                 TextView textView4 = (TextView) ms8.u(view, R.id.tv_title);
                                                 if (textView4 != null) {
-                                                    return new fe1(this.l, new xe1(listItemLayout, mCheckBox, swiftListItemCardView, imageView, circularProgressIndicator, textView, textView2, textView3, textView4));
+                                                    return new fe1(this.l, new xe1(listItemLayout, mCheckBox, bareListItemCardView, imageView, circularProgressIndicator, textView, textView2, textView3, textView4));
                                                 }
                                             }
                                         }

@@ -11,7 +11,7 @@ public final /* synthetic */ class i70 implements ThreadFactory {
     public final Thread newThread(Runnable runnable) {
         switch (this.a) {
             case 0:
-                Thread thread = new Thread(runnable, "swiftbackup-atomic-delete");
+                Thread thread = new Thread(runnable, "barebackup-atomic-delete");
                 thread.setDaemon(true);
                 return thread;
             default:

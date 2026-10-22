@@ -7,16 +7,16 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.HashSet;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.views.PreCachingLinearLayoutManager;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.notice.NoticeItem;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.views.PreCachingLinearLayoutManager;
+import com.bareapps.barebackup.views.QuickRecyclerView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

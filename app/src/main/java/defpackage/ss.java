@@ -5,15 +5,15 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.view.animation.PathInterpolator;
 import androidx.fragment.app.u;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.tasks.PreconditionsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.tasks.PreconditionsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

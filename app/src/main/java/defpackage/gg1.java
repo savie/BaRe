@@ -17,11 +17,11 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftSegmentLinearLayout;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareSegmentLinearLayout;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -34,7 +34,7 @@ public final class gg1 extends rl0<hg1> {
     public gg1() {
         super(0);
         int i = 0;
-        os4 os4VarX = jd4.x(ys4.c, new l7(new fg1(this, gg1.class, "ctx", "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;", 0), 1));
+        os4 os4VarX = jd4.x(ys4.c, new l7(new fg1(this, gg1.class, "ctx", "getCtx()Lorg/bareapps/barebackup/home/HomeActivity;", 0), 1));
         this.c = new l90(ph6.a(ng1.class), new bg1(os4VarX), new dg1(i, this, os4VarX), new cg1(os4VarX, i));
     }
 
@@ -166,9 +166,9 @@ public final class gg1 extends rl0<hg1> {
                                         i3 = R.id.btn_delete_active_tag;
                                         MaterialButton materialButton = (MaterialButton) ms8.u(viewU, R.id.btn_delete_active_tag);
                                         if (materialButton != null) {
-                                            SwiftSegmentedCardGroup swiftSegmentedCardGroup = (SwiftSegmentedCardGroup) viewU;
+                                            BareSegmentedCardGroup bareSegmentedCardGroup = (BareSegmentedCardGroup) viewU;
                                             i3 = R.id.cloud_tag_selector_segment;
-                                            if (((SwiftSegmentLinearLayout) ms8.u(viewU, R.id.cloud_tag_selector_segment)) != null) {
+                                            if (((BareSegmentLinearLayout) ms8.u(viewU, R.id.cloud_tag_selector_segment)) != null) {
                                                 i3 = R.id.dropdown_active_tag;
                                                 View viewU3 = ms8.u(viewU, R.id.dropdown_active_tag);
                                                 if (viewU3 != null) {
@@ -186,7 +186,7 @@ public final class gg1 extends rl0<hg1> {
                                                                     if (((TextView) ms8.u(viewU, R.id.tv_empty_backup_info_title)) != null) {
                                                                         i3 = R.id.tv_info;
                                                                         if (((TextView) ms8.u(viewU, R.id.tv_info)) != null) {
-                                                                            tf1 tf1Var = new tf1(swiftSegmentedCardGroup, linearLayout, viewU2, constraintLayout, recyclerView, quickRecyclerView, materialButton, gm1VarA, textView);
+                                                                            tf1 tf1Var = new tf1(bareSegmentedCardGroup, linearLayout, viewU2, constraintLayout, recyclerView, quickRecyclerView, materialButton, gm1VarA, textView);
                                                                             i2 = R.id.cloud_info_card_storage;
                                                                             View viewU4 = ms8.u(viewInflate, R.id.cloud_info_card_storage);
                                                                             if (viewU4 != null) {
@@ -196,7 +196,7 @@ public final class gg1 extends rl0<hg1> {
                                                                                     i4 = R.id.cloud_actions_segment;
                                                                                     if (((ConstraintLayout) ms8.u(viewU4, R.id.cloud_actions_segment)) != null) {
                                                                                         i4 = R.id.cloud_storage_segment;
-                                                                                        if (((SwiftSegmentLinearLayout) ms8.u(viewU4, R.id.cloud_storage_segment)) != null) {
+                                                                                        if (((BareSegmentLinearLayout) ms8.u(viewU4, R.id.cloud_storage_segment)) != null) {
                                                                                             i4 = R.id.iv_save_settings;
                                                                                             ImageView imageView = (ImageView) ms8.u(viewU4, R.id.iv_save_settings);
                                                                                             if (imageView != null) {
@@ -214,7 +214,7 @@ public final class gg1 extends rl0<hg1> {
                                                                                                                 i4 = R.id.tv_cloud_folder_name;
                                                                                                                 TextView textView3 = (TextView) ms8.u(viewU4, R.id.tv_cloud_folder_name);
                                                                                                                 if (textView3 != null) {
-                                                                                                                    xf1 xf1Var = new xf1((SwiftSegmentedCardGroup) viewU4, materialButton2, imageView, ca2VarA, textView2, textView3);
+                                                                                                                    xf1 xf1Var = new xf1((BareSegmentedCardGroup) viewU4, materialButton2, imageView, ca2VarA, textView2, textView3);
                                                                                                                     i2 = R.id.cloud_info_card_warning;
                                                                                                                     View viewU6 = ms8.u(viewInflate, R.id.cloud_info_card_warning);
                                                                                                                     if (viewU6 != null) {

@@ -10,7 +10,7 @@ import android.util.TypedValue;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.WeakHashMap;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

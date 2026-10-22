@@ -95,8 +95,8 @@ public abstract class fl5 extends ViewGroup implements zc5 {
             this.a = pb0Var;
             pb0Var.R(0);
             pb0Var.p();
-            pb0Var.G(ji8.F(getContext(), org.swiftapps.swiftbackup.R.attr.motionDurationMedium4, getResources().getInteger(org.swiftapps.swiftbackup.R.integer.material_motion_duration_long_1)));
-            pb0Var.I(ji8.G(getContext(), org.swiftapps.swiftbackup.R.attr.motionEasingStandard, ed.b));
+            pb0Var.G(ji8.F(getContext(), com.bareapps.barebackup.R.attr.motionDurationMedium4, getResources().getInteger(com.bareapps.barebackup.R.integer.material_motion_duration_long_1)));
+            pb0Var.I(ji8.G(getContext(), com.bareapps.barebackup.R.attr.motionEasingStandard, ed.b));
             pb0Var.O(new u18());
         }
         this.b = new el5(this);
@@ -205,7 +205,7 @@ public abstract class fl5 extends ViewGroup implements zc5 {
             if (z) {
                 Context context = getContext();
                 wk5Var = new wk5(context);
-                LayoutInflater.from(context).inflate(org.swiftapps.swiftbackup.R.layout.m3_navigation_menu_divider, (ViewGroup) wk5Var, true);
+                LayoutInflater.from(context).inflate(com.bareapps.barebackup.R.layout.m3_navigation_menu_divider, (ViewGroup) wk5Var, true);
                 wk5Var.b();
                 wk5Var.setOnlyShowWhenExpanded(true);
                 wk5Var.setDividersEnabled(this.p0);
@@ -265,7 +265,7 @@ public abstract class fl5 extends ViewGroup implements zc5 {
             return null;
         }
         ColorStateList colorStateListQ = zh8.q(getContext(), typedValue.resourceId);
-        if (!getContext().getTheme().resolveAttribute(org.swiftapps.swiftbackup.R.attr.colorPrimary, typedValue, true)) {
+        if (!getContext().getTheme().resolveAttribute(com.bareapps.barebackup.R.attr.colorPrimary, typedValue, true)) {
             return null;
         }
         int i = typedValue.data;

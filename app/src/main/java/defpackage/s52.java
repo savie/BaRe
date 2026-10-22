@@ -1,8 +1,8 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -36,10 +36,10 @@ public final /* synthetic */ class s52 extends cu3 implements mt3 {
                 vx5 vx5Var = (vx5) passwordStrategyActivity.M.getValue();
                 ux5 ux5Var = ux5.STANDARD_PASSWORD;
                 ux5 ux5Var2 = zx5Var.a;
-                vx5Var.a(ux5Var, ux5Var2 == ux5Var, new hl0(1, passwordStrategyActivity.a0(), by5.class, "onModeClicked", "onModeClicked(Lorg/swiftapps/swiftbackup/password/PasswordStrategy;)V", 0, 5), null);
+                vx5Var.a(ux5Var, ux5Var2 == ux5Var, new hl0(1, passwordStrategyActivity.a0(), by5.class, "onModeClicked", "onModeClicked(Lorg/bareapps/barebackup/password/PasswordStrategy;)V", 0, 5), null);
                 vx5 vx5Var2 = (vx5) passwordStrategyActivity.N.getValue();
                 ux5 ux5Var3 = ux5.USER_PASSWORD;
-                vx5Var2.a(ux5Var3, ux5Var2 == ux5Var3, new k00(1, passwordStrategyActivity.a0(), by5.class, "onModeClicked", "onModeClicked(Lorg/swiftapps/swiftbackup/password/PasswordStrategy;)V", 0, 4), new ox(passwordStrategyActivity, 21));
+                vx5Var2.a(ux5Var3, ux5Var2 == ux5Var3, new k00(1, passwordStrategyActivity.a0(), by5.class, "onModeClicked", "onModeClicked(Lorg/bareapps/barebackup/password/PasswordStrategy;)V", 0, 4), new ox(passwordStrategyActivity, 21));
                 break;
         }
         return be8Var;

@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import javax.security.auth.x500.X500Principal;
 import org.json.JSONException;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

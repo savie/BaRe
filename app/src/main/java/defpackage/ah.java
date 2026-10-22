@@ -26,20 +26,20 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkreader.ApkManifestParser;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigsData;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$BaseBackup;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkreader.ApkManifestParser;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.data.ConfigsData;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.folders.data.FolderBackup$BaseBackup;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -139,7 +139,7 @@ public final /* synthetic */ class ah implements bt3 {
             case 13:
                 CloudConnectActivity cloudConnectActivity = (CloudConnectActivity) this.b;
                 int i7 = CloudConnectActivity.Q;
-                return new ac1(cloudConnectActivity, new xf(1, cloudConnectActivity, CloudConnectActivity.class, "onSelectedCloudConnectClick", "onSelectedCloudConnectClick(Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectItem;)V", 0, 1));
+                return new ac1(cloudConnectActivity, new xf(1, cloudConnectActivity, CloudConnectActivity.class, "onSelectedCloudConnectClick", "onSelectedCloudConnectClick(Lorg/bareapps/barebackup/cloud/connect/common/CloudConnectItem;)V", 0, 1));
             case 14:
                 CloudDiagnosticsActivity cloudDiagnosticsActivity = (CloudDiagnosticsActivity) this.b;
                 int i8 = CloudDiagnosticsActivity.Z;

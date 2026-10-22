@@ -357,7 +357,7 @@ public final class d04 {
         for (List list : el1.A1(arrayList3, 100, 100)) {
             String string = UUID.randomUUID().toString();
             string.getClass();
-            String strConcat = "swiftbackup_".concat(uq7.T(string, "-", ""));
+            String strConcat = "barebackup_".concat(uq7.T(string, "-", ""));
             StringBuilder sb = new StringBuilder();
             int i2 = 0;
             int i3 = 0;

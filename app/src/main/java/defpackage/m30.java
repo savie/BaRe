@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.Config;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.Config;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -393,8 +393,8 @@ public final class m30 extends ws7 implements qt3 {
                 }
                 ArrayList arrayList11 = n30Var.i;
                 if (arrayList11 == null || arrayList11.isEmpty()) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     String string = contextC.getString(R.string.apps_empty_list_error);
                     string.getClass();
                     zn4 zn4Var = zn4.a;
@@ -440,8 +440,8 @@ public final class m30 extends ws7 implements qt3 {
                     co8Var.j.k(Boolean.TRUE);
                 }
                 co8Var.f();
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Context contextC2 = SwiftApp.Companion.c();
+                BareApp.Companion companion2 = BareApp.d;
+                Context contextC2 = BareApp.Companion.c();
                 String string2 = contextC2.getString(i2 != 0 ? R.string.wallpaper_applied : R.string.coud_not_apply_wallpaper);
                 string2.getClass();
                 zn4 zn4Var2 = zn4.a;

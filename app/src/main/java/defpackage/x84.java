@@ -20,7 +20,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeLong(j);
             this.a.transact(15, parcelObtain, parcelObtain2, 0);
             parcelObtain2.readException();
@@ -35,7 +35,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             l73.b(parcelObtain, i17Var, 0);
             parcelObtain.writeStrongInterface(e94Var);
             this.a.transact(12, parcelObtain, parcelObtain2, 0);
@@ -52,7 +52,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             l73.b(parcelObtain, m17Var, 0);
             parcelObtain.writeStrongInterface(e94Var);
             this.a.transact(13, parcelObtain, parcelObtain2, 0);
@@ -69,7 +69,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             l73.b(parcelObtain, s17Var, 0);
             parcelObtain.writeStrongInterface(e94Var);
             this.a.transact(14, parcelObtain, parcelObtain2, 0);
@@ -86,7 +86,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeString(str);
             parcelObtain.writeInt(i);
             this.a.transact(3, parcelObtain, parcelObtain2, 0);
@@ -103,7 +103,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeString(str);
             parcelObtain.writeInt(i);
             this.a.transact(4, parcelObtain, parcelObtain2, 0);
@@ -120,7 +120,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeLong(j);
             this.a.transact(16, parcelObtain, parcelObtain2, 0);
             parcelObtain2.readException();
@@ -136,7 +136,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeString(str);
             this.a.transact(7, parcelObtain, parcelObtain2, 0);
             parcelObtain2.readException();
@@ -152,7 +152,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeString(str);
             parcelObtain.writeInt(i);
             parcelObtain.writeInt(i2);
@@ -170,7 +170,7 @@ public final class x84 implements z84 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.IRootAidlInterface");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.IRootAidlInterface");
             parcelObtain.writeString(str);
             parcelObtain.writeInt(i);
             parcelObtain.writeInt(128);

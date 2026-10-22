@@ -8,9 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -43,8 +43,8 @@ public final class jo8 {
                             if (((yn8) it2.next()).c == yn8Var.c) {
                                 vr6.i$default(vr6.INSTANCE, "WallUploadHelper", xs1.h(i, "Wallpaper (", ") already backed up on cloud"), null, 4, null);
                                 if (jo8Var.a && !z3) {
-                                    SwiftApp.Companion companion = SwiftApp.d;
-                                    Context contextC = SwiftApp.Companion.c();
+                                    BareApp.Companion companion = BareApp.d;
+                                    Context contextC = BareApp.Companion.c();
                                     String string = contextC.getString(R.string.walls_already_backed_up_in_cloud);
                                     string.getClass();
                                     zn4 zn4Var = zn4.a;

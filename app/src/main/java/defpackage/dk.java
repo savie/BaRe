@@ -22,25 +22,25 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.jcraft.jsch.Argon2;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigsData;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appinfo.AppInfoActivity;
-import org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
-import org.swiftapps.swiftbackup.home.cloud.CloudBackupTag;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.a;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity;
-import org.swiftapps.swiftbackup.views.MAppBarLayout;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appconfigs.data.ConfigsData;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appinfo.AppInfoActivity;
+import com.bareapps.barebackup.appsquickactions.AppsQuickActionsActivity;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.home.cloud.CloudBackupTag;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.a;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitsActivity;
+import com.bareapps.barebackup.views.MAppBarLayout;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -192,7 +192,7 @@ public final /* synthetic */ class dk implements bt3 {
                 pw6.m(name, bitmap2);
                 return be8Var;
             case 10:
-                Const.B((Activity) obj, "https://www.swiftapps.org/faq#appparts");
+                Const.B((Activity) obj, "https://www.bareapps.org/faq#appparts");
                 return be8Var;
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
                 qk0 qk0Var = (qk0) obj;
@@ -204,7 +204,7 @@ public final /* synthetic */ class dk implements bt3 {
                 return (CircularProgressIndicator) ((ni7) ((CallsBackupsActivity) obj).Q.getValue()).c.c;
             case 13:
                 int i10 = CloudConnectActivity.Q;
-                return Boolean.valueOf(((CloudConnectActivity) obj).getIntent().getBooleanExtra("org.swiftapps.swiftbackup.cloud.connect.extra.RUNTIME_SMOKE", false));
+                return Boolean.valueOf(((CloudConnectActivity) obj).getIntent().getBooleanExtra("com.bareapps.barebackup.cloud.connect.extra.RUNTIME_SMOKE", false));
             case 14:
                 int i11 = CloudDiagnosticsActivity.Z;
                 hf1 hf1VarV = ((CloudDiagnosticsActivity) obj).U();

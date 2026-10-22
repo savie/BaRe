@@ -18,15 +18,15 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import okhttp3.FormBody;
 import okhttp3.Request;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apptasks.AppsWorkingDir;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.tasks.TaskService;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apptasks.AppsWorkingDir;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.tasks.TaskService;
+import com.bareapps.barebackup.walls.WallApplyActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -85,8 +85,8 @@ public final /* synthetic */ class bz implements mt3 {
                         if (jLongValue > jA) {
                             jLongValue = jA;
                         }
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        String string = SwiftApp.Companion.c().getString(R.string.uploading);
+                        BareApp.Companion companion = BareApp.d;
+                        String string = BareApp.Companion.c().getString(R.string.uploading);
                         p93 p93Var = p93.a;
                         z11Var.o(String.format("%s: %s / %s", Arrays.copyOf(new Object[]{string, p93.c(Long.valueOf(jLongValue)), p93.c(Long.valueOf(jA))}, 3)));
                     }

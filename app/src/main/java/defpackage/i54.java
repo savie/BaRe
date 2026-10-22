@@ -2,8 +2,8 @@ package defpackage;
 
 import android.app.WallpaperManager;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.intro.d;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.intro.d;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -27,8 +27,8 @@ public final /* synthetic */ class i54 extends cu3 implements bt3 {
             case 0:
                 ((ik0) this.receiver).getClass();
                 try {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(SwiftApp.Companion.c());
+                    BareApp.Companion companion = BareApp.d;
+                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(BareApp.Companion.c());
                     boolValueOf = Boolean.valueOf(wallpaperManager != null && wallpaperManager.isWallpaperSupported());
                     break;
                 } catch (Exception unused) {

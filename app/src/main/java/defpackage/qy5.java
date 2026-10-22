@@ -2,7 +2,7 @@ package defpackage;
 
 import android.os.Looper;
 import java.io.IOException;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -69,7 +69,7 @@ public final class qy5 {
 
     public static String d(zn7 zn7Var) {
         zn7Var.getClass();
-        return zn7Var.l() + "/SwiftBackup/";
+        return zn7Var.l() + "/BareBackup/";
     }
 
     public static String e(MFirebaseUser mFirebaseUser) {

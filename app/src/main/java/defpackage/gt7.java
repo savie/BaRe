@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.cloud.clients.MegaClient$Credentials;
-import org.swiftapps.swiftbackup.cloud.protocols.mega.MegaLoginResult;
-import org.swiftapps.swiftbackup.cloud.protocols.mega.lite.SwiftMegaSavedSession;
+import com.bareapps.barebackup.cloud.clients.MegaClient$Credentials;
+import com.bareapps.barebackup.cloud.protocols.mega.MegaLoginResult;
+import com.bareapps.barebackup.cloud.protocols.mega.lite.BareMegaSavedSession;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -29,9 +29,9 @@ public final class gt7 {
         String str2 = (String) ghVar.a;
         String strEncodeToString = Base64.getUrlEncoder().withoutPadding().encodeToString((byte[]) ghVar.b);
         strEncodeToString.getClass();
-        SwiftMegaSavedSession swiftMegaSavedSession = new SwiftMegaSavedSession(lowerCase, str2, strEncodeToString, (String) ghVar.c);
+        BareMegaSavedSession bareMegaSavedSession = new BareMegaSavedSession(lowerCase, str2, strEncodeToString, (String) ghVar.c);
         gv7 gv7Var = w14.a;
-        String strI = w14.c().i(swiftMegaSavedSession);
+        String strI = w14.c().i(bareMegaSavedSession);
         x95 x95Var = x95.g;
         gv7 gv7Var2 = y32.a;
         x95.s(y32.e(strI));
@@ -146,7 +146,7 @@ public final class gt7 {
         String string;
         Object bn6Var;
         Object bn6Var2;
-        SwiftMegaSavedSession swiftMegaSavedSession;
+        BareMegaSavedSession bareMegaSavedSession;
         Object bn6Var3;
         gh ghVar;
         MegaLoginResult failed;
@@ -166,9 +166,9 @@ public final class gt7 {
                     pe4.F("prefs");
                     throw null;
                 }
-                string = sharedPreferences.getString("mega_swift_session", null);
+                string = sharedPreferences.getString("mega_bare_session", null);
                 if (string == null) {
-                    swiftMegaSavedSession = null;
+                    bareMegaSavedSession = null;
                 } else {
                     try {
                         gv7 gv7Var2 = y32.a;
@@ -180,21 +180,21 @@ public final class gt7 {
                         String str2 = (String) bn6Var;
                         try {
                             gv7 gv7Var3 = w14.a;
-                            bn6Var2 = (SwiftMegaSavedSession) w14.c().c(str2, SwiftMegaSavedSession.class);
+                            bn6Var2 = (BareMegaSavedSession) w14.c().c(str2, BareMegaSavedSession.class);
                         } catch (Throwable th2) {
                             bn6Var2 = new bn6(th2);
                         }
                         if (bn6Var2 instanceof bn6) {
                             bn6Var2 = null;
                         }
-                        swiftMegaSavedSession = (SwiftMegaSavedSession) bn6Var2;
+                        bareMegaSavedSession = (BareMegaSavedSession) bn6Var2;
                     } else {
                         x95 x95Var2 = x95.g;
                         x95.s(null);
-                        swiftMegaSavedSession = null;
+                        bareMegaSavedSession = null;
                     }
                 }
-                ti8 ti8VarValidatedForEmail = swiftMegaSavedSession != null ? swiftMegaSavedSession.validatedForEmail(email) : null;
+                ti8 ti8VarValidatedForEmail = bareMegaSavedSession != null ? bareMegaSavedSession.validatedForEmail(email) : null;
                 if (ti8VarValidatedForEmail == null) {
                     x95 x95Var3 = x95.g;
                     x95.s(null);
@@ -259,13 +259,13 @@ public final class gt7 {
             }
             MegaLoginResult megaLoginResultE = e(null);
             if (!(megaLoginResultE instanceof MegaLoginResult.Success)) {
-                throw new IllegalStateException("Swift MEGA login failed: " + megaLoginResultE);
+                throw new IllegalStateException("Bare MEGA login failed: " + megaLoginResultE);
             }
             gh ghVar2 = h;
             if (ghVar2 != null) {
                 return ghVar2;
             }
-            throw new IllegalArgumentException("Swift MEGA login succeeded without session state");
+            throw new IllegalArgumentException("Bare MEGA login succeeded without session state");
         } catch (Throwable th) {
             throw th;
         }

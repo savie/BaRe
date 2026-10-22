@@ -17,23 +17,23 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.jcraft.jsch.Argon2;
 import java.util.Locale;
 import java.util.UUID;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.database.MDatabase_Impl;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.locale.LocaleActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.RestoreSpecialDataDetailsActivity;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.database.MDatabase_Impl;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.locale.LocaleActivity;
+import com.bareapps.barebackup.messagescalls.backups.MessagesBackupsActivity;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.RestoreSpecialDataDetailsActivity;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
+import com.bareapps.barebackup.walls.WallsDashActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -130,14 +130,14 @@ public final /* synthetic */ class hs4 implements bt3 {
                             NestedScrollView nestedScrollView = (NestedScrollView) ms8.u(viewInflate2, R.id.scroll_view);
                             if (nestedScrollView != null) {
                                 i2 = R.id.swch_restore_special_data;
-                                SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) ms8.u(viewInflate2, R.id.swch_restore_special_data);
-                                if (swiftBackupMaterialSwitch != null) {
+                                BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) ms8.u(viewInflate2, R.id.swch_restore_special_data);
+                                if (bareBackupMaterialSwitch != null) {
                                     i2 = R.id.tv_restore_special_data_message;
                                     TextView textView = (TextView) ms8.u(viewInflate2, R.id.tv_restore_special_data_message);
                                     if (textView != null) {
                                         i2 = R.id.tv_restore_special_data_title;
                                         if (((TextView) ms8.u(viewInflate2, R.id.tv_restore_special_data_title)) != null) {
-                                            return new xm6((CoordinatorLayout) viewInflate2, w00VarB2, materialCardView, recyclerView, nestedScrollView, swiftBackupMaterialSwitch, textView);
+                                            return new xm6((CoordinatorLayout) viewInflate2, w00VarB2, materialCardView, recyclerView, nestedScrollView, bareBackupMaterialSwitch, textView);
                                         }
                                     }
                                 }

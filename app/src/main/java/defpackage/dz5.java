@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -78,8 +78,8 @@ public final class dz5 {
     public static String b(Set set) throws PackageManager.NameNotFoundException {
         String string;
         StringBuilder sb = new StringBuilder();
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string2 = SwiftApp.Companion.c().getString(R.string.permissions_needed_for_service);
+        BareApp.Companion companion = BareApp.d;
+        String string2 = BareApp.Companion.c().getString(R.string.permissions_needed_for_service);
         string2.getClass();
         sb.append(string2);
         sb.append(":\n\n");
@@ -136,8 +136,8 @@ public final class dz5 {
                 if (numValueOf == null || numValueOf.intValue() <= 0) {
                     string = (String) el1.a1(nq7.x0(str, new String[]{"."}, 6));
                 } else {
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    string = SwiftApp.Companion.c().getString(numValueOf.intValue());
+                    BareApp.Companion companion2 = BareApp.d;
+                    string = BareApp.Companion.c().getString(numValueOf.intValue());
                     string.getClass();
                 }
             } else {
@@ -183,8 +183,8 @@ public final class dz5 {
         ArrayList arrayList = new ArrayList(strArr.length);
         for (String str : strArr) {
             boolean z = g42.a;
-            SwiftApp.Companion companion = SwiftApp.d;
-            String packageName = SwiftApp.Companion.c().getPackageName();
+            BareApp.Companion companion = BareApp.d;
+            String packageName = BareApp.Companion.c().getPackageName();
             packageName.getClass();
             str.getClass();
             arrayList.add(String.format((String) g42.g.getValue(), Arrays.copyOf(new Object[]{packageName, str}, 2)));
@@ -202,8 +202,8 @@ public final class dz5 {
             e("android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE");
             return;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        String packageName = SwiftApp.Companion.c().getPackageName();
+        BareApp.Companion companion = BareApp.d;
+        String packageName = BareApp.Companion.c().getPackageName();
         packageName.getClass();
         eu euVar = eu.allow;
         euVar.getClass();
@@ -226,8 +226,8 @@ public final class dz5 {
         if (str.equals("android.permission.POST_NOTIFICATIONS") && !b67.e()) {
             return true;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        return zh8.e(SwiftApp.Companion.c(), str) == 0;
+        BareApp.Companion companion = BareApp.d;
+        return zh8.e(BareApp.Companion.c(), str) == 0;
     }
 
     public static boolean i(Set set) {
@@ -245,8 +245,8 @@ public final class dz5 {
     }
 
     public static boolean j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String packageName = SwiftApp.Companion.c().getPackageName();
+        BareApp.Companion companion = BareApp.d;
+        String packageName = BareApp.Companion.c().getPackageName();
         try {
             g00 g00Var = g00.a;
             List<PackageInfo> installedPackages = g00.r().getInstalledPackages(0);
@@ -316,8 +316,8 @@ public final class dz5 {
                 z3 = false;
             }
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        boolean z4 = Settings.Secure.getInt(SwiftApp.Companion.c().getContentResolver(), "oem_installed_apps_runtime_permission_enable", 0) == 1;
+        BareApp.Companion companion = BareApp.d;
+        boolean z4 = Settings.Secure.getInt(BareApp.Companion.c().getContentResolver(), "oem_installed_apps_runtime_permission_enable", 0) == 1;
         Set set = zc4.a;
         String str2 = permissionInfo != null ? permissionInfo.packageName : null;
         if (str2 == null) {
@@ -353,7 +353,7 @@ public final class dz5 {
             r(zmVar, el1.g1(listI, z85.d(packageName, set, false, false)), set);
             return;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strK = dj7.k(b(set), "\n\n", dj7.g(R.string.grant_permissions_from_settings));
         s35 s35Var = new s35(zmVar, R.style.M3AlertDialogTheme, new hv1(zmVar, R.style.M3AlertDialogTheme), Float.valueOf(14.0f));
         s35Var.v(R.string.permissions_needed);
@@ -368,8 +368,8 @@ public final class dz5 {
     public static void p() {
         vr6.i$default(vr6.INSTANCE, "PermissionHelper", "Revoking storage permissions", null, 4, null);
         if (b67.c()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            String packageName = SwiftApp.Companion.c().getPackageName();
+            BareApp.Companion companion = BareApp.d;
+            String packageName = BareApp.Companion.c().getPackageName();
             packageName.getClass();
             eu euVar = eu.ignore;
             euVar.getClass();
@@ -382,12 +382,12 @@ public final class dz5 {
         }
         mp6 mp6Var2 = mp6.a;
         boolean z2 = g42.a;
-        SwiftApp.Companion companion2 = SwiftApp.d;
-        String packageName2 = SwiftApp.Companion.c().getPackageName();
+        BareApp.Companion companion2 = BareApp.d;
+        String packageName2 = BareApp.Companion.c().getPackageName();
         packageName2.getClass();
         gv7 gv7Var = g42.h;
         String str = String.format((String) gv7Var.getValue(), Arrays.copyOf(new Object[]{packageName2, "android.permission.WRITE_EXTERNAL_STORAGE"}, 2));
-        String packageName3 = SwiftApp.Companion.c().getPackageName();
+        String packageName3 = BareApp.Companion.c().getPackageName();
         packageName3.getClass();
         mp6Var2.h(new String[]{str, String.format((String) gv7Var.getValue(), Arrays.copyOf(new Object[]{packageName3, "android.permission.READ_EXTERNAL_STORAGE"}, 2))}, ip6.SHIZUKU);
     }

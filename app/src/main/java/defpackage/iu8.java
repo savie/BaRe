@@ -3,7 +3,7 @@ package defpackage;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import org.greenrobot.eventbus.ThreadMode;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

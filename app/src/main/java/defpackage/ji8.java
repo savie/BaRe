@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -55,7 +55,7 @@ public abstract class ji8 {
             String str = ry5.u;
             strJ = qy5.d(zn7Var);
         } else if (w46Var != null) {
-            strJ = eq3.j(nq7.K0(w46Var.a, '/'), "/SwiftBackup/");
+            strJ = eq3.j(nq7.K0(w46Var.a, '/'), "/BareBackup/");
         }
         return new ho7(strJ, zn7Var != null && zn7Var.b, (zn7Var != null && zn7Var.b) || w46Var != null);
     }

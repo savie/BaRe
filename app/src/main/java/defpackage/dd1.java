@@ -4,18 +4,18 @@ import android.content.Context;
 import android.util.Log;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.YandexSignInActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.cloud.connect.BoxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.FilenSignInActivity;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.cloud.connect.OneDriveSignInActivity;
+import com.bareapps.barebackup.cloud.connect.PCloudSignInActivity;
+import com.bareapps.barebackup.cloud.connect.TeraBoxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.YandexSignInActivity;
 
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'GoogleDrive' uses external variables
@@ -255,8 +255,8 @@ public final class dd1 {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static final String _init_$lambda$18() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        return SwiftApp.Companion.c().getString(R.string.s3_cloud_picker_subtitle);
+        BareApp.Companion companion = BareApp.d;
+        return BareApp.Companion.c().getString(R.string.s3_cloud_picker_subtitle);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -281,8 +281,8 @@ public final class dd1 {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static final String _init_$lambda$21() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        return SwiftApp.Companion.c().getString(R.string.webdav_cloud_picker_subtitle);
+        BareApp.Companion companion = BareApp.d;
+        return BareApp.Companion.c().getString(R.string.webdav_cloud_picker_subtitle);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -410,7 +410,7 @@ public final class dd1 {
 
     public final String getCloudFolderAddress() {
         String mainCloudFolderName = getMainCloudFolderName();
-        return this.isAppFolderBased ? xs1.j("Apps > SwiftBackup > ", mainCloudFolderName) : mainCloudFolderName;
+        return this.isAppFolderBased ? xs1.j("Apps > BareBackup > ", mainCloudFolderName) : mainCloudFolderName;
     }
 
     public final String getConstant() {
@@ -418,8 +418,8 @@ public final class dd1 {
     }
 
     public final String getDisplayName() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(this.displayNameRes);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(this.displayNameRes);
         string.getClass();
         return string;
     }
@@ -444,7 +444,7 @@ public final class dd1 {
             throw dj7.f(0, "System.exit returned normally, while it was supposed to halt JVM.");
         }
         String strE = qy5.e(mFirebaseUserA);
-        return this.clientProvider.invoke() instanceof v52 ? "SwiftBackup_".concat(strE) : eq3.k("Swift Backup (", strE, ")");
+        return this.clientProvider.invoke() instanceof v52 ? "BareBackup_".concat(strE) : eq3.k("Bare Backup (", strE, ")");
     }
 
     public final String getPasswordFieldHint(Context context) {

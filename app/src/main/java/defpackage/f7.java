@@ -2,19 +2,19 @@ package defpackage;
 
 import android.content.Intent;
 import com.google.android.material.button.MaterialButton;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity;
-import org.swiftapps.swiftbackup.locale.LocaleActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity;
+import com.bareapps.barebackup.locale.LocaleActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -70,14 +70,14 @@ public final /* synthetic */ class f7 implements qt3 {
                         jb9.g0(homeActivityI3, 5, string2);
                         return be8Var;
                     case 7:
-                        Const.B(o7Var.i(), "https://www.swiftapps.org/help");
+                        Const.B(o7Var.i(), "https://www.bareapps.org/help");
                         return be8Var;
                     case 8:
                         Intent intent = new Intent("android.intent.action.SEND");
                         intent.setType("text/plain");
-                        intent.putExtra("android.intent.extra.SUBJECT", o7Var.getString(R.string.share_swiftbackup_subject));
-                        intent.putExtra("android.intent.extra.TEXT", o7Var.getString(R.string.share_swiftbackup_msg));
-                        o7Var.startActivity(Intent.createChooser(intent, o7Var.getString(R.string.share_swiftbackup)));
+                        intent.putExtra("android.intent.extra.SUBJECT", o7Var.getString(R.string.share_barebackup_subject));
+                        intent.putExtra("android.intent.extra.TEXT", o7Var.getString(R.string.share_barebackup_msg));
+                        o7Var.startActivity(Intent.createChooser(intent, o7Var.getString(R.string.share_barebackup)));
                         return be8Var;
                     case XmlPullParser.COMMENT /* 9 */:
                         ai8.q(o7Var.i(), ContributorRegActivity.class);

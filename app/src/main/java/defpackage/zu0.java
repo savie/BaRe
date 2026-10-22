@@ -6,7 +6,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -16,7 +16,7 @@ public final class zu0 {
     public static final Object c = new Object();
 
     public static uj a() {
-        return new uj("https://account.box.com/api/oauth2/authorize", "https://api.box.com/oauth2/token", "dfqjenwobgs7mdm0sj7dq3n6cpp8bz3h", "org.swiftapps.swiftbackup.box://oauth", new xj("F4VMpkH2uaGIaof7jI2XklIEUZFigL3z"), null, null, 96);
+        return new uj("https://account.box.com/api/oauth2/authorize", "https://api.box.com/oauth2/token", "dfqjenwobgs7mdm0sj7dq3n6cpp8bz3h", "com.bareapps.barebackup.box://oauth", new xj("F4VMpkH2uaGIaof7jI2XklIEUZFigL3z"), null, null, 96);
     }
 
     public static mv0 b() {
@@ -164,8 +164,8 @@ public final class zu0 {
             return null;
         }
         uj ujVarA = a();
-        SwiftApp.Companion companion = SwiftApp.d;
-        vj vjVarC = ujVarA.c(SwiftApp.Companion.c(), strE);
+        BareApp.Companion companion = BareApp.d;
+        vj vjVarC = ujVarA.c(BareApp.Companion.c(), strE);
         h(this, vjVarC);
         return vjVarC;
     }

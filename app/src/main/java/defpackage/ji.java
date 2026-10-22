@@ -17,12 +17,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -200,8 +200,8 @@ public final class ji implements Parcelable, jl0 {
     }
 
     public final boolean checkInstalled() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         String str = this.packageName;
         boolean z = false;
         if (str != null) {

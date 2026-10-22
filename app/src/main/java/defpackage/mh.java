@@ -9,13 +9,13 @@ import androidx.credentials.playservices.controllers.blockstore.getrestorecreden
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleLastRunDetails;
-import org.swiftapps.swiftbackup.home.schedule.data.o;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.ScheduleLastRunDetails;
+import com.bareapps.barebackup.home.schedule.data.o;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

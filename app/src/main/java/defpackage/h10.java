@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.List;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ChatActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

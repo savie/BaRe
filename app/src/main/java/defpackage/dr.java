@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.AppListItemLayout;
-import org.swiftapps.swiftbackup.appslist.ui.AppRowLabelsView;
-import org.swiftapps.swiftbackup.appslist.ui.AppSwipeActionRevealLayout;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.AppListItemLayout;
+import com.bareapps.barebackup.appslist.ui.AppRowLabelsView;
+import com.bareapps.barebackup.appslist.ui.AppSwipeActionRevealLayout;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -325,11 +325,11 @@ public final class dr implements jk8 {
         this.d = ri2Var.getType();
     }
 
-    public dr(AppListItemLayout appListItemLayout, MaterialButton materialButton, MaterialButton materialButton2, MaterialButton materialButton3, MaterialButton materialButton4, MCheckBox mCheckBox, AppListItemLayout appListItemLayout2, ImageView imageView, SwiftListItemCardView swiftListItemCardView, ImageView imageView2, ImageView imageView3, View view, AppSwipeActionRevealLayout appSwipeActionRevealLayout, AppSwipeActionRevealLayout appSwipeActionRevealLayout2, AppRowLabelsView appRowLabelsView, TextView textView, TextView textView2, TextView textView3, TextView textView4) {
+    public dr(AppListItemLayout appListItemLayout, MaterialButton materialButton, MaterialButton materialButton2, MaterialButton materialButton3, MaterialButton materialButton4, MCheckBox mCheckBox, AppListItemLayout appListItemLayout2, ImageView imageView, BareListItemCardView bareListItemCardView, ImageView imageView2, ImageView imageView3, View view, AppSwipeActionRevealLayout appSwipeActionRevealLayout, AppSwipeActionRevealLayout appSwipeActionRevealLayout2, AppRowLabelsView appRowLabelsView, TextView textView, TextView textView2, TextView textView3, TextView textView4) {
         this.a = 0;
         this.b = appListItemLayout;
         this.c = appListItemLayout2;
-        this.d = swiftListItemCardView;
+        this.d = bareListItemCardView;
     }
 
     public /* synthetic */ dr(int i) {

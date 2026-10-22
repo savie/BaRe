@@ -1,16 +1,16 @@
 package defpackage;
 
 import android.os.ParcelFileDescriptor;
-import com.swiftapps.sba.SbaZstdNative;
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bareapps.sba.SbaZstdNative;
+import com.bareapps.sba.internal.progress.SbaNativeProgressListener;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.swiftapps.swiftbackup.compress.compressor.MultiCompressor$CompressedFileMetadata;
-import org.swiftapps.swiftbackup.compress.compressor.MultiCompressor$Type;
+import com.bareapps.barebackup.compress.compressor.MultiCompressor$CompressedFileMetadata;
+import com.bareapps.barebackup.compress.compressor.MultiCompressor$Type;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -43,7 +43,7 @@ public abstract class th5 {
                 final sn1 sn1Var = new sn1(sh5Var, 5);
                 try {
                     ge.B(SbaZstdNative.a(fileDescriptor, fileDescriptor2, new SbaNativeProgressListener() { // from class: m27
-                        @Override // com.swiftapps.sba.internal.progress.SbaNativeProgressListener
+                        @Override // com.bareapps.sba.internal.progress.SbaNativeProgressListener
                         public final void onProgress(long j, long j2) {
                             sh5 sh5Var2 = (sh5) sn1Var.b;
                             long j3 = sh5Var2.a;

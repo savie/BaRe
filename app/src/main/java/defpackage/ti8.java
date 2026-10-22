@@ -31,6 +31,6 @@ public final class ti8 {
     }
 
     public final String toString() {
-        return dj7.n(u48.p("ValidatedSwiftMegaSavedSession(sessionId=", this.a, ", masterKey=", this.b, ", userHandle="), this.c, ")");
+        return dj7.n(u48.p("ValidatedBareMegaSavedSession(sessionId=", this.a, ", masterKey=", this.b, ", userHandle="), this.c, ")");
     }
 }

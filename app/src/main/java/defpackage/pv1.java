@@ -1,11 +1,11 @@
 package defpackage;
 
 import android.content.Context;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.contributor.ContributorRegistration;
-import org.swiftapps.swiftbackup.contributor.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.contributor.ContributorRegistration;
+import com.bareapps.barebackup.contributor.a;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -49,8 +49,8 @@ public final class pv1 extends ws7 implements qt3 {
                 }
                 String strJ = xs1.j("Error while fetching remote details: ", ((we3) l73VarA).n.b);
                 vr6.e$default(vr6.INSTANCE, aVar.b, strJ, null, 4, null);
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 zn4 zn4Var = zn4.a;
                 dj7.y(contextC, strJ);
             }

@@ -29,15 +29,15 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.locale.LocaleActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.b;
-import org.swiftapps.swiftbackup.settings.f;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.locale.LocaleActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.b;
+import com.bareapps.barebackup.settings.f;
+import com.bareapps.barebackup.slog.SLogActivity;
 import org.xmlpull.v1.XmlPullParserException;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -214,7 +214,7 @@ public final /* synthetic */ class fs implements du7, h9, ObjectConstructor, OnS
 
     @Override // defpackage.h9
     public void h(Object obj) {
-        org.swiftapps.swiftbackup.settings.a aVar = (org.swiftapps.swiftbackup.settings.a) this.b;
+        com.bareapps.barebackup.settings.a aVar = (com.bareapps.barebackup.settings.a) this.b;
         MultipleBackupStrategy multipleBackupStrategy = (MultipleBackupStrategy) obj;
         if (multipleBackupStrategy != null) {
             b bVar = MultipleBackupStrategy.Companion;
@@ -244,7 +244,7 @@ public final /* synthetic */ class fs implements du7, h9, ObjectConstructor, OnS
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.action_language) {
                     ai8.q(introActivity, LocaleActivity.class);
-                } else if (itemId == R.id.action_swiftlogger) {
+                } else if (itemId == R.id.action_barelogger) {
                     ai8.q(introActivity, SLogActivity.class);
                 } else if (itemId == R.id.action_restart) {
                     Const.E(introActivity.r().concat(": Restart option"));
@@ -252,7 +252,7 @@ public final /* synthetic */ class fs implements du7, h9, ObjectConstructor, OnS
                 return true;
             default:
                 kn3 kn3Var = (kn3) obj;
-                if (menuItem.getItemId() != R.id.action_swiftlogger) {
+                if (menuItem.getItemId() != R.id.action_barelogger) {
                     return false;
                 }
                 kn3Var.invoke();

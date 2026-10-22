@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.TreeMap;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
-import org.swiftapps.swiftbackup.notice.NoticeListActivity;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
-import org.swiftapps.swiftbackup.settings.b;
+import com.bareapps.barebackup.notice.NoticeItem;
+import com.bareapps.barebackup.notice.NoticeListActivity;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.settings.b;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

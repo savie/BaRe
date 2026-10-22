@@ -6,18 +6,18 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.Config;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.a;
-import org.swiftapps.swiftbackup.home.schedule.data.b;
-import org.swiftapps.swiftbackup.settings.FolderBackupStrategy;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.Config;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.a;
+import com.bareapps.barebackup.home.schedule.data.b;
+import com.bareapps.barebackup.settings.FolderBackupStrategy;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -173,8 +173,8 @@ public final /* synthetic */ class h47 implements bt3 {
             }
             List<ScheduleItem> schedules = scheduleDataC.getSchedules();
             schedules.getClass();
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             ArrayList arrayList11 = new ArrayList(hl1.G0(schedules, i));
             Iterator it4 = schedules.iterator();
             while (it4.hasNext()) {

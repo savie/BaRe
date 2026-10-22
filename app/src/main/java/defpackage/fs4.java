@@ -5,11 +5,11 @@ import androidx.fragment.app.u;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceGroup;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

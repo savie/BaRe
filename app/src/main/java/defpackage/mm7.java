@@ -6,7 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import java.io.IOException;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -12,12 +12,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.appslist.data.FavoriteApp;
-import org.swiftapps.swiftbackup.appslist.data.FavoriteAppsRepo$FavoritesWrapper;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.appslist.data.FavoriteApp;
+import com.bareapps.barebackup.appslist.data.FavoriteAppsRepo$FavoritesWrapper;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -43,8 +43,8 @@ public final class v53 {
     }
 
     public static q63 d() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        return new q63(SwiftApp.Companion.c().getFilesDir(), "favorites/cached_favorites", 2);
+        BareApp.Companion companion = BareApp.d;
+        return new q63(BareApp.Companion.c().getFilesDir(), "favorites/cached_favorites", 2);
     }
 
     public final synchronized Map b() {
@@ -195,13 +195,13 @@ public final class v53 {
         if (z) {
             int i = !zContainsKey ? R.string.added_to_favorites : R.string.removed_from_favorites;
             String name2 = jiVar.getName();
-            SwiftApp.Companion companion = SwiftApp.d;
-            String strK = dj7.k(name2, ": ", SwiftApp.Companion.c().getString(i));
+            BareApp.Companion companion = BareApp.d;
+            String strK = dj7.k(name2, ": ", BareApp.Companion.c().getString(i));
             Toast toast = d;
             if (toast != null) {
                 toast.cancel();
             }
-            Toast toastMakeText = Toast.makeText(SwiftApp.Companion.c(), strK, 0);
+            Toast toastMakeText = Toast.makeText(BareApp.Companion.c(), strK, 0);
             d = toastMakeText;
             if (toastMakeText != null) {
                 toastMakeText.show();

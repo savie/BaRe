@@ -63,7 +63,7 @@ public final class v17 {
     }
 
     public final String toString() {
-        StringBuilder sbT = dj7.t("SbaSwiftTarExtractStats(tarBytes=", ", entryCount=", this.a);
+        StringBuilder sbT = dj7.t("SbaBareTarExtractStats(tarBytes=", ", entryCount=", this.a);
         sbT.append(this.b);
         fz5.r(sbT, ", regularFileCount=", this.c, ", directoryCount=");
         sbT.append(this.d);

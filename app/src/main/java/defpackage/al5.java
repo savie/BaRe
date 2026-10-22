@@ -123,20 +123,20 @@ public abstract class al5 extends FrameLayout implements dl5 {
         this.z0 = false;
         this.A0 = new Rect();
         LayoutInflater.from(context).inflate(getItemLayoutResId(), (ViewGroup) this, true);
-        this.H = (LinearLayout) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_content_container);
-        LinearLayout linearLayout = (LinearLayout) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_inner_content_container);
+        this.H = (LinearLayout) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_content_container);
+        LinearLayout linearLayout = (LinearLayout) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_inner_content_container);
         this.I = linearLayout;
-        this.J = findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_active_indicator_view);
-        this.K = (FrameLayout) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_icon_container);
-        this.L = (ImageView) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_icon_view);
-        BaselineLayout baselineLayout = (BaselineLayout) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_labels_group);
+        this.J = findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_active_indicator_view);
+        this.K = (FrameLayout) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_icon_container);
+        this.L = (ImageView) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_icon_view);
+        BaselineLayout baselineLayout = (BaselineLayout) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_labels_group);
         this.M = baselineLayout;
-        TextView textView = (TextView) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_small_label_view);
+        TextView textView = (TextView) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_small_label_view);
         this.N = textView;
-        TextView textView2 = (TextView) findViewById(org.swiftapps.swiftbackup.R.id.navigation_bar_item_large_label_view);
+        TextView textView2 = (TextView) findViewById(com.bareapps.barebackup.R.id.navigation_bar_item_large_label_view);
         this.O = textView2;
-        float dimension = getResources().getDimension(org.swiftapps.swiftbackup.R.dimen.default_navigation_text_size);
-        float dimension2 = getResources().getDimension(org.swiftapps.swiftbackup.R.dimen.default_navigation_active_text_size);
+        float dimension = getResources().getDimension(com.bareapps.barebackup.R.dimen.default_navigation_text_size);
+        float dimension2 = getResources().getDimension(com.bareapps.barebackup.R.dimen.default_navigation_active_text_size);
         BaselineLayout baselineLayout2 = new BaselineLayout(getContext());
         this.P = baselineLayout2;
         baselineLayout2.setVisibility(8);
@@ -175,7 +175,7 @@ public abstract class al5 extends FrameLayout implements dl5 {
         this.R.setImportantForAccessibility(2);
         setFocusable(true);
         b();
-        this.o0 = getResources().getDimensionPixelSize(org.swiftapps.swiftbackup.R.dimen.m3_navigation_item_expanded_active_indicator_height_default);
+        this.o0 = getResources().getDimensionPixelSize(com.bareapps.barebackup.R.dimen.m3_navigation_item_expanded_active_indicator_height_default);
         linearLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: xk5
             @Override // android.view.View.OnLayoutChangeListener
             public final void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
@@ -296,7 +296,7 @@ public abstract class al5 extends FrameLayout implements dl5 {
                 RippleDrawable rippleDrawable2 = new RippleDrawable(xn6.a(this.b), null, null);
                 Context context = getContext();
                 ColorDrawable colorDrawable = FocusRingDrawable.H;
-                focusRingDrawable = !jm1.R(context.getTheme(), org.swiftapps.swiftbackup.R.attr.focusRingsEnabled, false) ? rippleDrawable2 : new FocusRingDrawable(context, rippleDrawable2);
+                focusRingDrawable = !jm1.R(context.getTheme(), com.bareapps.barebackup.R.attr.focusRingsEnabled, false) ? rippleDrawable2 : new FocusRingDrawable(context, rippleDrawable2);
             }
         }
         FrameLayout frameLayout = this.K;
@@ -372,7 +372,7 @@ public abstract class al5 extends FrameLayout implements dl5 {
     }
 
     public int getItemBackgroundResId() {
-        return org.swiftapps.swiftbackup.R.drawable.mtrl_navigation_bar_item_background;
+        return com.bareapps.barebackup.R.drawable.mtrl_navigation_bar_item_background;
     }
 
     @Override // defpackage.yc5
@@ -381,7 +381,7 @@ public abstract class al5 extends FrameLayout implements dl5 {
     }
 
     public int getItemDefaultMarginResId() {
-        return org.swiftapps.swiftbackup.R.dimen.mtrl_navigation_bar_item_default_margin;
+        return com.bareapps.barebackup.R.dimen.mtrl_navigation_bar_item_default_margin;
     }
 
     public abstract int getItemLayoutResId();
@@ -517,7 +517,7 @@ public abstract class al5 extends FrameLayout implements dl5 {
             accessibilityNodeInfo.setClickable(false);
             accessibilityNodeInfo.removeAction((AccessibilityNodeInfo.AccessibilityAction) g6.g.a);
         }
-        accessibilityNodeInfo.getExtras().putCharSequence("AccessibilityNodeInfo.roleDescription", getResources().getString(org.swiftapps.swiftbackup.R.string.item_view_role_description));
+        accessibilityNodeInfo.getExtras().putCharSequence("AccessibilityNodeInfo.roleDescription", getResources().getString(com.bareapps.barebackup.R.string.item_view_role_description));
     }
 
     @Override // android.view.View
@@ -665,8 +665,8 @@ public abstract class al5 extends FrameLayout implements dl5 {
             ValueAnimator valueAnimatorOfFloat = ValueAnimator.ofFloat(this.j0, f);
             this.h0 = valueAnimatorOfFloat;
             valueAnimatorOfFloat.addUpdateListener(new yk5(this, f));
-            this.h0.setInterpolator(ji8.G(getContext(), org.swiftapps.swiftbackup.R.attr.motionEasingEmphasizedInterpolator, ed.b));
-            this.h0.setDuration(ji8.F(getContext(), org.swiftapps.swiftbackup.R.attr.motionDurationLong2, getResources().getInteger(org.swiftapps.swiftbackup.R.integer.material_motion_duration_long_1)));
+            this.h0.setInterpolator(ji8.G(getContext(), com.bareapps.barebackup.R.attr.motionEasingEmphasizedInterpolator, ed.b));
+            this.h0.setDuration(ji8.F(getContext(), com.bareapps.barebackup.R.attr.motionDurationLong2, getResources().getInteger(com.bareapps.barebackup.R.integer.material_motion_duration_long_1)));
             this.h0.start();
         } else {
             d(f, f);

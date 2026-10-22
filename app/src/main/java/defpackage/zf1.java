@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

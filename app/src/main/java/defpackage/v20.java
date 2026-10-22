@@ -11,15 +11,15 @@ import okhttp3.Address;
 import okhttp3.CertificatePinner;
 import okhttp3.Handshake;
 import okhttp3.internal.tls.CertificateChainCleaner;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.CloudMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -18,8 +18,8 @@ public abstract class h55 {
             if (!jr7Var.b("[ -e @@ ]")) {
                 return null;
             }
-            SwiftApp.Companion companion = SwiftApp.d;
-            File cacheDir = SwiftApp.Companion.c().getCacheDir();
+            BareApp.Companion companion = BareApp.d;
+            File cacheDir = BareApp.Companion.c().getCacheDir();
             cacheDir.getClass();
             File fileU = nc3.U(cacheDir, "magisk.tmp");
             if (fileU.exists() && !fileU.delete()) {

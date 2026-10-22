@@ -4,18 +4,18 @@ import android.view.View;
 import com.ferfalk.simplesearchview.SimpleSearchView;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistData;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.blacklist.data.BlacklistData;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -83,7 +83,7 @@ public final /* synthetic */ class nf implements View.OnClickListener {
                 break;
             case 5:
                 fh2 fh2Var = (fh2) obj;
-                fh2Var.k.invoke(new ly7(((SwiftBackupMaterialSwitch) fh2Var.p.d).isChecked(), ((SwiftBackupMaterialSwitch) fh2Var.q.d).isChecked()));
+                fh2Var.k.invoke(new ly7(((BareBackupMaterialSwitch) fh2Var.p.d).isChecked(), ((BareBackupMaterialSwitch) fh2Var.q.d).isChecked()));
                 fh2Var.j(true);
                 break;
             case 6:

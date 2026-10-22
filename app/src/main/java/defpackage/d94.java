@@ -18,7 +18,7 @@ public final class d94 implements e94 {
         Parcel parcelObtain = Parcel.obtain();
         Parcel parcelObtain2 = Parcel.obtain();
         try {
-            parcelObtain.writeInterfaceToken("org.swiftapps.rootservice.ISbaRootProgress");
+            parcelObtain.writeInterfaceToken("com.bareapps.rootservice.ISbaRootProgress");
             parcelObtain.writeLong(j);
             parcelObtain.writeInt(i);
             parcelObtain.writeInt(i2);

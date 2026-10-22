@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -45,8 +45,8 @@ public final class b82 extends tb1 {
                 Map mapSingletonMap = Collections.singletonMap("token_access_type", "offline");
                 mapSingletonMap.getClass();
                 uj ujVar = new uj("https://www.dropbox.com/oauth2/authorize", "https://api.dropboxapi.com/oauth2/token", str5, "db-" + str5 + "://1/connect", null, mapSingletonMap, null, 208);
-                SwiftApp.Companion companion = SwiftApp.d;
-                vj vjVarC = ujVar.c(SwiftApp.Companion.c(), str3);
+                BareApp.Companion companion = BareApp.d;
+                vj vjVarC = ujVar.c(BareApp.Companion.c(), str3);
                 nq2 nq2VarB = nq2.b(nq2VarM, null, null, null, str5, 23);
                 String str6 = vjVarC.a;
                 Long l = vjVarC.b;
@@ -192,8 +192,8 @@ public final class b82 extends tb1 {
         String strP;
         br2 br2Var = this.h;
         Log.d("DropboxClient", "startCheckAccess()");
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             return qi1.a;
         }
         if (lg7.m() == null) {

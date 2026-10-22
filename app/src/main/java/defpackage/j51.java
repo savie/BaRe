@@ -1,15 +1,15 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ChatActivity;
+import com.bareapps.barebackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

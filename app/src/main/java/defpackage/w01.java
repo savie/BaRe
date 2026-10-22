@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Map;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.settings.FolderBackupStrategy;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.settings.FolderBackupStrategy;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.HomeActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.HomeActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -28,7 +28,7 @@ public final class o7 extends rl0<p7> {
     public o7() {
         super(0);
         int i = 0;
-        os4 os4VarX = jd4.x(ys4.c, new j7(new n7(this, o7.class, "ctx", "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;", 0), i));
+        os4 os4VarX = jd4.x(ys4.c, new j7(new n7(this, o7.class, "ctx", "getCtx()Lorg/bareapps/barebackup/home/HomeActivity;", 0), i));
         this.c = new l90(ph6.a(r7.class), new k7(os4VarX, i), new m7(this, os4VarX), new l7(os4VarX, i));
         this.d = new gv7(new b7(i));
     }
@@ -117,8 +117,8 @@ public final class o7 extends rl0<p7> {
         jk8 jk8Var2 = this.b;
         jk8Var2.getClass();
         ((MaterialButton) ((p7) jk8Var2).b.b).setOnClickListener(new g7(this, i));
-        SwiftApp.Companion companion = SwiftApp.d;
-        SwiftApp.Companion.a().a.e(getViewLifecycleOwner(), new i7(i, new c7(this, i)));
+        BareApp.Companion companion = BareApp.d;
+        BareApp.Companion.a().a.e(getViewLifecycleOwner(), new i7(i, new c7(this, i)));
         l90 l90Var = this.c;
         ((r7) l90Var.getValue()).c.e(getViewLifecycleOwner(), new i7(i, new d7(this, i)));
         ((r7) l90Var.getValue()).d.e(getViewLifecycleOwner(), new i7(i, new e7(this, i)));

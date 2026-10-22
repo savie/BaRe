@@ -20,24 +20,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$FolderLocalSnapshot;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.intro.IntroPermissionCardView;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity;
-import org.swiftapps.swiftbackup.model.StorageInfoLocal;
-import org.swiftapps.swiftbackup.model.app.AppSpecialDataPayload;
-import org.swiftapps.swiftbackup.settings.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderBackup$FolderLocalSnapshot;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.intro.IntroPermissionCardView;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ConversationsActivity;
+import com.bareapps.barebackup.model.StorageInfoLocal;
+import com.bareapps.barebackup.model.app.AppSpecialDataPayload;
+import com.bareapps.barebackup.settings.a;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -205,7 +205,7 @@ public final /* synthetic */ class ej implements bt3 {
                 if (ex6Var3.d() == null && dm3.l(jIncrementAndGet, dm3Var, folderItemK)) {
                     ex6Var3.k(vl3.a);
                 }
-                kj3 kj3VarA = org.swiftapps.swiftbackup.folders.data.a.a(folderItemK, false, false);
+                kj3 kj3VarA = com.bareapps.barebackup.folders.data.a.a(folderItemK, false, false);
                 boolean zK = kj3VarA.d().k();
                 if (kj3VarA.f()) {
                     if (dm3.l(jIncrementAndGet, dm3Var, folderItemK)) {

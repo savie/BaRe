@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.internal._UtilJvmKt;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.tasks.TaskService;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.tasks.TaskService;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -55,8 +55,8 @@ public final /* synthetic */ class zk implements bt3 {
                 }
                 return g00.s(el1.z1(arrayList));
             case 2:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return Long.valueOf(((long) SwiftApp.Companion.c().getResources().getInteger(R.integer.activity_transition_time)) + 100);
+                BareApp.Companion companion = BareApp.d;
+                return Long.valueOf(((long) BareApp.Companion.c().getResources().getInteger(R.integer.activity_transition_time)) + 100);
             case 3:
                 return new ix6();
             case 4:
@@ -81,8 +81,8 @@ public final /* synthetic */ class zk implements bt3 {
                 return be8.a;
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
                 Set set = x54.j;
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                return new j54(SwiftApp.Companion.c());
+                BareApp.Companion companion2 = BareApp.d;
+                return new j54(BareApp.Companion.c());
             case 12:
                 lr4 lr4Var = lr4.a;
                 if (V.INSTANCE.getA()) {
@@ -107,7 +107,7 @@ public final /* synthetic */ class zk implements bt3 {
             case 15:
                 return Boolean.valueOf(qe7.b());
             case Argon2.V10 /* 16 */:
-                SwiftApp.Companion companion3 = SwiftApp.d;
+                BareApp.Companion companion3 = BareApp.d;
                 return new ix6();
             case 17:
                 OkHttpClient.Builder builder = new OkHttpClient.Builder();

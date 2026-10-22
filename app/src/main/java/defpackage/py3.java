@@ -4,8 +4,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import java.io.InputStream;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -13,8 +13,8 @@ public final class py3 implements ql6 {
     public static final Drawable a;
 
     static {
-        SwiftApp.Companion companion = SwiftApp.d;
-        Drawable drawable = SwiftApp.Companion.c().getDrawable(R.drawable.wall_thumb_placeholder);
+        BareApp.Companion companion = BareApp.d;
+        Drawable drawable = BareApp.Companion.c().getDrawable(R.drawable.wall_thumb_placeholder);
         drawable.getClass();
         a = drawable;
     }
@@ -40,8 +40,8 @@ public final class py3 implements ql6 {
                 q63 q63Var = yn8Var.a;
                 boolean z2 = q63.d;
                 InputStream inputStreamW = q63Var.w(true);
-                SwiftApp.Companion companion = SwiftApp.d;
-                bitmapDrawable = new BitmapDrawable(SwiftApp.Companion.c().getResources(), inputStreamW);
+                BareApp.Companion companion = BareApp.d;
+                bitmapDrawable = new BitmapDrawable(BareApp.Companion.c().getResources(), inputStreamW);
             } catch (Exception e) {
                 Log.e("GlideLocalWallDecoder", "decode: ".concat(io4.b(e)));
                 bitmapDrawable = null;

@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.BackupResult;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$IncrementalBackup;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.data.a;
-import org.swiftapps.swiftbackup.settings.FolderBackupStrategy;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.BackupResult;
+import com.bareapps.barebackup.folders.data.FolderBackup$IncrementalBackup;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.data.a;
+import com.bareapps.barebackup.settings.FolderBackupStrategy;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -49,11 +49,11 @@ public final class ek3 {
     /* JADX WARN: Code duplicated, block: B:130:0x02fc  */
     /* JADX WARN: Code duplicated, block: B:135:0x0323  */
     /* JADX WARN: Code duplicated, block: B:155:0x039e A[DONT_INVERT, PHI: r0
-      0x039e: PHI (r0v89 org.swiftapps.swiftbackup.folders.data.FolderMetadata) = 
-      (r0v88 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
-      (r0v88 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
-      (r0v88 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
-      (r0v100 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
+      0x039e: PHI (r0v89 com.bareapps.barebackup.folders.data.FolderMetadata) = 
+      (r0v88 com.bareapps.barebackup.folders.data.FolderMetadata)
+      (r0v88 com.bareapps.barebackup.folders.data.FolderMetadata)
+      (r0v88 com.bareapps.barebackup.folders.data.FolderMetadata)
+      (r0v100 com.bareapps.barebackup.folders.data.FolderMetadata)
      binds: [B:137:0x0332, B:138:0x0334, B:140:0x033a, B:150:0x0364] A[DONT_GENERATE, DONT_INLINE]] */
     /* JADX WARN: Code duplicated, block: B:156:0x03a0  */
     /* JADX WARN: Code duplicated, block: B:160:0x03a9  */
@@ -141,9 +141,9 @@ public final class ek3 {
     /* JADX WARN: Code duplicated, block: B:443:0x0a47  */
     /* JADX WARN: Code duplicated, block: B:446:0x0a4f  */
     /* JADX WARN: Code duplicated, block: B:447:0x0a66 A[PHI: r20 r41 r42
-      0x0a66: PHI (r20v10 org.swiftapps.swiftbackup.folders.data.FolderMetadata) = 
-      (r20v9 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
-      (r20v12 org.swiftapps.swiftbackup.folders.data.FolderMetadata)
+      0x0a66: PHI (r20v10 com.bareapps.barebackup.folders.data.FolderMetadata) = 
+      (r20v9 com.bareapps.barebackup.folders.data.FolderMetadata)
+      (r20v12 com.bareapps.barebackup.folders.data.FolderMetadata)
      binds: [B:453:0x0a7a, B:445:0x0a4d] A[DONT_GENERATE, DONT_INLINE]
       0x0a66: PHI (r41v3 java.util.concurrent.ConcurrentHashMap) = (r41v2 java.util.concurrent.ConcurrentHashMap), (r41v5 java.util.concurrent.ConcurrentHashMap) binds: [B:453:0x0a7a, B:445:0x0a4d] A[DONT_GENERATE, DONT_INLINE]
       0x0a66: PHI (r42v2 java.util.Iterator) = (r42v1 java.util.Iterator), (r42v4 java.util.Iterator) binds: [B:453:0x0a7a, B:445:0x0a4d] A[DONT_GENERATE, DONT_INLINE]] */
@@ -348,8 +348,8 @@ public final class ek3 {
                 String str8 = gk3Var.b;
                 if (((str8 == null || str8.length() == 0) || (str6 = gk3Var.b) == null || str6.length() == 0) && !hk3Var.c) {
                     ex6 ex6Var = qp3Var.i;
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    ex6Var.k(SwiftApp.Companion.c().getString(R.string.backing_up));
+                    BareApp.Companion companion = BareApp.d;
+                    ex6Var.k(BareApp.Companion.c().getString(R.string.backing_up));
                     FolderBackupStrategy folderBackupStrategy = bo3Var.g;
                     if (pe4.d(Looper.myLooper(), Looper.getMainLooper())) {
                         d6.o();
@@ -986,8 +986,8 @@ public final class ek3 {
                                     arrayList2.add(new vn4(new rz(io3Var, str12, rf8Var3, concurrentHashMap3, concurrentHashMap2, kh6Var, j, kh6Var2)));
                                 }
                                 ex6 ex6Var2 = qp3Var2.i;
-                                SwiftApp.Companion companion2 = SwiftApp.d;
-                                ex6Var2.k(SwiftApp.Companion.c().getString(R.string.uploading_backup_files));
+                                BareApp.Companion companion2 = BareApp.d;
+                                ex6Var2.k(BareApp.Companion.c().getString(R.string.uploading_backup_files));
                                 long jCurrentTimeMillis2 = System.currentTimeMillis();
                                 zn4 zn4Var2 = zn4.a;
                                 try {
@@ -1679,8 +1679,8 @@ public final class ek3 {
                                             arrayList2.add(new vn4(new rz(io3Var, str18, rf8Var4, concurrentHashMap3, concurrentHashMap2, kh6Var, j, kh6Var2)));
                                         }
                                         ex6 ex6Var3 = qp3Var2.i;
-                                        SwiftApp.Companion companion3 = SwiftApp.d;
-                                        ex6Var3.k(SwiftApp.Companion.c().getString(R.string.uploading_backup_files));
+                                        BareApp.Companion companion3 = BareApp.d;
+                                        ex6Var3.k(BareApp.Companion.c().getString(R.string.uploading_backup_files));
                                         long jCurrentTimeMillis3 = System.currentTimeMillis();
                                         zn4 zn4Var4 = zn4.a;
                                         d45.b.getClass();
@@ -2280,8 +2280,8 @@ public final class ek3 {
                                             arrayList2.add(new vn4(new rz(io3Var, str112, rf8Var5, concurrentHashMap3, concurrentHashMap2, kh6Var, j, kh6Var2)));
                                         }
                                         ex6 ex6Var4 = qp3Var2.i;
-                                        SwiftApp.Companion companion4 = SwiftApp.d;
-                                        ex6Var4.k(SwiftApp.Companion.c().getString(R.string.uploading_backup_files));
+                                        BareApp.Companion companion4 = BareApp.d;
+                                        ex6Var4.k(BareApp.Companion.c().getString(R.string.uploading_backup_files));
                                         long jCurrentTimeMillis4 = System.currentTimeMillis();
                                         zn4 zn4Var6 = zn4.a;
                                         d45.b.getClass();
@@ -2739,8 +2739,8 @@ public final class ek3 {
                     }
                 } else {
                     vr6.e$default(vr6Var6, "FolderUploadTask", "Still no WiFi, skipping upload.", null, 4, null);
-                    SwiftApp.Companion companion5 = SwiftApp.d;
-                    ho3Var2.a = folderItem2 + ": " + SwiftApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error);
+                    BareApp.Companion companion5 = BareApp.d;
+                    ho3Var2.a = folderItem2 + ": " + BareApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error);
                 }
                 str = null;
                 qp3Var2.o(str);

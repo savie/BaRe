@@ -2,14 +2,14 @@ package defpackage;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -44,8 +44,8 @@ public final /* synthetic */ class kk2 implements bt3 {
                 List list2 = (List) obj2;
                 List list3 = (List) obj;
                 long jCurrentTimeMillis = System.currentTimeMillis();
-                SwiftApp.Companion companion = SwiftApp.d;
-                String string = SwiftApp.Companion.c().getString(R.string.deleting_backup);
+                BareApp.Companion companion = BareApp.d;
+                String string = BareApp.Companion.c().getString(R.string.deleting_backup);
                 string.getClass();
                 mk2Var.i(string);
                 q05 q05Var = q05.DEVICE;

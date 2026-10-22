@@ -28,26 +28,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelledApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsData;
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
-import org.swiftapps.swiftbackup.views.MAppBarLayout;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.labels.LabelledApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsData;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.views.MAppBarLayout;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -111,7 +111,7 @@ public final /* synthetic */ class bk implements bt3 {
             case 5:
                 return g00.a((String) obj);
             case 6:
-                Const.B((Activity) obj, "https://www.swiftapps.org/faq#appparts");
+                Const.B((Activity) obj, "https://www.bareapps.org/faq#appparts");
                 return be8Var;
             case 7:
                 qk0 qk0Var = (qk0) obj;
@@ -262,7 +262,7 @@ public final /* synthetic */ class bk implements bt3 {
             case 15:
                 return CreatePasswordCredentialController.handleResponse$lambda$2((CreatePasswordCredentialController) obj);
             case Argon2.V10 /* 16 */:
-                ((SwiftBackupMaterialSwitch) ((kb2) obj).d).toggle();
+                ((BareBackupMaterialSwitch) ((kb2) obj).d).toggle();
                 return be8Var;
             case 17:
                 int i11 = DropboxSignInActivity.P;

@@ -3,9 +3,9 @@ package defpackage;
 import android.content.Context;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -51,8 +51,8 @@ public final /* synthetic */ class gm3 implements mt3 {
                 if (!im3Var.e && jO1 >= 0) {
                     long j2 = jO1 > j ? j : jO1;
                     qp3 qp3Var = im3Var.a;
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     p93 p93Var = p93.a;
                     qp3Var.o(contextC.getString(R.string.downloded_progress_message, p93.c(Long.valueOf(j2)), p93.c(Long.valueOf(j))));
                 }

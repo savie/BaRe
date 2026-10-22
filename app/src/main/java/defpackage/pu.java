@@ -14,9 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.messagescalls.conversationsview.ConversationsActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -45,7 +45,7 @@ public final /* synthetic */ class pu implements bt3 {
                 int i3 = ConversationsActivity.O;
                 return new uv1(null);
             case 3:
-                byte[] bytes = "SwiftBackup_Entity".getBytes(gx2.b);
+                byte[] bytes = "BareBackup_Entity".getBytes(gx2.b);
                 gx2 gx2Var = new gx2();
                 gx2Var.a = bytes;
                 return gx2Var;
@@ -106,8 +106,8 @@ public final /* synthetic */ class pu implements bt3 {
             case Argon2.V10 /* 16 */:
                 return Boolean.TRUE;
             default:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return WallpaperManager.getInstance(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                return WallpaperManager.getInstance(BareApp.Companion.c());
         }
     }
 

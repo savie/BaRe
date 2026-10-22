@@ -13,14 +13,14 @@ public final class lz6 extends Binder implements e94 {
 
     public lz6(h07 h07Var) {
         this.a = h07Var;
-        attachInterface(this, "org.swiftapps.rootservice.ISbaRootProgress");
+        attachInterface(this, "com.bareapps.rootservice.ISbaRootProgress");
     }
 
     public static e94 a(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
-        IInterface iInterfaceQueryLocalInterface = iBinder.queryLocalInterface("org.swiftapps.rootservice.ISbaRootProgress");
+        IInterface iInterfaceQueryLocalInterface = iBinder.queryLocalInterface("com.bareapps.rootservice.ISbaRootProgress");
         if (iInterfaceQueryLocalInterface != null && (iInterfaceQueryLocalInterface instanceof e94)) {
             return (e94) iInterfaceQueryLocalInterface;
         }
@@ -116,10 +116,10 @@ public final class lz6 extends Binder implements e94 {
             parcel3 = parcel;
         } else {
             parcel3 = parcel;
-            parcel3.enforceInterface("org.swiftapps.rootservice.ISbaRootProgress");
+            parcel3.enforceInterface("com.bareapps.rootservice.ISbaRootProgress");
         }
         if (i == 1598968902) {
-            parcel2.writeString("org.swiftapps.rootservice.ISbaRootProgress");
+            parcel2.writeString("com.bareapps.rootservice.ISbaRootProgress");
             return true;
         }
         if (i != 1) {

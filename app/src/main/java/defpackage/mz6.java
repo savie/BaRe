@@ -875,7 +875,7 @@ public final class mz6 {
             str4 = th instanceof IOException ? "runtime_io" : "internal";
         }
         try {
-            bz6Var.invoke(new yz6("Unexpected SBA " + str + " failure", th), x65.r0(pw5Var, pw5Var2, pw5Var3, pw5Var4, new pw5("sba_failure_category", str4), new pw5("sba_exception_class", th.getClass().getSimpleName()), new pw5("sba_backend", "swifttar")));
+            bz6Var.invoke(new yz6("Unexpected SBA " + str + " failure", th), x65.r0(pw5Var, pw5Var2, pw5Var3, pw5Var4, new pw5("sba_failure_category", str4), new pw5("sba_exception_class", th.getClass().getSimpleName()), new pw5("sba_backend", "baretar")));
         } catch (Throwable unused) {
         }
     }

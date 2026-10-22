@@ -8,8 +8,8 @@ import com.pcloud.sdk.internal.a;
 import java.io.IOException;
 import java.util.ArrayList;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

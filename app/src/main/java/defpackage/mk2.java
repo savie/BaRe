@@ -4,9 +4,9 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import org.greenrobot.eventbus.ThreadMode;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.b;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.b;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

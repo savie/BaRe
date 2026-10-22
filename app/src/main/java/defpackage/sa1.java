@@ -4,9 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -187,7 +187,7 @@ public abstract class sa1 extends il0 {
             zn4.e(new u31(this, i));
         }
         gg3 gg3Var = gg3.a;
-        gg3.e.e(this, new i7(i, new k3(new g70(1, this, sa1.class, "onFirebaseBackendWaitState", "onFirebaseBackendWaitState(Lorg/swiftapps/swiftbackup/common/FirebaseConnectionWatcher$BackendWaitState;)V", 0, 1), 12)));
+        gg3.e.e(this, new i7(i, new k3(new g70(1, this, sa1.class, "onFirebaseBackendWaitState", "onFirebaseBackendWaitState(Lorg/bareapps/barebackup/common/FirebaseConnectionWatcher$BackendWaitState;)V", 0, 1), 12)));
         if (O().d && this.L == null) {
             if (pa1.a[gg3.d.ordinal()] == 1) {
                 P(wf3.TIMED_OUT);

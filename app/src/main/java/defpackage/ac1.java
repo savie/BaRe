@@ -11,9 +11,9 @@ import com.google.android.material.listitem.ListItemLayout;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.ProviderChipGroup;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.ProviderChipGroup;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -47,10 +47,10 @@ public final class ac1 extends gm7 {
         dd1 dd1Var = bc1Var.a;
         final ac1 ac1Var = zb1Var.D;
         boolean zQ = ac1Var.q(bc1Var);
-        SwiftListItemCardView swiftListItemCardView = zb1Var.v;
+        BareListItemCardView bareListItemCardView = zb1Var.v;
         int i2 = 1;
-        swiftListItemCardView.setCheckable(true);
-        swiftListItemCardView.setChecked(zQ);
+        bareListItemCardView.setCheckable(true);
+        bareListItemCardView.setChecked(zQ);
         TextView textView = zb1Var.w;
         StringBuilder sb = new StringBuilder();
         sb.append(dd1Var.getDisplayName());
@@ -136,9 +136,9 @@ public final class ac1 extends gm7 {
         materialButton.setOnClickListener((materialButton.isEnabled() && zQ) ? new h10(i2, ac1Var, bc1Var) : null);
         final boolean supportsCurrentAndroidSdk = dd1Var.getSupportsCurrentAndroidSdk();
         zb1Var.a.setEnabled(supportsCurrentAndroidSdk);
-        swiftListItemCardView.setEnabled(supportsCurrentAndroidSdk);
-        swiftListItemCardView.setAlpha(supportsCurrentAndroidSdk ? 1.0f : 0.5f);
-        swiftListItemCardView.setOnClickListener(new View.OnClickListener() { // from class: yb1
+        bareListItemCardView.setEnabled(supportsCurrentAndroidSdk);
+        bareListItemCardView.setAlpha(supportsCurrentAndroidSdk ? 1.0f : 0.5f);
+        bareListItemCardView.setOnClickListener(new View.OnClickListener() { // from class: yb1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 if (supportsCurrentAndroidSdk) {
@@ -167,8 +167,8 @@ public final class ac1 extends gm7 {
             i2 = R.id.content_container;
             if (((ConstraintLayout) ms8.u(view, R.id.content_container)) != null) {
                 i2 = R.id.item_card;
-                SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                if (swiftListItemCardView != null) {
+                BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                if (bareListItemCardView != null) {
                     i2 = R.id.iv_icon;
                     ImageView imageView = (ImageView) ms8.u(view, R.id.iv_icon);
                     if (imageView != null) {
@@ -187,7 +187,7 @@ public final class ac1 extends gm7 {
                                         i2 = R.id.tv_warning;
                                         TextView textView3 = (TextView) ms8.u(view, R.id.tv_warning);
                                         if (textView3 != null) {
-                                            return new zb1(this, new cc1(listItemLayout, materialButton, swiftListItemCardView, imageView, providerChipGroup, flexboxLayout, textView, textView2, textView3));
+                                            return new zb1(this, new cc1(listItemLayout, materialButton, bareListItemCardView, imageView, providerChipGroup, flexboxLayout, textView, textView2, textView3));
                                         }
                                     }
                                 }

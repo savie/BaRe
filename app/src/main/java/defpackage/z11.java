@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.model.provider.CallLogItem;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.model.provider.CallLogItem;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -40,8 +40,8 @@ public final class z11 extends pw6 {
         if (i2 < 29) {
             return -1;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        int[] subscriptionIds = ((SubscriptionManager) SwiftApp.Companion.c().getSystemService(SubscriptionManager.class)).getSubscriptionIds(i);
+        BareApp.Companion companion = BareApp.d;
+        int[] subscriptionIds = ((SubscriptionManager) BareApp.Companion.c().getSystemService(SubscriptionManager.class)).getSubscriptionIds(i);
         if (subscriptionIds == null) {
             return -1;
         }
@@ -62,8 +62,8 @@ public final class z11 extends pw6 {
         List<CallLogItem> list = this.n;
         ex6 ex6Var = this.i;
         if (z) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.i(SwiftApp.Companion.c().getString(R.string.backing_up));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.i(BareApp.Companion.c().getString(R.string.backing_up));
             xy7 xy7Var = (xy7) ((zy7) cz7Var);
             if (xy7Var.f) {
                 String str2 = this.o;
@@ -129,7 +129,7 @@ public final class z11 extends pw6 {
                                     xp1.Companion.getClass();
                                     xp1Var = xp1.DEFAULT;
                                 }
-                                mz6.e(q63VarH, q63Var, cArrG, xp1Var, "swiftbackup.calls.v3");
+                                mz6.e(q63VarH, q63Var, cArrG, xp1Var, "barebackup.calls.v3");
                                 Arrays.fill(cArrG, 0, cArrG.length, (char) 0);
                                 d01.c(false);
                                 if (!i() && list2.contains(q05.CLOUD)) {
@@ -156,8 +156,8 @@ public final class z11 extends pw6 {
             zn7Var = null;
         }
         if (cz7Var instanceof yy7) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            ex6Var.i(SwiftApp.Companion.c().getString(R.string.restoring));
+            BareApp.Companion companion2 = BareApp.d;
+            ex6Var.i(BareApp.Companion.c().getString(R.string.restoring));
             xf5 xf5Var = new xf5();
             int size2 = list.size();
             int i4 = 0;
@@ -202,14 +202,14 @@ public final class z11 extends pw6 {
 
     @Override // defpackage.pw6
     public final String h() {
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         return dj7.g(R.string.call_logs);
     }
 
     @Override // defpackage.pw6
     public final String j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(R.string.x_calls, String.valueOf(this.n.size()));
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(R.string.x_calls, String.valueOf(this.n.size()));
         string.getClass();
         return string;
     }
@@ -225,8 +225,8 @@ public final class z11 extends pw6 {
             }
             Uri uri = (Uri) obj;
             try {
-                SwiftApp.Companion companion = SwiftApp.d;
-                Uri uriInsert = SwiftApp.Companion.c().getContentResolver().insert(uri, contentValues);
+                BareApp.Companion companion = BareApp.d;
+                Uri uriInsert = BareApp.Companion.c().getContentResolver().insert(uri, contentValues);
                 if (uriInsert != null) {
                     return uriInsert;
                 }
@@ -251,8 +251,8 @@ public final class z11 extends pw6 {
         if (callLogItem != null) {
             boolean z = false;
             try {
-                SwiftApp.Companion companion = SwiftApp.d;
-                Cursor cursorQuery = SwiftApp.Companion.c().getContentResolver().query(CallLogItem.Companion.getCONTENT_URI(), new String[]{"_id"}, "date = ? AND number = ? AND type = ?", new String[]{String.valueOf(callLogItem.getDate()), callLogItem.getNumber(), String.valueOf(callLogItem.getType())}, null);
+                BareApp.Companion companion = BareApp.d;
+                Cursor cursorQuery = BareApp.Companion.c().getContentResolver().query(CallLogItem.Companion.getCONTENT_URI(), new String[]{"_id"}, "date = ? AND number = ? AND type = ?", new String[]{String.valueOf(callLogItem.getDate()), callLogItem.getNumber(), String.valueOf(callLogItem.getType())}, null);
                 if (cursorQuery != null) {
                     try {
                         boolean z2 = cursorQuery.getCount() > 0;
@@ -305,8 +305,8 @@ public final class z11 extends pw6 {
     }
 
     public final void s(q63 q63Var) {
-        SwiftApp.Companion companion = SwiftApp.d;
-        this.i.i(SwiftApp.Companion.c().getString(R.string.uploading));
+        BareApp.Companion companion = BareApp.d;
+        this.i.i(BareApp.Companion.c().getString(R.string.uploading));
         rf8 rf8Var = new rf8(q63Var, 21, true, null, false);
         tb1 tb1Var = tb1.a;
         ag8 ag8VarD = qb1.c().d(rf8Var);

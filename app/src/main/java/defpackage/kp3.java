@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.views.PreCachingLinearLayoutManager;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.views.PreCachingLinearLayoutManager;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -74,7 +74,7 @@ public final class kp3 extends rl0<lp3> {
             throw null;
         }
         this.a = "FoldersDashFragment." + to3Var;
-        this.e.n = new jp3(2, this, kp3.class, "onItemMenuClick", "onItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/folders/data/FolderDashItem;)V", 0, 0);
+        this.e.n = new jp3(2, this, kp3.class, "onItemMenuClick", "onItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/folders/data/FolderDashItem;)V", 0, 0);
         np3 np3VarM = m();
         to3 to3Var2 = this.d;
         if (to3Var2 == null) {
@@ -134,7 +134,7 @@ public final class kp3 extends rl0<lp3> {
         sz8.f0(extendedFloatingActionButton, k(), true);
         extendedFloatingActionButton.setOnClickListener(new i00(this, 7));
         int i = 2;
-        m().g.e(getViewLifecycleOwner(), new y20(i, new x11(1, this, kp3.class, "onViewStatusUpdate", "onViewStatusUpdate(Lorg/swiftapps/swiftbackup/common/repos/RepositoryResult$Status;)V", 0, 2)));
+        m().g.e(getViewLifecycleOwner(), new y20(i, new x11(1, this, kp3.class, "onViewStatusUpdate", "onViewStatusUpdate(Lorg/bareapps/barebackup/common/repos/RepositoryResult$Status;)V", 0, 2)));
         m().h.e(getViewLifecycleOwner(), new y20(i, new u10(this, 11)));
     }
 }

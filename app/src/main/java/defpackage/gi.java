@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.apkshare.ApkSharePackageMetadata;
-import org.swiftapps.swiftbackup.apkshare.SaiApksMetadata;
+import com.bareapps.barebackup.apkshare.ApkSharePackageMetadata;
+import com.bareapps.barebackup.apkshare.SaiApksMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -64,7 +64,7 @@ public abstract class gi {
             }
             e(apkSharePackageMetadataB, saiApksMetadataA, strC);
             if (strC == null) {
-                strC = (apkSharePackageMetadataB == null || (packageName2 = apkSharePackageMetadataB.getPackageName()) == null) ? null : dg.c(packageName2, "Swift Backup metadata");
+                strC = (apkSharePackageMetadataB == null || (packageName2 = apkSharePackageMetadataB.getPackageName()) == null) ? null : dg.c(packageName2, "Bare Backup metadata");
                 if (strC == null) {
                     strC = (saiApksMetadataA == null || (packageName = saiApksMetadataA.getPackageName()) == null) ? null : dg.c(packageName, "SAI metadata");
                 }
@@ -186,7 +186,7 @@ public abstract class gi {
         String packageName;
         String packageName2;
         if (apkSharePackageMetadata != null && (packageName2 = apkSharePackageMetadata.getPackageName()) != null) {
-            dg.b(dg.c(packageName2, "Swift Backup metadata"), str, "Swift Backup metadata");
+            dg.b(dg.c(packageName2, "Bare Backup metadata"), str, "Bare Backup metadata");
         }
         if (saiApksMetadata == null || (packageName = saiApksMetadata.getPackageName()) == null) {
             return;

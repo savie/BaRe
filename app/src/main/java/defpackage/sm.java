@@ -2,9 +2,9 @@ package defpackage;
 
 import android.util.Log;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.common.V;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -39,8 +39,8 @@ public final /* synthetic */ class sm implements bt3 {
                 return Boolean.valueOf(V.INSTANCE.getA());
             case 3:
                 boolean z2 = hp0.a;
-                SwiftApp.Companion companion = SwiftApp.d;
-                String packageName = SwiftApp.Companion.c().getPackageName();
+                BareApp.Companion companion = BareApp.d;
+                String packageName = BareApp.Companion.c().getPackageName();
                 packageName.getClass();
                 if (!hp0.a) {
                     Log.i("BatteryOptUtil", "Performing battery optimization tests");

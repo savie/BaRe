@@ -70,8 +70,8 @@ public abstract class og1 {
             if (strQ0 == null) {
                 strQ0 = "";
             }
-            if (nq7.Z(strQ0, "Swift", false)) {
-                int iH0 = nq7.h0(strQ0, "Swift", 0, false, 6);
+            if (nq7.Z(strQ0, "Bare", false)) {
+                int iH0 = nq7.h0(strQ0, "Bare", 0, false, 6);
                 if (iH0 < 0) {
                     a6.d(xs1.h(iH0, "End index (", ") is less than start index (0)."));
                     return null;
@@ -235,7 +235,7 @@ public abstract class og1 {
                 strT = null;
             }
         }
-        for (Object obj2 : el1.v1(new LinkedHashSet(x50.p0(new String[]{str3, strT, "Swift%20Backup", "Swift Backup"})))) {
+        for (Object obj2 : el1.v1(new LinkedHashSet(x50.p0(new String[]{str3, strT, "Bare%20Backup", "Bare Backup"})))) {
             if (nq7.Z(str2, (String) obj2, false)) {
                 obj = obj2;
                 break;

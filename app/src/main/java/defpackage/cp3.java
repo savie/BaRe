@@ -7,11 +7,11 @@ import android.widget.Space;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.listitem.ListItemLayout;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -117,8 +117,8 @@ public final class cp3 extends gm7 {
                     i2 = R.id.image_icon;
                     if (((ImageView) ms8.u(view, R.id.image_icon)) != null) {
                         i2 = R.id.item_card;
-                        SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                        if (swiftListItemCardView != null) {
+                        BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                        if (bareListItemCardView != null) {
                             i2 = R.id.iv_menu;
                             ImageView imageView = (ImageView) ms8.u(view, R.id.iv_menu);
                             if (imageView != null) {
@@ -141,7 +141,7 @@ public final class cp3 extends gm7 {
                                                         i2 = R.id.tv_title;
                                                         TextView textView4 = (TextView) ms8.u(view, R.id.tv_title);
                                                         if (textView4 != null) {
-                                                            return new bp3(this, new op3(listItemLayout, mCheckBox, viewU, swiftListItemCardView, imageView, viewU2, textView, textView2, textView3, textView4));
+                                                            return new bp3(this, new op3(listItemLayout, mCheckBox, viewU, bareListItemCardView, imageView, viewU2, textView, textView2, textView3, textView4));
                                                         }
                                                     }
                                                 }

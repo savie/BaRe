@@ -1,9 +1,9 @@
 package defpackage;
 
 import android.content.Context;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -44,8 +44,8 @@ public final class vj1 extends ws7 implements qt3 {
         qb1.o(z);
         CloudResult cloudResultA = z ? qb1.c().a(true) : null;
         if (cloudResultA != null && !(cloudResultA instanceof si1)) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String string = contextC.getString(R.string.cloud_connection_failed);
             string.getClass();
             zn4 zn4Var = zn4.a;
@@ -53,8 +53,8 @@ public final class vj1 extends ws7 implements qt3 {
         }
         boolean z2 = z && (cloudResultA instanceof si1) && qb1.m();
         if (z2) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            Context contextC2 = SwiftApp.Companion.c();
+            BareApp.Companion companion2 = BareApp.d;
+            Context contextC2 = BareApp.Companion.c();
             String string2 = contextC2.getString(R.string.cloud_connection_successful);
             string2.getClass();
             zn4 zn4Var2 = zn4.a;

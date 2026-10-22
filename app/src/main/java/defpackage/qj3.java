@@ -4,13 +4,13 @@ import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.FolderBackupStrategy;
-import org.swiftapps.swiftbackup.settings.FolderRestoreStrategy;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.FolderBackupStrategy;
+import com.bareapps.barebackup.settings.FolderRestoreStrategy;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

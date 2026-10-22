@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -142,8 +142,8 @@ public final class wg5 implements Parcelable, jl0 {
         private final Map<Long, List<String>> mCacheRecipientsByThread;
 
         public c() {
-            SwiftApp.Companion companion = SwiftApp.d;
-            this.contentResolver = SwiftApp.Companion.c().getContentResolver();
+            BareApp.Companion companion = BareApp.d;
+            this.contentResolver = BareApp.Companion.c().getContentResolver();
             this.mCacheRecipientsByThread = new LinkedHashMap();
         }
 
@@ -1475,8 +1475,8 @@ public final class wg5 implements Parcelable, jl0 {
                 try {
                     String[] strArr3 = {String.valueOf(wg5Var.getDateInSeconds()), String.valueOf(wg5Var.getDateSentInSeconds()), String.valueOf(wg5Var.getType())};
                     try {
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        Cursor cursorQuery = SwiftApp.Companion.c().getContentResolver().query(content_uri, strArr2, "date = ? AND date_sent = ? AND m_type = ?", strArr3, null);
+                        BareApp.Companion companion = BareApp.d;
+                        Cursor cursorQuery = BareApp.Companion.c().getContentResolver().query(content_uri, strArr2, "date = ? AND date_sent = ? AND m_type = ?", strArr3, null);
                         if (cursorQuery == null) {
                             return false;
                         }

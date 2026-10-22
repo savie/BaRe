@@ -1,9 +1,9 @@
 package defpackage;
 
 import android.content.DialogInterface;
-import org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity;
+import com.bareapps.barebackup.cloud.connect.BoxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.GmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.OneDriveSignInActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

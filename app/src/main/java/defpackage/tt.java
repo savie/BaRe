@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -77,16 +77,16 @@ public final class tt extends et {
                 ce3Var = ce3.All;
             }
             if (!this.e && ce3Var.isApplied()) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                if (ai8.i(SwiftApp.Companion.c())) {
+                BareApp.Companion companion = BareApp.d;
+                if (ai8.i(BareApp.Companion.c())) {
                     tb1 tb1Var = tb1.a;
                     if (!qb1.m()) {
-                        ai8.m(SwiftApp.Companion.c(), R.string.no_internet_connection);
+                        ai8.m(BareApp.Companion.c(), R.string.no_internet_connection);
                         vr6.e$default(vr6.INSTANCE, this.b, "Resetting sync mode filter as no internet connection", null, 4, null);
                         ce3Var.reset();
                     }
                 } else {
-                    ai8.m(SwiftApp.Companion.c(), R.string.no_internet_connection);
+                    ai8.m(BareApp.Companion.c(), R.string.no_internet_connection);
                     vr6.e$default(vr6.INSTANCE, this.b, "Resetting sync mode filter as no internet connection", null, 4, null);
                     ce3Var.reset();
                 }

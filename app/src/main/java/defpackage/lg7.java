@@ -28,8 +28,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -93,10 +93,10 @@ public abstract class lg7 {
     }
 
     public static void C(AppBarLayout appBarLayout, float f2) {
-        int integer = appBarLayout.getResources().getInteger(org.swiftapps.swiftbackup.R.integer.app_bar_elevation_anim_duration);
+        int integer = appBarLayout.getResources().getInteger(com.bareapps.barebackup.R.integer.app_bar_elevation_anim_duration);
         StateListAnimator stateListAnimator = new StateListAnimator();
         long j2 = integer;
-        stateListAnimator.addState(new int[]{R.attr.state_enabled, org.swiftapps.swiftbackup.R.attr.state_liftable, -org.swiftapps.swiftbackup.R.attr.state_lifted}, ObjectAnimator.ofFloat(appBarLayout, "elevation", 0.0f).setDuration(j2));
+        stateListAnimator.addState(new int[]{R.attr.state_enabled, com.bareapps.barebackup.R.attr.state_liftable, -com.bareapps.barebackup.R.attr.state_lifted}, ObjectAnimator.ofFloat(appBarLayout, "elevation", 0.0f).setDuration(j2));
         stateListAnimator.addState(new int[]{R.attr.state_enabled}, ObjectAnimator.ofFloat(appBarLayout, "elevation", f2).setDuration(j2));
         stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(appBarLayout, "elevation", 0.0f).setDuration(0L));
         appBarLayout.setStateListAnimator(stateListAnimator);
@@ -147,12 +147,12 @@ public abstract class lg7 {
         String[] strArr = (String[]) arrayList.toArray(new String[0]);
         lh6 lh6Var = new lh6();
         lh6Var.a = syncOption;
-        s35 s35Var = new s35(sa1Var, org.swiftapps.swiftbackup.R.style.M3AlertDialogTheme, new hv1(sa1Var, org.swiftapps.swiftbackup.R.style.M3AlertDialogTheme), null);
-        s35Var.v(org.swiftapps.swiftbackup.R.string.sync_options);
+        s35 s35Var = new s35(sa1Var, com.bareapps.barebackup.R.style.M3AlertDialogTheme, new hv1(sa1Var, com.bareapps.barebackup.R.style.M3AlertDialogTheme), null);
+        s35Var.v(com.bareapps.barebackup.R.string.sync_options);
         kx2 kx2Var = (kx2) entries;
         s35Var.u(strArr, kx2Var.indexOf(syncOption), new b52(3, lh6Var, kx2Var));
-        s35Var.s(org.swiftapps.swiftbackup.R.string.ok, new tb3(2, mt3Var, lh6Var));
-        s35Var.q(org.swiftapps.swiftbackup.R.string.cancel, null);
+        s35Var.s(com.bareapps.barebackup.R.string.ok, new tb3(2, mt3Var, lh6Var));
+        s35Var.q(com.bareapps.barebackup.R.string.cancel, null);
         s35Var.m();
     }
 
@@ -357,7 +357,7 @@ public abstract class lg7 {
         sb.append('\n');
         sb.append("Total raw package count: " + v00Var.a);
         sb.append('\n');
-        sb.append("Swift Backup package visible: ".concat(v00Var.d ? "Yes" : "No"));
+        sb.append("Bare Backup package visible: ".concat(v00Var.d ? "Yes" : "No"));
         sb.append('\n');
         sb.append("android visible: ".concat(v00Var.e ? "Yes" : "No"));
         sb.append('\n');

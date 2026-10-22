@@ -8,17 +8,17 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleLastRunDetails;
-import org.swiftapps.swiftbackup.home.schedule.data.o;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.ScheduleLastRunDetails;
+import com.bareapps.barebackup.home.schedule.data.o;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -95,7 +95,7 @@ public final /* synthetic */ class ld6 implements bt3 {
                 if (!sLogActivity.isFinishing()) {
                     sLogActivity.H();
                     if (q63Var == null || !q63Var.j()) {
-                        vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "SwiftLogger archive unavailable, falling back to text-only report", null, 4, null);
+                        vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "BareLogger archive unavailable, falling back to text-only report", null, 4, null);
                         sLogActivity.P(str);
                     } else {
                         try {
@@ -104,8 +104,8 @@ public final /* synthetic */ class ld6 implements bt3 {
                             Uri uriA = f93.a(q63Var);
                             String strP = q63Var.p();
                             Intent intent2 = new Intent("android.intent.action.SEND");
-                            intent2.putExtra("android.intent.extra.EMAIL", new String[]{"support@swiftapps.org"});
-                            intent2.putExtra("android.intent.extra.SUBJECT", "SwiftLogger Logs");
+                            intent2.putExtra("android.intent.extra.EMAIL", new String[]{"support@bareapps.org"});
+                            intent2.putExtra("android.intent.extra.SUBJECT", "BareLogger Logs");
                             intent2.putExtra("android.intent.extra.TEXT", str2);
                             intent2.putExtra("android.intent.extra.STREAM", uriA);
                             intent2.setClipData(ClipData.newUri(contentResolver, strP, uriA));
@@ -113,19 +113,19 @@ public final /* synthetic */ class ld6 implements bt3 {
                             intent2.setType("application/x-7z-compressed");
                             intent = intent2;
                         } catch (Exception e) {
-                            vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "Failed to create SwiftLogger archive share intent", e, null, 8, null);
+                            vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "Failed to create BareLogger archive share intent", e, null, 8, null);
                         }
                         if (intent != null) {
                             List<ResolveInfo> listQueryIntentActivities = sLogActivity.getPackageManager().queryIntentActivities(intent, 65536);
                             listQueryIntentActivities.getClass();
                             if (listQueryIntentActivities.isEmpty()) {
-                                vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "No app found for SwiftLogger archive, falling back to text-only report", null, 4, null);
+                                vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "No app found for BareLogger archive, falling back to text-only report", null, 4, null);
                                 sLogActivity.P(str);
                             } else {
                                 sLogActivity.startActivity(Intent.createChooser(intent, sLogActivity.getString(R.string.share_logs)));
                             }
                         } else {
-                            vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "No app found for SwiftLogger archive, falling back to text-only report", null, 4, null);
+                            vr6.e$default(vr6.INSTANCE, sLogActivity.r(), "No app found for BareLogger archive, falling back to text-only report", null, 4, null);
                             sLogActivity.P(str);
                         }
                     }

@@ -10,8 +10,8 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -32,8 +32,8 @@ public final class mg extends qo0 {
     }
 
     public static void k(Uri uri, q63 q63Var, String str) throws IOException {
-        SwiftApp.Companion companion = SwiftApp.d;
-        InputStream inputStreamOpenInputStream = SwiftApp.Companion.c().getContentResolver().openInputStream(uri);
+        BareApp.Companion companion = BareApp.d;
+        InputStream inputStreamOpenInputStream = BareApp.Companion.c().getContentResolver().openInputStream(uri);
         if (inputStreamOpenInputStream == null) {
             g84.f(str);
             return;

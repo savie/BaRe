@@ -19,14 +19,14 @@ import com.jcraft.jsch.Argon2;
 import com.nimbusds.jose.crypto.impl.AESGCM;
 import com.nimbusds.jose.jwk.gen.OctetSequenceKeyGenerator;
 import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderItem;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

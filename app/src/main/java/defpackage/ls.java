@@ -1,20 +1,20 @@
 package defpackage;
 
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.cloud.connect.NoGmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.settings.appvisibility.AppVisibilityDiagnosticsActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.cloud.connect.NoGmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ChatActivity;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.settings.appvisibility.AppVisibilityDiagnosticsActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

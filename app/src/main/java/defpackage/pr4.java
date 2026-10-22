@@ -5,14 +5,14 @@ import androidx.preference.Preference;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import com.pcloud.sdk.internal.a;
 import okhttp3.HttpUrl;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.tasks.PreconditionsActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.tasks.PreconditionsActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

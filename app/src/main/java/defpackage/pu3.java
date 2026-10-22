@@ -102,11 +102,11 @@ public final class pu3 extends ag8 {
                                 }
                                 ai6 ai6Var = nf1.a;
                                 if (x13.E(exc2) && nq7.Z(io4.b(exc2), str5, true)) {
-                                    vr6.e$default(vr6Var, strJ, "Main Swift Backup folder '" + fu3Var.i() + "' with id '" + str5 + "' not found!", null, 4, null);
+                                    vr6.e$default(vr6Var, strJ, "Main Bare Backup folder '" + fu3Var.i() + "' with id '" + str5 + "' not found!", null, 4, null);
                                     String strI = fu3Var.i();
-                                    StringBuilder sb = new StringBuilder("\n                    User has manually deleted the Main Swift Backup folder '");
+                                    StringBuilder sb = new StringBuilder("\n                    User has manually deleted the Main Bare Backup folder '");
                                     sb.append(strI);
-                                    sb.append("' from Google Drive. ALL cloud backups are now invalid and should be deleted from Swift Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Swift Backup and go to 'Cloud sync' section.\n                    2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Swift Backup.\n                    ");
+                                    sb.append("' from Google Drive. ALL cloud backups are now invalid and should be deleted from Bare Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Bare Backup and go to 'Cloud sync' section.\n                    2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Bare Backup.\n                    ");
                                     String strL = oq7.L(sb.toString());
                                     vr6.e$default(vr6Var, strJ, strL, null, 4, null);
                                     a(new Exception(strL), true);

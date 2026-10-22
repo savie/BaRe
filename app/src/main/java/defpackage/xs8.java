@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -132,8 +132,8 @@ public class xs8 implements dt8 {
         if (et8Var.isHiddenSsid() && e()) {
             vr6.i$default(vr6Var, d(), "Workaround for hidden WiFi", null, 4, null);
             q63 q63Var = new q63(b67.c() ? "/data/misc/apexdata/com.android.wifi/WifiConfigStore.xml" : "/data/misc/wifi/WifiConfigStore.xml", 4);
-            SwiftApp.Companion companion = SwiftApp.d;
-            new q63(SwiftApp.Companion.c().getCacheDir(), "wifi/system_config_file.xml", 2);
+            BareApp.Companion companion = BareApp.d;
+            new q63(BareApp.Companion.c().getCacheDir(), "wifi/system_config_file.xml", 2);
             if (q63Var.j()) {
                 ArrayList<String> arrayListQ = rs9.q(q63Var.a());
                 ArrayList arrayList = new ArrayList(hl1.G0(arrayListQ, 10));

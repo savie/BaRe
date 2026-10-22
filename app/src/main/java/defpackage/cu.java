@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.IgnoredException;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.IgnoredException;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -131,7 +131,7 @@ public final class cu {
         }
         String strC1 = nq7.C0(strH, ":::", strH);
         if (!strC1.equals("v1")) {
-            throw new zt("Metadata version incompatible with current version of Swift Backup: ".concat(strC1));
+            throw new zt("Metadata version incompatible with current version of Bare Backup: ".concat(strC1));
         }
         List listN0 = el1.N0(1, nq7.x0(strH, new String[]{":::"}, 6));
         gv7 gv7Var = y32.a;

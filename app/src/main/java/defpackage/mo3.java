@@ -25,25 +25,25 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
-import org.swiftapps.swiftbackup.settings.h;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.views.MAppBarLayout;
-import org.swiftapps.swiftbackup.views.NoSwipeViewPager;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.cloud.connect.GmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.settings.h;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.views.MAppBarLayout;
+import com.bareapps.barebackup.views.NoSwipeViewPager;
+import com.bareapps.barebackup.walls.WallApplyActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -204,8 +204,8 @@ public final /* synthetic */ class mo3 implements bt3 {
                                             i2 = R.id.tv_premium;
                                             TextView textView = (TextView) ms8.u(viewU3, R.id.tv_premium);
                                             if (textView != null) {
-                                                i2 = R.id.tv_swiftbackup;
-                                                TextView textView2 = (TextView) ms8.u(viewU3, R.id.tv_swiftbackup);
+                                                i2 = R.id.tv_barebackup;
+                                                TextView textView2 = (TextView) ms8.u(viewU3, R.id.tv_barebackup);
                                                 if (textView2 != null) {
                                                     x44 x44Var = new x44((AppBarLayout) viewU3, linearLayout, imageView, materialCardView, materialToolbar, constraintLayout, textView, textView2);
                                                     i8 = R.id.primaryNavigation;
@@ -262,14 +262,14 @@ public final /* synthetic */ class mo3 implements bt3 {
                 SLogActivity sLogActivity = (SLogActivity) obj;
                 int i13 = SLogActivity.R;
                 View viewInflate3 = View.inflate(sLogActivity, R.layout.slog_activity_share_dialog, null);
-                int i14 = R.id.tv_swiftlogger;
-                LinearLayout linearLayout2 = (LinearLayout) ms8.u(viewInflate3, R.id.tv_swiftlogger);
+                int i14 = R.id.tv_barelogger;
+                LinearLayout linearLayout2 = (LinearLayout) ms8.u(viewInflate3, R.id.tv_barelogger);
                 if (linearLayout2 != null) {
-                    i14 = R.id.tv_swiftlogger_text_only;
-                    LinearLayout linearLayout3 = (LinearLayout) ms8.u(viewInflate3, R.id.tv_swiftlogger_text_only);
+                    i14 = R.id.tv_barelogger_text_only;
+                    LinearLayout linearLayout3 = (LinearLayout) ms8.u(viewInflate3, R.id.tv_barelogger_text_only);
                     if (linearLayout3 != null) {
-                        i14 = R.id.tv_swiftlogger_title;
-                        TextView textView3 = (TextView) ms8.u(viewInflate3, R.id.tv_swiftlogger_title);
+                        i14 = R.id.tv_barelogger_title;
+                        TextView textView3 = (TextView) ms8.u(viewInflate3, R.id.tv_barelogger_title);
                         if (textView3 != null) {
                             uh7 uh7Var = new uh7((LinearLayout) viewInflate3, linearLayout2, linearLayout3, textView3);
                             linearLayout3.setOnClickListener(new dj(sLogActivity, i3));

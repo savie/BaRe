@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudServiceId;
-import org.swiftapps.swiftbackup.cloud.protocols.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.cloud.protocols.CloudServiceId;
+import com.bareapps.barebackup.cloud.protocols.a;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -127,12 +127,12 @@ public final class l62 extends ws7 implements qt3 {
         dz5 dz5Var = dz5.a;
         boolean zH = dz5.h("android.permission.ACCESS_LOCAL_NETWORK");
         int i2 = Build.VERSION.SDK_INT;
-        SwiftApp.Companion companion = SwiftApp.d;
-        zz4 zz4VarA = uz4.a(dd1Var2, server, zH, i2, SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion, new uk(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0, 2));
+        BareApp.Companion companion = BareApp.d;
+        zz4 zz4VarA = uz4.a(dd1Var2, server, zH, i2, BareApp.Companion.c().getApplicationInfo().targetSdkVersion, new uk(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0, 2));
         boolean zU = false;
         boolean z3 = this.c;
         if (zz4VarA == null) {
-            if (ai8.i(SwiftApp.Companion.c())) {
+            if (ai8.i(BareApp.Companion.c())) {
                 mj1 mj1Var2 = m62Var.e;
                 if (mj1Var2 == null) {
                     pe4.F("cloudService");
@@ -408,12 +408,12 @@ public final class l62 extends ws7 implements qt3 {
                     if (e8 != null) {
                         vr6.e$default(vr6Var, m62Var.b, "Error: ".concat(io4.b(e8)), null, 4, null);
                         if (cloudOperationsImpl$LoginResultD instanceof CloudOperationsImpl$LoginResult.InvalidCredentials) {
-                            ai8.m(SwiftApp.Companion.c(), R.string.invalid_login_details);
+                            ai8.m(BareApp.Companion.c(), R.string.invalid_login_details);
                         } else if (cloudOperationsImpl$LoginResultD instanceof CloudOperationsImpl$LoginResult.UntrustedCertificate) {
                             mf8 mf8Var = e8 instanceof mf8 ? (mf8) e8 : null;
                             if (mf8Var == null || (x509Certificate = mf8Var.a) == null) {
                                 z2 = z;
-                                ai8.m(SwiftApp.Companion.c(), R.string.untrusted_certificate_msg);
+                                ai8.m(BareApp.Companion.c(), R.string.untrusted_certificate_msg);
                             } else {
                                 z2 = z;
                                 m62Var.p.k(new j62(x509Certificate, z2));
@@ -422,7 +422,7 @@ public final class l62 extends ws7 implements qt3 {
                             z2 = z;
                             if (cloudOperationsImpl$LoginResultD instanceof CloudOperationsImpl$LoginResult.UnknownHostKey) {
                                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                                spannableStringBuilder.append((CharSequence) SwiftApp.Companion.c().getString(R.string.server_host_key_not_verifiable_msg));
+                                spannableStringBuilder.append((CharSequence) BareApp.Companion.c().getString(R.string.server_host_key_not_verifiable_msg));
                                 for (pw5 pw5Var : ((CloudOperationsImpl$LoginResult.UnknownHostKey) cloudOperationsImpl$LoginResultD).getProperties()) {
                                     String str4 = (String) pw5Var.a;
                                     String str5 = (String) pw5Var.b;
@@ -440,10 +440,10 @@ public final class l62 extends ws7 implements qt3 {
                                     pe4.F("cloudType");
                                     throw null;
                                 }
-                                zz4 zz4VarC = uz4.c(dd1Var3, cloudCredentials2.getServer(), cloudCredentials2.getProtocol(), cloudCredentials2.m77getPort(), e8, dz5.h("android.permission.ACCESS_LOCAL_NETWORK"), i2, SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion, new ji1(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0, 2), new rz4(3, SwiftApp.Companion.a(), SwiftApp.class, "isLocalNetworkTcpBlockedByPermission", "isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z", 0));
+                                zz4 zz4VarC = uz4.c(dd1Var3, cloudCredentials2.getServer(), cloudCredentials2.getProtocol(), cloudCredentials2.m77getPort(), e8, dz5.h("android.permission.ACCESS_LOCAL_NETWORK"), i2, BareApp.Companion.c().getApplicationInfo().targetSdkVersion, new ji1(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0, 2), new rz4(3, BareApp.Companion.a(), BareApp.class, "isLocalNetworkTcpBlockedByPermission", "isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z", 0));
                                 vq6 vq6Var = e8 instanceof vq6 ? (vq6) e8 : null;
                                 if (vq6Var != null) {
-                                    ContentResolver contentResolver = SwiftApp.Companion.c().getContentResolver();
+                                    ContentResolver contentResolver = BareApp.Companion.c().getContentResolver();
                                     try {
                                         bn6Var = Settings.Global.getString(contentResolver, "private_dns_mode");
                                     } catch (Throwable th3) {
@@ -472,8 +472,8 @@ public final class l62 extends ws7 implements qt3 {
                                     List list = vq6Var.b;
                                     ov2 ov2Var = ov2.a;
                                     try {
-                                        SwiftApp.Companion companion2 = SwiftApp.d;
-                                        Object systemService = SwiftApp.Companion.c().getSystemService("connectivity");
+                                        BareApp.Companion companion2 = BareApp.d;
+                                        Object systemService = BareApp.Companion.c().getSystemService("connectivity");
                                         ConnectivityManager connectivityManager = systemService instanceof ConnectivityManager ? (ConnectivityManager) systemService : null;
                                         if (connectivityManager == null || (activeNetwork = connectivityManager.getActiveNetwork()) == null || (linkProperties = connectivityManager.getLinkProperties(activeNetwork)) == null) {
                                             bn6Var3 = ov2Var;
@@ -504,8 +504,8 @@ public final class l62 extends ws7 implements qt3 {
                                     i62Var = null;
                                 }
                                 if (zz4VarC != null) {
-                                    SwiftApp.Companion companion3 = SwiftApp.d;
-                                    Context contextC = SwiftApp.Companion.c();
+                                    BareApp.Companion companion3 = BareApp.d;
+                                    Context contextC = BareApp.Companion.c();
                                     String message = zz4VarC.getMessage();
                                     if (message == null) {
                                         message = "";
@@ -522,14 +522,14 @@ public final class l62 extends ws7 implements qt3 {
                                     }
                                     ix6Var2.k(message2);
                                 } else {
-                                    SwiftApp.Companion companion4 = SwiftApp.d;
-                                    Context contextC2 = SwiftApp.Companion.c();
+                                    BareApp.Companion companion4 = BareApp.d;
+                                    Context contextC2 = BareApp.Companion.c();
                                     String strB = io4.b(e8);
                                     zn4 zn4Var2 = zn4.a;
                                     dj7.y(contextC2, strB);
                                 }
                             } else {
-                                ai8.n(SwiftApp.Companion.c(), io4.b(e8));
+                                ai8.n(BareApp.Companion.c(), io4.b(e8));
                             }
                         }
                     }
@@ -537,7 +537,7 @@ public final class l62 extends ws7 implements qt3 {
                 z2 = z;
             } else {
                 vr6.e$default(vr6.INSTANCE, m62Var.b, "Not connected to a WiFi network", null, 4, null);
-                ai8.m(SwiftApp.Companion.c(), R.string.cloud_connection_failed);
+                ai8.m(BareApp.Companion.c(), R.string.cloud_connection_failed);
             }
             if (z2) {
                 if (zU) {
@@ -545,8 +545,8 @@ public final class l62 extends ws7 implements qt3 {
                 } else {
                     i = R.string.cloud_connection_failed;
                 }
-                SwiftApp.Companion companion5 = SwiftApp.d;
-                Context contextC3 = SwiftApp.Companion.c();
+                BareApp.Companion companion5 = BareApp.d;
+                Context contextC3 = BareApp.Companion.c();
                 String strG = dj7.g(i);
                 zn4 zn4Var3 = zn4.a;
                 dj7.y(contextC3, strG);
@@ -558,7 +558,7 @@ public final class l62 extends ws7 implements qt3 {
             return be8.a;
         }
         vr6.e$default(vr6.INSTANCE, m62Var.b, xs1.j("checkRootExists: ", zz4VarA.getMessage()), null, 4, null);
-        Context contextC4 = SwiftApp.Companion.c();
+        Context contextC4 = BareApp.Companion.c();
         String message3 = zz4VarA.getMessage();
         if (message3 == null) {
             message3 = "";
@@ -572,8 +572,8 @@ public final class l62 extends ws7 implements qt3 {
             } else {
                 i = R.string.cloud_connection_failed;
             }
-            SwiftApp.Companion companion6 = SwiftApp.d;
-            Context contextC5 = SwiftApp.Companion.c();
+            BareApp.Companion companion6 = BareApp.d;
+            Context contextC5 = BareApp.Companion.c();
             String strG2 = dj7.g(i);
             zn4 zn4Var5 = zn4.a;
             dj7.y(contextC5, strG2);

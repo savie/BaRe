@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -59,8 +59,8 @@ public abstract class j94 {
     }
 
     public static pk6 d(sx3 sx3Var, boolean z) {
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         mm0 mm0VarE = a.a(contextC).e.c(contextC).f(Drawable.class).D(sx3Var).e((Drawable) ux3.b.getValue());
         mm0VarE.getClass();
         pk6 pk6Var = (pk6) mm0VarE;
@@ -86,8 +86,8 @@ public abstract class j94 {
         if (i3 > size) {
             i3 = size;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        int dimensionPixelSize = SwiftApp.Companion.c().getResources().getDimensionPixelSize(R.dimen.app_list_icon_size);
+        BareApp.Companion companion = BareApp.d;
+        int dimensionPixelSize = BareApp.Companion.c().getResources().getDimensionPixelSize(R.dimen.app_list_icon_size);
         while (i < i3) {
             ji jiVar = (ji) list.get(i);
             jiVar.getClass();

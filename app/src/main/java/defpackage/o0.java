@@ -9,7 +9,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderItem;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: loaded from: classes.dex */

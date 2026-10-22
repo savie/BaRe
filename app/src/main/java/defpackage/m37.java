@@ -20,18 +20,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.GlobalScheduleError;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
-import org.swiftapps.swiftbackup.views.SwiftSegmentConstraintLayout;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.data.GlobalScheduleError;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
+import com.bareapps.barebackup.views.BareSegmentConstraintLayout;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -44,7 +44,7 @@ public final class m37 extends rl0<n37> {
 
     public m37() {
         super(0);
-        os4 os4VarX = jd4.x(ys4.c, new u30(new l37(this, m37.class, "ctx", "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;", 0), 3));
+        os4 os4VarX = jd4.x(ys4.c, new u30(new l37(this, m37.class, "ctx", "getCtx()Lorg/bareapps/barebackup/home/HomeActivity;", 0), 3));
         this.c = new l90(ph6.a(q47.class), new v30(os4VarX, 2), new x30(this, os4VarX, 1), new w30(os4VarX, 1));
         this.d = new gv7(new to5(this, 6));
         this.e = (cr3) registerForActivityResult(new mb(this), new t37());
@@ -70,10 +70,10 @@ public final class m37 extends rl0<n37> {
         return ((n37) jk8Var).n;
     }
 
-    public final SwiftBackupMaterialSwitch l() {
+    public final BareBackupMaterialSwitch l() {
         jk8 jk8Var = this.b;
         jk8Var.getClass();
-        return (SwiftBackupMaterialSwitch) ((n37) jk8Var).k.e;
+        return (BareBackupMaterialSwitch) ((n37) jk8Var).k.e;
     }
 
     public final ScheduleFabMenuView m() {
@@ -152,12 +152,12 @@ public final class m37 extends rl0<n37> {
                                         View viewU5 = ms8.u(viewU3, R.id.schedule_header_click_target);
                                         if (viewU5 != null) {
                                             i3 = R.id.schedule_header_segment;
-                                            if (((SwiftSegmentConstraintLayout) ms8.u(viewU3, R.id.schedule_header_segment)) != null) {
+                                            if (((BareSegmentConstraintLayout) ms8.u(viewU3, R.id.schedule_header_segment)) != null) {
                                                 i3 = R.id.schedule_requirements_segment;
                                                 if (((LinearLayout) ms8.u(viewU3, R.id.schedule_requirements_segment)) != null) {
                                                     i3 = R.id.swch_schedule;
-                                                    SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) ms8.u(viewU3, R.id.swch_schedule);
-                                                    if (swiftBackupMaterialSwitch != null) {
+                                                    BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) ms8.u(viewU3, R.id.swch_schedule);
+                                                    if (bareBackupMaterialSwitch != null) {
                                                         i3 = R.id.time_dropdown;
                                                         View viewU6 = ms8.u(viewU3, R.id.time_dropdown);
                                                         if (viewU6 != null) {
@@ -170,11 +170,11 @@ public final class m37 extends rl0<n37> {
                                                                     TextView textView = (TextView) ms8.u(viewU3, R.id.tv_schedule_header_error);
                                                                     if (textView != null) {
                                                                         i75 i75Var = new i75();
-                                                                        i75Var.a = (SwiftSegmentedCardGroup) viewU3;
+                                                                        i75Var.a = (BareSegmentedCardGroup) viewU3;
                                                                         i75Var.b = materialButton2;
                                                                         i75Var.c = gm1VarA;
                                                                         i75Var.d = viewU5;
-                                                                        i75Var.e = swiftBackupMaterialSwitch;
+                                                                        i75Var.e = bareBackupMaterialSwitch;
                                                                         i75Var.f = gm1VarA2;
                                                                         i75Var.k = textView;
                                                                         i = R.id.schedule_fragment_scrollview;
@@ -278,7 +278,7 @@ public final class m37 extends rl0<n37> {
         jk8 jk8Var = this.b;
         jk8Var.getClass();
         i75 i75Var = ((n37) jk8Var).k;
-        ((SwiftSegmentedCardGroup) i75Var.a).b((View) i75Var.d, new gs(this, 9));
+        ((BareSegmentedCardGroup) i75Var.a).b((View) i75Var.d, new gs(this, 9));
         jk8 jk8Var2 = this.b;
         jk8Var2.getClass();
         gm1 gm1Var = (gm1) ((n37) jk8Var2).k.f;
@@ -357,8 +357,8 @@ public final class m37 extends rl0<n37> {
                                     menuItemFindItem2.setVisible(false);
                                 }
                                 try {
-                                    SwiftApp.Companion companion = SwiftApp.d;
-                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(SwiftApp.Companion.c());
+                                    BareApp.Companion companion = BareApp.d;
+                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(BareApp.Companion.c());
                                     boolValueOf = Boolean.valueOf(wallpaperManager != null && wallpaperManager.isWallpaperSupported());
                                 } catch (Exception unused) {
                                     boolValueOf = null;
@@ -387,7 +387,7 @@ public final class m37 extends rl0<n37> {
         jk8Var5.getClass();
         ((MaterialButton) ((n37) jk8Var5).k.b).setOnClickListener(new i00(this, 13));
         m().setOnBeforeExpand(new xq4(this, 11));
-        m().setOnActionClick(new k37(1, this, m37.class, "addNewScheduleFromFabMenu", "addNewScheduleFromFabMenu(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V", 0));
+        m().setOnActionClick(new k37(1, this, m37.class, "addNewScheduleFromFabMenu", "addNewScheduleFromFabMenu(Lorg/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V", 0));
         jk8 jk8Var6 = this.b;
         jk8Var6.getClass();
         ((n37) jk8Var6).b.setOnClickListener(new View.OnClickListener(this) { // from class: i37
@@ -420,8 +420,8 @@ public final class m37 extends rl0<n37> {
                                     menuItemFindItem2.setVisible(false);
                                 }
                                 try {
-                                    SwiftApp.Companion companion = SwiftApp.d;
-                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(SwiftApp.Companion.c());
+                                    BareApp.Companion companion = BareApp.d;
+                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(BareApp.Companion.c());
                                     boolValueOf = Boolean.valueOf(wallpaperManager != null && wallpaperManager.isWallpaperSupported());
                                 } catch (Exception unused) {
                                     boolValueOf = null;
@@ -446,10 +446,10 @@ public final class m37 extends rl0<n37> {
                 }
             }
         });
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         int i6 = 2;
-        SwiftApp.Companion.a().a.e(getViewLifecycleOwner(), new ne5(i6, new k3(this, 20)));
-        p().f.e(getViewLifecycleOwner(), new ne5(i6, new nh1(1, this, m37.class, "onStateUpdate", "onStateUpdate(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleVM$State;)V", 0, 1)));
+        BareApp.Companion.a().a.e(getViewLifecycleOwner(), new ne5(i6, new k3(this, 20)));
+        p().f.e(getViewLifecycleOwner(), new ne5(i6, new nh1(1, this, m37.class, "onStateUpdate", "onStateUpdate(Lorg/bareapps/barebackup/home/schedule/ui/ScheduleVM$State;)V", 0, 1)));
     }
 
     public final q47 p() {

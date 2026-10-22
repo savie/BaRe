@@ -8,7 +8,7 @@ import android.provider.Telephony;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -563,8 +563,8 @@ public final class ki7 implements Parcelable, jl0 {
             ki7Var.getClass();
             try {
                 String[] strArr = {String.valueOf(ki7Var.getDate()), String.valueOf(ki7Var.getDateSent()), ki7Var.getAddress(), String.valueOf(ki7Var.getType())};
-                SwiftApp.Companion companion = SwiftApp.d;
-                Cursor cursorQuery = SwiftApp.Companion.c().getContentResolver().query(getCONTENT_URI(), new String[]{"date", "date_sent", "address", "type"}, "date = ? AND date_sent = ? AND address = ? AND type = ?", strArr, null);
+                BareApp.Companion companion = BareApp.d;
+                Cursor cursorQuery = BareApp.Companion.c().getContentResolver().query(getCONTENT_URI(), new String[]{"date", "date_sent", "address", "type"}, "date = ? AND date_sent = ? AND address = ? AND type = ?", strArr, null);
                 if (cursorQuery == null) {
                     return false;
                 }

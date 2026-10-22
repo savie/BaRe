@@ -2,7 +2,7 @@ package defpackage;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -37,8 +37,8 @@ public final class p00 extends ws7 implements qt3 {
         int i = this.a;
         if (i == 0) {
             lg7.H(obj);
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             try {
                 PackageManager packageManager = contextC.getPackageManager();
                 packageManager.getClass();

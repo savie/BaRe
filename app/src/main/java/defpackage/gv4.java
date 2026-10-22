@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 import java.util.Locale;
 import java.util.concurrent.CancellationException;
 import org.json.JSONException;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -35,7 +35,7 @@ public final class gv4 extends gs4 implements mt3 {
                 Configuration configuration = (Configuration) obj;
                 configuration.getClass();
                 hv4 hv4Var = (hv4) obj3;
-                SwiftApp swiftApp = (SwiftApp) obj2;
+                BareApp bareApp = (BareApp) obj2;
                 Locale locale = configuration.getLocales().get(0);
                 locale.getClass();
                 hv4Var.a = locale;
@@ -43,14 +43,14 @@ public final class gv4 extends gs4 implements mt3 {
                 if (!((SharedPreferences) c00Var.b).getBoolean("follow_system_locale_key", false)) {
                     Locale localeH = c00Var.h();
                     localeH.getClass();
-                    ge.C(swiftApp, localeH);
-                    Context applicationContext = swiftApp.getApplicationContext();
-                    if (applicationContext != swiftApp) {
+                    ge.C(bareApp, localeH);
+                    Context applicationContext = bareApp.getApplicationContext();
+                    if (applicationContext != bareApp) {
                         applicationContext.getClass();
                         ge.C(applicationContext, localeH);
                     }
                 } else {
-                    hv4Var.a(swiftApp, hv4Var.a);
+                    hv4Var.a(bareApp, hv4Var.a);
                 }
                 break;
             default:

@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -42,7 +42,7 @@ public final class cr2 extends ws7 implements qt3 {
             r1 = 0
             r2 = 2
             r3 = 1
-            org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity r4 = r12.b
+            com.bareapps.barebackup.cloud.connect.DropboxSignInActivity r4 = r12.b
             yx1 r5 = defpackage.yx1.a
             if (r0 == 0) goto L22
             if (r0 == r3) goto L1a
@@ -62,7 +62,7 @@ public final class cr2 extends ws7 implements qt3 {
             goto L91
         L22:
             defpackage.lg7.H(r13)
-            int r13 = org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity.P     // Catch: java.lang.Exception -> L1f
+            int r13 = com.bareapps.barebackup.cloud.connect.DropboxSignInActivity.P     // Catch: java.lang.Exception -> L1f
             gv7 r13 = r4.M     // Catch: java.lang.Exception -> L1f
             java.lang.Object r13 = r13.getValue()     // Catch: java.lang.Exception -> L1f
             uj r13 = (defpackage.uj) r13     // Catch: java.lang.Exception -> L1f
@@ -87,7 +87,7 @@ public final class cr2 extends ws7 implements qt3 {
             if (r8 == 0) goto L8d
             android.content.SharedPreferences$Editor r0 = r8.putString(r0, r7)     // Catch: java.lang.Exception -> L1f
             r0.apply()     // Catch: java.lang.Exception -> L1f
-            java.lang.String r13 = org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity.N(r4, r13)     // Catch: java.lang.Exception -> L1f
+            java.lang.String r13 = com.bareapps.barebackup.cloud.connect.DropboxSignInActivity.N(r4, r13)     // Catch: java.lang.Exception -> L1f
             java.lang.String r0 = "dropbox_user_id"
             android.content.SharedPreferences$Editor r7 = defpackage.cz4.k     // Catch: java.lang.Exception -> L1f
             if (r7 == 0) goto L89

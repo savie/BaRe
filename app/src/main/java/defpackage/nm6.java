@@ -3,7 +3,7 @@ package defpackage;
 import android.content.pm.PackageInfo;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -31,8 +31,8 @@ public final class nm6 {
             return true;
         }
         g00 g00Var = g00.a;
-        SwiftApp.Companion companion = SwiftApp.d;
-        PackageInfo packageInfoQ = g00.q(0, SwiftApp.Companion.c().getPackageName());
+        BareApp.Companion companion = BareApp.d;
+        PackageInfo packageInfoQ = g00.q(0, BareApp.Companion.c().getPackageName());
         if (packageInfoQ == null) {
             return true;
         }
@@ -65,7 +65,7 @@ public final class nm6 {
         if (jLongValue2 <= jLongValue) {
             return true;
         }
-        StringBuilder sbT = dj7.t("Backup requires a higher version of Swift Backup for restore. Current Swift Backup version: ", ", Required: ", jLongValue);
+        StringBuilder sbT = dj7.t("Backup requires a higher version of Bare Backup for restore. Current Bare Backup version: ", ", Required: ", jLongValue);
         sbT.append(jLongValue2);
         sbT.append(".");
         mt3Var.invoke(sbT.toString());

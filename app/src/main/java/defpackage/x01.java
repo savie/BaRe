@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 import android.view.View;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -31,8 +31,8 @@ public abstract class x01 extends sa1 {
                     startActivity(intentPutExtra);
                     return;
                 } else {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     zn4 zn4Var = zn4.a;
                     dj7.y(contextC, "Feature not supported on this device");
                     return;
@@ -51,8 +51,8 @@ public abstract class x01 extends sa1 {
                         startActivity(intentPutExtra2);
                         return;
                     } else {
-                        SwiftApp.Companion companion2 = SwiftApp.d;
-                        Context contextC2 = SwiftApp.Companion.c();
+                        BareApp.Companion companion2 = BareApp.d;
+                        Context contextC2 = BareApp.Companion.c();
                         zn4 zn4Var2 = zn4.a;
                         dj7.y(contextC2, "Feature not supported on this device");
                         return;

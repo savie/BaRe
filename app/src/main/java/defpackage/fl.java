@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -114,8 +114,8 @@ public final /* synthetic */ class fl implements bt3 {
                 return new t55();
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
                 String str3 = ScheduleService.p;
-                SwiftApp.Companion companion = SwiftApp.d;
-                if (ai8.i(SwiftApp.Companion.c()) && ai8.h()) {
+                BareApp.Companion companion = BareApp.d;
+                if (ai8.i(BareApp.Companion.c()) && ai8.h()) {
                     z = true;
                 }
                 vr6.i$default(vr6.INSTANCE, "Const", "isInternetConnected (caller:" + str3 + ") - " + z, null, 4, null);
@@ -128,7 +128,7 @@ public final /* synthetic */ class fl implements bt3 {
                 declaredMethod.setAccessible(true);
                 return declaredMethod;
             case 14:
-                SwiftApp.Companion companion2 = SwiftApp.d;
+                BareApp.Companion companion2 = BareApp.d;
                 return new AlarmReceiver();
             default:
                 gt7 gt7Var = gt7.a;

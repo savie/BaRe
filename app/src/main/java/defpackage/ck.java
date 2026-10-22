@@ -25,26 +25,26 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.database.MDatabase_Impl;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
-import org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.settings.a;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.database.MDatabase_Impl;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.folders.ui.FoldersDashActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.settings.a;
+import com.bareapps.barebackup.views.QuickRecyclerView;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -128,15 +128,15 @@ public final /* synthetic */ class ck implements bt3 {
             case 13:
                 return CloudCredentials.cloudType_delegate$lambda$0((CloudCredentials) obj);
             case 14:
-                org.swiftapps.swiftbackup.cloud.orphans.a aVar = (org.swiftapps.swiftbackup.cloud.orphans.a) obj;
+                com.bareapps.barebackup.cloud.orphans.a aVar = (com.bareapps.barebackup.cloud.orphans.a) obj;
                 synchronized (aVar) {
                     b bVar = aVar.g;
                     if (bVar == null) {
                         throw new IllegalStateException("Required value was null.");
                     }
-                    org.swiftapps.swiftbackup.cloud.orphans.a.EnumC0013a enumC0013a = org.swiftapps.swiftbackup.cloud.orphans.a.EnumC0013a.RESULTS;
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    aVar.t(b.a(bVar, enumC0013a, null, null, SwiftApp.Companion.c().getString(R.string.cloud_orphan_tasks_running), 0, 0, 7039));
+                    com.bareapps.barebackup.cloud.orphans.a.EnumC0013a enumC0013a = com.bareapps.barebackup.cloud.orphans.a.EnumC0013a.RESULTS;
+                    BareApp.Companion companion = BareApp.d;
+                    aVar.t(b.a(bVar, enumC0013a, null, null, BareApp.Companion.c().getString(R.string.cloud_orphan_tasks_running), 0, 0, 7039));
                 }
                 aVar.f.k(new vh1(R.string.cloud_orphan_tasks_running));
                 return be8.a;

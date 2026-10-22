@@ -9,8 +9,8 @@ import android.os.SystemClock;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
-import com.swiftapps.sba.SbaLibaegisCryptoNative;
-import com.swiftapps.sba.SbaRuntimeNative;
+import com.bareapps.sba.SbaLibaegisCryptoNative;
+import com.bareapps.sba.SbaRuntimeNative;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class fp6 extends y84 {
     private final LinkedHashMap<ep6, xo6> tarEntryCache;
 
     public fp6(Context context) {
-        attachInterface(this, "org.swiftapps.rootservice.IRootAidlInterface");
+        attachInterface(this, "com.bareapps.rootservice.IRootAidlInterface");
         this.context = context;
         this.operationIds = new AtomicLong(1L);
         this.operations = new ConcurrentHashMap<>();

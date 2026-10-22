@@ -216,7 +216,7 @@ public final class ou8 extends nc8 implements y7 {
     public final Context C() {
         if (this.f == null) {
             TypedValue typedValue = new TypedValue();
-            this.e.getTheme().resolveAttribute(org.swiftapps.swiftbackup.R.attr.actionBarWidgetTheme, typedValue, true);
+            this.e.getTheme().resolveAttribute(com.bareapps.barebackup.R.attr.actionBarWidgetTheme, typedValue, true);
             int i = typedValue.resourceId;
             if (i != 0) {
                 this.f = new ContextThemeWrapper(this.e, i);
@@ -229,7 +229,7 @@ public final class ou8 extends nc8 implements y7 {
 
     @Override // defpackage.nc8
     public final void N() {
-        A0(this.e.getResources().getBoolean(org.swiftapps.swiftbackup.R.bool.abc_action_bar_embed_tabs));
+        A0(this.e.getResources().getBoolean(com.bareapps.barebackup.R.bool.abc_action_bar_embed_tabs));
     }
 
     @Override // defpackage.nc8
@@ -439,12 +439,12 @@ public final class ou8 extends nc8 implements y7 {
 
     public final void y0(View view) {
         wd2 wrapper;
-        ActionBarOverlayLayout actionBarOverlayLayout = (ActionBarOverlayLayout) view.findViewById(org.swiftapps.swiftbackup.R.id.decor_content_parent);
+        ActionBarOverlayLayout actionBarOverlayLayout = (ActionBarOverlayLayout) view.findViewById(com.bareapps.barebackup.R.id.decor_content_parent);
         this.g = actionBarOverlayLayout;
         if (actionBarOverlayLayout != null) {
             actionBarOverlayLayout.setActionBarVisibilityCallback(this);
         }
-        KeyEvent.Callback callbackFindViewById = view.findViewById(org.swiftapps.swiftbackup.R.id.action_bar);
+        KeyEvent.Callback callbackFindViewById = view.findViewById(com.bareapps.barebackup.R.id.action_bar);
         if (callbackFindViewById instanceof wd2) {
             wrapper = (wd2) callbackFindViewById;
         } else {
@@ -454,8 +454,8 @@ public final class ou8 extends nc8 implements y7 {
             wrapper = ((Toolbar) callbackFindViewById).getWrapper();
         }
         this.i = wrapper;
-        this.j = (ActionBarContextView) view.findViewById(org.swiftapps.swiftbackup.R.id.action_context_bar);
-        ActionBarContainer actionBarContainer = (ActionBarContainer) view.findViewById(org.swiftapps.swiftbackup.R.id.action_bar_container);
+        this.j = (ActionBarContextView) view.findViewById(com.bareapps.barebackup.R.id.action_context_bar);
+        ActionBarContainer actionBarContainer = (ActionBarContainer) view.findViewById(com.bareapps.barebackup.R.id.action_bar_container);
         this.h = actionBarContainer;
         wd2 wd2Var = this.i;
         if (wd2Var == null || this.j == null || actionBarContainer == null) {
@@ -469,8 +469,8 @@ public final class ou8 extends nc8 implements y7 {
         }
         int i = context.getApplicationInfo().targetSdkVersion;
         this.i.getClass();
-        A0(context.getResources().getBoolean(org.swiftapps.swiftbackup.R.bool.abc_action_bar_embed_tabs));
-        TypedArray typedArrayObtainStyledAttributes = this.e.obtainStyledAttributes(null, ge6.a, org.swiftapps.swiftbackup.R.attr.actionBarStyle, 0);
+        A0(context.getResources().getBoolean(com.bareapps.barebackup.R.bool.abc_action_bar_embed_tabs));
+        TypedArray typedArrayObtainStyledAttributes = this.e.obtainStyledAttributes(null, ge6.a, com.bareapps.barebackup.R.attr.actionBarStyle, 0);
         if (typedArrayObtainStyledAttributes.getBoolean(14, false)) {
             ActionBarOverlayLayout actionBarOverlayLayout2 = this.g;
             if (!actionBarOverlayLayout2.k) {

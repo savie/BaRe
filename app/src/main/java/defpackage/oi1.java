@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -27,7 +27,7 @@ public final class oi1 extends CloudResult {
         return pe4.d(this.a, oi1Var.a) && this.b == oi1Var.b;
     }
 
-    @Override // org.swiftapps.swiftbackup.cloud.model.CloudResult
+    @Override // com.bareapps.barebackup.cloud.model.CloudResult
     public final String getErrorMessage() {
         return io4.b(this.a);
     }

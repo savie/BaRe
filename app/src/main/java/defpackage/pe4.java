@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.messagescalls.backups.MessagesBackupsActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -112,8 +112,8 @@ public abstract class pe4 {
     public static void D(Activity activity, ArrayList arrayList, boolean z) {
         g00 g00Var = g00.a;
         if (!g00.r().hasSystemFeature("android.hardware.telephony")) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, "Feature not supported on this device");
             return;

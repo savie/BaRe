@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.OkHttpClient;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
-import org.swiftapps.swiftbackup.cloud.protocols.filen.FilenCredentials;
-import org.swiftapps.swiftbackup.cloud.protocols.filen.FilenSession;
-import org.swiftapps.swiftbackup.cloud.protocols.filen.c;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.cloud.protocols.filen.FilenCredentials;
+import com.bareapps.barebackup.cloud.protocols.filen.FilenSession;
+import com.bareapps.barebackup.cloud.protocols.filen.c;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

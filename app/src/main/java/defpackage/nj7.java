@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.swiftapps.swiftbackup.apptasks.install.InstallerSourceProxy;
+import com.bareapps.barebackup.apptasks.install.InstallerSourceProxy;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -55,7 +55,7 @@ public abstract class nj7 {
                 }
                 if (numW != null) {
                     int iIntValue = numW.intValue();
-                    String strL = u48.l(System.nanoTime(), "/data/local/tmp/swiftbackup-install-");
+                    String strL = u48.l(System.nanoTime(), "/data/local/tmp/barebackup-install-");
                     try {
                         Iterator it2 = arrayList.iterator();
                         long j = 0;
@@ -117,7 +117,7 @@ public abstract class nj7 {
         ww4VarP.addAll(arrayList2);
         ww4 ww4VarH = nc8.h(ww4VarP);
         ww4VarH.getClass();
-        return bv.a(InstallerSourceProxy.class.getName(), "swiftbackup_install_proxy", ww4VarH, Integer.valueOf(i));
+        return bv.a(InstallerSourceProxy.class.getName(), "barebackup_install_proxy", ww4VarH, Integer.valueOf(i));
     }
 
     public static String d(String str) {

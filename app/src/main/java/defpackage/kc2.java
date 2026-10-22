@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.tasks.fgs.DataSyncFgsRuntimeLedger$Entry;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.tasks.fgs.DataSyncFgsRuntimeLedger$Entry;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
 public final class kc2 {
     public static final kc2 a = new kc2();
-    public static final Type b = new TypeToken<List<? extends DataSyncFgsRuntimeLedger$Entry>>() { // from class: org.swiftapps.swiftbackup.tasks.fgs.DataSyncFgsRuntimeLedger$listType$1
+    public static final Type b = new TypeToken<List<? extends DataSyncFgsRuntimeLedger$Entry>>() { // from class: com.bareapps.barebackup.tasks.fgs.DataSyncFgsRuntimeLedger$listType$1
     }.getType();
 
     public static ArrayList a(long j, List list) {
@@ -82,8 +82,8 @@ public final class kc2 {
     }
 
     public static List d() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        File file = new File(SwiftApp.Companion.c().getFilesDir(), "diagnostics/data_sync_fgs_runtime_ledger.json");
+        BareApp.Companion companion = BareApp.d;
+        File file = new File(BareApp.Companion.c().getFilesDir(), "diagnostics/data_sync_fgs_runtime_ledger.json");
         boolean zExists = file.exists();
         ov2 ov2Var = ov2.a;
         if (!zExists) {
@@ -129,8 +129,8 @@ public final class kc2 {
 
     public static void g(List list) {
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            File file = new File(SwiftApp.Companion.c().getFilesDir(), "diagnostics/data_sync_fgs_runtime_ledger.json");
+            BareApp.Companion companion = BareApp.d;
+            File file = new File(BareApp.Companion.c().getFilesDir(), "diagnostics/data_sync_fgs_runtime_ledger.json");
             File parentFile = file.getParentFile();
             if (parentFile != null) {
                 parentFile.mkdirs();

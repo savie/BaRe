@@ -18,10 +18,10 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.helpers.BoxRecentUploadCache$CachedBoxFile;
-import org.swiftapps.swiftbackup.cloud.helpers.BoxRecentUploadCache$Data;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.helpers.BoxRecentUploadCache$CachedBoxFile;
+import com.bareapps.barebackup.cloud.helpers.BoxRecentUploadCache$Data;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -164,8 +164,8 @@ public final class kh0 extends tb1 {
     public final CloudResult n() {
         String strU;
         Log.d("BClient", "startCheckAccess()");
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             return qi1.a;
         }
         String strJ = qb1.j();

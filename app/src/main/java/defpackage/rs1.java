@@ -2,10 +2,10 @@ package defpackage;
 
 import android.content.Context;
 import android.content.Intent;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.tasks.TaskService;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.tasks.TaskService;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -35,9 +35,9 @@ public final /* synthetic */ class rs1 implements bt3 {
                 gz7 gz7Var = TaskService.b;
                 TaskService.c = true;
                 ez7.b(gz7.WAITING);
-                SwiftApp.Companion companion = SwiftApp.d;
+                BareApp.Companion companion = BareApp.d;
                 try {
-                    SwiftApp.Companion.c().startForegroundService(new Intent(SwiftApp.Companion.c(), (Class<?>) TaskService.class));
+                    BareApp.Companion.c().startForegroundService(new Intent(BareApp.Companion.c(), (Class<?>) TaskService.class));
                     break;
                 } catch (Exception e) {
                     TaskService.c = false;
@@ -53,9 +53,9 @@ public final /* synthetic */ class rs1 implements bt3 {
                         qc2.a.h("TaskService start blocked", true);
                         ez7.b(gz7.CANCEL_COMPLETE);
                     }
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
-                    String strK = dj7.k(SwiftApp.Companion.c().getString(R.string.error), ": ", strB);
+                    BareApp.Companion companion2 = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
+                    String strK = dj7.k(BareApp.Companion.c().getString(R.string.error), ": ", strB);
                     zn4 zn4Var = zn4.a;
                     zn4.e(new l30(15, contextC, strK));
                     z = false;

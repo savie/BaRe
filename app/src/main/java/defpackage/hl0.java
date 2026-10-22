@@ -6,15 +6,15 @@ import android.content.res.ColorStateList;
 import android.view.View;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
-import org.swiftapps.swiftbackup.settings.f;
-import org.swiftapps.swiftbackup.settings.h;
-import org.swiftapps.swiftbackup.settings.i;
-import org.swiftapps.swiftbackup.settings.k;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.settings.f;
+import com.bareapps.barebackup.settings.h;
+import com.bareapps.barebackup.settings.i;
+import com.bareapps.barebackup.settings.k;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -58,7 +58,7 @@ public final /* synthetic */ class hl0 extends cu3 implements mt3 {
                 int i2 = CsActivity.P0;
                 csActivity.getClass();
                 vr6.i$default(vr6.INSTANCE, csActivity.r(), "Showing SMB data encryption required dialog", null, 4, null);
-                b05.l(csActivity, csActivity.getString(org.swiftapps.swiftbackup.R.string.data_encryption_smb_3), str, 8);
+                b05.l(csActivity, csActivity.getString(com.bareapps.barebackup.R.string.data_encryption_smb_3), str, 8);
                 return be8Var;
             case 2:
                 ((d) this.receiver).k(((Boolean) obj).booleanValue());
@@ -81,12 +81,12 @@ public final /* synthetic */ class hl0 extends cu3 implements mt3 {
                 }
                 multipleBackupsActivity.S = false;
                 MultipleBackupStrategy multipleBackupStrategy = iVar.a;
-                h.b((h) multipleBackupsActivity.N.getValue(), multipleBackupStrategy, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy), new k00(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V", 0, 3), null, 24);
+                h.b((h) multipleBackupsActivity.N.getValue(), multipleBackupStrategy, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy), new k00(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/bareapps/barebackup/settings/MultipleBackupStrategy;)V", 0, 3), null, 24);
                 MultipleBackupStrategy multipleBackupStrategy2 = iVar.b;
                 int i3 = 3;
-                h.b((h) multipleBackupsActivity.O.getValue(), multipleBackupStrategy2, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy2), new xf(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V", 0, 5), new eh2(i3, multipleBackupStrategy2, multipleBackupsActivity), 16);
+                h.b((h) multipleBackupsActivity.O.getValue(), multipleBackupStrategy2, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy2), new xf(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/bareapps/barebackup/settings/MultipleBackupStrategy;)V", 0, 5), new eh2(i3, multipleBackupStrategy2, multipleBackupsActivity), 16);
                 MultipleBackupStrategy multipleBackupStrategy3 = iVar.c;
-                ((h) multipleBackupsActivity.P.getValue()).a(multipleBackupStrategy3, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy3), new cj2(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V", 0, 4), new nj2(i3, multipleBackupStrategy3, multipleBackupsActivity), new jj2(4, multipleBackupStrategy3, multipleBackupsActivity));
+                ((h) multipleBackupsActivity.P.getValue()).a(multipleBackupStrategy3, pe4.d((MultipleBackupStrategy) gv7Var.getValue(), multipleBackupStrategy3), new cj2(1, multipleBackupsActivity.a0(), k.class, "onStrategyClicked", "onStrategyClicked(Lorg/bareapps/barebackup/settings/MultipleBackupStrategy;)V", 0, 4), new nj2(i3, multipleBackupStrategy3, multipleBackupsActivity), new jj2(4, multipleBackupStrategy3, multipleBackupsActivity));
                 if (pe4.d(multipleBackupsActivity.N(), (MultipleBackupStrategy) gv7Var2.getValue())) {
                     multipleBackupsActivity.A(false);
                 } else if (V.INSTANCE.getA() || (multipleBackupStrategyN = multipleBackupsActivity.N()) == null || (representationA = f.a(multipleBackupStrategyN)) == null || !representationA.isPremium()) {

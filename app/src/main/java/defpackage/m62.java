@@ -1,9 +1,9 @@
 package defpackage;
 
 import android.util.Log;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -88,8 +88,8 @@ public final class m62 extends qo0 {
         String server = cloudCredentials != null ? cloudCredentials.getServer() : null;
         ex6 ex6Var = this.j;
         if (server == null || server.length() == 0) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.k(SwiftApp.Companion.c().getString(R.string.required_field));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.k(BareApp.Companion.c().getString(R.string.required_field));
             z = false;
         } else {
             String strK = dj7.k(protocol.getScheme(), "://", server);
@@ -101,8 +101,8 @@ public final class m62 extends qo0 {
             if (z2) {
                 string2 = null;
             } else {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                string2 = SwiftApp.Companion.c().getString(R.string.invalid_url);
+                BareApp.Companion companion2 = BareApp.d;
+                string2 = BareApp.Companion.c().getString(R.string.invalid_url);
             }
             ex6Var.k(string2);
         }
@@ -119,8 +119,8 @@ public final class m62 extends qo0 {
             if (z3) {
                 string = null;
             } else {
-                SwiftApp.Companion companion3 = SwiftApp.d;
-                string = SwiftApp.Companion.c().getString(R.string.invalid_port);
+                BareApp.Companion companion3 = BareApp.d;
+                string = BareApp.Companion.c().getString(R.string.invalid_port);
             }
             ex6Var2.k(string);
         }

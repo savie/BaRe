@@ -5,9 +5,9 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.model.firebase.WifiCloudDetails;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.model.firebase.WifiCloudDetails;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -84,8 +84,8 @@ public final class uv extends ws7 implements qt3 {
                 lg7.H(obj);
                 iu8 iu8Var = (iu8) this.b;
                 ex6 ex6Var = iu8Var.i;
-                SwiftApp.Companion companion = SwiftApp.d;
-                if (!ai8.i(SwiftApp.Companion.c())) {
+                BareApp.Companion companion = BareApp.d;
+                if (!ai8.i(BareApp.Companion.c())) {
                     ex6Var.k(new xt8(1));
                     return be8Var;
                 }

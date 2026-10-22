@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -206,8 +206,8 @@ public final class vg5 implements Parcelable {
             if (l != null) {
                 xf5 xf5Var = new xf5();
                 Uri contentUriForMms = getContentUriForMms(l.longValue());
-                SwiftApp.Companion companion = SwiftApp.d;
-                Cursor cursorQuery = SwiftApp.Companion.c().getContentResolver().query(contentUriForMms, null, null, null, vg5.ORDER_BY_ID);
+                BareApp.Companion companion = BareApp.d;
+                Cursor cursorQuery = BareApp.Companion.c().getContentResolver().query(contentUriForMms, null, null, null, vg5.ORDER_BY_ID);
                 if (cursorQuery != null) {
                     try {
                         ArrayList arrayListB = xf5Var.b(cursorQuery, vg5.class);

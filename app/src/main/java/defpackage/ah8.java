@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -175,8 +175,8 @@ public final class ah8 {
     private static final long updateFields$lambda$2$0() {
         Shell shell = (Shell) mp6.c.getValue();
         boolean z = g42.a;
-        SwiftApp.Companion companion = SwiftApp.d;
-        String packageName = SwiftApp.Companion.c().getPackageName();
+        BareApp.Companion companion = BareApp.d;
+        String packageName = BareApp.Companion.c().getPackageName();
         packageName.getClass();
         String strFastCmd = ShellUtils.fastCmd(shell, String.format(g42.a("AQLFCL/7Dy3S5q7uDhoL6UHDcrNWK4S1nr+i+S65kDy3e+fbbI8H9lGSPC3fcIQTdeeJCXGjiBuIRV0pjQkcMg=="), Arrays.copyOf(new Object[]{packageName}, 1)));
         strFastCmd.getClass();

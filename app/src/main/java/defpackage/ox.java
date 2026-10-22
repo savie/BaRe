@@ -25,33 +25,33 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistData;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.b;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.tasks.TaskService;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.blacklist.data.BlacklistData;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.PCloudSignInActivity;
+import com.bareapps.barebackup.cloud.connect.TeraBoxSignInActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.b;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.tasks.TaskService;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -83,7 +83,7 @@ public final /* synthetic */ class ox implements mt3 {
         Object obj2 = this.b;
         switch (i) {
             case 0:
-                org.swiftapps.swiftbackup.settings.a aVar = (org.swiftapps.swiftbackup.settings.a) obj2;
+                com.bareapps.barebackup.settings.a aVar = (com.bareapps.barebackup.settings.a) obj2;
                 yu yuVar = (yu) obj;
                 yuVar.getClass();
                 wu wuVar = yu.Companion;
@@ -251,7 +251,7 @@ public final /* synthetic */ class ox implements mt3 {
                 int i10 = CallsBackupRestoreActivity.c0;
                 aVar2.getClass();
                 Log.i(callsBackupRestoreActivity.r(), "updateViews: status = " + aVar2);
-                int i11 = org.swiftapps.swiftbackup.messagescalls.backuprestore.a.a[aVar2.ordinal()];
+                int i11 = com.bareapps.barebackup.messagescalls.backuprestore.a.a[aVar2.ordinal()];
                 if (i11 == 1) {
                     callsBackupRestoreActivity.U(false, (View[]) Arrays.copyOf(new View[]{callsBackupRestoreActivity.V(), callsBackupRestoreActivity.Y(), callsBackupRestoreActivity.W().a}, 3));
                     callsBackupRestoreActivity.U(true, (View[]) Arrays.copyOf(new View[]{callsBackupRestoreActivity.X()}, 1));
@@ -284,20 +284,20 @@ public final /* synthetic */ class ox implements mt3 {
                 ((CloudConnectActivity) obj2).a0().j();
                 return be8.a;
             case 7:
-                org.swiftapps.swiftbackup.cloud.orphans.b bVar = (org.swiftapps.swiftbackup.cloud.orphans.b) obj;
+                com.bareapps.barebackup.cloud.orphans.b bVar = (com.bareapps.barebackup.cloud.orphans.b) obj;
                 bVar.getClass();
                 ii1 ii1Var = (ii1) ((pe4) obj2);
                 ArrayList arrayList = ii1Var.m;
-                org.swiftapps.swiftbackup.cloud.orphans.b bVarA = org.swiftapps.swiftbackup.cloud.orphans.b.a(bVar, null, arrayList, sv2.a, null, 0, 0, 7423);
+                com.bareapps.barebackup.cloud.orphans.b bVarA = com.bareapps.barebackup.cloud.orphans.b.a(bVar, null, arrayList, sv2.a, null, 0, 0, 7423);
                 a.EnumC0013a enumC0013a = a.EnumC0013a.RESULTS;
                 if (arrayList.isEmpty()) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    string = SwiftApp.Companion.c().getString(R.string.cloud_orphan_none_found);
+                    BareApp.Companion companion = BareApp.d;
+                    string = BareApp.Companion.c().getString(R.string.cloud_orphan_none_found);
                 } else {
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    string = SwiftApp.Companion.c().getString(R.string.cloud_orphan_found_count, Integer.valueOf(arrayList.size()));
+                    BareApp.Companion companion2 = BareApp.d;
+                    string = BareApp.Companion.c().getString(R.string.cloud_orphan_found_count, Integer.valueOf(arrayList.size()));
                 }
-                return org.swiftapps.swiftbackup.cloud.orphans.b.a(bVarA, enumC0013a, null, null, string, ii1Var.n, ii1Var.o, 895);
+                return com.bareapps.barebackup.cloud.orphans.b.a(bVarA, enumC0013a, null, null, string, ii1Var.n, ii1Var.o, 895);
             case 8:
                 return CreateDigitalCredentialController.handleResponse$lambda$1((CreateDigitalCredentialController) obj2, (c12) obj);
             case XmlPullParser.COMMENT /* 9 */:
@@ -396,8 +396,8 @@ public final /* synthetic */ class ox implements mt3 {
                         intentPutExtra3.getClass();
                         homeSearchActivity.startActivity(intentPutExtra3);
                     } else {
-                        SwiftApp.Companion companion3 = SwiftApp.d;
-                        Context contextC = SwiftApp.Companion.c();
+                        BareApp.Companion companion3 = BareApp.d;
+                        Context contextC = BareApp.Companion.c();
                         zn4 zn4Var4 = zn4.a;
                         dj7.y(contextC, "Feature not supported on this device");
                     }

@@ -4,12 +4,12 @@ import android.widget.Toast;
 import androidx.fragment.app.u;
 import androidx.preference.Preference;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.notice.NoticeListActivity;
-import org.swiftapps.swiftbackup.settings.LicensesActivity;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.notice.NoticeListActivity;
+import com.bareapps.barebackup.settings.LicensesActivity;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -35,7 +35,7 @@ public final class a3 extends fm0 implements t36 {
                     break;
                 case 115032:
                     if (str.equals("tos")) {
-                        Const.B(q(), "https://www.swiftapps.org/tos");
+                        Const.B(q(), "https://www.bareapps.org/tos");
                         return true;
                     }
                     break;
@@ -81,7 +81,7 @@ public final class a3 extends fm0 implements t36 {
                     break;
                 case 926873033:
                     if (str.equals("privacy_policy")) {
-                        Const.B(q(), "https://www.swiftapps.org/privacy-policy");
+                        Const.B(q(), "https://www.bareapps.org/privacy-policy");
                         return true;
                     }
                     break;

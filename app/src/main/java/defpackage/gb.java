@@ -7,11 +7,11 @@ import com.nimbusds.jose.shaded.gson.internal.ObjectConstructor;
 import com.pcloud.sdk.internal.a;
 import java.util.concurrent.atomic.AtomicReference;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.slog.SLogActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -68,7 +68,7 @@ public final /* synthetic */ class gb implements ig2, g36, ObjectConstructor, On
                 CsActivity csActivity = (CsActivity) obj;
                 int i4 = CsActivity.P0;
                 int itemId2 = menuItem.getItemId();
-                if (itemId2 == R.id.action_swiftlogger) {
+                if (itemId2 == R.id.action_barelogger) {
                     ai8.q(csActivity, SLogActivity.class);
                 } else if (itemId2 == R.id.action_save_settings) {
                     try {

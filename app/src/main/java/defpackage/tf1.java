@@ -6,13 +6,13 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
 public final class tf1 implements jk8 {
-    public final SwiftSegmentedCardGroup a;
+    public final BareSegmentedCardGroup a;
     public final LinearLayout b;
     public final View c;
     public final ConstraintLayout d;
@@ -22,8 +22,8 @@ public final class tf1 implements jk8 {
     public final gm1 n;
     public final TextView p;
 
-    public tf1(SwiftSegmentedCardGroup swiftSegmentedCardGroup, LinearLayout linearLayout, View view, ConstraintLayout constraintLayout, RecyclerView recyclerView, QuickRecyclerView quickRecyclerView, MaterialButton materialButton, gm1 gm1Var, TextView textView) {
-        this.a = swiftSegmentedCardGroup;
+    public tf1(BareSegmentedCardGroup bareSegmentedCardGroup, LinearLayout linearLayout, View view, ConstraintLayout constraintLayout, RecyclerView recyclerView, QuickRecyclerView quickRecyclerView, MaterialButton materialButton, gm1 gm1Var, TextView textView) {
+        this.a = bareSegmentedCardGroup;
         this.b = linearLayout;
         this.c = view;
         this.d = constraintLayout;

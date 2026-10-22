@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.apkshare.ApkSharePackageMetadata;
-import org.swiftapps.swiftbackup.apptasks.AppsWorkingDir;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.apkshare.ApkSharePackageMetadata;
+import com.bareapps.barebackup.apptasks.AppsWorkingDir;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -556,13 +556,13 @@ public abstract class jm1 implements aw2 {
                 return new rh(q63VarJ, "application/vnd.android.package-archive");
             }
             q63 q63VarJ2 = q63VarG.J(strV + ".apks");
-            ApkSharePackageMetadata apkSharePackageMetadata = new ApkSharePackageMetadata(jiVar.getPackageName(), jiVar.getName(), jiVar.getVersionName(), jiVar.getVersionCode(), jiVar.getInstallerPackage(), System.currentTimeMillis(), "Swift Backup", ov2Var);
+            ApkSharePackageMetadata apkSharePackageMetadata = new ApkSharePackageMetadata(jiVar.getPackageName(), jiVar.getName(), jiVar.getVersionName(), jiVar.getVersionCode(), jiVar.getInstallerPackage(), System.currentTimeMillis(), "Bare Backup", ov2Var);
             List listI = nc8.I(new vh(q63Var, "base.apk", uh.BASE));
             ArrayList arrayList3 = new ArrayList(hl1.G0(list, 10));
             for (q63 q63Var2 : list) {
                 arrayList3.add(new vh(q63Var2, q63Var2.p(), uh.SPLIT));
             }
-            org.swiftapps.swiftbackup.apkshare.a.c(q63VarJ2, apkSharePackageMetadata, el1.g1(listI, arrayList3));
+            com.bareapps.barebackup.apkshare.a.c(q63VarJ2, apkSharePackageMetadata, el1.g1(listI, arrayList3));
             return new rh(q63VarJ2, "application/octet-stream");
         }
         if (k55Var instanceof yh) {
@@ -768,13 +768,13 @@ public abstract class jm1 implements aw2 {
                 versionCode = jiVar.getVersionCode();
             }
         }
-        ApkSharePackageMetadata apkSharePackageMetadata = new ApkSharePackageMetadata(packageName, str, str2, versionCode, (localMetadataU == null || (installerPackage = localMetadataU.getInstallerPackage()) == null) ? cloudMetadata != null ? cloudMetadata.getInstallerPackage() : null : installerPackage, System.currentTimeMillis(), "Swift Backup", ov2Var);
+        ApkSharePackageMetadata apkSharePackageMetadata = new ApkSharePackageMetadata(packageName, str, str2, versionCode, (localMetadataU == null || (installerPackage = localMetadataU.getInstallerPackage()) == null) ? cloudMetadata != null ? cloudMetadata.getInstallerPackage() : null : installerPackage, System.currentTimeMillis(), "Bare Backup", ov2Var);
         List listI = nc8.I(new vh(hkVar.c(), "base.apk", uh.BASE));
         ArrayList arrayList = new ArrayList(hl1.G0(listN1, 10));
         for (q63 q63Var : listN1) {
             arrayList.add(new vh(q63Var, q63Var.p(), uh.SPLIT));
         }
-        org.swiftapps.swiftbackup.apkshare.a.c(q63VarJ3, apkSharePackageMetadata, el1.g1(listI, arrayList));
+        com.bareapps.barebackup.apkshare.a.c(q63VarJ3, apkSharePackageMetadata, el1.g1(listI, arrayList));
         return new rh(q63VarJ3, "application/octet-stream");
     }
 

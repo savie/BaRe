@@ -8,7 +8,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.IndicatorStayLayout;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -34,7 +34,7 @@ public final class xf1 implements jk8 {
     public View getRoot() {
         switch (this.a) {
             case 0:
-                return (SwiftSegmentedCardGroup) this.c;
+                return (BareSegmentedCardGroup) this.c;
             default:
                 return (ConstraintLayout) this.c;
         }
@@ -43,8 +43,8 @@ public final class xf1 implements jk8 {
     public /* synthetic */ xf1() {
     }
 
-    public xf1(SwiftSegmentedCardGroup swiftSegmentedCardGroup, MaterialButton materialButton, ImageView imageView, ca2 ca2Var, TextView textView, TextView textView2) {
-        this.c = swiftSegmentedCardGroup;
+    public xf1(BareSegmentedCardGroup bareSegmentedCardGroup, MaterialButton materialButton, ImageView imageView, ca2 ca2Var, TextView textView, TextView textView2) {
+        this.c = bareSegmentedCardGroup;
         this.d = materialButton;
         this.e = imageView;
         this.f = ca2Var;

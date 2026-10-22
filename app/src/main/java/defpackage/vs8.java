@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.wifi.PasswordInfo;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.wifi.PasswordInfo;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -69,8 +69,8 @@ public final class vs8 implements dt8 {
                 wifiManager.enableNetwork(iAddNetwork, true);
             } catch (Exception e) {
                 vr6.e$default(vr6.INSTANCE, "LegacyHelper", xs1.j("Error: ", e.getMessage()), null, 4, null);
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 String string = contextC.getString(R.string.unknown_error_occured);
                 string.getClass();
                 zn4 zn4Var = zn4.a;

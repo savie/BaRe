@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderItem;
 import org.xmlpull.v1.XmlPullParser;
 import sun.misc.Unsafe;
 

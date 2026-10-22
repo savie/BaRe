@@ -1,8 +1,8 @@
 package defpackage;
 
 import android.content.SharedPreferences;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -61,8 +61,8 @@ public final class pj7 {
             if (!z2) {
                 return null;
             }
-            SwiftApp.Companion companion = SwiftApp.d;
-            String string = SwiftApp.Companion.c().getString(R.string.space_needed_vs_available_error, strC, strC2);
+            BareApp.Companion companion = BareApp.d;
+            String string = BareApp.Companion.c().getString(R.string.space_needed_vs_available_error, strC, strC2);
             string.getClass();
             return new oj7(string, false);
         } catch (ClassCastException unused) {

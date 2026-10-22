@@ -2,8 +2,8 @@ package defpackage;
 
 import android.os.ParcelFileDescriptor;
 import com.nimbusds.jose.jwk.JWKParameterNames;
-import com.swiftapps.sba.SbaLibaegisCryptoNative;
-import com.swiftapps.sba.SbaSwiftTarNative;
+import com.bareapps.sba.SbaLibaegisCryptoNative;
+import com.bareapps.sba.SbaBareTarNative;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.DataInput;
@@ -694,7 +694,7 @@ public final class z07 implements Closeable {
         hy6 hy6Var = new hy6(j3, j4, i13, i14, String.format("0x%08x", Arrays.copyOf(new Object[]{Long.valueOf(((long) i14) & 4294967295L)}, 1)), arrayList2.size());
         long j5 = u07Var.a;
         int i15 = u07Var.e;
-        return new ky6("Swift Backup Archive", "SBA1", i4, j, str, gy6Var, hy6Var, new fy6(32, i15, j5, String.format("0x%08x", Arrays.copyOf(new Object[]{Long.valueOf(((long) i15) & 4294967295L)}, 1))), arrayList2);
+        return new ky6("Bare Backup Archive", "SBA1", i4, j, str, gy6Var, hy6Var, new fy6(32, i15, j5, String.format("0x%08x", Arrays.copyOf(new Object[]{Long.valueOf(((long) i15) & 4294967295L)}, 1))), arrayList2);
     }
 
     public final f44 G(s07 s07Var) throws CharacterCodingException, zz6, NoSuchAlgorithmException, qz6, sz6, i27 {
@@ -1114,17 +1114,17 @@ public final class z07 implements Closeable {
                 boolean z = this.b.f;
                 File file = this.a;
                 if (z) {
-                    SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
                     String path = file.getPath();
                     path.getClass();
                     str2 = str3;
-                    strArrExtractAegisArchiveEntry = sbaSwiftTarNative.extractAegisArchiveEntryFused(path, oz6Var.c, oz6Var.d, oz6Var.e, oz6Var.f, str, i, strArr, i4, s07Var.i, bArr2, bArr, bytes, i3, s07Var.n, vqVarQ);
+                    strArrExtractAegisArchiveEntry = sbaBareTarNative.extractAegisArchiveEntryFused(path, oz6Var.c, oz6Var.d, oz6Var.e, oz6Var.f, str, i, strArr, i4, s07Var.i, bArr2, bArr, bytes, i3, s07Var.n, vqVarQ);
                 } else {
                     str2 = str3;
-                    SbaSwiftTarNative sbaSwiftTarNative2 = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative2 = SbaBareTarNative.a;
                     String path2 = file.getPath();
                     path2.getClass();
-                    strArrExtractAegisArchiveEntry = sbaSwiftTarNative2.extractAegisArchiveEntry(path2, oz6Var.c, oz6Var.d, oz6Var.e, oz6Var.f, str, i, strArr, i4, s07Var.i, bArr2, bArr, bytes, i3, s07Var.n, vqVarQ);
+                    strArrExtractAegisArchiveEntry = sbaBareTarNative2.extractAegisArchiveEntry(path2, oz6Var.c, oz6Var.d, oz6Var.e, oz6Var.f, str, i, strArr, i4, s07Var.i, bArr2, bArr, bytes, i3, s07Var.n, vqVarQ);
                 }
                 m07 m07Var2 = m07.Progress;
                 long j2 = oz6Var.f;
@@ -1157,21 +1157,21 @@ public final class z07 implements Closeable {
                 int i5 = i;
                 String[] strArr2 = strArr;
                 if (zEquals) {
-                    SbaSwiftTarNative sbaSwiftTarNative3 = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative3 = SbaBareTarNative.a;
                     FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                     fileDescriptor.getClass();
-                    strArrC = SbaSwiftTarNative.b(fileDescriptor, oz6Var2.e, str6, i5, strArr2, z07Var.q(j4, str5));
+                    strArrC = SbaBareTarNative.b(fileDescriptor, oz6Var2.e, str6, i5, strArr2, z07Var.q(j4, str5));
                 } else {
                     if (!(cy0Var2 instanceof py6)) {
                         q.j();
                         return null;
                     }
-                    SbaSwiftTarNative sbaSwiftTarNative4 = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative4 = SbaBareTarNative.a;
                     FileDescriptor fileDescriptor2 = parcelFileDescriptor.getFileDescriptor();
                     fileDescriptor2.getClass();
                     long j5 = oz6Var2.e;
                     long j6 = oz6Var2.f;
-                    strArrC = SbaSwiftTarNative.c(fileDescriptor2, j5, j6, str6, i5, strArr2, z07Var.q(j6, str5));
+                    strArrC = SbaBareTarNative.c(fileDescriptor2, j5, j6, str6, i5, strArr2, z07Var.q(j6, str5));
                 }
                 h07 h07Var2 = z07Var.e;
                 m07 m07Var5 = m07.Progress;
@@ -1262,10 +1262,10 @@ public final class z07 implements Closeable {
                                 FileInputStream fileInputStream = new FileInputStream(str4);
                                 try {
                                     fileInputStream.getChannel().position(jLongValue);
-                                    SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+                                    SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
                                     FileDescriptor fd = fileInputStream.getFD();
                                     fd.getClass();
-                                    String[] strArrB = SbaSwiftTarNative.b(fd, jLongValue2, str5, i2, strArr4, z07Var.q(oz6Var2.f, str3));
+                                    String[] strArrB = SbaBareTarNative.b(fd, jLongValue2, str5, i2, strArr4, z07Var.q(oz6Var2.f, str3));
                                     fileInputStream.close();
                                     return strArrB;
                                 } catch (Throwable th) {
@@ -1285,11 +1285,11 @@ public final class z07 implements Closeable {
                             FileInputStream fileInputStream2 = new FileInputStream(str4);
                             try {
                                 fileInputStream2.getChannel().position(jLongValue);
-                                SbaSwiftTarNative sbaSwiftTarNative2 = SbaSwiftTarNative.a;
+                                SbaBareTarNative sbaBareTarNative2 = SbaBareTarNative.a;
                                 FileDescriptor fd2 = fileInputStream2.getFD();
                                 fd2.getClass();
                                 long j = oz6Var2.f;
-                                String[] strArrC = SbaSwiftTarNative.c(fd2, jLongValue2, j, str5, i2, strArr4, z07Var.q(j, str3));
+                                String[] strArrC = SbaBareTarNative.c(fd2, jLongValue2, j, str5, i2, strArr4, z07Var.q(j, str3));
                                 fileInputStream2.close();
                                 return strArrC;
                             } catch (Throwable th3) {

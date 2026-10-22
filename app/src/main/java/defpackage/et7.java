@@ -27,6 +27,6 @@ public final class et7 {
     }
 
     public final String toString() {
-        return "SwiftLoggerShareOption(titleResId=" + this.a + ", withDeviceLogcat=" + this.b + ")";
+        return "BareLoggerShareOption(titleResId=" + this.a + ", withDeviceLogcat=" + this.b + ")";
     }
 }

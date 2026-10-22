@@ -6,16 +6,16 @@ import android.view.animation.PathInterpolator;
 import android.widget.EditText;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.settings.RestoreSpecialDataDetailsActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.settings.RestoreSpecialDataDetailsActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -141,7 +141,7 @@ public final /* synthetic */ class dj implements View.OnClickListener {
             case 12:
                 SLogActivity sLogActivity = (SLogActivity) obj;
                 int i10 = SLogActivity.R;
-                vr6.i$default(vr6.INSTANCE, sLogActivity.r(), "Share logs called with SwiftLogger text only", null, 4, null);
+                vr6.i$default(vr6.INSTANCE, sLogActivity.r(), "Share logs called with BareLogger text only", null, 4, null);
                 d7 d7Var = new d7(sLogActivity, 21);
                 sz8.m((u35) sLogActivity.Q.getValue());
                 sLogActivity.M(R.string.preparing);

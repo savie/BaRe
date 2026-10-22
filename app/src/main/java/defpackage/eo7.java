@@ -2,8 +2,8 @@ package defpackage;
 
 import android.content.IntentFilter;
 import android.os.storage.StorageManager;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -29,10 +29,10 @@ public final class eo7 {
         b = true;
         vr6.w$default(vr6.INSTANCE, "StorageEventListener", "Started", null, 4, null);
         if (b67.c()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Object systemService = SwiftApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
+            BareApp.Companion companion = BareApp.d;
+            Object systemService = BareApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
             systemService.getClass();
-            ((StorageManager) systemService).registerStorageVolumeCallback(SwiftApp.Companion.c().getMainExecutor(), new do7());
+            ((StorageManager) systemService).registerStorageVolumeCallback(BareApp.Companion.c().getMainExecutor(), new do7());
         } else {
             b();
         }

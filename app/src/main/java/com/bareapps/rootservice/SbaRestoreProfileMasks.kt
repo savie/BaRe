@@ -1,7 +1,7 @@
 package com.bareapps.rootservice
 
 /**
- * SwiftBackup 5.1.0 (620) maps restore profiles to native TAR permission masks.
+ * BareBackup 5.1.0 (620) maps restore profiles to native TAR permission masks.
  * These are POSIX mode masks, not feature-option bit flags.
  */
 internal object SbaRestoreProfileMasks {

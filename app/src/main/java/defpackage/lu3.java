@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -180,8 +180,8 @@ public final class lu3 extends no2 {
                         tb1 tb1Var = tb1.a;
                         String strJ2 = qb1.j();
                         vr6 vr6Var2 = vr6.INSTANCE;
-                        vr6.e$default(vr6Var2, strJ, eq3.l("Main Swift Backup folder '", fu3Var.i(), "' with id '", strJ2, "' not found!"), null, 4, null);
-                        String strL = oq7.L("\n                    User has manually deleted the Main Swift Backup folder '" + fu3Var.i() + "' from Google Drive. ALL cloud backups are now invalid and should be deleted from Swift Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Swift Backup and go to 'Cloud sync' section.\n                    2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Swift Backup.\n                    ");
+                        vr6.e$default(vr6Var2, strJ, eq3.l("Main Bare Backup folder '", fu3Var.i(), "' with id '", strJ2, "' not found!"), null, 4, null);
+                        String strL = oq7.L("\n                    User has manually deleted the Main Bare Backup folder '" + fu3Var.i() + "' from Google Drive. ALL cloud backups are now invalid and should be deleted from Bare Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Bare Backup and go to 'Cloud sync' section.\n                    2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Bare Backup.\n                    ");
                         vr6.e$default(vr6Var2, strJ, strL, null, 4, null);
                         keVar.b = new Exception(strL);
                         return;
@@ -194,8 +194,8 @@ public final class lu3 extends no2 {
                 vr6 vr6Var3 = vr6.INSTANCE;
                 vr6.e$default(vr6Var3, strJ, eq3.k("User has manually deleted the synced file '", this.b.p(), " (...)' from Google Drive."), null, 4, null);
                 fu3Var.getClass();
-                vr6.e$default(vr6Var3, strJ, "User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in Swift Backup and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open Swift Backup and go to 'Cloud sync' section.\n2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in Swift Backup.", null, 4, null);
-                keVar.b = new Exception("User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in Swift Backup and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open Swift Backup and go to 'Cloud sync' section.\n2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in Swift Backup.");
+                vr6.e$default(vr6Var3, strJ, "User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in Bare Backup and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open Bare Backup and go to 'Cloud sync' section.\n2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in Bare Backup.", null, 4, null);
+                keVar.b = new Exception("User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in Bare Backup and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open Bare Backup and go to 'Cloud sync' section.\n2. Use 'Delete tag and associated backups' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in Bare Backup.");
                 return;
             }
             ai6 ai6Var2 = nf1.a;

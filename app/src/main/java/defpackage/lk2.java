@@ -4,12 +4,12 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.model.app.CloudMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -69,29 +69,29 @@ public final class lk2 implements aj8 {
             String str7 = (String) dqVar.invoke(Long.valueOf(metadata.getTotalSize()));
             if (appCloudBackup.getMetadata().getDateBackupUpdated() != null) {
                 String strS = Const.s(io4.h(appCloudBackup.getMetadata().getDateBackupUpdated()));
-                SwiftApp.Companion companion = SwiftApp.d;
-                strN = SwiftApp.Companion.c().getString(R.string.updated) + ": " + strS + " (" + str7 + ")";
+                BareApp.Companion companion = BareApp.d;
+                strN = BareApp.Companion.c().getString(R.string.updated) + ": " + strS + " (" + str7 + ")";
             } else {
                 strN = u48.n(Const.s(appCloudBackup.getDateBackup()), " (", str7, ")");
             }
             String str8 = strN;
             String apkLink = metadata.getApkLink();
             if (apkLink == null || apkLink.length() == 0) {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                string = SwiftApp.Companion.c().getString(R.string.no_apk_backup);
+                BareApp.Companion companion2 = BareApp.d;
+                string = BareApp.Companion.c().getString(R.string.no_apk_backup);
             } else {
-                SwiftApp.Companion companion3 = SwiftApp.d;
-                string = SwiftApp.Companion.c().getString(R.string.version) + ": " + metadata.getVersionName() + " (" + metadata.getVersionCode() + ")";
+                BareApp.Companion companion3 = BareApp.d;
+                string = BareApp.Companion.c().getString(R.string.version) + ": " + metadata.getVersionName() + " (" + metadata.getVersionCode() + ")";
             }
             String str9 = string;
             str9.getClass();
             String apkLink2 = metadata.getApkLink();
             if (apkLink2 == null || apkLink2.length() == 0) {
-                SwiftApp.Companion companion4 = SwiftApp.d;
-                string2 = SwiftApp.Companion.c().getString(R.string.no_apk_backup);
+                BareApp.Companion companion4 = BareApp.d;
+                string2 = BareApp.Companion.c().getString(R.string.no_apk_backup);
             } else {
-                SwiftApp.Companion companion5 = SwiftApp.d;
-                string2 = dj7.k(SwiftApp.Companion.c().getString(R.string.version), ": ", metadata.getVersionName());
+                BareApp.Companion companion5 = BareApp.d;
+                string2 = dj7.k(BareApp.Companion.c().getString(R.string.version), ": ", metadata.getVersionName());
             }
             String str10 = string2;
             str10.getClass();

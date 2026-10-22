@@ -27,11 +27,11 @@ import okhttp3.RequestBody$Companion$toRequestBody$1;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -469,8 +469,8 @@ public final class fu3 extends tb1 {
         Object bn6Var;
         if (!V.INSTANCE.getG()) {
             lz3 lz3Var = lz3.d;
-            SwiftApp.Companion companion = SwiftApp.d;
-            if (lz3Var.c(SwiftApp.Companion.c(), mz3.a) == 0) {
+            BareApp.Companion companion = BareApp.d;
+            if (lz3Var.c(BareApp.Companion.c(), mz3.a) == 0) {
                 Account accountA = hz3.a();
                 if (accountA == null) {
                     vr6.e$default(vr6.INSTANCE, "GClient", "Failed to refresh Google Drive GMS access token: signed-in Google account is missing", null, 4, null);
@@ -483,8 +483,8 @@ public final class fu3 extends tb1 {
                     }
                     if (str5 != null) {
                         try {
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            sz3.a(SwiftApp.Companion.c(), str5);
+                            BareApp.Companion companion2 = BareApp.d;
+                            sz3.a(BareApp.Companion.c(), str5);
                             bn6Var = be8.a;
                         } catch (Throwable th) {
                             bn6Var = new bn6(th);
@@ -496,8 +496,8 @@ public final class fu3 extends tb1 {
                     }
                 }
                 try {
-                    SwiftApp.Companion companion3 = SwiftApp.d;
-                    String strB = sz3.b(SwiftApp.Companion.c(), accountA);
+                    BareApp.Companion companion3 = BareApp.d;
+                    String strB = sz3.b(BareApp.Companion.c(), accountA);
                     strB.getClass();
                     this.i = strB;
                     return !nq7.j0(strB);
@@ -591,8 +591,8 @@ public final class fu3 extends tb1 {
             }
             CountDownLatch countDownLatch = new CountDownLatch(1);
             ih6 ih6Var = new ih6();
-            SwiftApp.Companion companion4 = SwiftApp.d;
-            k90 k90Var = new k90(SwiftApp.Companion.c());
+            BareApp.Companion companion4 = BareApp.d;
+            k90 k90Var = new k90(BareApp.Companion.c());
             cn5 cn5Var = new cn5(ih6Var, f80Var, countDownLatch);
             q34 q34Var = q34.d;
             Map map = Collections.EMPTY_MAP;
@@ -781,8 +781,8 @@ public final class fu3 extends tb1 {
     public final CloudResult w(int i) {
         String strJ;
         Log.d("GClient", "startCheckAccessRest()");
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             return qi1.a;
         }
         String strJ2 = qb1.j();

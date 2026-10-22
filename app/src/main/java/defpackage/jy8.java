@@ -17,9 +17,9 @@ import okhttp3.RequestBody$Companion$toRequestBody$3;
 import okhttp3.Response;
 import okhttp3.internal._UtilJvmKt;
 import okhttp3.internal.connection.RealCall;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
-import org.swiftapps.swiftbackup.cloud.protocols.TokenCredentials;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.cloud.protocols.TokenCredentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -425,9 +425,9 @@ public final class jy8 implements jh1 {
                             try {
                                 Map mapSingletonMap = Collections.singletonMap("force_confirm", "yes");
                                 mapSingletonMap.getClass();
-                                uj ujVar = new uj("https://oauth.yandex.com/authorize", "https://oauth.yandex.com/token", "ec2ee695f64042bfa6285a6999ef11bf", "org.swiftapps.swiftbackup.yandex://oauth", null, mapSingletonMap, null, 208);
-                                SwiftApp.Companion companion = SwiftApp.d;
-                                vj vjVarC = ujVar.c(SwiftApp.Companion.c(), refreshToken);
+                                uj ujVar = new uj("https://oauth.yandex.com/authorize", "https://oauth.yandex.com/token", "ec2ee695f64042bfa6285a6999ef11bf", "com.bareapps.barebackup.yandex://oauth", null, mapSingletonMap, null, 208);
+                                BareApp.Companion companion = BareApp.d;
+                                vj vjVarC = ujVar.c(BareApp.Companion.c(), refreshToken);
                                 TokenCredentials tokenCredentials = this.a;
                                 String str4 = vjVarC.a;
                                 str2 = vjVarC.c;
@@ -464,9 +464,9 @@ public final class jy8 implements jh1 {
                 } else {
                     Map mapSingletonMap2 = Collections.singletonMap("force_confirm", "yes");
                     mapSingletonMap2.getClass();
-                    uj ujVar2 = new uj("https://oauth.yandex.com/authorize", "https://oauth.yandex.com/token", "ec2ee695f64042bfa6285a6999ef11bf", "org.swiftapps.swiftbackup.yandex://oauth", null, mapSingletonMap2, null, 208);
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    vj vjVarC2 = ujVar2.c(SwiftApp.Companion.c(), refreshToken);
+                    uj ujVar2 = new uj("https://oauth.yandex.com/authorize", "https://oauth.yandex.com/token", "ec2ee695f64042bfa6285a6999ef11bf", "com.bareapps.barebackup.yandex://oauth", null, mapSingletonMap2, null, 208);
+                    BareApp.Companion companion2 = BareApp.d;
+                    vj vjVarC2 = ujVar2.c(BareApp.Companion.c(), refreshToken);
                     TokenCredentials tokenCredentials2 = this.a;
                     String str5 = vjVarC2.a;
                     str2 = vjVarC2.c;

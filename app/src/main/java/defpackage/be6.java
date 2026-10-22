@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: loaded from: classes.dex */
 public abstract class be6 {

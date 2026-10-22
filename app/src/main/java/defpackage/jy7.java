@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.NotificationHelper;
-import org.swiftapps.swiftbackup.tasks.NotificationTaskCancelReceiver;
-import org.swiftapps.swiftbackup.tasks.TaskManager$ErrorSummary;
-import org.swiftapps.swiftbackup.tasks.TaskService;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.NotificationHelper;
+import com.bareapps.barebackup.tasks.NotificationTaskCancelReceiver;
+import com.bareapps.barebackup.tasks.TaskManager$ErrorSummary;
+import com.bareapps.barebackup.tasks.TaskService;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -28,8 +28,8 @@ public final class jy7 {
     public Timer d;
 
     public jy7() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        wo5 wo5Var = new wo5(SwiftApp.Companion.c(), "backup_restore_channel");
+        BareApp.Companion companion = BareApp.d;
+        wo5 wo5Var = new wo5(BareApp.Companion.c(), "backup_restore_channel");
         wo5Var.r = NotificationHelper.c();
         wo5Var.u.icon = R.drawable.ic_stat;
         this.a = wo5Var;
@@ -42,10 +42,10 @@ public final class jy7 {
         PendingIntent pendingIntentA = zx7.a();
         wo5 wo5Var = this.a;
         wo5Var.g = pendingIntentA;
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.cancel);
         int i2 = NotificationTaskCancelReceiver.a;
-        PendingIntent broadcast = PendingIntent.getBroadcast(SwiftApp.Companion.c(), 1, new Intent(SwiftApp.Companion.c(), (Class<?>) NotificationTaskCancelReceiver.class), 1140850688);
+        PendingIntent broadcast = PendingIntent.getBroadcast(BareApp.Companion.c(), 1, new Intent(BareApp.Companion.c(), (Class<?>) NotificationTaskCancelReceiver.class), 1140850688);
         broadcast.getClass();
         wo5Var.b.add(new vo5(R.drawable.ic_force_stop, strG, broadcast));
         wo5Var.c(2);
@@ -84,12 +84,12 @@ public final class jy7 {
             gz7 gz7Var = TaskService.b;
             if (TaskService.b.isCancelled() || this.b) {
                 this.d.cancel();
-                SwiftApp.Companion companion = SwiftApp.d;
-                wo5 wo5Var = new wo5(SwiftApp.Companion.c(), "backup_restore_channel");
+                BareApp.Companion companion = BareApp.d;
+                wo5 wo5Var = new wo5(BareApp.Companion.c(), "backup_restore_channel");
                 wo5Var.r = NotificationHelper.c();
                 wo5Var.u.icon = R.drawable.ic_stat;
                 wo5Var.c(2);
-                wo5Var.e = wo5.b(SwiftApp.Companion.c().getString(R.string.cancelling_please_wait));
+                wo5Var.e = wo5.b(BareApp.Companion.c().getString(R.string.cancelling_please_wait));
                 wo5Var.c(8);
                 wo5Var.m = 100;
                 wo5Var.n = 0;
@@ -134,10 +134,10 @@ public final class jy7 {
         Iterator it;
         Log.d("TaskNotificationHelper", "showCompleteNotification() called");
         this.d.cancel();
-        SwiftApp.Companion companion = SwiftApp.d;
-        Intent flags = new Intent(SwiftApp.Companion.c(), (Class<?>) TaskActivity.class).setAction("android.intent.action.MAIN").addCategory("android.intent.category.LAUNCHER").setFlags(270532608);
+        BareApp.Companion companion = BareApp.d;
+        Intent flags = new Intent(BareApp.Companion.c(), (Class<?>) TaskActivity.class).setAction("android.intent.action.MAIN").addCategory("android.intent.category.LAUNCHER").setFlags(270532608);
         flags.getClass();
-        PendingIntent activity = PendingIntent.getActivity(SwiftApp.Companion.c(), 0, flags, 201326592);
+        PendingIntent activity = PendingIntent.getActivity(BareApp.Companion.c(), 0, flags, 201326592);
         CopyOnWriteArrayList copyOnWriteArrayList = hy7.c;
         ArrayList<pw6> arrayList = new ArrayList();
         Iterator it2 = copyOnWriteArrayList.iterator();
@@ -159,8 +159,8 @@ public final class jy7 {
         boolean z2 = taskManager$ErrorSummaryC.getMsg().length() > 0;
         ArrayList arrayList2 = new ArrayList();
         if (hy7.f()) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            String string = SwiftApp.Companion.c().getString(R.string.x_schedules, String.valueOf(copyOnWriteArrayList.size()));
+            BareApp.Companion companion2 = BareApp.d;
+            String string = BareApp.Companion.c().getString(R.string.x_schedules, String.valueOf(copyOnWriteArrayList.size()));
             string.getClass();
             arrayList2.add(string);
             bitmap = null;
@@ -181,8 +181,8 @@ public final class jy7 {
                                 message = "";
                             }
                             vr6.e$default(vr6Var, "TaskNotificationHelper", message, null, 4, null);
-                            SwiftApp.Companion companion3 = SwiftApp.d;
-                            String string2 = SwiftApp.Companion.c().getString(R.string.apps);
+                            BareApp.Companion companion3 = BareApp.d;
+                            String string2 = BareApp.Companion.c().getString(R.string.apps);
                             string2.getClass();
                             arrayList2.add(string2);
                         }
@@ -201,8 +201,8 @@ public final class jy7 {
             }
             z = sharedPreferences.getBoolean("play_notification_sounds", true);
             String str = z ? !z2 ? "task_completion_channel_success" : "task_completion_channel_error" : "task_completion_channel_silent";
-            SwiftApp.Companion companion4 = SwiftApp.d;
-            wo5 wo5Var = new wo5(SwiftApp.Companion.c(), str);
+            BareApp.Companion companion4 = BareApp.d;
+            wo5 wo5Var = new wo5(BareApp.Companion.c(), str);
             if (!z2) {
                 if (!arrayList.isEmpty()) {
                     Iterator it3 = arrayList.iterator();
@@ -218,7 +218,7 @@ public final class jy7 {
                                     } else {
                                         i = R.string.finished_with_errors;
                                     }
-                                    SwiftApp.Companion companion5 = SwiftApp.d;
+                                    BareApp.Companion companion5 = BareApp.d;
                                     strK = dj7.k(str2, ": ", dj7.g(i));
                                 } else {
                                     if (!arrayList.isEmpty()) {
@@ -234,20 +234,20 @@ public final class jy7 {
                                                     } else {
                                                         i = R.string.finished_with_errors;
                                                     }
-                                                    SwiftApp.Companion companion6 = SwiftApp.d;
+                                                    BareApp.Companion companion6 = BareApp.d;
                                                     strK = dj7.k(str3, ": ", dj7.g(i));
                                                 }
                                             }
                                         }
                                     }
-                                    SwiftApp.Companion companion7 = SwiftApp.d;
+                                    BareApp.Companion companion7 = BareApp.d;
                                     strK = dj7.g(R.string.restore_successful);
                                 }
                             }
                         }
                     }
                 }
-                SwiftApp.Companion companion8 = SwiftApp.d;
+                BareApp.Companion companion8 = BareApp.d;
                 strK = dj7.g(R.string.backup_successful);
             } else if (z2) {
                 String str4 = hy7.b;
@@ -258,7 +258,7 @@ public final class jy7 {
                 } else {
                     i = R.string.finished_with_errors;
                 }
-                SwiftApp.Companion companion9 = SwiftApp.d;
+                BareApp.Companion companion9 = BareApp.d;
                 strK = dj7.k(str4, ": ", dj7.g(i));
             } else {
                 if (!arrayList.isEmpty()) {
@@ -274,13 +274,13 @@ public final class jy7 {
                                 } else {
                                     i = R.string.finished_with_errors;
                                 }
-                                SwiftApp.Companion companion10 = SwiftApp.d;
+                                BareApp.Companion companion10 = BareApp.d;
                                 strK = dj7.k(str5, ": ", dj7.g(i));
                             }
                         }
                     }
                 }
-                SwiftApp.Companion companion11 = SwiftApp.d;
+                BareApp.Companion companion11 = BareApp.d;
                 strK = dj7.g(R.string.restore_successful);
             }
             wo5Var.r = NotificationHelper.c();
@@ -289,7 +289,7 @@ public final class jy7 {
             wo5Var.d(bitmap);
             wo5Var.e = wo5.b(strK);
             if (z2) {
-                SwiftApp.Companion companion12 = SwiftApp.d;
+                BareApp.Companion companion12 = BareApp.d;
                 strY0 = dj7.g(R.string.click_for_details);
             }
             wo5Var.f = wo5.b(strY0);

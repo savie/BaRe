@@ -2,10 +2,10 @@ package defpackage;
 
 import android.view.MenuItem;
 import android.view.View;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -55,9 +55,9 @@ public final /* synthetic */ class uf1 implements View.OnClickListener {
                 gm7.x((id2) obj2, (jd2) obj);
                 break;
             case 2:
-                SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) ((kb2) obj2).d;
-                swiftBackupMaterialSwitch.toggle();
-                ((mt3) obj).invoke(Boolean.valueOf(swiftBackupMaterialSwitch.isChecked()));
+                BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) ((kb2) obj2).d;
+                bareBackupMaterialSwitch.toggle();
+                ((mt3) obj).invoke(Boolean.valueOf(bareBackupMaterialSwitch.isChecked()));
                 break;
             case 3:
                 gj2 gj2Var = (gj2) obj2;

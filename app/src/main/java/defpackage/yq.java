@@ -13,11 +13,11 @@ import okhttp3.internal.http2.Http2Connection;
 import okhttp3.internal.http2.Http2Stream;
 import okhttp3.internal.platform.Platform;
 import org.json.JSONException;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -114,8 +114,8 @@ public final /* synthetic */ class yq implements bt3 {
                     }
                 }
                 if (jiVarFromPackageInfo == null) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    ai8.m(SwiftApp.Companion.c(), R.string.not_available);
+                    BareApp.Companion companion = BareApp.d;
+                    ai8.m(BareApp.Companion.c(), R.string.not_available);
                     mk2Var.d();
                 } else {
                     zn4.c(new lx(mk2Var, jiVarFromPackageInfo));

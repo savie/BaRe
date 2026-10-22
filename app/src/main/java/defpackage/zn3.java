@@ -3,9 +3,9 @@ package defpackage;
 import androidx.fragment.app.u;
 import androidx.preference.Preference;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -61,8 +61,8 @@ public final class zn3 extends fm0 implements t36 {
                 q.j();
                 return;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(i);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(i);
         string.getClass();
         preference.B(string);
     }

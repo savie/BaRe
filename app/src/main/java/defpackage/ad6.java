@@ -9,8 +9,8 @@ import androidx.constraintlayout.widget.Barrier;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import com.google.android.material.button.MaterialButton;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -19,7 +19,7 @@ public final class ad6 extends cd6 {
     public final MaterialButton B;
     public final MaterialButton C;
     public final /* synthetic */ dd6 D;
-    public final SwiftListItemCardView v;
+    public final BareListItemCardView v;
     public final ImageView w;
     public final ImageView x;
     public final TextView y;
@@ -45,8 +45,8 @@ public final class ad6 extends cd6 {
                             i = R.id.content_container;
                             if (((ConstraintLayout) ms8.u(view, R.id.content_container)) != null) {
                                 i = R.id.item_card;
-                                SwiftListItemCardView swiftListItemCardView = (SwiftListItemCardView) ms8.u(view, R.id.item_card);
-                                if (swiftListItemCardView != null) {
+                                BareListItemCardView bareListItemCardView = (BareListItemCardView) ms8.u(view, R.id.item_card);
+                                if (bareListItemCardView != null) {
                                     i = R.id.iv_pin;
                                     ImageView imageView = (ImageView) ms8.u(view, R.id.iv_pin);
                                     if (imageView != null) {
@@ -61,7 +61,7 @@ public final class ad6 extends cd6 {
                                                     i = R.id.tv_title;
                                                     TextView textView2 = (TextView) ms8.u(view, R.id.tv_title);
                                                     if (textView2 != null) {
-                                                        this.v = swiftListItemCardView;
+                                                        this.v = bareListItemCardView;
                                                         this.w = imageView2;
                                                         this.x = imageView;
                                                         this.y = textView2;
@@ -154,9 +154,9 @@ public final class ad6 extends cd6 {
                 f = 0.6f;
             }
         }
-        SwiftListItemCardView swiftListItemCardView = this.v;
-        swiftListItemCardView.setAlpha(f);
-        swiftListItemCardView.setOnClickListener(new mi0(zc6Var, i, i7, dd6Var));
+        BareListItemCardView bareListItemCardView = this.v;
+        bareListItemCardView.setAlpha(f);
+        bareListItemCardView.setOnClickListener(new mi0(zc6Var, i, i7, dd6Var));
         materialButton.setOnClickListener(new ri(zc6Var, i, i4, dd6Var));
         materialButton2.setOnClickListener(new p10(zc6Var, i, i7, dd6Var));
     }

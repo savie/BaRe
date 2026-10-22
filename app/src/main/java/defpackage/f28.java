@@ -1,9 +1,9 @@
 package defpackage;
 
 import android.content.SharedPreferences;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.intro.IntroActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -53,9 +53,9 @@ public final class f28 {
             return e() ? R.style.HomeThemeBlack : R.style.HomeThemeDark;
         }
         if (((Boolean) k28Var.f.getValue()).booleanValue()) {
-            return R.style.SwiftThemeDark_Transparent;
+            return R.style.BareThemeDark_Transparent;
         }
-        return e() ? R.style.SwiftThemeBlack : R.style.SwiftThemeDark;
+        return e() ? R.style.BareThemeBlack : R.style.BareThemeDark;
     }
 
     public static int d(k28 k28Var) {
@@ -68,7 +68,7 @@ public final class f28 {
             if (k28Var instanceof HomeActivity) {
                 return R.style.HomeTheme;
             }
-            return ((Boolean) gv7Var.getValue()).booleanValue() ? R.style.SwiftTheme_Transparent : R.style.SwiftTheme;
+            return ((Boolean) gv7Var.getValue()).booleanValue() ? R.style.BareTheme_Transparent : R.style.BareTheme;
         }
         if (i == 2) {
             return c(k28Var);
@@ -86,7 +86,7 @@ public final class f28 {
         if (k28Var instanceof HomeActivity) {
             return R.style.HomeTheme;
         }
-        return ((Boolean) gv7Var.getValue()).booleanValue() ? R.style.SwiftTheme_Transparent : R.style.SwiftTheme;
+        return ((Boolean) gv7Var.getValue()).booleanValue() ? R.style.BareTheme_Transparent : R.style.BareTheme;
     }
 
     public static boolean e() {

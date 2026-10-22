@@ -25,9 +25,9 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.swiftapps.sba.SbaArchiveNative;
-import com.swiftapps.sba.SbaLibaegisCryptoNative;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.SbaArchiveNative;
+import com.bareapps.sba.SbaLibaegisCryptoNative;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -63,8 +63,8 @@ import java.util.function.Supplier;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.premium.PremiumActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -1379,14 +1379,14 @@ public abstract class tu0 {
         WeakHashMap weakHashMap = dl8.a;
         if (Build.VERSION.SDK_INT < 28) {
             ArrayList arrayList2 = cl8.d;
-            cl8 cl8Var = (cl8) view.getTag(org.swiftapps.swiftbackup.R.id.tag_unhandled_key_event_manager);
+            cl8 cl8Var = (cl8) view.getTag(com.bareapps.barebackup.R.id.tag_unhandled_key_event_manager);
             WeakReference weakReference = null;
             if (cl8Var == null) {
                 cl8Var = new cl8();
                 cl8Var.a = null;
                 cl8Var.b = null;
                 cl8Var.c = null;
-                view.setTag(org.swiftapps.swiftbackup.R.id.tag_unhandled_key_event_manager, cl8Var);
+                view.setTag(com.bareapps.barebackup.R.id.tag_unhandled_key_event_manager, cl8Var);
             }
             WeakReference weakReference2 = cl8Var.c;
             if (weakReference2 == null || weakReference2.get() != keyEvent) {
@@ -1404,7 +1404,7 @@ public abstract class tu0 {
                 }
                 if (weakReference != null) {
                     View view2 = (View) weakReference.get();
-                    if (view2 == null || !view2.isAttachedToWindow() || (arrayList = (ArrayList) view2.getTag(org.swiftapps.swiftbackup.R.id.tag_unhandled_key_listeners)) == null || (size = arrayList.size() - 1) < 0) {
+                    if (view2 == null || !view2.isAttachedToWindow() || (arrayList = (ArrayList) view2.getTag(com.bareapps.barebackup.R.id.tag_unhandled_key_listeners)) == null || (size = arrayList.size() - 1) < 0) {
                         return true;
                     }
                     arrayList.get(size).getClass();
@@ -1646,7 +1646,7 @@ public abstract class tu0 {
     public static boolean n(String str) {
         Locale locale = Locale.US;
         String strQ = dj7.q(locale, str, locale);
-        return strQ.equals("meta.sai_v2.json") || strQ.equals("meta.swiftbackup_v1.json");
+        return strQ.equals("meta.sai_v2.json") || strQ.equals("meta.barebackup_v1.json");
     }
 
     public static boolean o(char c2) {
@@ -1959,8 +1959,8 @@ public abstract class tu0 {
         if (string != null && string.length() != 0) {
             textInputEditText.setText(string);
         }
-        ((TextView) j75Var.b).setText((string == null || string.length() == 0) ? org.swiftapps.swiftbackup.R.string.add_note : org.swiftapps.swiftbackup.R.string.edit_note);
-        s35 s35Var = new s35(il0Var, org.swiftapps.swiftbackup.R.style.M3AlertDialogTheme, new hv1(il0Var, org.swiftapps.swiftbackup.R.style.M3AlertDialogTheme), null);
+        ((TextView) j75Var.b).setText((string == null || string.length() == 0) ? com.bareapps.barebackup.R.string.add_note : com.bareapps.barebackup.R.string.edit_note);
+        s35 s35Var = new s35(il0Var, com.bareapps.barebackup.R.style.M3AlertDialogTheme, new hv1(il0Var, com.bareapps.barebackup.R.style.M3AlertDialogTheme), null);
         ((ra) s35Var.b).s = (NestedScrollView) ((ke) j75Var.a).b;
         final wa waVarM = s35Var.m();
         ((MaterialButton) j75Var.e).setOnClickListener(new View.OnClickListener() { // from class: ko5

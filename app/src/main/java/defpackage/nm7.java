@@ -9,7 +9,7 @@ import android.util.StateSet;
 import android.util.Xml;
 import java.io.IOException;
 import java.util.Objects;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

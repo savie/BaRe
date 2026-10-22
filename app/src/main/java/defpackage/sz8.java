@@ -268,7 +268,7 @@ public abstract class sz8 {
 
     public static final void V(TextInputEditText textInputEditText) {
         textInputEditText.getClass();
-        Typeface typefaceA = fm6.a(textInputEditText.getContext(), org.swiftapps.swiftbackup.R.font.mono_regular);
+        Typeface typefaceA = fm6.a(textInputEditText.getContext(), com.bareapps.barebackup.R.font.mono_regular);
         if (typefaceA != null) {
             textInputEditText.setTypeface(typefaceA);
         }
@@ -472,7 +472,7 @@ public abstract class sz8 {
         }
         view.setVisibility(0);
         if (z) {
-            view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), org.swiftapps.swiftbackup.R.anim.extended_fab_enter));
+            view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), com.bareapps.barebackup.R.anim.extended_fab_enter));
         }
     }
 
@@ -940,7 +940,7 @@ public abstract class sz8 {
 
     public static final int r(Context context) {
         context.getClass();
-        return context.getColor(y(context, org.swiftapps.swiftbackup.R.attr.colorError2));
+        return context.getColor(y(context, com.bareapps.barebackup.R.attr.colorError2));
     }
 
     public static int r0(byte[] bArr, int i, rg9 rg9Var) {
@@ -1088,7 +1088,7 @@ public abstract class sz8 {
 
     public static final int w(Context context) {
         context.getClass();
-        return io4.c(context, context.getColor(org.swiftapps.swiftbackup.R.color.grn));
+        return io4.c(context, context.getColor(com.bareapps.barebackup.R.color.grn));
     }
 
     public static int w0(Object obj, jm9 jm9Var, byte[] bArr, int i, int i2, rg9 rg9Var) throws uj9 {
@@ -1118,7 +1118,7 @@ public abstract class sz8 {
 
     public static final int x(Context context) {
         context.getClass();
-        return context.getColor(y(context, org.swiftapps.swiftbackup.R.attr.colorPrimary));
+        return context.getColor(y(context, com.bareapps.barebackup.R.attr.colorPrimary));
     }
 
     public static long x0(byte[] bArr, int i) {

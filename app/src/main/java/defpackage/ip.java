@@ -44,11 +44,11 @@ public final class ip extends Spinner {
         TypedArray typedArrayObtainStyledAttributes;
         CharSequence[] textArray;
         SpinnerAdapter spinnerAdapter;
-        super(context, attributeSet, org.swiftapps.swiftbackup.R.attr.spinnerStyle);
+        super(context, attributeSet, com.bareapps.barebackup.R.attr.spinnerStyle);
         this.n = new Rect();
         i28.a(getContext(), this);
         int[] iArr = ge6.u;
-        u94 u94VarE = u94.e(org.swiftapps.swiftbackup.R.attr.spinnerStyle, 0, context, attributeSet, iArr);
+        u94 u94VarE = u94.e(com.bareapps.barebackup.R.attr.spinnerStyle, 0, context, attributeSet, iArr);
         TypedArray typedArray = (TypedArray) u94VarE.b;
         this.a = new bn(this);
         int resourceId = typedArray.getResourceId(4, 0);
@@ -60,7 +60,7 @@ public final class ip extends Spinner {
         int i = -1;
         TypedArray typedArray2 = null;
         try {
-            typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, p, org.swiftapps.swiftbackup.R.attr.spinnerStyle, 0);
+            typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, p, com.bareapps.barebackup.R.attr.spinnerStyle, 0);
             try {
                 try {
                     if (typedArrayObtainStyledAttributes.hasValue(0)) {
@@ -77,7 +77,7 @@ public final class ip extends Spinner {
                         apVar.c = typedArray.getString(2);
                     } else if (i == 1) {
                         fp fpVar = new fp(this, this.b, attributeSet);
-                        u94 u94VarE2 = u94.e(org.swiftapps.swiftbackup.R.attr.spinnerStyle, 0, this.b, attributeSet, iArr);
+                        u94 u94VarE2 = u94.e(com.bareapps.barebackup.R.attr.spinnerStyle, 0, this.b, attributeSet, iArr);
                         this.k = ((TypedArray) u94VarE2.b).getLayoutDimension(3, -2);
                         fpVar.i(u94VarE2.b(1));
                         fpVar.U = typedArray.getString(2);
@@ -88,7 +88,7 @@ public final class ip extends Spinner {
                     textArray = typedArray.getTextArray(0);
                     if (textArray != null) {
                         ArrayAdapter arrayAdapter = new ArrayAdapter(context, R.layout.simple_spinner_item, textArray);
-                        arrayAdapter.setDropDownViewResource(org.swiftapps.swiftbackup.R.layout.support_simple_spinner_dropdown_item);
+                        arrayAdapter.setDropDownViewResource(com.bareapps.barebackup.R.layout.support_simple_spinner_dropdown_item);
                         setAdapter((SpinnerAdapter) arrayAdapter);
                     }
                     u94VarE.f();
@@ -98,7 +98,7 @@ public final class ip extends Spinner {
                         setAdapter(spinnerAdapter);
                         this.d = null;
                     }
-                    this.a.d(attributeSet, org.swiftapps.swiftbackup.R.attr.spinnerStyle);
+                    this.a.d(attributeSet, com.bareapps.barebackup.R.attr.spinnerStyle);
                 }
             } catch (Throwable th) {
                 th = th;
@@ -125,7 +125,7 @@ public final class ip extends Spinner {
             apVar2.c = typedArray.getString(2);
         } else if (i == 1) {
             fp fpVar2 = new fp(this, this.b, attributeSet);
-            u94 u94VarE3 = u94.e(org.swiftapps.swiftbackup.R.attr.spinnerStyle, 0, this.b, attributeSet, iArr);
+            u94 u94VarE3 = u94.e(com.bareapps.barebackup.R.attr.spinnerStyle, 0, this.b, attributeSet, iArr);
             this.k = ((TypedArray) u94VarE3.b).getLayoutDimension(3, -2);
             fpVar2.i(u94VarE3.b(1));
             fpVar2.U = typedArray.getString(2);
@@ -136,7 +136,7 @@ public final class ip extends Spinner {
         textArray = typedArray.getTextArray(0);
         if (textArray != null) {
             ArrayAdapter arrayAdapter2 = new ArrayAdapter(context, R.layout.simple_spinner_item, textArray);
-            arrayAdapter2.setDropDownViewResource(org.swiftapps.swiftbackup.R.layout.support_simple_spinner_dropdown_item);
+            arrayAdapter2.setDropDownViewResource(com.bareapps.barebackup.R.layout.support_simple_spinner_dropdown_item);
             setAdapter((SpinnerAdapter) arrayAdapter2);
         }
         u94VarE.f();
@@ -146,7 +146,7 @@ public final class ip extends Spinner {
             setAdapter(spinnerAdapter);
             this.d = null;
         }
-        this.a.d(attributeSet, org.swiftapps.swiftbackup.R.attr.spinnerStyle);
+        this.a.d(attributeSet, com.bareapps.barebackup.R.attr.spinnerStyle);
     }
 
     public final int a(SpinnerAdapter spinnerAdapter, Drawable drawable) {

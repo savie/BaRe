@@ -3,12 +3,12 @@ package defpackage;
 import android.content.DialogInterface;
 import com.microsoft.identity.common.internal.providers.oauth2.CameraPermissionRequestHandler;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.cloud.orphans.c;
-import org.swiftapps.swiftbackup.shortcuts.ShortcutsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.cloud.orphans.c;
+import com.bareapps.barebackup.shortcuts.ShortcutsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

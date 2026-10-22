@@ -4,9 +4,9 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelParams;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.labels.LabelParams;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -49,15 +49,15 @@ public final class ud3 implements od3 {
         }
         Set set2 = setZ1;
         if (set2 == null || set2.isEmpty()) {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.select_labels_to_filter);
         }
-        SwiftApp.Companion companion2 = SwiftApp.d;
-        String strJ = eq3.j(SwiftApp.Companion.c().getString(R.string.labels), ": ");
+        BareApp.Companion companion2 = BareApp.d;
+        String strJ = eq3.j(BareApp.Companion.c().getString(R.string.labels), ": ");
         if (set2.size() <= 3) {
             strK = el1.Y0(set2, ", ", null, null, null, 62);
         } else {
-            String string2 = SwiftApp.Companion.c().getString(R.string.plus_more, String.valueOf(set2.size() - 3));
+            String string2 = BareApp.Companion.c().getString(R.string.plus_more, String.valueOf(set2.size() - 3));
             string2.getClass();
             strK = dj7.k(el1.Y0(el1.p1(set2, 3), ", ", null, null, null, 62), " + ", string2);
         }

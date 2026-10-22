@@ -2,10 +2,10 @@ package defpackage;
 
 import android.os.Looper;
 import java.io.FileNotFoundException;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -38,8 +38,8 @@ public abstract class ag8 {
     public final void a(Exception exc, boolean z) {
         vr6.e$default(vr6.INSTANCE, d(), "addUploadError", exc, null, 8, null);
         StringBuilder sb = new StringBuilder();
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             sb.append("No internet connection\n");
         }
         String message = exc.getMessage();
@@ -91,8 +91,8 @@ public abstract class ag8 {
                 z = false;
             } else {
                 vr6.e$default(vr6Var, d(), "Still no WiFi, skipping upload.", null, 4, null);
-                SwiftApp.Companion companion = SwiftApp.d;
-                a(new RuntimeException(SwiftApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error)), false);
+                BareApp.Companion companion = BareApp.d;
+                a(new RuntimeException(BareApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error)), false);
                 z = true;
             }
         }
@@ -127,8 +127,8 @@ public abstract class ag8 {
             if (z) {
                 zI = Const.z();
             } else {
-                SwiftApp.Companion companion = SwiftApp.d;
-                zI = ai8.i(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                zI = ai8.i(BareApp.Companion.c());
             }
             if (zI) {
                 try {
@@ -146,8 +146,8 @@ public abstract class ag8 {
         }
         if (!this.c.isCancelled()) {
             if (rf8Var.e) {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                string = SwiftApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error);
+                BareApp.Companion companion2 = BareApp.d;
+                string = BareApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error);
             } else {
                 string = "No internet connection";
             }

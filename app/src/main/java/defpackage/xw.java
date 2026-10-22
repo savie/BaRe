@@ -22,17 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apptasks.AppsWorkingDir;
-import org.swiftapps.swiftbackup.apptasks.notifications.NotificationPolicyProxy;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.compress.Packer;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppSpecialDataPayload;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apptasks.AppsWorkingDir;
+import com.bareapps.barebackup.apptasks.notifications.NotificationPolicyProxy;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.compress.Packer;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppSpecialDataPayload;
+import com.bareapps.barebackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -61,7 +61,7 @@ public final class xw {
 
     public xw(jz jzVar, c40 c40Var, ry7 ry7Var, String str, boolean z, ck ckVar) {
         CloudMetadata metadata;
-        tw twVar = new tw(4, ox7.a, ox7.class, "extractWithFileCount", "extractWithFileCount(Lorg/swiftapps/filesystem/File;Ljava/lang/String;Lorg/swiftapps/swiftbackup/shell/RootHelper$ShellType;Lkotlin/jvm/functions/Function3;)V", 0);
+        tw twVar = new tw(4, ox7.a, ox7.class, "extractWithFileCount", "extractWithFileCount(Lorg/bareapps/filesystem/File;Ljava/lang/String;Lorg/bareapps/barebackup/shell/RootHelper$ShellType;Lkotlin/jvm/functions/Function3;)V", 0);
         ry7Var.getClass();
         str.getClass();
         this.a = jzVar;
@@ -636,8 +636,8 @@ public final class xw {
         String str9 = "";
         c40 c40Var2 = xwVar3.b;
         ex6 ex6Var = c40Var2.i;
-        SwiftApp.Companion companion = SwiftApp.d;
-        ex6Var.k(SwiftApp.Companion.c().getString(R.string.restoring));
+        BareApp.Companion companion = BareApp.d;
+        ex6Var.k(BareApp.Companion.c().getString(R.string.restoring));
         vr6 vr6Var = vr6.INSTANCE;
         ji jiVar2 = xwVar3.h;
         vr6.i$default(vr6Var, "AppRestoreTask", xs1.j("Started restore: ", jiVar2.asString()), null, 4, null);
@@ -650,8 +650,8 @@ public final class xw {
         boolean zG = mp6.g();
         uw uwVar2 = xwVar3.u;
         if (zG && pe4.d(jiVar2.getPackageName(), "moe.shizuku.privileged.api")) {
-            vr6Var.i("AppRestoreTask", "Shizuku package shouldn't be restored when Swift Backup is actively using Shizuku! Skipping.", vr6.a.YELLOW);
-            uwVar2.c("Shizuku package shouldn't be restored when Swift Backup is actively using Shizuku! Skipping.");
+            vr6Var.i("AppRestoreTask", "Shizuku package shouldn't be restored when Bare Backup is actively using Shizuku! Skipping.", vr6.a.YELLOW);
+            uwVar2.c("Shizuku package shouldn't be restored when Bare Backup is actively using Shizuku! Skipping.");
             return uwVar2;
         }
         List list2 = jzVar3.c;
@@ -739,11 +739,11 @@ public final class xw {
                                 vr6.w$default(vr6Var, "AppRestoreTask", "Backup APK is older, APK downgrade is not allowed in batch actions.", null, 4, null);
                             } else if (jiVar2.isBundled()) {
                                 vr6.w$default(vr6Var, "AppRestoreTask", "Backup APK is older and this is a system app. You'd have to be a monkey to downgrade!", null, 4, null);
-                                Context contextC = SwiftApp.Companion.c();
+                                Context contextC = BareApp.Companion.c();
                                 zn4 zn4Var = zn4.a;
                                 dj7.y(contextC, "Skipped APK installation. System apps must not be downgraded!");
                             } else {
-                                vr6.w$default(vr6Var, "AppRestoreTask", "APK downgrade restricted by Android System since Android Nougat 7.0, Swift Backup will attempt to downgrade using workarounds.", null, 4, null);
+                                vr6.w$default(vr6Var, "AppRestoreTask", "APK downgrade restricted by Android System since Android Nougat 7.0, Bare Backup will attempt to downgrade using workarounds.", null, 4, null);
                                 xwVar3.s = true;
                                 z13 = zA;
                             }
@@ -1060,7 +1060,7 @@ public final class xw {
                         String strC = p93.c(Long.valueOf(j4));
                         vr6 vr6Var2 = vr6.INSTANCE;
                         vr6.i$default(vr6Var2, "AppRestoreTask", eq3.k("Restoring app (~", strC, ")"), null, 4, null);
-                        SwiftApp.Companion companion2 = SwiftApp.d;
+                        BareApp.Companion companion2 = BareApp.d;
                         String strG = dj7.g(R.string.restoring_app);
                         c40Var2.i.k(strG + " (" + strC + ")");
                         if (ywVar.d == 0) {
@@ -1126,8 +1126,8 @@ public final class xw {
                                 }
                                 String strY0 = el1.Y0(arrayList6.isEmpty() ? listE : arrayList6, null, null, null, null, 63);
                                 vr6.e$default(vr6.INSTANCE, "AppRestoreTask", strY0, null, 4, null);
-                                SwiftApp.Companion companion3 = SwiftApp.d;
-                                String string2 = SwiftApp.Companion.c().getString(R.string.x_app_failed_to_install_message, jiVar.getName());
+                                BareApp.Companion companion3 = BareApp.d;
+                                String string2 = BareApp.Companion.c().getString(R.string.x_app_failed_to_install_message, jiVar.getName());
                                 string2.getClass();
                                 q63Var2.getClass();
                                 if (nq7.Z(strY0, "NO_MATCHING_ABIS", false)) {
@@ -1231,8 +1231,8 @@ public final class xw {
                                     g00.d(jiVar.getPackageName(), jiVar.getName(), true);
                                 }
                             } else if (wx3.n(list)) {
-                                SwiftApp.Companion companion4 = SwiftApp.d;
-                                String string3 = SwiftApp.Companion.c().getString(R.string.skipping_data_restore_for_x_app_message, jiVar.asString());
+                                BareApp.Companion companion4 = BareApp.d;
+                                String string3 = BareApp.Companion.c().getString(R.string.skipping_data_restore_for_x_app_message, jiVar.asString());
                                 string3.getClass();
                                 vr6.w$default(vr6.INSTANCE, "AppRestoreTask", "Skipping data restore as app isn't installed", null, 4, null);
                                 uwVar2.c = string3;
@@ -1268,8 +1268,8 @@ public final class xw {
                                 g00.d(jiVar.getPackageName(), jiVar.getName(), true);
                             }
                         } else if (wx3.n(list)) {
-                            SwiftApp.Companion companion5 = SwiftApp.d;
-                            String string4 = SwiftApp.Companion.c().getString(R.string.skipping_data_restore_for_x_app_message, jiVar.asString());
+                            BareApp.Companion companion5 = BareApp.d;
+                            String string4 = BareApp.Companion.c().getString(R.string.skipping_data_restore_for_x_app_message, jiVar.asString());
                             string4.getClass();
                             vr6.w$default(vr6.INSTANCE, "AppRestoreTask", "Skipping data restore as app isn't installed", null, 4, null);
                             uwVar2.c = string4;
@@ -3799,11 +3799,11 @@ public final class xw {
                                 vr6.w$default(vr6Var, "AppRestoreTask", "Backup APK is older, APK downgrade is not allowed in batch actions.", null, 4, null);
                             } else if (jiVar2.isBundled()) {
                                 vr6.w$default(vr6Var, "AppRestoreTask", "Backup APK is older and this is a system app. You'd have to be a monkey to downgrade!", null, 4, null);
-                                Context contextC2 = SwiftApp.Companion.c();
+                                Context contextC2 = BareApp.Companion.c();
                                 zn4 zn4Var2 = zn4.a;
                                 dj7.y(contextC2, "Skipped APK installation. System apps must not be downgraded!");
                             } else {
-                                vr6.w$default(vr6Var, "AppRestoreTask", "APK downgrade restricted by Android System since Android Nougat 7.0, Swift Backup will attempt to downgrade using workarounds.", null, 4, null);
+                                vr6.w$default(vr6Var, "AppRestoreTask", "APK downgrade restricted by Android System since Android Nougat 7.0, Bare Backup will attempt to downgrade using workarounds.", null, 4, null);
                                 xwVar3.s = true;
                                 z13 = zA;
                             }
@@ -4190,7 +4190,7 @@ public final class xw {
         p93 p93Var = p93.a;
         String strC = p93.c(Long.valueOf(axVar.h));
         vr6.i$default(vr6Var, "AppRestoreTask", u48.m("Restoring Data (", strC, ", v", i2, ")"), null, 4, null);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.restoring_data);
         this.b.i.k(strG + " (" + strC + ")");
         ji jiVar = this.h;
@@ -4479,7 +4479,7 @@ public final class xw {
         String strC = p93.c(Long.valueOf(bxVar.c));
         int i4 = i40Var.a;
         vr6.i$default(vr6Var2, "AppRestoreTask", u48.m("Restoring Expansion (", strC, ", v", i4, ")"), null, 4, null);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.restoring_expansion);
         this.b.i.k(strG + " (" + strC + ")");
         uw uwVar3 = this.u;
@@ -4667,7 +4667,7 @@ public final class xw {
         p93 p93Var = p93.a;
         String strC = p93.c(Long.valueOf(j));
         vr6.i$default(vr6Var, "AppRestoreTask", u48.m("Restoring Ext Data (", strC, ", v", i2, ")"), null, 4, null);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.restoring_external_data);
         this.b.i.k(strG + " (" + strC + ")");
         uw uwVar = this.u;
@@ -4876,8 +4876,8 @@ public final class xw {
             if (jr7Var.b("[ -e @@ ]")) {
                 try {
                     g00 g00Var = g00.a;
-                    SwiftApp.Companion companion2 = SwiftApp.d;
-                    File externalCacheDir = SwiftApp.Companion.c().getExternalCacheDir();
+                    BareApp.Companion companion2 = BareApp.d;
+                    File externalCacheDir = BareApp.Companion.c().getExternalCacheDir();
                     String strK = g00.k(externalCacheDir != null ? new q63(externalCacheDir, 1) : null);
                     String path = jr7Var.getPath();
                     path.getClass();
@@ -4921,7 +4921,7 @@ public final class xw {
         p93 p93Var = p93.a;
         String strC = p93.c(Long.valueOf(j));
         vr6.i$default(vr6Var, "AppRestoreTask", u48.m("Restoring Media (", strC, ", v", i2, ")"), null, 4, null);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.restoring_media);
         this.b.i.k(strG + " (" + strC + ")");
         ji jiVar = this.h;
@@ -5112,8 +5112,8 @@ public final class xw {
             if (jr7Var.b("[ -e @@ ]")) {
                 try {
                     g00 g00Var = g00.a;
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    File[] externalMediaDirs = SwiftApp.Companion.c().getExternalMediaDirs();
+                    BareApp.Companion companion = BareApp.d;
+                    File[] externalMediaDirs = BareApp.Companion.c().getExternalMediaDirs();
                     externalMediaDirs.getClass();
                     File file = externalMediaDirs.length == 0 ? null : externalMediaDirs[0];
                     String strK = g00.k(file != null ? new q63(file, 1) : null);
@@ -5158,7 +5158,7 @@ public final class xw {
                     try {
                         nc3.X(fileOutputStream, notificationPolicyXml, charset);
                         fileOutputStream.close();
-                        List listA = bv.a(NotificationPolicyProxy.class.getName(), "swiftbackup_notification_policy_proxy", fl1.A0("restore", String.valueOf(i), packageName, fileB.getAbsolutePath()), null);
+                        List listA = bv.a(NotificationPolicyProxy.class.getName(), "barebackup_notification_policy_proxy", fl1.A0("restore", String.valueOf(i), packageName, fileB.getAbsolutePath()), null);
                         if (listA == null || !listA.isEmpty()) {
                             Iterator it = listA.iterator();
                             while (it.hasNext()) {
@@ -5726,7 +5726,7 @@ public final class xw {
         p93 p93Var = p93.a;
         String strC = p93.c(Long.valueOf(j));
         vr6.i$default(vr6Var, "AppRestoreTask", u48.m("Restoring Shared Libs (", strC, ", v", i, ")"), null, 4, null);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.restoring_shared_libraries);
         this.b.i.k(strG + " (" + strC + ")");
         ArrayList<q63> arrayList2 = new ArrayList();

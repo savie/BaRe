@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.database.MDatabase;
+import com.bareapps.barebackup.database.MDatabase;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -31,7 +31,7 @@ public final class bo6 {
     public boolean n = true;
     public final boolean q = true;
     public final n81 a = ph6.a(MDatabase.class);
-    public final String c = "swiftbackup-db";
+    public final String c = "barebackup-db";
 
     public bo6(Context context) {
         this.b = context;

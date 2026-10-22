@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Map;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

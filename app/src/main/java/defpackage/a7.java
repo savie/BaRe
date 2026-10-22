@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -35,9 +35,9 @@ public final class a7 extends gm7 {
             drawable.getClass();
         }
         imageView.setImageDrawable(drawable);
-        SwiftListItemCardView swiftListItemCardView = z6Var.v;
+        BareListItemCardView bareListItemCardView = z6Var.v;
         final a7 a7Var = z6Var.y;
-        swiftListItemCardView.setOnClickListener(new View.OnClickListener() { // from class: y6
+        bareListItemCardView.setOnClickListener(new View.OnClickListener() { // from class: y6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 qt3 qt3Var = this.a.j;

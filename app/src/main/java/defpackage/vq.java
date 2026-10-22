@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.bumptech.glide.load.ImageHeaderParser$ImageType;
 import com.google.android.material.card.MaterialCardView;
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bareapps.sba.internal.progress.SbaNativeProgressListener;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -205,7 +205,7 @@ public final class vq implements gd4, jk8, ba4, SbaNativeProgressListener, n59 {
         ke.q((ke) ((u00) this.d).d, (k69) f59Var, (yf1) this.b, this);
     }
 
-    @Override // com.swiftapps.sba.internal.progress.SbaNativeProgressListener
+    @Override // com.bareapps.sba.internal.progress.SbaNativeProgressListener
     public boolean isCancellationRequested() {
         return ((ny6) this.d).isCancellationRequested();
     }
@@ -338,7 +338,7 @@ public final class vq implements gd4, jk8, ba4, SbaNativeProgressListener, n59 {
         return null;
     }
 
-    @Override // com.swiftapps.sba.internal.progress.SbaNativeProgressListener
+    @Override // com.bareapps.sba.internal.progress.SbaNativeProgressListener
     public void onProgress(long j, long j2) {
         h07 h07Var = (h07) this.b;
         if (h07Var != null) {

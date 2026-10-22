@@ -4,8 +4,8 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import androidx.credentials.playservices.controllers.ResponseUtils;
-import com.swiftapps.sba.SbaSwiftTarNative;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.SbaBareTarNative;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import java.util.concurrent.Executor;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -83,8 +83,8 @@ public final /* synthetic */ class jj2 implements mt3 {
                         if (jLongValue > jA) {
                             jLongValue = jA;
                         }
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        String string = SwiftApp.Companion.c().getString(R.string.uploading);
+                        BareApp.Companion companion = BareApp.d;
+                        String string = BareApp.Companion.c().getString(R.string.uploading);
                         p93 p93Var = p93.a;
                         ff5Var.o(String.format("%s: %s / %s", Arrays.copyOf(new Object[]{string, p93.c(Long.valueOf(jLongValue)), p93.c(Long.valueOf(jA))}, 3)));
                     }
@@ -105,19 +105,19 @@ public final /* synthetic */ class jj2 implements mt3 {
                 parcelFileDescriptor.getClass();
                 cy0 cy0Var = ((s07) obj3).e;
                 if (cy0Var.equals(oy6.j)) {
-                    SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
                     FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                     fileDescriptor.getClass();
-                    sbaTarEntryInfoArrE = SbaSwiftTarNative.d(fileDescriptor, j);
+                    sbaTarEntryInfoArrE = SbaBareTarNative.d(fileDescriptor, j);
                 } else {
                     if (!(cy0Var instanceof py6)) {
                         q.j();
                         return null;
                     }
-                    SbaSwiftTarNative sbaSwiftTarNative2 = SbaSwiftTarNative.a;
+                    SbaBareTarNative sbaBareTarNative2 = SbaBareTarNative.a;
                     FileDescriptor fileDescriptor2 = parcelFileDescriptor.getFileDescriptor();
                     fileDescriptor2.getClass();
-                    sbaTarEntryInfoArrE = SbaSwiftTarNative.e(fileDescriptor2, j, oz6Var.f);
+                    sbaTarEntryInfoArrE = SbaBareTarNative.e(fileDescriptor2, j, oz6Var.f);
                 }
                 return x50.z0(sbaTarEntryInfoArrE);
             case 7:

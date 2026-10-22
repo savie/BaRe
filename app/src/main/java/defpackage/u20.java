@@ -4,13 +4,13 @@ import androidx.credentials.playservices.controllers.ResponseUtils;
 import androidx.credentials.playservices.controllers.blockstore.createrestorecredential.CredentialProviderCreateRestoreCredentialController;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -48,8 +48,8 @@ public final /* synthetic */ class u20 implements bt3 {
                 kk3 kk3Var = (kk3) obj3;
                 FolderItem folderItem = (FolderItem) obj;
                 long jCurrentTimeMillis = System.currentTimeMillis();
-                SwiftApp.Companion companion = SwiftApp.d;
-                String string = SwiftApp.Companion.c().getString(R.string.deleting_backup);
+                BareApp.Companion companion = BareApp.d;
+                String string = BareApp.Companion.c().getString(R.string.deleting_backup);
                 string.getClass();
                 kk3Var.i(string);
                 int i3 = jk3.a[((to3) obj2).ordinal()];

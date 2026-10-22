@@ -4,11 +4,11 @@ import android.view.MenuItem;
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.b;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.b;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

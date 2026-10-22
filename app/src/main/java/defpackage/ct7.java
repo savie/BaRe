@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.settings.SwiftBackupSettingsHelper$SettingsData;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.settings.BareBackupSettingsHelper$SettingsData;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -43,7 +43,7 @@ public final class ct7 extends ws7 implements qt3 {
         lg7.H(obj);
         try {
             try {
-                vr6.i$default(vr6.INSTANCE, "SwiftBackupSettingsHelper", "Importing settings from " + tn2Var.e(), null, 4, null);
+                vr6.i$default(vr6.INSTANCE, "BareBackupSettingsHelper", "Importing settings from " + tn2Var.e(), null, 4, null);
                 settingsActivity.G().h(R.string.restoring_settings);
                 InputStream inputStreamOpenInputStream = f13.d().getContentResolver().openInputStream(tn2Var.e());
                 try {
@@ -79,7 +79,7 @@ public final class ct7 extends ws7 implements qt3 {
                         String string = aq7Var.a.toString();
                         rs9.c(inputStreamOpenInputStream, null);
                         gv7 gv7Var = w14.a;
-                        ((SwiftBackupSettingsHelper$SettingsData) w14.c().c(string, SwiftBackupSettingsHelper$SettingsData.class)).restore();
+                        ((BareBackupSettingsHelper$SettingsData) w14.c().c(string, BareBackupSettingsHelper$SettingsData.class)).restore();
                         settingsActivity.G().f();
                         return be8.a;
                     } catch (Throwable th) {
@@ -103,7 +103,7 @@ public final class ct7 extends ws7 implements qt3 {
                     }
                 }
             } catch (Exception e) {
-                vr6.e$default(vr6.INSTANCE, "SwiftBackupSettingsHelper", "importSettings", e, null, 8, null);
+                vr6.e$default(vr6.INSTANCE, "BareBackupSettingsHelper", "importSettings", e, null, 8, null);
                 Context applicationContext = settingsActivity.getApplicationContext();
                 applicationContext.getClass();
                 String string2 = applicationContext.getString(R.string.error);

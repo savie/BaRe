@@ -4,7 +4,7 @@ import android.os.Build;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -25,8 +25,8 @@ public final class w52 extends xh2 {
         dz5 dz5Var = dz5.a;
         boolean zH = dz5.h("android.permission.ACCESS_LOCAL_NETWORK");
         int i = Build.VERSION.SDK_INT;
-        SwiftApp.Companion companion = SwiftApp.d;
-        int i2 = SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion;
+        BareApp.Companion companion = BareApp.d;
+        int i2 = BareApp.Companion.c().getApplicationInfo().targetSdkVersion;
         tz4 tz4Var = new tz4(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0);
         jh1 jh1Var = this.c;
         jh1Var.getClass();

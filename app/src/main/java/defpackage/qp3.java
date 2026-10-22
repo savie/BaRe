@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.settings.FolderRestoreStrategy;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.settings.FolderRestoreStrategy;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -358,8 +358,8 @@ public final class qp3 extends pw6 {
                                     }
                                 }));
                             }
-                            SwiftApp.Companion companion = SwiftApp.d;
-                            ex6Var.k(SwiftApp.Companion.c().getString(R.string.downloading_backup_files));
+                            BareApp.Companion companion = BareApp.d;
+                            ex6Var.k(BareApp.Companion.c().getString(R.string.downloading_backup_files));
                             long jCurrentTimeMillis = System.currentTimeMillis();
                             zn4 zn4Var2 = zn4.a;
                             try {
@@ -409,8 +409,8 @@ public final class qp3 extends pw6 {
                         if (nn3VarA.a) {
                             vn3 vn3Var = new vn3(do3Var, this, nn3VarA);
                             qv qvVar = new qv(i9, i8, i, qn3Var);
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            ex6Var.k(SwiftApp.Companion.c().getString(R.string.restoring));
+                            BareApp.Companion companion2 = BareApp.d;
+                            ex6Var.k(BareApp.Companion.c().getString(R.string.restoring));
                             vr6 vr6Var3 = vr6.INSTANCE;
                             vr6.i$default(vr6Var3, "FolderRestoreTask", "Started restore: " + vn3Var.a, null, 4, null);
                             vr6.i$default(vr6Var3, "FolderRestoreTask", "Props=" + do3Var, null, 4, null);
@@ -564,16 +564,16 @@ public final class qp3 extends pw6 {
 
     @Override // defpackage.pw6
     public final String h() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(g() ? R.string.folders : R.string.folder);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(g() ? R.string.folders : R.string.folder);
         string.getClass();
         return string;
     }
 
     @Override // defpackage.pw6
     public final String j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(R.string.x_folders, String.valueOf(this.m.size()));
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(R.string.x_folders, String.valueOf(this.m.size()));
         string.getClass();
         return string;
     }

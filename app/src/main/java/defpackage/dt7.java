@@ -17,8 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -97,10 +97,10 @@ public final class dt7 {
         } else {
             path = context.getCacheDir().getPath();
         }
-        q63 q63Var = new q63(path, "SwiftLogger.xml", 2);
+        q63 q63Var = new q63(path, "BareLogger.xml", 2);
         q63Var.h();
         boolean z2 = true;
-        if (pe4.d(io4.j("SwiftLoggerExportHelper", xs1.i(q63Var, "Failed while writing "), true, new l30(14, q63Var, strD), 8), Boolean.TRUE) && q63Var.j()) {
+        if (pe4.d(io4.j("BareLoggerExportHelper", xs1.i(q63Var, "Failed while writing "), true, new l30(14, q63Var, strD), 8), Boolean.TRUE) && q63Var.j()) {
             long j2 = 0;
             j2 = 0;
             if (q63Var.A() > 0) {
@@ -112,15 +112,15 @@ public final class dt7 {
                     calendar.add(5, -7);
                     mp6Var.h(new String[]{dj7.l("logcat -b all -t \"", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.mmm", Locale.ENGLISH).format(Long.valueOf(calendar.getTimeInMillis())), "\" > ", q63Var2.v())}, ip6.SHIZUKU);
                     g00 g00Var = g00.a;
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    PackageInfo packageInfoQ = g00.q(0, SwiftApp.Companion.c().getPackageName());
+                    BareApp.Companion companion = BareApp.d;
+                    PackageInfo packageInfoQ = g00.q(0, BareApp.Companion.c().getPackageName());
                     if (packageInfoQ == null) {
-                        g84.h("claimSBDataOwnership: Unable to get Swift Backup package info");
+                        g84.h("claimSBDataOwnership: Unable to get Bare Backup package info");
                         return null;
                     }
                     ApplicationInfo applicationInfo = packageInfoQ.applicationInfo;
                     if (applicationInfo == null) {
-                        g84.h("claimSBDataOwnership: Missing Swift Backup application info");
+                        g84.h("claimSBDataOwnership: Missing Bare Backup application info");
                         return null;
                     }
                     g00.f(applicationInfo.dataDir, applicationInfo.deviceProtectedDataDir, applicationInfo.uid, null, true);
@@ -131,8 +131,8 @@ public final class dt7 {
                             boolean z3 = line == null || line.length() == 0;
                             bufferedReaderA.close();
                             if (z3) {
-                                vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", "Logcat empty!", null, 4, null);
-                                r17 = "SwiftLoggerExportHelper";
+                                vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", "Logcat empty!", null, 4, null);
+                                r17 = "BareLoggerExportHelper";
                             }
                         } catch (Throwable th2) {
                             try {
@@ -143,13 +143,13 @@ public final class dt7 {
                             }
                         }
                     } else {
-                        vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", "No logcat file created by system", null, 4, null);
-                        r17 = "SwiftLoggerExportHelper";
+                        vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", "No logcat file created by system", null, 4, null);
+                        r17 = "BareLoggerExportHelper";
                     }
                 }
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMMdd_hh.mm.ssaa", Locale.forLanguageTag("en-IN"));
                 long jCurrentTimeMillis = System.currentTimeMillis();
-                q63 q63Var3 = new q63(path, eq3.k("SwiftLogger_", simpleDateFormat.format(Long.valueOf(jCurrentTimeMillis)), ".7z"), 2);
+                q63 q63Var3 = new q63(path, eq3.k("BareLogger_", simpleDateFormat.format(Long.valueOf(jCurrentTimeMillis)), ".7z"), 2);
                 q63Var3.h();
                 List listP0 = x50.p0(new q63[]{q63Var, q63Var2});
                 ArrayList arrayList3 = new ArrayList();
@@ -159,7 +159,7 @@ public final class dt7 {
                     }
                 }
                 if (arrayList3.isEmpty()) {
-                    vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", "No files to pack!", null, 4, null);
+                    vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", "No files to pack!", null, 4, null);
                     return null;
                 }
                 xp1 xp1Var = xp1.FASTEST;
@@ -208,19 +208,19 @@ public final class dt7 {
                                     if (fw5Var.a) {
                                         if (!q63Var3.j()) {
                                         }
-                                        vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", xs1.i(q63Var3, "Created SwiftLogger archive is missing or empty: "), null, 4, null);
+                                        vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", xs1.i(q63Var3, "Created BareLogger archive is missing or empty: "), null, 4, null);
                                         q63Var3.h();
                                         return null;
                                     }
                                     vr6Var = vr6.INSTANCE;
                                     str = fw5Var.b;
                                     if (str == null) {
-                                        str = "Failed to create SwiftLogger archive";
+                                        str = "Failed to create BareLogger archive";
                                     }
-                                    vr6.e$default(vr6Var, "SwiftLoggerExportHelper", str, null, 4, null);
+                                    vr6.e$default(vr6Var, "BareLoggerExportHelper", str, null, 4, null);
                                     exc = fw5Var.c;
                                     if (exc != null) {
-                                        vr6.e$default(vr6Var, "SwiftLoggerExportHelper", "Packer failed", exc, null, 8, null);
+                                        vr6.e$default(vr6Var, "BareLoggerExportHelper", "Packer failed", exc, null, 8, null);
                                     }
                                     q63Var3.h();
                                     return null;
@@ -371,19 +371,19 @@ public final class dt7 {
                                         if (!q63Var3.j() && q63Var3.A() > r19) {
                                             return q63Var3;
                                         }
-                                        vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", xs1.i(q63Var3, "Created SwiftLogger archive is missing or empty: "), null, 4, null);
+                                        vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", xs1.i(q63Var3, "Created BareLogger archive is missing or empty: "), null, 4, null);
                                         q63Var3.h();
                                         return null;
                                     }
                                     vr6Var = vr6.INSTANCE;
                                     str = fw5Var.b;
                                     if (str == null) {
-                                        str = "Failed to create SwiftLogger archive";
+                                        str = "Failed to create BareLogger archive";
                                     }
-                                    vr6.e$default(vr6Var, "SwiftLoggerExportHelper", str, null, 4, null);
+                                    vr6.e$default(vr6Var, "BareLoggerExportHelper", str, null, 4, null);
                                     exc = fw5Var.c;
                                     if (exc != null) {
-                                        vr6.e$default(vr6Var, "SwiftLoggerExportHelper", "Packer failed", exc, null, 8, null);
+                                        vr6.e$default(vr6Var, "BareLoggerExportHelper", "Packer failed", exc, null, 8, null);
                                     }
                                     q63Var3.h();
                                     return null;
@@ -433,31 +433,31 @@ public final class dt7 {
                 if (fw5Var.a) {
                     if (!q63Var3.j()) {
                     }
-                    vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", xs1.i(q63Var3, "Created SwiftLogger archive is missing or empty: "), null, 4, null);
+                    vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", xs1.i(q63Var3, "Created BareLogger archive is missing or empty: "), null, 4, null);
                     q63Var3.h();
                     return null;
                 }
                 vr6Var = vr6.INSTANCE;
                 str = fw5Var.b;
                 if (str == null) {
-                    str = "Failed to create SwiftLogger archive";
+                    str = "Failed to create BareLogger archive";
                 }
-                vr6.e$default(vr6Var, "SwiftLoggerExportHelper", str, null, 4, null);
+                vr6.e$default(vr6Var, "BareLoggerExportHelper", str, null, 4, null);
                 exc = fw5Var.c;
                 if (exc != null) {
-                    vr6.e$default(vr6Var, "SwiftLoggerExportHelper", "Packer failed", exc, null, 8, null);
+                    vr6.e$default(vr6Var, "BareLoggerExportHelper", "Packer failed", exc, null, 8, null);
                 }
                 q63Var3.h();
                 return null;
             }
         }
-        vr6.e$default(vr6.INSTANCE, "SwiftLoggerExportHelper", xs1.i(q63Var, "SwiftLogger log file missing or empty: "), null, 4, null);
+        vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", xs1.i(q63Var, "BareLogger log file missing or empty: "), null, 4, null);
         q63Var.h();
         return null;
     }
 
     public static String b(String str, List list) {
-        int iG = g("\n[SwiftLogger end]") + g(c(str));
+        int iG = g("\n[BareLogger end]") + g(c(str));
         if (iG > 131072) {
             return e(str, list);
         }
@@ -476,21 +476,21 @@ public final class dt7 {
     }
 
     public static String c(String str) {
-        return eq3.k("[DeviceInfo start]\n", str, "\n[DeviceInfo end]\n\n[SwiftLogger start]\n");
+        return eq3.k("[DeviceInfo start]\n", str, "\n[DeviceInfo end]\n\n[BareLogger start]\n");
     }
 
     public static String d(String str, List list) {
         StringBuilder sb = new StringBuilder();
         sb.append(c(str));
-        return dj7.n(sb, el1.Y0(list, "\n", null, null, new zi1(8), 30), "\n[SwiftLogger end]");
+        return dj7.n(sb, el1.Y0(list, "\n", null, null, new zi1(8), 30), "\n[BareLogger end]");
     }
 
     public static String e(String str, List list) {
-        String strConcat = c(str).concat("[SwiftLogger truncated: older entries omitted]\n");
+        String strConcat = c(str).concat("[BareLogger truncated: older entries omitted]\n");
         int iG = g("\n");
-        int iG2 = g("\n[SwiftLogger end]") + g(strConcat);
+        int iG2 = g("\n[BareLogger end]") + g(strConcat);
         if (iG2 >= 131072) {
-            return f(strConcat.concat("\n[SwiftLogger end]"));
+            return f(strConcat.concat("\n[BareLogger end]"));
         }
         ArrayList arrayList = new ArrayList();
         Iterator it = new rn6(list).iterator();
@@ -505,7 +505,7 @@ public final class dt7 {
             int i3 = arrayList.isEmpty() ? 0 : iG;
             int iG3 = g(string$default);
             if (iG2 + i2 + i3 + iG3 > 131072) {
-                int iG4 = (((131072 - iG2) - i2) - i3) - g("[SwiftLogger log line truncated]\n");
+                int iG4 = (((131072 - iG2) - i2) - i3) - g("[BareLogger log line truncated]\n");
                 if (iG4 <= 0) {
                     break;
                 }
@@ -527,7 +527,7 @@ public final class dt7 {
                     }
                     string$default = string$default.substring(length2);
                 }
-                arrayList.add("[SwiftLogger log line truncated]\n".concat(string$default));
+                arrayList.add("[BareLogger log line truncated]\n".concat(string$default));
                 break;
             }
             arrayList.add(string$default);
@@ -537,7 +537,7 @@ public final class dt7 {
         if (!arrayList.isEmpty()) {
             sbS.append(el1.Y0(new pn6(arrayList), "\n", null, null, null, 62));
         }
-        sbS.append("\n[SwiftLogger end]");
+        sbS.append("\n[BareLogger end]");
         return f(sbS.toString());
     }
 

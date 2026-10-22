@@ -1,7 +1,7 @@
 package defpackage;
 
-import com.swiftapps.sba.SbaSwiftTarNative;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.SbaBareTarNative;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,10 +43,10 @@ public final /* synthetic */ class bw implements rt3 {
                     FileInputStream fileInputStream = new FileInputStream(str);
                     try {
                         fileInputStream.getChannel().position(jLongValue3);
-                        SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+                        SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
                         FileDescriptor fd = fileInputStream.getFD();
                         fd.getClass();
-                        sbaTarEntryInfoArrE = SbaSwiftTarNative.d(fd, jLongValue4);
+                        sbaTarEntryInfoArrE = SbaBareTarNative.d(fd, jLongValue4);
                         fileInputStream.close();
                     } catch (Throwable th) {
                         try {
@@ -64,10 +64,10 @@ public final /* synthetic */ class bw implements rt3 {
                     FileInputStream fileInputStream2 = new FileInputStream(str);
                     try {
                         fileInputStream2.getChannel().position(jLongValue3);
-                        SbaSwiftTarNative sbaSwiftTarNative2 = SbaSwiftTarNative.a;
+                        SbaBareTarNative sbaBareTarNative2 = SbaBareTarNative.a;
                         FileDescriptor fd2 = fileInputStream2.getFD();
                         fd2.getClass();
-                        sbaTarEntryInfoArrE = SbaSwiftTarNative.e(fd2, jLongValue4, oz6Var.f);
+                        sbaTarEntryInfoArrE = SbaBareTarNative.e(fd2, jLongValue4, oz6Var.f);
                         fileInputStream2.close();
                     } catch (Throwable th3) {
                         try {

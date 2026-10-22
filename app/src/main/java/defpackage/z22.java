@@ -8,7 +8,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.material.button.MaterialButton;
 import java.util.concurrent.Callable;
 import org.json.JSONException;
-import org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity;
+import com.bareapps.barebackup.folders.ui.FolderPickerActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

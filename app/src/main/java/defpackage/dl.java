@@ -6,9 +6,9 @@ import com.jcraft.jsch.Argon2;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -59,10 +59,10 @@ public final /* synthetic */ class dl implements bt3 {
                 gv7 gv7Var = sl1.e;
                 return new sl1(rl1.a(R.array.blue_mtrl_palette));
             case 7:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return new q63(SwiftApp.Companion.c().getFilesDir(), "configs/cached_data", 2);
+                BareApp.Companion companion = BareApp.d;
+                return new q63(BareApp.Companion.c().getFilesDir(), "configs/cached_data", 2);
             case 8:
-                byte[] bytes = "SwiftBackup_Root_Entity".getBytes(gx2.b);
+                byte[] bytes = "BareBackup_Root_Entity".getBytes(gx2.b);
                 gx2 gx2Var = new gx2();
                 gx2Var.a = bytes;
                 return gx2Var;
@@ -80,8 +80,8 @@ public final /* synthetic */ class dl implements bt3 {
                 string.getClass();
                 return string;
             case 13:
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                return new q63(SwiftApp.Companion.c().getCacheDir(), "folders_latest_cloud_manifests", 2);
+                BareApp.Companion companion2 = BareApp.d;
+                return new q63(BareApp.Companion.c().getCacheDir(), "folders_latest_cloud_manifests", 2);
             case 14:
                 gv7 gv7Var2 = w14.a;
                 t14 t14Var = new t14(w14.c());

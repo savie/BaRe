@@ -3,13 +3,13 @@ package defpackage;
 import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.contributor.ContributorRegistration;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.contributor.ContributorRegistration;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -48,8 +48,8 @@ public final /* synthetic */ class sl implements mt3 {
                 b bVar = (b) obj;
                 bVar.getClass();
                 a.EnumC0013a enumC0013a = a.EnumC0013a.DELETING;
-                SwiftApp.Companion companion = SwiftApp.d;
-                return b.a(bVar, enumC0013a, null, null, SwiftApp.Companion.c().getString(R.string.cloud_orphan_revalidating), 0, 0, 7039);
+                BareApp.Companion companion = BareApp.d;
+                return b.a(bVar, enumC0013a, null, null, BareApp.Companion.c().getString(R.string.cloud_orphan_revalidating), 0, 0, 7039);
             case 6:
                 return ConfigSettings.toDisplayString$lambda$0$1((q05) obj);
             case 7:

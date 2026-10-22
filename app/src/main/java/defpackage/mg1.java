@@ -2,12 +2,12 @@ package defpackage;
 
 import android.content.Context;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -199,8 +199,8 @@ public final class mg1 extends ws7 implements qt3 {
                         ((Executor) value).execute(new j70(lxVar, i2));
                         return be8Var;
                     }
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     zn4 zn4Var3 = zn4.a;
                     zn4.e(new l30(15, contextC, "File read/write check failed! Please restart the app."));
                     yn7Var.h(null);

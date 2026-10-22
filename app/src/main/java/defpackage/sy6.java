@@ -1,6 +1,6 @@
 package defpackage;
 
-import com.swiftapps.sba.SbaNativeCrypto;
+import com.bareapps.sba.SbaNativeCrypto;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;

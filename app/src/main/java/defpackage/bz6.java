@@ -4,7 +4,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -16,8 +16,8 @@ public final /* synthetic */ class bz6 extends cu3 implements qt3 {
         th.getClass();
         map.getClass();
         ((n02) this.receiver).getClass();
-        SwiftApp.Companion companion = SwiftApp.d;
-        List<FirebaseApp> apps = FirebaseApp.getApps(SwiftApp.Companion.c());
+        BareApp.Companion companion = BareApp.d;
+        List<FirebaseApp> apps = FirebaseApp.getApps(BareApp.Companion.c());
         apps.getClass();
         if (!apps.isEmpty()) {
             mp1 mp1Var = new mp1();

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.tasks.TaskManager$ErrorSummary;
-import org.swiftapps.swiftbackup.tasks.TaskService;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.tasks.TaskManager$ErrorSummary;
+import com.bareapps.barebackup.tasks.TaskService;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -48,8 +48,8 @@ public final class hy7 {
         gz7Var2.getClass();
         boolean z2 = z || gz7Var2.isRunning() || gz7Var2.isCancelling();
         if (z2) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String strG = dj7.g(R.string.tasks_already_running_message);
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, strG);
@@ -76,7 +76,7 @@ public final class hy7 {
         copyOnWriteArrayList.clear();
         copyOnWriteArrayList.addAll(list);
         if (f()) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
+            BareApp.Companion companion2 = BareApp.d;
             strA = dj7.g(R.string.scheduled_backups);
         } else {
             f = false;
@@ -163,15 +163,15 @@ public final class hy7 {
             }
         }
         if (sg1Var.equals(tg1.n)) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String strG = dj7.g(R.string.cloud_maintenance_running_message);
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, strG);
             z = false;
         } else if (sg1Var.equals(ug1.n)) {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            Context contextC2 = SwiftApp.Companion.c();
+            BareApp.Companion companion2 = BareApp.d;
+            Context contextC2 = BareApp.Companion.c();
             String strG2 = dj7.g(R.string.tasks_already_running_message);
             zn4 zn4Var2 = zn4.a;
             dj7.y(contextC2, strG2);
@@ -230,8 +230,8 @@ public final class hy7 {
                 pw6Var.b();
                 gj5Var.i(gz7.COMPLETE);
                 ex6 ex6Var = pw6Var.i;
-                SwiftApp.Companion companion = SwiftApp.d;
-                ex6Var.i(SwiftApp.Companion.c().getString(R.string.done));
+                BareApp.Companion companion = BareApp.d;
+                ex6Var.i(BareApp.Companion.c().getString(R.string.done));
                 pw6Var.n(pw6Var.d());
                 gz7 gz7Var = TaskService.b;
                 if (TaskService.b.isCancelled()) {

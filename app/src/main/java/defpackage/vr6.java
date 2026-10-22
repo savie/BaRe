@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -162,8 +162,8 @@ public final class vr6 {
         }
         str.getClass();
         str2.getClass();
-        SwiftApp.Companion companion = SwiftApp.d;
-        List<FirebaseApp> apps = FirebaseApp.getApps(SwiftApp.Companion.c());
+        BareApp.Companion companion = BareApp.d;
+        List<FirebaseApp> apps = FirebaseApp.getApps(BareApp.Companion.c());
         apps.getClass();
         if (!apps.isEmpty()) {
             FirebaseCrashlytics.getInstance().log(str + ": " + str2);
@@ -259,8 +259,8 @@ public final class vr6 {
             }
             return vr6Var.getDao().loadLatestMessages(10000);
         } catch (SQLiteBlobTooBigException e) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             String strB = io4.b(e);
             zn4 zn4Var = zn4.a;
             zn4.e(new cv(14, contextC, strB));

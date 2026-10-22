@@ -27,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** Dashboard fragment mapped to SwiftBackup defpackage.x92. */
+/** Dashboard fragment mapped to BareBackup defpackage.x92. */
 class DashboardFragment : Fragment() {
 
     override fun onCreateView(

@@ -2,8 +2,8 @@ package defpackage;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

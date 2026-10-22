@@ -2,14 +2,14 @@ package defpackage;
 
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import java.io.IOException;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -54,8 +54,8 @@ public final /* synthetic */ class ou implements mt3 {
                 b bVar = (b) obj;
                 bVar.getClass();
                 a.EnumC0013a enumC0013a = a.EnumC0013a.SCANNING;
-                SwiftApp.Companion companion = SwiftApp.d;
-                return b.a(bVar, enumC0013a, ov2.a, sv2.a, SwiftApp.Companion.c().getString(R.string.cloud_orphan_scanning), 0, 0, 127);
+                BareApp.Companion companion = BareApp.d;
+                return b.a(bVar, enumC0013a, ov2.a, sv2.a, BareApp.Companion.c().getString(R.string.cloud_orphan_scanning), 0, 0, 127);
             case 5:
                 return ConfigSettings.toDisplayString$lambda$0$0((iu) obj);
             case 6:

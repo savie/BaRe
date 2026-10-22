@@ -14,16 +14,16 @@ import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.Modu
 import java.io.InputStream;
 import java.util.ArrayList;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.a;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
-import org.swiftapps.swiftbackup.notice.NoticeListActivity;
-import org.swiftapps.swiftbackup.settings.SettingsDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.a;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.notice.NoticeItem;
+import com.bareapps.barebackup.notice.NoticeListActivity;
+import com.bareapps.barebackup.settings.SettingsDetailActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

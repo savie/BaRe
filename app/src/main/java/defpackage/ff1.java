@@ -1,10 +1,10 @@
 package defpackage;
 
 import androidx.preference.CheckBoxPreference;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.list.AppListActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.settings.SettingsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -111,10 +111,10 @@ public final class ff1 extends ws7 implements qt3 {
                     return null;
                 }
                 lg7.H(obj);
-                final boolean zB = hp0.b("org.swiftapps.swiftbackup");
+                final boolean zB = hp0.b("com.bareapps.barebackup");
                 mp6 mp6Var = mp6.a;
                 if (mp6.f()) {
-                    hp0.a("org.swiftapps.swiftbackup", !(((CheckBoxPreference) pa7Var.y.getValue()).f0 && !zB));
+                    hp0.a("com.bareapps.barebackup", !(((CheckBoxPreference) pa7Var.y.getValue()).f0 && !zB));
                     zn4.c(new n55(pa7Var, 8));
                     return be8Var;
                 }

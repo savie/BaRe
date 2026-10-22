@@ -12,10 +12,10 @@ import com.nimbusds.jose.shaded.gson.internal.ObjectConstructor;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -122,7 +122,7 @@ public final /* synthetic */ class rn1 implements mo1, ObjectConstructor, OnSucc
     public boolean onMenuItemClick(MenuItem menuItem) {
         MegaSignInActivity megaSignInActivity = (MegaSignInActivity) this.b;
         int i = MegaSignInActivity.S;
-        if (menuItem.getItemId() != R.id.action_swiftlogger) {
+        if (menuItem.getItemId() != R.id.action_barelogger) {
             return true;
         }
         ai8.q(megaSignInActivity, SLogActivity.class);

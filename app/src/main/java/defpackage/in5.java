@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -45,8 +45,8 @@ public final class in5 extends qo0 {
                 return;
             }
             vr6.d$default(vr6Var, "NoGmsClient", "handleSignInResult Handled Authorization Response", null, 4, null);
-            SwiftApp.Companion companion = SwiftApp.d;
-            new k90(SwiftApp.Companion.c()).c(g90VarJ.I(), q34.d, new j90() { // from class: bn5
+            BareApp.Companion companion = BareApp.d;
+            new k90(BareApp.Companion.c()).c(g90VarJ.I(), q34.d, new j90() { // from class: bn5
                 @Override // defpackage.j90
                 public final void p(n58 n58Var, z80 z80Var) {
                     u10 u10Var2 = u10Var;
@@ -99,7 +99,7 @@ public final class in5 extends qo0 {
         } else {
             mapSingletonMap = pv2.a;
         }
-        c90 c90VarA = new uj("https://accounts.google.com/o/oauth2/v2/auth", "https://oauth2.googleapis.com/token", str2, "org.swiftapps.swiftbackup:/oauth", null, mapSingletonMap, listI, 144).a();
+        c90 c90VarA = new uj("https://accounts.google.com/o/oauth2/v2/auth", "https://oauth2.googleapis.com/token", str2, "com.bareapps.barebackup:/oauth", null, mapSingletonMap, listI, 144).a();
         d45.b.getClass();
         Intent intentB = null;
         if (d45.a() != null) {
@@ -126,14 +126,14 @@ public final class in5 extends qo0 {
         }
         e90 e90VarA = c90VarA.a();
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            intentB = uj.b(SwiftApp.Companion.c(), e90VarA);
+            BareApp.Companion companion = BareApp.d;
+            intentB = uj.b(BareApp.Companion.c(), e90VarA);
         } catch (Exception e) {
             Log.e("NoGmsClient", "getSignInIntent", e);
             String strB = io4.b(e);
             vr6.e$default(vr6.INSTANCE, "NoGmsClient", strB, null, 4, null);
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion2 = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, strB);
         }

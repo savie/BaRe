@@ -1,9 +1,9 @@
 package defpackage;
 
 import android.content.SharedPreferences;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -32,8 +32,8 @@ public final class c64 extends qo0 {
         this.f = z54Var;
         ((zc2) gv7Var.getValue()).c(z54Var);
         lz3 lz3Var = lz3.d;
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (lz3Var.c(SwiftApp.Companion.c(), mz3.a) == 0) {
+        BareApp.Companion companion = BareApp.d;
+        if (lz3Var.c(BareApp.Companion.c(), mz3.a) == 0) {
             wq0.b.f(a64Var);
         } else {
             zn4.c(new lf(this, 23));
@@ -68,8 +68,8 @@ public final class c64 extends qo0 {
     public final synchronized void j(boolean z) {
         V.INSTANCE.setA(z);
         if (o37.b() && z) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ((AlarmReceiver) SwiftApp.Companion.a().c.getValue()).c();
+            BareApp.Companion companion = BareApp.d;
+            ((AlarmReceiver) BareApp.Companion.a().c.getValue()).c();
         } else {
             SharedPreferences.Editor editor = cz4.k;
             if (editor == null) {
@@ -78,11 +78,11 @@ public final class c64 extends qo0 {
             }
             editor.putBoolean("KEY_SCHEDULE_ENABLED", false).apply();
             rs9.s(true);
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            ((AlarmReceiver) SwiftApp.Companion.a().c.getValue()).a();
+            BareApp.Companion companion2 = BareApp.d;
+            ((AlarmReceiver) BareApp.Companion.a().c.getValue()).a();
         }
         rs9.s(z);
-        SwiftApp.Companion companion3 = SwiftApp.d;
-        SwiftApp.Companion.a().a.k(Boolean.valueOf(z));
+        BareApp.Companion companion3 = BareApp.d;
+        BareApp.Companion.a().a.k(Boolean.valueOf(z));
     }
 }

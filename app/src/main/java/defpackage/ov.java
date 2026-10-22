@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import java.util.HashSet;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.appvisibility.AppVisibilityDiagnosticsActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.appvisibility.AppVisibilityDiagnosticsActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -53,8 +53,8 @@ public final /* synthetic */ class ov implements bt3 {
                 boolean z3 = g42.a;
                 return g42.a("AQLle24KFGZ1ShJx1uj2j0W6jKecVwq+cGvF82W7OK4UybhfRg6Dm2zQiaF8jTx0/rhSnLBxEGea6B7eSGxMCR9tyHQVENajXPJxbIckgxj/F3IgbM7LebA=");
             case 8:
-                SwiftApp.Companion companion = SwiftApp.d;
-                Drawable drawable = SwiftApp.Companion.c().getDrawable(R.drawable.wall_thumb_placeholder);
+                BareApp.Companion companion = BareApp.d;
+                Drawable drawable = BareApp.Companion.c().getDrawable(R.drawable.wall_thumb_placeholder);
                 drawable.getClass();
                 return drawable;
             case XmlPullParser.COMMENT /* 9 */:
@@ -62,8 +62,8 @@ public final /* synthetic */ class ov implements bt3 {
                 colorMatrix.setSaturation(1.0f);
                 return new ColorMatrixColorFilter(colorMatrix);
             case 10:
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                return new q63(SwiftApp.Companion.c().getFilesDir(), "app_labels/cached_data", 2);
+                BareApp.Companion companion2 = BareApp.d;
+                return new q63(BareApp.Companion.c().getFilesDir(), "app_labels/cached_data", 2);
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
                 return MultipleBackupStrategy.defaultDatedBackupsStrategy_delegate$lambda$0();
             case 12:

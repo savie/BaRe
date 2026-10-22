@@ -3,8 +3,8 @@ package defpackage;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.swiftapps.swiftbackup.views.MCheckBox;
-import org.swiftapps.swiftbackup.views.SwiftListItemCardView;
+import com.bareapps.barebackup.views.MCheckBox;
+import com.bareapps.barebackup.views.BareListItemCardView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -14,7 +14,7 @@ public final class l01 extends kx4 {
     public final MCheckBox C;
     public final /* synthetic */ m01 D;
     public final mi7 v;
-    public final SwiftListItemCardView w;
+    public final BareListItemCardView w;
     public final ImageView x;
     public final ImageView y;
     public final TextView z;

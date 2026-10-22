@@ -7,7 +7,7 @@ public enum uh8 {
     CloudflareDns("1.1.1.1", 53),
     Facebook("facebook.com", 80),
     Baidu("baidu.com", 80),
-    SwiftApps("swiftapps.org", 80);
+    BareApps("bareapps.org", 80);
 
     private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
     private final String host;

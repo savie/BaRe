@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -31,8 +31,8 @@ public class qo0 extends a55 {
 
     public final void h(int i) {
         ex6 ex6Var = (ex6) this.c.getValue();
-        SwiftApp.Companion companion = SwiftApp.d;
-        ex6Var.k(SwiftApp.Companion.c().getString(i));
+        BareApp.Companion companion = BareApp.d;
+        ex6Var.k(BareApp.Companion.c().getString(i));
     }
 
     public final void i(String str) {

@@ -334,14 +334,14 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
                         if ((i == 0 || i == 108) && this.I != null) {
                             TypedValue typedValue = new TypedValue();
                             Resources.Theme theme = context.getTheme();
-                            theme.resolveAttribute(org.swiftapps.swiftbackup.R.attr.actionBarTheme, typedValue, true);
+                            theme.resolveAttribute(com.bareapps.barebackup.R.attr.actionBarTheme, typedValue, true);
                             if (typedValue.resourceId != 0) {
                                 themeNewTheme = context.getResources().newTheme();
                                 themeNewTheme.setTo(theme);
                                 themeNewTheme.applyStyle(typedValue.resourceId, true);
-                                themeNewTheme.resolveAttribute(org.swiftapps.swiftbackup.R.attr.actionBarWidgetTheme, typedValue, true);
+                                themeNewTheme.resolveAttribute(com.bareapps.barebackup.R.attr.actionBarWidgetTheme, typedValue, true);
                             } else {
-                                theme.resolveAttribute(org.swiftapps.swiftbackup.R.attr.actionBarWidgetTheme, typedValue, true);
+                                theme.resolveAttribute(com.bareapps.barebackup.R.attr.actionBarWidgetTheme, typedValue, true);
                                 themeNewTheme = null;
                             }
                             if (typedValue.resourceId != 0) {
@@ -973,7 +973,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
                 toVar = bqVar.e(hv1Var, attributeSet);
                 break;
             case 4:
-                toVar = new no(hv1Var, attributeSet, org.swiftapps.swiftbackup.R.attr.imageButtonStyle);
+                toVar = new no(hv1Var, attributeSet, com.bareapps.barebackup.R.attr.imageButtonStyle);
                 break;
             case 5:
                 toVar = new vo(hv1Var, attributeSet);
@@ -997,7 +997,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
                 toVar = bqVar.c(hv1Var, attributeSet);
                 break;
             case 12:
-                toVar = new lo(hv1Var, attributeSet, org.swiftapps.swiftbackup.R.attr.editTextStyle);
+                toVar = new lo(hv1Var, attributeSet, com.bareapps.barebackup.R.attr.editTextStyle);
                 break;
             case 13:
                 toVar = bqVar.b(hv1Var, attributeSet);
@@ -1063,7 +1063,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
                 if (typedArrayObtainStyledAttributes4.hasValue(0)) {
                     boolean z = typedArrayObtainStyledAttributes4.getBoolean(0, false);
                     WeakHashMap weakHashMap = dl8.a;
-                    new qk8(org.swiftapps.swiftbackup.R.id.tag_accessibility_heading, Boolean.class, 0, 28).g(toVar, Boolean.valueOf(z));
+                    new qk8(com.bareapps.barebackup.R.id.tag_accessibility_heading, Boolean.class, 0, 28).g(toVar, Boolean.valueOf(z));
                 }
                 typedArrayObtainStyledAttributes4.recycle();
                 TypedArray typedArrayObtainStyledAttributes5 = hv1Var.obtainStyledAttributes(attributeSet, bq.e);
@@ -1075,7 +1075,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
                 if (typedArrayObtainStyledAttributes6.hasValue(0)) {
                     boolean z2 = typedArrayObtainStyledAttributes6.getBoolean(0, false);
                     WeakHashMap weakHashMap2 = dl8.a;
-                    new nk8(org.swiftapps.swiftbackup.R.id.tag_screen_reader_focusable, Boolean.class, 0, 28).g(toVar, Boolean.valueOf(z2));
+                    new nk8(com.bareapps.barebackup.R.id.tag_screen_reader_focusable, Boolean.class, 0, 28).g(toVar, Boolean.valueOf(z2));
                 }
                 typedArrayObtainStyledAttributes6.recycle();
             }
@@ -1415,16 +1415,16 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
         this.t.getDecorView();
         LayoutInflater layoutInflaterFrom = LayoutInflater.from(context);
         if (this.a0) {
-            viewGroup = this.Y ? (ViewGroup) layoutInflaterFrom.inflate(org.swiftapps.swiftbackup.R.layout.abc_screen_simple_overlay_action_mode, (ViewGroup) null) : (ViewGroup) layoutInflaterFrom.inflate(org.swiftapps.swiftbackup.R.layout.abc_screen_simple, (ViewGroup) null);
+            viewGroup = this.Y ? (ViewGroup) layoutInflaterFrom.inflate(com.bareapps.barebackup.R.layout.abc_screen_simple_overlay_action_mode, (ViewGroup) null) : (ViewGroup) layoutInflaterFrom.inflate(com.bareapps.barebackup.R.layout.abc_screen_simple, (ViewGroup) null);
         } else if (this.Z) {
-            viewGroup = (ViewGroup) layoutInflaterFrom.inflate(org.swiftapps.swiftbackup.R.layout.abc_dialog_title_material, (ViewGroup) null);
+            viewGroup = (ViewGroup) layoutInflaterFrom.inflate(com.bareapps.barebackup.R.layout.abc_dialog_title_material, (ViewGroup) null);
             this.X = false;
             this.W = false;
         } else if (this.W) {
             TypedValue typedValue = new TypedValue();
-            context.getTheme().resolveAttribute(org.swiftapps.swiftbackup.R.attr.actionBarTheme, typedValue, true);
-            viewGroup = (ViewGroup) LayoutInflater.from(typedValue.resourceId != 0 ? new hv1(context, typedValue.resourceId) : context).inflate(org.swiftapps.swiftbackup.R.layout.abc_screen_toolbar, (ViewGroup) null);
-            ActionBarOverlayLayout actionBarOverlayLayout = (ActionBarOverlayLayout) viewGroup.findViewById(org.swiftapps.swiftbackup.R.id.decor_content_parent);
+            context.getTheme().resolveAttribute(com.bareapps.barebackup.R.attr.actionBarTheme, typedValue, true);
+            viewGroup = (ViewGroup) LayoutInflater.from(typedValue.resourceId != 0 ? new hv1(context, typedValue.resourceId) : context).inflate(com.bareapps.barebackup.R.layout.abc_screen_toolbar, (ViewGroup) null);
+            ActionBarOverlayLayout actionBarOverlayLayout = (ActionBarOverlayLayout) viewGroup.findViewById(com.bareapps.barebackup.R.id.decor_content_parent);
             this.I = actionBarOverlayLayout;
             actionBarOverlayLayout.setWindowCallback(this.t.getCallback());
             if (this.X) {
@@ -1457,7 +1457,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
         WeakHashMap weakHashMap = dl8.a;
         uk8.c(viewGroup, rbVar);
         if (this.I == null) {
-            this.S = (TextView) viewGroup.findViewById(org.swiftapps.swiftbackup.R.id.title);
+            this.S = (TextView) viewGroup.findViewById(com.bareapps.barebackup.R.id.title);
         }
         boolean z = xm8.a;
         try {
@@ -1473,7 +1473,7 @@ public final class fo extends nn implements dc5, LayoutInflater.Factory2 {
         } catch (InvocationTargetException e2) {
             Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e2);
         }
-        ContentFrameLayout contentFrameLayout = (ContentFrameLayout) viewGroup.findViewById(org.swiftapps.swiftbackup.R.id.action_bar_activity_content);
+        ContentFrameLayout contentFrameLayout = (ContentFrameLayout) viewGroup.findViewById(com.bareapps.barebackup.R.id.action_bar_activity_content);
         ViewGroup viewGroup2 = (ViewGroup) this.t.findViewById(R.id.content);
         if (viewGroup2 != null) {
             while (viewGroup2.getChildCount() > 0) {

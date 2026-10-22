@@ -5,7 +5,7 @@ import androidx.credentials.playservices.controllers.identityauth.createpublicke
 import com.google.android.gms.tasks.OnFailureListener;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import org.swiftapps.swiftbackup.tasks.PreconditionsActivity;
+import com.bareapps.barebackup.tasks.PreconditionsActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */

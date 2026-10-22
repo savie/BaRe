@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Set;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

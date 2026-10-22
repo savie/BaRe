@@ -10,16 +10,16 @@ import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.Modu
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.model.StorageInfoLocal;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitItem;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.model.StorageInfoLocal;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitItem;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

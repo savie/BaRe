@@ -1,7 +1,7 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -42,6 +42,6 @@ public final class r7 extends a55 {
         if (!z) {
             q7Var2 = null;
         }
-        this.d.k(el1.Q0(fl1.C0(q7Var, q7Var2, new q7(2, Integer.valueOf(R.string.swiftlogger), null, Integer.valueOf(R.drawable.ic_bug)), new q7(3, Integer.valueOf(R.string.language), null, Integer.valueOf(R.drawable.ic_language)), new q7(7, Integer.valueOf(R.string.help_center), null, Integer.valueOf(R.drawable.ic_help)), new q7(6, Integer.valueOf(R.string.contact), null, Integer.valueOf(R.drawable.ic_contact)), new q7(4, Integer.valueOf(R.string.rate), null, Integer.valueOf(R.drawable.ic_rate)), new q7(8, Integer.valueOf(R.string.share_swiftbackup), null, Integer.valueOf(R.drawable.ic_share)), new q7(5, Integer.valueOf(R.string.about), null, Integer.valueOf(R.drawable.ic_information)))));
+        this.d.k(el1.Q0(fl1.C0(q7Var, q7Var2, new q7(2, Integer.valueOf(R.string.barelogger), null, Integer.valueOf(R.drawable.ic_bug)), new q7(3, Integer.valueOf(R.string.language), null, Integer.valueOf(R.drawable.ic_language)), new q7(7, Integer.valueOf(R.string.help_center), null, Integer.valueOf(R.drawable.ic_help)), new q7(6, Integer.valueOf(R.string.contact), null, Integer.valueOf(R.drawable.ic_contact)), new q7(4, Integer.valueOf(R.string.rate), null, Integer.valueOf(R.drawable.ic_rate)), new q7(8, Integer.valueOf(R.string.share_barebackup), null, Integer.valueOf(R.drawable.ic_share)), new q7(5, Integer.valueOf(R.string.about), null, Integer.valueOf(R.drawable.ic_information)))));
     }
 }

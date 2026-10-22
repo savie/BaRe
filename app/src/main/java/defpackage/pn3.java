@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.folders.data.Changes;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.data.FolderState;
-import org.swiftapps.swiftbackup.folders.data.Manifest;
-import org.swiftapps.swiftbackup.settings.FolderRestoreStrategy;
+import com.bareapps.barebackup.folders.data.Changes;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.data.FolderState;
+import com.bareapps.barebackup.folders.data.Manifest;
+import com.bareapps.barebackup.settings.FolderRestoreStrategy;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

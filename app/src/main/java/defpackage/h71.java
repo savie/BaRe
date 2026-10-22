@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -82,19 +82,19 @@ public final class h71 extends hg6 {
 
     @Override // defpackage.hg6
     public final fh6 j(ViewGroup viewGroup, int i) {
-        View viewInflate = LayoutInflater.from(this.d).inflate(org.swiftapps.swiftbackup.R.layout.circle_item_backups, viewGroup, false);
+        View viewInflate = LayoutInflater.from(this.d).inflate(com.bareapps.barebackup.R.layout.circle_item_backups, viewGroup, false);
         ConstraintLayout constraintLayout = (ConstraintLayout) viewInflate;
-        int i2 = org.swiftapps.swiftbackup.R.id.image_background;
-        ImageView imageView = (ImageView) ms8.u(viewInflate, org.swiftapps.swiftbackup.R.id.image_background);
+        int i2 = com.bareapps.barebackup.R.id.image_background;
+        ImageView imageView = (ImageView) ms8.u(viewInflate, com.bareapps.barebackup.R.id.image_background);
         if (imageView != null) {
-            i2 = org.swiftapps.swiftbackup.R.id.image_icon;
-            ImageView imageView2 = (ImageView) ms8.u(viewInflate, org.swiftapps.swiftbackup.R.id.image_icon);
+            i2 = com.bareapps.barebackup.R.id.image_icon;
+            ImageView imageView2 = (ImageView) ms8.u(viewInflate, com.bareapps.barebackup.R.id.image_icon);
             if (imageView2 != null) {
-                i2 = org.swiftapps.swiftbackup.R.id.tv_subtitle1;
-                TextView textView = (TextView) ms8.u(viewInflate, org.swiftapps.swiftbackup.R.id.tv_subtitle1);
+                i2 = com.bareapps.barebackup.R.id.tv_subtitle1;
+                TextView textView = (TextView) ms8.u(viewInflate, com.bareapps.barebackup.R.id.tv_subtitle1);
                 if (textView != null) {
-                    i2 = org.swiftapps.swiftbackup.R.id.tv_title;
-                    TextView textView2 = (TextView) ms8.u(viewInflate, org.swiftapps.swiftbackup.R.id.tv_title);
+                    i2 = com.bareapps.barebackup.R.id.tv_title;
+                    TextView textView2 = (TextView) ms8.u(viewInflate, com.bareapps.barebackup.R.id.tv_title);
                     if (textView2 != null) {
                         return new g71(this, new e71(constraintLayout, constraintLayout, imageView, imageView2, textView, textView2));
                     }

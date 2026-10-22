@@ -5,13 +5,13 @@ import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.Modu
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.notice.NoticeItem;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -131,7 +131,7 @@ public final /* synthetic */ class nu implements mt3 {
                 return ScheduleItem.Folders.getFolderItems$lambda$1((FolderItem) obj);
             default:
                 ah8 ah8Var = (ah8) obj;
-                SwiftApp.Companion companion = SwiftApp.d;
+                BareApp.Companion companion = BareApp.d;
                 ah8Var.getClass();
                 ah8.a.updateInDatabase$default(ah8.Companion, ah8Var, null, 2, null);
                 return be8Var;

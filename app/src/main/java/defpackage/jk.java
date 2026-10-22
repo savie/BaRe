@@ -1,8 +1,8 @@
 package defpackage;
 
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -33,8 +33,8 @@ public final class jk {
             }
             vr6.i$default(vr6.INSTANCE, "AppBackupDeleteHelper", "Processing ".concat(str), null, 4, null);
             ex6 ex6Var = c40Var.i;
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.i(SwiftApp.Companion.c().getString(R.string.delete_backup_files));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.i(BareApp.Companion.c().getString(R.string.delete_backup_files));
             String packageName = jiVar.getPackageName();
             cz7 cz7Var = c40Var.a;
             cz7Var.getClass();

@@ -9,11 +9,11 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import java.util.Arrays;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.model.StorageInfoLocal;
-import org.swiftapps.swiftbackup.notice.NoticeViewActivity;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.model.StorageInfoLocal;
+import com.bareapps.barebackup.notice.NoticeViewActivity;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -32,7 +32,7 @@ public final /* synthetic */ class w92 implements es5, zt3 {
         Object obj = this.b;
         switch (i) {
             case 0:
-                return new cu3(1, (x92) obj, x92.class, "onLocalStorageInfoUI", "onLocalStorageInfoUI(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;)V", 0);
+                return new cu3(1, (x92) obj, x92.class, "onLocalStorageInfoUI", "onLocalStorageInfoUI(Lorg/bareapps/barebackup/model/StorageInfoLocal;)V", 0);
             case 1:
                 return (d05) obj;
             default:
@@ -62,7 +62,7 @@ public final /* synthetic */ class w92 implements es5, zt3 {
                 int trackColor = linearProgressIndicator.getTrackColor();
                 jk8 jk8Var2 = x92Var.b;
                 jk8Var2.getClass();
-                ((SwiftSegmentedCardGroup) ((y92) jk8Var2).f.a).b((ConstraintLayout) ca2Var.a, new mf(x92Var, 5));
+                ((BareSegmentedCardGroup) ((y92) jk8Var2).f.a).b((ConstraintLayout) ca2Var.a, new mf(x92Var, 5));
                 String str = (String) zn7VarD.f.getValue();
                 str.getClass();
                 ImageView imageView = (ImageView) ca2Var.b;

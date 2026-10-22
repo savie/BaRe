@@ -2,10 +2,10 @@ package defpackage;
 
 import android.content.SharedPreferences;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -16,8 +16,8 @@ public final class q47 extends qo0 {
 
     /* JADX WARN: Multi-variable type inference failed */
     public q47() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        this.e = (AlarmReceiver) SwiftApp.Companion.a().c.getValue();
+        BareApp.Companion companion = BareApp.d;
+        this.e = (AlarmReceiver) BareApp.Companion.a().c.getValue();
         ex6 ex6Var = new ex6();
         this.f = ex6Var;
         ex6Var.k(k47.a);

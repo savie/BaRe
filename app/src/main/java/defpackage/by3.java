@@ -5,8 +5,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import java.io.InputStream;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -124,8 +124,8 @@ public final class by3 implements ql6 {
                         }
                         if (inputStreamC != null) {
                             try {
-                                SwiftApp.Companion companion = SwiftApp.d;
-                                bitmapDrawable = new BitmapDrawable(SwiftApp.Companion.c().getResources(), inputStreamC);
+                                BareApp.Companion companion = BareApp.d;
+                                bitmapDrawable = new BitmapDrawable(BareApp.Companion.c().getResources(), inputStreamC);
                             } catch (Exception e2) {
                                 exc = e2;
                                 vr6.e$default(vr6.INSTANCE, "GlideCloudWallDecoder", "decode", exc, null, 8, null);

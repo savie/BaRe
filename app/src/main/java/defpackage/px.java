@@ -20,23 +20,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigsData;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleLastRunDetails;
-import org.swiftapps.swiftbackup.home.schedule.data.o;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.notice.NoticeItem;
-import org.swiftapps.swiftbackup.settings.a;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigsData;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.ScheduleLastRunDetails;
+import com.bareapps.barebackup.home.schedule.data.o;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.notice.NoticeItem;
+import com.bareapps.barebackup.settings.a;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -103,9 +103,9 @@ public final /* synthetic */ class px implements mt3 {
             case 2:
                 b bVar = (b) obj;
                 bVar.getClass();
-                ((org.swiftapps.swiftbackup.cloud.orphans.a) obj2).getClass();
-                SwiftApp.Companion companion = SwiftApp.d;
-                return b.a(bVar, null, null, sv2.a, SwiftApp.Companion.c().getString(R.string.cloud_orphan_provider_changed), 0, 0, 6655);
+                ((com.bareapps.barebackup.cloud.orphans.a) obj2).getClass();
+                BareApp.Companion companion = BareApp.d;
+                return b.a(bVar, null, null, sv2.a, BareApp.Companion.c().getString(R.string.cloud_orphan_provider_changed), 0, 0, 6655);
             case 3:
                 sj1 sj1Var = (sj1) obj2;
                 int iIntValue = ((Integer) obj).intValue();
@@ -118,7 +118,7 @@ public final /* synthetic */ class px implements mt3 {
                 sj1Var.u();
                 return be8Var;
             case 4:
-                org.swiftapps.swiftbackup.appconfigs.list.a aVar2 = (org.swiftapps.swiftbackup.appconfigs.list.a) obj2;
+                com.bareapps.barebackup.appconfigs.list.a aVar2 = (com.bareapps.barebackup.appconfigs.list.a) obj2;
                 ConfigsData configsData = (ConfigsData) obj;
                 aVar2.l(configsData);
                 aVar2.g.k((configsData == null || !configsData.hasConfigs()) ? ym7.DATA_EMPTY : ym7.DATA_RECEIVED);
@@ -161,12 +161,12 @@ public final /* synthetic */ class px implements mt3 {
                     Log.w(gz3Var.b, "signInWithCredential:failure", exception);
                     ix6 ix6Var = gz3Var.i;
                     if (exception == null || (strG = exception.getMessage()) == null) {
-                        SwiftApp.Companion companion2 = SwiftApp.d;
+                        BareApp.Companion companion2 = BareApp.d;
                         strG = dj7.g(R.string.auth_failed);
                     }
                     ix6Var.k(strG);
-                    SwiftApp.Companion companion3 = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion3 = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     String string = contextC.getString(R.string.auth_failed);
                     string.getClass();
                     zn4 zn4Var = zn4.a;
@@ -282,7 +282,7 @@ public final /* synthetic */ class px implements mt3 {
                             } else {
                                 arrayList2 = arrayList;
                             }
-                            ee5 ee5Var = new ee5(new jp3(2, messagesDashActivity, MessagesDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/model/provider/MessagesBackupItem;)V", 0, 1));
+                            ee5 ee5Var = new ee5(new jp3(2, messagesDashActivity, MessagesDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/model/provider/MessagesBackupItem;)V", 0, 1));
                             ee5Var.w(new fm7((List) arrayList2, (Set) null, false, (String) null, 30), false);
                             ee5Var.j = new g30(messagesDashActivity, 2);
                             quickRecyclerView.setAdapter(ee5Var);
@@ -314,7 +314,7 @@ public final /* synthetic */ class px implements mt3 {
                         } else {
                             arrayList2 = arrayList;
                         }
-                        ee5 ee5Var2 = new ee5(new jp3(2, messagesDashActivity, MessagesDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/model/provider/MessagesBackupItem;)V", 0, 1));
+                        ee5 ee5Var2 = new ee5(new jp3(2, messagesDashActivity, MessagesDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/model/provider/MessagesBackupItem;)V", 0, 1));
                         ee5Var2.w(new fm7((List) arrayList2, (Set) null, false, (String) null, 30), false);
                         ee5Var2.j = new g30(messagesDashActivity, 2);
                         quickRecyclerView.setAdapter(ee5Var2);
@@ -343,8 +343,8 @@ public final /* synthetic */ class px implements mt3 {
                 } else {
                     Exception exception2 = task2.getException();
                     vr6.e$default(vr6.INSTANCE, "NoGmsClient", xs1.j("firebaseAuthWithGoogle:failure. Exception=", exception2 != null ? yc9.g0(exception2) : null), null, 4, null);
-                    SwiftApp.Companion companion4 = SwiftApp.d;
-                    Context contextC2 = SwiftApp.Companion.c();
+                    BareApp.Companion companion4 = BareApp.d;
+                    Context contextC2 = BareApp.Companion.c();
                     String string2 = contextC2.getString(R.string.auth_failed);
                     string2.getClass();
                     zn4 zn4Var3 = zn4.a;

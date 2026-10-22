@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.home.schedule.data.b;
-import org.swiftapps.swiftbackup.views.PreCachingLinearLayoutManager;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.home.schedule.data.b;
+import com.bareapps.barebackup.views.PreCachingLinearLayoutManager;
+import com.bareapps.barebackup.views.QuickRecyclerView;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

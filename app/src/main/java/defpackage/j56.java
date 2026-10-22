@@ -11,7 +11,7 @@ public final class j56 implements jl0 {
     public final mt3 f;
 
     public /* synthetic */ j56(int i, String str, String str2, String str3, w20 w20Var, int i2) {
-        this(i, str, str2, (i2 & 8) != 0 ? null : str3, (i2 & 16) != 0 ? null : "https://www.swiftapps.org/configs", (i2 & 32) != 0 ? null : w20Var);
+        this(i, str, str2, (i2 & 8) != 0 ? null : str3, (i2 & 16) != 0 ? null : "https://www.bareapps.org/configs", (i2 & 32) != 0 ? null : w20Var);
     }
 
     public final boolean equals(Object obj) {

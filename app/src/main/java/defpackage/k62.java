@@ -1,7 +1,7 @@
 package defpackage;
 
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -33,8 +33,8 @@ public final class k62 extends ws7 implements qt3 {
         if (i == 0) {
             lg7.H(obj);
             try {
-                SwiftApp.Companion companion = SwiftApp.d;
-                oz4 oz4Var = new oz4(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                oz4 oz4Var = new oz4(BareApp.Companion.c());
                 dd1 dd1Var = m62Var.f;
                 if (dd1Var == null) {
                     pe4.F("cloudType");

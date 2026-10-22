@@ -2,9 +2,9 @@ package defpackage;
 
 import android.content.Context;
 import android.os.Build;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -73,8 +73,8 @@ public final /* synthetic */ class ut8 implements bt3 {
             }
         }
         if (numValueOf == null) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            contextC = BareApp.Companion.c();
             string = contextC.getString(R.string.done);
             string.getClass();
             zn4 zn4Var = zn4.a;
@@ -84,14 +84,14 @@ public final /* synthetic */ class ut8 implements bt3 {
                 return be8Var;
             }
             if (numValueOf.intValue() == R.string.root_access_needed) {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion2 = BareApp.d;
+                contextC = BareApp.Companion.c();
                 string = contextC.getString(R.string.root_access_needed);
                 string.getClass();
                 zn4 zn4Var2 = zn4.a;
             } else {
-                SwiftApp.Companion companion3 = SwiftApp.d;
-                contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion3 = BareApp.d;
+                contextC = BareApp.Companion.c();
                 string = contextC.getString(numValueOf.intValue());
                 string.getClass();
                 zn4 zn4Var3 = zn4.a;

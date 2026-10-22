@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -76,7 +76,7 @@ public final /* synthetic */ class mr3 implements Runnable {
                 }
                 return;
             case 4:
-                int i4 = SwiftSegmentedCardGroup.k;
+                int i4 = BareSegmentedCardGroup.k;
                 ((View) obj).setPressed(false);
                 return;
             case 5:

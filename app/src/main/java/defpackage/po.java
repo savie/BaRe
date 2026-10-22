@@ -24,24 +24,24 @@ public final class po extends MultiAutoCompleteTextView {
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public po(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet, org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle);
+        super(context, attributeSet, com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle);
         m48.a(context);
         i28.a(getContext(), this);
-        u94 u94VarE = u94.e(org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle, 0, getContext(), attributeSet, d);
+        u94 u94VarE = u94.e(com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle, 0, getContext(), attributeSet, d);
         if (((TypedArray) u94VarE.b).hasValue(0)) {
             setDropDownBackgroundDrawable(u94VarE.b(0));
         }
         u94VarE.f();
         bn bnVar = new bn(this);
         this.a = bnVar;
-        bnVar.d(attributeSet, org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle);
+        bnVar.d(attributeSet, com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle);
         pp ppVar = new pp(this);
         this.b = ppVar;
-        ppVar.f(attributeSet, org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle);
+        ppVar.f(attributeSet, com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle);
         ppVar.b();
         ib ibVar = new ib((EditText) this);
         this.c = ibVar;
-        ibVar.j(attributeSet, org.swiftapps.swiftbackup.R.attr.autoCompleteTextViewStyle);
+        ibVar.j(attributeSet, com.bareapps.barebackup.R.attr.autoCompleteTextViewStyle);
         KeyListener keyListener = getKeyListener();
         if (keyListener instanceof NumberKeyListener) {
             return;

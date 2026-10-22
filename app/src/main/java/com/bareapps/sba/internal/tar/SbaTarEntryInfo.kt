@@ -3,7 +3,7 @@ package com.bareapps.sba.internal.tar
 import java.util.Arrays
 
 /**
- * Native-facing TAR entry value model ported from SwiftBackup 5.1.0 (620).
+ * Native-facing TAR entry value model ported from BareBackup 5.1.0 (620).
  * Keep the constructor descriptor stable for JNI:
  * (String, int, String, int, long, long, long, boolean, String[]).
  */

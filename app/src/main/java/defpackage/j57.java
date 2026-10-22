@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.home.schedule.data.b;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.views.SwiftSegmentLinearLayout;
-import org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.home.schedule.data.b;
+import com.bareapps.barebackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.views.BareSegmentLinearLayout;
+import com.bareapps.barebackup.views.BareSegmentedCardGroup;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -94,9 +94,9 @@ public final class j57 extends gm7 {
                 i2 = R.id.card_header;
                 if (((ConstraintLayout) ms8.u(view, R.id.card_header)) != null) {
                     i2 = R.id.card_header_segment;
-                    if (((SwiftSegmentLinearLayout) ms8.u(view, R.id.card_header_segment)) != null) {
+                    if (((BareSegmentLinearLayout) ms8.u(view, R.id.card_header_segment)) != null) {
                         i2 = R.id.card_view;
-                        if (((SwiftSegmentedCardGroup) ms8.u(view, R.id.card_view)) != null) {
+                        if (((BareSegmentedCardGroup) ms8.u(view, R.id.card_view)) != null) {
                             i2 = R.id.container_schedule_id;
                             if (((LinearLayout) ms8.u(view, R.id.container_schedule_id)) != null) {
                                 i2 = R.id.iv_down;

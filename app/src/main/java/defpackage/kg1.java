@@ -4,10 +4,10 @@ import android.content.Context;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.home.cloud.CloudBackupTag;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.home.cloud.CloudBackupTag;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -86,8 +86,8 @@ public final class kg1 extends ws7 implements qt3 {
             qo0Var.h(R.string.creating_cloud_backup_tag);
             af3VarC = cf3.c(re3.f().d(str), new CloudBackupTag(null, null, null, Boolean.TRUE, null, 23, null));
             if (af3VarC instanceof ze3) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 String string = contextC.getString(R.string.successful);
                 string.getClass();
                 zn4 zn4Var = zn4.a;
@@ -103,8 +103,8 @@ public final class kg1 extends ws7 implements qt3 {
                 if (ye3Var != null) {
                     vr6.e$default(vr6.INSTANCE, ng1Var.b, xs1.j("Error while creating new active folder: ", ye3Var.b.b), null, 4, null);
                 }
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Context contextC2 = SwiftApp.Companion.c();
+                BareApp.Companion companion2 = BareApp.d;
+                Context contextC2 = BareApp.Companion.c();
                 String string2 = contextC2.getString(R.string.unknown_error_occured);
                 string2.getClass();
                 zn4 zn4Var2 = zn4.a;
@@ -131,8 +131,8 @@ public final class kg1 extends ws7 implements qt3 {
                     String lowerCase2 = str.toLowerCase(locale2);
                     lowerCase2.getClass();
                     if (pe4.d(lowerCase, lowerCase2)) {
-                        SwiftApp.Companion companion3 = SwiftApp.d;
-                        Context contextC3 = SwiftApp.Companion.c();
+                        BareApp.Companion companion3 = BareApp.d;
+                        Context contextC3 = BareApp.Companion.c();
                         String strG = dj7.g(R.string.folder_already_exists);
                         zn4 zn4Var3 = zn4.a;
                         dj7.y(contextC3, strG);
@@ -146,8 +146,8 @@ public final class kg1 extends ws7 implements qt3 {
                     qo0Var.h(R.string.creating_cloud_backup_tag);
                     af3VarC = cf3.c(re3.f().d(str), new CloudBackupTag(null, null, null, Boolean.TRUE, null, 23, null));
                     if (af3VarC instanceof ze3) {
-                        SwiftApp.Companion companion4 = SwiftApp.d;
-                        Context contextC4 = SwiftApp.Companion.c();
+                        BareApp.Companion companion4 = BareApp.d;
+                        Context contextC4 = BareApp.Companion.c();
                         String string3 = contextC4.getString(R.string.successful);
                         string3.getClass();
                         zn4 zn4Var4 = zn4.a;
@@ -163,8 +163,8 @@ public final class kg1 extends ws7 implements qt3 {
                         if (ye3Var != null) {
                             vr6.e$default(vr6.INSTANCE, ng1Var.b, xs1.j("Error while creating new active folder: ", ye3Var.b.b), null, 4, null);
                         }
-                        SwiftApp.Companion companion5 = SwiftApp.d;
-                        Context contextC5 = SwiftApp.Companion.c();
+                        BareApp.Companion companion5 = BareApp.d;
+                        Context contextC5 = BareApp.Companion.c();
                         String string4 = contextC5.getString(R.string.unknown_error_occured);
                         string4.getClass();
                         zn4 zn4Var5 = zn4.a;

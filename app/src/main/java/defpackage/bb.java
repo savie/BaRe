@@ -7,9 +7,9 @@ import com.pcloud.sdk.internal.a;
 import java.util.ArrayList;
 import java.util.List;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.b;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.b;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -65,7 +65,7 @@ public final /* synthetic */ class bb implements h9, OnSuccessListener, du7, hm6
         Object obj2 = this.b;
         switch (i) {
             case 1:
-                org.swiftapps.swiftbackup.settings.a aVar = (org.swiftapps.swiftbackup.settings.a) obj2;
+                com.bareapps.barebackup.settings.a aVar = (com.bareapps.barebackup.settings.a) obj2;
                 List list = (List) obj;
                 list.getClass();
                 if (!list.isEmpty()) {

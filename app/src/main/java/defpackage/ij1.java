@@ -220,7 +220,7 @@ public abstract class ij1 {
                 OutputStream outputStream = socketCreateSocket.getOutputStream();
                 Charset charset = StandardCharsets.ISO_8859_1;
                 charset.getClass();
-                byte[] bytes = ("OPTIONS " + str2 + " HTTP/1.1\r\nHost: " + str + ":" + i + "\r\nUser-Agent: SwiftBackupLocalDiscovery\r\nConnection: close\r\n\r\n").getBytes(charset);
+                byte[] bytes = ("OPTIONS " + str2 + " HTTP/1.1\r\nHost: " + str + ":" + i + "\r\nUser-Agent: BareBackupLocalDiscovery\r\nConnection: close\r\n\r\n").getBytes(charset);
                 bytes.getClass();
                 outputStream.write(bytes);
                 socketCreateSocket.getOutputStream().flush();

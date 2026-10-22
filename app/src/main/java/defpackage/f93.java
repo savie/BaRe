@@ -5,7 +5,7 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -16,8 +16,8 @@ public abstract class f93 {
     }
 
     public static Uri b(File file) {
-        SwiftApp.Companion companion = SwiftApp.d;
-        e93 e93VarC = FileProvider.c(0, SwiftApp.Companion.c(), "org.swiftapps.swiftbackup.fileprovider");
+        BareApp.Companion companion = BareApp.d;
+        e93 e93VarC = FileProvider.c(0, BareApp.Companion.c(), "com.bareapps.barebackup.fileprovider");
         try {
             String canonicalPath = file.getCanonicalPath();
             Map.Entry entry = null;

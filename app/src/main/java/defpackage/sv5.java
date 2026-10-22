@@ -9,7 +9,7 @@ import com.pcloud.sdk.AuthorizationActivity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -24,8 +24,8 @@ public final class sv5 extends qo0 {
     public final ix6 l = new ix6();
 
     public final Intent j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        PackageManager packageManager = SwiftApp.Companion.c().getPackageManager();
+        BareApp.Companion companion = BareApp.d;
+        PackageManager packageManager = BareApp.Companion.c().getPackageManager();
         Intent data = new Intent().setAction("android.intent.action.VIEW").addCategory("android.intent.category.BROWSABLE").setData(Uri.fromParts("http", "", null));
         data.getClass();
         List<ResolveInfo> listQueryIntentActivities = packageManager.queryIntentActivities(data, 0);
@@ -57,8 +57,8 @@ public final class sv5 extends qo0 {
             return null;
         }
         f90 f90Var = new f90(d90Var);
-        SwiftApp.Companion companion2 = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion2 = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         Uri uri = AuthorizationActivity.f;
         Intent intent2 = new Intent(contextC, (Class<?>) AuthorizationActivity.class);
         intent2.putExtra("com.pcloud.authentication.AuthorizationActivity.ARGUMENT_AUTH_REQUEST", f90Var);

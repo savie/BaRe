@@ -24,13 +24,13 @@ import okhttp3.internal.http2.ErrorCode;
 import okhttp3.internal.http2.Http2Connection;
 import okhttp3.internal.http2.Http2Stream;
 import okhttp3.internal.http2.Settings;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.clients.MegaClient$Credentials;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.clients.MegaClient$Credentials;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.model.app.LocalMetadata;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -183,17 +183,17 @@ public final /* synthetic */ class lx implements bt3 {
                                         if (dateBackupUpdatedString == null || dateBackupUpdatedString.length() == 0) {
                                             strN = u48.n(iz4VarInit.getDateBackupString(), " (", strC, ")");
                                         } else {
-                                            SwiftApp.Companion companion = SwiftApp.d;
-                                            strN = SwiftApp.Companion.c().getString(R.string.updated) + ": " + iz4VarInit.getDateBackupUpdatedString() + " (" + strC + ")";
+                                            BareApp.Companion companion = BareApp.d;
+                                            strN = BareApp.Companion.c().getString(R.string.updated) + ": " + iz4VarInit.getDateBackupUpdatedString() + " (" + strC + ")";
                                         }
                                         String str2 = strN;
                                         String backupVersion = iz4VarInit.getBackupVersion();
                                         if (backupVersion == null || backupVersion.length() == 0) {
-                                            SwiftApp.Companion companion2 = SwiftApp.d;
-                                            string = SwiftApp.Companion.c().getString(R.string.no_apk_backup);
+                                            BareApp.Companion companion2 = BareApp.d;
+                                            string = BareApp.Companion.c().getString(R.string.no_apk_backup);
                                         } else {
-                                            SwiftApp.Companion companion3 = SwiftApp.d;
-                                            String string6 = SwiftApp.Companion.c().getString(R.string.version);
+                                            BareApp.Companion companion3 = BareApp.d;
+                                            String string6 = BareApp.Companion.c().getString(R.string.version);
                                             String backupVersion2 = iz4VarInit.getBackupVersion();
                                             long backupVersionCode = iz4VarInit.getBackupVersionCode();
                                             StringBuilder sb2 = new StringBuilder();
@@ -207,11 +207,11 @@ public final /* synthetic */ class lx implements bt3 {
                                         str3.getClass();
                                         String backupVersion3 = iz4VarInit.getBackupVersion();
                                         if (backupVersion3 == null || backupVersion3.length() == 0) {
-                                            SwiftApp.Companion companion4 = SwiftApp.d;
-                                            string2 = SwiftApp.Companion.c().getString(R.string.no_apk_backup);
+                                            BareApp.Companion companion4 = BareApp.d;
+                                            string2 = BareApp.Companion.c().getString(R.string.no_apk_backup);
                                         } else {
-                                            SwiftApp.Companion companion5 = SwiftApp.d;
-                                            string2 = dj7.k(SwiftApp.Companion.c().getString(R.string.version), ": ", iz4VarInit.getBackupVersion());
+                                            BareApp.Companion companion5 = BareApp.d;
+                                            string2 = dj7.k(BareApp.Companion.c().getString(R.string.version), ": ", iz4VarInit.getBackupVersion());
                                         }
                                         String str4 = string2;
                                         str4.getClass();
@@ -325,8 +325,8 @@ public final /* synthetic */ class lx implements bt3 {
             case 7:
                 zx3 zx3Var = (zx3) this.b;
                 kh0 kh0Var = (kh0) this.c;
-                SwiftApp.Companion companion = SwiftApp.d;
-                File file = new File(SwiftApp.Companion.c().getCacheDir(), "walls_thumb_cache");
+                BareApp.Companion companion = BareApp.d;
+                File file = new File(BareApp.Companion.c().getCacheDir(), "walls_thumb_cache");
                 if (!file.exists()) {
                     file.mkdirs();
                 }
@@ -461,7 +461,7 @@ public final /* synthetic */ class lx implements bt3 {
                                 if (zBooleanValue) {
                                     dd1 dd1Var2 = megaSignInActivity2.M;
                                     dd1Var2.getClass();
-                                    Intent intentPutExtra = new Intent().putExtra("org.swiftapps.swiftbackup.cloud.connect.extra.CLOUD_CONSTANT", dd1Var2.getConstant());
+                                    Intent intentPutExtra = new Intent().putExtra("com.bareapps.barebackup.cloud.connect.extra.CLOUD_CONSTANT", dd1Var2.getConstant());
                                     intentPutExtra.getClass();
                                     megaSignInActivity2.setResult(-1, intentPutExtra);
                                 } else {
@@ -543,7 +543,7 @@ public final /* synthetic */ class lx implements bt3 {
                                 if (zBooleanValue) {
                                     dd1 dd1Var2 = megaSignInActivity2.M;
                                     dd1Var2.getClass();
-                                    Intent intentPutExtra = new Intent().putExtra("org.swiftapps.swiftbackup.cloud.connect.extra.CLOUD_CONSTANT", dd1Var2.getConstant());
+                                    Intent intentPutExtra = new Intent().putExtra("com.bareapps.barebackup.cloud.connect.extra.CLOUD_CONSTANT", dd1Var2.getConstant());
                                     intentPutExtra.getClass();
                                     megaSignInActivity2.setResult(-1, intentPutExtra);
                                 } else {

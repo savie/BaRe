@@ -5,10 +5,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.clients.MegaClient$Credentials;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
-import org.swiftapps.swiftbackup.cloud.protocols.mega.MegaLoginResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.clients.MegaClient$Credentials;
+import com.bareapps.barebackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.cloud.protocols.mega.MegaLoginResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -113,7 +113,7 @@ public final class x95 extends tb1 {
     public static void s(String str) {
         SharedPreferences.Editor editor = cz4.k;
         if (editor != null) {
-            editor.putString("mega_swift_session", str).apply();
+            editor.putString("mega_bare_session", str).apply();
         } else {
             pe4.F("editor");
             throw null;
@@ -214,8 +214,8 @@ public final class x95 extends tb1 {
         } else {
             Log.e("MegaClient", "Invalid creds, not setting credentials");
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        if (!ai8.i(SwiftApp.Companion.c())) {
+        BareApp.Companion companion = BareApp.d;
+        if (!ai8.i(BareApp.Companion.c())) {
             Log.e("MegaClient", "Network not available!");
             return qi1.a;
         }

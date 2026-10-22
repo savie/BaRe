@@ -32,7 +32,7 @@ public abstract class y84 extends Binder implements z84 {
         if (iBinder == null) {
             return null;
         }
-        IInterface iInterfaceQueryLocalInterface = iBinder.queryLocalInterface("org.swiftapps.rootservice.IRootAidlInterface");
+        IInterface iInterfaceQueryLocalInterface = iBinder.queryLocalInterface("com.bareapps.rootservice.IRootAidlInterface");
         if (iInterfaceQueryLocalInterface != null && (iInterfaceQueryLocalInterface instanceof z84)) {
             return (z84) iInterfaceQueryLocalInterface;
         }
@@ -44,10 +44,10 @@ public abstract class y84 extends Binder implements z84 {
     @Override // android.os.Binder
     public boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
         if (i >= 1 && i <= 16777215) {
-            parcel.enforceInterface("org.swiftapps.rootservice.IRootAidlInterface");
+            parcel.enforceInterface("com.bareapps.rootservice.IRootAidlInterface");
         }
         if (i == 1598968902) {
-            parcel2.writeString("org.swiftapps.rootservice.IRootAidlInterface");
+            parcel2.writeString("com.bareapps.rootservice.IRootAidlInterface");
             return true;
         }
         switch (i) {

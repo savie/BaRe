@@ -1,8 +1,8 @@
 package defpackage;
 
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.tasks.TaskService;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.tasks.TaskService;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -69,8 +69,8 @@ public final class qj extends ws7 implements qt3 {
                 lg7.H(obj);
                 mk2 mk2Var = (mk2) this.b;
                 ex6 ex6Var = mk2Var.l;
-                SwiftApp.Companion companion = SwiftApp.d;
-                if (ai8.i(SwiftApp.Companion.c())) {
+                BareApp.Companion companion = BareApp.d;
+                if (ai8.i(BareApp.Companion.c())) {
                     tb1 tb1Var = tb1.a;
                     if (qb1.m()) {
                         yj2 yj2Var = (yj2) ex6Var.d();
@@ -102,8 +102,8 @@ public final class qj extends ws7 implements qt3 {
                 be8 be8Var2 = be8.a;
                 lg7.H(obj);
                 ex6 ex6Var2 = ((ye5) this.b).g;
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                if (ai8.i(SwiftApp.Companion.c())) {
+                BareApp.Companion companion2 = BareApp.d;
+                if (ai8.i(BareApp.Companion.c())) {
                     tb1 tb1Var2 = tb1.a;
                     if (qb1.m()) {
                         ex6Var2.k(se5.a);

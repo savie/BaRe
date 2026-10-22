@@ -27,7 +27,7 @@ public abstract class r21 extends FrameLayout {
         this.d = new Rect();
         oe oeVar = new oe(this);
         this.e = oeVar;
-        TypedArray typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, xd6.a, i, org.swiftapps.swiftbackup.R.style.CardView);
+        TypedArray typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, xd6.a, i, com.bareapps.barebackup.R.style.CardView);
         if (typedArrayObtainStyledAttributes.hasValue(2)) {
             colorStateListValueOf = typedArrayObtainStyledAttributes.getColorStateList(2);
         } else {
@@ -36,7 +36,7 @@ public abstract class r21 extends FrameLayout {
             typedArrayObtainStyledAttributes2.recycle();
             float[] fArr = new float[3];
             Color.colorToHSV(color, fArr);
-            colorStateListValueOf = ColorStateList.valueOf(fArr[2] > 0.5f ? getResources().getColor(org.swiftapps.swiftbackup.R.color.cardview_light_background) : getResources().getColor(org.swiftapps.swiftbackup.R.color.cardview_dark_background));
+            colorStateListValueOf = ColorStateList.valueOf(fArr[2] > 0.5f ? getResources().getColor(com.bareapps.barebackup.R.color.cardview_light_background) : getResources().getColor(com.bareapps.barebackup.R.color.cardview_dark_background));
         }
         float dimension = typedArrayObtainStyledAttributes.getDimension(3, 0.0f);
         float dimension2 = typedArrayObtainStyledAttributes.getDimension(4, 0.0f);

@@ -2,9 +2,9 @@ package defpackage;
 
 import android.util.Log;
 import android.util.Patterns;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.clients.MegaClient$Credentials;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.clients.MegaClient$Credentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -39,8 +39,8 @@ public final class tb5 extends qo0 {
         String string2 = null;
         ex6 ex6Var = this.h;
         if (length == 0) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.k(SwiftApp.Companion.c().getString(R.string.required_field));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.k(BareApp.Companion.c().getString(R.string.required_field));
             zIsValid = false;
         } else {
             boolean zMatches = Patterns.EMAIL_ADDRESS.matcher(email).matches();
@@ -51,16 +51,16 @@ public final class tb5 extends qo0 {
             if (zMatches) {
                 string = null;
             } else {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                string = SwiftApp.Companion.c().getString(R.string.invalid_email_address);
+                BareApp.Companion companion2 = BareApp.d;
+                string = BareApp.Companion.c().getString(R.string.invalid_email_address);
             }
             ex6Var.k(string);
         }
         boolean z = megaClient$Credentials.getPassword().length() > 0;
         boolean z2 = z ? zIsValid : false;
         if (!z) {
-            SwiftApp.Companion companion3 = SwiftApp.d;
-            string2 = SwiftApp.Companion.c().getString(R.string.required_field);
+            BareApp.Companion companion3 = BareApp.d;
+            string2 = BareApp.Companion.c().getString(R.string.required_field);
         }
         this.i.k(string2);
         this.l.k(Boolean.valueOf(z2));

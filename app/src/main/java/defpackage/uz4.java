@@ -7,8 +7,8 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -26,8 +26,8 @@ public final class uz4 {
         dz5 dz5Var = dz5.a;
         boolean zH = dz5.h("android.permission.ACCESS_LOCAL_NETWORK");
         int i = Build.VERSION.SDK_INT;
-        SwiftApp.Companion companion = SwiftApp.d;
-        int i2 = SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion;
+        BareApp.Companion companion = BareApp.d;
+        int i2 = BareApp.Companion.c().getApplicationInfo().targetSdkVersion;
         qz4 qz4Var = new qz4(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0);
         jh1Var.getClass();
         return a(jh1Var.g(), e(jh1Var), zH, i, i2, qz4Var);
@@ -245,10 +245,10 @@ public final class uz4 {
         dz5 dz5Var = dz5.a;
         boolean zH = dz5.h("android.permission.ACCESS_LOCAL_NETWORK");
         int i = Build.VERSION.SDK_INT;
-        SwiftApp.Companion companion = SwiftApp.d;
-        int i2 = SwiftApp.Companion.c().getApplicationInfo().targetSdkVersion;
+        BareApp.Companion companion = BareApp.d;
+        int i2 = BareApp.Companion.c().getApplicationInfo().targetSdkVersion;
         m92 m92Var = new m92(0, dz5Var, dz5.class, "grantLocalNetworkPermissionWithRootOrShizuku", "grantLocalNetworkPermissionWithRootOrShizuku()Z", 0, 1);
-        sz4 sz4Var = new sz4(3, SwiftApp.Companion.a(), SwiftApp.class, "isLocalNetworkTcpBlockedByPermission", "isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z", 0);
+        sz4 sz4Var = new sz4(3, BareApp.Companion.a(), BareApp.class, "isLocalNetworkTcpBlockedByPermission", "isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z", 0);
         jh1Var.getClass();
         mj1 mj1Var = jh1Var instanceof mj1 ? (mj1) jh1Var : null;
         if (mj1Var != null && (mj1Var.m() || (mj1Var.i() && mj1Var.k()))) {

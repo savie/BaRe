@@ -2,8 +2,8 @@ package defpackage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -22,8 +22,8 @@ public enum fe3 implements nd3 {
     @Override // defpackage.nd3
     public String getDisplayString() {
         int i;
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         int i2 = ee3.a[ordinal()];
         if (i2 == 1) {
             i = R.string.all;

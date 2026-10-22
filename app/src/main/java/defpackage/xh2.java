@@ -5,10 +5,10 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.CloudMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

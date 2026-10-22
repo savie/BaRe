@@ -20,8 +20,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal._UtilJvmKt;
 import okhttp3.internal.connection.RealCall;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -106,7 +106,7 @@ public final class i08 implements jh1 {
     public final pg1 A(a08 a08Var) {
         String str = a08Var.b;
         String str2 = a08Var.c;
-        String strL0 = nq7.L0(nq7.q0(str, "/From: Other Applications/" + nq7.H0("Swift Backup").toString() + "-" + nq7.H0("").toString()), '/');
+        String strL0 = nq7.L0(nq7.q0(str, "/From: Other Applications/" + nq7.H0("Bare Backup").toString() + "-" + nq7.H0("").toString()), '/');
         if (nq7.j0(strL0)) {
             strL0 = str2;
         }
@@ -541,7 +541,7 @@ public final class i08 implements jh1 {
                 }
             }
         }
-        List listA0 = fl1.A0(dj7.l("/From: Other Applications/", nq7.H0("Swift Backup").toString(), "-", nq7.H0("").toString()), strI0);
+        List listA0 = fl1.A0(dj7.l("/From: Other Applications/", nq7.H0("Bare Backup").toString(), "-", nq7.H0("").toString()), strI0);
         ArrayList arrayList = new ArrayList();
         for (Object obj : listA0) {
             if (!nq7.j0((String) obj)) {

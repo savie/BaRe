@@ -4,7 +4,7 @@ import android.content.res.ColorStateList;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -27,7 +27,7 @@ public final /* synthetic */ class qv5 implements es5, zt3 {
             case 1:
                 return (mt3) obj;
             default:
-                return new cu3(1, (x92) obj, x92.class, "onRootInfoUI", "onRootInfoUI(Lorg/swiftapps/swiftbackup/model/RootInfo;)V", 0);
+                return new cu3(1, (x92) obj, x92.class, "onRootInfoUI", "onRootInfoUI(Lorg/bareapps/barebackup/model/RootInfo;)V", 0);
         }
     }
 

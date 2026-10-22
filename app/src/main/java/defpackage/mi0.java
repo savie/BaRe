@@ -2,8 +2,8 @@ package defpackage;
 
 import android.view.View;
 import android.widget.Toast;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -39,8 +39,8 @@ public final /* synthetic */ class mi0 implements View.OnClickListener {
                         if (toast != null) {
                             toast.cancel();
                         }
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        Toast toastMakeText = Toast.makeText(SwiftApp.Companion.c(), str, 0);
+                        BareApp.Companion companion = BareApp.d;
+                        Toast toastMakeText = Toast.makeText(BareApp.Companion.c(), str, 0);
                         oi0Var.h = toastMakeText;
                         if (toastMakeText != null) {
                             toastMakeText.show();

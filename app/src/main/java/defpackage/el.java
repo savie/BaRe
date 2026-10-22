@@ -14,9 +14,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.connect.DropboxSignInActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -85,8 +85,8 @@ public final /* synthetic */ class el implements bt3 {
                 return g42.a("AQJ6urHq7+wHCUOWI8mx1N38frQBU0wLKaK3VEcFTqOxLm9/NCZcHTlhCoMnRA==");
             case 10:
                 if (!mp6.k) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    String packageName = SwiftApp.Companion.c().getPackageName();
+                    BareApp.Companion companion = BareApp.d;
+                    String packageName = BareApp.Companion.c().getPackageName();
                     packageName.getClass();
                     if (pe4.d(g42.b(packageName), Boolean.TRUE)) {
                         g00 g00Var = g00.a;
@@ -145,8 +145,8 @@ public final /* synthetic */ class el implements bt3 {
                 if (drawable != null) {
                     return drawable;
                 }
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Drawable drawable2 = SwiftApp.Companion.c().getDrawable(R.drawable.sym_def_app_icon);
+                BareApp.Companion companion2 = BareApp.d;
+                Drawable drawable2 = BareApp.Companion.c().getDrawable(R.drawable.sym_def_app_icon);
                 drawable2.getClass();
                 return drawable2;
             case Argon2.V10 /* 16 */:

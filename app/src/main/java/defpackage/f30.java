@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -30,7 +30,7 @@ public final class f30 extends gm7 implements p53 {
         this.n = e7Var;
         this.o = k3Var;
         this.p = 1;
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         this.q = dj7.g(R.string.last_backup);
         this.r = dj7.g(R.string.last_synced);
         this.s = V.INSTANCE.getA();

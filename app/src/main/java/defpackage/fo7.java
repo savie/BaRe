@@ -2,8 +2,8 @@ package defpackage;
 
 import android.content.Context;
 import kotlin.jvm.internal.DefaultConstructorMarker;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -89,11 +89,11 @@ public abstract class fo7 {
 
         @Override // defpackage.fo7
         public String getUsageString() {
-            SwiftApp.Companion companion = SwiftApp.d;
-            String string = SwiftApp.Companion.c().getString(R.string.used_storage_text, this.usedPercent + "%");
+            BareApp.Companion companion = BareApp.d;
+            String string = BareApp.Companion.c().getString(R.string.used_storage_text, this.usedPercent + "%");
             string.getClass();
             long j = this.totalMemory - this.usedMemory;
-            Context contextC = SwiftApp.Companion.c();
+            Context contextC = BareApp.Companion.c();
             p93 p93Var = p93.a;
             String string2 = contextC.getString(R.string.free_storage_text, p93.c(Long.valueOf(j)));
             string2.getClass();
@@ -148,7 +148,7 @@ public abstract class fo7 {
 
         @Override // defpackage.fo7
         public String getUsageString() {
-            SwiftApp.Companion companion = SwiftApp.d;
+            BareApp.Companion companion = BareApp.d;
             return dj7.g(R.string.storage_info_not_provided);
         }
 
@@ -218,8 +218,8 @@ public abstract class fo7 {
 
         @Override // defpackage.fo7
         public String getUsageString() {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             p93 p93Var = p93.a;
             String string = contextC.getString(R.string.used_storage_text, p93.c(Long.valueOf(this.usedMemory)));
             string.getClass();

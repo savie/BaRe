@@ -2,9 +2,9 @@ package defpackage;
 
 import android.util.Log;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudOperationsImpl$LoginResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.cloud.protocols.CloudOperationsImpl$LoginResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -119,8 +119,8 @@ public final class v52 extends tb1 {
                 vr6.e$default(vr6.INSTANCE, this.k, xs1.j("startCheckAccess: ", zz4VarB.getMessage()), null, 4, null);
                 return new ti1(zz4VarB);
             }
-            SwiftApp.Companion companion = SwiftApp.d;
-            if (!ai8.i(SwiftApp.Companion.c())) {
+            BareApp.Companion companion = BareApp.d;
+            if (!ai8.i(BareApp.Companion.c())) {
                 Log.e(str, "Network not available!");
                 return qi1.a;
             }

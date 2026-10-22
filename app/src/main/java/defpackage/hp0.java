@@ -2,7 +2,7 @@ package defpackage;
 
 import android.os.Looper;
 import android.os.PowerManager;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -28,8 +28,8 @@ public abstract class hp0 {
 
     public static boolean b(String str) {
         str.getClass();
-        SwiftApp.Companion companion = SwiftApp.d;
-        PowerManager powerManager = (PowerManager) SwiftApp.Companion.c().getSystemService(PowerManager.class);
+        BareApp.Companion companion = BareApp.d;
+        PowerManager powerManager = (PowerManager) BareApp.Companion.c().getSystemService(PowerManager.class);
         if (powerManager == null) {
             return false;
         }

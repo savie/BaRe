@@ -6,13 +6,13 @@ import androidx.preference.Preference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitItem;
-import org.swiftapps.swiftbackup.settings.f;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitItem;
+import com.bareapps.barebackup.settings.f;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -407,8 +407,8 @@ public final class lr1 extends fm0 implements t36 {
                 q.j();
                 return;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(i);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(i);
         string.getClass();
         preference2.B(string);
         Preference preference3 = (Preference) this.G.getValue();

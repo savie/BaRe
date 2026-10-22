@@ -3,10 +3,10 @@ package defpackage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -48,8 +48,8 @@ public final class bl3 {
             vr6 vr6Var = vr6.INSTANCE;
             vr6.i$default(vr6Var, "FolderBackupDeleteHelper", "Processing ".concat(str), null, 4, null);
             ex6 ex6Var = qp3Var.i;
-            SwiftApp.Companion companion = SwiftApp.d;
-            ex6Var.i(SwiftApp.Companion.c().getString(R.string.delete_backup_files));
+            BareApp.Companion companion = BareApp.d;
+            ex6Var.i(BareApp.Companion.c().getString(R.string.delete_backup_files));
             vy7 vy7Var = this.b;
             vy7Var.getClass();
             vr6.i$default(vr6Var, "FolderBackupDeleteHelper", "Deleting backup file(s) for " + folderItem + " with params=" + vy7Var, null, 4, null);

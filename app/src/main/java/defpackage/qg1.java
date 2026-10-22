@@ -90,9 +90,9 @@ public final /* synthetic */ class qg1 extends cu3 implements bt3 {
             java.lang.Object r4 = r4.receiver
             hy7 r4 = (defpackage.hy7) r4
             r4.getClass()
-            gz7 r4 = org.swiftapps.swiftbackup.tasks.TaskService.b
-            gz7 r4 = org.swiftapps.swiftbackup.tasks.TaskService.b
-            boolean r0 = org.swiftapps.swiftbackup.tasks.TaskService.c
+            gz7 r4 = com.bareapps.barebackup.tasks.TaskService.b
+            gz7 r4 = com.bareapps.barebackup.tasks.TaskService.b
+            boolean r0 = com.bareapps.barebackup.tasks.TaskService.c
             r4.getClass()
             if (r0 != 0) goto L8d
             boolean r0 = r4.isRunning()

@@ -6,12 +6,12 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -313,11 +313,11 @@ public final class po3 extends ws7 implements qt3 {
                     strK = dj7.k(string, ": \n", mFirebaseUserA2.getEmail());
                 }
                 String strY0 = el1.Y0(x50.p0(new String[]{strK, dj7.k(manageSpaceActivity.getString(R.string.backup_folder_location), ": \n", ry5Var.c)}), "\n\n", null, null, null, 62);
-                SwiftApp.Companion companion = SwiftApp.d;
-                String string2 = SwiftApp.Companion.c().getString(R.string.connected_account);
+                BareApp.Companion companion = BareApp.d;
+                String string2 = BareApp.Companion.c().getString(R.string.connected_account);
                 string2.getClass();
                 u55 u55Var = new u55(-1, string2, null, strY0, false, true);
-                Context contextC = SwiftApp.Companion.c();
+                Context contextC = BareApp.Companion.c();
                 String string3 = contextC.getString(R.string.reset_app);
                 String string4 = contextC.getString(R.string.reset_app_summary);
                 string3.getClass();
@@ -325,7 +325,7 @@ public final class po3 extends ws7 implements qt3 {
                 u55 u55Var2 = new u55(2, string3, null, string4, false, false);
                 u55 u55VarN = ManageSpaceActivity.N(manageSpaceActivity, ry5Var, true);
                 u55 u55VarN2 = ManageSpaceActivity.N(manageSpaceActivity, ry5Var, false);
-                Context contextC2 = SwiftApp.Companion.c();
+                Context contextC2 = BareApp.Companion.c();
                 String string5 = contextC2.getString(R.string.delete_all_data);
                 String string6 = contextC2.getString(R.string.delete_all_data_summary);
                 string5.getClass();

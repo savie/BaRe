@@ -8,8 +8,8 @@ import java.lang.ref.ReferenceQueue;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.views.SwiftBackupMaterialSwitch;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.views.BareBackupMaterialSwitch;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -32,12 +32,12 @@ public final class y8 implements jk8 {
         ImageView imageView = (ImageView) ms8.u(view, R.id.iv_icon);
         if (imageView != null) {
             i = R.id.toggle;
-            SwiftBackupMaterialSwitch swiftBackupMaterialSwitch = (SwiftBackupMaterialSwitch) ms8.u(view, R.id.toggle);
-            if (swiftBackupMaterialSwitch != null) {
+            BareBackupMaterialSwitch bareBackupMaterialSwitch = (BareBackupMaterialSwitch) ms8.u(view, R.id.toggle);
+            if (bareBackupMaterialSwitch != null) {
                 i = R.id.tv_title;
                 TextView textView = (TextView) ms8.u(view, R.id.tv_title);
                 if (textView != null) {
-                    return new y8((ConstraintLayout) view, imageView, swiftBackupMaterialSwitch, textView);
+                    return new y8((ConstraintLayout) view, imageView, bareBackupMaterialSwitch, textView);
                 }
             }
         }

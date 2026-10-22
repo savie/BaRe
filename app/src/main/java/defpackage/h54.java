@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -14,7 +14,7 @@ public final class h54 extends gm7 {
     public final qt3 l;
 
     public h54() {
-        a54 a54Var = new a54(2, tr.n0, qr.class, "renderAppIcon", "renderAppIcon(Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/model/app/App;)V", 0);
+        a54 a54Var = new a54(2, tr.n0, qr.class, "renderAppIcon", "renderAppIcon(Landroid/widget/ImageView;Lorg/bareapps/barebackup/model/app/App;)V", 0);
         super(null);
         this.l = a54Var;
     }

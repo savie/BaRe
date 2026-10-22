@@ -2,8 +2,8 @@ package defpackage;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -14,7 +14,7 @@ public final class oj0 extends pj0 {
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public oj0(ArrayList arrayList, boolean z) {
         super(dj7.g(R.string.restore), Integer.valueOf(R.drawable.ic_restore), arrayList, 24);
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         this.e = z;
         this.f = arrayList;
     }

@@ -1,7 +1,7 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -47,8 +47,8 @@ public final class gq5 extends ws7 implements qt3 {
                 pe4.F("authProvider");
                 throw null;
             }
-            SwiftApp.Companion companion = SwiftApp.d;
-            vj vjVarD = ujVar.d(SwiftApp.Companion.c(), g90Var.I());
+            BareApp.Companion companion = BareApp.d;
+            vj vjVarD = ujVar.d(BareApp.Companion.c(), g90Var.I());
             String str = vjVarD.a;
             if (nq7.j0(str)) {
                 z = false;

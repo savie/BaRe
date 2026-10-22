@@ -2,8 +2,8 @@ package defpackage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -62,8 +62,8 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion = SwiftApp.d;
-                        String string3 = SwiftApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList3.size()));
+                        BareApp.Companion companion = BareApp.d;
+                        String string3 = BareApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList3.size()));
                         string3.getClass();
                         sb2.append(string3);
                         sb2.append("\n");
@@ -81,8 +81,8 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion2 = SwiftApp.d;
-                        String string4 = SwiftApp.Companion.c().getString(R.string.skipped_app_part_in_local_backup);
+                        BareApp.Companion companion2 = BareApp.d;
+                        String string4 = BareApp.Companion.c().getString(R.string.skipped_app_part_in_local_backup);
                         string4.getClass();
                         sb2.append(string4);
                         sb2.append("\n");
@@ -100,8 +100,8 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion3 = SwiftApp.d;
-                        String string5 = SwiftApp.Companion.c().getString(R.string.skipped_app_part_in_local_backup_fat32_limit);
+                        BareApp.Companion companion3 = BareApp.d;
+                        String string5 = BareApp.Companion.c().getString(R.string.skipped_app_part_in_local_backup_fat32_limit);
                         string5.getClass();
                         sb2.append(string5);
                         sb2.append("\n");
@@ -161,7 +161,7 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion4 = SwiftApp.d;
+                        BareApp.Companion companion4 = BareApp.d;
                         StringBuilder sbN = fz5.n(dj7.g(R.string.skipped_app_part_in_cloud_backup), "\n");
                         int i9 = 0;
                         for (String str12 : arrayList7) {
@@ -178,8 +178,8 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion5 = SwiftApp.d;
-                        String string6 = SwiftApp.Companion.c().getString(R.string.x_apps_skipped_cloud_sync_message, String.valueOf(arrayList8.size()));
+                        BareApp.Companion companion5 = BareApp.d;
+                        String string6 = BareApp.Companion.c().getString(R.string.x_apps_skipped_cloud_sync_message, String.valueOf(arrayList8.size()));
                         string6.getClass();
                         sb2.append(string6);
                         sb2.append("\n");
@@ -197,8 +197,8 @@ public final class b40 implements dz7 {
                         if (sb2.length() > 0) {
                             sb2.append("\n\n");
                         }
-                        SwiftApp.Companion companion6 = SwiftApp.d;
-                        String string7 = SwiftApp.Companion.c().getString(R.string.cloud_error);
+                        BareApp.Companion companion6 = BareApp.d;
+                        String string7 = BareApp.Companion.c().getString(R.string.cloud_error);
                         string7.getClass();
                         sb2.append(string7);
                         sb2.append("\n");
@@ -253,8 +253,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList12.isEmpty()) {
-                        SwiftApp.Companion companion7 = SwiftApp.d;
-                        String string8 = SwiftApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList12.size()));
+                        BareApp.Companion companion7 = BareApp.d;
+                        String string8 = BareApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList12.size()));
                         string8.getClass();
                         sb3.append(string8);
                         sb3.append("\n\n");
@@ -265,8 +265,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList13.isEmpty()) {
-                        SwiftApp.Companion companion8 = SwiftApp.d;
-                        String string9 = SwiftApp.Companion.c().getString(R.string.x_apps_downloading_error_message, String.valueOf(arrayList13.size()));
+                        BareApp.Companion companion8 = BareApp.d;
+                        String string9 = BareApp.Companion.c().getString(R.string.x_apps_downloading_error_message, String.valueOf(arrayList13.size()));
                         string9.getClass();
                         sb3.append(string9);
                         sb3.append("\n\n");
@@ -277,8 +277,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList14.isEmpty()) {
-                        SwiftApp.Companion companion9 = SwiftApp.d;
-                        String string10 = SwiftApp.Companion.c().getString(R.string.x_apps_failed_to_restore, String.valueOf(arrayList14.size()));
+                        BareApp.Companion companion9 = BareApp.d;
+                        String string10 = BareApp.Companion.c().getString(R.string.x_apps_failed_to_restore, String.valueOf(arrayList14.size()));
                         string10.getClass();
                         sb3.append(string10);
                         sb3.append("\n\n");
@@ -355,8 +355,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList15.isEmpty()) {
-                        SwiftApp.Companion companion10 = SwiftApp.d;
-                        String string11 = SwiftApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList15.size()));
+                        BareApp.Companion companion10 = BareApp.d;
+                        String string11 = BareApp.Companion.c().getString(R.string.x_apps_skipped_insufficient_space_message, String.valueOf(arrayList15.size()));
                         string11.getClass();
                         sb3.append(string11);
                         sb3.append("\n\n");
@@ -367,8 +367,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList16.isEmpty()) {
-                        SwiftApp.Companion companion11 = SwiftApp.d;
-                        String string12 = SwiftApp.Companion.c().getString(R.string.x_apps_failed_to_restore, String.valueOf(arrayList16.size()));
+                        BareApp.Companion companion11 = BareApp.d;
+                        String string12 = BareApp.Companion.c().getString(R.string.x_apps_failed_to_restore, String.valueOf(arrayList16.size()));
                         string12.getClass();
                         sb3.append(string12);
                         sb3.append("\n\n");
@@ -379,8 +379,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList17.isEmpty()) {
-                        SwiftApp.Companion companion12 = SwiftApp.d;
-                        String string13 = SwiftApp.Companion.c().getString(R.string.x_apps_skipped_no_apk_message, String.valueOf(arrayList17.size()));
+                        BareApp.Companion companion12 = BareApp.d;
+                        String string13 = BareApp.Companion.c().getString(R.string.x_apps_skipped_no_apk_message, String.valueOf(arrayList17.size()));
                         string13.getClass();
                         sb3.append(string13);
                         sb3.append("\n\n");
@@ -391,8 +391,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList19.isEmpty()) {
-                        SwiftApp.Companion companion13 = SwiftApp.d;
-                        String string14 = SwiftApp.Companion.c().getString(R.string.x_apps_had_data_restore_issues_wrong_password, String.valueOf(arrayList19.size()));
+                        BareApp.Companion companion13 = BareApp.d;
+                        String string14 = BareApp.Companion.c().getString(R.string.x_apps_had_data_restore_issues_wrong_password, String.valueOf(arrayList19.size()));
                         string14.getClass();
                         sb3.append(string14);
                         sb3.append("\n\n");
@@ -403,8 +403,8 @@ public final class b40 implements dz7 {
                         }
                     }
                     if (!arrayList20.isEmpty()) {
-                        SwiftApp.Companion companion14 = SwiftApp.d;
-                        String string15 = SwiftApp.Companion.c().getString(R.string.x_apps_had_data_restore_issues_data_corruption, String.valueOf(arrayList20.size()));
+                        BareApp.Companion companion14 = BareApp.d;
+                        String string15 = BareApp.Companion.c().getString(R.string.x_apps_had_data_restore_issues_data_corruption, String.valueOf(arrayList20.size()));
                         string15.getClass();
                         sb3.append(string15);
                         sb3.append("\n\n");

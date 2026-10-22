@@ -21,28 +21,28 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.apkshare.ApkImportActivity;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity;
-import org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.MSwitchPreference;
-import org.swiftapps.swiftbackup.settings.a;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.apkshare.ApkImportActivity;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.cloud.connect.FilenSignInActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ChatActivity;
+import com.bareapps.barebackup.messagescalls.conversationsview.ConversationsActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.MSwitchPreference;
+import com.bareapps.barebackup.settings.a;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -175,7 +175,7 @@ public final /* synthetic */ class lf implements bt3 {
             case 12:
                 CloudDiagnosticsActivity cloudDiagnosticsActivity = (CloudDiagnosticsActivity) this.b;
                 int i7 = CloudDiagnosticsActivity.Z;
-                return Boolean.valueOf(cloudDiagnosticsActivity.getIntent().getBooleanExtra("org.swiftapps.swiftbackup.cloud.diagnostics.extra.INCLUDE_LARGE_ROUND_TRIP", false));
+                return Boolean.valueOf(cloudDiagnosticsActivity.getIntent().getBooleanExtra("com.bareapps.barebackup.cloud.diagnostics.extra.INCLUDE_LARGE_ROUND_TRIP", false));
             case 13:
                 return new zs5(new o10((ko1) this.b, i));
             case 14:
@@ -261,8 +261,8 @@ public final /* synthetic */ class lf implements bt3 {
                 c64 c64Var = (c64) this.b;
                 ix6 ix6Var = c64.l;
                 lz3 lz3Var = lz3.d;
-                SwiftApp.Companion companion = SwiftApp.d;
-                int iC = lz3Var.c(SwiftApp.Companion.c(), mz3.a);
+                BareApp.Companion companion = BareApp.d;
+                int iC = lz3Var.c(BareApp.Companion.c(), mz3.a);
                 boolean z2 = iC == 0;
                 if (!z2) {
                     int i17 = u04.e;

@@ -29,7 +29,7 @@ public final class ea5 {
 
     public ea5(OkHttpClient okHttpClient) {
         dq dqVar = new dq(10);
-        cj2 cj2Var = new cj2(1, ka5.a, ka5.class, "solve", "solve(Lorg/swiftapps/swiftbackup/cloud/protocols/mega/lite/MegaLiteHashcash$Challenge;)Ljava/lang/String;", 0, 3);
+        cj2 cj2Var = new cj2(1, ka5.a, ka5.class, "solve", "solve(Lorg/bareapps/barebackup/cloud/protocols/mega/lite/MegaLiteHashcash$Challenge;)Ljava/lang/String;", 0, 3);
         okHttpClient.getClass();
         this.a = okHttpClient;
         this.b = "https://g.api.mega.co.nz";

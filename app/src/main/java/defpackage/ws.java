@@ -4,10 +4,10 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -161,8 +161,8 @@ public final class ws extends gm7 implements p53 {
                 throw null;
             }
             if (!qq.c(fl1.C0(dd3.a, ud3.a, gd3.a, md3.a, rd3.a, de3.a, jd3.a, ae3.a), this.m).isEmpty()) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                lowerCase = u48.n(lowerCase, " (", SwiftApp.Companion.c().getString(R.string.filters_active), ")");
+                BareApp.Companion companion = BareApp.d;
+                lowerCase = u48.n(lowerCase, " (", BareApp.Companion.c().getString(R.string.filters_active), ")");
             }
             textView.setText(lowerCase);
         } catch (ClassCastException unused) {

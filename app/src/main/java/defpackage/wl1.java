@@ -10,7 +10,7 @@ import android.util.TypedValue;
 import android.util.Xml;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -3,7 +3,7 @@ package defpackage;
 import java.io.File;
 import java.util.List;
 import okhttp3.Dns;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -38,14 +38,14 @@ public final /* synthetic */ class z63 extends cu3 implements mt3 {
                 if (!p63Var.d(file)) {
                     String path = file.getPath();
                     path.getClass();
-                    if (nq7.Z(path, "SwiftBackup", false)) {
-                        if (pe4.d(file.getName(), "SwiftBackup") && file.canRead()) {
+                    if (nq7.Z(path, "BareBackup", false)) {
+                        if (pe4.d(file.getName(), "BareBackup") && file.canRead()) {
                             p63Var.a(file);
                         } else {
                             String path2 = file.getPath();
                             path2.getClass();
                             List listW0 = nq7.w0(path2, new char[]{'/'}, 6);
-                            File file2 = new File(el1.Y0(listW0.subList(0, listW0.indexOf("SwiftBackup") + 1), "/", null, null, null, 62));
+                            File file2 = new File(el1.Y0(listW0.subList(0, listW0.indexOf("BareBackup") + 1), "/", null, null, null, 62));
                             if (file2.canWrite()) {
                                 p63Var.b(file2);
                             } else if (file.canRead()) {

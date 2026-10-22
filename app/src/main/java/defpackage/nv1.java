@@ -11,9 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.contributor.ContributorRegistration;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.contributor.ContributorRegistration;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -32,7 +32,7 @@ public final /* synthetic */ class nv1 implements es5, zt3 {
         Object obj = this.b;
         switch (i) {
             case 0:
-                return new cu3(1, (ContributorRegActivity) obj, ContributorRegActivity.class, "onRemoteDetails", "onRemoteDetails(Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;)V", 0);
+                return new cu3(1, (ContributorRegActivity) obj, ContributorRegActivity.class, "onRemoteDetails", "onRemoteDetails(Lorg/bareapps/barebackup/contributor/ContributorRegistration;)V", 0);
             case 1:
                 return (oh1) obj;
             default:
