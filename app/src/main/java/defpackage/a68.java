@@ -4,7 +4,6 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public final class a68 extends e88 {
     public a68() {
-        super("ScriptDataEscapeStart", 19);
     }
 
     @Override // defpackage.e88
