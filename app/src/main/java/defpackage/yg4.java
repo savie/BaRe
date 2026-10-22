@@ -923,7 +923,7 @@ public final class yg4 extends as5 {
     /* JADX WARN: Type inference failed for: r1v0, types: [java.util.Set] */
     @Override // defpackage.as5
     public final mk4 x(jb9 jb9Var) {
-        ?? hashSet;
+        Set hashSet;
         nk4 nk4Var = (nk4) jb9Var.z(nk4.class);
         if (nk4Var == null) {
             return mk4.f;
