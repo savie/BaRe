@@ -465,7 +465,7 @@ public abstract class vm4 {
         } catch (Throwable th) {
             bn6Var = new bn6(th);
         }
-        ?? r0 = pv2Var;
+        Object r0 = pv2Var;
         if (!(bn6Var instanceof bn6)) {
             r0 = bn6Var;
         }
