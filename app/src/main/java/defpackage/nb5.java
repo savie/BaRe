@@ -89,13 +89,13 @@ public final class nb5 {
     /* JADX WARN: Type inference failed for: r5v1, types: [java.lang.Object, jb5] */
     public static void b(q63 q63Var, z95 z95Var, final ft7 ft7Var, String str) {
         gh ghVar;
-        ?? r28;
+        int r28;
         int[] iArr;
         char c;
         TreeMap treeMap;
         Iterator it;
         Throwable th;
-        ?? r26;
+        pa5 r26;
         str.getClass();
         q63Var.getClass();
         ft7Var.getClass();
@@ -135,8 +135,8 @@ public final class nb5 {
         int i4 = iArr2[5];
         final int[] iArr4 = {i3, i4, 0, 0};
         final int[] iArr5 = {i3, i4, i3, i4};
-        ?? r4 = 0;
-        ?? r3 = pa5VarM;
+        int r4 = 0;
+        pa5 r3 = pa5VarM;
         while (true) {
             try {
                 final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
@@ -187,7 +187,7 @@ public final class nb5 {
                                         final ya5 ya5Var = (ya5) it2.next();
                                         jb5.t(ft7Var);
                                         semaphore.acquire();
-                                        ?? r27 = r4;
+                                        int r27 = r4;
                                         try {
                                             int i11 = i7;
                                             ArrayList arrayList2 = arrayList;
@@ -323,7 +323,7 @@ public final class nb5 {
                                                 arrayList = arrayList2;
                                                 i7 = i12;
                                                 r3 = r26;
-                                                r4 = r27 == true ? 1 : 0;
+                                                r4 = r27 != 0 ? 1 : 0;
                                             } catch (Throwable th9) {
                                                 th = th9;
                                                 semaphore.release();
@@ -350,7 +350,7 @@ public final class nb5 {
                                         if (bArr4 == null) {
                                             break;
                                         }
-                                        ?? r6 = r26;
+                                        pa5 r6 = r26;
                                         try {
                                             outputStreamF.write(bArr4);
                                             long length3 = j + ((long) bArr4.length);
@@ -384,16 +384,15 @@ public final class nb5 {
                                             return;
                                         } catch (eb5 e) {
                                             e = e;
-                                            r4 = r26;
-                                            c = r28 == true ? 1 : 0;
+                                            c = (char) (r28 != 0 ? 1 : 0);
                                             if (c >= 16 || ft7Var.a.get()) {
                                                 throw e;
                                             }
-                                            r3 = r4;
+                                            r3 = r26;
                                             ghVarF = ghVar;
                                             iArr3 = iArr;
                                             i = 4;
-                                            r4 = (c == true ? 1 : 0) + 1;
+                                            r4 = (c != 0 ? 1 : 0) + 1;
                                         }
                                     } catch (Throwable th14) {
                                         th = th14;
@@ -428,9 +427,7 @@ public final class nb5 {
                     ghVar = ghVarF;
                     r28 = r4;
                     iArr = iArr3;
-                    r4 = r3;
                 }
-                r3 = r4;
                 ghVarF = ghVar;
                 iArr3 = iArr;
                 i = 4;
