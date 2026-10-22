@@ -246,14 +246,14 @@ public final class bc9 implements Map, Serializable {
                     c = c3;
                     if (i21 == i4) {
                         r3 = iArr;
-                        r16 = z;
+                        r16 = z ? 1 : 0;
                     } else {
                         Object[] objArr3 = new Object[3];
                         objArr3[0] = iArr;
                         objArr3[1] = Integer.valueOf(i21);
                         objArr3[c] = pa9Var2;
                         r3 = objArr3;
-                        r16 = z;
+                        r16 = z ? 1 : 0;
                     }
                 }
             }
