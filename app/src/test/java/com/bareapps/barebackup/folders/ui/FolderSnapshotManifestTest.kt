@@ -75,6 +75,10 @@ class FolderSnapshotManifestTest {
             FolderSnapshotManifest("s1", null, emptyList(), emptyList(),
                 directories = listOf("../escape"))
         }
+        // A directory-to-file transition removes the old directory and introduces a file at that path.
+        FolderSnapshotManifest("s2", "s1",
+            listOf(FolderFileFingerprint("gone", 1, digestA)), emptyList(),
+            deletedDirectories = listOf("gone"))
     }
 
     @Test

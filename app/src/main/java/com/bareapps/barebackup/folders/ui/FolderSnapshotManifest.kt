@@ -30,7 +30,7 @@ internal data class FolderSnapshotManifest(
         directories.forEach(::validateRelativePath)
         deletedDirectories.forEach(::validateRelativePath)
         require(directories.none { it in deletedDirectories }) { "A directory cannot be both present and deleted" }
-        require(files.none { file -> file.path in directories || file.path in deletedDirectories }) { "File and directory paths conflict" }
+        require(files.none { file -> file.path in directories }) { "File and directory paths conflict" }
         deletedPaths.forEach(::validateRelativePath)
         require(files.none { it.path in deletedPaths }) { "A path cannot be both present and deleted" }
     }
