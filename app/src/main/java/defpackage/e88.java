@@ -302,11 +302,11 @@ public abstract class e88 {
     }
 
     public static e88 valueOf(String str) {
-        return (e88) Enum.valueOf(e88.class, str);
+        throw new IllegalArgumentException("Unknown parser state: " + str);
     }
 
     public static e88[] values() {
-        return (e88[]) L0.clone();
+        return L0.clone();
     }
 
     public abstract void d(o58 o58Var, e51 e51Var);
