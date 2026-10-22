@@ -812,6 +812,23 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun drainCurrentEntry(input: ZipInputStream, remainingBytes: Long): Long {
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var copied = 0L
+        while (true) {
+            val count = input.read(buffer)
+            if (count < 0) break
+            if (count > 0) {
+                require(count.toLong() <= remainingBytes - copied) {
+                    "Archive exceeds the restore size limit"
+                }
+                copied += count
+            }
+        }
+        return copied
+    }
+
     private fun copyCurrentEntry(
         input: ZipInputStream,
         output: java.io.OutputStream,
