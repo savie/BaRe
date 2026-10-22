@@ -529,6 +529,7 @@ class FoldersDashActivity : AppCompatActivity() {
         openBackupInput(entry).use { raw ->
             ZipInputStream(raw).use { zip ->
                 val validator = FolderArchivePathValidator(MAX_RESTORE_PATH_LENGTH)
+                val explicitEntries = mutableSetOf<String>()
                 var entryCount = 0
                 var totalBytes = 0L
                 var manifest: FolderSnapshotManifest? = null
@@ -539,9 +540,12 @@ class FoldersDashActivity : AppCompatActivity() {
                     val isManifest = item.name == FolderSnapshotManifest.ARCHIVE_ENTRY
                     val path = if (isManifest) {
                         require(!item.isDirectory) { "Snapshot manifest must be a file" }
+                        require(explicitEntries.add(item.name)) { "Archive contains a duplicate path: " + item.name }
                         FolderSnapshotManifest.ARCHIVE_ENTRY
                     } else {
-                        validator.register(item.name, item.isDirectory)
+                        validator.register(item.name, item.isDirectory).also { normalized ->
+                            require(explicitEntries.add(normalized)) { "Archive contains a duplicate path: " + normalized }
+                        }
                     }
                     if (isManifest) {
                         require(manifest == null) { "Archive contains duplicate snapshot manifests" }
