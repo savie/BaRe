@@ -436,7 +436,7 @@ public abstract class vm4 {
     /* JADX WARN: Type inference failed for: r1v1 */
     /* JADX WARN: Type inference failed for: r1v3, types: [java.util.LinkedHashMap, java.util.Map] */
     public static final Map b(q63 q63Var, boolean z) {
-        ?? bn6Var;
+        Object bn6Var;
         Object next;
         pv2 pv2Var = pv2.a;
         if (!z) {
