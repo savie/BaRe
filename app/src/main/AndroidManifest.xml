@@ -62,7 +62,7 @@
     <permission android:name="com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
     <uses-permission android:name="com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
     <uses-permission android:name="moe.shizuku.manager.permission.API_V23"/>
-    <application android:allowBackup="false" android:allowClearUserData="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enableOnBackInvokedCallback="true" android:icon="@mipmap/ic_launcher" android:label="BΛR☰" android:largeHeap="true" android:localeConfig="@xml/locales_config" android:name="com.bareapps.barebackup.BareApp" android:networkSecurityConfig="@xml/network_security_config" android:requestLegacyExternalStorage="true" android:supportsRtl="true" tools:node="replace" android:theme="@style/BareTheme">
+    <application android:allowBackup="false" android:allowClearUserData="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enableOnBackInvokedCallback="true" android:icon="@mipmap/ic_launcher" android:label="BΛR☰" android:largeHeap="true" android:localeConfig="@xml/locales_config" android:name="com.bareapps.barebackup.BareApp" android:networkSecurityConfig="@xml/network_security_config" android:requestLegacyExternalStorage="true" android:supportsRtl="true" tools:node="replace" android:theme="@style/BareThemeDark">
         <meta-data android:name="android.max_aspect" android:value="2.1"/>
         <activity android:exported="true" android:launchMode="singleTop" android:name="com.bareapps.barebackup.intro.IntroActivity" android:resizeableActivity="true" android:theme="@style/IntroTheme">
             <intent-filter>

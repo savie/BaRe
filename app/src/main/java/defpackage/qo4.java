@@ -1,0 +1,11 @@
+package defpackage;
+
+import java.util.ArrayList;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public interface qo4 {
+    void d(po4 po4Var, int i, ArrayList arrayList, po4 po4Var2);
+
+    void f(cd cdVar, Object obj);
+}

@@ -1624,12 +1624,12 @@ void throwUnsupported(JNIEnv* env, const char* operation) {
 
 }  // namespace
 
-// This is BΛR☰'s independent JNI library, not the reference SwiftBackup binary.
+// This is BΛR☰'s independent JNI library, not the reference BareBackup binary.
 // Keep the runtime probe functional so packaging/loader checks can be verified
 // separately from the archive algorithms.
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject) {
-    return toJavaString(env, "SwiftTar");
+    return toJavaString(env, "BareTar");
 }
 
 
@@ -2044,7 +2044,7 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     const jlong dataMillis = std::max<jlong>(0, started() - dataStart - metadataMillis);
     const jsize extractedCount = env->GetArrayLength(extracted);
 
-    // Counter order is the reference SbaSwiftTarExtractStats contract.
+    // Counter order is the reference SbaBareTarExtractStats contract.
     jlong values[20] = {};
     values[0] = tarBytes;
     values[1] = entryCount;

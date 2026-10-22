@@ -1,0 +1,10 @@
+package defpackage;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public final class a28 extends ws0 {
+    @Override // defpackage.on5
+    public final void a(bs2 bs2Var) {
+        bs2Var.i(this);
+    }
+}

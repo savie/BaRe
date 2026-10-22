@@ -1,0 +1,20 @@
+package defpackage;
+
+import android.R;
+
+/* JADX INFO: loaded from: classes.dex */
+public abstract class de6 {
+    public static final int[] a = {R.attr.selectableItemBackground, com.bareapps.barebackup.R.attr.selectableItemBackground};
+    public static final int[] b = {R.attr.summaryOn, R.attr.summaryOff, R.attr.disableDependentsState, com.bareapps.barebackup.R.attr.disableDependentsState, com.bareapps.barebackup.R.attr.summaryOff, com.bareapps.barebackup.R.attr.summaryOn};
+    public static final int[] c = {R.attr.dialogTitle, R.attr.dialogMessage, R.attr.dialogIcon, R.attr.positiveButtonText, R.attr.negativeButtonText, R.attr.dialogLayout, com.bareapps.barebackup.R.attr.dialogIcon, com.bareapps.barebackup.R.attr.dialogLayout, com.bareapps.barebackup.R.attr.dialogMessage, com.bareapps.barebackup.R.attr.dialogTitle, com.bareapps.barebackup.R.attr.negativeButtonText, com.bareapps.barebackup.R.attr.positiveButtonText};
+    public static final int[] d = {com.bareapps.barebackup.R.attr.useSimpleSummaryProvider};
+    public static final int[] e = {R.attr.entries, R.attr.entryValues, com.bareapps.barebackup.R.attr.entries, com.bareapps.barebackup.R.attr.entryValues, com.bareapps.barebackup.R.attr.useSimpleSummaryProvider};
+    public static final int[] f = {R.attr.entries, R.attr.entryValues, com.bareapps.barebackup.R.attr.entries, com.bareapps.barebackup.R.attr.entryValues};
+    public static final int[] g = {R.attr.icon, R.attr.persistent, R.attr.enabled, R.attr.layout, R.attr.title, R.attr.selectable, R.attr.key, R.attr.summary, R.attr.order, R.attr.widgetLayout, R.attr.dependency, R.attr.defaultValue, R.attr.shouldDisableView, R.attr.fragment, R.attr.singleLineTitle, R.attr.iconSpaceReserved, com.bareapps.barebackup.R.attr.allowDividerAbove, com.bareapps.barebackup.R.attr.allowDividerBelow, com.bareapps.barebackup.R.attr.defaultValue, com.bareapps.barebackup.R.attr.dependency, com.bareapps.barebackup.R.attr.enableCopying, com.bareapps.barebackup.R.attr.enabled, com.bareapps.barebackup.R.attr.fragment, com.bareapps.barebackup.R.attr.icon, com.bareapps.barebackup.R.attr.iconSpaceReserved, com.bareapps.barebackup.R.attr.isPreferenceVisible, com.bareapps.barebackup.R.attr.key, com.bareapps.barebackup.R.attr.layout, com.bareapps.barebackup.R.attr.order, com.bareapps.barebackup.R.attr.persistent, com.bareapps.barebackup.R.attr.selectable, com.bareapps.barebackup.R.attr.shouldDisableView, com.bareapps.barebackup.R.attr.singleLineTitle, com.bareapps.barebackup.R.attr.summary, com.bareapps.barebackup.R.attr.title, com.bareapps.barebackup.R.attr.widgetLayout};
+    public static final int[] h = {R.attr.layout, R.attr.divider, R.attr.dividerHeight, com.bareapps.barebackup.R.attr.allowDividerAfterLastItem};
+    public static final int[] i = {R.attr.orderingFromXml, com.bareapps.barebackup.R.attr.initialExpandedChildrenCount, com.bareapps.barebackup.R.attr.orderingFromXml};
+    public static final int[] j = {R.attr.maxWidth, R.attr.maxHeight, com.bareapps.barebackup.R.attr.maxHeight, com.bareapps.barebackup.R.attr.maxWidth};
+    public static final int[] k = {R.attr.layout, R.attr.max, com.bareapps.barebackup.R.attr.adjustable, com.bareapps.barebackup.R.attr.min, com.bareapps.barebackup.R.attr.seekBarIncrement, com.bareapps.barebackup.R.attr.showSeekBarValue, com.bareapps.barebackup.R.attr.updatesContinuously};
+    public static final int[] l = {R.attr.summaryOn, R.attr.summaryOff, R.attr.disableDependentsState, R.attr.switchTextOn, R.attr.switchTextOff, com.bareapps.barebackup.R.attr.disableDependentsState, com.bareapps.barebackup.R.attr.summaryOff, com.bareapps.barebackup.R.attr.summaryOn, com.bareapps.barebackup.R.attr.switchTextOff, com.bareapps.barebackup.R.attr.switchTextOn};
+    public static final int[] m = {R.attr.summaryOn, R.attr.summaryOff, R.attr.disableDependentsState, R.attr.switchTextOn, R.attr.switchTextOff, com.bareapps.barebackup.R.attr.disableDependentsState, com.bareapps.barebackup.R.attr.summaryOff, com.bareapps.barebackup.R.attr.summaryOn, com.bareapps.barebackup.R.attr.switchTextOff, com.bareapps.barebackup.R.attr.switchTextOn};
+}
