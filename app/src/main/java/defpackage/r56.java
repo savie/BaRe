@@ -7,7 +7,5 @@ import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
 public interface r56 {
     public static final /* synthetic */ int v = 0;
 
-    static {
-        new z77(TokenAuthenticationScheme.SCHEME_DELIMITER);
-    }
+    public static final z77 INITIALIZED = new z77(TokenAuthenticationScheme.SCHEME_DELIMITER);
 }
