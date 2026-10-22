@@ -94,7 +94,7 @@ public final class tu3 implements Runnable {
             if (recyclerView4.getWindowVisibility() == 0) {
                 ru3 ru3Var2 = recyclerView4.w0;
                 int iAbs = Math.abs(ru3Var2.c) + Math.abs(ru3Var2.b);
-                for (?? r11 = z; r11 < ru3Var2.d * 2; r11 += 2) {
+                for (int r11 = 0; r11 < ru3Var2.d * 2; r11 += 2) {
                     if (i4 >= arrayList2.size()) {
                         su3Var2 = new su3();
                         arrayList2.add(su3Var2);
