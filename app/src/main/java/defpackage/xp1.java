@@ -15,7 +15,7 @@ jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v1 xp1,
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
-public final class xp1 {
+public enum xp1 {
     NO_COMPRESSION(0),
     FASTEST(1),
     FAST(3),
@@ -26,26 +26,17 @@ public final class xp1 {
     private final int level;
     private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
     public static final wp1 Companion = new wp1();
-    private static final xp1 DEFAULT = new xp1(1);
+    private static final xp1 DEFAULT = FASTEST;
 
     static {
     }
 
     private xp1(int i) {
-        super(str, i);
         this.level = i;
     }
 
     public static jx2 getEntries() {
         return $ENTRIES;
-    }
-
-    public static xp1 valueOf(String str) {
-        return (xp1) Enum.valueOf(xp1.class, str);
-    }
-
-    public static xp1[] values() {
-        return (xp1[]) $VALUES.clone();
     }
 
     public final int getLevel() {
