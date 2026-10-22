@@ -82,6 +82,43 @@ class FolderSnapshotManifestTest {
     }
 
     @Test
+    fun rejectsFileAncestorAndMissingDirectoryParents() {
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest(
+                "s1", null,
+                listOf(
+                    FolderFileFingerprint("parent", 1, digestA),
+                    FolderFileFingerprint("parent/child.txt", 1, digestB)
+                ),
+                emptyList()
+            )
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest(
+                "s1", null,
+                listOf(FolderFileFingerprint("missing/child.txt", 1, digestA)),
+                emptyList()
+            )
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest(
+                "s1", null, emptyList(), emptyList(),
+                directories = listOf("parent/child")
+            )
+        }
+    }
+
+    @Test
+    fun acceptsFileToDirectoryTransitionWithExplicitParentInventory() {
+        FolderSnapshotManifest(
+            "s2", "s1",
+            files = listOf(FolderFileFingerprint("parent/child.txt", 1, digestA)),
+            deletedPaths = listOf("parent"),
+            directories = listOf("parent")
+        )
+    }
+
+    @Test
     fun rejectsInvalidIdsDuplicatePathsAndSelfParent() {
         assertThrows(IllegalArgumentException::class.java) {
             FolderSnapshotManifest("../bad", null, emptyList(), emptyList())

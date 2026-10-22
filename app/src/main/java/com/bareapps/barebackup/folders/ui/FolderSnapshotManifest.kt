@@ -33,6 +33,36 @@ internal data class FolderSnapshotManifest(
         require(files.none { file -> file.path in directories }) { "File and directory paths conflict" }
         deletedPaths.forEach(::validateRelativePath)
         require(files.none { it.path in deletedPaths }) { "A path cannot be both present and deleted" }
+
+        // A current file cannot be an ancestor of another current file or directory.
+        // Directory ancestors must be represented explicitly so the manifest inventory
+        // can be checked exactly during restore.
+        val currentFilePaths = files.map { it.path }.toSet()
+        val currentDirectoryPaths = directories.toSet()
+        files.forEach { file ->
+            val segments = file.path.split('/')
+            for (end in 1 until segments.size) {
+                val ancestor = segments.take(end).joinToString("/")
+                require(ancestor !in currentFilePaths) {
+                    "A file path cannot contain another current path: $ancestor"
+                }
+                require(ancestor in currentDirectoryPaths) {
+                    "Snapshot is missing parent directory metadata: $ancestor"
+                }
+            }
+        }
+        directories.forEach { directory ->
+            val segments = directory.split('/')
+            for (end in 1 until segments.size) {
+                val ancestor = segments.take(end).joinToString("/")
+                require(ancestor !in currentFilePaths) {
+                    "A file path cannot contain a directory: $ancestor"
+                }
+                require(ancestor in currentDirectoryPaths) {
+                    "Snapshot is missing parent directory metadata: $ancestor"
+                }
+            }
+        }
     }
 
     fun encode(): String = buildString {
