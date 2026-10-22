@@ -149,7 +149,7 @@ public final /* synthetic */ class jx implements bt3 {
     public final Object invoke() {
         ArrayList arrayList;
         Object oq0Var;
-        ?? arrayList2;
+        List arrayList2;
         Object next;
         v76 v76Var;
         Iterator it;
