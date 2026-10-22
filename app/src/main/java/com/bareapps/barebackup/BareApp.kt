@@ -461,7 +461,7 @@ class BareApp : Application(), a45 {
         zn4.b(null, iq5(2, null))
         val z = q63.d
         cy0.b = n63(1)
-        m70.b = g70(1, h70.a, h70::class.java, "trashDirFor", "trashDirFor(Lorg/swiftapps/filesystem/File;)Lorg/swiftapps/filesystem/File;", 0, 0)
+        m70.b = g70(1, h70.a, h70::class.java, "trashDirFor", "trashDirFor(Lcom/bareapps/barebackup/filesystem/File;)Lcom/bareapps/barebackup/filesystem/File;", 0, 0)
         Log.d("BareApp", "init() complete")
         zn4.b(null, zs7(2, null))
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
