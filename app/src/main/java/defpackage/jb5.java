@@ -85,8 +85,8 @@ public final class jb5 {
     /* JADX WARN: Type inference failed for: r3v7, types: [java.util.ArrayList] */
     public static List a(fl4 fl4Var, String str) {
         Object bn6Var;
-        ?? B0;
-        ?? arrayList;
+        List B0;
+        List arrayList;
         Object bn6Var2;
         List listSubList;
         Object bn6Var3;
