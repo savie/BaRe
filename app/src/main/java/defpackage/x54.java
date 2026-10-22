@@ -82,7 +82,7 @@ public final class x54 extends qo0 {
         ArrayList arrayList;
         String strQ0;
         boolean zContains;
-        ?? r14;
+        Integer r14;
         int i;
         j54 j54Var = (j54) this.f.getValue();
         j54Var.getClass();
@@ -156,11 +156,8 @@ public final class x54 extends qo0 {
             string.getClass();
             int i9 = zc6Var.d;
             Integer numValueOf = Integer.valueOf(i9);
-            if (i9 == 0) {
-                r14 = numValueOf;
-                r14 = th3;
-            }
-            ?? string2 = r14 != 0 ? context.getString(r14.intValue()) : th3;
+            r14 = i9 == 0 ? null : numValueOf;
+            String string2 = r14 != null ? context.getString(r14.intValue()) : null;
             String strJ = xs1.j("action:", str2);
             u54 u54Var = u54.QUICK_ACTIONS;
             Parcelable.Creator<zc6> creator2 = zc6.CREATOR;
