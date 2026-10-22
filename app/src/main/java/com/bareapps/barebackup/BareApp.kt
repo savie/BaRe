@@ -396,7 +396,7 @@ class BareApp : Application(), a45 {
                     if (!nq7.Z(strG0, item, true)) { z = false; break }
                 }
                 if (th !is OutOfMemoryError && th !is IgnoredException && th.javaClass.simpleName != "RemoteServiceException" && !z) {
-                    val listA3 = fl1.A0("Resources$NotFoundException", "Binary XML", "InflateException")
+                    val listA3 = fl1.A0("Resources\\$NotFoundException", "Binary XML", "InflateException")
                     for (item in listA3) {
                         if (nq7.Z(strB, item, false)) break
                     }
