@@ -395,7 +395,7 @@ public final class kh0 extends tb1 {
     /* JADX WARN: Type inference failed for: r3v9, types: [java.util.ArrayList] */
     public final ui1 w(String str, List list) {
         Exception exc;
-        ?? arrayList;
+        List arrayList;
         ArrayList arrayList2 = new ArrayList();
         try {
             String strJ = qb1.j();
@@ -439,9 +439,9 @@ public final class kh0 extends tb1 {
                     }
                 }
             } else {
-                arrayList = 0;
+                arrayList = null;
             }
-            if (arrayList == 0) {
+            if (arrayList == null) {
                 arrayList = ov2.a;
             }
             ArrayList arrayList5 = new ArrayList(hl1.G0(arrayList3, 10));
