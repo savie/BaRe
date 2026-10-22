@@ -6,7 +6,6 @@ import com.nimbusds.jwt.proc.DefaultJWTClaimsVerifier;
 /* JADX INFO: loaded from: classes.dex */
 public final class p68 extends e88 {
     public p68() {
-        super("BeforeAttributeName", 33);
     }
 
     @Override // defpackage.e88
