@@ -1,5 +1,7 @@
 package defpackage;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -71,7 +73,7 @@ public final class gm1 implements jk8, n59 {
     /* JADX WARN: Type inference failed for: r14v5, types: [ov2] */
     /* JADX WARN: Type inference failed for: r14v6, types: [java.util.ArrayList] */
     public void b(ArrayList arrayList, mt3 mt3Var, qt3 qt3Var, bt3 bt3Var) {
-        ?? arrayList2;
+        List arrayList2;
         cw7 cw7VarG;
         cw7 cw7VarG2;
         boolean z;
@@ -147,9 +149,9 @@ public final class gm1 implements jk8, n59 {
                         arrayList2.add(((gk2) it2.next()).d);
                     }
                 } else {
-                    arrayList2 = 0;
+                    arrayList2 = null;
                 }
-                if (arrayList2 == 0) {
+                if (arrayList2 == null) {
                     arrayList2 = ov2.a;
                 }
                 ArrayList arrayList4 = new ArrayList();
