@@ -910,7 +910,7 @@ List arrayList;
                     jr7Var2 = new jr7(parent);
                 }
                 if (jr7Var2 == null || (jr7VarArrListFiles = jr7Var2.listFiles()) == null) {
-                                    arrayList = str;
+                                    arrayList = null;
                 } else {
                     arrayList = new ArrayList();
                     for (jr7 jr7Var4 : jr7VarArrListFiles) {
@@ -954,9 +954,9 @@ List arrayList;
                 vr6.e$default(vr6Var3, "AppRestoreHelper", "Base apk not found at path=".concat(path != null ? path : ""), null, 4, null);
             }
             if (str != null) {
-                        arrayList = str;
+                        arrayList = null;
             } else {
-                        arrayList = str;
+                        arrayList = null;
             }
             if (arrayList == null) {
                     arrayList = ov2.a;
