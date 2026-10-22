@@ -1,7 +1,7 @@
 package defpackage;
 
 /* JADX INFO: loaded from: classes.dex */
-public interface pj5 {
+public final class pj5 {
     public static final f1 A;
     public static final f1 B;
     public static final f1 C;
