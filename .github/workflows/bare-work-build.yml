@@ -64,57 +64,7 @@ jobs:
           profile: pixel_2
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none -no-snapshot -no-snapshot-save -no-snapshot-load -wipe-data -memory 4096 -cores 2
-          script: |
-            set -eu
-            trap 'adb logcat -d -v time > "$RUNNER_TEMP/bare-smoke-logcat.txt" 2>/dev/null || true' EXIT
-            adb devices -l
-            # ADB may expose an emulator as offline while Android is still booting.
-            for attempt in $(seq 1 60); do
-              state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
-              if [ "$state" = "device" ]; then break; fi
-              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 ] || [ "$attempt" -eq 40 ]; then
-                adb reconnect offline || true
-              fi
-              sleep 2
-            done
-            state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
-            if [ "$state" != "device" ]; then
-              adb devices -l
-              echo "ADB transport did not reach online state."
-              exit 1
-            fi
-            adb -s emulator-5554 wait-for-device
-            for attempt in $(seq 1 60); do
-              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
-              [ "$boot" = "1" ] && break
-              sleep 2
-            done
-            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
-            if [ "$boot" != "1" ]; then
-              adb devices -l
-              echo "Android emulator did not complete boot."
-              exit 1
-            fi
-            timeout 15s adb -s emulator-5554 shell settings put global window_animation_scale 0.0 || true
-            timeout 15s adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 || true
-            timeout 15s adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 || true
-            timeout 60s adb -s emulator-5554 install -r "app/build/outputs/apk/debug/app-debug.apk"
-            adb -s emulator-5554 logcat -c
-            for ACTIVITY in \
-              "com.bareapps.barebackup.home.HomeActivity" \
-              "com.bareapps.barebackup.home.search.HomeSearchActivity" \
-              "com.bareapps.barebackup.appslist.ui.list.AppListActivity" \
-              "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
-              "com.bareapps.barebackup.wifi.WifiActivity"; do
-              adb -s emulator-5554 shell am force-stop com.bareapps.barebackup || true
-              timeout 30s adb -s emulator-5554 shell am start -n "com.bareapps.barebackup/$ACTIVITY"
-              sleep 3
-            done
-            LOG="$(adb -s emulator-5554 logcat -d -t 5000)"
-            if printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
-              printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
-              exit 1
-            fi
+          script: bash .github/scripts/android-emulator-smoke-test.sh
 
       - name: Upload debug APK
         if: ${{ always() }}
