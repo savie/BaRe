@@ -49,13 +49,12 @@ public class i93 implements ia1 {
             h93Var = new h93(i93Var, kv1Var);
         }
         Object obj = h93Var.c;
-        ?? r1 = h93Var.e;
+        int r1 = h93Var.e;
         yx1 yx1Var = yx1.a;
         try {
             if (r1 != 0) {
                 if (r1 == 1) {
                     fileInputStream = h93Var.b;
-                    r1 = (i93) h93Var.a;
                     try {
                         lg7.H(obj);
                         rs9.c(fileInputStream, null);
