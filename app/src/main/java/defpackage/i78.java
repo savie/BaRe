@@ -4,7 +4,6 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public final class i78 extends e88 {
     public i78() {
-        super("Doctype", 50);
     }
 
     @Override // defpackage.e88
