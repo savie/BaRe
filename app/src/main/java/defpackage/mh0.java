@@ -18,7 +18,7 @@ public final class mh0 implements Serializable {
         long j2;
         mh0 mh0Var;
         kx8 kx8Var2 = kx8Var;
-        ?? obj = new Object();
+        mh0 obj = new mh0();
         obj.a = new TreeMap();
         long j3 = 1;
         obj.b = (1 << kx8Var2.c) - 1;
@@ -48,7 +48,7 @@ public final class mh0 implements Serializable {
             }
             int i5 = 1;
             long j8 = j6;
-            ?? r0 = mh0Var2;
+            mh0 r0 = mh0Var2;
             while (i5 < kx8Var2.d) {
                 long j9 = j8;
                 int i6 = (int) (j9 & j7);
