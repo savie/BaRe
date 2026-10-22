@@ -535,11 +535,11 @@ public final class xw {
         LocalMetadata localMetadataF;
         AppSpecialDataPayload appSpecialDataPayload;
         String ssaid;
-        ?? r0;
+        String r0;
         String ssaid2;
         String ssaid3;
         eb2 eb2Var;
-        ?? arrayList3;
+        List arrayList3;
         String str3;
         Iterator it5;
         Object next;
@@ -560,7 +560,7 @@ public final class xw {
         Integer numW4;
         boolean z8;
         eb2 eb2Var2;
-        ?? r1;
+        Iterator r1;
         int size;
         String str8;
         ArrayList arrayList5;
@@ -571,9 +571,9 @@ public final class xw {
         Object objT;
         String dataDir;
         String strI1;
-        ?? r3;
+        q63 r3;
         String installerPackage;
-        ?? r5;
+        String r5;
         boolean zCheckInstalled;
         Long apkBackupSize;
         Long splitsBackupSize;
@@ -586,35 +586,35 @@ public final class xw {
         iu iuVar;
         boolean zJ;
         LocalMetadata localMetadataF2;
-        ?? mediaBackupDate;
+        Long mediaBackupDate;
         qx sizeInfo;
-        ?? ValueOf;
+        Long ValueOf;
         LocalMetadata localMetadataF3;
-        ?? mediaSizeMirrored;
+        Long mediaSizeMirrored;
         iu iuVar2;
         boolean zJ2;
         LocalMetadata localMetadataF4;
-        ?? expansionBackupDate;
+        Long expansionBackupDate;
         qx sizeInfo2;
-        ?? ValueOf2;
+        Long ValueOf2;
         LocalMetadata localMetadataF5;
-        ?? expSizeMirrored;
+        Long expSizeMirrored;
         iu iuVar3;
         boolean zJ3;
         LocalMetadata localMetadataF6;
-        ?? extDataBackupDate;
+        Long extDataBackupDate;
         qx sizeInfo3;
-        ?? ValueOf3;
+        Long ValueOf3;
         LocalMetadata localMetadataF7;
-        ?? extDataSizeMirrored;
+        Long extDataSizeMirrored;
         iu iuVar4;
         boolean zJ4;
         LocalMetadata localMetadataF8;
-        ?? dataBackupDate;
+        Long dataBackupDate;
         qx sizeInfo4;
-        ?? ValueOf4;
+        Long ValueOf4;
         LocalMetadata localMetadataF9;
-        ?? dataSizeMirrored;
+        Long dataSizeMirrored;
         List listA0;
         Iterator it10;
         boolean zJ5;
@@ -622,7 +622,7 @@ public final class xw {
         long jC;
         String sourceDir;
         LocalMetadata localMetadataF10;
-        ?? apkSizeMirrored;
+        Long apkSizeMirrored;
         String versionName;
         Long versionCode;
         long jLongValue;
@@ -704,7 +704,7 @@ public final class xw {
                         if (localMetadataF10 != null) {
                             apkSizeMirrored = localMetadataF10.getApkSizeMirrored();
                         } else {
-                            apkSizeMirrored = uwVar;
+                            apkSizeMirrored = null;
                         }
                         versionName = jiVar2.getVersionName();
                         if (versionName == null) {
@@ -819,21 +819,21 @@ public final class xw {
                         if (localMetadataF8 != null) {
                             dataBackupDate = localMetadataF8.getDataBackupDate();
                         } else {
-                            dataBackupDate = uwVar;
+                            dataBackupDate = null;
                         }
                         long jH = io4.h(dataBackupDate);
                         sizeInfo4 = jiVar2.getSizeInfo();
                         if (sizeInfo4 != null) {
                             ValueOf4 = Long.valueOf(sizeInfo4.getTotalDataSize(z10));
                         } else {
-                            ValueOf4 = uwVar;
+                            ValueOf4 = null;
                         }
                         long jH2 = io4.h(ValueOf4);
                         localMetadataF9 = xwVar3.f();
                         if (localMetadataF9 != null) {
                             dataSizeMirrored = localMetadataF9.getDataSizeMirrored();
                         } else {
-                            dataSizeMirrored = uwVar;
+                            dataSizeMirrored = null;
                         }
                         zJ4 = xwVar3.q.b(iuVar4, dataDir2, jH, jH2, io4.h(dataSizeMirrored));
                     }
@@ -853,21 +853,21 @@ public final class xw {
                         if (localMetadataF6 != null) {
                             extDataBackupDate = localMetadataF6.getExtDataBackupDate();
                         } else {
-                            extDataBackupDate = uwVar;
+                            extDataBackupDate = null;
                         }
                         long jH3 = io4.h(extDataBackupDate);
                         sizeInfo3 = jiVar2.getSizeInfo();
                         if (sizeInfo3 != null) {
                             ValueOf3 = Long.valueOf(sizeInfo3.getExtDataSize(z10));
                         } else {
-                            ValueOf3 = uwVar;
+                            ValueOf3 = null;
                         }
                         long jH4 = io4.h(ValueOf3);
                         localMetadataF7 = xwVar3.f();
                         if (localMetadataF7 != null) {
                             extDataSizeMirrored = localMetadataF7.getExtDataSizeMirrored();
                         } else {
-                            extDataSizeMirrored = uwVar;
+                            extDataSizeMirrored = null;
                         }
                         zJ3 = xwVar3.q.b(iuVar3, externalDataDir, jH3, jH4, io4.h(extDataSizeMirrored));
                     }
@@ -889,21 +889,21 @@ public final class xw {
                         if (localMetadataF4 != null) {
                             expansionBackupDate = localMetadataF4.getExpansionBackupDate();
                         } else {
-                            expansionBackupDate = uwVar;
+                            expansionBackupDate = null;
                         }
                         long jH5 = io4.h(expansionBackupDate);
                         sizeInfo2 = jiVar2.getSizeInfo();
                         if (sizeInfo2 != null) {
                             ValueOf2 = Long.valueOf(sizeInfo2.getExternalObbSize());
                         } else {
-                            ValueOf2 = uwVar;
+                            ValueOf2 = null;
                         }
                         long jH6 = io4.h(ValueOf2);
                         localMetadataF5 = xwVar3.f();
                         if (localMetadataF5 != null) {
                             expSizeMirrored = localMetadataF5.getExpSizeMirrored();
                         } else {
-                            expSizeMirrored = uwVar;
+                            expSizeMirrored = null;
                         }
                         zJ2 = xwVar3.q.b(iuVar2, expansionDir, jH5, jH6, io4.h(expSizeMirrored));
                     }
@@ -923,21 +923,21 @@ public final class xw {
                         if (localMetadataF2 != null) {
                             mediaBackupDate = localMetadataF2.getMediaBackupDate();
                         } else {
-                            mediaBackupDate = uwVar;
+                            mediaBackupDate = null;
                         }
                         long jH7 = io4.h(mediaBackupDate);
                         sizeInfo = jiVar2.getSizeInfo();
                         if (sizeInfo != null) {
                             ValueOf = Long.valueOf(sizeInfo.getMediaSize());
                         } else {
-                            ValueOf = uwVar;
+                            ValueOf = null;
                         }
                         long jH8 = io4.h(ValueOf);
                         localMetadataF3 = xwVar3.f();
                         if (localMetadataF3 != null) {
                             mediaSizeMirrored = localMetadataF3.getMediaSizeMirrored();
                         } else {
-                            mediaSizeMirrored = uwVar;
+                            mediaSizeMirrored = null;
                         }
                         zJ = xwVar3.q.b(iuVar, mediaDir, jH7, jH8, io4.h(mediaSizeMirrored));
                     }
@@ -1082,7 +1082,7 @@ public final class xw {
                                     r3 = workingDir;
                                 }
                             } else {
-                                r3 = uwVar;
+                                r3 = null;
                             }
                             boolean grantsAllSupportedPermissions = yuVar.getGrantsAllSupportedPermissions();
                             if (!z6) {
@@ -1091,13 +1091,13 @@ public final class xw {
                                     installerPackage = localMetadataF11.getInstallerPackage();
                                     r5 = installerPackage;
                                 } else {
-                                    r5 = uwVar;
+                                    r5 = null;
                                 }
                             } else if (cloudMetadata != null) {
                                 installerPackage = cloudMetadata.getInstallerPackage();
                                 r5 = installerPackage;
                             } else {
-                                r5 = uwVar;
+                                r5 = null;
                             }
                             jzVar = jzVar3;
                             kh6Var2 = kh6Var;
@@ -1344,7 +1344,7 @@ public final class xw {
                                                     }
                                                 }
                                                 if (eb2Var != null || (str3 = (String) eb2Var.a(strT2).c(String.class)) == null) {
-                                                    arrayList3 = uwVar;
+                                                    arrayList3 = null;
                                                 } else {
                                                     List listX0 = nq7.x0(str3, new String[]{","}, 6);
                                                     ArrayList arrayList8 = new ArrayList(hl1.G0(listX0, 10));
@@ -1405,7 +1405,7 @@ public final class xw {
                                                                                         }
                                                                                     }
                                                                                 } else {
-                                                                                    arrayList3 = uwVar;
+                                                                                    arrayList3 = null;
                                                                                 }
                                                                             } while (!uq7.V((String) next4, "::minSdk", false));
                                                                             str7 = (String) next4;
@@ -1418,10 +1418,10 @@ public final class xw {
                                                                                 }
                                                                             }
                                                                         } else {
-                                                                            arrayList3 = uwVar;
+                                                                            arrayList3 = null;
                                                                         }
                                                                     } else {
-                                                                        arrayList3 = uwVar;
+                                                                        arrayList3 = null;
                                                                     }
                                                                 } while (!uq7.V((String) next2, "::minAppVersion", false));
                                                                 str5 = (String) next2;
@@ -1571,7 +1571,7 @@ public final class xw {
                                                                     }
                                                                 }
                                                             } else {
-                                                                arrayList3 = uwVar;
+                                                                arrayList3 = null;
                                                             }
                                                         } while (!uq7.V((String) next, "::maxAppVersion", false));
                                                         str4 = (String) next;
@@ -3401,7 +3401,7 @@ public final class xw {
                                                                 }
                                                             } else if (pe4.d((String) it13.next(), "::disabled")) {
                                                             }
-                                                            arrayList3 = uwVar;
+                                                            arrayList3 = null;
                                                         }
                                                     }
                                                 }
@@ -3414,11 +3414,11 @@ public final class xw {
                                                     z8 = false;
                                                     eb2Var = !z8 ? j36.c : j36.c;
                                                     if (eb2Var != null) {
-                                                        arrayList3 = uwVar;
+                                                        arrayList3 = null;
                                                     } else {
-                                                        arrayList3 = uwVar;
+                                                        arrayList3 = null;
                                                     }
-                                                    if (arrayList3 == 0) {
+                                                    if (arrayList3 == null) {
                                                         if (arrayList3.isEmpty()) {
                                                             r1 = arrayList3;
                                                             r1 = uwVar;
@@ -3493,25 +3493,25 @@ public final class xw {
                                                                     if (cloudMetadata2 != null) {
                                                                         ssaid2 = cloudMetadata2.getSsaid();
                                                                     } else {
-                                                                        r0 = uwVar;
+                                                                        r0 = null;
                                                                     }
                                                                 } else if (localMetadataF != null) {
                                                                     ssaid = localMetadataF.getSsaid();
                                                                 } else {
-                                                                    r0 = uwVar;
+                                                                    r0 = null;
                                                                 }
                                                             } else if (z6) {
                                                                 if (cloudMetadata2 != null) {
                                                                     ssaid2 = cloudMetadata2.getSsaid();
                                                                 } else {
-                                                                    r0 = uwVar;
+                                                                    r0 = null;
                                                                 }
                                                             } else if (localMetadataF != null) {
                                                                 ssaid = localMetadataF.getSsaid();
                                                             } else {
-                                                                r0 = uwVar;
+                                                                r0 = null;
                                                             }
-                                                            if (r0 != 0) {
+                                                            if (r0 != null) {
                                                                 r0 = ssaid;
                                                                 r0 = ssaid2;
                                                                 if (r0.length() == 0) {
@@ -3558,12 +3558,12 @@ public final class xw {
                                         uwVar = null;
                                     }
                                     if (eb2Var != null) {
-                                        arrayList3 = uwVar;
+                                        arrayList3 = null;
                                     } else {
-                                        arrayList3 = uwVar;
+                                        arrayList3 = null;
                                     }
                                 }
-                                if (arrayList3 == 0) {
+                                if (arrayList3 == null) {
                                     if (arrayList3.isEmpty()) {
                                         r1 = arrayList3;
                                         r1 = uwVar;
@@ -3642,14 +3642,14 @@ public final class xw {
                                         if (cloudMetadata2 != null) {
                                             ssaid2 = cloudMetadata2.getSsaid();
                                         } else {
-                                            r0 = uwVar;
+                                            r0 = null;
                                         }
                                     } else if (localMetadataF != null) {
                                         ssaid = localMetadataF.getSsaid();
                                     } else {
-                                        r0 = uwVar;
+                                        r0 = null;
                                     }
-                                    if (r0 != 0) {
+                                    if (r0 != null) {
                                         r0 = ssaid;
                                         r0 = ssaid2;
                                         if (r0.length() == 0) {
@@ -3764,7 +3764,7 @@ public final class xw {
                         if (localMetadataF10 != null) {
                             apkSizeMirrored = localMetadataF10.getApkSizeMirrored();
                         } else {
-                            apkSizeMirrored = uwVar;
+                            apkSizeMirrored = null;
                         }
                         versionName = jiVar2.getVersionName();
                         if (versionName == null) {
@@ -3877,21 +3877,21 @@ public final class xw {
                         if (localMetadataF8 != null) {
                             dataBackupDate = localMetadataF8.getDataBackupDate();
                         } else {
-                            dataBackupDate = uwVar;
+                            dataBackupDate = null;
                         }
                         long jH10 = io4.h(dataBackupDate);
                         sizeInfo4 = jiVar2.getSizeInfo();
                         if (sizeInfo4 != null) {
                             ValueOf4 = Long.valueOf(sizeInfo4.getTotalDataSize(z10));
                         } else {
-                            ValueOf4 = uwVar;
+                            ValueOf4 = null;
                         }
                         long jH11 = io4.h(ValueOf4);
                         localMetadataF9 = xwVar3.f();
                         if (localMetadataF9 != null) {
                             dataSizeMirrored = localMetadataF9.getDataSizeMirrored();
                         } else {
-                            dataSizeMirrored = uwVar;
+                            dataSizeMirrored = null;
                         }
                         zJ4 = xwVar3.q.b(iuVar4, dataDir3, jH10, jH11, io4.h(dataSizeMirrored));
                     }
@@ -3910,21 +3910,21 @@ public final class xw {
                         if (localMetadataF6 != null) {
                             extDataBackupDate = localMetadataF6.getExtDataBackupDate();
                         } else {
-                            extDataBackupDate = uwVar;
+                            extDataBackupDate = null;
                         }
                         long jH12 = io4.h(extDataBackupDate);
                         sizeInfo3 = jiVar2.getSizeInfo();
                         if (sizeInfo3 != null) {
                             ValueOf3 = Long.valueOf(sizeInfo3.getExtDataSize(z10));
                         } else {
-                            ValueOf3 = uwVar;
+                            ValueOf3 = null;
                         }
                         long jH13 = io4.h(ValueOf3);
                         localMetadataF7 = xwVar3.f();
                         if (localMetadataF7 != null) {
                             extDataSizeMirrored = localMetadataF7.getExtDataSizeMirrored();
                         } else {
-                            extDataSizeMirrored = uwVar;
+                            extDataSizeMirrored = null;
                         }
                         zJ3 = xwVar3.q.b(iuVar3, externalDataDir2, jH12, jH13, io4.h(extDataSizeMirrored));
                     }
@@ -3946,21 +3946,21 @@ public final class xw {
                         if (localMetadataF4 != null) {
                             expansionBackupDate = localMetadataF4.getExpansionBackupDate();
                         } else {
-                            expansionBackupDate = uwVar;
+                            expansionBackupDate = null;
                         }
                         long jH14 = io4.h(expansionBackupDate);
                         sizeInfo2 = jiVar2.getSizeInfo();
                         if (sizeInfo2 != null) {
                             ValueOf2 = Long.valueOf(sizeInfo2.getExternalObbSize());
                         } else {
-                            ValueOf2 = uwVar;
+                            ValueOf2 = null;
                         }
                         long jH15 = io4.h(ValueOf2);
                         localMetadataF5 = xwVar3.f();
                         if (localMetadataF5 != null) {
                             expSizeMirrored = localMetadataF5.getExpSizeMirrored();
                         } else {
-                            expSizeMirrored = uwVar;
+                            expSizeMirrored = null;
                         }
                         zJ2 = xwVar3.q.b(iuVar2, expansionDir2, jH14, jH15, io4.h(expSizeMirrored));
                     }
@@ -3980,21 +3980,21 @@ public final class xw {
                         if (localMetadataF2 != null) {
                             mediaBackupDate = localMetadataF2.getMediaBackupDate();
                         } else {
-                            mediaBackupDate = uwVar;
+                            mediaBackupDate = null;
                         }
                         long jH16 = io4.h(mediaBackupDate);
                         sizeInfo = jiVar2.getSizeInfo();
                         if (sizeInfo != null) {
                             ValueOf = Long.valueOf(sizeInfo.getMediaSize());
                         } else {
-                            ValueOf = uwVar;
+                            ValueOf = null;
                         }
                         long jH17 = io4.h(ValueOf);
                         localMetadataF3 = xwVar3.f();
                         if (localMetadataF3 != null) {
                             mediaSizeMirrored = localMetadataF3.getMediaSizeMirrored();
                         } else {
-                            mediaSizeMirrored = uwVar;
+                            mediaSizeMirrored = null;
                         }
                         zJ = xwVar3.q.b(iuVar, mediaDir2, jH16, jH17, io4.h(mediaSizeMirrored));
                     }
