@@ -215,7 +215,7 @@ class BareApp : Application(), a45 {
         companion object {
             @JvmStatic
             fun a(): BareApp {
-                val app = e
+                val app = BareApp.e
                 if (app != null) return app
                 pe4.F("sInstance")
                 throw NullPointerException()
