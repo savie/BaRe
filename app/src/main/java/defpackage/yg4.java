@@ -105,7 +105,7 @@ public final class yg4 extends as5 {
     /* JADX WARN: Type inference failed for: r0v3, types: [java.util.HashSet] */
     @Override // defpackage.as5
     public final sk4 A(jb9 jb9Var) {
-        ?? hashSet;
+        Set hashSet;
         tk4 tk4Var = (tk4) jb9Var.z(tk4.class);
         if (tk4Var == null) {
             return sk4.b;
@@ -938,7 +938,7 @@ public final class yg4 extends as5 {
                 hashSet.add(str);
             }
         }
-        ?? r1 = hashSet;
+        Set r1 = hashSet;
         boolean zIgnoreUnknown = nk4Var.ignoreUnknown();
         boolean zAllowGetters = nk4Var.allowGetters();
         boolean zAllowSetters = nk4Var.allowSetters();
