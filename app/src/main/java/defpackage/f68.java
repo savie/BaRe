@@ -4,7 +4,6 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public final class f68 extends e88 {
     public f68() {
-        super("ScriptDataEscapedLessthanSign", 24);
     }
 
     @Override // defpackage.e88
