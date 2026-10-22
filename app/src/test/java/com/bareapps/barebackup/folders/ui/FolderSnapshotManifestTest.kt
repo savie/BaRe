@@ -18,7 +18,7 @@ class FolderSnapshotManifestTest {
                 FolderFileFingerprint("unicodé/你好.txt", 7, digestB)
             ),
             deletedPaths = listOf("old/removed.txt"),
-            directories = listOf("empty", "nested"),
+            directories = listOf("empty", "nested", "unicodé"),
             deletedDirectories = listOf("old", "old/deeper")
         )
 
