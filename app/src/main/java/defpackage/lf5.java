@@ -88,7 +88,7 @@ public final class lf5 {
     /* JADX WARN: Type inference failed for: r7v5 */
     /* JADX WARN: Type inference failed for: r8v4, types: [int] */
     public final Map c(String str, boolean z) throws Throwable {
-        ?? r8;
+        Closeable r8;
         FileInputStream fileInputStream;
         Exception e;
         ca3 ca3Var = this.a;
@@ -97,7 +97,7 @@ public final class lf5 {
             g(fileG, "The file has a length of zero for session: " + str);
             return Collections.EMPTY_MAP;
         }
-        ?? r7 = 0;
+        Closeable r7 = null;
         try {
             try {
                 fileInputStream = new FileInputStream(fileG);
@@ -138,7 +138,7 @@ public final class lf5 {
         File fileG = this.a.g(str, "user-data");
         ?? r5 = 0;
         if (fileG.exists()) {
-            ?? r2 = (fileG.length() > 0L ? 1 : (fileG.length() == 0L ? 0 : -1));
+            int r2 = (fileG.length() > 0L ? 1 : (fileG.length() == 0L ? 0 : -1));
             try {
                 if (r2 != 0) {
                     try {
