@@ -431,7 +431,7 @@ public final class nb5 {
                 ghVarF = ghVar;
                 iArr3 = iArr;
                 i = 4;
-                r4 = (c == true ? 1 : 0) + 1;
+                r4 = (c != 0 ? 1 : 0) + 1;
             } catch (Throwable th18) {
                 q63Var.h();
                 Arrays.fill(bArrArray, (byte) 0);
