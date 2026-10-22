@@ -335,33 +335,33 @@ public abstract class xx3 {
     	at jadx.core.dex.visitors.typeinference.FixTypesVisitor.visit(FixTypesVisitor.java:94)
      */
     public static void B(q63 q63Var, final z95 z95Var, final ft7 ft7Var, String str) throws Throwable {
-        final ?? r14;
-        ?? HasNext;
+        Object r14;
+        String HasNext;
         long j;
-        ?? r8;
-        ?? r16;
-        ?? r6;
-        ?? r35;
-        ?? r1;
+        Object r8;
+        Object r16;
+        Object r6;
+        Object r35;
+        Object r1;
         Throwable th;
-        ?? r7;
-        ?? r2;
+        Object r7;
+        Object r2;
         String str2;
-        ?? r9;
+        Object r9;
         pa5 pa5VarM;
         List list;
         ArrayList arrayList;
         Iterator it;
         pa5 pa5Var;
         List list2;
-        ?? r36;
-        ?? r10;
-        ?? r37;
-        ?? r38;
-        ?? r11;
-        ?? r39;
+        Object r36;
+        Object r10;
+        Object r37;
+        Object r38;
+        Object r11;
+        Object r39;
         final byte[] bArr;
-        ?? r310;
+        Object r310;
         byte[] bArr2;
         q63 q63Var2 = q63Var;
         q63Var2.getClass();
@@ -392,11 +392,11 @@ public abstract class xx3 {
         int i2 = 0;
         q63 q63Var3 = q63Var2;
         gt7 gt7Var2 = gt7Var;
-        ?? r12 = strK;
-        ?? r13 = strE0;
-        ?? A = pa5VarM2;
-        ?? r15 = strB0;
-        ?? r17 = jb5Var;
+        String r12 = strK;
+        String uploadPath = strE0;
+        pa5 A = pa5VarM2;
+        ExecutorCompletionService r15;
+        jb5 r17 = jb5Var;
         while (true) {
             final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
             fl4 fl4Var = new fl4();
@@ -423,7 +423,7 @@ public abstract class xx3 {
             iArrCopyOfRange.getClass();
             ByteBuffer byteBufferAllocate = ByteBuffer.allocate(iArrCopyOfRange.length * 4);
             byteBufferAllocate.getClass();
-            ?? r21 = iArr;
+            int[] iArrValues = iArr;
             int i5 = 0;
             for (int length = iArrCopyOfRange.length; i5 < length; length = length) {
                 byteBufferAllocate.putInt(iArrCopyOfRange[i5]);
@@ -431,10 +431,10 @@ public abstract class xx3 {
             }
             byte[] bArrArray = byteBufferAllocate.array();
             bArrArray.getClass();
-            int i6 = r21[4];
+            int i6 = iArrValues[4];
             int i7 = 5;
-            int i8 = r21[5];
-            ?? arrayList2 = r13;
+            int i8 = iArrValues[5];
+            List arrayList2;
             int i9 = i2;
             int[] iArr2 = {i6, i8, 0, 0};
             int[] iArr3 = {i6, i8, i6, i8};
@@ -457,9 +457,9 @@ public abstract class xx3 {
             }
             int i12 = i10;
             final lh6 lh6Var = new lh6();
-            final ?? kh6Var = new kh6();
+            final kh6 kh6Var = new kh6();
             ExecutorService executorServiceNewFixedThreadPool = Executors.newFixedThreadPool(4);
-            ?? executorCompletionService = r15;
+            ExecutorCompletionService executorCompletionService;
             executorCompletionService = new ExecutorCompletionService(executorServiceNewFixedThreadPool);
             long j2 = jA;
             final Semaphore semaphore = new Semaphore(4);
@@ -467,20 +467,20 @@ public abstract class xx3 {
                 InputStream inputStreamW = q63Var3.w(true);
                 try {
                     Iterator it2 = listI.iterator();
-                    kh6Var = iArrCopyOfRange;
+                    int[] keyWords = iArrCopyOfRange;
                     int i13 = 0;
                     int iJ = 0;
                     int i14 = 0;
-                    ?? r3 = q63Var3;
-                    ?? r18 = r12;
-                    r21 = inputStreamW;
+                    q63 r3 = q63Var3;
+                    String r18 = r12;
+                    InputStream r21 = inputStreamW;
                     r14 = r17;
-                    ?? r19 = str3;
+                    String r19 = str3;
                     r14 = r14;
                     while (true) {
                         try {
-                            HasNext = it2.hasNext();
-                            if (HasNext == 0) {
+                            boolean hasNext = it2.hasNext();
+                            if (!hasNext) {
                                 break;
                             }
                             int i15 = i14 + 1;
@@ -548,7 +548,7 @@ public abstract class xx3 {
                                                 Arrays.fill(bArr2, (byte) 0);
                                                 byte[] bArr4 = bArrArray;
                                                 r10 = r21;
-                                                final ?? r110 = HasNext;
+                                                final String r110 = HasNext;
                                                 bArr = bArrF;
                                                 j = j2;
                                                 r14 = r14;
@@ -557,7 +557,7 @@ public abstract class xx3 {
                                                         @Override // java.util.concurrent.Callable
                                                         public final Object call() {
                                                             byte[] bArr5 = bArr;
-                                                            jb5 jb5Var2 = r14;
+                                                            jb5 jb5Var2 = jb5Var;
                                                             String str4 = r110;
                                                             db5 db5Var2 = db5Var;
                                                             ft7 ft7Var2 = ft7Var;
@@ -734,7 +734,7 @@ public abstract class xx3 {
                                         jb5.b(keySetViewNewKeySet);
                                         executorServiceNewFixedThreadPool.shutdownNow();
                                         Arrays.fill((int[]) r21, 0);
-                                        Arrays.fill((int[]) kh6Var, 0);
+                                        Arrays.fill(keyWords, 0);
                                         Arrays.fill((byte[]) r14, (byte) 0);
                                         Arrays.fill(iArr2, 0);
                                         Arrays.fill(iArr3, 0);
@@ -778,7 +778,7 @@ public abstract class xx3 {
                     }
                     int i22 = i13;
                     byte[] bArr5 = bArrArray;
-                    ?? r311 = r18;
+                    String r311 = r18;
                     j = j2;
                     try {
                         try {
@@ -813,8 +813,8 @@ public abstract class xx3 {
                                         Arrays.fill(iArr2, 0);
                                         Arrays.fill(iArr3, 0);
                                         gt7.i = null;
-                                        ?? D = gt7Var3.d();
-                                        pa5VarM = D.m(arrayList2);
+                                        vq D = gt7Var3.d();
+                                        pa5VarM = D.m(uploadPath);
                                         list = ov2.a;
                                         if (pa5VarM != null) {
                                             list = list2;
@@ -906,8 +906,8 @@ public abstract class xx3 {
                                                                         Arrays.fill(iArr2, 0);
                                                                         Arrays.fill(iArr3, 0);
                                                                         gt7.i = null;
-                                                                        ?? D2 = gt7Var3.d();
-                                                                        pa5VarM = D2.m(arrayList2);
+                                                                        vq D2 = gt7Var3.d();
+                                                                        pa5VarM = D2.m(uploadPath);
                                                                         list = ov2.a;
                                                                         if (pa5VarM != null && (list2 = (List) ((LinkedHashMap) D2.c).get(pa5VarM.a)) != null) {
                                                                             list = list2;
