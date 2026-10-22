@@ -1405,9 +1405,8 @@ public final class ji implements Parcelable, jl0 {
             } else {
                 int i3 = parcel.readInt();
                 arrayList3 = new ArrayList(i3);
-                for (?? r3 = z; r3 != i3; r3++) {
+                for (int i4 = 0; i4 < i3; i4++) {
                     arrayList3.add(gm.CREATOR.createFromParcel(parcel));
-                    i3 = i3;
                 }
             }
             if (parcel.readInt() == 0) {
