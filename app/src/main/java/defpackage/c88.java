@@ -4,7 +4,6 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public final class c88 extends e88 {
     public c88() {
-        super("TagOpen", 7);
     }
 
     @Override // defpackage.e88
