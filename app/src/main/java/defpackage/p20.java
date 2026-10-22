@@ -170,7 +170,7 @@ public final class p20 extends ws7 implements qt3 {
                                             P = null;
                                         }
                                     } else {
-                                        P = l;
+                                        P = null;
                                     }
                                     pd1VarA = r3.A(sd1Var2, r5, z3, keVar, P);
                                     tb1Var2 = tb1Var;
