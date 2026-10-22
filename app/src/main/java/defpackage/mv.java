@@ -661,7 +661,7 @@ List arrayList;
         String name;
         jr7[] jr7VarArrListFiles;
         String parent;
-        jr7 jr7Var2;
+        jr7 jr7Var2 = null;
         String string;
         Object next2;
         iv ivVar;
