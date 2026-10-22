@@ -777,7 +777,7 @@ public abstract class xx3 {
                                                                             Arrays.fill(iArr3, 0);
                                                                             i2 = i9 + 1;
                                                                                                                                                                                                                                     ghVarF = ghVar;
-                                                                            r17 = r14;
+                                                                            r17 = client;
                                                                             jA = j;
                                                                             gt7Va                                                                            q63Var3 = q63Var3;
                                                                                                                                                                                                                                 }
@@ -789,8 +789,7 @@ public abstract class xx3 {
                                                                 st                                                                if (str2 == null) {
                                                                                                                                         
                                                                                                                                                                                                             executorCompletionService = executorCompletionService;
-                                                                    r14 = bArr5;
-                                                                    try {
+                                                                                                                                        try {
                                                                         client.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str2);
                                                                         executorServiceNewFixedThreadPool.shutdownNow();
                                                                         Arrays.fill(iArr, 0);
@@ -839,7 +838,7 @@ public abstract class xx3 {
                                                                                 Arrays.fill(iArr3, 0);
                                                                                 i2 = i9 + 1;
                                                                                                                                                                                                                                                 ghVarF = ghVar;
-                                                                                r17 = r14;
+                                                                                r17 = client;
                                                                                 jA = j;
                                                                                 gt7Va                                                                                q63Var3 = q63Var3;
                                                                                                                                                                                                                                             }
@@ -875,8 +874,7 @@ public abstract class xx3 {
                                                         } catch (eb5 e8) {
                                                             e = e8;
                                                                                                                         q63Var3 = q63Var3;
-                                                            r14 = bArr5;
-                                                            i9 = i9;
+                                                                                                                        i9 = i9;
                                                             if (i9 < 16) {
                                                                 if (!ft7Var.a.get()) {
                                                                     keySetViewNewKeySet.getClass();
@@ -889,7 +887,7 @@ public abstract class xx3 {
                                                                     Arrays.fill(iArr3, 0);
                                                                     i2 = i9 + 1;
                                                                                                                                                                                                             ghVarF = ghVar;
-                                                                    r17 = r14;
+                                                                    r17 = client;
                                                                     jA = j;
                                                                     gt7Va                                                                    q63Var3 = q63Var3;
                                                                                                                                                                                                         }
@@ -904,8 +902,7 @@ public abstract class xx3 {
                                             } catch (eb5 e10) {
                                                 e = e10;
                                                                                                                                                 q63Var3 = r3;
-                                                r14 = bArr5;
-                                                i9 = i9;
+                                                                                                i9 = i9;
                                                 if (i9 < 16) {
                                                     if (!ft7Var.a.get()) {
                                                         keySetViewNewKeySet.getClass();
@@ -918,7 +915,7 @@ public abstract class xx3 {
                                                         Arrays.fill(iArr3, 0);
                                                         i2 = i9 + 1;
                                                                                                                                                                         ghVarF = ghVar;
-                                                        r17 = r14;
+                                                        r17 = client;
                                                         jA = j;
                                                         gt7Va                                                        q63Var3 = q63Var3;
                                                                                                                                                                     }
@@ -936,8 +933,7 @@ public abstract class xx3 {
                             } catch (eb5 e13) {
                                 e = e13;
                                 q63Var3 = q63Var;
-                                                                r14 = bArr5;
-                                if (i9 < 16) {
+                                                                                                if (i9 < 16) {
                                     if (!ft7Var.a.get()) {
                                         keySetViewNewKeySet.getClass();
                                         jb5.b(keySetViewNewKeySet);
@@ -949,7 +945,7 @@ public abstract class xx3 {
                                         Arrays.fill(iArr3, 0);
                                         i2 = i9 + 1;
                                                                                                                         ghVarF = ghVar;
-                                        r17 = r14;
+                                        r17 = client;
                                         jA = j;
                                         gt7Va                                        q63Var3 = q63Var3;
                                                                                                                     }
@@ -958,8 +954,7 @@ public abstract class xx3 {
                             }
                         } catch (Throwable th16) {
                             th = th16;
-                            r14 = bArr5;
-                                                    }
+                                                                                }
                     } catch (eb5 e14) {
                         e = e14;
                         q63Var3 = q63Var;
@@ -967,8 +962,7 @@ public abstract class xx3 {
                 } catch (Throwable th17) {
                     th = th17;
                                                             r6 = inputStreamW;
-                                        r1 = q63Var3;
-                }
+                                                        }
             } catch (eb5 e15) {
                 e = e15;
                 kh6Var = iArrCopyOfRange;
