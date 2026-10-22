@@ -51,7 +51,7 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
       - name: Smoke test core screens on Android emulator
-        timeout-minutes: 12
+        timeout-minutes: 25
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -60,55 +60,5 @@ jobs:
           profile: pixel_2
           disable-animations: false
           emulator-options: -no-window -no-audio -no-boot-anim -camera-back none
-          script: |
-            set -eu
-            adb devices -l
-            # "wait-for-device" can return while ADB still reports the emulator as offline.
-            # Wait for the transport to be online and Android's boot-completed property.
-            for attempt in $(seq 1 60); do
-              state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
-              if [ "$state" = "device" ]; then break; fi
-              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 ] || [ "$attempt" -eq 40 ]; then
-                adb reconnect offline || true
-              fi
-              sleep 2
-            done
-            state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
-            if [ "$state" != "device" ]; then
-              adb devices -l
-              echo "Android emulator ADB transport never reached the online device state."
-              exit 1
-            fi
-            adb -s emulator-5554 wait-for-device
-            for attempt in $(seq 1 60); do
-              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
-              [ "$boot" = "1" ] && break
-              sleep 2
-            done
-            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
-            if [ "$boot" != "1" ]; then
-              adb devices -l
-              echo "Android emulator did not complete boot."
-              exit 1
-            fi
-            timeout 10s adb -s emulator-5554 shell settings put global window_animation_scale 0.0 || true
-            timeout 10s adb -s emulator-5554 shell settings put global transition_animation_scale 0.0 || true
-            timeout 10s adb -s emulator-5554 shell settings put global animator_duration_scale 0.0 || true
-            timeout 60s adb install -r "app/build/outputs/apk/debug/app-debug.apk"
-            adb logcat -c
-            for ACTIVITY in \
-              "com.bareapps.barebackup.home.HomeActivity" \
-              "com.bareapps.barebackup.home.search.HomeSearchActivity" \
-              "com.bareapps.barebackup.appslist.ui.list.AppListActivity" \
-              "com.bareapps.barebackup.folders.ui.FoldersDashActivity" \
-              "com.bareapps.barebackup.wifi.WifiActivity"; do
-              adb shell am force-stop com.bareapps.barebackup || true
-              timeout 30s adb shell am start -n "com.bareapps.barebackup/$ACTIVITY"
-              sleep 3
-            done
-            LOG="$(adb logcat -d -t 3000)"
-            if printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION" | grep -q "com.bareapps.barebackup"; then
-              printf '%s\n' "$LOG" | grep -B5 -A10 "FATAL EXCEPTION"
-              exit 1
-            fi
+          script: bash .github/scripts/android-emulator-smoke-test.sh
 
