@@ -349,8 +349,7 @@ public abstract class xx3 {
         List list2;
         final byte[] bArr;
         byte[] bArr2;
-        q63 q63Var2 = q63Var;
-        q63Var2.getClass();
+        q63 q63Va        q63Var2.getClass();
         ft7Var.getClass();
         gt7 gt7Var = nb5.b;
         gt7Var.getClass();
@@ -377,8 +376,7 @@ public abstract class xx3 {
         String strK = jb5.k(q63Var2, jA);
         int i2 = 0;
         q63 q63Var3 = q63Var2;
-        gt7 gt7Var2 = gt7Var;
-
+        gt7 gt7Va
 
         pa5 pa5VarM3 = pa5VarM2;
         long A = 0L;
@@ -418,13 +416,12 @@ public abstract class xx3 {
             }
             byte[] bArrArray = byteBufferAllocate.array();
             bArrArray.getClass();
-            int i6 = r21[4];
+            int i6 = iArr[4];
             int i7 = 5;
-            int i8 = r21[5];
+            int i8 = iArr[5];
             ArrayList arrayList2;
             int i9 = i2;
-            int[] iArr2 = {i6, i8, 0, 0};
-            int[] iArr3 = {i6, i8, i6, i8};
+            int[] iAr            int[] iArr3 = {i6, i8, i6, i8};
             ArrayList arrayListD = jb5.d(jA);
             gh ghVar = ghVarF;
             List listI = arrayListD.isEmpty() ? nc8.I(new db5(0, 0L)) : arrayListD;
@@ -444,7 +441,7 @@ public abstract class xx3 {
             }
             int i12 = i10;
             final lh6 lh6Var = new lh6();
-            final ?? kh6Var = new kh6();
+            final kh6 kh6Var = new kh6();
             ExecutorService executorServiceNewFixedThreadPool = Executors.newFixedThreadPool(4);
             ExecutorCompletionService executorCompletionService;
             executorCompletionService = new ExecutorCompletionService(executorServiceNewFixedThreadPool);
@@ -480,8 +477,7 @@ public abstract class xx3 {
                                         int i16 = db5Var.b;
                                         if (i16 == 0) {
                                                     try {
-                                                bArr2 = new byte[0];
-                                                        } catch (Throwable th2) {
+                                                bAr                                                        } catch (Throwable th2) {
                                                 th = th2;
                                                                         j = j2;
                                                             bArr = null;
@@ -503,12 +499,9 @@ public abstract class xx3 {
                                                 i17 += i19;
                                                 i13 = i18;
                                             }
-                                            bArr2 = bArr3;
-                                            r36 = r310;
-                                        }
+                                            bAr                                                                                    }
                                         int i20 = i13;
-                                        lh6 lh6Var2 = lh6Var;
-                                        try {
+                                        lh6 lh6Va                                        try {
                                             byte[] bArrF = jb5.f(bArrArray, iArr2, db5Var.a, bArr2);
                                             if (i12 > 0) {
                                                 try {
@@ -521,7 +514,7 @@ public abstract class xx3 {
                                             try {
                                                 Arrays.fill(bArr2, (byte) 0);
                                                 byte[] bArr4 = bArrArray;
-                                                            final ?? r110 = HasNext;
+                                                            final String r110 = str3;
                                                 bArr = bArrF;
                                                 j = j2;
                                                 
@@ -530,11 +523,8 @@ public abstract class xx3 {
                                                         @Override // java.util.concurrent.Callable
                                                         public final Object call() {
                                                             byte[] bArr5 = bArr;
-                                                            jb5 jb5Var2 = r14;
-                                                            String str4 = r110;
-                                                            db5 db5Var2 = db5Var;
-                                                            ft7 ft7Var2 = ft7Var;
-                                                            ConcurrentHashMap.KeySetView keySetView = keySetViewNewKeySet;
+                                                            jb5 jb5Va                                                            String str4 = r110;
+                                                            db5 db5Va                                                            ft7 ft7Va                                                            ConcurrentHashMap.KeySetView keySetView = keySetViewNewKeySet;
                                                             Semaphore semaphore2 = semaphore;
                                                             try {
                                                                 int length2 = bArr5.length;
@@ -557,8 +547,7 @@ public abstract class xx3 {
                                                                 public final Object invoke(Object obj) {
                                                                     ib5 ib5Var = (ib5) obj;
                                                                     ib5Var.getClass();
-                                                                    kh6 kh6Var2 = kh6Var;
-                                                                    long j3 = kh6Var2.a + ((long) ib5Var.a);
+                                                                    kh6 kh6Va                                                                    long j3 = kh6Var2.a + ((long) ib5Var.a);
                                                                     kh6Var2.a = j3;
                                                                     z95Var.a(j3);
                                                                     String str4 = ib5Var.b;
@@ -576,9 +565,7 @@ public abstract class xx3 {
                                                             i14 = i15;
                                                                                     bArrArray = bArrArray;
                                                             c2 = 2;
-                                                            r14 = r14;
-                                                                                    r14 = r14;
-                                                        } catch (Throwable th4) {
+                                                                                                                                                                                                        } catch (Throwable th4) {
                                                             th = th4;
                                                             th = th;
                                                                                                                                                             i9 = i9;
@@ -601,24 +588,19 @@ public abstract class xx3 {
                                                         th = th6;
                                                         bArrArray = bArr4;
                                                         th = th;
-                                                                            r11 = r10;
-                                                        r37 = r36;
-                                                        r21 = r21;
-                                                        i9 = i9;
+                                                                                                                                                                                                                                                    i9 = i9;
                                                         arrayList2 = arrayList2;
                                                                         executorCompletionService = executorCompletionService;
                                                         kh6Var = kh6Var;
-                                                        HasNext = r37;
-                                                                    q63Var3 = q63Var;
-                                                        r7 = r11;
+                                                                                                                            q63Var3 = q63Var;
+                                                        r7 = inputStreamW;
                                                         
                                                         throw th;
                                                     }
                                                 } catch (Throwable th7) {
                                                     th = th7;
                                                     bArrArray = bArr4;
-                                                                    r14 = r14;
-                                                                    if (bArr != null) {
+                                                                                                                                        if (bArr != null) {
                                                         Arrays.fill(bArr, (byte) 0);
                                                     }
                                                     semaphore.release();
@@ -627,12 +609,9 @@ public abstract class xx3 {
                                             } catch (Throwable th8) {
                                                 th = th8;
                                                 bArrArray = bArrArray;
-                                                r10 = r21;
-                                                bArr = bArrF;
+                                                                                                bArr = bArrF;
                                                 j = j2;
-                                                r14 = r14;
-                                                r36 = r36;
-                                                if (bArr != null) {
+                                                                                                                                                if (bArr != null) {
                                                     Arrays.fill(bArr, (byte) 0);
                                                 }
                                                 semaphore.release();
@@ -640,10 +619,8 @@ public abstract class xx3 {
                                             }
                                         } catch (Throwable th9) {
                                             th = th9;
-                                                    r10 = r21;
-                                            j = j2;
-                                            r14 = r14;
-                                            bArr = null;
+                                                                                                j = j2;
+                                                                                        bArr = null;
                                                     if (bArr != null) {
                                                 Arrays.fill(bArr, (byte) 0);
                                             }
@@ -657,25 +634,19 @@ public abstract class xx3 {
                                     bArrArray = bArrArray;
                                     j = j2;
                                     th = th11;
-                                    r38 = r14;
-                                    r21 = r21;
-                                    i9 = i9;
+                                                                                                            i9 = i9;
                                     arrayList2 = arrayList2;
                                     
                                     executorCompletionService = executorCompletionService;
                                     kh6Var = kh6Var;
-                                    HasNext = r37;
-                                    q63Var3 = q63Var;
-                                    r7 = r11;
-                                    r14 = r38;
-                                    throw th;
+                                                                        q63Var3 = q63Var;
+                                    r7 = inputStreamW;
+                                                                        throw th;
                                 }
                             } catch (Throwable th12) {
                                 th = th12;
                                 bArrArray = bArrArray;
-                                r36 = r18;
-                                r10 = r21;
-                                j = j2;
+                                                                                                j = j2;
                             }
                             if (i9 < 16) {
                                 try {
@@ -692,10 +663,8 @@ public abstract class xx3 {
                                                 ghVarF = ghVar;
                                         r17 = r14;
                                         jA = j;
-                                        gt7Var2 = gt7Var3;
-                                        q63Var3 = q63Var3;
-                                        A = A;
-                                        }
+                                        gt7Va                                        q63Var3 = q63Var3;
+                                                                                }
                                 } catch (Throwable th13) {
                                     th = th13;
                                 }
@@ -703,22 +672,15 @@ public abstract class xx3 {
                             throw e;
                         } catch (Throwable th14) {
                             th = th14;
-                            r16 = r18;
-                            r6 = r21;
-                            r35 = r14;
-                            r8 = kh6Var;
-                            r1 = r3;
-                            
+                                                                                                                                                                        
                             j = j2;
                             th = th;
                             q63Var3 = r3;
-                            r7 = r6;
+                            r7 = inputStreamW;
                             kh6Var = r8;
                             arrayList2 = arrayList2;
-                            A = A;
-                            executorCompletionService = executorCompletionService;
-                            r21 = r21;
-                                                        
+                                                        executorCompletionService = executorCompletionService;
+                                                                                    
                             throw th;
                         }
                     }
@@ -728,7 +690,7 @@ public abstract class xx3 {
                     j = j2;
                     try {
                         try {
-                            r21.close();
+                            inputStreamW.close();
                             if (lh6Var.a != null) {
                                 keySetViewNewKeySet.getClass();
                                 jb5.b(keySetViewNewKeySet);
@@ -741,20 +703,17 @@ public abstract class xx3 {
                                             kh6Var.a = j;
                                             z95Var.a(j);
                                         }
-                                        str2 = (String) lh6Var.a;
-                                        if (str2 == null) {
+                                        st                                        if (str2 == null) {
                                             throw new ca5(-1);
                                         }
                                                                                 r9 = r14;
-                                        r21 = r21;
-                                        A = A;
-                                        executorCompletionService = executorCompletionService;
+                                                                                                                        executorCompletionService = executorCompletionService;
                                         r14 = bArr5;
                                         r9.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str3);
                                         executorServiceNewFixedThreadPool.shutdownNow();
-                                        Arrays.fill((int[]) r21, 0);
-                                        Arrays.fill((int[]) kh6Var, 0);
-                                        Arrays.fill((byte[]) r14, (byte) 0);
+                                        Arrays.fill(iArr, 0);
+                                        Arrays.fill(iArrCopyOfRange, 0);
+                                        Arrays.fill(bArrArray, (byte) 0);
                                         Arrays.fill(iArr2, 0);
                                         Arrays.fill(iArr3, 0);
                                         gt7.i = null;
@@ -797,7 +756,7 @@ public abstract class xx3 {
                                             q63Var3 = q63Var;
                                             try {
                                                 try {
-                                                    if (jb5.k(q63Var3, A).equals(r311)) {
+                                                    if (jb5.k(q63Var3, A).equals(strK)) {
                                                         try {
                                                             if (kh6Var.a < j) {
                                                                 try {
@@ -805,46 +764,39 @@ public abstract class xx3 {
                                                                     z95Var.a(j);
                                                                 } catch (eb5 e3) {
                                                                     e = e3;
-                                                                    HasNext = r311;
-                                                                    q63Var3 = q63Var3;
+                                                                                                                                        q63Var3 = q63Var3;
                                                                     r14 = bArr5;
                                                                     if (i9 < 16) {
                                                                         if (!ft7Var.a.get()) {
                                                                             keySetViewNewKeySet.getClass();
                                                                             jb5.b(keySetViewNewKeySet);
                                                                             executorServiceNewFixedThreadPool.shutdownNow();
-                                                                            Arrays.fill((int[]) r21, 0);
-                                                                            Arrays.fill((int[]) kh6Var, 0);
-                                                                            Arrays.fill((byte[]) r14, (byte) 0);
+                                                                            Arrays.fill(iArr, 0);
+                                                                            Arrays.fill(iArrCopyOfRange, 0);
+                                                                            Arrays.fill(bArrArray, (byte) 0);
                                                                             Arrays.fill(iArr2, 0);
                                                                             Arrays.fill(iArr3, 0);
                                                                             i2 = i9 + 1;
                                                                                                                                                                                                                                     ghVarF = ghVar;
                                                                             r17 = r14;
                                                                             jA = j;
-                                                                            gt7Var2 = gt7Var3;
-                                                                            q63Var3 = q63Var3;
-                                                                            A = A;
-                                                                                                                                                    }
+                                                                            gt7Va                                                                            q63Var3 = q63Var3;
+                                                                                                                                                                                                                                }
                                                                     }
                                                                     throw e;
                                                                 }
                                                             }
                                                             try {
-                                                                str2 = (String) lh6Var.a;
-                                                                if (str2 == null) {
-                                                                    HasNext = r311;
-                                                                    r9 = r14;
-                                                                    r21 = r21;
-                                                                    A = A;
-                                                                    executorCompletionService = executorCompletionService;
+                                                                st                                                                if (str2 == null) {
+                                                                                                                                        r9 = r14;
+                                                                                                                                                                                                            executorCompletionService = executorCompletionService;
                                                                     r14 = bArr5;
                                                                     try {
                                                                         r9.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str3);
                                                                         executorServiceNewFixedThreadPool.shutdownNow();
-                                                                        Arrays.fill((int[]) r21, 0);
-                                                                        Arrays.fill((int[]) kh6Var, 0);
-                                                                        Arrays.fill((byte[]) r14, (byte) 0);
+                                                                        Arrays.fill(iArr, 0);
+                                                                        Arrays.fill(iArrCopyOfRange, 0);
+                                                                        Arrays.fill(bArrArray, (byte) 0);
                                                                         Arrays.fill(iArr2, 0);
                                                                         Arrays.fill(iArr3, 0);
                                                                         gt7.i = null;
@@ -881,22 +833,17 @@ public abstract class xx3 {
                                                                                 keySetViewNewKeySet.getClass();
                                                                                 jb5.b(keySetViewNewKeySet);
                                                                                 executorServiceNewFixedThreadPool.shutdownNow();
-                                                                                Arrays.fill((int[]) r21, 0);
-                                                                                Arrays.fill((int[]) kh6Var, 0);
-                                                                                Arrays.fill((byte[]) r14, (byte) 0);
+                                                                                Arrays.fill(iArr, 0);
+                                                                                Arrays.fill(iArrCopyOfRange, 0);
+                                                                                Arrays.fill(bArrArray, (byte) 0);
                                                                                 Arrays.fill(iArr2, 0);
                                                                                 Arrays.fill(iArr3, 0);
                                                                                 i2 = i9 + 1;
-                                                                                r13 = arrayList2;
-                                                                                r12 = HasNext;
-                                                                                ghVarF = ghVar;
+                                                                                                                                                                                                                                                ghVarF = ghVar;
                                                                                 r17 = r14;
                                                                                 jA = j;
-                                                                                gt7Var2 = gt7Var3;
-                                                                                q63Var3 = q63Var3;
-                                                                                A = A;
-                                                                                r15 = executorCompletionService;
-                                                                            }
+                                                                                gt7Va                                                                                q63Var3 = q63Var3;
+                                                                                                                                                                                                                                            }
                                                                         }
                                                                         throw e;
                                                                     } catch (Throwable th15) {
@@ -905,9 +852,9 @@ public abstract class xx3 {
                                                                         keySetViewNewKeySet.getClass();
                                                                         jb5.b(keySetViewNewKeySet);
                                                                         executorServiceNewFixedThreadPool.shutdownNow();
-                                                                        Arrays.fill((int[]) r21, 0);
-                                                                        Arrays.fill((int[]) kh6Var, 0);
-                                                                        Arrays.fill((byte[]) r14, (byte) 0);
+                                                                        Arrays.fill(iArr, 0);
+                                                                        Arrays.fill(iArrCopyOfRange, 0);
+                                                                        Arrays.fill(bArrArray, (byte) 0);
                                                                         Arrays.fill(iArr2, 0);
                                                                         Arrays.fill(iArr3, 0);
                                                                         throw th;
@@ -928,8 +875,7 @@ public abstract class xx3 {
                                                             throw e;
                                                         } catch (eb5 e8) {
                                                             e = e8;
-                                                            HasNext = r311;
-                                                            q63Var3 = q63Var3;
+                                                                                                                        q63Var3 = q63Var3;
                                                             r14 = bArr5;
                                                             i9 = i9;
                                                             if (i9 < 16) {
@@ -937,36 +883,28 @@ public abstract class xx3 {
                                                                     keySetViewNewKeySet.getClass();
                                                                     jb5.b(keySetViewNewKeySet);
                                                                     executorServiceNewFixedThreadPool.shutdownNow();
-                                                                    Arrays.fill((int[]) r21, 0);
-                                                                    Arrays.fill((int[]) kh6Var, 0);
-                                                                    Arrays.fill((byte[]) r14, (byte) 0);
+                                                                    Arrays.fill(iArr, 0);
+                                                                    Arrays.fill(iArrCopyOfRange, 0);
+                                                                    Arrays.fill(bArrArray, (byte) 0);
                                                                     Arrays.fill(iArr2, 0);
                                                                     Arrays.fill(iArr3, 0);
                                                                     i2 = i9 + 1;
-                                                                    r13 = arrayList2;
-                                                                    r12 = HasNext;
-                                                                    ghVarF = ghVar;
+                                                                                                                                                                                                            ghVarF = ghVar;
                                                                     r17 = r14;
                                                                     jA = j;
-                                                                    gt7Var2 = gt7Var3;
-                                                                    q63Var3 = q63Var3;
-                                                                    A = A;
-                                                                    r15 = executorCompletionService;
-                                                                }
+                                                                    gt7Va                                                                    q63Var3 = q63Var3;
+                                                                                                                                                                                                        }
                                                             }
                                                             throw e;
                                                         }
                                                     }
                                                 } catch (eb5 e9) {
                                                     e = e9;
-                                                    HasNext = r311;
-                                                    q63Var3 = q63Var3;
+                                                                                                        q63Var3 = q63Var3;
                                                 }
                                             } catch (eb5 e10) {
                                                 e = e10;
-                                                r2 = q63Var3;
-                                                HasNext = r311;
-                                                q63Var3 = r2;
+                                                                                                                                                q63Var3 = r2;
                                                 r14 = bArr5;
                                                 i9 = i9;
                                                 if (i9 < 16) {
@@ -974,22 +912,17 @@ public abstract class xx3 {
                                                         keySetViewNewKeySet.getClass();
                                                         jb5.b(keySetViewNewKeySet);
                                                         executorServiceNewFixedThreadPool.shutdownNow();
-                                                        Arrays.fill((int[]) r21, 0);
-                                                        Arrays.fill((int[]) kh6Var, 0);
-                                                        Arrays.fill((byte[]) r14, (byte) 0);
+                                                        Arrays.fill(iArr, 0);
+                                                        Arrays.fill(iArrCopyOfRange, 0);
+                                                        Arrays.fill(bArrArray, (byte) 0);
                                                         Arrays.fill(iArr2, 0);
                                                         Arrays.fill(iArr3, 0);
                                                         i2 = i9 + 1;
-                                                        r13 = arrayList2;
-                                                        r12 = HasNext;
-                                                        ghVarF = ghVar;
+                                                                                                                                                                        ghVarF = ghVar;
                                                         r17 = r14;
                                                         jA = j;
-                                                        gt7Var2 = gt7Var3;
-                                                        q63Var3 = q63Var3;
-                                                        A = A;
-                                                        r15 = executorCompletionService;
-                                                    }
+                                                        gt7Va                                                        q63Var3 = q63Var3;
+                                                                                                                                                                    }
                                                 }
                                                 throw e;
                                             }
@@ -1000,79 +933,61 @@ public abstract class xx3 {
                                     }
                                 } catch (eb5 e12) {
                                     e = e12;
-                                    r2 = q63Var;
-                                }
+                                                                    }
                             } catch (eb5 e13) {
                                 e = e13;
                                 q63Var3 = q63Var;
-                                HasNext = r311;
-                                r14 = bArr5;
+                                                                r14 = bArr5;
                                 if (i9 < 16) {
                                     if (!ft7Var.a.get()) {
                                         keySetViewNewKeySet.getClass();
                                         jb5.b(keySetViewNewKeySet);
                                         executorServiceNewFixedThreadPool.shutdownNow();
-                                        Arrays.fill((int[]) r21, 0);
-                                        Arrays.fill((int[]) kh6Var, 0);
-                                        Arrays.fill((byte[]) r14, (byte) 0);
+                                        Arrays.fill(iArr, 0);
+                                        Arrays.fill(iArrCopyOfRange, 0);
+                                        Arrays.fill(bArrArray, (byte) 0);
                                         Arrays.fill(iArr2, 0);
                                         Arrays.fill(iArr3, 0);
                                         i2 = i9 + 1;
-                                        r13 = arrayList2;
-                                        r12 = HasNext;
-                                        ghVarF = ghVar;
+                                                                                                                        ghVarF = ghVar;
                                         r17 = r14;
                                         jA = j;
-                                        gt7Var2 = gt7Var3;
-                                        q63Var3 = q63Var3;
-                                        A = A;
-                                        r15 = executorCompletionService;
-                                    }
+                                        gt7Va                                        q63Var3 = q63Var3;
+                                                                                                                    }
                                 }
                                 throw e;
                             }
                         } catch (Throwable th16) {
                             th = th16;
                             r14 = bArr5;
-                            r21 = r21;
-                        }
+                                                    }
                     } catch (eb5 e14) {
                         e = e14;
                         q63Var3 = q63Var;
-                        HasNext = r311;
-                    }
+                                            }
                 } catch (Throwable th17) {
                     th = th17;
-                    r8 = iArrCopyOfRange;
-                    r16 = r12;
-                    r6 = inputStreamW;
-                    r35 = r17;
-                    r1 = q63Var3;
+                                                            r6 = inputStreamW;
+                                        r1 = q63Var3;
                 }
             } catch (eb5 e15) {
                 e = e15;
                 kh6Var = iArrCopyOfRange;
-                HasNext = r12;
-                r14 = r17;
-                r21 = r21;
-                i9 = i9;
+                                r14 = r17;
+                                i9 = i9;
                 arrayList2 = arrayList2;
-                A = A;
-                executorCompletionService = executorCompletionService;
-                r14 = bArrArray;
-                j = j2;
+                                executorCompletionService = executorCompletionService;
+                                j = j2;
             } catch (Throwable th18) {
                 th = th18;
                 kh6Var = iArrCopyOfRange;
-                r14 = bArrArray;
-                r21 = r21;
-            }
+                                            }
             keySetViewNewKeySet.getClass();
             jb5.b(keySetViewNewKeySet);
             executorServiceNewFixedThreadPool.shutdownNow();
-            Arrays.fill((int[]) r21, 0);
-            Arrays.fill((int[]) kh6Var, 0);
-            Arrays.fill((byte[]) r14, (byte) 0);
+            Arrays.fill(iArr, 0);
+            Arrays.fill(iArrCopyOfRange, 0);
+            Arrays.fill(bArrArray, (byte) 0);
             Arrays.fill(iArr2, 0);
             Arrays.fill(iArr3, 0);
             throw th;
@@ -1375,8 +1290,7 @@ public abstract class xx3 {
         jArrCopyOf[1] = jArrCopyOf[1] - ((long) i9);
         int i10 = 0;
         while (true) {
-            iArr2 = h;
-            if (i10 >= 2) {
+            iAr            if (i10 >= 2) {
                 break;
             }
             int i11 = i3;
@@ -1492,8 +1406,7 @@ public abstract class xx3 {
         int i3 = ri3Var.c;
         if (i3 == 0) {
             lg7.H(obj);
-            lh6 lh6Var2 = new lh6();
-            try {
+            lh6 lh6Va            try {
                 li3 ti3Var = new ti3(li3Var, lh6Var2);
                 ri3Var.a = lh6Var2;
                 ri3Var.c = 1;
@@ -1609,8 +1522,7 @@ public abstract class xx3 {
             lg7.H(obj);
             lh6Var = new lh6();
             lh6Var.a = du9Var;
-            zi3 zi3Var2 = new zi3(lh6Var);
-            try {
+            zi3 zi3Va            try {
                 aj3Var.a = lh6Var;
                 aj3Var.b = zi3Var2;
                 aj3Var.d = 1;
@@ -1675,8 +1587,7 @@ public abstract class xx3 {
         if (i3 == 0) {
             lg7.H(obj);
             lh6Var = new lh6();
-            bj3 bj3Var2 = new bj3(lh6Var);
-            try {
+            bj3 bj3Va            try {
                 cj3Var.a = lh6Var;
                 cj3Var.b = bj3Var2;
                 cj3Var.d = 1;
@@ -1877,8 +1788,7 @@ public abstract class xx3 {
         xp4Var.f = 0;
         xp4Var.g = yp4Var.g;
         xp4Var.d = yp4Var.d;
-        yp4 yp4Var2 = new yp4(xp4Var);
-        while (iCeil > 1) {
+        yp4 yp4Va        while (iCeil > 1) {
             int i7 = 0;
             while (true) {
                 i2 = yp4Var2.d;
@@ -1891,8 +1801,7 @@ public abstract class xx3 {
                 if (i7 >= iFloor) {
                     break;
                 }
-                xp4 xp4Var2 = new xp4();
-                xp4Var2.c = i5;
+                xp4 xp4Va                xp4Var2.c = i5;
                 xp4Var2.b = j;
                 xp4Var2.e = i4;
                 xp4Var2.f = i3;
@@ -1902,8 +1811,7 @@ public abstract class xx3 {
                 int i8 = i7 * 2;
                 qx8VarArr[i7] = y(y8Var, qx8VarArr[i8], qx8VarArr[i8 + 1], yp4Var3);
                 i7++;
-                yp4Var2 = yp4Var3;
-            }
+                yp4Va            }
             if (iCeil % 2 == 1) {
                 qx8VarArr[(int) Math.floor(d2)] = qx8VarArr[iCeil - 1];
             }
@@ -1915,8 +1823,7 @@ public abstract class xx3 {
             xp4Var3.f = i3 + 1;
             xp4Var3.g = yp4Var2.g;
             xp4Var3.d = i2;
-            yp4Var2 = new yp4(xp4Var3);
-        }
+            yp4Va        }
         return qx8VarArr[0];
     }
 
@@ -1992,8 +1899,7 @@ public abstract class xx3 {
             xp4Var.d = 0;
             a34Var = new yp4(xp4Var);
         } else if (a34Var instanceof a34) {
-            a34 a34Var2 = (a34) a34Var;
-            z24 z24Var = new z24();
+            a34 a34Va            z24 z24Var = new z24();
             z24Var.c = a34Var2.a;
             z24Var.b = a34Var2.b;
             z24Var.e = a34Var2.e;
@@ -2003,9 +1909,7 @@ public abstract class xx3 {
         }
         byte[] bArrA = vaVar.a(bArrK, a34Var.a());
         if (a34Var instanceof yp4) {
-            yp4 yp4Var2 = (yp4) a34Var;
-            xp4 xp4Var2 = new xp4();
-            xp4Var2.c = yp4Var2.a;
+            yp4 yp4Va            xp4 xp4Va            xp4Var2.c = yp4Var2.a;
             xp4Var2.b = yp4Var2.b;
             xp4Var2.e = yp4Var2.e;
             xp4Var2.f = yp4Var2.f;
@@ -2014,8 +1918,7 @@ public abstract class xx3 {
             a34Var = new yp4(xp4Var2);
         } else if (a34Var instanceof a34) {
             a34 a34Var3 = (a34) a34Var;
-            z24 z24Var2 = new z24();
-            z24Var2.c = a34Var3.a;
+            z24 z24Va            z24Var2.c = a34Var3.a;
             z24Var2.b = a34Var3.b;
             z24Var2.e = a34Var3.e;
             z24Var2.f = a34Var3.f;
@@ -2046,8 +1949,7 @@ public abstract class xx3 {
         byte[] bArrA3 = vaVar.a(bArrK, a34Var.a());
         int i3 = ((un8) y8Var.a).a;
         int i4 = i3 * 2;
-        byte[] bArr2 = new byte[i4];
-        for (int i5 = 0; i5 < i3; i5++) {
+        byte[] bAr        for (int i5 = 0; i5 < i3; i5++) {
             bArr2[i5] = (byte) (jd4.g(qx8Var.b)[i5] ^ bArrA2[i5]);
         }
         for (int i6 = 0; i6 < i3; i6++) {
@@ -2109,8 +2011,7 @@ public abstract class xx3 {
             public final void onClick(DialogInterface dialogInterface, int i3, boolean z2) {
                 dialogInterface.getClass();
                 LinkedHashMap linkedHashMap4 = linkedHashMap;
-                String str2 = (String) el1.v1(linkedHashMap4.keySet()).get(i3);
-                String str3 = (String) linkedHashMap4.get(str2);
+                String st                String str3 = (String) linkedHashMap4.get(str2);
                 LinkedHashMap linkedHashMap5 = linkedHashMap3;
                 if (!z2) {
                 } else if (str3 != null) {
