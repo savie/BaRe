@@ -91,9 +91,9 @@ import java.util.Set
 
 @Suppress("DEPRECATION", "KotlinConstantConditions", "UNCHECKED_CAST")
 class BareApp : Application(), a45 {
-    lateinit var a: ex6
-    val b: gv7 = gv7(zk(16))
-    val c: gv7 = gv7(fl(14))
+    val a: ex6
+    val b: gv7
+    val c: gv7
 
     companion object Static {
         @JvmField
@@ -104,17 +104,17 @@ class BareApp : Application(), a45 {
         val f = gv7(jx(23))
 
         @JvmStatic
-        fun a(swiftApp: BareApp) {
+        fun a(bareApp: BareApp) {
             var applicationExitInfoD: ApplicationExitInfo? = null
             var str: String? = null
-            val activityManager = swiftApp.getSystemService(ActivityManager::class.java) as ActivityManager?
+            val activityManager = bareApp.getSystemService(ActivityManager::class.java) as ActivityManager?
             if (activityManager != null) {
                 try {
                     val historicalProcessExitReasons = activityManager.getHistoricalProcessExitReasons(null, 0, 0)
                     if (historicalProcessExitReasons != null) {
                         val arrayList = ArrayList<Any>()
                         for (obj in historicalProcessExitReasons) {
-                            if (pe4.d(x5.d(obj).processName, swiftApp.packageName)) arrayList.add(obj)
+                            if (pe4.d(x5.d(obj).processName, bareApp.packageName)) arrayList.add(obj)
                         }
                         val iterator = arrayList.iterator()
                         var next: Any? = if (iterator.hasNext()) iterator.next() else null
@@ -158,10 +158,10 @@ class BareApp : Application(), a45 {
         }
 
         @JvmStatic
-        fun b(swiftApp: BareApp) {
+        fun b(bareApp: BareApp) {
             var applicationStartInfoC: ApplicationStartInfo? = null
             var str: String
-            val activityManager = swiftApp.getSystemService(ActivityManager::class.java) as ActivityManager?
+            val activityManager = bareApp.getSystemService(ActivityManager::class.java) as ActivityManager?
             if (activityManager != null) {
                 try {
                     val historicalProcessStartReasons = activityManager.historicalProcessStartReasons(1)
@@ -170,7 +170,7 @@ class BareApp : Application(), a45 {
                         var next: Any? = null
                         while (iterator.hasNext()) {
                             next = iterator.next()
-                            if (pe4.d(f6.c(next).processName, swiftApp.packageName)) break
+                            if (pe4.d(f6.c(next).processName, bareApp.packageName)) break
                         }
                         applicationStartInfoC = if (next == null) null else f6.c(next)
                     }
@@ -212,54 +212,62 @@ class BareApp : Application(), a45 {
     }
 
     class Companion {
-        fun a(): BareApp {
-            val app = e
-            if (app != null) return app
-            pe4.F("sInstance")
-            throw null
+        companion object {
+            @JvmStatic
+            fun a(): BareApp {
+                val app = e
+                if (app != null) return app
+                pe4.F("sInstance")
+                throw NullPointerException()
+            }
+
+            @JvmStatic
+            fun c(): Context {
+                val applicationContext = a().applicationContext
+                applicationContext.getClass()
+                return applicationContext
+            }
+
+            @JvmStatic
+            @Throws(NoSuchAlgorithmException::class)
+            fun d(): String? {
+                val signatureArrE = e()
+                if (signatureArrE != null) {
+                    val signature = if (signatureArrE.isEmpty()) null else signatureArrE[0]
+                    if (signature != null) {
+                        val messageDigest = MessageDigest.getInstance("SHA")
+                        messageDigest.update(signature.toByteArray())
+                        return Base64.encodeToString(messageDigest.digest(), 2)
+                    }
+                }
+                return null
+            }
+
+            @JvmStatic
+            fun e(): Array<Signature>? {
+                val packageManagerR = g00.r()
+                if (!b67.a()) return packageManagerR.getPackageInfo(a().packageName, 64).signatures
+                val signingInfo: SigningInfo? = packageManagerR.getPackageInfo(a().packageName, 134217728).signingInfo
+                return signingInfo?.apkContentsSigners
+            }
         }
 
         fun b(): BareApp = a()
-
-        fun c(): Context {
-            val applicationContext = a().applicationContext
-            applicationContext.getClass()
-            return applicationContext
-        }
-
-        @Throws(NoSuchAlgorithmException::class)
-        fun d(): String? {
-            val signatureArrE = e()
-            if (signatureArrE != null) {
-                val signature = if (signatureArrE.isEmpty()) null else signatureArrE[0]
-                if (signature != null) {
-                    val messageDigest = MessageDigest.getInstance("SHA")
-                    messageDigest.update(signature.toByteArray())
-                    return Base64.encodeToString(messageDigest.digest(), 2)
-                }
-            }
-            return null
-        }
-
-        fun e(): Array<Signature>? {
-            val packageManagerR = g00.r()
-            if (!b67.a()) return packageManagerR.getPackageInfo(a().packageName, 64).signatures
-            val signingInfo: SigningInfo? = packageManagerR.getPackageInfo(a().packageName, 134217728).signingInfo
-            return signingInfo?.apkContentsSigners
-        }
     }
 
     init {
         val ex6Var = ex6()
         ex6Var.k(false)
         a = ex6Var
+        b = gv7(zk(16))
+        c = gv7(fl(14))
     }
 
     fun c(str: String) {
         Log.e("BareApp", "Exiting: reason=($str)")
         Const.x(this)
         Const.g(str, true)
-        throw null
+        throw NullPointerException()
     }
 
     external fun getGoogleAuthAndroidClientId(): String
@@ -370,13 +378,13 @@ class BareApp : Application(), a45 {
                 if (totalSpace > 0) strC2 = p93.c(totalSpace)
                 vr6.`i$default`(vr6.INSTANCE, "BareApp", el1.Y0(x50.p0(arrayOf(zn7VarD.u(), zn7VarD.e(null), dj7.l("Free ", strC, " of ", strC2)), null, null, null, null, 63), null, 4, null)
 
-                val swiftApp = this@BareApp
+                val bareApp = this@BareApp
                 if (zn7VarD.b) {
                     for (str2 in fl1.A0("FileNotFoundException", "IOException")) {
                         if (nq7.Z(strG0, str2, false)) {
                             vr6.`e$default`(vr6.INSTANCE, "BareApp", "IO Exception on a removable storage, avoid crash report.", null, 4, null)
-                            swiftApp.c("IO Exception on a removable storage, avoid crash report.")
-                            throw null
+                            bareApp.c("IO Exception on a removable storage, avoid crash report.")
+                            throw NullPointerException()
                         }
                     }
                 }
@@ -397,8 +405,8 @@ class BareApp : Application(), a45 {
                     if (handler != null) handler.uncaughtException(thread, th)
                     return
                 }
-                swiftApp.c(th.javaClass.simpleName)
-                throw null
+                bareApp.c(th.javaClass.simpleName)
+                throw NullPointerException()
             }
         })
 
