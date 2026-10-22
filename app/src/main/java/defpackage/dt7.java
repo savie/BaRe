@@ -69,10 +69,10 @@ public final class dt7 {
     /* JADX WARN: Type inference failed for: r20v3 */
     public static q63 a(Context context, boolean z, List list) {
         String path;
-        ?? r17;
-        ?? r12;
-        ?? r18;
-        ?? r19;
+        long r17;
+        ArrayList r12;
+        long r18;
+        long r19;
         fw5 fw5Var;
         vr6 vr6Var;
         String str;
@@ -132,7 +132,6 @@ public final class dt7 {
                             bufferedReaderA.close();
                             if (z3) {
                                 vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", "Logcat empty!", null, 4, null);
-                                r17 = "BareLoggerExportHelper";
                             }
                         } catch (Throwable th2) {
                             try {
@@ -144,7 +143,6 @@ public final class dt7 {
                         }
                     } else {
                         vr6.e$default(vr6.INSTANCE, "BareLoggerExportHelper", "No logcat file created by system", null, 4, null);
-                        r17 = "BareLoggerExportHelper";
                     }
                 }
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMMdd_hh.mm.ssaa", Locale.forLanguageTag("en-IN"));
