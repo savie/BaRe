@@ -466,7 +466,6 @@ public final class gl8 {
     	at jadx.core.dex.visitors.typeinference.FixTypesVisitor.visit(FixTypesVisitor.java:94)
      */
     public final void l(float f, float f2, int i) {
-        int i2 = r2;
         boolean zC = c(f, f2, i, 1);
         int r0 = zC ? 1 : 0;
         if (c(f2, f, i, 4)) {
@@ -477,6 +476,7 @@ public final class gl8 {
             r1 = (r0) | 2;
         }
         int r2 = r1;
+        i2 = r2;
         if (c(f2, f, i, 8)) {
             i2 = (r1) | 8;
         }
