@@ -15,7 +15,7 @@ public abstract class zg {
     public static List a(q63 q63Var, q63 q63Var2, boolean z, bt3 bt3Var, fv fvVar, gv gvVar) {
         q63Var.getClass();
         boolean zA = ky.a(q63Var, q63Var2, bt3Var, fvVar);
-        ?? arrayList = 0;
+        List arrayList = null;
         if (!zA) {
             vr6.e$default(vr6.INSTANCE, "ApkInstallSetPreparer", xs1.i(q63Var, "Extracting splits failed: "), null, 4, null);
             return null;
@@ -41,7 +41,7 @@ public abstract class zg {
                 }
             }
         }
-        if (arrayList == 0) {
+        if (arrayList == null) {
             arrayList = ov2.a;
         }
         return el1.n1(arrayList, new yg(new xg(0), 0));
