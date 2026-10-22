@@ -105,7 +105,7 @@ public final class nb5 {
         if (pa5VarM == null) {
             throw new IllegalStateException("MEGA download path does not exist: ".concat(str).toString());
         }
-        final ?? r5 = (jb5) gt7.g.getValue();
+        final jb5 r5 = (jb5) gt7.g.getValue();
         gh ghVarF = gt7Var.f();
         r5.getClass();
         int[] iArr2 = pa5VarM.h;
