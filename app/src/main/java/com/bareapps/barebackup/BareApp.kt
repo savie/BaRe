@@ -132,7 +132,7 @@ class BareApp : Application(), a45 {
                         applicationExitInfoD = if (next == null) null else x5.d(next)
                     }
                 } catch (th: Throwable) {
-                    vr6.`e$default`(vr6.INSTANCE, "BareApp", "slogLastExitInfo: ".concat(yc9.g0(th)), null, 4, null)
+                    vr6.INSTANCE.e("BareApp", "slogLastExitInfo: ".concat(yc9.g0(th)), null)
                 }
             }
             if (applicationExitInfoD != null) {
@@ -175,7 +175,7 @@ class BareApp : Application(), a45 {
                         applicationStartInfoC = if (next == null) null else f6.c(next)
                     }
                 } catch (th: Throwable) {
-                    vr6.`e$default`(vr6.INSTANCE, "BareApp", "slogStartupInfo: ".concat(yc9.g0(th)), null, 4, null)
+                    vr6.INSTANCE.e("BareApp", "slogStartupInfo: ".concat(yc9.g0(th)), null)
                 }
             }
             if (applicationStartInfoC != null) {
@@ -328,7 +328,7 @@ class BareApp : Application(), a45 {
             override fun uncaughtException(thread: Thread, th: Throwable) {
                 val strB = io4.b(th)
                 val strG0 = yc9.g0(th)
-                vr6.`e$default`(vr6.INSTANCE, "Crash", strG0, null, 4, null)
+                vr6.INSTANCE.e("Crash", strG0, null)
                 Const.U(strG0)
                 val cause = th.cause
                 val strB2 = if (cause != null) io4.b(cause) else strB
@@ -376,13 +376,13 @@ class BareApp : Application(), a45 {
                 val totalSpace = q63VarL.n().file.totalSpace
                 var strC2 = "Unknown"
                 if (totalSpace > 0) strC2 = p93.c(totalSpace)
-                vr6.`i$default`(vr6.INSTANCE, "BareApp", el1.Y0(x50.p0(arrayOf(zn7VarD.u(), zn7VarD.e(null), dj7.l("Free ", strC, " of ", strC2)), null, null, null, null, 63), null, 4, null)
+                vr6.INSTANCE.i("BareApp", el1.Y0(x50.p0(arrayOf(zn7VarD.u(), zn7VarD.e(null), dj7.l("Free ", strC, " of ", strC2))), null, null, null, null, 63), null)
 
                 val bareApp = this@BareApp
                 if (zn7VarD.b) {
                     for (str2 in fl1.A0("FileNotFoundException", "IOException")) {
                         if (nq7.Z(strG0, str2, false)) {
-                            vr6.`e$default`(vr6.INSTANCE, "BareApp", "IO Exception on a removable storage, avoid crash report.", null, 4, null)
+                            vr6.INSTANCE.e("BareApp", "IO Exception on a removable storage, avoid crash report.", null)
                             bareApp.c("IO Exception on a removable storage, avoid crash report.")
                             throw NullPointerException()
                         }
@@ -445,10 +445,10 @@ class BareApp : Application(), a45 {
                 val arrayListA = kc2.a(jCurrentTimeMillis, listD)
                 if (arrayListA != listD) {
                     kc2.g(kc2.e(arrayListA, jCurrentTimeMillis))
-                    vr6.`w$default`(vr6.INSTANCE, "DataSyncFgsRuntimeLedger", "Closed stale dataSync FGS sessions from previous process", null, 4, null)
+                    vr6.INSTANCE.w("DataSyncFgsRuntimeLedger", "Closed stale dataSync FGS sessions from previous process", null)
                 }
             } catch (e2: Exception) {
-                vr6.`e$default`(vr6.INSTANCE, "DataSyncFgsRuntimeLedger", "Failed to reconcile dataSync FGS ledger on app launch", e2, null, 8, null)
+                vr6.INSTANCE.e("DataSyncFgsRuntimeLedger", "Failed to reconcile dataSync FGS ledger on app launch", e2, null)
             }
         }
         zn4.a
