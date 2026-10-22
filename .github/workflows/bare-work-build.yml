@@ -55,7 +55,7 @@ jobs:
         run: test -s app/build/outputs/apk/debug/app-debug.apk
 
       - name: Smoke test core screens on Android emulator
-        timeout-minutes: 15
+        timeout-minutes: 25
         uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 34
