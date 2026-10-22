@@ -335,12 +335,12 @@ public abstract class xx3 {
     	at jadx.core.dex.visitors.typeinference.FixTypesVisitor.visit(FixTypesVisitor.java:94)
      */
     public static void B(q63 q63Var, final z95 z95Var, final ft7 ft7Var, String str) throws Throwable {
-        final jb5 r14;
+
         long j;
         Throwable th;
         Closeable r7;
         String str2;
-        jb5 r9;
+
         pa5 pa5VarM;
         List list;
         ArrayList arrayList;
@@ -381,6 +381,7 @@ public abstract class xx3 {
         pa5 pa5VarM3 = pa5VarM2;
         long A = 0L;
 
+        final jb5 client = jb5Var;
         jb5 r17 = jb5Var;
         while (true) {
             final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
@@ -456,7 +457,6 @@ public abstract class xx3 {
                     int i14 = 0;
                     q63 r3 = q63Var3;
 
-                    r14 = r17;
 
                     while (true) {
                         try {
@@ -661,7 +661,7 @@ public abstract class xx3 {
                                         Arrays.fill(iArr3, 0);
                                         i2 = i9 + 1;
                                                 ghVarF = ghVar;
-                                        r17 = r14;
+                                        r17 = client;
                                         jA = j;
                                         gt7Va                                        q63Var3 = q63Var3;
                                                                                 }
@@ -677,7 +677,7 @@ public abstract class xx3 {
                             th = th;
                             q63Var3 = r3;
                             r7 = inputStreamW;
-                            kh6Var = r8;
+                            
                             arrayList2 = arrayList2;
                                                         executorCompletionService = executorCompletionService;
                                                                                     
@@ -706,10 +706,9 @@ public abstract class xx3 {
                                         st                                        if (str2 == null) {
                                             throw new ca5(-1);
                                         }
-                                                                                r9 = r14;
-                                                                                                                        executorCompletionService = executorCompletionService;
-                                        r14 = bArr5;
-                                        r9.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str3);
+                                                                                                                                                                                                        executorCompletionService = executorCompletionService;
+                                        
+                                        client.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str2);
                                         executorServiceNewFixedThreadPool.shutdownNow();
                                         Arrays.fill(iArr, 0);
                                         Arrays.fill(iArrCopyOfRange, 0);
@@ -765,7 +764,7 @@ public abstract class xx3 {
                                                                 } catch (eb5 e3) {
                                                                     e = e3;
                                                                                                                                         q63Var3 = q63Var3;
-                                                                    r14 = bArr5;
+                                                                    
                                                                     if (i9 < 16) {
                                                                         if (!ft7Var.a.get()) {
                                                                             keySetViewNewKeySet.getClass();
@@ -788,11 +787,11 @@ public abstract class xx3 {
                                                             }
                                                             try {
                                                                 st                                                                if (str2 == null) {
-                                                                                                                                        r9 = r14;
+                                                                                                                                        
                                                                                                                                                                                                             executorCompletionService = executorCompletionService;
                                                                     r14 = bArr5;
                                                                     try {
-                                                                        r9.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str3);
+                                                                        client.e(ghVar, pa5VarM3, strB0, strK, iArr, bArrArray, arrayList2, str2);
                                                                         executorServiceNewFixedThreadPool.shutdownNow();
                                                                         Arrays.fill(iArr, 0);
                                                                         Arrays.fill(iArrCopyOfRange, 0);
@@ -807,7 +806,7 @@ public abstract class xx3 {
                                                                             list = list2;
                                                                         }
                                                                         arrayList = new ArrayList();
-                                                                        while (r1.hasNext()) {
+                                                                        while (it.hasNext()) {
                                                                             pa5Var = (pa5) obj;
                                                                             if (pa5Var.f == 0 && pa5Var.c.equals(executorCompletionService)) {
                                                                                 arrayList.add(obj);
@@ -823,7 +822,7 @@ public abstract class xx3 {
                                                                         e = e4;
                                                                     } catch (eb5 e5) {
                                                                         e = e5;
-                                                                        r14 = r9;
+                                                                        
                                                                         ghVar = ghVar;
                                                                         arrayList2 = arrayList2;
                                                                         kh6Var = kh6Var;
@@ -904,7 +903,7 @@ public abstract class xx3 {
                                                 }
                                             } catch (eb5 e10) {
                                                 e = e10;
-                                                                                                                                                q63Var3 = r2;
+                                                                                                                                                q63Var3 = r3;
                                                 r14 = bArr5;
                                                 i9 = i9;
                                                 if (i9 < 16) {
@@ -973,7 +972,7 @@ public abstract class xx3 {
             } catch (eb5 e15) {
                 e = e15;
                 kh6Var = iArrCopyOfRange;
-                                r14 = r17;
+                                
                                 i9 = i9;
                 arrayList2 = arrayList2;
                                 executorCompletionService = executorCompletionService;
