@@ -91,9 +91,9 @@ import java.util.Set
 
 @Suppress("DEPRECATION", "KotlinConstantConditions", "UNCHECKED_CAST")
 class BareApp : Application(), a45 {
-    val a: ex6
-    val b: gv7
-    val c: gv7
+    @JvmField val a: ex6
+    @JvmField val b: gv7
+    @JvmField val c: gv7
 
     companion object Static {
         @JvmField
