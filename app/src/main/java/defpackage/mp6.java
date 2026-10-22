@@ -156,70 +156,34 @@ public final class mp6 {
     /* JADX WARN: Type inference failed for: r2v5, types: [java.lang.Process] */
     /* JADX WARN: Type inference failed for: r2v6 */
     public static ArrayList l(String... strArr) throws Throwable {
-        Process process;
-        Throwable th;
         String str = b;
-        String strS0 = x50.s0(62, " ; ", strArr);
-        List listA0 = g ? fl1.A0("su", "-c", strS0) : fl1.A0("/system/bin/sh", "-c", strS0);
+        String command = x50.s0(62, " ; ", strArr);
+        List list = g ? fl1.A0("su", "-c", command) : fl1.A0("/system/bin/sh", "-c", command);
         ArrayList arrayList = new ArrayList();
-        Process r2 = null;
+        Process process = null;
         try {
+            process = new ProcessBuilder((List<String>) list).redirectErrorStream(true).start();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             try {
-                try {
-                    Process processStart = new ProcessBuilder((List<String>) listA0).redirectErrorStream(true).start();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(processStart.getInputStream()));
-                    try {
-                        Iterator it = ((ws1) rs9.p(bufferedReader)).iterator();
-                        while (it.hasNext()) {
-                            arrayList.add(it.next());
-                        }
-                        bufferedReader.close();
-                        processStart.waitFor();
-                        processStart.destroy();
-                        return arrayList;
-                    } catch (Throwable th2) {
-                        try {
-                            throw th2;
-                        } catch (Throwable th3) {
-                            rs9.c(bufferedReader, th2);
-                            throw th3;
-                        }
-                    }
-                } catch (InterruptedException e2) {
-                    process = null;
-                    Thread.currentThread().interrupt();
-                    vr6.e$default(vr6.INSTANCE, str, "runCommandBasic interrupted", e2, null, 8, null);
-                    if (0 != 0) {
-                        process.destroy();
-                    }
-                    return arrayList;
+                Iterator it = ((ws1) rs9.p(bufferedReader)).iterator();
+                while (it.hasNext()) {
+                    arrayList.add(it.next());
                 }
-            } catch (Exception e3) {
-                process = null;
-                vr6.e$default(vr6.INSTANCE, str, "runCommandBasic", e3, null, 8, null);
-                if (0 != 0) {
-                    process.destroy();
-                }
-                return arrayList;
-            } catch (Throwable th4) {
-                th = th4;
-                th = th;
-                if (r2 != null) {
-                    throw th;
-                }
-                r2.destroy();
-                throw th;
+            } finally {
+                bufferedReader.close();
             }
-        } catch (Throwable th5) {
-            th = th5;
-            r2 = listA0;
-            th = th;
-            if (r2 != 0) {
-                throw th;
+            process.waitFor();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            vr6.e$default(vr6.INSTANCE, str, "runCommandBasic interrupted", e, null, 8, null);
+        } catch (Exception e2) {
+            vr6.e$default(vr6.INSTANCE, str, "runCommandBasic", e2, null, 8, null);
+        } finally {
+            if (process != null) {
+                process.destroy();
             }
-            r2.destroy();
-            throw th;
         }
+        return arrayList;
     }
 
     public final synchronized String b() {
