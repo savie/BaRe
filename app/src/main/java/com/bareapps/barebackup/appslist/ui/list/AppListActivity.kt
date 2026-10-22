@@ -554,36 +554,64 @@ class AppListActivity : AppCompatActivity() {
         try {
             val packageFiles = linkedMapOf<String, MutableList<File>>()
             val archiveVersionCodes = mutableMapOf<String, Long>()
+            val seenEntries = mutableSetOf<String>()
+            var entryCount = 0
+            var expandedBytes = 0L
             contentResolver.openInputStream(source).use { raw ->
                 val input = checkNotNull(raw) { "Could not open the selected archive" }
                 ZipInputStream(input).use { zip ->
                     while (true) {
                         val entry = zip.nextEntry ?: break
-                        if (!entry.isDirectory && entry.name == "manifest.csv") {
-                            val csv = zip.readBytes().toString(Charsets.UTF_8)
-                            var isHeader = true
-                            var packageColumn = -1
-                            var versionColumn = -1
-                            CsvBackupUtils.forEachRow(StringReader(csv)) { fields ->
-                                if (isHeader) {
-                                    packageColumn = fields.indexOf("package")
-                                    versionColumn = fields.indexOf("version_code")
-                                    isHeader = false
-                                } else if (packageColumn >= 0 && versionColumn >= 0 && fields.size > maxOf(packageColumn, versionColumn)) {
-                                    val version = fields[versionColumn].toLongOrNull()
-                                    if (version != null) archiveVersionCodes[fields[packageColumn]] = version
+                        entryCount += 1
+                        require(entryCount <= MAX_APK_ARCHIVE_ENTRIES) { "APK archive contains too many entries" }
+                        require(!entry.isDirectory) { "APK archive contains unexpected directory entries" }
+                        val validated = ApkArchiveEntryValidator.validate(entry.name)
+                        require(seenEntries.add(entry.name)) { "APK archive contains a duplicate entry: " + entry.name }
+                        when (validated.kind) {
+                            ApkArchiveEntryValidator.Kind.MANIFEST -> {
+                                val csv = readCurrentZipEntryLimited(zip, MAX_APK_MANIFEST_BYTES).toString(Charsets.UTF_8)
+                                var isHeader = true
+                                var packageColumn = -1
+                                var versionColumn = -1
+                                CsvBackupUtils.forEachRow(StringReader(csv)) { fields ->
+                                    if (isHeader) {
+                                        packageColumn = fields.indexOf("package")
+                                        versionColumn = fields.indexOf("version_code")
+                                        isHeader = false
+                                    } else if (packageColumn >= 0 && versionColumn >= 0 &&
+                                        fields.size > maxOf(packageColumn, versionColumn) &&
+                                        fields[packageColumn].matches(APK_PACKAGE_PATTERN)
+                                    ) {
+                                        val version = fields[versionColumn].toLongOrNull()
+                                        if (version != null && version >= 0) {
+                                            archiveVersionCodes[fields[packageColumn]] = version
+                                        }
+                                    }
                                 }
                             }
-                        } else if (!entry.isDirectory && entry.name.endsWith(".apk", ignoreCase = true)) {
-                            val segments = entry.name.split('/').filter { it.isNotBlank() }
-                            val first = segments.firstOrNull().orEmpty()
-                            val packageKey = if (segments.size > 1 && first.matches(Regex("[A-Za-z0-9_.]+"))) first else "single"
-                            val fileName = segments.last()
-                            val directory = File(tempRoot, packageKey)
-                            if (!directory.exists()) check(directory.mkdirs()) { "Could not prepare package directory" }
-                            val file = File(directory, fileName)
-                            FileOutputStream(file).use { output -> copyCurrentZipEntry(zip, output) }
-                            packageFiles.getOrPut(packageKey) { mutableListOf() }.add(file)
+                            ApkArchiveEntryValidator.Kind.APK -> {
+                                val directory = File(tempRoot, validated.packageKey)
+                                check(directory.isDirectory || directory.mkdirs()) { "Could not prepare package directory" }
+                                val file = File(directory, validated.fileName)
+                                var copied = 0L
+                                FileOutputStream(file).use { output ->
+                                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                                    while (true) {
+                                        val count = zip.read(buffer)
+                                        if (count < 0) break
+                                        if (count > 0) {
+                                            copied += count
+                                            expandedBytes += count
+                                            require(expandedBytes <= MAX_APK_ARCHIVE_BYTES) {
+                                                "APK archive exceeds the expanded size limit"
+                                            }
+                                            output.write(buffer, 0, count)
+                                        }
+                                    }
+                                }
+                                require(copied > 0L) { "APK archive contains an empty APK: " + entry.name }
+                                packageFiles.getOrPut(validated.packageKey) { mutableListOf() }.add(file)
+                            }
                         }
                         zip.closeEntry()
                     }
@@ -664,6 +692,22 @@ class AppListActivity : AppCompatActivity() {
         }
     }
 
+    private fun readCurrentZipEntryLimited(zip: ZipInputStream, limit: Int): ByteArray {
+        val output = java.io.ByteArrayOutputStream()
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var total = 0
+        while (true) {
+            val count = zip.read(buffer)
+            if (count < 0) break
+            if (count > 0) {
+                require(count <= limit - total) { "APK archive manifest exceeds the size limit" }
+                total += count
+                output.write(buffer, 0, count)
+            }
+        }
+        return output.toByteArray()
+    }
+
     private fun copyCurrentZipEntry(zip: ZipInputStream, output: java.io.OutputStream) {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         while (true) {
@@ -727,5 +771,9 @@ class AppListActivity : AppCompatActivity() {
             "ID_BACKUP_SYNC_APPS"
         )
         private const val ACTION_INSTALL_RESULT = "com.bareapps.barebackup.action.INSTALL_RESULT"
+        private const val MAX_APK_ARCHIVE_ENTRIES = 100_000
+        private const val MAX_APK_MANIFEST_BYTES = 4 * 1024 * 1024
+        private const val MAX_APK_ARCHIVE_BYTES = 20L * 1024L * 1024L * 1024L
+        private val APK_PACKAGE_PATTERN = Regex("[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)+")
     }
 }
