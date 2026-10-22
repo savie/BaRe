@@ -1,0 +1,203 @@
+name: BΛR☰ Rebuild CI
+
+run-name: "BΛR☰ Rebuild CI #${{ github.run_number }} - ${{ github.ref_name }}"
+
+on:
+  # Manual runs are always available from the Actions tab.
+  workflow_dispatch:
+    # Skip and not need to execution this native test
+    inputs:
+      run_native_tests:
+        description: "native test on Android SDK/emulator run after build APK"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+# Avoid concurrent Android SDK/emulator installs when several commits land in quick succession.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-apk-fastpath
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://fbiazqbrkwovzrirnzpb.supabase.co' }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_qTDGXWoCW79yAL0jyO27mw_MPJY_Ryi' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Keep SwiftBackup reference artifacts out of rewrite
+        shell: bash
+        run: |
+          if grep -R -n -E 'com\.swiftapps\.sba|swiftbackupReferenceApk|libref_archive\.so|extractSwiftBackupReferenceAegis' app/src app/build.gradle app/proguard-rules.pro; then
+            echo "Reference-only packages and binary loading must stay outside the rewrite project."
+            exit 1
+          fi
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "9.8.1"
+
+      - name: Install Android NDK and CMake
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | sort -V | tail -n 1)"
+          fi
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null
+          "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"
+
+      - name: Prepare stable CI signing key
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+        run: |
+          test -n "$BARE_DEBUG_KEYSTORE_B64"
+          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
+          test -s "$RUNNER_TEMP/bare-ci.keystore"
+
+      - name: Print CI signing certificate SHA-1
+        run: |
+          keytool -list -v \
+            -keystore "$RUNNER_TEMP/bare-ci.keystore" \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass android |
+            grep -E 'SHA1:|SHA-1:'
+
+      - name: Run unit tests
+        run: gradle --no-daemon :app:testDebugUnitTest
+
+      - name: Assemble release APK
+        run: gradle --no-daemon :app:assembleRelease
+
+      - name: Sign release APK with CI keystore
+        env:
+          CI_KEYSTORE: ${{ runner.temp }}/bare-ci.keystore
+        run: |
+          APK_PATH="app/build/outputs/apk/release/app-release-unsigned.apk"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          test -n "$APKSIGNER"
+          "$APKSIGNER" sign \
+            --ks "$CI_KEYSTORE" \
+            --ks-key-alias androiddebugkey \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            "$APK_PATH"
+          "$APKSIGNER" verify "$APK_PATH"
+
+      - name: Verify APK artifact
+        run: |
+          test -f app/build/outputs/apk/release/app-release-unsigned.apk
+          ls -lh app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Rename APK with CI number
+        run: cp app/build/outputs/apk/release/app-release-unsigned.apk "app/build/outputs/apk/release/BaRe-rebuild-release-${GITHUB_RUN_NUMBER}.apk"
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: BaRe-rebuild-release-${{ github.run_number }}
+          path: app/build/outputs/apk/release/BaRe-rebuild-release-${{ github.run_number }}.apk
+          if-no-files-found: error
+
+  # Emulator instrumentation is deliberately optional and isolated from APK production.
+  # A flaky/offline ADB transport must not prevent a signed release APK from being uploaded.
+  native-tests:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_native_tests == true }}
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "9.8.1"
+
+      - name: Install Android NDK and CMake
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | sort -V | tail -n 1)"
+          fi
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null
+          "$SDKMANAGER" --install "ndk;27.2.12479018" "cmake;3.22.1"
+
+      - name: Run AEGIS native instrumentation tests on Android
+        timeout-minutes: 30
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none -no-snapshot -no-snapshot-save -no-snapshot-load -wipe-data -memory 4096 -cores 2
+          disable-animations: true
+          script: |
+            set -euo pipefail
+            trap 'adb logcat -d -v time > "$RUNNER_TEMP/sba-native-logcat.txt" 2>/dev/null || true' EXIT
+            adb devices -l
+            # Wait for a fully online transport; the emulator can briefly appear as "offline" during boot.
+            for attempt in $(seq 1 60); do
+              state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
+              if [ "$state" = "device" ]; then break; fi
+              if [ "$attempt" -eq 10 ] || [ "$attempt" -eq 25 ] || [ "$attempt" -eq 40 ]; then
+                adb reconnect offline || true
+              fi
+              sleep 2
+            done
+            state="$(adb -s emulator-5554 get-state 2>/dev/null || true)"
+            if [ "$state" != "device" ]; then
+              adb devices -l
+              echo "Android emulator ADB transport never reached the online device state."
+              exit 1
+            fi
+            adb -s emulator-5554 wait-for-device
+            for attempt in $(seq 1 60); do
+              boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+              [ "$boot" = "1" ] && break
+              sleep 2
+            done
+            boot="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+            if [ "$boot" != "1" ]; then
+              adb devices -l
+              echo "Android emulator did not complete boot."
+              exit 1
+            fi
+            timeout 15m gradle --no-daemon --console=plain :app:connectedDebugAndroidTest --info 2>&1 | tee "$RUNNER_TEMP/sba-native-tests.log"
+
+      - name: Upload native test reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BaRe-native-tests-${{ github.run_number }}
+          path: |
+            app/build/outputs/androidTest-results
+            app/build/reports/androidTests
+            ${{ runner.temp }}/sba-native-tests.log
+            ${{ runner.temp }}/sba-native-logcat.txt
+          if-no-files-found: warn

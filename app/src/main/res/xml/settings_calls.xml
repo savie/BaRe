@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_history_filled" android:title="@string/max_number_backups_to_keep" android:key="max_call_backups" />
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_lock_filled" android:enabled="false" android:title="@string/encrypt_backups" android:key="calls_encryption_on" android:summary="@string/backups_encrypted_with_aegis_by_default_message" />
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_archive_filled" android:title="@string/compression_level" android:key="compression_level_calls" app:isPreferenceVisible="false" />
+</androidx.preference.PreferenceScreen>
