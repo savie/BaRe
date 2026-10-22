@@ -253,8 +253,7 @@ class FoldersDashActivity : AppCompatActivity() {
             ?: error("Could not access the destination folder")
         val staging = createTempDir("bare-folder-restore-", directory = cacheDir)
         try {
-            val pathKinds = linkedMapOf<String, Boolean>()
-            val explicitEntries = hashSetOf<String>()
+            val pathValidator = FolderArchivePathValidator(MAX_RESTORE_PATH_LENGTH)
             var totalBytes = 0L
             var entryCount = 0
 
@@ -264,40 +263,18 @@ class FoldersDashActivity : AppCompatActivity() {
                     val entry = zip.nextEntry ?: break
                     entryCount += 1
                     require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
-                    val rawName = entry.name
-                    require(rawName.isNotBlank() && rawName.length <= MAX_RESTORE_PATH_LENGTH) {
-                        "Archive contains an invalid path"
-                    }
-                    require(!rawName.startsWith("/") && '\\' !in rawName) {
-                        "Archive contains an absolute path"
-                    }
-                    val normalized = if (entry.isDirectory) rawName.removeSuffix("/") else rawName
-                    val segments = normalized.split('/')
-                    require(segments.isNotEmpty() && segments.all { it.isNotEmpty() && it != "." && it != ".." }) {
-                        "Archive contains an unsafe path"
-                    }
-                    val path = segments.joinToString("/")
                     val isDirectory = entry.isDirectory
-                    require(explicitEntries.add(path)) { "Archive contains a duplicate path: $path" }
-
-                    // Register implicit parents too, so file/directory collisions are caught in either order.
-                    for (index in 1 until segments.size) {
-                        val parentPath = segments.take(index).joinToString("/")
-                        val existingKind = pathKinds[parentPath]
-                        require(existingKind != false) { "Archive path conflicts with a file: $parentPath" }
-                        pathKinds[parentPath] = true
-                    }
-                    val previousKind = pathKinds[path]
-                    require(previousKind == null || previousKind == isDirectory) {
-                        "Archive contains a file/directory path conflict: $path"
-                    }
-                    pathKinds[path] = isDirectory
+                    val path = pathValidator.register(entry.name, isDirectory)
+                    val segments = path.split('/')
 
                     val stagedTarget = File(staging, path)
                     require(stagedTarget.canonicalPath.startsWith(staging.canonicalPath + File.separator)) {
                         "Archive contains an unsafe path"
                     }
                     if (isDirectory) {
+                        // ZIP directory entries must never carry data; reject payloads without draining
+                        // attacker-controlled content into memory or bypassing file size accounting.
+                        require(zip.read() == -1) { "Archive directory entry contains unexpected data: $path" }
                         require(stagedTarget.isDirectory || !stagedTarget.exists()) {
                             "Archive contains a file/directory path conflict: $path"
                         }
