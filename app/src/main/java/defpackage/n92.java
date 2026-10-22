@@ -229,7 +229,7 @@ public final class n92 extends ag8 {
         InputStream inputStream3;
         InputStream inputStream4;
         long j;
-        ?? iOException;
+        Exception iOException;
         boolean z = this.m;
         final long j2 = 0;
         rf8 rf8Var = this.a;
@@ -255,11 +255,11 @@ public final class n92 extends ag8 {
                 return null;
             }
             int i3 = 0;
-            ?? r0 = 0;
+            Exception r0 = null;
             String strJ = null;
             while (i3 < i2) {
                 if (((Boolean) m92Var.invoke()).booleanValue()) {
-                    if (r0 != 0) {
+                    if (r0 != null) {
                         throw r0;
                     }
                     throw new IOException("Dropbox upload stopped");
@@ -269,7 +269,7 @@ public final class n92 extends ag8 {
                 }
                 try {
                     inputStream3 = (InputStream) mq2Var.c.invoke(Long.valueOf(j2));
-                    ?? r8 = mq2Var.d;
+                    l39 r8 = mq2Var.d;
                     if (strJ == null) {
                         i = i3;
                         try {
@@ -303,7 +303,7 @@ public final class n92 extends ag8 {
                         i = i3;
                     }
                     strJ = strJ;
-                    ?? r9 = r8;
+                    l39 r9 = r8;
                     while (true) {
                         long j4 = jA - j2;
                         if (j4 > j3) {
@@ -336,7 +336,7 @@ public final class n92 extends ag8 {
                                     } else {
                                         try {
                                             inputStream4 = inputStream3;
-                                            ?? r16 = r9;
+                                            l39 r16 = r9;
                                             long j5 = j2;
                                             try {
                                                 try {
@@ -443,8 +443,8 @@ public final class n92 extends ag8 {
                     inputStream2 = null;
                 }
             }
-            ?? r26 = r0;
-            if (r26 != 0) {
+            Exception r26 = r0;
+            if (r26 != null) {
                 throw r26;
             }
             throw new IOException(xs1.h(i2, "Dropbox upload failed after ", " attempts"));
