@@ -189,7 +189,6 @@ public final class yz2 {
         InputStream inputStream;
         String str;
         byte b;
-        ?? r13;
         byte[] bArr = this.d;
         InputStream inputStream2 = null;
         try {
@@ -253,74 +252,74 @@ public final class yz2 {
                             xz2Var.close();
                             return str;
                         case 3:
-                            r13 = new int[i2];
+                            intValues3 = new int[i2];
                             while (length < i2) {
-                                r13[length] = xz2Var.readUnsignedShort();
+                                intValues3[length] = xz2Var.readUnsignedShort();
                                 length++;
                             }
                             try {
                                 xz2Var.close();
-                                return r13;
+                                return intValues3;
                             } catch (IOException e3) {
                                 Log.e("ExifInterface", "IOException occurred while closing InputStream", e3);
-                                return r13;
+                                return intValues3;
                             }
                         case 4:
-                            r13 = new long[i2];
+                            longValues4 = new long[i2];
                             while (length < i2) {
-                                r13[length] = ((long) xz2Var.readInt()) & 4294967295L;
+                                longValues4[length] = ((long) xz2Var.readInt()) & 4294967295L;
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return longValues4;
                         case 5:
-                            r13 = new a03[i2];
+                            rationalValues5 = new a03[i2];
                             while (length < i2) {
-                                r13[length] = new a03(((long) xz2Var.readInt()) & 4294967295L, ((long) xz2Var.readInt()) & 4294967295L);
+                                rationalValues5[length] = new a03(((long) xz2Var.readInt()) & 4294967295L, ((long) xz2Var.readInt()) & 4294967295L);
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return rationalValues5;
                         case 8:
-                            r13 = new int[i2];
+                            intValues8 = new int[i2];
                             while (length < i2) {
-                                r13[length] = xz2Var.readShort();
+                                intValues8[length] = xz2Var.readShort();
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return intValues8;
                         case XmlPullParser.COMMENT /* 9 */:
-                            r13 = new int[i2];
+                            intValues9 = new int[i2];
                             while (length < i2) {
-                                r13[length] = xz2Var.readInt();
+                                intValues9[length] = xz2Var.readInt();
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return intValues9;
                         case 10:
-                            r13 = new a03[i2];
+                            rationalValues10 = new a03[i2];
                             while (length < i2) {
-                                r13[length] = new a03(xz2Var.readInt(), xz2Var.readInt());
+                                rationalValues10[length] = new a03(xz2Var.readInt(), xz2Var.readInt());
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return rationalValues10;
                         case ModuleDescriptor.MODULE_VERSION /* 11 */:
-                            r13 = new double[i2];
+                            doubleValues11 = new double[i2];
                             while (length < i2) {
-                                r13[length] = xz2Var.readFloat();
+                                doubleValues11[length] = xz2Var.readFloat();
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return doubleValues11;
                         case 12:
-                            r13 = new double[i2];
+                            doubleValues12 = new double[i2];
                             while (length < i2) {
-                                r13[length] = xz2Var.readDouble();
+                                doubleValues12[length] = xz2Var.readDouble();
                                 length++;
                             }
                             xz2Var.close();
-                            return r13;
+                            return doubleValues12;
                         default:
                             try {
                                 xz2Var.close();
