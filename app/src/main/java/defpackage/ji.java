@@ -1377,7 +1377,7 @@ public final class ji implements Parcelable, jl0 {
                     arrayList2.add(yc7.CREATOR.createFromParcel(parcel));
                 }
             }
-            ?? ValueOf = parcel.readInt() == 0 ? arrayList4 : Long.valueOf(parcel.readLong());
+            Long ValueOf = parcel.readInt() == 0 ? null : Long.valueOf(parcel.readLong());
             Object objValueOf = parcel.readInt() == 0 ? arrayList4 : Long.valueOf(parcel.readLong());
             Object objValueOf2 = parcel.readInt() == 0 ? arrayList4 : Long.valueOf(parcel.readLong());
             Object objValueOf3 = parcel.readInt() == 0 ? arrayList4 : Long.valueOf(parcel.readLong());
