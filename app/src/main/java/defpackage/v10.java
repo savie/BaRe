@@ -59,7 +59,7 @@ public final /* synthetic */ class v10 implements mt3 {
         int i = this.a;
         int i2 = 11;
         int i3 = 2;
-        ?? r9 = 0;
+        jv1 r9 = null;
         wq2 wq2Var = null;
         be8 be8Var = be8.a;
         Object obj2 = this.b;
