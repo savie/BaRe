@@ -47,8 +47,8 @@ public final class yb2 extends ws7 implements qt3 {
         Throwable th;
         em7 jf6Var;
         boolean z;
-        ?? r0;
-        ?? r1;
+        boolean r0;
+        boolean r1;
         boolean z2 = this.b;
         ic2 ic2Var = this.d;
         yx1 yx1Var = yx1.a;
