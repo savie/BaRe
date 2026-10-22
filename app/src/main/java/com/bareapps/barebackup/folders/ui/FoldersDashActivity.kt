@@ -33,6 +33,7 @@ class FoldersDashActivity : AppCompatActivity() {
     private var pendingRestoreEntry: FolderBackupEntry? = null
     private var pendingImportUri: Uri? = null
     private var pendingBackupCloud = false
+    private var pendingBackupIncremental = false
 
     private val chooseTree = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { treeUri ->
         if (treeUri == null) {
@@ -55,7 +56,7 @@ class FoldersDashActivity : AppCompatActivity() {
         when {
             restoreEntry != null -> restoreArchiveToTree(restoreEntry, treeUri)
             importUri != null -> restoreArchiveToTree(importUri, treeUri)
-            else -> backupTree(treeUri, pendingBackupCloud)
+            else -> backupTree(treeUri, pendingBackupCloud, pendingBackupIncremental)
         }
     }
 
@@ -111,6 +112,20 @@ class FoldersDashActivity : AppCompatActivity() {
             return
         }
         pendingBackupCloud = toCloud
+        pendingBackupIncremental = false
+        pendingRestoreEntry = null
+        pendingImportUri = null
+        chooseTree.launch(null)
+    }
+
+    fun beginIncrementalBackup(toCloud: Boolean) {
+        if (toCloud && CloudStorageDestination.tree(this) == null) {
+            openCloudTab()
+            toast("Choose a cloud storage folder first")
+            return
+        }
+        pendingBackupCloud = toCloud
+        pendingBackupIncremental = true
         pendingRestoreEntry = null
         pendingImportUri = null
         chooseTree.launch(null)
@@ -146,14 +161,26 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
-    private fun backupTree(sourceUri: Uri, toCloud: Boolean) {
+    private fun backupTree(sourceUri: Uri, toCloud: Boolean, incremental: Boolean = false) {
         val root = DocumentFile.fromTreeUri(this, sourceUri)
         if (root == null) {
             toast("Could not access the selected folder")
             return
         }
+        if (incremental) {
+            lifecycleScope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    runCatching { createIncrementalSnapshot(root, sourceUri, toCloud) }
+                }
+                result.onSuccess { created ->
+                    toast(if (created) "Incremental folder snapshot completed" else "No folder changes since the previous snapshot")
+                    if (created) refreshFragments()
+                }.onFailure { toast("Incremental backup failed: " + (it.message ?: "I/O error")) }
+            }
+            return
+        }
         val folderName = safeName(root.name ?: "folder")
-        val filename = "$folderName-${System.currentTimeMillis()}.zip"
+        val filename = folderName + "-" + System.currentTimeMillis() + ".zip"
         val destinationUri: Uri?
         val localFile: File?
         if (toCloud) {
@@ -168,7 +195,6 @@ class FoldersDashActivity : AppCompatActivity() {
             localFile = File(localBackupDirectory(), filename)
             destinationUri = null
         }
-
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
@@ -188,7 +214,7 @@ class FoldersDashActivity : AppCompatActivity() {
                 refreshFragments()
             }.onFailure { error ->
                 localFile?.delete()
-                toast("Folder backup failed: ${error.message ?: "I/O error"}")
+                toast("Folder backup failed: " + (error.message ?: "I/O error"))
             }
         }
     }
@@ -197,19 +223,16 @@ class FoldersDashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    val input = when {
-                        entry.localFile != null -> FileInputStream(entry.localFile)
-                        entry.cloudFile != null -> contentResolver.openInputStream(entry.cloudFile.uri)
-                        else -> null
-                    } ?: error("Could not open the selected folder backup")
-                    restoreZip(input, destinationTree)
+                    val manifest = readSnapshotManifest(entry)
+                    if (manifest == null) {
+                        restoreZip(openBackupInput(entry), destinationTree)
+                    } else {
+                        restoreSnapshotChain(resolveSnapshotChain(entry, manifest), destinationTree)
+                    }
                 }
             }
-            result.onSuccess {
-                toast("Folder restore completed")
-            }.onFailure {
-                toast("Folder restore failed: ${it.message ?: "I/O error"}")
-            }
+            result.onSuccess { toast("Folder restore completed") }
+                .onFailure { toast("Folder restore failed: " + (it.message ?: "I/O error")) }
         }
     }
 
@@ -338,6 +361,359 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
+    private fun createIncrementalSnapshot(root: DocumentFile, sourceUri: Uri, toCloud: Boolean): Boolean {
+        val sourceKey = sha256(sourceUri.toString().toByteArray(Charsets.UTF_8)).take(16)
+        val prefix = "bare-snapshot-" + sourceKey + "-"
+        val currentFiles = linkedMapOf<String, DocumentFile>()
+        val currentFingerprints = mutableListOf<FolderFileFingerprint>()
+
+        fun scan(directory: DocumentFile, prefixPath: String) {
+            directory.listFiles().sortedBy { it.name.orEmpty() }.forEach { child ->
+                val name = child.name ?: error("Folder contains an unnamed item")
+                require(name != "." && name != ".." && '/' !in name && '\\' !in name) {
+                    "Folder contains an invalid file name"
+                }
+                val path = prefixPath + name
+                if (child.isDirectory) {
+                    scan(child, path + "/")
+                } else if (child.isFile) {
+                    val digest = java.security.MessageDigest.getInstance("SHA-256")
+                    var size = 0L
+                    val input = contentResolver.openInputStream(child.uri) ?: error("Could not read " + path)
+                    input.use { stream ->
+                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                        while (true) {
+                            val count = stream.read(buffer)
+                            if (count < 0) break
+                            if (count > 0) {
+                                size += count
+                                digest.update(buffer, 0, count)
+                            }
+                        }
+                    }
+                    currentFiles[path] = child
+                    currentFingerprints += FolderFileFingerprint(path, size,
+                        digest.digest().joinToString("") { "%02x".format(it) })
+                }
+            }
+        }
+        scan(root, "")
+        val existing = listBackupArchives(toCloud).filter { it.name.startsWith(prefix) }
+        val previousManifests = existing.map { archive ->
+            archive to (readSnapshotManifest(archive) ?: error("Snapshot archive has no valid manifest: " + archive.name))
+        }
+        require(previousManifests.map { it.second.snapshotId }.toSet().size == previousManifests.size) {
+            "Duplicate snapshot IDs found in backup storage"
+        }
+        val parentIds = previousManifests.mapNotNull { it.second.parentSnapshotId }.toSet()
+        val leaves = previousManifests.filter { it.second.snapshotId !in parentIds }
+        require(leaves.size <= 1) { "Snapshot history has multiple branches; refusing to append to an ambiguous chain" }
+        val previous = leaves.singleOrNull()?.second
+        val plan = if (previous == null) {
+            FolderIncrementalPlan(currentFingerprints.sortedBy { it.path }, emptyList())
+        } else {
+            FolderIncrementalPlan.compare(previous.files, currentFingerprints)
+        }
+        if (previous != null && plan.isEmpty) return false
+
+        val snapshotId = java.util.UUID.randomUUID().toString().replace("-", "")
+        val manifest = FolderSnapshotManifest(snapshotId, previous?.snapshotId,
+            currentFingerprints.sortedBy { it.path }, plan.deletedPaths)
+        val filename = prefix + snapshotId + ".zip"
+        val localFile: File?
+        val destinationUri: Uri?
+        if (toCloud) {
+            destinationUri = CloudStorageDestination.createFile(this, "application/zip", filename)
+                ?: error("Could not create a cloud snapshot archive")
+            localFile = null
+        } else {
+            localFile = File(localBackupDirectory(), filename)
+            destinationUri = null
+        }
+        try {
+            val rawOutput = if (localFile != null) FileOutputStream(localFile) else
+                contentResolver.openOutputStream(checkNotNull(destinationUri))
+                    ?: error("Could not open the snapshot destination")
+            ZipOutputStream(rawOutput).use { zip ->
+                zip.putNextEntry(ZipEntry(FolderSnapshotManifest.ARCHIVE_ENTRY))
+                zip.write(manifest.encode().toByteArray(Charsets.UTF_8))
+                zip.closeEntry()
+                plan.changedOrAdded.sortedBy { it.path }.forEach { file ->
+                    val document = currentFiles[file.path] ?: error("Source file disappeared: " + file.path)
+                    val digest = java.security.MessageDigest.getInstance("SHA-256")
+                    var copied = 0L
+                    zip.putNextEntry(ZipEntry(file.path))
+                    (contentResolver.openInputStream(document.uri) ?: error("Could not read " + file.path)).use { input ->
+                        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                        while (true) {
+                            val count = input.read(buffer)
+                            if (count < 0) break
+                            if (count > 0) {
+                                copied += count
+                                digest.update(buffer, 0, count)
+                                zip.write(buffer, 0, count)
+                            }
+                        }
+                    }
+                    zip.closeEntry()
+                    val copiedHash = digest.digest().joinToString("") { "%02x".format(it) }
+                    require(copied == file.size && copiedHash.equals(file.sha256, ignoreCase = true)) {
+                        "Source file changed while snapshot was being written: " + file.path
+                    }
+                }
+            }
+        } catch (error: Exception) {
+            localFile?.delete()
+            if (destinationUri != null) runCatching { DocumentFile.fromSingleUri(this, destinationUri)?.delete() }
+            throw error
+        }
+        return true
+    }
+
+    private fun sha256(bytes: ByteArray): String =
+        java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
+            .joinToString("") { "%02x".format(it) }
+
+    private fun listBackupArchives(toCloud: Boolean): List<FolderBackupEntry> =
+        if (toCloud) {
+            val tree = CloudStorageDestination.tree(this) ?: error("Choose a cloud storage folder first")
+            tree.listFiles().filter { it.isFile && it.name.orEmpty().endsWith(".zip", true) }.map { file ->
+                FolderBackupEntry(file.name.orEmpty(), file.lastModified(), file.length(), cloudFile = file)
+            }
+        } else {
+            localBackupDirectory().listFiles().orEmpty().filter { it.isFile && it.extension.equals("zip", true) }
+                .map { file -> FolderBackupEntry(file.name, file.lastModified(), file.length(), localFile = file) }
+        }
+
+    private fun openBackupInput(entry: FolderBackupEntry): InputStream = when {
+        entry.localFile != null -> FileInputStream(entry.localFile)
+        entry.cloudFile != null -> contentResolver.openInputStream(entry.cloudFile.uri)
+        else -> null
+    } ?: error("Could not open the selected folder backup")
+
+    private fun readSnapshotManifest(entry: FolderBackupEntry): FolderSnapshotManifest? {
+        openBackupInput(entry).use { raw ->
+            ZipInputStream(raw).use { zip ->
+                while (true) {
+                    val item = zip.nextEntry ?: break
+                    if (item.name == FolderSnapshotManifest.ARCHIVE_ENTRY) {
+                        val output = java.io.ByteArrayOutputStream()
+                        val buffer = ByteArray(8192)
+                        var total = 0
+                        while (true) {
+                            val count = zip.read(buffer)
+                            if (count < 0) break
+                            total += count
+                            require(total <= MAX_MANIFEST_BYTES) { "Snapshot manifest is too large" }
+                            output.write(buffer, 0, count)
+                        }
+                        return FolderSnapshotManifest.decode(output.toString("UTF-8"))
+                    }
+                    zip.closeEntry()
+                }
+            }
+        }
+        return null
+    }
+
+    private fun resolveSnapshotChain(
+        selected: FolderBackupEntry,
+        selectedManifest: FolderSnapshotManifest
+    ): List<Pair<FolderBackupEntry, FolderSnapshotManifest>> {
+        val selectedArchiveName = selected.localFile?.name ?: selected.cloudFile?.name
+            ?: error("Selected snapshot has no archive filename")
+        val match = Regex("^bare-snapshot-([a-f0-9]{16})-[A-Za-z0-9_-]+\\.zip$", RegexOption.IGNORE_CASE)
+            .matchEntire(selectedArchiveName) ?: error("Snapshot filename is invalid")
+        val prefix = "bare-snapshot-" + match.groupValues[1] + "-"
+        val byId = linkedMapOf<String, Pair<FolderBackupEntry, FolderSnapshotManifest>>()
+        listBackupArchives(selected.cloudFile != null).filter { it.name.startsWith(prefix) }.forEach { archive ->
+            val manifest = readSnapshotManifest(archive) ?: error("Snapshot archive has no manifest: " + archive.name)
+            require(archive.name == prefix + manifest.snapshotId + ".zip") {
+                "Snapshot filename does not match its manifest"
+            }
+            require(byId.put(manifest.snapshotId, archive to manifest) == null) { "Duplicate snapshot ID" }
+        }
+        val selectedPair = byId[selectedManifest.snapshotId] ?: error("Selected snapshot is missing from storage")
+        require(selectedPair.first.name == selectedArchiveName) { "Selected snapshot does not match its manifest" }
+        val reverse = mutableListOf<Pair<FolderBackupEntry, FolderSnapshotManifest>>()
+        val visited = mutableSetOf<String>()
+        var current: Pair<FolderBackupEntry, FolderSnapshotManifest>? = selectedPair
+        while (current != null) {
+            val pair = current
+            require(visited.add(pair.second.snapshotId)) { "Snapshot chain contains a cycle" }
+            reverse += pair
+            val parent = pair.second.parentSnapshotId
+            current = if (parent == null) null else byId[parent] ?: error("Missing snapshot parent: " + parent)
+        }
+        return reverse.asReversed()
+    }
+
+    private fun restoreSnapshotChain(
+        chain: List<Pair<FolderBackupEntry, FolderSnapshotManifest>>,
+        destinationTree: Uri
+    ) {
+        require(chain.isNotEmpty()) { "Snapshot chain is empty" }
+        chain.forEachIndexed { index, pair ->
+            require(pair.second.parentSnapshotId == if (index == 0) null else chain[index - 1].second.snapshotId) {
+                "Snapshot chain is out of order"
+            }
+        }
+        val staging = createTempDir("bare-snapshot-restore-", directory = cacheDir)
+        val merged = File(cacheDir, "bare-merged-" + java.util.UUID.randomUUID().toString() + ".zip")
+        try {
+            var totalBytes = 0L
+            var entryCount = 0
+            chain.forEach { (archive, manifest) ->
+                require(readSnapshotManifest(archive) == manifest) { "Snapshot manifest changed while restoring" }
+                manifest.deletedPaths.forEach { path ->
+                    val target = File(staging, path)
+                    require(target.canonicalPath.startsWith(staging.canonicalPath + File.separator)) {
+                        "Snapshot contains an unsafe deleted path"
+                    }
+                    if (target.exists()) {
+                        require(!target.isDirectory) { "Snapshot attempts to delete a directory as a file" }
+                        check(target.delete()) { "Could not stage deletion of " + path }
+                    }
+                }
+                openBackupInput(archive).use { raw ->
+                    ZipInputStream(raw).use { zip ->
+                        val validator = FolderArchivePathValidator(MAX_RESTORE_PATH_LENGTH)
+                        while (true) {
+                            val item = zip.nextEntry ?: break
+                            if (item.name == FolderSnapshotManifest.ARCHIVE_ENTRY) {
+                                val output = java.io.ByteArrayOutputStream()
+                                val buffer = ByteArray(8192)
+                                var size = 0
+                                while (true) {
+                                    val count = zip.read(buffer)
+                                    if (count < 0) break
+                                    size += count
+                                    require(size <= MAX_MANIFEST_BYTES) { "Snapshot manifest is too large" }
+                                    output.write(buffer, 0, count)
+                                }
+                                require(FolderSnapshotManifest.decode(output.toString("UTF-8")) == manifest) {
+                                    "Snapshot manifest does not match the chain"
+                                }
+                                zip.closeEntry()
+                                continue
+                            }
+                            entryCount++
+                            require(entryCount <= MAX_RESTORE_ENTRIES) { "Snapshot chain contains too many entries" }
+                            val path = validator.register(item.name, item.isDirectory)
+                            val target = File(staging, path)
+                            require(target.canonicalPath.startsWith(staging.canonicalPath + File.separator)) {
+                                "Snapshot contains an unsafe path"
+                            }
+                            if (item.isDirectory) {
+                                require(zip.read() == -1) { "Directory entry contains unexpected data: " + path }
+                                if (target.exists() && !target.isDirectory) {
+                                    check(target.delete()) { "Could not replace staged file with folder: " + path }
+                                }
+                                check(target.mkdirs() || target.isDirectory) { "Could not stage folder " + path }
+                            } else {
+                                var parent = target.parentFile
+                                while (parent != null && parent != staging) {
+                                    if (parent.exists() && !parent.isDirectory) {
+                                        check(parent.delete()) {
+                                            "Could not replace staged file with folder: " + parent.name
+                                        }
+                                    }
+                                    parent = parent.parentFile
+                                }
+                                check(target.parentFile?.mkdirs() == true || target.parentFile?.isDirectory == true) {
+                                    "Could not stage folder for " + path
+                                }
+                                if (target.isDirectory) {
+                                    check(target.deleteRecursively()) { "Could not replace staged folder with file: " + path }
+                                }
+                                FileOutputStream(target).use { output ->
+                                    totalBytes += copyCurrentEntry(zip, output, MAX_RESTORE_BYTES - totalBytes)
+                                }
+                            }
+                            zip.closeEntry()
+                        }
+                    }
+                }
+            }
+            val expectedFiles = chain.last().second.files.sortedBy { it.path }
+            val actualFiles = mutableListOf<FolderFileFingerprint>()
+            fun fingerprintDirectory(directory: File, prefix: String) {
+                directory.listFiles().orEmpty().forEach { child ->
+                    val path = prefix + child.name
+                    if (child.isDirectory) {
+                        fingerprintDirectory(child, path + "/")
+                    } else {
+                        val digest = java.security.MessageDigest.getInstance("SHA-256")
+                        var size = 0L
+                        FileInputStream(child).use { input ->
+                            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                            while (true) {
+                                val count = input.read(buffer)
+                                if (count < 0) break
+                                if (count > 0) {
+                                    size += count
+                                    digest.update(buffer, 0, count)
+                                }
+                            }
+                        }
+                        actualFiles += FolderFileFingerprint(path, size,
+                            digest.digest().joinToString("") { "%02x".format(it) })
+                    }
+                }
+            }
+            fingerprintDirectory(staging, "")
+            require(actualFiles.sortedBy { it.path } == expectedFiles) {
+                "Restored snapshot contents do not match the latest manifest"
+            }
+
+            ZipOutputStream(FileOutputStream(merged)).use { zip ->
+                fun addDirectory(directory: File, prefix: String) {
+                    directory.listFiles().orEmpty().sortedBy { it.name }.forEach { child ->
+                        val path = prefix + child.name
+                        if (child.isDirectory) {
+                            zip.putNextEntry(ZipEntry(path + "/"))
+                            zip.closeEntry()
+                            addDirectory(child, path + "/")
+                        } else {
+                            zip.putNextEntry(ZipEntry(path))
+                            FileInputStream(child).use { it.copyTo(zip) }
+                            zip.closeEntry()
+                        }
+                    }
+                }
+                addDirectory(staging, "")
+            }
+            restoreZip(FileInputStream(merged), destinationTree)
+            val finalPaths = chain.last().second.files.map { it.path }.toSet()
+            val deletedPaths = chain.flatMap { it.second.deletedPaths }.toSet().filterNot { deleted ->
+                finalPaths.any { current -> current == deleted || current.startsWith(deleted + "/") }
+            }
+            val destination = DocumentFile.fromTreeUri(this, destinationTree)
+                ?: error("Could not access the destination folder")
+            deletedPaths.sorted().forEach { path ->
+                var parent: DocumentFile? = destination
+                val segments = path.split('/')
+                for (segment in segments.dropLast(1)) {
+                    val next = parent?.findFile(segment)
+                    if (next == null) {
+                        parent = null
+                        break
+                    }
+                    if (!next.isDirectory) error("Restore destination has a file/folder conflict at " + segment)
+                    parent = next
+                }
+                val target = parent?.findFile(segments.last())
+                if (target != null) {
+                    require(!target.isDirectory) { "Snapshot deletion conflicts with a destination folder: " + path }
+                    check(target.delete()) { "Could not delete restored file " + path }
+                }
+            }
+        } finally {
+            staging.deleteRecursively()
+            merged.delete()
+        }
+    }
+
     private fun copyCurrentEntry(
         input: ZipInputStream,
         output: java.io.OutputStream,
@@ -379,6 +755,7 @@ class FoldersDashActivity : AppCompatActivity() {
 
     companion object {
         private const val LOCAL_BACKUP_DIR = "folder-backups"
+        private const val MAX_MANIFEST_BYTES = 4 * 1024 * 1024
         private const val MAX_RESTORE_BYTES = 10L * 1024L * 1024L * 1024L
         private const val MAX_RESTORE_ENTRIES = 100_000
         private const val MAX_RESTORE_PATH_LENGTH = 4_096

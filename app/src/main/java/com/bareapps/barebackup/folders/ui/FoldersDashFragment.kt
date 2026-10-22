@@ -57,6 +57,10 @@ class FoldersDashFragment : Fragment() {
                     (activity as? FoldersDashActivity)?.beginBackup(isCloud)
                     true
                 }
+                popup.menu.add("Incremental backup").setOnMenuItemClickListener {
+                    (activity as? FoldersDashActivity)?.beginIncrementalBackup(isCloud)
+                    true
+                }
                 popup.menu.add(getString(R.string.restore_folders)).setOnMenuItemClickListener {
                     (activity as? FoldersDashActivity)?.beginRestoreFromFile()
                     true
