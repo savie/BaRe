@@ -136,7 +136,7 @@ public final class lf5 {
     public final String d(String str) {
         FileInputStream fileInputStream;
         File fileG = this.a.g(str, "user-data");
-        ?? r5 = 0;
+        Closeable r5 = null;
         if (fileG.exists()) {
             int r2 = (fileG.length() > 0L ? 1 : (fileG.length() == 0L ? 0 : -1));
             try {
