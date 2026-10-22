@@ -474,7 +474,7 @@ public final class gl8 {
         }
         int r1 = r0;
         if (c(f, f2, i, 2)) {
-            r1 = (r0 == true ? 1 : 0) | 2;
+            r1 = (r0) | 2;
         }
         int r2 = r1;
         if (c(f2, f, i, 8)) {
