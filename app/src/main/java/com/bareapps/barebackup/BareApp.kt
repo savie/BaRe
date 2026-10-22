@@ -74,9 +74,6 @@ import defpackage.ry5
 import defpackage.zn7
 import defpackage.qy5
 import defpackage.p93
-import defpackage.p93
-import defpackage.zy0
-import defpackage.jq5
 import com.bareapps.barebackup.common.Const
 import com.bareapps.barebackup.common.IgnoredException
 import com.bareapps.barebackup.common.NotificationHelper
@@ -98,7 +95,7 @@ class BareApp : Application(), a45 {
     val b: gv7 = gv7(zk(16))
     val c: gv7 = gv7(fl(14))
 
-    companion object {
+    companion object Static {
         @JvmField
         var e: BareApp? = null
         @JvmField
