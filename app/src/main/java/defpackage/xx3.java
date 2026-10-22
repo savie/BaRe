@@ -382,7 +382,6 @@ public abstract class xx3 {
         long A = 0L;
 
         final jb5 client = jb5Var;
-        jb5 r17 = jb5Var;
         while (true) {
             final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
             fl4 fl4Var = new fl4();
@@ -391,7 +390,7 @@ public abstract class xx3 {
             fl4Var.t("v", 3);
             char c2 = 2;
             fl4Var.t("ssl", 2);
-            List listA = jb5.a(r17.a.b(fl4Var, (String) ghVarF.a, da5.READ_SAFE).i(), JWKParameterNames.RSA_FIRST_PRIME_FACTOR);
+            List listA = jb5.a(client.a.b(fl4Var, (String) ghVarF.a, da5.READ_SAFE).i(), JWKParameterNames.RSA_FIRST_PRIME_FACTOR);
             if (listA.size() != 1) {
                 g84.f(xs1.h(listA.size(), "MEGA transfer response for 'p' returned ", " URLs"));
                 return;
@@ -400,7 +399,7 @@ public abstract class xx3 {
             int[] iArr = new int[6];
             int i3 = 0;
             for (int i4 = 6; i3 < i4; i4 = 6) {
-                iArr[i3] = r17.d.nextInt();
+                iArr[i3] = client.d.nextInt();
                 i3++;
             }
             ly8.n(4, 6);
@@ -661,8 +660,7 @@ public abstract class xx3 {
                                         Arrays.fill(iArr3, 0);
                                         i2 = i9 + 1;
                                                 ghVarF = ghVar;
-                                        r17 = client;
-                                        jA = j;
+                                                                                jA = j;
                                         gt7Va                                        q63Var3 = q63Var3;
                                                                                 }
                                 } catch (Throwable th13) {
@@ -777,8 +775,7 @@ public abstract class xx3 {
                                                                             Arrays.fill(iArr3, 0);
                                                                             i2 = i9 + 1;
                                                                                                                                                                                                                                     ghVarF = ghVar;
-                                                                            r17 = client;
-                                                                            jA = j;
+                                                                                                                                                        jA = j;
                                                                             gt7Va                                                                            q63Var3 = q63Var3;
                                                                                                                                                                                                                                 }
                                                                     }
@@ -838,8 +835,7 @@ public abstract class xx3 {
                                                                                 Arrays.fill(iArr3, 0);
                                                                                 i2 = i9 + 1;
                                                                                                                                                                                                                                                 ghVarF = ghVar;
-                                                                                r17 = client;
-                                                                                jA = j;
+                                                                                                                                                                jA = j;
                                                                                 gt7Va                                                                                q63Var3 = q63Var3;
                                                                                                                                                                                                                                             }
                                                                         }
@@ -887,8 +883,7 @@ public abstract class xx3 {
                                                                     Arrays.fill(iArr3, 0);
                                                                     i2 = i9 + 1;
                                                                                                                                                                                                             ghVarF = ghVar;
-                                                                    r17 = client;
-                                                                    jA = j;
+                                                                                                                                        jA = j;
                                                                     gt7Va                                                                    q63Var3 = q63Var3;
                                                                                                                                                                                                         }
                                                             }
@@ -915,8 +910,7 @@ public abstract class xx3 {
                                                         Arrays.fill(iArr3, 0);
                                                         i2 = i9 + 1;
                                                                                                                                                                         ghVarF = ghVar;
-                                                        r17 = client;
-                                                        jA = j;
+                                                                                                                jA = j;
                                                         gt7Va                                                        q63Var3 = q63Var3;
                                                                                                                                                                     }
                                                 }
@@ -945,8 +939,7 @@ public abstract class xx3 {
                                         Arrays.fill(iArr3, 0);
                                         i2 = i9 + 1;
                                                                                                                         ghVarF = ghVar;
-                                        r17 = client;
-                                        jA = j;
+                                                                                jA = j;
                                         gt7Va                                        q63Var3 = q63Var3;
                                                                                                                     }
                                 }
@@ -961,8 +954,7 @@ public abstract class xx3 {
                                             }
                 } catch (Throwable th17) {
                     th = th17;
-                                                            r6 = inputStreamW;
-                                                        }
+                                                                                                                    }
             } catch (eb5 e15) {
                 e = e15;
                 kh6Var = iArrCopyOfRange;
