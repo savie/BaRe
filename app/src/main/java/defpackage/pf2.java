@@ -46,7 +46,7 @@ public final /* synthetic */ class pf2 implements Runnable {
         BufferedWriter bufferedWriter;
         Exception e;
         int i = this.a;
-        ?? r1 = 0;
+        Closeable r1 = null;
         Object obj = this.e;
         Object obj2 = this.d;
         Object obj3 = this.c;
@@ -181,9 +181,10 @@ public final /* synthetic */ class pf2 implements Runnable {
                     return;
                 }
                 File fileG = lf5Var.a.g(str3, "rollouts-state");
-                ?? IsEmpty = list.isEmpty();
+                boolean isEmpty = list.isEmpty();
+                Closeable IsEmpty = null;
                 try {
-                    if (IsEmpty != 0) {
+                    if (isEmpty) {
                         lf5.g(fileG, "Rollout state is empty for session: " + str3);
                         return;
                     }
