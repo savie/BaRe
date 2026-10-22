@@ -528,9 +528,23 @@ class FoldersDashActivity : AppCompatActivity() {
     private fun readSnapshotManifest(entry: FolderBackupEntry): FolderSnapshotManifest? {
         openBackupInput(entry).use { raw ->
             ZipInputStream(raw).use { zip ->
+                val validator = FolderArchivePathValidator(MAX_RESTORE_PATH_LENGTH)
+                var entryCount = 0
+                var totalBytes = 0L
+                var manifest: FolderSnapshotManifest? = null
                 while (true) {
                     val item = zip.nextEntry ?: break
-                    if (item.name == FolderSnapshotManifest.ARCHIVE_ENTRY) {
+                    entryCount += 1
+                    require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
+                    val isManifest = item.name == FolderSnapshotManifest.ARCHIVE_ENTRY
+                    val path = if (isManifest) {
+                        require(!item.isDirectory) { "Snapshot manifest must be a file" }
+                        FolderSnapshotManifest.ARCHIVE_ENTRY
+                    } else {
+                        validator.register(item.name, item.isDirectory)
+                    }
+                    if (isManifest) {
+                        require(manifest == null) { "Archive contains duplicate snapshot manifests" }
                         val output = java.io.ByteArrayOutputStream()
                         val buffer = ByteArray(8192)
                         var total = 0
@@ -541,10 +555,15 @@ class FoldersDashActivity : AppCompatActivity() {
                             require(total <= MAX_MANIFEST_BYTES) { "Snapshot manifest is too large" }
                             output.write(buffer, 0, count)
                         }
-                        return FolderSnapshotManifest.decode(output.toString("UTF-8"))
+                        manifest = FolderSnapshotManifest.decode(output.toString("UTF-8"))
+                    } else if (item.isDirectory) {
+                        require(zip.read() == -1) { "Archive directory entry contains unexpected data: $path" }
+                    } else {
+                        totalBytes += drainCurrentEntry(zip, MAX_RESTORE_BYTES - totalBytes)
                     }
                     zip.closeEntry()
                 }
+                return manifest
             }
         }
         return null
