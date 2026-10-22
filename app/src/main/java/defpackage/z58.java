@@ -4,7 +4,6 @@ package defpackage;
 /* JADX INFO: loaded from: classes.dex */
 public final class z58 extends e88 {
     public z58() {
-        super("Data", 0);
     }
 
     @Override // defpackage.e88
