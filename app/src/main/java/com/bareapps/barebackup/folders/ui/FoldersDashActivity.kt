@@ -329,13 +329,8 @@ class FoldersDashActivity : AppCompatActivity() {
                             "Restore destination has a file/folder conflict at ${child.name}"
                         }
                     }
-                    if (child.isDirectory) {
-                        val nextTarget = existing ?: targetDirectory
-                        if (existing != null) preflight(child, existing)
-                        else child.listFiles().orEmpty().forEach { nested ->
-                            if (nested.isDirectory) preflight(nested, targetDirectory.createDirectory(nested.name)
-                                ?: error("Could not validate destination folder ${nested.name}"))
-                        }
+                    if (child.isDirectory && existing != null) {
+                        preflight(child, existing)
                     }
                 }
             }
