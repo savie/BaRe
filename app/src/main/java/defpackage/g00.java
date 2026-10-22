@@ -700,8 +700,8 @@ public final class g00 {
         int i;
         ArrayList arrayList2;
         Iterator it;
-        ?? r9;
-        ?? r23;
+        String r9;
+        String r23;
         boolean zI;
         ArrayList arrayListB;
         Object obj = null;
@@ -756,7 +756,7 @@ public final class g00 {
             ArrayList arrayList7 = new ArrayList();
             Iterator it2 = arrayList5.iterator();
             int i3 = 0;
-            ?? r4 = " to ";
+            String r4 = " to ";
             while (true) {
                 boolean zHasNext = it2.hasNext();
                 ex6 ex6Var = c;
@@ -780,7 +780,7 @@ public final class g00 {
                         r9 = r4;
                     } else {
                         Long dateBackup = localMetadataB.getDateBackup();
-                        ?? r24 = r4;
+                        String r24 = r4;
                         long jLongValue = dateBackup != null ? dateBackup.longValue() : q63Var7.z();
                         try {
                             q63 q63VarT = q63Var7.t();
@@ -843,10 +843,10 @@ public final class g00 {
                                                                     r9 = r24;
                                                                 } catch (Exception e2) {
                                                                     String strG0 = yc9.g0(e2);
-                                                                    ?? sb = new StringBuilder();
+                                                                    StringBuilder sb = new StringBuilder();
                                                                     sb.append("Error while moving file ");
                                                                     sb.append(q63Var8);
-                                                                    ?? r10 = r24;
+                                                                    String r10 = r24;
                                                                     sb.append(r10);
                                                                     sb.append(q63VarJ7);
                                                                     sb.append(": ");
