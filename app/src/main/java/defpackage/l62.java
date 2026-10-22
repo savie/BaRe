@@ -92,7 +92,7 @@ public final class l62 extends ws7 implements qt3 {
         i62 i62Var;
         Object bn6Var;
         Object bn6Var2;
-        ?? bn6Var3;
+        Object bn6Var3;
         Network activeNetwork;
         LinkProperties linkProperties;
         X509Certificate x509Certificate;
@@ -495,7 +495,7 @@ public final class l62 extends ws7 implements qt3 {
                                     } catch (Throwable th5) {
                                         bn6Var3 = new bn6(th5);
                                     }
-                                    ?? r3 = ov2Var;
+                                    Object r3 = ov2Var;
                                     if (!(bn6Var3 instanceof bn6)) {
                                         r3 = bn6Var3;
                                     }
