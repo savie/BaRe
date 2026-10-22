@@ -38,12 +38,12 @@ public final class my5 implements s03 {
     /* JADX WARN: Type inference failed for: r16v7 */
     /* JADX WARN: Type inference failed for: r16v8 */
     public my5(String str, vb8 vb8Var, vq3 vq3Var) throws sf5 {
-        ?? r16;
+        int r16;
         int i;
         String strSubstring;
         int i2;
-        ?? r17;
-        ?? r18;
+        int r17;
+        int r18;
         ArrayList arrayList = new ArrayList();
         this.c = arrayList;
         ArrayList arrayList2 = new ArrayList();
@@ -67,7 +67,7 @@ public final class my5 implements s03 {
         if (c == '/') {
             throw new sf5("Path '%s' in %s references document root", str, vb8Var);
         }
-        ?? r12 = 1;
+        boolean r12 = true;
         if (c == '.') {
             if (cArr2.length > 1) {
                 int i5 = i4 + 1;
@@ -83,7 +83,7 @@ public final class my5 implements s03 {
         while (true) {
             int i7 = this.y;
             if (i7 >= this.t) {
-                boolean z = r12 == true ? 1 : 0;
+                boolean z = r12;
                 int i8 = i7 - 1;
                 char[] cArr3 = this.r;
                 if (i8 >= cArr3.length || cArr3[i8] == '/') {
@@ -141,7 +141,7 @@ public final class my5 implements s03 {
                             arrayList2.add(null);
                             arrayList3.add(str4);
                         }
-                        r18 = r12 == true ? 1 : 0;
+                        r18 = r12 ? 1 : 0;
                         break;
                     }
                     char[] cArr4 = this.r;
@@ -153,7 +153,7 @@ public final class my5 implements s03 {
                 }
             } else {
                 int i14 = 0;
-                ?? r13 = r12;
+                int r13 = r12 ? 1 : 0;
                 while (true) {
                     int i15 = this.y;
                     r16 = r13;
@@ -203,7 +203,7 @@ public final class my5 implements s03 {
                         break;
                     }
                     i14++;
-                    r13 = r16 == true ? 1 : 0;
+                    r13 = r16 != 0 ? 1 : 0;
                 }
                 String str5 = new String(this.r, i7, i14);
                 r18 = r16;
@@ -225,7 +225,7 @@ public final class my5 implements s03 {
                     arrayList.add(Integer.valueOf((int) r17));
                 }
                 i3 = i;
-                r12 = r17;
+                r12 = r17 != 0;
                 c2 = '/';
             }
             i = 0;
