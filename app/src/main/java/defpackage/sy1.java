@@ -742,17 +742,17 @@ public final class sy1 {
         long jG = jm1.g(context);
         boolean zB = jm1.B();
         boolean zB2 = jm1.B();
-        ?? r1 = zB2;
+        int r1 = zB2 ? 1 : 0;
         if (jm1.C()) {
             r1 = (zB2 ? 1 : 0) | 2;
         }
-        ?? r2 = r1;
+        int r2 = r1;
         if (Debug.waitingForDebugger()) {
-            r2 = (r1 == true ? 1 : 0) | 4;
+            r2 = (r1) | 4;
         }
         String str7 = Build.MANUFACTURER;
         String str8 = Build.PRODUCT;
-        this.j.prepareNativeSession(str2, "Crashlytics Android SDK/20.0.6", jCurrentTimeMillis, new je0(ke0Var, me0Var, new le0(iOrdinal, iAvailableProcessors, jG, blockCount, zB, r2 == true ? 1 : 0)));
+        this.j.prepareNativeSession(str2, "Crashlytics Android SDK/20.0.6", jCurrentTimeMillis, new je0(ke0Var, me0Var, new le0(iOrdinal, iAvailableProcessors, jG, blockCount, zB, r2)));
         if (bool.booleanValue() && str2 != null) {
             i75 i75Var = this.d;
             synchronized (((String) i75Var.c)) {
@@ -861,13 +861,13 @@ public final class sy1 {
         long blockCount2 = ((long) statFs2.getBlockCount()) * ((long) statFs2.getBlockSize());
         boolean zB3 = jm1.B();
         boolean zB4 = jm1.B();
-        ?? r3 = zB4;
+        int r3 = zB4 ? 1 : 0;
         if (jm1.C()) {
             r3 = (zB4 ? 1 : 0) | 2;
         }
-        ?? r4 = r3;
+        int r4 = r3;
         if (Debug.waitingForDebugger()) {
-            r4 = (r3 == true ? 1 : 0) | 4;
+            r4 = (r3) | 4;
         }
         jc0 jc0Var = new jc0();
         jc0Var.a = iIntValue;
