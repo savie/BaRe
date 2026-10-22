@@ -251,7 +251,7 @@ class FoldersDashActivity : AppCompatActivity() {
     private fun restoreZip(rawInput: InputStream, destinationTree: Uri) {
         val destination = DocumentFile.fromTreeUri(this, destinationTree)
             ?: error("Could not access the destination folder")
-        val staging = createTempDir("bare-folder-restore-", cacheDir)
+        val staging = createTempDir("bare-folder-restore-", directory = cacheDir)
         try {
             val pathKinds = linkedMapOf<String, Boolean>()
             val explicitEntries = hashSetOf<String>()
@@ -268,7 +268,7 @@ class FoldersDashActivity : AppCompatActivity() {
                     require(rawName.isNotBlank() && rawName.length <= MAX_RESTORE_PATH_LENGTH) {
                         "Archive contains an invalid path"
                     }
-                    require(!rawName.startsWith("/") && '\\\\' !in rawName) {
+                    require(!rawName.startsWith("/") && '\\' !in rawName) {
                         "Archive contains an absolute path"
                     }
                     val normalized = if (entry.isDirectory) rawName.removeSuffix("/") else rawName
