@@ -82,7 +82,7 @@ public final /* synthetic */ class h47 implements bt3 {
         List listI;
         List list2;
         String str;
-        ?? r12;
+        Object r12;
         String title;
         Object objConditionMsg;
         List list3;
@@ -97,7 +97,7 @@ public final /* synthetic */ class h47 implements bt3 {
         boolean z3;
         List listI3;
         Set labels2;
-        ?? D;
+        y37 D;
         String strY1;
         List<q05> locations2;
         SyncOption syncOption2;
@@ -106,8 +106,8 @@ public final /* synthetic */ class h47 implements bt3 {
         ArrayList arrayList4;
         Iterator it3;
         y37 y37VarB;
-        ?? r31;
-        ?? D2;
+        y37 r31;
+        y37 D2;
         ArrayList arrayList5;
         ArrayList arrayList6;
         ex6 ex6Var = this.a.f;
@@ -223,14 +223,14 @@ public final /* synthetic */ class h47 implements bt3 {
                             y37 y37VarA = a.a(scheduleItem, zIsEnabled, appsQuickActions.getAppParts());
                             y37VarB = a.b(scheduleItem, zIsEnabled, locations2);
                             if (appsQuickActions.isSyncOnly()) {
-                                r31 = arrayList;
+                                r31 = null;
                             } else {
                                 r31 = y37VarB;
                             }
                             if (locations2.contains(q05.CLOUD)) {
                                 D2 = a.d(scheduleItem, zIsEnabled, syncOption2);
                             } else {
-                                D2 = arrayList;
+                                D2 = null;
                             }
                             listP0 = x50.p0(new y37[]{y37Var, y37Var2, y37VarA, r31, D2, a.c(scheduleItem, zIsEnabled)});
                         } else {
@@ -275,12 +275,12 @@ public final /* synthetic */ class h47 implements bt3 {
                         if (appsQuickActions.isSyncOnly()) {
                             r31 = y37VarB;
                         } else {
-                            r31 = arrayList;
+                            r31 = null;
                         }
                         if (locations2.contains(q05.CLOUD)) {
                             D2 = a.d(scheduleItem, zIsEnabled, syncOption2);
                         } else {
-                            D2 = arrayList;
+                            D2 = null;
                         }
                         listP0 = x50.p0(new y37[]{y37Var3, y37Var4, y37VarA2, r31, D2, a.c(scheduleItem, zIsEnabled)});
                     }
@@ -325,7 +325,7 @@ public final /* synthetic */ class h47 implements bt3 {
                                 if (locations.contains(q05.CLOUD)) {
                                     D = a.d(scheduleItem, zIsEnabled, syncOption);
                                 } else {
-                                    D = arrayList;
+                                    D = null;
                                 }
                                 listP0 = x50.p0(new y37[]{y37Var5, y37VarA3, y37VarB2, D, a.c(scheduleItem, zIsEnabled)});
                             }
@@ -362,7 +362,7 @@ public final /* synthetic */ class h47 implements bt3 {
                             if (locations.contains(q05.CLOUD)) {
                                 D = a.d(scheduleItem, zIsEnabled, syncOption);
                             } else {
-                                D = arrayList;
+                                D = null;
                             }
                             listP0 = x50.p0(new y37[]{y37Var6, y37VarA4, y37VarB3, D, a.c(scheduleItem, zIsEnabled)});
                         }
