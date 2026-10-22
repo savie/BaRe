@@ -162,7 +162,7 @@ public final class mp6 {
         String strS0 = x50.s0(62, " ; ", strArr);
         List listA0 = g ? fl1.A0("su", "-c", strS0) : fl1.A0("/system/bin/sh", "-c", strS0);
         ArrayList arrayList = new ArrayList();
-        ?? r2 = 0;
+        Process r2 = null;
         try {
             try {
                 try {
@@ -204,7 +204,7 @@ public final class mp6 {
             } catch (Throwable th4) {
                 th = th4;
                 th = th;
-                if (r2 != 0) {
+                if (r2 != null) {
                     throw th;
                 }
                 r2.destroy();
