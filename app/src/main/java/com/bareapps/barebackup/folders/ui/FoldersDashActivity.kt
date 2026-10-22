@@ -249,39 +249,123 @@ class FoldersDashActivity : AppCompatActivity() {
     }
 
     private fun restoreZip(rawInput: InputStream, destinationTree: Uri) {
-        val root = DocumentFile.fromTreeUri(this, destinationTree)
+        val destination = DocumentFile.fromTreeUri(this, destinationTree)
             ?: error("Could not access the destination folder")
-        var totalBytes = 0L
-        ZipInputStream(rawInput).use { zip ->
-            while (true) {
-                val entry = zip.nextEntry ?: break
-                val entryName = entry.name
-                require(!entryName.startsWith("/") && '\\' !in entryName) { "Archive contains an absolute path" }
-                val segments = entryName.split('/').filter { it.isNotEmpty() }
-                require(segments.isNotEmpty() && segments.none { it == "." || it == ".." }) {
-                    "Archive contains an unsafe path"
-                }
-                var parent = root
-                segments.dropLast(1).forEach { segment ->
-                    parent = parent.findFile(segment)?.takeIf { it.isDirectory }
-                        ?: parent.createDirectory(segment)
-                        ?: error("Could not create folder $segment")
-                }
-                val leaf = segments.last()
-                if (entry.isDirectory) {
-                    if (parent.findFile(leaf) == null) parent.createDirectory(leaf)
-                } else {
-                    parent.findFile(leaf)?.delete()
-                    val target = parent.createFile("application/octet-stream", leaf)
-                        ?: error("Could not create file $leaf")
-                    contentResolver.openOutputStream(target.uri).use { rawOutput ->
-                        val output = checkNotNull(rawOutput) { "Could not write $leaf" }
-                        totalBytes += copyCurrentEntry(zip, output)
+        val staging = createTempDir("bare-folder-restore-", cacheDir)
+        try {
+            val pathKinds = linkedMapOf<String, Boolean>()
+            val explicitEntries = hashSetOf<String>()
+            var totalBytes = 0L
+            var entryCount = 0
+
+            // Fully validate and stage the archive before modifying user files.
+            ZipInputStream(rawInput).use { zip ->
+                while (true) {
+                    val entry = zip.nextEntry ?: break
+                    entryCount += 1
+                    require(entryCount <= MAX_RESTORE_ENTRIES) { "Archive contains too many entries" }
+                    val rawName = entry.name
+                    require(rawName.isNotBlank() && rawName.length <= MAX_RESTORE_PATH_LENGTH) {
+                        "Archive contains an invalid path"
                     }
-                    require(totalBytes <= MAX_RESTORE_BYTES) { "Archive exceeds the restore size limit" }
+                    require(!rawName.startsWith("/") && '\\\\' !in rawName) {
+                        "Archive contains an absolute path"
+                    }
+                    val normalized = if (entry.isDirectory) rawName.removeSuffix("/") else rawName
+                    val segments = normalized.split('/')
+                    require(segments.isNotEmpty() && segments.all { it.isNotEmpty() && it != "." && it != ".." }) {
+                        "Archive contains an unsafe path"
+                    }
+                    val path = segments.joinToString("/")
+                    val isDirectory = entry.isDirectory
+                    require(explicitEntries.add(path)) { "Archive contains a duplicate path: $path" }
+
+                    // Register implicit parents too, so file/directory collisions are caught in either order.
+                    for (index in 1 until segments.size) {
+                        val parentPath = segments.take(index).joinToString("/")
+                        val existingKind = pathKinds[parentPath]
+                        require(existingKind != false) { "Archive path conflicts with a file: $parentPath" }
+                        pathKinds[parentPath] = true
+                    }
+                    val previousKind = pathKinds[path]
+                    require(previousKind == null || previousKind == isDirectory) {
+                        "Archive contains a file/directory path conflict: $path"
+                    }
+                    pathKinds[path] = isDirectory
+
+                    val stagedTarget = File(staging, path)
+                    require(stagedTarget.canonicalPath.startsWith(staging.canonicalPath + File.separator)) {
+                        "Archive contains an unsafe path"
+                    }
+                    if (isDirectory) {
+                        require(stagedTarget.isDirectory || !stagedTarget.exists()) {
+                            "Archive contains a file/directory path conflict: $path"
+                        }
+                        check(stagedTarget.mkdirs() || stagedTarget.isDirectory) {
+                            "Could not stage folder $path"
+                        }
+                    } else {
+                        check(stagedTarget.parentFile?.mkdirs() == true || stagedTarget.parentFile?.isDirectory == true) {
+                            "Could not stage folder for $path"
+                        }
+                        FileOutputStream(stagedTarget).use { output ->
+                            val copied = copyCurrentEntry(zip, output)
+                            totalBytes += copied
+                            require(totalBytes <= MAX_RESTORE_BYTES) {
+                                "Archive exceeds the restore size limit"
+                            }
+                        }
+                    }
+                    zip.closeEntry()
                 }
-                zip.closeEntry()
             }
+
+            // Reject all destination type conflicts before applying any staged entry.
+            fun preflight(source: File, targetDirectory: DocumentFile) {
+                source.listFiles().orEmpty().forEach { child ->
+                    val existing = targetDirectory.findFile(child.name)
+                    if (existing != null) {
+                        require(existing.isDirectory == child.isDirectory) {
+                            "Restore destination has a file/folder conflict at ${child.name}"
+                        }
+                    }
+                    if (child.isDirectory) {
+                        val nextTarget = existing ?: targetDirectory
+                        if (existing != null) preflight(child, existing)
+                        else child.listFiles().orEmpty().forEach { nested ->
+                            if (nested.isDirectory) preflight(nested, targetDirectory.createDirectory(nested.name)
+                                ?: error("Could not validate destination folder ${nested.name}"))
+                        }
+                    }
+                }
+            }
+            preflight(staging, destination)
+
+            fun apply(source: File, targetDirectory: DocumentFile) {
+                source.listFiles().orEmpty().forEach { child ->
+                    if (child.isDirectory) {
+                        val target = targetDirectory.findFile(child.name)
+                            ?: targetDirectory.createDirectory(child.name)
+                            ?: error("Could not create folder ${child.name}")
+                        require(target.isDirectory) { "Restore destination has a file/folder conflict at ${child.name}" }
+                        apply(child, target)
+                    } else {
+                        targetDirectory.findFile(child.name)?.let { existing ->
+                            check(existing.delete()) { "Could not replace existing file ${child.name}" }
+                        }
+                        val target = targetDirectory.createFile("application/octet-stream", child.name)
+                            ?: error("Could not create file ${child.name}")
+                        FileInputStream(child).use { input ->
+                            contentResolver.openOutputStream(target.uri).use { rawOutput ->
+                                input.copyTo(checkNotNull(rawOutput) { "Could not write ${child.name}" })
+                            }
+                        }
+                    }
+                }
+            }
+            apply(staging, destination)
+        } finally {
+            staging.deleteRecursively()
         }
     }
 
@@ -320,5 +404,7 @@ class FoldersDashActivity : AppCompatActivity() {
     companion object {
         private const val LOCAL_BACKUP_DIR = "folder-backups"
         private const val MAX_RESTORE_BYTES = 10L * 1024L * 1024L * 1024L
+        private const val MAX_RESTORE_ENTRIES = 100_000
+        private const val MAX_RESTORE_PATH_LENGTH = 4_096
     }
 }
