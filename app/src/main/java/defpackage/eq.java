@@ -52,7 +52,7 @@ public abstract class eq {
             return true;
         }
         int i = 2;
-        ?? arrayList = 0;
+        List arrayList = null;
         List listH = (str.length() != 0 && new jr7(str).b("[ -e @@ ]")) ? mp6.a.h(new String[]{String.format((String) g42.u.getValue(), Arrays.copyOf(new Object[]{str, Long.valueOf((System.currentTimeMillis() - j) / 1000)}, 2))}, ip6.SHIZUKU) : null;
         List listC0 = listH != null ? h77.C0(new me3(new me3(new ll1(listH), false, new d7(str, i)), false, new dq(0))) : null;
         try {
@@ -79,10 +79,10 @@ public abstract class eq {
                         }
                     }
                 }
-                if (arrayList != 0 && !arrayList.isEmpty()) {
+                if (arrayList != null && !arrayList.isEmpty()) {
                     vr6.i$default(vr6.INSTANCE, "AppDataChangeChecker", iuVar + " modified files: " + arrayList.size(), null, 4, null);
                 }
-                return ((arrayList == 0 || arrayList.isEmpty()) ? 1 : 0) ^ 1;
+                return ((arrayList == null || arrayList.isEmpty()) ? 1 : 0) ^ 1;
             } catch (ClassCastException unused) {
             }
         } catch (ClassCastException unused2) {
