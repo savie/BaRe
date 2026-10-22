@@ -213,13 +213,13 @@ public final class gs1 implements cs1 {
             b36Var3 = zr1Var2 != null ? zr1Var2.b : null;
         }
         if (b36Var3 == null) {
-            ?? r4 = z3 ? this.a : this.b;
+            Object r4 = z3 ? this.a : this.b;
             lh6Var = new lh6();
             try {
                 context = es1Var.getContext();
                 hx0 hx0Var2 = this.c;
                 long j = this.f;
-                ?? r11 = new bt3() { // from class: ds1
+                bt3 r11 = new bt3() { // from class: ds1
                     @Override // defpackage.bt3
                     public final Object invoke() {
                         String str = z3 ? "reader" : "writer";
