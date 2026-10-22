@@ -177,7 +177,7 @@ public final /* synthetic */ class pi0 implements bt3 {
                     arrayList3 = null;
                 }
                 boolean z2 = pj0Var2 instanceof mj0;
-                ?? r7 = this.d;
+                ri0 r7 = this.d;
                 ov2 ov2Var = ov2.a;
                 List list2 = arrayList2;
                 if (z2) {
