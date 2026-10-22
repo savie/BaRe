@@ -152,7 +152,7 @@ public final class d38 implements qk6, kk6 {
     /* JADX WARN: Type inference failed for: r2v5 */
     @Override // defpackage.qk6
     public final qk6 getRoot() {
-        ?? root;
+        qk6 root;
         synchronized (this.b) {
             try {
                 qk6 qk6Var = this.a;
