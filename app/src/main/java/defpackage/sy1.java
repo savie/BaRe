@@ -524,7 +524,7 @@ public final class sy1 {
                 }
             })) != null) {
                 int length = list.length;
-                for (?? r10 = z3; r10 < length; r10++) {
+                for (int r10 = 0; r10 < length; r10++) {
                     ca3Var8.c(list[r10]);
                 }
             }
