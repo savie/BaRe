@@ -60,8 +60,8 @@ public final class i90 extends AsyncTask {
         InputStream inputStream2;
         InputStream inputStream3;
         t91 t91Var = this.b;
-        ?? r1 = this.a;
-        ?? r4 = 0;
+        l90 r1 = this.a;
+        InputStream r4 = null;
         try {
             try {
                 ge geVar = this.c;
@@ -124,7 +124,7 @@ public final class i90 extends AsyncTask {
                 } catch (Throwable th) {
                     th = th;
                     r4 = errorStream;
-                    if (r4 != 0) {
+                    if (r4 != null) {
                         try {
                             r4.close();
                         } catch (IOException unused3) {
