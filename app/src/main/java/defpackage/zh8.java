@@ -76,10 +76,10 @@ public abstract class zh8 {
         int next;
         int i;
         int i2;
-        ?? r4;
+        TypedArray r4;
         long j;
         Throwable th;
-        ?? r5;
+        TypedArray r5;
         ExecutorService executorService;
         boolean zIsTerminated;
         boolean zIsTerminated2;
@@ -205,7 +205,7 @@ public abstract class zh8 {
                             j = 1;
                             th = th;
                             r5 = r4;
-                            if (r5 != 0) {
+                            if (r5 != null) {
                                 throw th;
                             }
                             try {
@@ -234,7 +234,7 @@ public abstract class zh8 {
                     }
                     th = th;
                     r5 = r4;
-                    if (r5 != 0) {
+                    if (r5 != null) {
                         throw th;
                     }
                     if (!(r5 instanceof AutoCloseable)) {
