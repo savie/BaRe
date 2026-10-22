@@ -424,11 +424,11 @@ public final class f02 {
                                 break;
                             case "execution":
                                 jsonReader.beginObject();
-                                ?? D = mc0Var2;
-                                ?? F = D;
-                                ?? C = F;
-                                ?? rc0Var = C;
-                                ?? r26 = rc0Var;
+                                List D = null;
+                                qc0 F = null;
+                                ac0 C = null;
+                                rc0 rc0Var = null;
+                                List r26 = null;
                                 while (jsonReader.hasNext()) {
                                     String strNextName5 = jsonReader.nextName();
                                     strNextName5.getClass();
@@ -442,8 +442,8 @@ public final class f02 {
                                         case "signal":
                                             jsonReader.beginObject();
                                             long jNextLong = 0;
-                                            ?? NextString = mc0Var2;
-                                            ?? NextString2 = NextString;
+                                            String NextString = null;
+                                            String NextString2 = null;
                                             byte b2 = 0;
                                             while (jsonReader.hasNext()) {
                                                 String strNextName6 = jsonReader.nextName();
@@ -455,7 +455,7 @@ public final class f02 {
                                                         break;
                                                     case "code":
                                                         NextString2 = jsonReader.nextString();
-                                                        if (NextString2 == 0) {
+                                                        if (NextString2 == null) {
                                                             f6.n("Null code");
                                                             return mc0Var2;
                                                         }
@@ -463,7 +463,7 @@ public final class f02 {
                                                         break;
                                                     case "name":
                                                         NextString = jsonReader.nextString();
-                                                        if (NextString == 0) {
+                                                        if (NextString == null) {
                                                             f6.n("Null name");
                                                             return mc0Var2;
                                                         }
@@ -475,7 +475,7 @@ public final class f02 {
                                                 }
                                             }
                                             jsonReader.endObject();
-                                            if (b2 == 1 && NextString != 0 && NextString2 != 0) {
+                                            if (b2 == 1 && NextString != null && NextString2 != null) {
                                                 rc0Var = new rc0(NextString, NextString2, jNextLong);
                                                 break;
                                             } else {
@@ -514,7 +514,7 @@ public final class f02 {
                                     }
                                 }
                                 jsonReader.endObject();
-                                if (rc0Var != 0 && r26 != 0) {
+                                if (rc0Var != null && r26 != null) {
                                     oc0Var = new oc0(D, F, C, rc0Var, r26);
                                     mc0Var = mc0Var2;
                                     break;
