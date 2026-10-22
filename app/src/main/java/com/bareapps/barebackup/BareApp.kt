@@ -80,14 +80,9 @@ import com.bareapps.barebackup.common.NotificationHelper
 import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.FileOutputStream
-import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.ArrayList
-import java.util.Iterator
-import java.util.List
-import java.util.Locale
-import java.util.Set
 
 @Suppress("DEPRECATION", "KotlinConstantConditions", "UNCHECKED_CAST")
 class BareApp : Application(), a45 {
