@@ -57,7 +57,7 @@ class FolderIncrementalPlanTest {
 
     @Test
     fun rejectsUnsafePathsAndInvalidFingerprints() {
-        listOf("../escape", "/absolute", "a/../b", "a\\b").forEach { path ->
+        listOf("../escape", "/absolute", "a/../b", "a\\b", "C:/drive.txt").forEach { path ->
             try {
                 FolderFileFingerprint(path, 1, hashA)
                 throw AssertionError("Expected invalid path to be rejected: $path")
