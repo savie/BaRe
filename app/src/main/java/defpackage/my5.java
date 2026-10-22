@@ -234,7 +234,7 @@ public final class my5 implements s03 {
                 arrayList.add(Integer.valueOf((int) r17));
             }
             i3 = i;
-            r12 = r17;
+            r12 = r17 != 0;
             c2 = '/';
         }
     }
