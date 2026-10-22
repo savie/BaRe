@@ -504,7 +504,7 @@ public final class pt1 extends ot1 {
         boolean z3;
         int i2;
         boolean zW;
-        ?? r13;
+        int r13;
         int i3;
         boolean z4;
         int i4;
@@ -513,20 +513,20 @@ public final class pt1 extends ot1 {
         int i5;
         boolean z7;
         int iMax;
-        ?? r10;
-        ?? r17;
+        int r10;
+        int r17;
         boolean z8;
         int iMax2;
-        ?? r0;
+        int r0;
         boolean z9;
         boolean z10;
-        ?? r1;
-        ?? r14;
+        int r1;
+        int r14;
         int i6;
         boolean z11;
         boolean z12;
-        ?? r2;
-        ?? r3;
+        int r2;
+        int r3;
         int i7;
         int iMax3;
         int iMax4;
@@ -1101,7 +1101,7 @@ public final class pt1 extends ot1 {
                 }
             }
             zW = W(64);
-            r13 = z;
+            r13 = z ? 1 : 0;
             i3 = 0;
             z4 = true;
             while (z4) {
@@ -1204,7 +1204,7 @@ public final class pt1 extends ot1 {
                                     L(iMax2);
                                     r21[r10] = r10;
                                     r3 = r10;
-                                    z9 = r3 == true ? 1 : 0;
+                                    z9 = r3 != 0;
                                 } else {
                                     r0 = r17;
                                 }
@@ -1214,11 +1214,11 @@ public final class pt1 extends ot1 {
                                         r2 = r0;
                                         z12 = z9;
                                         if (q() > i) {
-                                            this.E0 = r10;
+                                            this.E0 = r10 != 0;
                                             r21[0] = r10;
                                             O(i);
-                                            ?? r8 = r10;
-                                            z12 = r8 == true ? 1 : 0;
+                                            int r8 = r10;
+                                            z12 = r8 != 0;
                                             r2 = r8;
                                         }
                                     }
@@ -1378,8 +1378,8 @@ public final class pt1 extends ot1 {
                                             this.E0 = r10;
                                             r21[0] = r10;
                                             O(i);
-                                            ?? r9 = r10;
-                                            z12 = r9 == true ? 1 : 0;
+                                            int r9 = r10;
+                                            z12 = r9 != 0;
                                             r2 = r9;
                                         }
                                     }
@@ -1540,8 +1540,8 @@ public final class pt1 extends ot1 {
                                                 this.E0 = r10;
                                                 r21[0] = r10;
                                                 O(i);
-                                                ?? r11 = r10;
-                                                z12 = r11 == true ? 1 : 0;
+                                                int r11 = r10;
+                                                z12 = r11 != 0;
                                                 r2 = r11;
                                             }
                                         }
@@ -1694,8 +1694,8 @@ public final class pt1 extends ot1 {
                             this.E0 = r10;
                             r21[0] = r10;
                             O(i);
-                            ?? r12 = r10;
-                            z12 = r12 == true ? 1 : 0;
+                            int r12 = r10;
+                            z12 = r12 != 0;
                             r2 = r12;
                         }
                     }
@@ -1709,7 +1709,7 @@ public final class pt1 extends ot1 {
                     z10 = z12;
                     z10 = z12;
                     if (r21[r10] != 2 && iMax8 > 0 && k() > iMax8) {
-                        this.F0 = r10;
+                        this.F0 = r10 != 0;
                         r21[r10] = r10;
                         L(iMax8);
                         i6 = 8;
@@ -1931,8 +1931,8 @@ public final class pt1 extends ot1 {
                         this.E0 = r10;
                         r21[0] = r10;
                         O(i);
-                        ?? r15 = r10;
-                        z12 = r15 == true ? 1 : 0;
+                        int r15 = r10;
+                        z12 = r15 != 0;
                         r2 = r15;
                     }
                 }
