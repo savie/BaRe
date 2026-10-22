@@ -34,7 +34,7 @@ public final class dd {
                 }
                 final ad adVar = this.h;
                 if (adVar.a == null) {
-                    ?? r1 = new ValueAnimator.DurationScaleChangeListener() { // from class: zc
+                    ValueAnimator.DurationScaleChangeListener r1 = new ValueAnimator.DurationScaleChangeListener() { // from class: zc
                         @Override // android.animation.ValueAnimator.DurationScaleChangeListener
                         public final void onChanged(float f) {
                             adVar.b.g = f;
