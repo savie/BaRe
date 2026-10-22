@@ -18,7 +18,7 @@ jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v0 xk3,
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
-public final class xk3 {
+public enum xk3 {
     Name(R.string.name),
     BackupDate(R.string.backup_date),
     SetupDate(R.string.folder_setup_creation_date);
@@ -28,26 +28,17 @@ public final class xk3 {
     public static final wk3 Companion = new wk3();
 
     /* JADX INFO: renamed from: default, reason: not valid java name */
-    private static final xk3 f4default = new xk3(R.string.name);
+    private static final xk3 f4default = Name;
 
     static {
     }
 
     private xk3(int i) {
-        super(str, i);
         this.stringRes = i;
     }
 
     public static jx2 getEntries() {
         return $ENTRIES;
-    }
-
-    public static xk3 valueOf(String str) {
-        return (xk3) Enum.valueOf(xk3.class, str);
-    }
-
-    public static xk3[] values() {
-        return (xk3[]) $VALUES.clone();
     }
 
     public final String displayString() {
