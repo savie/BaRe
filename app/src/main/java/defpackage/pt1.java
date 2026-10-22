@@ -495,7 +495,7 @@ public final class pt1 extends ot1 {
     /* JADX WARN: Type inference failed for: r6v66, types: [int] */
     /* JADX WARN: Type inference failed for: r6v80, types: [int] */
     public final void U() {
-        ?? r21;
+        int[] r21;
         ys1 ys1Var;
         int i;
         boolean z;
@@ -749,9 +749,9 @@ public final class pt1 extends ot1 {
                         int i32 = i31;
                         ot1 ot1Var11 = (ot1) arrayList5.get(i31);
                         ArrayList arrayList12 = arrayList6;
-                        ?? r4 = r21[0];
+                        int r4 = r21[0];
                         ArrayList arrayList13 = arrayList7;
-                        ?? r6 = r21[1];
+                        int r6 = r21[1];
                         ArrayList arrayList14 = arrayList8;
                         int[] iArr3 = ot1Var11.p0;
                         ArrayList arrayList15 = arrayList9;
@@ -1062,8 +1062,8 @@ public final class pt1 extends ot1 {
                     }
                 } else {
                     ot1 ot1Var13 = (ot1) arrayList5.get(i30);
-                    ?? r5 = r21[0];
-                    ?? r7 = r21[1];
+                    int r5 = r21[0];
+                    int r7 = r21[1];
                     int i43 = i30;
                     int[] iArr5 = ot1Var13.p0;
                     ys1Var = ys1Var4;
