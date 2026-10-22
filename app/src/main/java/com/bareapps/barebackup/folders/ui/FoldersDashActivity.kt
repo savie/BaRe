@@ -286,11 +286,8 @@ class FoldersDashActivity : AppCompatActivity() {
                             "Could not stage folder for $path"
                         }
                         FileOutputStream(stagedTarget).use { output ->
-                            val copied = copyCurrentEntry(zip, output)
+                            val copied = copyCurrentEntry(zip, output, MAX_RESTORE_BYTES - totalBytes)
                             totalBytes += copied
-                            require(totalBytes <= MAX_RESTORE_BYTES) {
-                                "Archive exceeds the restore size limit"
-                            }
                         }
                     }
                     zip.closeEntry()
@@ -341,13 +338,20 @@ class FoldersDashActivity : AppCompatActivity() {
         }
     }
 
-    private fun copyCurrentEntry(input: ZipInputStream, output: java.io.OutputStream): Long {
+    private fun copyCurrentEntry(
+        input: ZipInputStream,
+        output: java.io.OutputStream,
+        remainingBytes: Long
+    ): Long {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         var copied = 0L
         while (true) {
             val count = input.read(buffer)
             if (count < 0) break
             if (count > 0) {
+                require(count.toLong() <= remainingBytes - copied) {
+                    "Archive exceeds the restore size limit"
+                }
                 copied += count
                 output.write(buffer, 0, count)
             }
