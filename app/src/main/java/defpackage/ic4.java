@@ -232,14 +232,14 @@ public final class ic4 {
     public final void f(String str, on5 on5Var) {
         int i2;
         on5 aj7Var;
-        ?? r10;
-        ?? r4;
+        on5 r10;
+        on5 r4;
         on5 r08Var;
-        ?? r11;
+        on5 r11;
         Object r08Var2;
         lv4 lv4Var;
         String strC;
-        ?? yj1Var;
+        yj1 yj1Var;
         int i3;
         String strA;
         String strA2;
@@ -257,9 +257,9 @@ public final class ic4 {
         int i6;
         int i7;
         r08 r08Var3;
-        ?? r5;
-        ?? r8;
-        ?? hc4Var;
+        int r5;
+        int r8;
+        hc4 hc4Var;
         on5 on5Var5;
         on5 on5Var6;
         this.e = str.trim();
@@ -268,7 +268,7 @@ public final class ic4 {
         r08 r08Var4 = null;
         this.g = null;
         this.h = null;
-        ?? r6 = 0;
+        on5 r6 = null;
         while (true) {
             char cG = g();
             if (cG == 0) {
@@ -321,7 +321,7 @@ public final class ic4 {
                         r08Var2 = new r08(g64.a(strC2));
                         r11 = r08Var2;
                     } else {
-                        r11 = 0;
+                        r11 = null;
                     }
                     i2 = 0;
                     r10 = r11;
@@ -719,7 +719,7 @@ public final class ic4 {
                                         this.f = i20;
                                         hc4Var = new hc4(i21, r5, r8);
                                     }
-                                    if (hc4Var == 0) {
+                                    if (hc4Var == null) {
                                         r08Var3 = r08Var4;
                                     } else {
                                         int i27 = hc4Var.a;
@@ -764,7 +764,7 @@ public final class ic4 {
                     } else {
                         String strC3 = c(n);
                         if (strC3 == null) {
-                            r11 = 0;
+                            r11 = null;
                         } else {
                             int i33 = this.f;
                             while (true) {
@@ -805,9 +805,9 @@ public final class ic4 {
                             lv4Var = new lv4(strG2, null);
                             lv4Var.b(new r08(strG2));
                         } else {
-                            r11 = 0;
+                            r11 = null;
                         }
-                        if (r11 == 0) {
+                        if (r11 == null) {
                             strC = c(j);
                             if (strC != null) {
                                 k64 k64Var = new k64();
@@ -815,14 +815,14 @@ public final class ic4 {
                                 r08Var2 = k64Var;
                                 r11 = r08Var2;
                             } else {
-                                r11 = 0;
+                                r11 = null;
                             }
                         }
                         i2 = 0;
                         r10 = r11;
                     }
                     r11 = lv4Var;
-                    if (r11 == 0) {
+                    if (r11 == null) {
                         strC = c(j);
                         if (strC != null) {
                             k64 k64Var2 = new k64();
@@ -830,19 +830,19 @@ public final class ic4 {
                             r08Var2 = k64Var2;
                             r11 = r08Var2;
                         } else {
-                            r11 = 0;
+                            r11 = null;
                         }
                     }
                     i2 = 0;
                     r10 = r11;
                 }
-                if (r10 != 0) {
+                if (r10 != null) {
                     r4 = r10;
                 } else {
                     this.f++;
                     r08Var4 = new r08(String.valueOf(cG));
                 }
-                if (r4 != 0) {
+                if (r4 != null) {
                     h(null);
                     on5Var5 = on5Var.b;
                     on5Var6 = on5Var.c;
@@ -858,7 +858,7 @@ public final class ic4 {
                 r6 = r4;
             }
             r4 = r08Var4;
-            if (r4 != 0) {
+            if (r4 != null) {
                 h(null);
                 on5Var5 = on5Var.b;
                 on5Var6 = on5Var.c;
