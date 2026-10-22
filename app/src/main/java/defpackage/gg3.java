@@ -224,7 +224,7 @@ public final class gg3 {
         Object bn6Var;
         Object bn6Var2;
         Object bn6Var3;
-        ?? bn6Var4;
+        Object bn6Var4;
         Network activeNetwork;
         LinkProperties linkProperties;
         if (!f()) {
@@ -291,14 +291,14 @@ public final class gg3 {
                         hostAddress = null;
                     }
                     if (hostAddress != null) {
-                        bn6Var4.add(hostAddress);
+                        ((ArrayList) bn6Var4).add(hostAddress);
                     }
                 }
             }
         } catch (Throwable th4) {
             bn6Var4 = new bn6(th4);
         }
-        ?? r7 = ov2Var;
+        Object r7 = ov2Var;
         if (!(bn6Var4 instanceof bn6)) {
             r7 = bn6Var4;
         }
