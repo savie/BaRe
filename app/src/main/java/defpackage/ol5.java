@@ -34,7 +34,7 @@ public abstract class ol5 extends FrameLayout {
     /* JADX WARN: Type inference failed for: r11v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v9 */
     public ol5(Context context, AttributeSet attributeSet, int i, int i2) {
-        ?? r11;
+        int r11;
         super(zm5.J(context, attributeSet, i, i2), attributeSet, i);
         hl5 hl5Var = new hl5();
         hl5Var.b = false;
