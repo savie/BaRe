@@ -76,9 +76,9 @@ public final class p20 extends ws7 implements qt3 {
         boolean z;
         te1 te1Var;
         ef1 ef1VarA;
-        ?? r5;
+        tb1 r5;
         tb1 tb1Var;
-        ?? P;
+        te1 P;
         pd1 pd1VarA;
         tb1 tb1Var2;
         tb1 tb1VarC;
@@ -117,7 +117,7 @@ public final class p20 extends ws7 implements qt3 {
                 return be8.a;
             default:
                 lg7.H(obj);
-                ?? r3 = (we1) ((hf1) this.d).g.getValue();
+                we1 r3 = (we1) ((hf1) this.d).g.getValue();
                 ArrayList arrayList2 = (ArrayList) this.e;
                 int i2 = 2;
                 ke keVar = new ke((hf1) this.d, i2);
@@ -148,7 +148,7 @@ public final class p20 extends ws7 implements qt3 {
                                 } else {
                                     if (x50.A0(new sd1[]{sd1.INTERNET_CONNECTIVITY, sd1.FIREBASE_BACKEND_ACCESS}).contains(qd1Var.a)) {
                                         tb1VarC = tb1Var3;
-                                        r5 = l;
+                                        r5 = null;
                                         tb1Var = tb1Var3;
                                     } else {
                                         if (tb1Var3 == null) {
@@ -160,14 +160,14 @@ public final class p20 extends ws7 implements qt3 {
                                         r5 = tb1Var5;
                                     }
                                     sd1 sd1Var2 = qd1Var.a;
-                                    if (r5 != 0) {
+                                    if (r5 != null) {
                                         Set set2 = ud1.a;
                                         sd1Var2.getClass();
-                                        ?? r8 = ud1.a.contains(sd1Var2) ? r5 : l;
-                                        if (r8 != 0) {
+                                        tb1 r8 = ud1.a.contains(sd1Var2) ? r5 : null;
+                                        if (r8 != null) {
                                             P = we1.p(lh6Var, arrayList2, r3, r8);
                                         } else {
-                                            P = l;
+                                            P = null;
                                         }
                                     } else {
                                         P = l;
