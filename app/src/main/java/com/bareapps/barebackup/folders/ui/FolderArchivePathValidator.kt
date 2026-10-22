@@ -19,7 +19,11 @@ internal class FolderArchivePathValidator(
         require(rawName.isNotBlank() && rawName.length <= maxPathLength) {
             "Archive contains an invalid path"
         }
-        require(!rawName.startsWith("/") && '\\' !in rawName) {
+        require(
+            !rawName.startsWith("/") &&
+                '\\' !in rawName &&
+                !rawName.matches(Regex("^[A-Za-z]:.*"))
+        ) {
             "Archive contains an absolute path"
         }
 
