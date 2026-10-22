@@ -1589,15 +1589,13 @@ public abstract class jb9 implements om8 {
     /* JADX WARN: Type inference failed for: r9v15 */
     public static void l0(Context context, Executor executor, x76 x76Var, boolean z) {
         boolean z2;
-        ?? A;
+        InputStream A;
         tk2[] tk2VarArrA0;
         tk2[] tk2VarArr;
         x76 x76Var2;
         tk2[] tk2VarArr2;
         byte[] bArr;
-        ?? r7;
         byte[] bArr2;
-        ?? r8;
         boolean z3;
         ByteArrayInputStream byteArrayInputStream;
         Throwable th;
@@ -1607,17 +1605,16 @@ public abstract class jb9 implements om8 {
         FileLock fileLockTryLock;
         byte[] bArr3;
         int i;
-        ?? r9;
+        boolean r9;
         boolean z4;
         boolean z5;
-        ?? r10;
         ByteArrayOutputStream byteArrayOutputStream;
         sk2 sk2Var;
-        ?? r11;
+        String r11;
         String str;
         FileInputStream fileInputStreamA;
-        ?? r12;
-        ?? r13;
+        boolean r12;
+        boolean r13;
         boolean z6;
         Context applicationContext = context.getApplicationContext();
         String packageName = applicationContext.getPackageName();
@@ -1671,7 +1668,7 @@ public abstract class jb9 implements om8 {
                         if (file2.createNewFile()) {
                             sk2Var2.f = true;
                             A = sk2Var2.a(assets, "dexopt/baseline.prof");
-                            if (A != 0) {
+                            if (A != null) {
                                 if (Arrays.equals(bArr4, ms8.F(A, 4))) {
                                     throw new IllegalStateException("Invalid magic");
                                 }
@@ -1690,7 +1687,7 @@ public abstract class jb9 implements om8 {
                                         r11 = str;
                                     }
                                     sk2Var = null;
-                                    A = r11;
+                                    
                                 } else {
                                     if (Arrays.equals(yc9.m, ms8.F(fileInputStreamA, 4))) {
                                         throw new IllegalStateException("Invalid magic");
@@ -1699,7 +1696,7 @@ public abstract class jb9 implements om8 {
                                     sk2Var2.g = yc9.X(fileInputStreamA, bArrF, bArr5, tk2VarArr);
                                     fileInputStreamA.close();
                                     sk2Var = sk2Var2;
-                                    A = bArrF;
+                                    
                                 }
                                 if (sk2Var != null) {
                                     sk2Var2 = sk2Var;
@@ -1708,9 +1705,7 @@ public abstract class jb9 implements om8 {
                             x76Var2 = sk2Var2.b;
                             tk2VarArr2 = sk2Var2.g;
                             bArr = sk2Var2.c;
-                            r7 = A;
-                            r7 = A;
-                            if (tk2VarArr2 != null) {
+                                                                                    if (tk2VarArr2 != null) {
                                 z5 = sk2Var2.f;
                                 if (z5) {
                                     l0.e("This device doesn't support aot. Did you call deviceSupportsAotProfile()?");
@@ -1722,10 +1717,8 @@ public abstract class jb9 implements om8 {
                                 if (yc9.j0(byteArrayOutputStream, bArr, tk2VarArr2)) {
                                     sk2Var2.h = byteArrayOutputStream.toByteArray();
                                     byteArrayOutputStream.close();
-                                    r10 = byteArrayOutputStream;
-                                    sk2Var2.g = null;
-                                    r7 = r10;
-                                } else {
+                                                                        sk2Var2.g = null;
+                                                                    } else {
                                     x76Var2.k(5, null);
                                     sk2Var2.g = null;
                                     byteArrayOutputStream.close();
@@ -1753,7 +1746,7 @@ public abstract class jb9 implements om8 {
                                             }
                                             fileOutputStream.write(bArr3, 0, i);
                                         }
-                                        r9 = 1;
+                                        r9 = true;
                                         sk2Var2.b(1, null);
                                         fileLockTryLock.close();
                                         channel.close();
@@ -1767,7 +1760,7 @@ public abstract class jb9 implements om8 {
                                 throw new IOException("Unable to acquire a lock on the underlying file channel.");
                             }
                             z3 = false;
-                            r9 = 1;
+                            r9 = true;
                             if (z3) {
                                 I(packageInfo, filesDir);
                             }
@@ -1786,13 +1779,13 @@ public abstract class jb9 implements om8 {
                         A = sk2Var2.a(assets, "dexopt/baseline.prof");
                     } catch (FileNotFoundException e2) {
                         x76Var.k(6, e2);
-                        A = 0;
+                        A = null;
                     } catch (IOException e3) {
                         x76Var.k(7, e3);
-                        A = 0;
+                        A = null;
                     }
                     try {
-                        if (A != 0) {
+                        if (A != null) {
                             try {
                                 try {
                                     if (Arrays.equals(bArr4, ms8.F(A, 4))) {
@@ -1821,7 +1814,7 @@ public abstract class jb9 implements om8 {
                             }
                         }
                         tk2VarArr = sk2Var2.g;
-                        if (tk2VarArr != null && (A = Build.VERSION.SDK_INT) >= 31) {
+                        if (tk2VarArr != null && Build.VERSION.SDK_INT >= 31) {
                             try {
                                 str = "dexopt/baseline.profm";
                                 fileInputStreamA = sk2Var2.a(assets, "dexopt/baseline.profm");
@@ -1835,7 +1828,7 @@ public abstract class jb9 implements om8 {
                                         sk2Var2.g = yc9.X(fileInputStreamA, bArrF2, bArr5, tk2VarArr);
                                         fileInputStreamA.close();
                                         sk2Var = sk2Var2;
-                                        A = bArrF2;
+                                        
                                     } catch (Throwable th5) {
                                         try {
                                             fileInputStreamA.close();
@@ -1851,18 +1844,18 @@ public abstract class jb9 implements om8 {
                                         r11 = str;
                                     }
                                     sk2Var = null;
-                                    A = r11;
+                                    
                                 }
                             } catch (FileNotFoundException e8) {
                                 x76Var.k(9, e8);
-                                r11 = A;
+                                
                             } catch (IOException e9) {
                                 x76Var.k(7, e9);
-                                r11 = A;
+                                
                             } catch (IllegalStateException e10) {
                                 sk2Var2.g = null;
                                 x76Var.k(8, e10);
-                                r11 = A;
+                                
                             }
                             if (sk2Var != null) {
                                 sk2Var2 = sk2Var;
@@ -1871,9 +1864,7 @@ public abstract class jb9 implements om8 {
                         x76Var2 = sk2Var2.b;
                         tk2VarArr2 = sk2Var2.g;
                         bArr = sk2Var2.c;
-                        r7 = A;
-                        r7 = A;
-                        if (tk2VarArr2 != null && bArr != null) {
+                                                                        if (tk2VarArr2 != null && bArr != null) {
                             z5 = sk2Var2.f;
                             if (z5) {
                                 l0.e("This device doesn't support aot. Did you call deviceSupportsAotProfile()?");
@@ -1892,10 +1883,8 @@ public abstract class jb9 implements om8 {
                                     } else {
                                         sk2Var2.h = byteArrayOutputStream.toByteArray();
                                         byteArrayOutputStream.close();
-                                        r10 = byteArrayOutputStream;
-                                        sk2Var2.g = null;
-                                        r7 = r10;
-                                    }
+                                                                                sk2Var2.g = null;
+                                                                            }
                                 } catch (Throwable th7) {
                                     try {
                                         byteArrayOutputStream.close();
@@ -1907,16 +1896,14 @@ public abstract class jb9 implements om8 {
                                 }
                             } catch (IOException e11) {
                                 x76Var2.k(7, e11);
-                                r10 = z5;
-                            } catch (IllegalStateException e12) {
+                                                            } catch (IllegalStateException e12) {
                                 x76Var2.k(8, e12);
-                                r10 = z5;
-                            }
+                                                            }
                         }
                         bArr2 = sk2Var2.h;
                         if (bArr2 != null) {
                             z3 = false;
-                            r9 = 1;
+                            r9 = true;
                         } else {
                             try {
                                 if (sk2Var2.f) {
@@ -1948,7 +1935,7 @@ public abstract class jb9 implements om8 {
                                                                                         fileOutputStream.write(bArr3, 0, i);
                                                                                     }
                                                                                 }
-                                                                                r9 = 1;
+                                                                                r9 = true;
                                                                                 sk2Var2.b(1, null);
                                                                                 fileLockTryLock.close();
                                                                                 channel.close();
@@ -2088,7 +2075,7 @@ public abstract class jb9 implements om8 {
                     sk2Var2.b(4, null);
                 }
                 if (z4 || !z) {
-                    r13 = 0;
+                    r13 = false;
                 } else {
                     r13 = r12;
                 }
@@ -2099,9 +2086,9 @@ public abstract class jb9 implements om8 {
             z4 = false;
             r12 = z2;
             if (z4) {
-                r13 = 0;
+                r13 = false;
             } else {
-                r13 = 0;
+                r13 = false;
             }
             a86.c(context, r13);
         } catch (PackageManager.NameNotFoundException e18) {
