@@ -23,11 +23,11 @@ public abstract class gv0 {
     /* JADX WARN: Type inference failed for: r1v4, types: [ov2] */
     /* JADX WARN: Type inference failed for: r1v5, types: [java.util.ArrayList] */
     public static void b(BoxRecentUploadCache$CachedBoxFile boxRecentUploadCache$CachedBoxFile) {
-        ?? arrayList;
+        List arrayList;
         List<BoxRecentUploadCache$CachedBoxFile> items;
         BoxRecentUploadCache$Data boxRecentUploadCache$DataA = a();
         if (boxRecentUploadCache$DataA == null || (items = boxRecentUploadCache$DataA.getItems()) == null) {
-            arrayList = 0;
+            arrayList = null;
         } else {
             arrayList = new ArrayList();
             for (Object obj : items) {
@@ -37,7 +37,7 @@ public abstract class gv0 {
                 }
             }
         }
-        if (arrayList == 0) {
+        if (arrayList == null) {
             arrayList = ov2.a;
         }
         ArrayList arrayListG1 = el1.g1(arrayList, nc8.I(boxRecentUploadCache$CachedBoxFile));
