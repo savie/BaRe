@@ -289,6 +289,7 @@ class BareApp : Application(), a45 {
         super.onCreate()
         Log.d("BareApp", "onCreate")
         e = this
+        val i = b67.a
         val notificationManagerD = NotificationHelper.d()
         val localeF = NotificationHelper.f()
         val notificationChannel = NotificationChannel("backup_restore_channel", NotificationHelper.a(R.string.backup_and_restore, localeF), 2)
@@ -330,6 +331,7 @@ class BareApp : Application(), a45 {
                 val strG0 = yc9.g0(th)
                 vr6.INSTANCE.e("Crash", strG0, null)
                 Const.U(strG0)
+                val gv7Var = NotificationHelper.a
                 val cause = th.cause
                 val strB2 = if (cause != null) io4.b(cause) else strB
                 var fileU: File? = null
@@ -369,6 +371,7 @@ class BareApp : Application(), a45 {
                 NotificationHelper.d().notify(912, wo5Var.a())
 
                 val zn7VarD = zn7.q.d()
+                val str = ry5.u
                 val lC = qy5.c(zn7VarD.n())
                 var strC = "Unknown"
                 if (lC != null) strC = p93.c(lC)
@@ -424,6 +427,7 @@ class BareApp : Application(), a45 {
         j05.d(this)
         System.loadLibrary("native-lib")
         val d45Var = d45.b
+        d45Var.getClass()
         d45Var.a.add(this)
         if (!gg3.i) {
             gg3.i = true
