@@ -15,7 +15,7 @@ jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v1 ow8[
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
-public final class ow8 {
+public enum ow8 {
     OBJ('{', '}'),
     LIST('[', ']'),
     MAP('{', '}'),
@@ -26,20 +26,12 @@ public final class ow8 {
     public final char b;
 
     static {
-        n = new kx2(ow8VarArr);
+        n = new kx2(values());
     }
 
     public ow8(char c, char c2) {
-        super(str, i);
         this.a = c;
         this.b = c2;
     }
 
-    public static ow8 valueOf(String str) {
-        return (ow8) Enum.valueOf(ow8.class, str);
-    }
-
-    public static ow8[] values() {
-        return (ow8[]) k.clone();
-    }
 }
