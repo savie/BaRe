@@ -18,7 +18,7 @@ public final class mh0 implements Serializable {
         long j2;
         mh0 mh0Var;
         kx8 kx8Var2 = kx8Var;
-        mh0 obj = new mh0();
+        mh0 obj = this;
         obj.a = new TreeMap();
         long j3 = 1;
         obj.b = (1 << kx8Var2.c) - 1;
