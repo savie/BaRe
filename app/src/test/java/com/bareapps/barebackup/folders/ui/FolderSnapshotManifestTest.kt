@@ -17,7 +17,9 @@ class FolderSnapshotManifestTest {
                 FolderFileFingerprint("nested/a file.txt", 12, digestA),
                 FolderFileFingerprint("unicodé/你好.txt", 7, digestB)
             ),
-            deletedPaths = listOf("old/removed.txt")
+            deletedPaths = listOf("old/removed.txt"),
+            directories = listOf("empty", "nested"),
+            deletedDirectories = listOf("old", "old/deeper")
         )
 
         assertEquals(manifest, FolderSnapshotManifest.decode(manifest.encode()))
@@ -45,7 +47,7 @@ class FolderSnapshotManifestTest {
             FolderSnapshotManifest.decode("NOT-A-MANIFEST")
         }
         assertThrows(IllegalArgumentException::class.java) {
-            FolderSnapshotManifest.decode("BARE-FOLDER-SNAPSHOT\t1\nsnapshot\ts1\nparent\t-\nwat\tx\n")
+            FolderSnapshotManifest.decode("BARE-FOLDER-SNAPSHOT\t2\nsnapshot\ts1\nparent\t-\nwat\tx\n")
         }
     }
 
@@ -56,6 +58,22 @@ class FolderSnapshotManifestTest {
         }
         assertThrows(IllegalArgumentException::class.java) {
             FolderSnapshotManifest("s1", null, listOf(FolderFileFingerprint("same.txt", 1, digestA)), listOf("same.txt"))
+        }
+    }
+
+    @Test
+    fun rejectsDuplicateOrConflictingDirectoryMetadata() {
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest("s1", null, emptyList(), emptyList(),
+                directories = listOf("empty", "empty"))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest("s1", null, emptyList(), emptyList(),
+                directories = listOf("gone"), deletedDirectories = listOf("gone"))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            FolderSnapshotManifest("s1", null, emptyList(), emptyList(),
+                directories = listOf("../escape"))
         }
     }
 

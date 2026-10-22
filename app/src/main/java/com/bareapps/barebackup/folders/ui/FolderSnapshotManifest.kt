@@ -13,7 +13,9 @@ internal data class FolderSnapshotManifest(
     val snapshotId: String,
     val parentSnapshotId: String?,
     val files: List<FolderFileFingerprint>,
-    val deletedPaths: List<String>
+    val deletedPaths: List<String>,
+    val directories: List<String> = emptyList(),
+    val deletedDirectories: List<String> = emptyList()
 ) {
     init {
         require(snapshotId.matches(Regex("^[A-Za-z0-9_-]{1,80}$"))) { "Invalid snapshot id" }
@@ -23,6 +25,12 @@ internal data class FolderSnapshotManifest(
         require(parentSnapshotId != snapshotId) { "A snapshot cannot be its own parent" }
         require(files.map { it.path }.toSet().size == files.size) { "Snapshot contains duplicate file paths" }
         require(deletedPaths.toSet().size == deletedPaths.size) { "Snapshot contains duplicate deleted paths" }
+        require(directories.toSet().size == directories.size) { "Snapshot contains duplicate directory paths" }
+        require(deletedDirectories.toSet().size == deletedDirectories.size) { "Snapshot contains duplicate deleted directory paths" }
+        directories.forEach(::validateRelativePath)
+        deletedDirectories.forEach(::validateRelativePath)
+        require(directories.none { it in deletedDirectories }) { "A directory cannot be both present and deleted" }
+        require(files.none { file -> file.path in directories || file.path in deletedDirectories }) { "File and directory paths conflict" }
         deletedPaths.forEach(::validateRelativePath)
         require(files.none { it.path in deletedPaths }) { "A path cannot be both present and deleted" }
     }
@@ -40,11 +48,17 @@ internal data class FolderSnapshotManifest(
         deletedPaths.sorted().forEach { path ->
             append("deleted\t").append(encodePath(path)).append('\n')
         }
+        directories.sorted().forEach { path ->
+            append("directory\t").append(encodePath(path)).append('\n')
+        }
+        deletedDirectories.sorted().forEach { path ->
+            append("deleted-directory\t").append(encodePath(path)).append('\n')
+        }
     }
 
     companion object {
-        const val ARCHIVE_ENTRY = "META-INF/bare-folder-snapshot.v1"
-        private const val HEADER = "BARE-FOLDER-SNAPSHOT\t1"
+        const val ARCHIVE_ENTRY = "META-INF/bare-folder-snapshot.v2"
+        private const val HEADER = "BARE-FOLDER-SNAPSHOT\t2"
 
         fun decode(text: String): FolderSnapshotManifest {
             val lines = text.lineSequence().filter { it.isNotEmpty() }.toList()
@@ -54,6 +68,8 @@ internal data class FolderSnapshotManifest(
             var parentSeen = false
             val files = mutableListOf<FolderFileFingerprint>()
             val deleted = mutableListOf<String>()
+            val directories = mutableListOf<String>()
+            val deletedDirectories = mutableListOf<String>()
 
             lines.drop(1).forEach { line ->
                 val fields = line.split('\t')
@@ -78,11 +94,19 @@ internal data class FolderSnapshotManifest(
                         require(fields.size == 2) { "Malformed deleted-path record" }
                         deleted += decodePath(fields[1]).also(::validateRelativePath)
                     }
+                    "directory" -> {
+                        require(fields.size == 2) { "Malformed directory record" }
+                        directories += decodePath(fields[1]).also(::validateRelativePath)
+                    }
+                    "deleted-directory" -> {
+                        require(fields.size == 2) { "Malformed deleted-directory record" }
+                        deletedDirectories += decodePath(fields[1]).also(::validateRelativePath)
+                    }
                     else -> throw IllegalArgumentException("Unknown folder snapshot manifest record")
                 }
             }
             require(snapshotId != null && parentSeen) { "Snapshot manifest is missing required records" }
-            return FolderSnapshotManifest(snapshotId!!, parentId, files, deleted)
+            return FolderSnapshotManifest(snapshotId!!, parentId, files, deleted, directories, deletedDirectories)
         }
 
         private fun encodePath(path: String): String =

@@ -365,6 +365,7 @@ class FoldersDashActivity : AppCompatActivity() {
         val sourceKey = sha256(sourceUri.toString().toByteArray(Charsets.UTF_8)).take(16)
         val prefix = "bare-snapshot-" + sourceKey + "-"
         val currentFiles = linkedMapOf<String, DocumentFile>()
+        val currentDirectories = linkedSetOf<String>()
         val currentFingerprints = mutableListOf<FolderFileFingerprint>()
 
         fun scan(directory: DocumentFile, prefixPath: String) {
@@ -375,6 +376,7 @@ class FoldersDashActivity : AppCompatActivity() {
                 }
                 val path = prefixPath + name
                 if (child.isDirectory) {
+                    currentDirectories += path
                     scan(child, path + "/")
                 } else if (child.isFile) {
                     val digest = java.security.MessageDigest.getInstance("SHA-256")
@@ -414,11 +416,16 @@ class FoldersDashActivity : AppCompatActivity() {
         } else {
             FolderIncrementalPlan.compare(previous.files, currentFingerprints)
         }
-        if (previous != null && plan.isEmpty) return false
+        val addedDirectories = currentDirectories.filter { it !in previous?.directories.orEmpty() }
+            .sortedWith(compareBy<String> { it.count { c -> c == '/' } }.thenBy { it })
+        val deletedDirectories = previous?.directories.orEmpty().filter { it !in currentDirectories }
+            .sortedWith(compareByDescending<String> { it.count { c -> c == '/' } }.thenByDescending { it })
+        if (previous != null && plan.isEmpty && addedDirectories.isEmpty() && deletedDirectories.isEmpty()) return false
 
         val snapshotId = java.util.UUID.randomUUID().toString().replace("-", "")
         val manifest = FolderSnapshotManifest(snapshotId, previous?.snapshotId,
-            currentFingerprints.sortedBy { it.path }, plan.deletedPaths)
+            currentFingerprints.sortedBy { it.path }, plan.deletedPaths,
+            currentDirectories.sorted(), deletedDirectories)
         val filename = prefix + snapshotId + ".zip"
         val localFile: File?
         val destinationUri: Uri?
@@ -438,6 +445,10 @@ class FoldersDashActivity : AppCompatActivity() {
                 zip.putNextEntry(ZipEntry(FolderSnapshotManifest.ARCHIVE_ENTRY))
                 zip.write(manifest.encode().toByteArray(Charsets.UTF_8))
                 zip.closeEntry()
+                addedDirectories.forEach { path ->
+                    zip.putNextEntry(ZipEntry(path + "/"))
+                    zip.closeEntry()
+                }
                 plan.changedOrAdded.sortedBy { it.path }.forEach { file ->
                     val document = currentFiles[file.path] ?: error("Source file disappeared: " + file.path)
                     val digest = java.security.MessageDigest.getInstance("SHA-256")
@@ -575,6 +586,15 @@ class FoldersDashActivity : AppCompatActivity() {
                         check(target.delete()) { "Could not stage deletion of " + path }
                     }
                 }
+                manifest.deletedDirectories.forEach { path ->
+                    val target = File(staging, path)
+                    require(target.canonicalPath.startsWith(staging.canonicalPath + File.separator)) {
+                        "Snapshot contains an unsafe deleted directory path"
+                    }
+                    if (target.isDirectory) check(target.deleteRecursively()) {
+                        "Could not stage directory deletion: " + path
+                    }
+                }
                 openBackupInput(archive).use { raw ->
                     ZipInputStream(raw).use { zip ->
                         val validator = FolderArchivePathValidator(MAX_RESTORE_PATH_LENGTH)
@@ -665,6 +685,18 @@ class FoldersDashActivity : AppCompatActivity() {
             require(actualFiles.sortedBy { it.path } == expectedFiles) {
                 "Restored snapshot contents do not match the latest manifest"
             }
+            val actualDirectories = mutableSetOf<String>()
+            fun collectDirectories(directory: File, prefix: String) {
+                directory.listFiles().orEmpty().filter { it.isDirectory }.forEach { child ->
+                    val path = prefix + child.name
+                    actualDirectories += path
+                    collectDirectories(child, path + "/")
+                }
+            }
+            collectDirectories(staging, "")
+            require(actualDirectories == chain.last().second.directories.toSet()) {
+                "Restored snapshot directories do not match the latest manifest"
+            }
 
             ZipOutputStream(FileOutputStream(merged)).use { zip ->
                 fun addDirectory(directory: File, prefix: String) {
@@ -706,6 +738,23 @@ class FoldersDashActivity : AppCompatActivity() {
                 if (target != null) {
                     require(!target.isDirectory) { "Snapshot deletion conflicts with a destination folder: " + path }
                     check(target.delete()) { "Could not delete restored file " + path }
+                }
+            }
+            val finalDirectories = chain.last().second.directories.toSet()
+            val deletedDirectories = chain.flatMap { it.second.deletedDirectories }.toSet().filterNot { deleted ->
+                finalDirectories.any { current -> current == deleted || current.startsWith(deleted + "/") }
+            }.sortedWith(compareByDescending<String> { it.count { c -> c == '/' } }.thenByDescending { it })
+            deletedDirectories.forEach { path ->
+                var parent: DocumentFile? = destination
+                val segments = path.split('/')
+                for (segment in segments.dropLast(1)) {
+                    val next = parent?.findFile(segment)
+                    if (next == null || !next.isDirectory) { parent = null; break }
+                    parent = next
+                }
+                val target = parent?.findFile(segments.last())
+                if (target != null && target.isDirectory && target.listFiles().isEmpty()) {
+                    check(target.delete()) { "Could not delete restored directory " + path }
                 }
             }
         } finally {
