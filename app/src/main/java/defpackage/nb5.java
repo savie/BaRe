@@ -91,7 +91,7 @@ public final class nb5 {
         gh ghVar;
         int r28;
         int[] iArr;
-        char c;
+        char c = 0;
         TreeMap treeMap;
         Iterator it;
         Throwable th;
