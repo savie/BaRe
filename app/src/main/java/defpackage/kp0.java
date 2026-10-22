@@ -5,9 +5,7 @@ package defpackage;
 public interface kp0 {
     public static final bk4 h = new bk4();
 
-    static {
-        qk4 qk4Var = qk4.e;
-    }
+    public static final qk4 INITIALIZED = qk4.e;
 
     od a();
 
