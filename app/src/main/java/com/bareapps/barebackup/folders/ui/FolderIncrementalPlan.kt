@@ -13,7 +13,7 @@ internal data class FolderFileFingerprint(
     val sha256: String
 ) {
     init {
-        require(path.isNotBlank() && !path.startsWith("/") && '\\' !in path) {
+        require(path.isNotBlank() && !path.startsWith("/") && path.indexOf(92.toChar()) < 0 && !path.matches(Regex("^[A-Za-z]:.*"))) {
             "Snapshot contains an invalid relative path"
         }
         require(path.split('/').all { it.isNotEmpty() && it != "." && it != ".." }) {
