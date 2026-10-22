@@ -21,7 +21,7 @@ import com.bareapps.barebackup.R
 import com.bareapps.barebackup.common.CloudStorageDestination
 import com.bareapps.barebackup.home.HomeActivity
 import com.bareapps.barebackup.views.QuickRecyclerView
-import com.google.android.material.appbar.MaterialToolbar
+import androidx.appcompat.widget.Toolbar
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class WifiActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.wifi_activity)
-        findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { finish() }
+        findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener { finish() }
         findViewById<View>(R.id.notice_no_batch_restore_on_q).visibility =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) View.VISIBLE else View.GONE
         findViewById<View>(R.id.btn_got_it).setOnClickListener {
