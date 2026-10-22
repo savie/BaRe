@@ -5958,7 +5958,7 @@ public final class xw {
     /* JADX WARN: Type inference failed for: r3v7 */
     /* JADX WARN: Type inference failed for: r3v8, types: [java.util.List] */
     public final List v(boolean z, iu iuVar, char[] cArr, boolean z2) {
-        ?? arrayList;
+        List arrayList;
         if (!z) {
             return nc8.I(null);
         }
