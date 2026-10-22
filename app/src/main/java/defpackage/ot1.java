@@ -716,8 +716,8 @@ public class ot1 {
         ej7 ej7Var2;
         ej7 ej7Var3;
         boolean z10;
-        ?? r3;
-        ?? r4;
+        int r3;
+        int r4;
         int i21;
         ej7 ej7Var4;
         ej7 ej7Var5;
@@ -729,7 +729,7 @@ public class ot1 {
         ej7 ej7Var7;
         int i25;
         float f2;
-        ?? r27;
+        boolean r27;
         dk8 dk8Var;
         boolean z12;
         d64 d64Var;
@@ -836,7 +836,7 @@ public class ot1 {
                     }
                 }
                 if (this.k && this.l) {
-                    ?? r12 = i;
+                    boolean r12 = i != 0;
                     this.k = r12;
                     this.l = r12;
                     return;
@@ -1276,12 +1276,12 @@ public class ot1 {
                                 ej7 ej7VarK20 = ot1Var6 != null ? bv4Var2.k(ot1Var6.K) : null;
                                 ot1 ot1Var7 = this.T;
                                 ej7 ej7VarK21 = ot1Var7 != null ? bv4Var2.k(ot1Var7.I) : null;
-                                ?? r5 = i6;
+                                int r5 = i6;
                                 i21 = i17;
                                 z10 = z3;
                                 boolean z21 = z20;
                                 ej7Var = ej7VarK;
-                                ?? r6 = i5;
+                                int r6 = i5;
                                 ej7Var2 = ej7VarK2;
                                 ys1Var4 = ys1Var;
                                 ej7Var3 = ej7VarK5;
@@ -1378,7 +1378,7 @@ public class ot1 {
                                 float f3 = this.e0;
                                 int i45 = iArr[i40];
                                 boolean z23 = z11 ? 1 : 0;
-                                ?? r18 = z11;
+                                int r18 = z11 ? 1 : 0;
                                 if (i45 != 3) {
                                     r18 = i40;
                                 }
@@ -2404,7 +2404,7 @@ public class ot1 {
                 }
             }
             if (this.k) {
-                ?? r13 = i;
+                boolean r13 = i != 0;
                 this.k = r13;
                 this.l = r13;
                 return;
@@ -2453,7 +2453,7 @@ public class ot1 {
                 }
             }
             if (this.k) {
-                ?? r14 = i;
+                boolean r14 = i != 0;
                 this.k = r14;
                 this.l = r14;
                 return;
