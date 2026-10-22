@@ -740,11 +740,11 @@ class FoldersDashActivity : AppCompatActivity() {
             }
             val finalManifest = chain.last().second
             val finalFiles = finalManifest.files.map { it.path }.toSet()
-            val finalDirectories = finalManifest.directories.toSet()
-            val deletedFiles = chain.flatMap { it.second.deletedPaths }.toSet()
-            val deletedDirectories = chain.flatMap { it.second.deletedDirectories }.toSet()
-            val typeTransitions = (deletedFiles intersect finalDirectories) +
-                (deletedDirectories intersect finalFiles)
+            val transitionDirectories = finalManifest.directories.toSet()
+            val allDeletedFiles = chain.flatMap { it.second.deletedPaths }.toSet()
+            val allDeletedDirectories = chain.flatMap { it.second.deletedDirectories }.toSet()
+            val typeTransitions = (allDeletedFiles intersect transitionDirectories) +
+                (allDeletedDirectories intersect finalFiles)
             restoreZip(FileInputStream(merged), destinationTree, typeTransitions)
             val finalPaths = chain.last().second.files.map { it.path }.toSet()
             val deletedPaths = chain.flatMap { it.second.deletedPaths }.toSet().filterNot { deleted ->
