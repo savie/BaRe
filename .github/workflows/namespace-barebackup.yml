@@ -32,6 +32,8 @@ jobs:
 
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install Android NDK
         shell: bash
@@ -122,8 +124,6 @@ jobs:
           test -x "$NDK_BIN/clang++"
           test -f tools/native-jni-replacement/native-lib.cpp
           mkdir -p build
-          # Rebuild all packaged ABIs. This implementation intentionally has no JNI_OnLoad;
-          # exported JNI names stay bound to the original SwiftApp class in the decoded APK.
           while IFS=: read -r abi target; do
             mkdir -p "build-src/lib/$abi"
             "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
