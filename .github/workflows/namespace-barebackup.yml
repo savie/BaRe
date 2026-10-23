@@ -124,12 +124,12 @@ jobs:
           }
           def get_string_body(xml_text, name):
               match = re.search(
-                  rf'<string\\s+name="{re.escape(name)}"[^>]*>(.*?)</string>',
+                  rf'<string\s+name="{re.escape(name)}"[^>]*>(.*?)</string>',
                   xml_text, flags=re.DOTALL
               )
               return match.group(1) if match else None
 
-          source_names = re.findall(r'<string\\s+name="([^"]+)"', rewrite_strings)
+          source_names = re.findall(r'<string\s+name="([^"]+)"', rewrite_strings)
           copied = 0
           missing = []
           for source_name in source_names:
@@ -138,7 +138,7 @@ jobs:
               if body is None:
                   continue
               target_pattern = (
-                  rf'(<string\\s+name="{re.escape(target_name)}"[^>]*>)(.*?)(</string>)'
+                  rf'(<string\s+name="{re.escape(target_name)}"[^>]*>)(.*?)(</string>)'
               )
               strings_text, count = re.subn(
                   target_pattern,
