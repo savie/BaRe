@@ -1,0 +1,121 @@
+name: Build BΛR☰ Namespace APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/namespace-barebackup
+    paths:
+      - "reference/apktool/**"
+      - ".github/workflows/namespace-barebackup.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-namespace-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout decompiled reference
+        uses: actions/checkout@v4
+        with:
+          ref: feature/namespace-barebackup
+          fetch-depth: 1
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download Apktool
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o apktool.jar
+          java -jar apktool.jar --version
+
+      - name: Apply minimal package namespace changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -a reference/apktool build-src
+          python3 - <<'PY'
+          from pathlib import Path
+          root = Path("build-src")
+          manifest = root / "AndroidManifest.xml"
+          text = manifest.read_text()
+          old = 'package="org.swiftapps.swiftbackup"'
+          new = 'package="com.bareapps.barebackup"'
+          assert text.count(old) == 1, "Expected exactly one manifest package declaration"
+          text = text.replace(old, new, 1)
+          text = text.replace("org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+                              "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
+          # Authorities must be unique so both apps can be installed side by side.
+          for suffix in ("fileprovider", "shizuku", "tedpermissionprovider", "androidx-startup"):
+              text = text.replace(f'org.swiftapps.swiftbackup.{suffix}',
+                                  f'com.bareapps.barebackup.{suffix}')
+          manifest.write_text(text)
+          # Keep class/package names untouched; update only exact authority literals in text sources.
+          replacements = {
+              "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
+              "org.swiftapps.swiftbackup.shizuku": "com.bareapps.barebackup.shizuku",
+              "org.swiftapps.swiftbackup.tedpermissionprovider": "com.bareapps.barebackup.tedpermissionprovider",
+              "org.swiftapps.swiftbackup.androidx-startup": "com.bareapps.barebackup.androidx-startup",
+              "org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+          }
+          for folder in ("smali", "smali_classes2", "smali_classes3", "smali_classes4", "res"):
+              base = root / folder
+              if not base.exists():
+                  continue
+              for path in base.rglob("*"):
+                  if not path.is_file():
+                      continue
+                  try:
+                      source = path.read_text()
+                  except (UnicodeDecodeError, OSError):
+                      continue
+                  updated = source
+                  for a, b in replacements.items():
+                      updated = updated.replace(a, b)
+                  if updated != source:
+                      path.write_text(updated)
+          print("Package ID changed; implementation class names intentionally preserved.")
+          PY
+          grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
+          ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
+
+      - name: Rebuild unsigned APK
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          java -jar apktool.jar b build-src --use-aapt2 --output build/barebackup-unsigned.apk
+          unzip -t build/barebackup-unsigned.apk
+          ls -lh build/barebackup-unsigned.apk
+
+      - name: Align and sign APK with a generated test key
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
+          test -x "$BUILD_TOOLS/zipalign"
+          test -x "$BUILD_TOOLS/apksigner"
+          keytool -genkeypair -keystore build/barebackup-test.jks -storepass changeit -keypass changeit \
+            -alias barebackup -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=BareBackup Test,O=BΛR☰,C=ID"
+          "$BUILD_TOOLS/zipalign" -f -p 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks build/barebackup-test.jks --ks-key-alias barebackup \
+            --ks-pass pass:changeit --key-pass pass:changeit \
+            --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
+            --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
+          sha256sum build/BaRe-namespace-signed.apk
+          echo "NOTE: CI generates an ephemeral test keystore. This APK is for testing only; future builds will have a different signer."
+
+      - name: Upload signed test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: barebackup-namespace-test
+          path: build/BaRe-namespace-signed.apk
+          if-no-files-found: error
+          retention-days: 14
