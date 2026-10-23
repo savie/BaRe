@@ -49,6 +49,17 @@ jobs:
           new = 'package="com.bareapps.barebackup"'
           assert text.count(old) == 1, "Expected exactly one manifest package declaration"
           text = text.replace(old, new, 1)
+          # BΛR☰ first-stage branding/version requested by project owner.
+          text = text.replace('android:label="@string/swift_backup"', 'android:label="@string/swift_backup"')
+          import re
+          if re.search(r'android:versionName="[^"]*"', text):
+              text = re.sub(r'android:versionName="[^"]*"', 'android:versionName="1.0.2"', text, count=1)
+          else:
+              text = text.replace('<manifest ', '<manifest android:versionName="1.0.2" ', 1)
+          if re.search(r'android:versionCode="[^"]*"', text):
+              text = re.sub(r'android:versionCode="[^"]*"', 'android:versionCode="102"', text, count=1)
+          else:
+              text = text.replace('<manifest ', '<manifest android:versionCode="102" ', 1)
           text = text.replace("org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
                               "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
           # Authorities must be unique so both apps can be installed side by side.
@@ -56,6 +67,178 @@ jobs:
               text = text.replace(f'org.swiftapps.swiftbackup.{suffix}',
                                   f'com.bareapps.barebackup.{suffix}')
           manifest.write_text(text)
+          # Update the default launcher label and decoded APK metadata.
+          strings = root / "res/values/strings.xml"
+          st = strings.read_text()
+          st, count = re.subn(r'(<string name="swift_backup">).*?(</string>)',
+                              r'\\1BΛR☰\\2', st, count=1)
+          assert count == 1, "Could not find default swift_backup app label"
+          strings.write_text(st)
+          apktool_yml = root / "apktool.yml"
+          yml = apktool_yml.read_text()
+          yml = re.sub(r'(?m)^  versionCode:.*          replacements = {
+              "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
+              "org.swiftapps.swiftbackup.shizuku": "com.bareapps.barebackup.shizuku",
+              "org.swiftapps.swiftbackup.tedpermissionprovider": "com.bareapps.barebackup.tedpermissionprovider",
+              "org.swiftapps.swiftbackup.androidx-startup": "com.bareapps.barebackup.androidx-startup",
+              "org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+          }
+          for folder in ("smali", "smali_classes2", "smali_classes3", "smali_classes4", "res"):
+              base = root / folder
+              if not base.exists():
+                  continue
+              for path in base.rglob("*"):
+                  if not path.is_file():
+                      continue
+                  try:
+                      source = path.read_text()
+                  except (UnicodeDecodeError, OSError):
+                      continue
+                  updated = source
+                  for a, b in replacements.items():
+                      updated = updated.replace(a, b)
+                  if updated != source:
+                      path.write_text(updated)
+          print("Package ID changed; implementation class names intentionally preserved.")
+          PY
+          grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
+          ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
+
+      - name: Rebuild unsigned APK
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          java -jar apktool.jar b build-src --use-aapt2 --output build/barebackup-unsigned.apk
+          unzip -t build/barebackup-unsigned.apk
+          ls -lh build/barebackup-unsigned.apk
+
+      - name: Align and sign APK with a generated test key
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
+          test -x "$BUILD_TOOLS/zipalign"
+          test -x "$BUILD_TOOLS/apksigner"
+          keytool -genkeypair -keystore build/barebackup-test.jks -storepass changeit -keypass changeit \
+            -alias barebackup -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=BareBackup Test,O=BΛR☰,C=ID"
+          "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
+          # Fail the build unless resources.arsc is stored (method 0) and 4-byte aligned.
+          python3 - <<'PY'
+          import zipfile
+          p = "build/barebackup-aligned.apk"
+          with zipfile.ZipFile(p) as z:
+              info = z.getinfo("resources.arsc")
+              assert info.compress_type == zipfile.ZIP_STORED, f"resources.arsc is compressed: method={info.compress_type}"
+              with open(p, "rb") as f:
+                  f.seek(info.header_offset)
+                  header = f.read(30)
+                  assert header[:4] == bytes((0x50, 0x4b, 0x03, 0x04))
+                  name_len = int.from_bytes(header[26:28], "little")
+                  extra_len = int.from_bytes(header[28:30], "little")
+                  data_offset = info.header_offset + 30 + name_len + extra_len
+                  assert data_offset % 4 == 0, f"resources.arsc data offset is not 4-byte aligned: {data_offset}"
+              print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
+          PY
+          "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks build/barebackup-test.jks --ks-key-alias barebackup \
+            --ks-pass pass:changeit --key-pass pass:changeit \
+            --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
+            --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
+          sha256sum build/BaRe-namespace-signed.apk
+          echo "NOTE: CI generates an ephemeral test keystore. This APK is for testing only; future builds will have a different signer."
+
+      - name: Upload signed test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: barebackup-namespace-test
+          path: build/BaRe-namespace-signed.apk
+          if-no-files-found: error
+          retention-days: 14
+, '  versionCode: 102', yml, count=1)
+          yml = re.sub(r'(?m)^  versionName:.*          replacements = {
+              "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
+              "org.swiftapps.swiftbackup.shizuku": "com.bareapps.barebackup.shizuku",
+              "org.swiftapps.swiftbackup.tedpermissionprovider": "com.bareapps.barebackup.tedpermissionprovider",
+              "org.swiftapps.swiftbackup.androidx-startup": "com.bareapps.barebackup.androidx-startup",
+              "org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+          }
+          for folder in ("smali", "smali_classes2", "smali_classes3", "smali_classes4", "res"):
+              base = root / folder
+              if not base.exists():
+                  continue
+              for path in base.rglob("*"):
+                  if not path.is_file():
+                      continue
+                  try:
+                      source = path.read_text()
+                  except (UnicodeDecodeError, OSError):
+                      continue
+                  updated = source
+                  for a, b in replacements.items():
+                      updated = updated.replace(a, b)
+                  if updated != source:
+                      path.write_text(updated)
+          print("Package ID changed; implementation class names intentionally preserved.")
+          PY
+          grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
+          ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
+
+      - name: Rebuild unsigned APK
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          java -jar apktool.jar b build-src --use-aapt2 --output build/barebackup-unsigned.apk
+          unzip -t build/barebackup-unsigned.apk
+          ls -lh build/barebackup-unsigned.apk
+
+      - name: Align and sign APK with a generated test key
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
+          test -x "$BUILD_TOOLS/zipalign"
+          test -x "$BUILD_TOOLS/apksigner"
+          keytool -genkeypair -keystore build/barebackup-test.jks -storepass changeit -keypass changeit \
+            -alias barebackup -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=BareBackup Test,O=BΛR☰,C=ID"
+          "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
+          # Fail the build unless resources.arsc is stored (method 0) and 4-byte aligned.
+          python3 - <<'PY'
+          import zipfile
+          p = "build/barebackup-aligned.apk"
+          with zipfile.ZipFile(p) as z:
+              info = z.getinfo("resources.arsc")
+              assert info.compress_type == zipfile.ZIP_STORED, f"resources.arsc is compressed: method={info.compress_type}"
+              with open(p, "rb") as f:
+                  f.seek(info.header_offset)
+                  header = f.read(30)
+                  assert header[:4] == bytes((0x50, 0x4b, 0x03, 0x04))
+                  name_len = int.from_bytes(header[26:28], "little")
+                  extra_len = int.from_bytes(header[28:30], "little")
+                  data_offset = info.header_offset + 30 + name_len + extra_len
+                  assert data_offset % 4 == 0, f"resources.arsc data offset is not 4-byte aligned: {data_offset}"
+              print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
+          PY
+          "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks build/barebackup-test.jks --ks-key-alias barebackup \
+            --ks-pass pass:changeit --key-pass pass:changeit \
+            --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
+            --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
+          sha256sum build/BaRe-namespace-signed.apk
+          echo "NOTE: CI generates an ephemeral test keystore. This APK is for testing only; future builds will have a different signer."
+
+      - name: Upload signed test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: barebackup-namespace-test
+          path: build/BaRe-namespace-signed.apk
+          if-no-files-found: error
+          retention-days: 14
+, '  versionName: 1.0.2', yml, count=1)
+          apktool_yml.write_text(yml)
           # Keep class/package names untouched; update only exact authority literals in text sources.
           replacements = {
               "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
