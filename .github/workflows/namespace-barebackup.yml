@@ -117,7 +117,7 @@ jobs:
                       "Expected one resources closing tag in strings.xml"
                   )
                   strings_text = strings_text.replace(
-                      "</resources>", f"    {new_tag}\\n</resources>", 1
+                      "</resources>", f"    {new_tag}\n</resources>", 1
                   )
           strings_path.write_text(strings_text)
           print("Applied Firebase values from rewrite/app/google-services.json to existing resources (values redacted).")
