@@ -1,4 +1,4 @@
-package com.bareapps.barebackup.internal.internal.tar;
+package com.bareapps.barebackup.internal.tar;
 
 import defpackage.b27;
 import defpackage.eq3;
