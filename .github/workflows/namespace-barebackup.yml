@@ -127,11 +127,16 @@ jobs:
           while IFS=: read -r abi target; do
             mkdir -p "build-src/lib/$abi"
             "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
-              -Wall -Wextra -Werror=return-type \
+              -Wall -Wextra -Werror=return-type -static-libstdc++ \
               tools/native-jni-replacement/native-lib.cpp \
               -o "build-src/lib/$abi/libnative-lib.so" \
               -landroid -ldl -llog
             "$NDK_BIN/llvm-readelf" -Ws "build-src/lib/$abi/libnative-lib.so" > "build/$abi-native-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "build-src/lib/$abi/libnative-lib.so" > "build/$abi-native-dynamic.txt"
+            if grep -q 'NEEDED.*libc++_shared\.so' "build/$abi-native-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in reconstructed $abi library" >&2
+              exit 1
+            fi
             grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "build/$abi-native-symbols.txt"
             grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "build/$abi-native-symbols.txt"
             grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "build/$abi-native-symbols.txt"
