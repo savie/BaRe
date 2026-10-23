@@ -49,17 +49,7 @@ jobs:
           new = 'package="com.bareapps.barebackup"'
           assert text.count(old) == 1, "Expected exactly one manifest package declaration"
           text = text.replace(old, new, 1)
-          # BΛR☰ first-stage branding/version requested by project owner.
-          text = text.replace('android:label="@string/swift_backup"', 'android:label="@string/swift_backup"')
-          import re
-          if re.search(r'android:versionName="[^"]*"', text):
-              text = re.sub(r'android:versionName="[^"]*"', 'android:versionName="1.0.2"', text, count=1)
-          else:
-              text = text.replace('<manifest ', '<manifest android:versionName="1.0.2" ', 1)
-          if re.search(r'android:versionCode="[^"]*"', text):
-              text = re.sub(r'android:versionCode="[^"]*"', 'android:versionCode="102"', text, count=1)
-          else:
-              text = text.replace('<manifest ', '<manifest android:versionCode="102" ', 1)
+          # Keep manifest package and provider authorities consistent. Version metadata is set in apktool.yml below.
           text = text.replace("org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
                               "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
           # Authorities must be unique so both apps can be installed side by side.
@@ -76,7 +66,11 @@ jobs:
           strings.write_text(st)
           apktool_yml = root / "apktool.yml"
           yml = apktool_yml.read_text()
-          yml = re.sub(r'(?m)^  versionCode:.*          replacements = {
+          yml, code_count = re.subn(r'(?m)^  versionCode:.*$', '  versionCode: 102', yml, count=1)
+          yml, name_count = re.subn(r'(?m)^  versionName:.*$', '  versionName: 1.0.2', yml, count=1)
+          assert code_count == 1 and name_count == 1, "Could not update apktool version metadata"
+          apktool_yml.write_text(yml)
+          replacements = {
               "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
               "org.swiftapps.swiftbackup.shizuku": "com.bareapps.barebackup.shizuku",
               "org.swiftapps.swiftbackup.tedpermissionprovider": "com.bareapps.barebackup.tedpermissionprovider",
