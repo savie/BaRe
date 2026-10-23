@@ -1,0 +1,75 @@
+name: Reference APK Rebuild Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/rebuild-reference
+    paths:
+      - "reference/apktool/**"
+      - ".github/workflows/reference-rebuild-test.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout reference snapshot
+        uses: actions/checkout@v4
+        with:
+          ref: audit/rebuild-reference
+          fetch-depth: 1
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Verify decoded project inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s reference/apktool/apktool.yml
+          test -s reference/apktool/AndroidManifest.xml
+          test -d reference/apktool/res
+          test -d reference/apktool/smali
+          echo "apktool.yml, manifest, resources, and primary smali directory are present."
+          sed -n '1,80p' reference/apktool/apktool.yml
+
+      - name: Download Apktool
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar \
+            --output apktool.jar
+          test -s apktool.jar
+          java -jar apktool.jar --version
+
+      - name: Rebuild decoded APK (unsigned)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          java -jar apktool.jar b reference/apktool --use-aapt2 \
+            --output build/reference-rebuilt-unsigned.apk
+
+          test -s build/reference-rebuilt-unsigned.apk
+          unzip -t build/reference-rebuilt-unsigned.apk
+          sha256sum build/reference-rebuilt-unsigned.apk
+          ls -lh build/reference-rebuilt-unsigned.apk
+
+      - name: Upload rebuilt APK and build metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reference-rebuild-audit
+          path: |
+            build/reference-rebuilt-unsigned.apk
+            apktool.jar
+          if-no-files-found: warn
+          retention-days: 7
