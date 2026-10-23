@@ -8,6 +8,7 @@ on:
     paths:
       - "reference/apktool/**"
       - ".github/workflows/namespace-barebackup.yml"
+      - "tools/native-jni-replacement/**"
 
 permissions:
   contents: read
@@ -28,6 +29,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Set up Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: 27.2.12479018
 
       - name: Download Apktool
         run: |
@@ -102,6 +108,40 @@ jobs:
           grep -q 'name="swift_backup">BΛR☰</string>' build-src/res/values/strings.xml
           grep -q 'versionCode: 102' build-src/apktool.yml
           grep -q 'versionName: 1.0.2' build-src/apktool.yml
+
+      - name: Replace native library with reconstructed JNI implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          test -x "$NDK_BIN/clang++"
+          test -f tools/native-jni-replacement/native-lib.cpp
+          mkdir -p build
+          # Rebuild all packaged ABIs. This implementation intentionally has no JNI_OnLoad;
+          # exported JNI names stay bound to the original SwiftApp class in the decoded APK.
+          while IFS=: read -r abi target; do
+            mkdir -p "build-src/lib/$abi"
+            "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
+              -Wall -Wextra -Werror=return-type \
+              tools/native-jni-replacement/native-lib.cpp \
+              -o "build-src/lib/$abi/libnative-lib.so" \
+              -landroid -ldl -llog
+            "$NDK_BIN/llvm-readelf" -Ws "build-src/lib/$abi/libnative-lib.so" > "build/$abi-native-symbols.txt"
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "build/$abi-native-symbols.txt"
+            if grep -q 'JNI_OnLoad' "build/$abi-native-symbols.txt"; then
+              echo "Unexpected JNI_OnLoad found in reconstructed $abi library" >&2
+              exit 1
+            fi
+            echo "Validated reconstructed native library for $abi ($target)"
+          done <<'ABIS'
+          arm64-v8a:aarch64-linux-android24
+          armeabi-v7a:armv7a-linux-androideabi24
+          x86:i686-linux-android24
+          x86_64:x86_64-linux-android24
+          ABIS
+          sha256sum build-src/lib/*/libnative-lib.so
 
       - name: Rebuild unsigned APK
         run: |
