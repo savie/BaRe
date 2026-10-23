@@ -282,6 +282,7 @@ class BareApp : Application(), a45 {
 
     override fun onCreate() {
         super.onCreate()
+        BareAppContext.application = this
         Log.d("BareApp", "onCreate")
         e = this
         val i = b67.a
