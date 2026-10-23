@@ -30,10 +30,15 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android NDK
-        uses: nttld/setup-ndk@v1.5.0
-        with:
-          ndk-version: 27.2.12479018
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager --install "ndk;27.2.12479018"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> "$GITHUB_ENV"
 
       - name: Download Apktool
         run: |
