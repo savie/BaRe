@@ -17,13 +17,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
-import org.swiftapps.swiftbackup.common.IgnoredException;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.common.IgnoredException;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -222,8 +222,8 @@ public final /* synthetic */ class jx implements bt3 {
             case 0:
                 return new ai6("\\W");
             case 1:
-                SwiftApp.Companion companion = SwiftApp.d;
-                UserManager userManager = (UserManager) SwiftApp.Companion.c().getSystemService(UserManager.class);
+                BareApp.Companion companion = BareApp.d;
+                UserManager userManager = (UserManager) BareApp.Companion.c().getSystemService(UserManager.class);
                 return Boolean.valueOf((userManager == null || userManager.isSystemUser()) ? false : true);
             case 2:
                 dz5 dz5Var = dz5.a;
@@ -465,8 +465,8 @@ public final /* synthetic */ class jx implements bt3 {
                                                 } else {
                                                     q.j();
                                                 }
-                                                SwiftApp.Companion companion2 = SwiftApp.d;
-                                                int color = SwiftApp.Companion.c().getColor(i12);
+                                                BareApp.Companion companion2 = BareApp.d;
+                                                int color = BareApp.Companion.c().getColor(i12);
                                                 i13 = iArr[purchaseStateEnum2.ordinal()];
                                                 if (i13 != 1) {
                                                     numValueOf = null;
@@ -515,8 +515,8 @@ public final /* synthetic */ class jx implements bt3 {
                                             }
                                             i12 = R.color.grn;
                                         }
-                                        SwiftApp.Companion companion3 = SwiftApp.d;
-                                        int color2 = SwiftApp.Companion.c().getColor(i12);
+                                        BareApp.Companion companion3 = BareApp.d;
+                                        int color2 = BareApp.Companion.c().getColor(i12);
                                         i13 = iArr[purchaseStateEnum2.ordinal()];
                                         if (i13 != 1) {
                                             numValueOf = null;
@@ -645,8 +645,8 @@ public final /* synthetic */ class jx implements bt3 {
                                                 i5 = R.color.grn;
                                             }
                                         }
-                                        SwiftApp.Companion companion4 = SwiftApp.d;
-                                        int color3 = SwiftApp.Companion.c().getColor(i5);
+                                        BareApp.Companion companion4 = BareApp.d;
+                                        int color3 = BareApp.Companion.c().getColor(i5);
                                         i6 = iArr2[purchaseStateEnum.ordinal()];
                                         if (i6 != 1) {
                                             if (i6 != 2) {
@@ -831,8 +831,8 @@ public final /* synthetic */ class jx implements bt3 {
                                             } else {
                                                 q.j();
                                             }
-                                            SwiftApp.Companion companion5 = SwiftApp.d;
-                                            int color4 = SwiftApp.Companion.c().getColor(i12);
+                                            BareApp.Companion companion5 = BareApp.d;
+                                            int color4 = BareApp.Companion.c().getColor(i12);
                                             i13 = iArr3[purchaseStateEnum2.ordinal()];
                                             if (i13 != 1) {
                                                 numValueOf = null;
@@ -881,8 +881,8 @@ public final /* synthetic */ class jx implements bt3 {
                                         }
                                         i12 = R.color.grn;
                                     }
-                                    SwiftApp.Companion companion6 = SwiftApp.d;
-                                    int color5 = SwiftApp.Companion.c().getColor(i12);
+                                    BareApp.Companion companion6 = BareApp.d;
+                                    int color5 = BareApp.Companion.c().getColor(i12);
                                     i13 = iArr3[purchaseStateEnum2.ordinal()];
                                     if (i13 != 1) {
                                         numValueOf = null;
@@ -1007,8 +1007,8 @@ public final /* synthetic */ class jx implements bt3 {
                                             i5 = R.color.grn;
                                         }
                                     }
-                                    SwiftApp.Companion companion7 = SwiftApp.d;
-                                    int color6 = SwiftApp.Companion.c().getColor(i5);
+                                    BareApp.Companion companion7 = BareApp.d;
+                                    int color6 = BareApp.Companion.c().getColor(i5);
                                     i6 = iArr4[purchaseStateEnum.ordinal()];
                                     if (i6 != 1) {
                                         if (i6 != 2) {
@@ -1208,8 +1208,8 @@ public final /* synthetic */ class jx implements bt3 {
                                             } else {
                                                 q.j();
                                             }
-                                            SwiftApp.Companion companion8 = SwiftApp.d;
-                                            int color7 = SwiftApp.Companion.c().getColor(i12);
+                                            BareApp.Companion companion8 = BareApp.d;
+                                            int color7 = BareApp.Companion.c().getColor(i12);
                                             i13 = iArr5[purchaseStateEnum2.ordinal()];
                                             if (i13 != 1) {
                                                 numValueOf = null;
@@ -1258,8 +1258,8 @@ public final /* synthetic */ class jx implements bt3 {
                                         }
                                         i12 = R.color.grn;
                                     }
-                                    SwiftApp.Companion companion9 = SwiftApp.d;
-                                    int color8 = SwiftApp.Companion.c().getColor(i12);
+                                    BareApp.Companion companion9 = BareApp.d;
+                                    int color8 = BareApp.Companion.c().getColor(i12);
                                     i13 = iArr5[purchaseStateEnum2.ordinal()];
                                     if (i13 != 1) {
                                         numValueOf = null;
@@ -1384,8 +1384,8 @@ public final /* synthetic */ class jx implements bt3 {
                                             i5 = R.color.grn;
                                         }
                                     }
-                                    SwiftApp.Companion companion10 = SwiftApp.d;
-                                    int color9 = SwiftApp.Companion.c().getColor(i5);
+                                    BareApp.Companion companion10 = BareApp.d;
+                                    int color9 = BareApp.Companion.c().getColor(i5);
                                     i6 = iArr6[purchaseStateEnum.ordinal()];
                                     if (i6 != 1) {
                                         if (i6 != 2) {
@@ -1571,8 +1571,8 @@ public final /* synthetic */ class jx implements bt3 {
                                         } else {
                                             q.j();
                                         }
-                                        SwiftApp.Companion companion11 = SwiftApp.d;
-                                        int color10 = SwiftApp.Companion.c().getColor(i12);
+                                        BareApp.Companion companion11 = BareApp.d;
+                                        int color10 = BareApp.Companion.c().getColor(i12);
                                         i13 = iArr7[purchaseStateEnum2.ordinal()];
                                         if (i13 != 1) {
                                             numValueOf = null;
@@ -1621,8 +1621,8 @@ public final /* synthetic */ class jx implements bt3 {
                                     }
                                     i12 = R.color.grn;
                                 }
-                                SwiftApp.Companion companion12 = SwiftApp.d;
-                                int color11 = SwiftApp.Companion.c().getColor(i12);
+                                BareApp.Companion companion12 = BareApp.d;
+                                int color11 = BareApp.Companion.c().getColor(i12);
                                 i13 = iArr7[purchaseStateEnum2.ordinal()];
                                 if (i13 != 1) {
                                     numValueOf = null;
@@ -1747,8 +1747,8 @@ public final /* synthetic */ class jx implements bt3 {
                                         i5 = R.color.grn;
                                     }
                                 }
-                                SwiftApp.Companion companion13 = SwiftApp.d;
-                                int color12 = SwiftApp.Companion.c().getColor(i5);
+                                BareApp.Companion companion13 = BareApp.d;
+                                int color12 = BareApp.Companion.c().getColor(i5);
                                 i6 = iArr8[purchaseStateEnum.ordinal()];
                                 if (i6 != 1) {
                                     if (i6 != 2) {
@@ -1905,8 +1905,8 @@ public final /* synthetic */ class jx implements bt3 {
             case 13:
                 return nb5.a;
             case 14:
-                SwiftApp.Companion companion14 = SwiftApp.d;
-                return new q63(SwiftApp.Companion.c().getCacheDir(), "chunked_downloads", 2);
+                BareApp.Companion companion14 = BareApp.d;
+                return new q63(BareApp.Companion.c().getCacheDir(), "chunked_downloads", 2);
             case 15:
                 jq5 jq5Var = nq5.i;
                 try {
@@ -1944,8 +1944,8 @@ public final /* synthetic */ class jx implements bt3 {
                 return str7 != null ? new File(str7) : new File("/data/secure");
             case 23:
                 try {
-                    SwiftApp.Companion companion15 = SwiftApp.d;
-                    Signature[] signatureArrE = SwiftApp.Companion.e();
+                    BareApp.Companion companion15 = BareApp.d;
+                    Signature[] signatureArrE = BareApp.Companion.e();
                     if (signatureArrE != null) {
                         Signature signature = signatureArrE.length == 0 ? null : signatureArrE[0];
                         if (signature != null) {

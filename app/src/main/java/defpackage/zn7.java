@@ -12,8 +12,8 @@ import android.text.TextUtils;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -115,8 +115,8 @@ public final class zn7 implements Parcelable {
     }
 
     public final boolean g() throws Throwable {
-        SwiftApp.Companion companion = SwiftApp.d;
-        Context contextC = SwiftApp.Companion.c();
+        BareApp.Companion companion = BareApp.d;
+        Context contextC = BareApp.Companion.c();
         Uri uriBuildTreeDocumentUri = DocumentsContract.buildTreeDocumentUri("com.android.externalstorage.documents", ((String) this.n.getValue()) + ":");
         uriBuildTreeDocumentUri.getClass();
         cb8 cb8VarC = tn2.c(contextC, uriBuildTreeDocumentUri);
@@ -185,8 +185,8 @@ public final class zn7 implements Parcelable {
 
     public final StorageVolume v() {
         StorageVolume storageVolume;
-        SwiftApp.Companion companion = SwiftApp.d;
-        StorageManager storageManager = (StorageManager) SwiftApp.Companion.c().getSystemService(StorageManager.class);
+        BareApp.Companion companion = BareApp.d;
+        StorageManager storageManager = (StorageManager) BareApp.Companion.c().getSystemService(StorageManager.class);
         storageManager.getClass();
         q63 q63Var = this.a;
         File file = new File(q63Var.v());

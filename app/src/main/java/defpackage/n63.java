@@ -1,7 +1,7 @@
 package defpackage;
 
 import android.util.Log;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -33,7 +33,7 @@ public final /* synthetic */ class n63 implements rt3 {
                 String str3 = (String) obj;
                 String str4 = (String) obj2;
                 Exception exc2 = (Exception) obj3;
-                SwiftApp.Companion companion = SwiftApp.d;
+                BareApp.Companion companion = BareApp.d;
                 str3.getClass();
                 str4.getClass();
                 vr6 vr6Var = vr6.INSTANCE;

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.jobs.AlarmReceiver;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.jobs.AlarmReceiver;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -52,7 +52,7 @@ public final class d45 {
         boolean z2;
         Iterator it = this.a.iterator();
         while (it.hasNext()) {
-            SwiftApp swiftApp = (SwiftApp) ((a45) it.next());
+            BareApp swiftApp = (BareApp) ((a45) it.next());
             swiftApp.getClass();
             b.getClass();
             MFirebaseUser mFirebaseUserA = a();
@@ -60,8 +60,8 @@ public final class d45 {
                 FirebaseCrashlytics.getInstance().setUserId(mFirebaseUserA.getUid());
                 String uid = mFirebaseUserA.getUid();
                 uid.getClass();
-                SwiftApp.Companion companion = SwiftApp.d;
-                List<FirebaseApp> apps = FirebaseApp.getApps(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                List<FirebaseApp> apps = FirebaseApp.getApps(BareApp.Companion.c());
                 apps.getClass();
                 if (!apps.isEmpty()) {
                     FirebaseCrashlytics.getInstance().setCustomKey("uid", uid);
@@ -134,8 +134,8 @@ public final class d45 {
             if (z2) {
                 Log.i("d45", "signOut: Clearing data");
                 g00 g00Var = g00.a;
-                SwiftApp.Companion companion = SwiftApp.d;
-                String packageName = SwiftApp.Companion.c().getPackageName();
+                BareApp.Companion companion = BareApp.d;
+                String packageName = BareApp.Companion.c().getPackageName();
                 packageName.getClass();
                 g00.c(packageName, true);
             }

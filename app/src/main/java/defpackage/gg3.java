@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -230,8 +230,8 @@ public final class gg3 {
         if (!f()) {
             return null;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        ContentResolver contentResolver = SwiftApp.Companion.c().getContentResolver();
+        BareApp.Companion companion = BareApp.d;
+        ContentResolver contentResolver = BareApp.Companion.c().getContentResolver();
         try {
             bn6Var = Settings.Global.getString(contentResolver, "private_dns_mode");
         } catch (Throwable th) {
@@ -260,8 +260,8 @@ public final class gg3 {
         int i2 = 1;
         int i3 = 0;
         try {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            Object systemService = SwiftApp.Companion.c().getSystemService("connectivity");
+            BareApp.Companion companion2 = BareApp.d;
+            Object systemService = BareApp.Companion.c().getSystemService("connectivity");
             ConnectivityManager connectivityManager = systemService instanceof ConnectivityManager ? (ConnectivityManager) systemService : null;
             NetworkCapabilities networkCapabilities = connectivityManager != null ? connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork()) : null;
             bn6Var3 = Boolean.valueOf(networkCapabilities != null && networkCapabilities.hasTransport(4));
@@ -275,8 +275,8 @@ public final class gg3 {
         boolean zBooleanValue = ((Boolean) bn6Var3).booleanValue();
         ov2 ov2Var = ov2.a;
         try {
-            SwiftApp.Companion companion3 = SwiftApp.d;
-            Object systemService2 = SwiftApp.Companion.c().getSystemService("connectivity");
+            BareApp.Companion companion3 = BareApp.d;
+            Object systemService2 = BareApp.Companion.c().getSystemService("connectivity");
             ConnectivityManager connectivityManager2 = systemService2 instanceof ConnectivityManager ? (ConnectivityManager) systemService2 : null;
             if (connectivityManager2 == null || (activeNetwork = connectivityManager2.getActiveNetwork()) == null || (linkProperties = connectivityManager2.getLinkProperties(activeNetwork)) == null) {
                 bn6Var4 = ov2Var;
@@ -447,8 +447,8 @@ public final class gg3 {
                 d();
                 return Boolean.TRUE;
             }
-            SwiftApp.Companion companion = SwiftApp.d;
-            if (!ai8.i(SwiftApp.Companion.c())) {
+            BareApp.Companion companion = BareApp.d;
+            if (!ai8.i(BareApp.Companion.c())) {
                 d();
                 return Boolean.FALSE;
             }
@@ -489,8 +489,8 @@ public final class gg3 {
         if (z) {
             d();
         } else {
-            SwiftApp.Companion companion2 = SwiftApp.d;
-            if (ai8.i(SwiftApp.Companion.c())) {
+            BareApp.Companion companion2 = BareApp.d;
+            if (ai8.i(BareApp.Companion.c())) {
                 j(xf3.DISCONNECTED);
                 i(wf3.TIMED_OUT);
             } else {

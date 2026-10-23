@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -396,8 +396,8 @@ public abstract class rs9 {
     }
 
     public static void s(boolean z) {
-        SwiftApp.Companion companion = SwiftApp.d;
-        ShortcutManager shortcutManager = (ShortcutManager) SwiftApp.Companion.c().getSystemService(ShortcutManager.class);
+        BareApp.Companion companion = BareApp.d;
+        ShortcutManager shortcutManager = (ShortcutManager) BareApp.Companion.c().getSystemService(ShortcutManager.class);
         if (shortcutManager == null) {
             return;
         }
@@ -413,16 +413,16 @@ public abstract class rs9 {
         if (V.INSTANCE.getA() && z) {
             ArrayList arrayList2 = new ArrayList();
             if (o37.b()) {
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                String string = SwiftApp.Companion.c().getString(R.string.run_schedule_now);
+                BareApp.Companion companion2 = BareApp.d;
+                String string = BareApp.Companion.c().getString(R.string.run_schedule_now);
                 string.getClass();
                 arrayList2.add(ze7.a(R.drawable.ic_shortcut_schedule_icon, "scheduled_backup", string));
             }
-            SwiftApp.Companion companion3 = SwiftApp.d;
-            String string2 = SwiftApp.Companion.c().getString(R.string.quick_actions_apps);
+            BareApp.Companion companion3 = BareApp.d;
+            String string2 = BareApp.Companion.c().getString(R.string.quick_actions_apps);
             string2.getClass();
             arrayList2.add(ze7.a(R.drawable.ic_shortcut_apps_quick_actions_icon, "quick_actions", string2));
-            String string3 = SwiftApp.Companion.c().getString(R.string.configs);
+            String string3 = BareApp.Companion.c().getString(R.string.configs);
             string3.getClass();
             arrayList2.add(ze7.a(R.drawable.ic_shortcut_configs_icon, "configs", string3));
             if (arrayList2.isEmpty()) {

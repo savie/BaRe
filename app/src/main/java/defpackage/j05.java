@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.model.firebase.AppSettings;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -75,13 +75,13 @@ public abstract class j05 {
         }
     }
 
-    public static void d(SwiftApp swiftApp) {
+    public static void d(BareApp swiftApp) {
         Locale localeB;
         LocaleList applicationLocales;
         if (b67.e()) {
             if (b67.e()) {
-                SwiftApp.Companion companion = SwiftApp.d;
-                applicationLocales = ((LocaleManager) SwiftApp.Companion.c().getSystemService(LocaleManager.class)).getApplicationLocales();
+                BareApp.Companion companion = BareApp.d;
+                applicationLocales = ((LocaleManager) BareApp.Companion.c().getSystemService(LocaleManager.class)).getApplicationLocales();
                 applicationLocales.getClass();
             } else {
                 applicationLocales = LocaleList.getEmptyLocaleList();
@@ -115,8 +115,8 @@ public abstract class j05 {
 
     public static void f(Locale locale) {
         if (b67.e()) {
-            SwiftApp.Companion companion = SwiftApp.d;
-            ((LocaleManager) SwiftApp.Companion.c().getSystemService(LocaleManager.class)).setApplicationLocales(new LocaleList(locale));
+            BareApp.Companion companion = BareApp.d;
+            ((LocaleManager) BareApp.Companion.c().getSystemService(LocaleManager.class)).setApplicationLocales(new LocaleList(locale));
         }
     }
 }
