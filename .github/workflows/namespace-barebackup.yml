@@ -71,7 +71,7 @@ jobs:
           strings = root / "res/values/strings.xml"
           st = strings.read_text()
           st, count = re.subn(r'(<string name="swift_backup">).*?(</string>)',
-                              r'\\1BΛR☰\\2', st, count=1)
+                              r'\1BΛR☰\2', st, count=1)
           assert count == 1, "Could not find default swift_backup app label"
           strings.write_text(st)
           apktool_yml = root / "apktool.yml"
