@@ -298,16 +298,28 @@ jobs:
           unzip -t build/barebackup-unsigned.apk
           ls -lh build/barebackup-unsigned.apk
 
-      - name: Align and sign APK with a generated test key
+      - name: Prepare stable CI signing key
         shell: bash
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+        run: |
+          set -euo pipefail
+          test -n "$BARE_DEBUG_KEYSTORE_B64" || { echo "Missing BARE_DEBUG_KEYSTORE_B64 repository secret"; exit 1; }
+          mkdir -p "$RUNNER_TEMP"
+          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
+          test -s "$RUNNER_TEMP/bare-ci.keystore"
+          keytool -list -v -keystore "$RUNNER_TEMP/bare-ci.keystore" -alias androiddebugkey \
+            -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
+
+      - name: Align and sign APK with stable CI key
+        shell: bash
+        env:
+          CI_KEYSTORE: ${{ runner.temp }}/bare-ci.keystore
         run: |
           set -euo pipefail
           BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
           test -x "$BUILD_TOOLS/zipalign"
           test -x "$BUILD_TOOLS/apksigner"
-          keytool -genkeypair -keystore build/barebackup-test.jks -storepass changeit -keypass changeit \
-            -alias barebackup -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=BareBackup Test,O=BΛR☰,C=ID"
           "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
           python3 - <<'PY'
           import zipfile
@@ -326,13 +338,13 @@ jobs:
               print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
           PY
           "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
-          "$BUILD_TOOLS/apksigner" sign --ks build/barebackup-test.jks --ks-key-alias barebackup \
-            --ks-pass pass:changeit --key-pass pass:changeit \
+          "$BUILD_TOOLS/apksigner" sign --ks "$CI_KEYSTORE" --ks-key-alias androiddebugkey \
+            --ks-pass pass:android --key-pass pass:android \
             --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
             --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
           "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
           sha256sum build/BaRe-namespace-signed.apk
-          echo "NOTE: CI generates an ephemeral test keystore. This APK is for testing only; future builds will have a different signer."
+          echo "Signing uses the stable BARE_DEBUG_KEYSTORE_B64 CI key shared with the rewrite rebuild workflow."
 
       - name: Upload signed test APK
         uses: actions/upload-artifact@v4
