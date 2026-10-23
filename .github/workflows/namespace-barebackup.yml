@@ -100,17 +100,27 @@ jobs:
 
           values_dir = root / "res/values"
           values_dir.mkdir(parents=True, exist_ok=True)
-          resource_lines = [
-              '<?xml version="1.0" encoding="utf-8"?>',
-              '<resources>',
-          ]
+          strings_path = values_dir / "strings.xml"
+          strings_text = strings_path.read_text()
           for name, value in firebase_values.items():
-              resource_lines.append(
-                  f'    <string name="{name}" translatable="false">{escape(str(value))}</string>'
+              tag = (
+                  f'<string name="{name}"[^>]*>.*?</string>'
               )
-          resource_lines.append('</resources>')
-          (values_dir / "bare_firebase.xml").write_text("\n".join(resource_lines) + "\n")
-          print("Loaded Firebase resources for com.bareapps.barebackup from rewrite/app/google-services.json (values redacted).")
+              new_tag = (
+                  f'<string name="{name}" translatable="false">'
+                  f'{escape(str(value))}</string>'
+              )
+              strings_text, count = re.subn(tag, lambda _match, new_tag=new_tag: new_tag,
+                                            strings_text, count=1, flags=re.DOTALL)
+              if count == 0:
+                  assert strings_text.count("</resources>") == 1, (
+                      "Expected one resources closing tag in strings.xml"
+                  )
+                  strings_text = strings_text.replace(
+                      "</resources>", f"    {new_tag}\\n</resources>", 1
+                  )
+          strings_path.write_text(strings_text)
+          print("Applied Firebase values from rewrite/app/google-services.json to existing resources (values redacted).")
 
           manifest = root / "AndroidManifest.xml"
           text = manifest.read_text()
@@ -185,8 +195,8 @@ jobs:
           print("Package ID, app label, and version metadata updated; implementation class names intentionally preserved.")
           PY
           grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
-          grep -q 'name="google_app_id"' build-src/res/values/bare_firebase.xml
-          grep -q 'name="google_api_key"' build-src/res/values/bare_firebase.xml
+          grep -q 'name="google_app_id"' build-src/res/values/strings.xml
+          grep -q 'name="google_api_key"' build-src/res/values/strings.xml
           grep -q 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' build-src/smali/org/swiftapps/swiftbackup/SwiftApp.smali
           ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
           grep -q 'name="swift_backup">BΛR☰</string>' build-src/res/values/strings.xml
