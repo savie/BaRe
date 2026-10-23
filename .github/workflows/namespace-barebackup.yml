@@ -103,7 +103,25 @@ jobs:
           keytool -genkeypair -keystore build/barebackup-test.jks -storepass changeit -keypass changeit \
             -alias barebackup -keyalg RSA -keysize 2048 -validity 10000 \
             -dname "CN=BareBackup Test,O=BΛR☰,C=ID"
-          "$BUILD_TOOLS/zipalign" -f -p 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
+          # Fail the build unless resources.arsc is stored (method 0) and 4-byte aligned.
+          python3 - <<'PY'
+          import zipfile
+          p = "build/barebackup-aligned.apk"
+          with zipfile.ZipFile(p) as z:
+              info = z.getinfo("resources.arsc")
+              assert info.compress_type == zipfile.ZIP_STORED, f"resources.arsc is compressed: method={info.compress_type}"
+              with open(p, "rb") as f:
+                  f.seek(info.header_offset)
+                  header = f.read(30)
+                  assert header[:4] == b"PK\\x03\\x04"
+                  name_len = int.from_bytes(header[26:28], "little")
+                  extra_len = int.from_bytes(header[28:30], "little")
+                  data_offset = info.header_offset + 30 + name_len + extra_len
+                  assert data_offset % 4 == 0, f"resources.arsc data offset is not 4-byte aligned: {data_offset}"
+              print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
+          PY
+          "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
           "$BUILD_TOOLS/apksigner" sign --ks build/barebackup-test.jks --ks-key-alias barebackup \
             --ks-pass pass:changeit --key-pass pass:changeit \
             --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
