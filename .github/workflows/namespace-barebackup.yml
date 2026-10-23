@@ -56,6 +56,7 @@ jobs:
           mkdir -p build
           git fetch --no-tags --depth=1 origin rewrite
           git show FETCH_HEAD:app/google-services.json > build/google-services.json
+          git show FETCH_HEAD:app/src/main/res/values/strings.xml > build/rewrite-strings.xml
           python3 - <<'PY'
           from pathlib import Path
           import json
@@ -102,6 +103,55 @@ jobs:
           values_dir.mkdir(parents=True, exist_ok=True)
           strings_path = values_dir / "strings.xml"
           strings_text = strings_path.read_text()
+
+          # Carry over the user-facing strings from the rewrite branch while keeping
+          # the resource identifiers expected by the decompiled APK's public.xml/Smali.
+          rewrite_strings = Path("build/rewrite-strings.xml").read_text()
+          renamed_keys = {
+              "bare_backup": "swift_backup",
+              "bare_backup_is_busy": "swift_backup_is_busy",
+              "open_in_bare_backup": "open_in_swift_backup",
+              "search_bare_backup": "search_swift_backup",
+              "share_barebackup": "share_swiftbackup",
+              "share_barebackup_msg": "share_swiftbackup_msg",
+              "share_barebackup_subject": "share_swiftbackup_subject",
+              "share_barelogger_archive_with_device_logcat": "share_swiftlogger_archive_with_device_logcat",
+              "share_barelogger_text_only": "share_swiftlogger_text_only",
+              "bare_labs": "swift_labs",
+              "bare_labs_settings_summary": "swift_labs_settings_summary",
+              "barelogger": "swiftlogger",
+              "barelogger_info": "swiftlogger_info",
+          }
+          def get_string_body(xml_text, name):
+              match = re.search(
+                  rf'<string\\s+name="{re.escape(name)}"[^>]*>(.*?)</string>',
+                  xml_text, flags=re.DOTALL
+              )
+              return match.group(1) if match else None
+
+          source_names = re.findall(r'<string\\s+name="([^"]+)"', rewrite_strings)
+          copied = 0
+          missing = []
+          for source_name in source_names:
+              target_name = renamed_keys.get(source_name, source_name)
+              body = get_string_body(rewrite_strings, source_name)
+              if body is None:
+                  continue
+              target_pattern = (
+                  rf'(<string\\s+name="{re.escape(target_name)}"[^>]*>)(.*?)(</string>)'
+              )
+              strings_text, count = re.subn(
+                  target_pattern,
+                  lambda match, body=body: match.group(1) + body + match.group(3),
+                  strings_text, count=1, flags=re.DOTALL
+              )
+              if count:
+                  copied += 1
+              elif source_name not in ("intro_feature_not_available_yet",):
+                  missing.append(f"{source_name} -> {target_name}")
+          assert copied >= 1300, f"Unexpectedly few rewrite strings copied: {copied}"
+          assert not missing, "Rewrite strings missing from APK resource set: " + ", ".join(missing[:20])
+          print(f"Applied {copied} user-facing strings from rewrite branch using existing APK resource keys.")
           for name, value in firebase_values.items():
               tag = (
                   f'<string name="{name}"[^>]*>.*?</string>'
