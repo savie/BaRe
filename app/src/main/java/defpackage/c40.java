@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackup;
-import org.swiftapps.swiftbackup.model.app.AppCloudBackups;
-import org.swiftapps.swiftbackup.model.app.CloudMetadata;
-import org.swiftapps.swiftbackup.model.app.LocalMetadata;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.f;
-import org.swiftapps.swiftbackup.tasks.model.SyncOption;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.model.app.AppCloudBackup;
+import com.bareapps.barebackup.model.app.AppCloudBackups;
+import com.bareapps.barebackup.model.app.CloudMetadata;
+import com.bareapps.barebackup.model.app.LocalMetadata;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.f;
+import com.bareapps.barebackup.tasks.model.SyncOption;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -469,8 +469,8 @@ public final class c40 extends pw6 {
                                                 String strC2 = p93.c(Long.valueOf(jLongValue2));
                                                 if (z9) {
                                                     String name = jiVar2.getName();
-                                                    SwiftApp.Companion companion = SwiftApp.d;
-                                                    String string = SwiftApp.Companion.c().getString(R.string.space_needed_vs_available_error, strC, strC2);
+                                                    BareApp.Companion companion = BareApp.d;
+                                                    String string = BareApp.Companion.c().getString(R.string.space_needed_vs_available_error, strC, strC2);
                                                     string.getClass();
                                                     str15 = name + ": (" + string + ")";
                                                 } else {
@@ -529,8 +529,8 @@ public final class c40 extends pw6 {
                                                         }));
                                                     }
                                                     ex6 ex6Var = c40Var.i;
-                                                    SwiftApp.Companion companion2 = SwiftApp.d;
-                                                    ex6Var.k(SwiftApp.Companion.c().getString(R.string.downloading_backup_files));
+                                                    BareApp.Companion companion2 = BareApp.d;
+                                                    ex6Var.k(BareApp.Companion.c().getString(R.string.downloading_backup_files));
                                                     long jCurrentTimeMillis = System.currentTimeMillis();
                                                     zn4 zn4Var3 = zn4.a;
                                                     try {
@@ -652,8 +652,8 @@ public final class c40 extends pw6 {
                     jz jzVar3 = (jz) objS0;
                     hk hkVar = jzVar3.g;
                     if (jzVar3.c.contains(iu.APP)) {
-                        SwiftApp.Companion companion3 = SwiftApp.d;
-                        File cacheDir = SwiftApp.Companion.c().getCacheDir();
+                        BareApp.Companion companion3 = BareApp.d;
+                        File cacheDir = BareApp.Companion.c().getCacheDir();
                         cacheDir.getClass();
                         q63 q63Var = new q63(cacheDir, 2);
                         cy0.e(q63Var);
@@ -730,8 +730,8 @@ public final class c40 extends pw6 {
                     vr6 vr6Var3 = vr6.INSTANCE;
                     String str28 = str;
                     vr6.i$default(vr6Var3, str26, str28.concat(string2), null, 4, null);
-                    SwiftApp.Companion companion4 = SwiftApp.d;
-                    ex6Var2.i(SwiftApp.Companion.c().getString(R.string.uninstalling));
+                    BareApp.Companion companion4 = BareApp.d;
+                    ex6Var2.i(BareApp.Companion.c().getString(R.string.uninstalling));
                     vr6.i$default(vr6Var3, str26, xs1.j("Uninstalling: ", jiVar3.asString()), null, 4, null);
                     if (!jiVar3.isBundled()) {
                         mp6.a.h(new String[]{u48.k(i9, "pm uninstall --user ", TokenAuthenticationScheme.SCHEME_DELIMITER, jiVar3.getPackageName())}, ip6.SHIZUKU);
@@ -790,8 +790,8 @@ public final class c40 extends pw6 {
                     }
                     vr6 vr6Var4 = vr6.INSTANCE;
                     vr6.i$default(vr6Var4, "AppEnableDisableHelper", str3.concat(str29), null, 4, null);
-                    SwiftApp.Companion companion5 = SwiftApp.d;
-                    String string3 = SwiftApp.Companion.c().getString(z12 ? R.string.enable_apps : R.string.disable_apps);
+                    BareApp.Companion companion5 = BareApp.d;
+                    String string3 = BareApp.Companion.c().getString(z12 ? R.string.enable_apps : R.string.disable_apps);
                     string3.getClass();
                     ex6Var2.i(string3);
                     vr6.i$default(vr6Var4, "AppEnableDisableHelper", dj7.k(z12 ? "Enabling" : "Disabling", TokenAuthenticationScheme.SCHEME_DELIMITER, jiVar4.asString()), null, 4, null);
@@ -837,16 +837,16 @@ public final class c40 extends pw6 {
 
     @Override // defpackage.pw6
     public final String h() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(g() ? R.string.apps : R.string.app);
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(g() ? R.string.apps : R.string.app);
         string.getClass();
         return string;
     }
 
     @Override // defpackage.pw6
     public final String j() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        String string = SwiftApp.Companion.c().getString(R.string.x_apps, String.valueOf(this.m.size()));
+        BareApp.Companion companion = BareApp.d;
+        String string = BareApp.Companion.c().getString(R.string.x_apps, String.valueOf(this.m.size()));
         string.getClass();
         return string;
     }
@@ -879,18 +879,18 @@ public final class c40 extends pw6 {
     /* JADX WARN: Code duplicated, block: B:130:0x04a2  */
     /* JADX WARN: Code duplicated, block: B:131:0x04a5 A[PHI: r15 r21 r22 r34
       0x04a5: PHI (r15v17 int) = (r15v16 int), (r15v16 int), (r15v18 int), (r15v19 int) binds: [B:135:0x04b6, B:137:0x04bc, B:130:0x04a2, B:128:0x049d] A[DONT_GENERATE, DONT_INLINE]
-      0x04a5: PHI (r21v9 org.swiftapps.swiftbackup.model.app.LocalMetadata) = 
-      (r21v7 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v7 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v10 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v10 org.swiftapps.swiftbackup.model.app.LocalMetadata)
+      0x04a5: PHI (r21v9 com.bareapps.barebackup.model.app.LocalMetadata) = 
+      (r21v7 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v7 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v10 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v10 com.bareapps.barebackup.model.app.LocalMetadata)
      binds: [B:135:0x04b6, B:137:0x04bc, B:130:0x04a2, B:128:0x049d] A[DONT_GENERATE, DONT_INLINE]
       0x04a5: PHI (r22v8 hl) = (r22v6 hl), (r22v6 hl), (r22v10 hl), (r22v11 hl) binds: [B:135:0x04b6, B:137:0x04bc, B:130:0x04a2, B:128:0x049d] A[DONT_GENERATE, DONT_INLINE]
-      0x04a5: PHI (r34v19 org.swiftapps.swiftbackup.model.app.CloudMetadata) = 
-      (r34v17 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v17 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v20 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v20 org.swiftapps.swiftbackup.model.app.CloudMetadata)
+      0x04a5: PHI (r34v19 com.bareapps.barebackup.model.app.CloudMetadata) = 
+      (r34v17 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v17 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v20 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v20 com.bareapps.barebackup.model.app.CloudMetadata)
      binds: [B:135:0x04b6, B:137:0x04bc, B:130:0x04a2, B:128:0x049d] A[DONT_GENERATE, DONT_INLINE]] */
     /* JADX WARN: Code duplicated, block: B:132:0x04a6 A[PHI: r7 r21 r22 r34
       0x04a6: PHI (r7v11 int) = 
@@ -907,19 +907,19 @@ public final class c40 extends pw6 {
       (r7v12 int)
       (r7v13 int)
      binds: [B:159:0x0517, B:161:0x051d, B:154:0x0505, B:156:0x050b, B:149:0x04f3, B:151:0x04f9, B:142:0x04d5, B:144:0x04db, B:146:0x04e7, B:139:0x04c9, B:131:0x04a5, B:133:0x04a9] A[DONT_GENERATE, DONT_INLINE]
-      0x04a6: PHI (r21v8 org.swiftapps.swiftbackup.model.app.LocalMetadata) = 
-      (r21v3 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v3 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v4 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v4 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v5 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v5 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v6 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v6 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v6 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v7 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v9 org.swiftapps.swiftbackup.model.app.LocalMetadata)
-      (r21v10 org.swiftapps.swiftbackup.model.app.LocalMetadata)
+      0x04a6: PHI (r21v8 com.bareapps.barebackup.model.app.LocalMetadata) = 
+      (r21v3 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v3 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v4 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v4 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v5 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v5 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v6 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v6 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v6 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v7 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v9 com.bareapps.barebackup.model.app.LocalMetadata)
+      (r21v10 com.bareapps.barebackup.model.app.LocalMetadata)
      binds: [B:159:0x0517, B:161:0x051d, B:154:0x0505, B:156:0x050b, B:149:0x04f3, B:151:0x04f9, B:142:0x04d5, B:144:0x04db, B:146:0x04e7, B:139:0x04c9, B:131:0x04a5, B:133:0x04a9] A[DONT_GENERATE, DONT_INLINE]
       0x04a6: PHI (r22v7 hl) = 
       (r22v2 hl)
@@ -935,19 +935,19 @@ public final class c40 extends pw6 {
       (r22v8 hl)
       (r22v9 hl)
      binds: [B:159:0x0517, B:161:0x051d, B:154:0x0505, B:156:0x050b, B:149:0x04f3, B:151:0x04f9, B:142:0x04d5, B:144:0x04db, B:146:0x04e7, B:139:0x04c9, B:131:0x04a5, B:133:0x04a9] A[DONT_GENERATE, DONT_INLINE]
-      0x04a6: PHI (r34v18 org.swiftapps.swiftbackup.model.app.CloudMetadata) = 
-      (r34v13 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v13 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v14 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v14 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v15 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v15 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v16 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v16 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v16 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v17 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v19 org.swiftapps.swiftbackup.model.app.CloudMetadata)
-      (r34v20 org.swiftapps.swiftbackup.model.app.CloudMetadata)
+      0x04a6: PHI (r34v18 com.bareapps.barebackup.model.app.CloudMetadata) = 
+      (r34v13 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v13 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v14 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v14 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v15 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v15 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v16 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v16 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v16 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v17 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v19 com.bareapps.barebackup.model.app.CloudMetadata)
+      (r34v20 com.bareapps.barebackup.model.app.CloudMetadata)
      binds: [B:159:0x0517, B:161:0x051d, B:154:0x0505, B:156:0x050b, B:149:0x04f3, B:151:0x04f9, B:142:0x04d5, B:144:0x04db, B:146:0x04e7, B:139:0x04c9, B:131:0x04a5, B:133:0x04a9] A[DONT_GENERATE, DONT_INLINE]] */
     /* JADX WARN: Code duplicated, block: B:133:0x04a9  */
     /* JADX WARN: Code duplicated, block: B:134:0x04ad  */
@@ -4257,8 +4257,8 @@ public final class c40 extends pw6 {
                                             }
                                             a00Var = a00Var4;
                                             ex6 ex6Var = c40Var3.i;
-                                            SwiftApp.Companion companion = SwiftApp.d;
-                                            ex6Var.k(SwiftApp.Companion.c().getString(R.string.uploading_backup_files));
+                                            BareApp.Companion companion = BareApp.d;
+                                            ex6Var.k(BareApp.Companion.c().getString(R.string.uploading_backup_files));
                                             long jCurrentTimeMillis = System.currentTimeMillis();
                                             zn4 zn4Var9 = zn4.a;
                                             try {
@@ -7113,8 +7113,8 @@ public final class c40 extends pw6 {
                                                 }
                                                 a00Var = a00Var4;
                                                 ex6 ex6Var2 = c40Var3.i;
-                                                SwiftApp.Companion companion2 = SwiftApp.d;
-                                                ex6Var2.k(SwiftApp.Companion.c().getString(R.string.uploading_backup_files));
+                                                BareApp.Companion companion2 = BareApp.d;
+                                                ex6Var2.k(BareApp.Companion.c().getString(R.string.uploading_backup_files));
                                                 long jCurrentTimeMillis2 = System.currentTimeMillis();
                                                 zn4 zn4Var19 = zn4.a;
                                                 d45.b.getClass();
@@ -7276,8 +7276,8 @@ public final class c40 extends pw6 {
                                 } else {
                                     vr6.e$default(vr6Var5, "AppUploadTask", "Still no WiFi, skipping upload.", null, 4, null);
                                     String name = jiVar3.getName();
-                                    SwiftApp.Companion companion3 = SwiftApp.d;
-                                    xzVar.a = dj7.k(name, ": ", SwiftApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error));
+                                    BareApp.Companion companion3 = BareApp.d;
+                                    xzVar.a = dj7.k(name, ": ", BareApp.Companion.c().getString(R.string.cloud_upload_skipped_no_wifi_error));
                                     hlVar2 = hlVar;
                                     str = null;
                                     i5 = i10;

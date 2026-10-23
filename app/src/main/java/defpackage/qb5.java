@@ -13,21 +13,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity;
-import org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.notice.NoticeListActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.settings.MultipleBackupsActivity;
-import org.swiftapps.swiftbackup.settings.f;
-import org.swiftapps.swiftbackup.settings.i;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity;
+import com.bareapps.barebackup.messagescalls.backups.MessagesBackupsActivity;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.notice.NoticeListActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.settings.MultipleBackupsActivity;
+import com.bareapps.barebackup.settings.f;
+import com.bareapps.barebackup.settings.i;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -134,8 +134,8 @@ public final /* synthetic */ class qb5 implements bt3 {
                 yc6.k(setG);
                 return be8Var;
             case XmlPullParser.COMMENT /* 9 */:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return ((zn7) obj).q(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                return ((zn7) obj).q(BareApp.Companion.c());
             case 10:
                 return ((qa8) ((pa8) obj).K).c;
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
@@ -153,8 +153,8 @@ public final /* synthetic */ class qb5 implements bt3 {
                 if (toast != null) {
                     toast.cancel();
                 }
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Toast toastMakeText = Toast.makeText(SwiftApp.Companion.c(), R.string.reboot_required_to_restore_hidden_wifi_msg, 1);
+                BareApp.Companion companion2 = BareApp.d;
+                Toast toastMakeText = Toast.makeText(BareApp.Companion.c(), R.string.reboot_required_to_restore_hidden_wifi_msg, 1);
                 xs8Var.a = toastMakeText;
                 if (toastMakeText != null) {
                     toastMakeText.show();

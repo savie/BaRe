@@ -8,7 +8,7 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import org.swiftapps.swiftbackup.R;
+import com.bareapps.barebackup.R;
 
 /* JADX INFO: loaded from: classes.dex */
 public final class gs2 {

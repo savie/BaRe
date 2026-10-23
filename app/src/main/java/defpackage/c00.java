@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.json.JSONObject;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -360,10 +360,10 @@ public final class c00 implements jk8, ji3, vb8, cl6, OnCompleteListener {
         this.b = str.concat(".lck");
     }
 
-    public c00(SwiftApp swiftApp, Locale locale) {
+    public c00(BareApp bareApp, Locale locale) {
         this.a = 11;
         this.c = locale;
-        this.b = swiftApp.getSharedPreferences("lingver_preference", 0);
+        this.b = bareApp.getSharedPreferences("lingver_preference", 0);
     }
 
     public c00(uc2 uc2Var) {

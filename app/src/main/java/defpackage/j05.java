@@ -75,7 +75,7 @@ public abstract class j05 {
         }
     }
 
-    public static void d(BareApp swiftApp) {
+    public static void d(BareApp bareApp) {
         Locale localeB;
         LocaleList applicationLocales;
         if (b67.e()) {
@@ -94,7 +94,7 @@ public abstract class j05 {
         }
         Locale locale = localeB;
         try {
-            kv4.a(swiftApp, locale);
+            kv4.a(bareApp, locale);
             f(locale);
         } catch (Exception e) {
             vr6.e$default(vr6.INSTANCE, "LocaleManager", "Error while initing Lingver", e, null, 8, null);

@@ -69,7 +69,7 @@ public final class qy5 {
 
     public static String d(zn7 zn7Var) {
         zn7Var.getClass();
-        return zn7Var.l() + "/SwiftBackup/";
+        return zn7Var.l() + "/BareBackup/";
     }
 
     public static String e(MFirebaseUser mFirebaseUser) {

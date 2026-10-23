@@ -9,9 +9,9 @@ public final class ys7 extends ws7 implements qt3 {
     public final /* synthetic */ BareApp a;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public ys7(BareApp swiftApp, jv1 jv1Var) {
+    public ys7(BareApp bareApp, jv1 jv1Var) {
         super(2, jv1Var);
-        this.a = swiftApp;
+        this.a = bareApp;
     }
 
     @Override // defpackage.ml0
@@ -32,12 +32,12 @@ public final class ys7 extends ws7 implements qt3 {
         lg7.H(obj);
         vr6.i$default(vr6.INSTANCE, "App info", Const.l(), null, 4, null);
         boolean zC = b67.c();
-        BareApp swiftApp = this.a;
+        BareApp bareApp = this.a;
         if (zC) {
-            BareApp.a(swiftApp);
+            BareApp.a(bareApp);
         }
         if (b67.f()) {
-            BareApp.b(swiftApp);
+            BareApp.b(bareApp);
         }
         return be8.a;
     }

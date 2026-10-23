@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -26,8 +26,8 @@ public final class ok7 extends mk7 {
         if (!mp6.g) {
             return null;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
-        File fileCreateTempFile = File.createTempFile("settings_ssaid_", ".xml", SwiftApp.Companion.c().getCacheDir());
+        BareApp.Companion companion = BareApp.d;
+        File fileCreateTempFile = File.createTempFile("settings_ssaid_", ".xml", BareApp.Companion.c().getCacheDir());
         fileCreateTempFile.getClass();
         try {
             try {
@@ -56,8 +56,8 @@ public final class ok7 extends mk7 {
                             int i3 = i | 805306368;
                             int i4 = i3 >>> 28;
                             int i5 = (i4 == 0 || i4 == 2 || i4 == 3 || i4 == 4) ? -1 : Header.MAX_HEADER_STRING_LENGTH;
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            sparseArray.put(i3, new va7(SwiftApp.Companion.c(), obj, fileCreateTempFile, i5, handlerThread.getLooper()));
+                            BareApp.Companion companion2 = BareApp.d;
+                            sparseArray.put(i3, new va7(BareApp.Companion.c(), obj, fileCreateTempFile, i5, handlerThread.getLooper()));
                             va7 va7Var = (va7) sparseArray.get(g00.i() | 805306368);
                             Collection collectionValues = va7Var.d.values();
                             collectionValues.getClass();
@@ -133,8 +133,8 @@ public final class ok7 extends mk7 {
         Object next3;
         str.getClass();
         str2.getClass();
-        SwiftApp.Companion companion = SwiftApp.d;
-        File fileCreateTempFile = File.createTempFile("settings_ssaid_", ".xml", SwiftApp.Companion.c().getCacheDir());
+        BareApp.Companion companion = BareApp.d;
+        File fileCreateTempFile = File.createTempFile("settings_ssaid_", ".xml", BareApp.Companion.c().getCacheDir());
         fileCreateTempFile.getClass();
         try {
             try {
@@ -170,8 +170,8 @@ public final class ok7 extends mk7 {
                             int i4 = i2 | 805306368;
                             int i5 = i4 >>> 28;
                             int i6 = (i5 == 0 || i5 == 2 || i5 == 3 || i5 == 4) ? -1 : 20000;
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            sparseArray.put(i4, new va7(SwiftApp.Companion.c(), obj, fileCreateTempFile, i6, handlerThread.getLooper()));
+                            BareApp.Companion companion2 = BareApp.d;
+                            sparseArray.put(i4, new va7(BareApp.Companion.c(), obj, fileCreateTempFile, i6, handlerThread.getLooper()));
                             va7 va7Var2 = (va7) sparseArray.get(805306368 | g00.i());
                             ArrayMap arrayMap = va7Var2.d;
                             Collection collectionValues2 = arrayMap.values();
@@ -241,8 +241,8 @@ public final class ok7 extends mk7 {
                                     if (i7 != 4) {
                                         i = 20000;
                                     }
-                                    SwiftApp.Companion companion3 = SwiftApp.d;
-                                    sparseArray2.put(iE, new va7(SwiftApp.Companion.c(), obj2, fileCreateTempFile, i, handlerThread2.getLooper()));
+                                    BareApp.Companion companion3 = BareApp.d;
+                                    sparseArray2.put(iE, new va7(BareApp.Companion.c(), obj2, fileCreateTempFile, i, handlerThread2.getLooper()));
                                     va7Var = (va7) sparseArray2.get(va7.e(g00.i()));
                                     collectionValues = va7Var.d.values();
                                     collectionValues.getClass();
@@ -296,8 +296,8 @@ public final class ok7 extends mk7 {
                                                         int iE2 = va7.e(g00.i());
                                                         int i8 = iE2 >>> 28;
                                                         int i9 = (i8 == 0 || i8 == 2 || i8 == 3 || i8 == 4) ? -1 : 20000;
-                                                        SwiftApp.Companion companion4 = SwiftApp.d;
-                                                        sparseArray3.put(iE2, new va7(SwiftApp.Companion.c(), obj3, fileCreateTempFile, i9, handlerThread3.getLooper()));
+                                                        BareApp.Companion companion4 = BareApp.d;
+                                                        sparseArray3.put(iE2, new va7(BareApp.Companion.c(), obj3, fileCreateTempFile, i9, handlerThread3.getLooper()));
                                                         va7 va7Var3 = (va7) sparseArray3.get(va7.e(g00.i()));
                                                         Collection collectionValues5 = va7Var3.d.values();
                                                         collectionValues5.getClass();
@@ -361,8 +361,8 @@ public final class ok7 extends mk7 {
                                 }
                                 c = 4;
                                 i = -1;
-                                SwiftApp.Companion companion5 = SwiftApp.d;
-                                sparseArray2.put(iE, new va7(SwiftApp.Companion.c(), obj2, fileCreateTempFile, i, handlerThread2.getLooper()));
+                                BareApp.Companion companion5 = BareApp.d;
+                                sparseArray2.put(iE, new va7(BareApp.Companion.c(), obj2, fileCreateTempFile, i, handlerThread2.getLooper()));
                                 va7Var = (va7) sparseArray2.get(va7.e(g00.i()));
                                 collectionValues = va7Var.d.values();
                                 collectionValues.getClass();

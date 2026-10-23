@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.contributor.ContributorRegActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitItem;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.contributor.ContributorRegActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitItem;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -92,8 +92,8 @@ public final /* synthetic */ class nk implements mt3 {
                 b bVar = (b) obj;
                 bVar.getClass();
                 a.EnumC0013a enumC0013a = a.EnumC0013a.ERROR;
-                SwiftApp.Companion companion = SwiftApp.d;
-                return b.a(bVar, enumC0013a, ov2.a, sv2.a, SwiftApp.Companion.c().getString(R.string.cloud_orphan_tasks_running), 0, 0, 6271);
+                BareApp.Companion companion = BareApp.d;
+                return b.a(bVar, enumC0013a, ov2.a, sv2.a, BareApp.Companion.c().getString(R.string.cloud_orphan_tasks_running), 0, 0, 6271);
             case 6:
                 Locale locale = (Locale) obj;
                 int i = ContributorRegActivity.S;

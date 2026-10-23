@@ -33,9 +33,9 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.premium.PremiumActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

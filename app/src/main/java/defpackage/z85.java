@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.TypedValue;
 import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
-import com.swiftapps.sba.SbaSwiftTarNative;
-import com.swiftapps.sba.internal.tar.SbaTarEntryInfo;
+import com.bareapps.sba.SbaBareTarNative;
+import com.bareapps.sba.internal.tar.SbaTarEntryInfo;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -28,11 +28,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials;
-import org.swiftapps.swiftbackup.folders.data.FolderState;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.CloudCredentials;
+import com.bareapps.barebackup.folders.data.FolderState;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
@@ -106,8 +106,8 @@ public abstract class z85 {
             intentPutExtra.getClass();
             sa1Var.startActivity(intentPutExtra);
         } else {
-            SwiftApp.Companion companion = SwiftApp.d;
-            Context contextC = SwiftApp.Companion.c();
+            BareApp.Companion companion = BareApp.d;
+            Context contextC = BareApp.Companion.c();
             zn4 zn4Var = zn4.a;
             dj7.y(contextC, "Feature not supported on this device");
         }
@@ -394,14 +394,14 @@ public abstract class z85 {
         }
         ParcelFileDescriptor parcelFileDescriptorOpen = ParcelFileDescriptor.open(file, 268435456);
         try {
-            SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+            SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
             FileDescriptor fileDescriptor = parcelFileDescriptorOpen.getFileDescriptor();
             fileDescriptor.getClass();
             String canonicalPath = file2.getCanonicalPath();
             canonicalPath.getClass();
             ParcelFileDescriptor parcelFileDescriptorDup = ParcelFileDescriptor.dup(fileDescriptor);
             try {
-                long[] jArrA = SbaSwiftTarNative.a(length, canonicalPath, iS, strArr, vqVarQ, parcelFileDescriptorDup.getFd());
+                long[] jArrA = SbaBareTarNative.a(length, canonicalPath, iS, strArr, vqVarQ, parcelFileDescriptorDup.getFd());
                 parcelFileDescriptorDup.close();
                 v17 v17VarK = vm4.k(jArrA);
                 d27 d27Var = new d27(v17VarK.a, v17VarK.b, v17VarK.c, v17VarK.d, v17VarK.e, v17VarK.f, v17VarK.g, v17VarK.h, v17VarK.i);
@@ -733,10 +733,10 @@ public abstract class z85 {
         try {
             ParcelFileDescriptor parcelFileDescriptorOpen = ParcelFileDescriptor.open(file, 268435456);
             try {
-                SbaSwiftTarNative sbaSwiftTarNative = SbaSwiftTarNative.a;
+                SbaBareTarNative sbaBareTarNative = SbaBareTarNative.a;
                 FileDescriptor fileDescriptor = parcelFileDescriptorOpen.getFileDescriptor();
                 fileDescriptor.getClass();
-                SbaTarEntryInfo[] sbaTarEntryInfoArrD = SbaSwiftTarNative.d(fileDescriptor, length);
+                SbaTarEntryInfo[] sbaTarEntryInfoArrD = SbaBareTarNative.d(fileDescriptor, length);
                 ArrayList arrayList = new ArrayList(sbaTarEntryInfoArrD.length);
                 for (SbaTarEntryInfo sbaTarEntryInfo : sbaTarEntryInfoArrD) {
                     arrayList.add(G(sbaTarEntryInfo));

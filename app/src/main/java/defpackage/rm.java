@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.Map;
 import okhttp3.internal.http2.Http2Connection;
 import okhttp3.internal.http2.Settings;
-import org.swiftapps.swiftbackup.blacklist.BlacklistActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.data.a;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.settings.FolderRestoreStrategy;
+import com.bareapps.barebackup.blacklist.BlacklistActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.data.a;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.settings.FolderRestoreStrategy;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

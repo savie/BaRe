@@ -10,17 +10,17 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.ModuleDescriptor;
 import com.google.android.material.textfield.TextInputLayout;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.settings.LicensesActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.walls.WallApplyActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.settings.LicensesActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.walls.WallApplyActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */

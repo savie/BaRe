@@ -21,11 +21,11 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.anonymous.MFirebaseUser;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.anonymous.MFirebaseUser;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.walls.WallsDashActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -75,11 +75,11 @@ public final /* synthetic */ class qm implements bt3 {
             case 4:
                 return dd1._init_$lambda$16();
             case 5:
-                SwiftApp.Companion companion = SwiftApp.d;
-                return new we1(SwiftApp.Companion.c());
+                BareApp.Companion companion = BareApp.d;
+                return new we1(BareApp.Companion.c());
             case 6:
-                SwiftApp.Companion companion2 = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion2 = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 String string = contextC.getString(R.string.list_is_empty);
                 string.getClass();
                 zn4 zn4Var = zn4.a;
@@ -135,8 +135,8 @@ public final /* synthetic */ class qm implements bt3 {
                 return mz6.u("extract");
             case 18:
                 g00 g00Var = g00.a;
-                SwiftApp.Companion companion3 = SwiftApp.d;
-                PackageInfo packageInfoQ = g00.q(0, SwiftApp.Companion.c().getPackageName());
+                BareApp.Companion companion3 = BareApp.d;
+                PackageInfo packageInfoQ = g00.q(0, BareApp.Companion.c().getPackageName());
                 if (packageInfoQ != null && (applicationInfo = packageInfoQ.applicationInfo) != null) {
                     File file = new File(applicationInfo.sourceDir);
                     String str = "dev";
@@ -156,10 +156,10 @@ public final /* synthetic */ class qm implements bt3 {
                         str = "stable";
                     }
                     String str2 = ry5.u;
-                    q63 q63Var = new q63(qy5.f(false, null).a, "swift_backup_apks/".concat(str), 2);
+                    q63 q63Var = new q63(qy5.f(false, null).a, "bare_backup_apks/".concat(str), 2);
                     q63 q63Var2 = new q63(2, q63Var, packageInfoQ.versionName + " (" + jd4.r(packageInfoQ) + ").apk");
                     if (q63Var2.j() && q63Var2.A() == file.length()) {
-                        Log.i("SwiftBackupApkSaver", "APK already saved to SwiftBackup folder");
+                        Log.i("BareBackupApkSaver", "APK already saved to BareBackup folder");
                     } else {
                         cy0.e(q63Var);
                         io4.g(q63Var2);
@@ -171,7 +171,7 @@ public final /* synthetic */ class qm implements bt3 {
                                 outputStreamF.close();
                                 fileInputStream.close();
                                 if (q63Var2.A() == file.length()) {
-                                    vr6.i$default(vr6.INSTANCE, "SwiftBackupApkSaver", xs1.i(q63Var2, "Copied Swift Backup APK to "), null, 4, null);
+                                    vr6.i$default(vr6.INSTANCE, "BareBackupApkSaver", xs1.i(q63Var2, "Copied Bare Backup APK to "), null, 4, null);
                                 }
                             } catch (Throwable th) {
                                 try {
@@ -200,8 +200,8 @@ public final /* synthetic */ class qm implements bt3 {
             case 20:
                 return Long.valueOf(System.currentTimeMillis());
             case 21:
-                SwiftApp.Companion companion4 = SwiftApp.d;
-                String packageName = SwiftApp.Companion.c().getPackageName();
+                BareApp.Companion companion4 = BareApp.d;
+                String packageName = BareApp.Companion.c().getPackageName();
                 boolean z4 = hp0.a;
                 packageName.getClass();
                 hp0.a(packageName, false);

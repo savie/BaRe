@@ -37,29 +37,29 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.Config;
-import org.swiftapps.swiftbackup.appconfigs.data.ConfigSettings;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.NoGmsSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity;
-import org.swiftapps.swiftbackup.cloud.orphans.a;
-import org.swiftapps.swiftbackup.cloud.orphans.b;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderEditActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.intro.IntroActivity;
-import org.swiftapps.swiftbackup.intro.d;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity;
-import org.swiftapps.swiftbackup.premium.PremiumActivity;
-import org.swiftapps.swiftbackup.views.QuickRecyclerView;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.Config;
+import com.bareapps.barebackup.appconfigs.data.ConfigSettings;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.cloud.connect.GmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.NoGmsSignInActivity;
+import com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity;
+import com.bareapps.barebackup.cloud.orphans.a;
+import com.bareapps.barebackup.cloud.orphans.b;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderEditActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.intro.IntroActivity;
+import com.bareapps.barebackup.intro.d;
+import com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity;
+import com.bareapps.barebackup.messagescalls.dash.CallsDashActivity;
+import com.bareapps.barebackup.premium.PremiumActivity;
+import com.bareapps.barebackup.views.QuickRecyclerView;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -249,7 +249,7 @@ public final /* synthetic */ class w20 implements mt3 {
                             } else {
                                 arrayList2 = arrayList;
                             }
-                            q01 q01Var = new q01(new g11(2, callsDashActivity, CallsDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/model/provider/CallLogBackupItem;)V", 0, 0));
+                            q01 q01Var = new q01(new g11(2, callsDashActivity, CallsDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/model/provider/CallLogBackupItem;)V", 0, 0));
                             arrayList3 = arrayList2;
                             q01Var.w(new fm7((List) arrayList3, (Set) null, false, (String) null, 30), false);
                             q01Var.j = new rj0(callsDashActivity, 1);
@@ -292,7 +292,7 @@ public final /* synthetic */ class w20 implements mt3 {
                     } else {
                         arrayList2 = arrayList;
                     }
-                    q01 q01Var2 = new q01(new g11(2, callsDashActivity, CallsDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/model/provider/CallLogBackupItem;)V", 0, 0));
+                    q01 q01Var2 = new q01(new g11(2, callsDashActivity, CallsDashActivity.class, "onBackupItemMenuClick", "onBackupItemMenuClick(Landroid/view/View;Lorg/bareapps/barebackup/model/provider/CallLogBackupItem;)V", 0, 0));
                     arrayList3 = arrayList2;
                     q01Var2.w(new fm7((List) arrayList3, (Set) null, false, (String) null, 30), false);
                     q01Var2.j = new rj0(callsDashActivity, 1);
@@ -326,8 +326,8 @@ public final /* synthetic */ class w20 implements mt3 {
                 b bVar = (b) obj;
                 bVar.getClass();
                 a.EnumC0013a enumC0013a = a.EnumC0013a.ERROR;
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 String message = ((Exception) obj2).getMessage();
                 return b.a(bVar, enumC0013a, ov2.a, sv2.a, contextC.getString(R.string.cloud_orphan_scan_failed, message != null ? message : ""), 0, 0, 6271);
             case 7:
@@ -408,7 +408,7 @@ public final /* synthetic */ class w20 implements mt3 {
                     extendedFloatingActionButton.startAnimation(AnimationUtils.loadAnimation(configEditActivity, extendedFloatingActionButton.isEnabled() ? R.anim.bottom_sheet_enter : R.anim.bottom_sheet_exit));
                 }
                 sz8.d0(extendedFloatingActionButton, extendedFloatingActionButton.isEnabled());
-                int i9 = org.swiftapps.swiftbackup.appconfigs.edit.a.a[aVar.ordinal()];
+                int i9 = com.bareapps.barebackup.appconfigs.edit.a.a[aVar.ordinal()];
                 if (i9 == 1) {
                     int color = configEditActivity.getColor(sz8.y(configEditActivity, R.attr.colorPrimaryContainer));
                     int color2 = configEditActivity.getColor(sz8.y(configEditActivity, R.attr.colorOnPrimaryContainer));

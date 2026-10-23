@@ -9,8 +9,8 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -222,7 +222,7 @@ public final class xa4 implements jl0 {
         if (finalSubscriptionPricingPhase != null && (str = finalSubscriptionPricingPhase.a) != null) {
             str3 = str;
         }
-        SwiftApp.Companion companion = SwiftApp.d;
+        BareApp.Companion companion = BareApp.d;
         String strG = dj7.g(R.string.year);
         String string = null;
         try {

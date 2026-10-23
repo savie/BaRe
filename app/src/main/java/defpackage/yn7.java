@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.Const;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.Const;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -70,8 +70,8 @@ public final class yn7 {
                 }
                 boolean zIsRemovable = storageVolume.isRemovable();
                 if (usbDeviceF == null) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    String description = storageVolume.getDescription(SwiftApp.Companion.c());
+                    BareApp.Companion companion = BareApp.d;
+                    String description = storageVolume.getDescription(BareApp.Companion.c());
                     if (description != null && nq7.Z(description, "usb", true)) {
                         Z2 = true;
                     }
@@ -82,8 +82,8 @@ public final class yn7 {
                             str = manufacturerName2;
                         }
                         if (str != null) {
-                            SwiftApp.Companion companion2 = SwiftApp.d;
-                            String description2 = storageVolume.getDescription(SwiftApp.Companion.c());
+                            BareApp.Companion companion2 = BareApp.d;
+                            String description2 = storageVolume.getDescription(BareApp.Companion.c());
                             description2.getClass();
                             Z2 = nq7.Z(description2, str, true);
                         }
@@ -106,11 +106,11 @@ public final class yn7 {
                 }
             }
             arrayList2 = new ArrayList();
-            SwiftApp.Companion companion3 = SwiftApp.d;
-            File[] externalFilesDirs = SwiftApp.Companion.c().getExternalFilesDirs(null);
+            BareApp.Companion companion3 = BareApp.d;
+            File[] externalFilesDirs = BareApp.Companion.c().getExternalFilesDirs(null);
             externalFilesDirs.getClass();
             List listP0 = x50.p0(externalFilesDirs);
-            Object systemService = SwiftApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
+            Object systemService = BareApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
             systemService.getClass();
             StorageManager storageManager = (StorageManager) systemService;
             UsbDevice usbDeviceF2 = f();
@@ -121,8 +121,8 @@ public final class yn7 {
                     StorageVolume storageVolume2 = storageManager.getStorageVolume(file);
                     if (usbDeviceF2 == null) {
                         if (storageVolume2 != null) {
-                            SwiftApp.Companion companion4 = SwiftApp.d;
-                            String description3 = storageVolume2.getDescription(SwiftApp.Companion.c());
+                            BareApp.Companion companion4 = BareApp.d;
+                            String description3 = storageVolume2.getDescription(BareApp.Companion.c());
                             if (description3 == null || !nq7.Z(description3, "usb", true)) {
                                 Z = false;
                             } else {
@@ -138,8 +138,8 @@ public final class yn7 {
                             manufacturerName = null;
                         }
                         if (manufacturerName != null) {
-                            SwiftApp.Companion companion5 = SwiftApp.d;
-                            String description4 = storageVolume2.getDescription(SwiftApp.Companion.c());
+                            BareApp.Companion companion5 = BareApp.d;
+                            String description4 = storageVolume2.getDescription(BareApp.Companion.c());
                             description4.getClass();
                             Z = nq7.Z(description4, manufacturerName, true);
                         } else {
@@ -153,8 +153,8 @@ public final class yn7 {
             }
             if (arrayList2.isEmpty() || arrayList2.isEmpty()) {
                 File externalStorageDirectory = Environment.getExternalStorageDirectory();
-                SwiftApp.Companion companion6 = SwiftApp.d;
-                q63Var = new q63(externalStorageDirectory, eq3.k("Android/data/", SwiftApp.Companion.c().getPackageName(), "/files"), 2);
+                BareApp.Companion companion6 = BareApp.d;
+                q63Var = new q63(externalStorageDirectory, eq3.k("Android/data/", BareApp.Companion.c().getPackageName(), "/files"), 2);
                 if (arrayList2.isEmpty()) {
                     arrayList2.add(0, new zn7(q63Var, false, false));
                 } else {
@@ -172,8 +172,8 @@ public final class yn7 {
                     }
                 }
                 File externalStorageDirectory2 = Environment.getExternalStorageDirectory();
-                SwiftApp.Companion companion7 = SwiftApp.d;
-                q63Var = new q63(externalStorageDirectory2, eq3.k("Android/data/", SwiftApp.Companion.c().getPackageName(), "/files"), 2);
+                BareApp.Companion companion7 = BareApp.d;
+                q63Var = new q63(externalStorageDirectory2, eq3.k("Android/data/", BareApp.Companion.c().getPackageName(), "/files"), 2);
                 if (arrayList2.isEmpty()) {
                     arrayList2.add(0, new zn7(q63Var, false, false));
                 } else {
@@ -225,8 +225,8 @@ public final class yn7 {
     public static UsbDevice f() {
         HashMap<String, UsbDevice> deviceList;
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            UsbManager usbManager = (UsbManager) SwiftApp.Companion.c().getSystemService(UsbManager.class);
+            BareApp.Companion companion = BareApp.d;
+            UsbManager usbManager = (UsbManager) BareApp.Companion.c().getSystemService(UsbManager.class);
             if (usbManager != null && (deviceList = usbManager.getDeviceList()) != null) {
                 for (UsbDevice usbDevice : deviceList.values()) {
                     usbDevice.getClass();
@@ -247,8 +247,8 @@ public final class yn7 {
     }
 
     public static List g() {
-        SwiftApp.Companion companion = SwiftApp.d;
-        Object systemService = SwiftApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
+        BareApp.Companion companion = BareApp.d;
+        Object systemService = BareApp.Companion.c().getSystemService((Class<Object>) StorageManager.class);
         systemService.getClass();
         StorageManager storageManager = (StorageManager) systemService;
         List<StorageVolume> storageVolumes = storageManager.getStorageVolumes();

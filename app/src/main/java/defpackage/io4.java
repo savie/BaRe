@@ -40,7 +40,7 @@ public abstract class io4 {
 
     public static final int c(Context context, int i) {
         context.getClass();
-        int iC = z85.C(context, jm1.T(org.swiftapps.swiftbackup.R.attr.colorPrimary, context, z85.class.getCanonicalName()));
+        int iC = z85.C(context, jm1.T(com.bareapps.barebackup.R.attr.colorPrimary, context, z85.class.getCanonicalName()));
         b34 b34Var = new b34(i);
         b34 b34Var2 = new b34(iC);
         double dMin = Math.min((180.0d - Math.abs(Math.abs(b34Var.a - b34Var2.a) - 180.0d)) * 0.5d, 15.0d);

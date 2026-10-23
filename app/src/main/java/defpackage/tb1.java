@@ -3,8 +3,8 @@ package defpackage;
 import android.content.Intent;
 import android.util.Log;
 import com.google.android.gms.auth.UserRecoverableAuthException;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.model.CloudResult;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.model.CloudResult;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -97,8 +97,8 @@ public abstract class tb1 {
                     }
                 }
                 if (intent2 != null) {
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    ai8.p(SwiftApp.Companion.c(), intent2);
+                    BareApp.Companion companion = BareApp.d;
+                    ai8.p(BareApp.Companion.c(), intent2);
                 }
             }
             c.i(rb1.DRIVE_NOT_CONNECTED);

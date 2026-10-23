@@ -14,18 +14,18 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import okhttp3.Response;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.V;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity;
-import org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.model.firebase.WifiCloudDetails;
-import org.swiftapps.swiftbackup.password.PasswordStrategyActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.tasks.ui.TaskActivity;
-import org.swiftapps.swiftbackup.walls.WallsDashActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.V;
+import com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity;
+import com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.model.firebase.WifiCloudDetails;
+import com.bareapps.barebackup.password.PasswordStrategyActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.tasks.ui.TaskActivity;
+import com.bareapps.barebackup.walls.WallsDashActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -168,8 +168,8 @@ public final /* synthetic */ class us5 implements bt3 {
                         ny2.b().e(wr8Var);
                         return be8Var;
                     }
-                    SwiftApp.Companion companion = SwiftApp.d;
-                    Context contextC = SwiftApp.Companion.c();
+                    BareApp.Companion companion = BareApp.d;
+                    Context contextC = BareApp.Companion.c();
                     String string = contextC.getString(R.string.unknown_error_occured);
                     string.getClass();
                     zn4 zn4Var2 = zn4.a;

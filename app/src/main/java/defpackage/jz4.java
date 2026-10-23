@@ -23,7 +23,7 @@ public final class jz4 extends BroadcastReceiver {
         Uri data = intent.getData();
         data.getClass();
         String schemeSpecificPart = data.getSchemeSpecificPart();
-        if (pe4.d(schemeSpecificPart, "org.swiftapps.swiftbackup")) {
+        if (pe4.d(schemeSpecificPart, "com.bareapps.barebackup")) {
             return;
         }
         Log.d("LocalAppChangeReceiver", "onReceive: " + intent);

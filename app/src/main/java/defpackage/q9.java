@@ -7,10 +7,10 @@ import com.jcraft.jsch.Argon2;
 import java.security.SecureRandom;
 import java.util.concurrent.Executors;
 import okhttp3.OkHttpClient;
-import org.swiftapps.rootservice.ShellHelper;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.NotificationHelper;
-import org.swiftapps.swiftbackup.common.V;
+import com.bareapps.rootservice.ShellHelper;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.NotificationHelper;
+import com.bareapps.barebackup.common.V;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -54,8 +54,8 @@ public final /* synthetic */ class q9 implements bt3 {
                 return Executors.newSingleThreadExecutor();
             case 10:
                 gv7 gv7Var = NotificationHelper.a;
-                SwiftApp.Companion companion = SwiftApp.d;
-                return (NotificationManager) SwiftApp.Companion.c().getSystemService(NotificationManager.class);
+                BareApp.Companion companion = BareApp.d;
+                return (NotificationManager) BareApp.Companion.c().getSystemService(NotificationManager.class);
             case ModuleDescriptor.MODULE_VERSION /* 11 */:
                 return b67.c() ? sz8.Y("android.permission.MANAGE_EXTERNAL_STORAGE") : x50.A0(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"});
             case 12:

@@ -11,16 +11,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity;
-import org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity;
-import org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.home.HomeActivity;
-import org.swiftapps.swiftbackup.home.schedule.ScheduleService;
-import org.swiftapps.swiftbackup.home.schedule.a;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.appconfigs.list.ConfigListActivity;
+import com.bareapps.barebackup.appslist.ui.labels.LabelsActivity;
+import com.bareapps.barebackup.appsquickactions.AppsQuickActionsActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.home.schedule.ScheduleService;
+import com.bareapps.barebackup.home.schedule.a;
+import com.bareapps.barebackup.home.schedule.data.ScheduleItem;
+import com.bareapps.barebackup.wifi.WifiActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

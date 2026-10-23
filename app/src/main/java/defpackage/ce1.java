@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter;
 import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.cloud.connect.CsActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.data.FolderBackup$IncrementalBackup;
-import org.swiftapps.swiftbackup.home.schedule.data.ScheduleData;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.cloud.connect.CsActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.data.FolderBackup$IncrementalBackup;
+import com.bareapps.barebackup.home.schedule.data.ScheduleData;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */

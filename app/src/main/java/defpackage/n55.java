@@ -7,20 +7,20 @@ import com.google.android.gms.dynamite.descriptors.com.google.firebase.auth.Modu
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.util.Locale;
 import java.util.Map;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity;
-import org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFabMenuView;
-import org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity;
-import org.swiftapps.swiftbackup.manage.ManageSpaceActivity;
-import org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity;
-import org.swiftapps.swiftbackup.model.firebase.AppSettings;
-import org.swiftapps.swiftbackup.notice.NoticeListActivity;
-import org.swiftapps.swiftbackup.password.UserPasswordActivity;
-import org.swiftapps.swiftbackup.settings.SettingsActivity;
-import org.swiftapps.swiftbackup.slog.SLogActivity;
-import org.swiftapps.swiftbackup.wifi.WifiActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.connect.MegaSignInActivity;
+import com.bareapps.barebackup.cloud.connect.TeraBoxSignInActivity;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFabMenuView;
+import com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity;
+import com.bareapps.barebackup.manage.ManageSpaceActivity;
+import com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity;
+import com.bareapps.barebackup.model.firebase.AppSettings;
+import com.bareapps.barebackup.notice.NoticeListActivity;
+import com.bareapps.barebackup.password.UserPasswordActivity;
+import com.bareapps.barebackup.settings.SettingsActivity;
+import com.bareapps.barebackup.slog.SLogActivity;
+import com.bareapps.barebackup.wifi.WifiActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -93,7 +93,7 @@ public final /* synthetic */ class n55 implements bt3 {
                 throw null;
             case 8:
                 final pa7 pa7Var = (pa7) obj;
-                final boolean zB = hp0.b("org.swiftapps.swiftbackup");
+                final boolean zB = hp0.b("com.bareapps.barebackup");
                 SettingsActivity settingsActivity = (SettingsActivity) pa7Var.getActivity();
                 if (settingsActivity != null && !settingsActivity.isFinishing()) {
                     settingsActivity.runOnUiThread(new Runnable() { // from class: na7
@@ -105,8 +105,8 @@ public final /* synthetic */ class n55 implements bt3 {
                 }
                 return be8Var;
             case XmlPullParser.COMMENT /* 9 */:
-                SwiftApp.Companion companion = SwiftApp.d;
-                Context contextC = SwiftApp.Companion.c();
+                BareApp.Companion companion = BareApp.d;
+                Context contextC = BareApp.Companion.c();
                 Locale locale = Locale.ENGLISH;
                 locale.getClass();
                 return ((zn7) obj).q(sz8.u(contextC, locale));

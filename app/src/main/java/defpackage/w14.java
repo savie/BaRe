@@ -9,8 +9,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.common.a;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.common.a;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -86,8 +86,8 @@ public final class w14 {
         }
         ArrayList arrayList = new ArrayList();
         try {
-            SwiftApp.Companion companion = SwiftApp.d;
-            q63 q63Var2 = new q63(SwiftApp.Companion.c().getCacheDir(), "temp", 2);
+            BareApp.Companion companion = BareApp.d;
+            q63 q63Var2 = new q63(BareApp.Companion.c().getCacheDir(), "temp", 2);
             q63Var2.h();
             gv7 gv7Var = y32.a;
             if (y32.d && !y32.b(new ck(q63Var, 25), new u14(q63Var2, 0))) {

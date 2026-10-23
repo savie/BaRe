@@ -11,18 +11,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.appconfigs.data.Config;
-import org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity;
-import org.swiftapps.swiftbackup.blacklist.data.BlacklistApp;
-import org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.detail.DetailActivity;
-import org.swiftapps.swiftbackup.folders.data.FolderItem;
-import org.swiftapps.swiftbackup.folders.data.FolderMetadata;
-import org.swiftapps.swiftbackup.folders.data.a;
-import org.swiftapps.swiftbackup.walls.WallsManageActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.appconfigs.data.Config;
+import com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity;
+import com.bareapps.barebackup.blacklist.data.BlacklistApp;
+import com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.detail.DetailActivity;
+import com.bareapps.barebackup.folders.data.FolderItem;
+import com.bareapps.barebackup.folders.data.FolderMetadata;
+import com.bareapps.barebackup.folders.data.a;
+import com.bareapps.barebackup.walls.WallsManageActivity;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -65,8 +65,8 @@ public final /* synthetic */ class cv implements bt3 {
                 rs0 rs0Var = (rs0) obj2;
                 BlacklistApp blacklistApp = (BlacklistApp) obj;
                 long jCurrentTimeMillis = System.currentTimeMillis();
-                SwiftApp.Companion companion = SwiftApp.d;
-                String string = SwiftApp.Companion.c().getString(R.string.deleting_backup);
+                BareApp.Companion companion = BareApp.d;
+                String string = BareApp.Companion.c().getString(R.string.deleting_backup);
                 string.getClass();
                 rs0Var.i(string);
                 try {
@@ -132,7 +132,7 @@ public final /* synthetic */ class cv implements bt3 {
                     ArrayList arrayList = new ArrayList();
                     arrayList.add(zn7Var.n());
                     arrayList.add(zn7Var.n().J("Android"));
-                    arrayList.add(zn7Var.n().J("SwiftBackup"));
+                    arrayList.add(zn7Var.n().J("BareBackup"));
                     z = (arrayList.contains(q63Var) || !q63Var.n().getFile().canRead() || q63Var.b()) ? false : true;
                 }
                 return Boolean.valueOf(z);

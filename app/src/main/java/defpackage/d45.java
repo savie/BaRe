@@ -52,8 +52,8 @@ public final class d45 {
         boolean z2;
         Iterator it = this.a.iterator();
         while (it.hasNext()) {
-            BareApp swiftApp = (BareApp) ((a45) it.next());
-            swiftApp.getClass();
+            BareApp bareApp = (BareApp) ((a45) it.next());
+            bareApp.getClass();
             b.getClass();
             MFirebaseUser mFirebaseUserA = a();
             if (mFirebaseUserA != null) {
@@ -106,8 +106,8 @@ public final class d45 {
                     throw null;
                 }
                 editor2.putBoolean("KEY_FIRST_START", true).commit();
-                ((AlarmReceiver) swiftApp.c.getValue()).a();
-                ((ix6) swiftApp.b.getValue()).k(Boolean.TRUE);
+                ((AlarmReceiver) bareApp.c.getValue()).a();
+                ((ix6) bareApp.b.getValue()).k(Boolean.TRUE);
             }
         }
     }

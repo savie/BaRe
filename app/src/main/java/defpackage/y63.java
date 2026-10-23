@@ -9,9 +9,9 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.io.File;
 import java.util.List;
-import org.swiftapps.swiftbackup.R;
-import org.swiftapps.swiftbackup.common.Const;
-import org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity;
+import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.common.Const;
+import com.bareapps.barebackup.folders.ui.FolderDetailActivity;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
@@ -47,14 +47,14 @@ public final /* synthetic */ class y63 extends cu3 implements mt3 {
                 } else {
                     String path = file.getPath();
                     path.getClass();
-                    if (nq7.Z(path, "SwiftBackup", false)) {
-                        if (pe4.d(file.getName(), "SwiftBackup") && file.canWrite()) {
+                    if (nq7.Z(path, "BareBackup", false)) {
+                        if (pe4.d(file.getName(), "BareBackup") && file.canWrite()) {
                             p63Var.b(file);
                         } else {
                             String path2 = file.getPath();
                             path2.getClass();
                             List listW0 = nq7.w0(path2, new char[]{'/'}, 6);
-                            File file2 = new File(el1.Y0(listW0.subList(0, listW0.indexOf("SwiftBackup") + 1), "/", null, null, null, 62));
+                            File file2 = new File(el1.Y0(listW0.subList(0, listW0.indexOf("BareBackup") + 1), "/", null, null, null, 62));
                             if (file2.canWrite()) {
                                 p63Var.b(file2);
                             } else if (!file.canWrite()) {

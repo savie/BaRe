@@ -13,10 +13,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 import okhttp3.OkHttpClient;
-import org.swiftapps.swiftbackup.SwiftApp;
-import org.swiftapps.swiftbackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
-import org.swiftapps.swiftbackup.home.search.HomeSearchActivity;
-import org.swiftapps.swiftbackup.settings.MultipleBackupStrategy;
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.barebackup.cloud.protocols.terabox.TeraBoxTokenCredentials;
+import com.bareapps.barebackup.home.search.HomeSearchActivity;
+import com.bareapps.barebackup.settings.MultipleBackupStrategy;
 import org.xmlpull.v1.XmlPullParser;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
@@ -83,8 +83,8 @@ public final /* synthetic */ class zj implements bt3 {
             case 18:
                 return new TeraBoxTokenCredentials(null, null, 0L, null, null, null, null, null, 255, null);
             default:
-                SwiftApp.Companion companion = SwiftApp.d;
-                Object systemService = SwiftApp.Companion.c().getApplicationContext().getSystemService("wifi");
+                BareApp.Companion companion = BareApp.d;
+                Object systemService = BareApp.Companion.c().getApplicationContext().getSystemService("wifi");
                 systemService.getClass();
                 return (WifiManager) systemService;
         }
