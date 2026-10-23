@@ -53,11 +53,65 @@ jobs:
         run: |
           set -euo pipefail
           cp -a reference/apktool build-src
+          mkdir -p build
+          git fetch --no-tags --depth=1 origin rewrite
+          git show FETCH_HEAD:app/google-services.json > build/google-services.json
           python3 - <<'PY'
           from pathlib import Path
+          import json
           import re
+          from xml.sax.saxutils import escape
 
           root = Path("build-src")
+          firebase_json = json.loads(Path("build/google-services.json").read_text())
+          project_info = firebase_json.get("project_info", {})
+          clients = firebase_json.get("client", [])
+          firebase_client = next(
+              (item for item in clients
+               if item.get("client_info", {}).get("android_client_info", {}).get("package_name")
+               == "com.bareapps.barebackup"),
+              None,
+          )
+          assert firebase_client is not None, (
+              "rewrite/app/google-services.json has no client for com.bareapps.barebackup"
+          )
+          client_info = firebase_client.get("client_info", {})
+          api_keys = firebase_client.get("api_key", [])
+          assert client_info.get("mobilesdk_app_id"), "Firebase mobilesdk_app_id is missing"
+          assert api_keys and api_keys[0].get("current_key"), "Firebase API key is missing"
+          assert project_info.get("project_id") and project_info.get("project_number"), (
+              "Firebase project_id/project_number is missing"
+          )
+
+          firebase_values = {
+              "google_app_id": client_info["mobilesdk_app_id"],
+              "google_api_key": api_keys[0]["current_key"],
+              "gcm_defaultSenderId": project_info["project_number"],
+              "project_id": project_info["project_id"],
+          }
+          if project_info.get("storage_bucket"):
+              firebase_values["google_storage_bucket"] = project_info["storage_bucket"]
+          if project_info.get("firebase_url"):
+              firebase_values["firebase_database_url"] = project_info["firebase_url"]
+          for oauth_client in firebase_client.get("oauth_client", []):
+              if str(oauth_client.get("client_type")) == "3" and oauth_client.get("client_id"):
+                  firebase_values["default_web_client_id"] = oauth_client["client_id"]
+                  break
+
+          values_dir = root / "res/values"
+          values_dir.mkdir(parents=True, exist_ok=True)
+          resource_lines = [
+              '<?xml version="1.0" encoding="utf-8"?>',
+              '<resources>',
+          ]
+          for name, value in firebase_values.items():
+              resource_lines.append(
+                  f'    <string name="{name}" translatable="false">{escape(str(value))}</string>'
+              )
+          resource_lines.append('</resources>')
+          (values_dir / "bare_firebase.xml").write_text("\\n".join(resource_lines) + "\\n")
+          print("Loaded Firebase resources for com.bareapps.barebackup from rewrite/app/google-services.json (values redacted).")
+
           manifest = root / "AndroidManifest.xml"
           text = manifest.read_text()
           old = 'package="org.swiftapps.swiftbackup"'
@@ -69,7 +123,39 @@ jobs:
           for suffix in ("fileprovider", "shizuku", "tedpermissionprovider", "androidx-startup"):
               text = text.replace(f'org.swiftapps.swiftbackup.{suffix}',
                                   f'com.bareapps.barebackup.{suffix}')
+          # Apktool rebuilds do not perform Gradle manifest merging. Add Firebase's
+          # initialization provider explicitly, using this app's own generated resources.
+          assert "com.google.firebase.provider.FirebaseInitProvider" not in text, (
+              "FirebaseInitProvider unexpectedly already exists in the manifest"
+          )
+          provider = (
+              '        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" '
+              'android:authorities="com.bareapps.barebackup.firebaseinitprovider" '
+              'android:exported="false" android:initOrder="100" />\\n'
+          )
+          assert text.count("</application>") == 1, "Expected one application closing tag"
+          text = text.replace("</application>", provider + "    </application>", 1)
           manifest.write_text(text)
+
+          # The decompiled reference manifest omitted FirebaseInitProvider, so explicitly
+          # initialize Firebase at the start of Application.onCreate as a second safeguard.
+          app_smali = root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali"
+          app_source = app_smali.read_text()
+          on_create = ".method public final onCreate()V"
+          start = app_source.find(on_create)
+          assert start >= 0, "SwiftApp.onCreate() was not found"
+          super_call = "    invoke-super {p0}, Landroid/app/Application;->onCreate()V"
+          call_at = app_source.find(super_call, start)
+          assert call_at >= 0, "SwiftApp.onCreate() super call was not found"
+          call_end = call_at + len(super_call)
+          firebase_init = (
+              "\\n\\n    # Initialize the BΛR☰ Firebase project before any Firebase-backed "
+              "class is touched.\\n"
+              "    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;\\n"
+              "    move-result-object v0"
+          )
+          app_source = app_source[:call_end] + firebase_init + app_source[call_end:]
+          app_smali.write_text(app_source)
 
           strings = root / "res/values/strings.xml"
           st = strings.read_text()
@@ -111,6 +197,10 @@ jobs:
           print("Package ID, app label, and version metadata updated; implementation class names intentionally preserved.")
           PY
           grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
+          grep -q 'com.google.firebase.provider.FirebaseInitProvider' build-src/AndroidManifest.xml
+          grep -q 'name="google_app_id"' build-src/res/values/bare_firebase.xml
+          grep -q 'name="google_api_key"' build-src/res/values/bare_firebase.xml
+          grep -q 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' build-src/smali/org/swiftapps/swiftbackup/SwiftApp.smali
           ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
           grep -q 'name="swift_backup">BΛR☰</string>' build-src/res/values/strings.xml
           grep -q 'versionCode: 102' build-src/apktool.yml
