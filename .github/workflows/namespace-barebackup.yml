@@ -109,7 +109,7 @@ jobs:
                   f'    <string name="{name}" translatable="false">{escape(str(value))}</string>'
               )
           resource_lines.append('</resources>')
-          (values_dir / "bare_firebase.xml").write_text("\\n".join(resource_lines) + "\\n")
+          (values_dir / "bare_firebase.xml").write_text("\n".join(resource_lines) + "\n")
           print("Loaded Firebase resources for com.bareapps.barebackup from rewrite/app/google-services.json (values redacted).")
 
           manifest = root / "AndroidManifest.xml"
@@ -123,18 +123,6 @@ jobs:
           for suffix in ("fileprovider", "shizuku", "tedpermissionprovider", "androidx-startup"):
               text = text.replace(f'org.swiftapps.swiftbackup.{suffix}',
                                   f'com.bareapps.barebackup.{suffix}')
-          # Apktool rebuilds do not perform Gradle manifest merging. Add Firebase's
-          # initialization provider explicitly, using this app's own generated resources.
-          assert "com.google.firebase.provider.FirebaseInitProvider" not in text, (
-              "FirebaseInitProvider unexpectedly already exists in the manifest"
-          )
-          provider = (
-              '        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" '
-              'android:authorities="com.bareapps.barebackup.firebaseinitprovider" '
-              'android:exported="false" android:initOrder="100" />\\n'
-          )
-          assert text.count("</application>") == 1, "Expected one application closing tag"
-          text = text.replace("</application>", provider + "    </application>", 1)
           manifest.write_text(text)
 
           # The decompiled reference manifest omitted FirebaseInitProvider, so explicitly
@@ -149,9 +137,9 @@ jobs:
           assert call_at >= 0, "SwiftApp.onCreate() super call was not found"
           call_end = call_at + len(super_call)
           firebase_init = (
-              "\\n\\n    # Initialize the BΛR☰ Firebase project before any Firebase-backed "
-              "class is touched.\\n"
-              "    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;\\n"
+              "\n\n    # Initialize the BΛR☰ Firebase project before any Firebase-backed "
+              "class is touched.\n"
+              "    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;\n"
               "    move-result-object v0"
           )
           app_source = app_source[:call_end] + firebase_init + app_source[call_end:]
@@ -197,7 +185,6 @@ jobs:
           print("Package ID, app label, and version metadata updated; implementation class names intentionally preserved.")
           PY
           grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
-          grep -q 'com.google.firebase.provider.FirebaseInitProvider' build-src/AndroidManifest.xml
           grep -q 'name="google_app_id"' build-src/res/values/bare_firebase.xml
           grep -q 'name="google_api_key"' build-src/res/values/bare_firebase.xml
           grep -q 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' build-src/smali/org/swiftapps/swiftbackup/SwiftApp.smali
