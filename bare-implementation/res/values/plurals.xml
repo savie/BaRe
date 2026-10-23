@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="app_visibility_showing_count">
+        <item quantity="one">Showing %1$d of %2$d package</item>
+        <item quantity="other">Showing %1$d of %2$d packages</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+</resources>

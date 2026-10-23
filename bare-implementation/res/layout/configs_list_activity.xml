@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/container" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/appbar_layout" layout="@layout/appbar" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator android:layout_gravity="center" android:id="@id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/SwiftCircularProgressIndicator" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/recycler_view" android:paddingBottom="@dimen/spacing_largest6" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    <include android:id="@id/error_layout" layout="@layout/error_layout" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:layout_gravity="end|bottom" android:id="@id/btn_create" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more" android:text="@string/new_config" app:icon="@drawable/ic_plus" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

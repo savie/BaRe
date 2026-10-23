@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory android:title="Cloud" android:key="labs_cloud_settings" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="OneDrive sign-in agent" android:key="onedrive_auth_agent" />
+        <androidx.preference.Preference android:title="@string/cloud_orphan_cleaner" android:key="scan_orphaned_cloud_files" android:summary="@string/cloud_orphan_cleaner_summary" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="Miscellaneous" app:layout="@layout/preference_category">
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="Test PDRAs" android:key="use_test_pdras" android:summary="Use only when support asks" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="Extra logging" android:key="extra_logging" android:summary="More SwiftLogger details" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="Skip space checks" android:key="skip_disk_space_checks" android:summary="For systems reporting free space incorrectly" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/labs_extend_data_sync_fgs_timeout_title" android:key="extend_data_sync_fgs_timeout_for_schedules" android:summary="@string/labs_extend_data_sync_fgs_timeout_summary" />
+        <androidx.preference.Preference android:title="Delete GMS files of apps" android:key="delete_gms_files" android:summary="Fix restored app notifications" />
+        <androidx.preference.Preference android:title="@string/app_visibility_diagnostics" android:key="app_visibility_diagnostics" android:summary="@string/app_visibility_diagnostics_labs_summary" />
+        <androidx.preference.Preference android:title="Scan local app backups" android:key="scan_backups" />
+        <androidx.preference.Preference android:title="Clear cached apps data" android:key="clear_cached_apps_data" app:isPreferenceVisible="false" />
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

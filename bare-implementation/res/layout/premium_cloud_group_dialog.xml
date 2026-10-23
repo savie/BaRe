@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:paddingTop="@dimen/spacing_normal_more" android:paddingBottom="@dimen/spacing_low_more" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:overScrollMode="ifContentScrolls" android:paddingHorizontal="@dimen/spacing_normal"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.swiftapps.swiftbackup.views.ProviderChipGroup android:id="@id/provider_chips" android:layout_width="match_parent" android:layout_height="wrap_content" app:alignItems="center" app:flexWrap="wrap" />
+</androidx.core.widget.NestedScrollView>

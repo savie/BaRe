@@ -6,7 +6,7 @@ on:
     branches:
       - feature/namespace-barebackup
     paths:
-      - "reference/apktool/**"
+      - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
 
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
-      - name: Checkout decompiled reference
+      - name: Checkout BΛR☰ implementation
         uses: actions/checkout@v4
         with:
           ref: feature/namespace-barebackup
@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cp -a reference/apktool build-src
+          cp -a bare-implementation build-src
           mkdir -p build
           git fetch --no-tags --depth=1 origin rewrite
           git show FETCH_HEAD:app/google-services.json > build/google-services.json

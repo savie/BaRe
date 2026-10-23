@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:id="@id/provider_backup_card_local" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/activity_vertical_margin" style="?cardStyle"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:id="@id/text_title" android:layout_marginTop="@dimen/spacing_medium" android:text="@string/device_backups" android:layout_marginStart="@dimen/spacing_normal" style="@style/CardTitle" />
+        <org.swiftapps.swiftbackup.views.QuickRecyclerView android:id="@id/recycler_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/text_title" />
+        <FrameLayout android:id="@id/error_container_parent" android:padding="@dimen/spacing_larger" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+            <include android:id="@id/error_layout" layout="@layout/error_layout" />
+        </FrameLayout>
+        <RelativeLayout android:id="@id/shortcuts_container" android:background="?selectableItemBackground" android:layout_width="match_parent" android:layout_height="56.0dp" android:layout_marginTop="@dimen/spacing_medium" android:layout_below="@id/recycler_view" app:layout_constraintTop_toBottomOf="@id/recycler_view">
+            <View android:layout_marginStart="@dimen/spacing_normal" android:layout_marginEnd="@dimen/spacing_normal" style="@style/DividerThinNoMargins" />
+            <ImageView android:id="@id/iv_shortcut" android:layout_width="24.0dp" android:layout_height="24.0dp" android:layout_centerVertical="true" android:layout_marginStart="@dimen/spacing_normal" android:layout_marginEnd="@dimen/spacing_normal" android:layout_alignParentEnd="true" android:tintMode="src_in" app:tint="?android:textColorSecondary" />
+            <TextView android:textColor="?android:textColorSecondary" android:gravity="center_vertical" android:id="@id/tv_shortcut" android:layout_width="match_parent" android:layout_height="match_parent" android:fontFamily="@font/main_medium" android:paddingStart="@dimen/spacing_normal" android:paddingEnd="@dimen/spacing_normal" style="@style/Title" />
+        </RelativeLayout>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,33 @@
+.class public interface abstract Lcom/microsoft/identity/common/java/interfaces/IPopManagerSupplier;
+.super Ljava/lang/Object;
+.source "r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0"
+
+
+# virtual methods
+.method public getDefaultDevicePopManager()Lcom/microsoft/identity/common/java/crypto/IDevicePopManager;
+    .locals 0
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Lcom/microsoft/identity/common/java/exception/ClientException;
+        }
+    .end annotation
+
+    .line 1
+    invoke-interface {p0}, Lcom/microsoft/identity/common/java/interfaces/IPopManagerSupplier;->getDevicePopManager()Lcom/microsoft/identity/common/java/crypto/IDevicePopManager;
+
+    .line 2
+    .line 3
+    .line 4
+    move-result-object p0
+
+    .line 5
+    return-object p0
+.end method
+
+.method public abstract getDevicePopManager()Lcom/microsoft/identity/common/java/crypto/IDevicePopManager;
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Lcom/microsoft/identity/common/java/exception/ClientException;
+        }
+    .end annotation
+.end method

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory android:title="@string/general" android:key="general_category" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/cloud_diagnostics" android:key="cloud_diagnostics" android:summary="@string/cloud_diagnostics_summary" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/parallel_uploads_downloads_title" android:key="parallel_cloud_transfers" android:summary="@string/parallel_uploads_downloads_description" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/multithreaded_downloads_title" android:key="multithreaded_downloads_category" app:layout="@layout/preference_category">
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/multithreaded_downloads_title" android:key="multithreaded_downloads" android:summary="@string/multithreaded_downloads_description" />
+        <androidx.preference.Preference android:title="@string/max_connections_per_download_title" android:key="multithreaded_downloads_chunk_count" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/dropbox" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/upload_chunk_size" android:key="dropbox_chunk_size" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/one_drive" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/upload_chunk_size" android:key="onedrive_chunk_size" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/nextcloud" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/upload_chunk_size" android:key="nextcloud_chunk_size" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/force_chunked_uploads" android:key="nextcloud_force_chunked_uploads" android:summary="@string/force_chunked_uploads_description" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/s3" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/upload_chunk_size" android:key="s3_chunk_size" />
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>
