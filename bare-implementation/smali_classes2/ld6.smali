@@ -645,7 +645,7 @@
     move-result-object v7
 
     .line 282
-    const-string v9, "SwiftLogger Logs"
+    const-string v9, "BΛR☰ Logger Logs"
 
     .line 283
     .line 284
@@ -779,7 +779,7 @@
     const/4 v13, 0x0
 
     .line 347
-    const-string v9, "Failed to create SwiftLogger archive share intent"
+    const-string v9, "Failed to create BΛR☰ Logger archive share intent"
 
     .line 348
     .line 349
@@ -881,7 +881,7 @@
     const/4 v12, 0x0
 
     .line 397
-    const-string v9, "No app found for SwiftLogger archive, falling back to text-only report"
+    const-string v9, "No app found for BΛR☰ Logger archive, falling back to text-only report"
 
     .line 398
     .line 399
