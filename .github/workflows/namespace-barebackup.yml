@@ -59,8 +59,7 @@ jobs:
           REWRITE_SHA="$(git rev-parse FETCH_HEAD)"
           echo "Resolved rewrite source commit: $REWRITE_SHA"
           git show "$REWRITE_SHA:app/google-services.json" > build/google-services.json
-          git show "$REWRITE_SHA:app/src/main/res/values/strings.xml" > build/rewrite-strings.xml
-          sha256sum build/google-services.json build/rewrite-strings.xml
+          sha256sum build/google-services.json
           sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 - <<'PY'
           from pathlib import Path
@@ -109,72 +108,6 @@ jobs:
           strings_path = values_dir / "strings.xml"
           strings_text = strings_path.read_text()
 
-          # Carry over the user-facing strings from the rewrite branch while keeping
-          # the resource identifiers expected by the decompiled APK's public.xml/Smali.
-          rewrite_strings = Path("build/rewrite-strings.xml").read_text()
-          renamed_keys = {
-              "bare_backup": "swift_backup",
-              "bare_backup_is_busy": "swift_backup_is_busy",
-              "open_in_bare_backup": "open_in_swift_backup",
-              "search_bare_backup": "search_swift_backup",
-              "share_barebackup": "share_swiftbackup",
-              "share_barebackup_msg": "share_swiftbackup_msg",
-              "share_barebackup_subject": "share_swiftbackup_subject",
-              "share_barelogger_archive_with_device_logcat": "share_swiftlogger_archive_with_device_logcat",
-              "share_barelogger_text_only": "share_swiftlogger_text_only",
-              "bare_labs": "swift_labs",
-              "bare_labs_settings_summary": "swift_labs_settings_summary",
-              "barelogger": "swiftlogger",
-              "barelogger_info": "swiftlogger_info",
-          }
-          def get_string_body(xml_text, name):
-              match = re.search(
-                  rf'<string\s+name="{re.escape(name)}"[^>]*>(.*?)</string>',
-                  xml_text, flags=re.DOTALL
-              )
-              return match.group(1) if match else None
-
-          source_names = re.findall(r'<string\s+name="([^"]+)"', rewrite_strings)
-          copied = 0
-          missing = []
-          for source_name in source_names:
-              target_name = renamed_keys.get(source_name, source_name)
-              body = get_string_body(rewrite_strings, source_name)
-              if body is None:
-                  continue
-              target_pattern = (
-                  rf'(<string\s+name="{re.escape(target_name)}"[^>]*>)(.*?)(</string>)'
-              )
-              strings_text, count = re.subn(
-                  target_pattern,
-                  lambda match, body=body: match.group(1) + body + match.group(3),
-                  strings_text, count=1, flags=re.DOTALL
-              )
-              if count:
-                  copied += 1
-              elif source_name not in ("intro_feature_not_available_yet",):
-                  missing.append(f"{source_name} -> {target_name}")
-          assert copied >= 1300, f"Unexpectedly few rewrite strings copied: {copied}"
-          assert not missing, "Rewrite strings missing from APK resource set: " + ", ".join(missing[:20])
-          print(f"Applied {copied} user-facing strings from rewrite branch using existing APK resource keys.")
-
-          # BΛR☰ branding is owned by bare-implementation. Re-apply these explicit
-          # values after the rewrite overlay so upstream copy cannot silently revert them.
-          branding_overrides = {
-              "swift_backup": "BΛR☰",
-              "open_in_swift_backup": "Open in BΛR☰",
-              "share_swiftbackup_subject": "BΛR☰ - Simple, fast backup solution for Android",
-          }
-          for name, value in branding_overrides.items():
-              pattern = rf'(<string\s+name="{re.escape(name)}"[^>]*>)(.*?)(</string>)'
-              strings_text, count = re.subn(
-                  pattern,
-                  lambda match, value=value: match.group(1) + escape(value) + match.group(3),
-                  strings_text, count=1, flags=re.DOTALL
-              )
-              assert count == 1, f"Could not apply BΛR☰ branding override for {name}"
-          print("Applied implementation-owned BΛR☰ branding overrides after upstream string overlay.")
-
           for name, value in firebase_values.items():
               tag = (
                   f'<string name="{name}"[^>]*>.*?</string>'
@@ -195,77 +128,23 @@ jobs:
           strings_path.write_text(strings_text)
           print("Applied Firebase values from rewrite/app/google-services.json to existing resources (values redacted).")
 
-          manifest = root / "AndroidManifest.xml"
-          text = manifest.read_text()
-          old = 'package="org.swiftapps.swiftbackup"'
-          new = 'package="com.bareapps.barebackup"'
-          assert text.count(old) == 1, "Expected exactly one manifest package declaration"
-          text = text.replace(old, new, 1)
-          text = text.replace("org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
-                              "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
-          for suffix in ("fileprovider", "shizuku", "tedpermissionprovider", "androidx-startup"):
-              text = text.replace(f'org.swiftapps.swiftbackup.{suffix}',
-                                  f'com.bareapps.barebackup.{suffix}')
-          manifest.write_text(text)
-
-          # The decompiled reference manifest omitted FirebaseInitProvider, so explicitly
-          # initialize Firebase at the start of Application.onCreate as a second safeguard.
-          app_smali = root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali"
-          app_source = app_smali.read_text()
-          on_create = ".method public final onCreate()V"
-          start = app_source.find(on_create)
-          assert start >= 0, "SwiftApp.onCreate() was not found"
-          super_call = "    invoke-super {p0}, Landroid/app/Application;->onCreate()V"
-          call_at = app_source.find(super_call, start)
-          assert call_at >= 0, "SwiftApp.onCreate() super call was not found"
-          call_end = call_at + len(super_call)
-          firebase_init = (
-              "\n\n    # Initialize the BΛR☰ Firebase project before any Firebase-backed "
-              "class is touched.\n"
-              "    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;\n"
-              "    move-result-object v0"
-          )
-          app_source = app_source[:call_end] + firebase_init + app_source[call_end:]
-          app_smali.write_text(app_source)
-
-          strings = root / "res/values/strings.xml"
-          st = strings.read_text()
-          st, count = re.subn(r'(<string name="swift_backup">).*?(</string>)',
-                              r'\1BΛR☰\2', st, count=1)
-          assert count == 1, "Could not find default swift_backup app label"
-          strings.write_text(st)
-
-          apktool_yml = root / "apktool.yml"
-          yml = apktool_yml.read_text()
-          yml, code_count = re.subn(r'(?m)^  versionCode:.*$', '  versionCode: 102', yml, count=1)
-          yml, name_count = re.subn(r'(?m)^  versionName:.*$', '  versionName: 1.0.2', yml, count=1)
-          assert code_count == 1 and name_count == 1, "Could not update apktool version metadata"
-          apktool_yml.write_text(yml)
-
-          replacements = {
-              "org.swiftapps.swiftbackup.fileprovider": "com.bareapps.barebackup.fileprovider",
-              "org.swiftapps.swiftbackup.shizuku": "com.bareapps.barebackup.shizuku",
-              "org.swiftapps.swiftbackup.tedpermissionprovider": "com.bareapps.barebackup.tedpermissionprovider",
-              "org.swiftapps.swiftbackup.androidx-startup": "com.bareapps.barebackup.androidx-startup",
-              "org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": "com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
-          }
-          for folder in ("smali", "smali_classes2", "smali_classes3", "smali_classes4", "res"):
-              base = root / folder
-              if not base.exists():
-                  continue
-              for path in base.rglob("*"):
-                  if not path.is_file():
-                      continue
-                  try:
-                      source = path.read_text()
-                  except (UnicodeDecodeError, OSError):
-                      continue
-                  updated = source
-                  for a, b in replacements.items():
-                      updated = updated.replace(a, b)
-                  if updated != source:
-                      path.write_text(updated)
-          print("Package ID, app label, and version metadata updated; implementation class names intentionally preserved.")
+          # The app package, authorities, app label, Firebase initialization, and version
+          # metadata are source-controlled in bare-implementation. This step only injects
+          # environment-specific Firebase values; it must not rewrite app implementation.
+          manifest = (root / "AndroidManifest.xml").read_text()
+          assert 'package="com.bareapps.barebackup"' in manifest
+          assert 'android:authorities="com.bareapps.barebackup.fileprovider"' in manifest
+          assert 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' not in manifest
+          strings_text = (root / "res/values/strings.xml").read_text()
+          assert re.search(r'<string name="swift_backup">BΛR☰</string>', strings_text)
+          assert 'name="google_app_id"' in strings_text
+          assert 'name="google_api_key"' in strings_text
+          app_smali = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
+          assert 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' in app_smali
+          apktool_yml = (root / "apktool.yml").read_text()
+          assert re.search(r'(?m)^  versionCode: 102$', apktool_yml)
+          assert re.search(r'(?m)^  versionName: 1.0.2$', apktool_yml)
+          print("Validated source-controlled BΛR☰ implementation and injected Firebase runtime configuration.")
           PY
           grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
           grep -q 'name="google_app_id"' build-src/res/values/strings.xml
