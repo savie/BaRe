@@ -3607,7 +3607,7 @@
 
     .line 21
     .line 22
-    const-string v2, "com.bareapps.barebackup BΛR☰"
+    const-string v2, "com.bareapps.barebackup v1.0.2 (102)"
 
     .line 23
     .line 24
