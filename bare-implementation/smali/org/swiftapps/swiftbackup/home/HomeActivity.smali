@@ -777,8 +777,56 @@
     move-result v4
 
     .line 81
-    # Keep the branded title plain to avoid invalid Smali register merges
-    # in this method. The title remains BΛR☰; no fragile dynamic span is needed.
+    new-instance v5, Landroid/text/style/ForegroundColorSpan;
+
+    .line 82
+    .line 83
+    invoke-direct {v5, v4}, Landroid/text/style/ForegroundColorSpan;-><init>(I)V
+
+    .line 84
+    .line 85
+    .line 86
+    const-string v4, "BΛR☰"
+
+    .line 87
+    .line 88
+    const/4 v6, 0x1
+
+    .line 89
+    const/4 v7, 0x2
+
+    .line 90
+    invoke-static {v3, v4, v0, v6, v7}, Lnq7;->h0(Ljava/lang/CharSequence;Ljava/lang/String;IZI)I
+
+    .line 91
+    .line 92
+    .line 93
+    move-result v8
+
+    .line 94
+    invoke-static {v3, v4, v0, v6, v7}, Lnq7;->h0(Ljava/lang/CharSequence;Ljava/lang/String;IZI)I
+
+    .line 95
+    .line 96
+    .line 97
+    move-result v3
+
+    .line 98
+    const/4 v4, 0x4
+
+    .line 99
+    add-int/2addr v3, v4
+
+    .line 100
+    const/16 v9, 0x21
+
+    .line 101
+    .line 102
+    invoke-virtual {v2, v5, v8, v3, v9}, Landroid/text/SpannableStringBuilder;->setSpan(Ljava/lang/Object;III)V
+
+    .line 103
+    .line 104
+    .line 105
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     .line 106
