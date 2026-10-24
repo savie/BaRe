@@ -637,7 +637,7 @@
     .line 14
     .line 15
     .line 16
-    const-string p0, "/SwiftBackup/"
+    const-string p0, "/BΛR☰/"
 
     .line 17
     .line 18
