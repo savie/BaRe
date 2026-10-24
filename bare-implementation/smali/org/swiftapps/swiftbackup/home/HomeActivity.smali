@@ -798,31 +798,24 @@
     .line 90
     invoke-static {v3, v4, v0, v6, v7}, Lnq7;->h0(Ljava/lang/CharSequence;Ljava/lang/String;IZI)I
 
-    .line 91
-    .line 92
-    .line 93
     move-result v8
 
-    .line 94
-    invoke-static {v3, v4, v0, v6, v7}, Lnq7;->h0(Ljava/lang/CharSequence;Ljava/lang/String;IZI)I
+    # Do not pass a missing title match to setSpan as a negative index.
+    if-ltz v8, :title_span_done
 
-    .line 95
-    .line 96
-    .line 97
+    # Compute the end from the actual title length, not a hard-coded value.
+    invoke-interface {v4}, Ljava/lang/CharSequence;->length()I
     move-result v3
+    add-int/2addr v3, v8
 
-    .line 98
-    const/4 v4, 0x4
+    invoke-virtual {v2}, Landroid/text/SpannableStringBuilder;->length()I
+    move-result v4
+    if-gt v3, v4, :title_span_done
 
-    .line 99
-    add-int/2addr v3, v4
-
-    .line 100
     const/16 v9, 0x21
-
-    .line 101
-    .line 102
     invoke-virtual {v2, v5, v8, v3, v9}, Landroid/text/SpannableStringBuilder;->setSpan(Ljava/lang/Object;III)V
+
+    :title_span_done
 
     .line 103
     .line 104
