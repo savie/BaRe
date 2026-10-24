@@ -2341,6 +2341,9 @@
     .line 492
     invoke-static {p0}, Landroid/os/StrictMode;->setVmPolicy(Landroid/os/StrictMode$VmPolicy;)V
 
+    # Reconcile an already signed-in Firebase user on app launch as well as after sign-in.
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseProfileSync;->syncCurrentUser()V
+
     .line 493
     .line 494
     .line 495
