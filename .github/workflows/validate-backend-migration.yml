@@ -34,32 +34,34 @@ jobs:
           names = [p.name for p in files]
           assert len(names) == len(set(names)), "Duplicate migration file names found"
 
+          # Guard only destructive operations that are not appropriate for routine migrations.
           destructive = re.compile(
-              r"\b(drop\s+schema|drop\s+database|truncate\s+table)\b",
+              r"\\b(drop\\s+schema|drop\\s+database|truncate\\s+table)\\b",
               re.IGNORECASE,
           )
           for path in files:
-              text = path.read_text()
-              assert not destructive.search(text), f"Unapproved destructive operation in {path}"
+              sql = path.read_text()
+              assert not destructive.search(sql), f"Unapproved destructive operation in {path}"
               print(f"Checked {path}")
 
           ownership_migration = Path(
               "supabase/migrations/20261024020000_firebase_uid_text_and_sub_rls.sql"
           )
           assert ownership_migration.exists(), "Firebase UID ownership migration missing"
-          text = ownership_migration.read_text()
+          sql = ownership_migration.read_text()
           tables = [
               "profiles", "devices", "backup_records", "backup_versions",
               "folder_configs", "backup_schedules", "app_settings", "sync_state",
           ]
           for table in tables:
               assert re.search(
-                  rf"alter\s+table\s+public\.{table}\s+alter\s+column\s+user_id\s+type\s+text",
-                  text, re.IGNORECASE
+                  rf"alter\\s+table\\s+public\\.{table}\\s+alter\\s+column\\s+user_id\\s+type\\s+text",
+                  sql, re.IGNORECASE
               ), f"{table}: Firebase UID text migration missing"
-              assert re.search(
-                  rf'create\s+policy\s+"{table}\s+own\s+rows"\s+on\s+public\.{table}.*?auth\.jwt\(\)->>\s*\'sub\'.*?with\s+check',
-                  text, re.IGNORECASE | re.DOTALL
-              ), f"{table}: ownership RLS policy missing or incomplete"
+              policy = re.search(
+                  rf'create\\s+policy\\s+"{table} own rows"\\s+on\\s+public\\.{table}\\s+for\\s+all\\s+to\\s+authenticated\\s+using\\s*\\(.*?auth\\.jwt\\(\\)\\s*->>\\s*\'sub\'.*?with\\s+check\\s*\\(',
+                  sql, re.IGNORECASE | re.DOTALL
+              )
+              assert policy, f"{table}: ownership RLS policy missing or incomplete"
           print(f"Validated {len(files)} migration files and ownership RLS coverage.")
           PY
