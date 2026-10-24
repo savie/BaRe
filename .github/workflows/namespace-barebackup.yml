@@ -335,6 +335,14 @@ jobs:
           assert 'const-string v4, "swift_backup_apks/"' not in apk_saver, (
               "Legacy Swift Backup APK directory must not be used by BΛR☰"
           )
+          storage_switch = (root / "smali/ji8.smali").read_text()
+          assert '"/BΛR☰/"' in storage_switch, "Alternate internal-storage path must use BΛR☰"
+          assert '"/SwiftBackup/"' not in storage_switch, "Legacy SwiftBackup root remains in active storage code"
+          logger_export = (root / "smali/dt7.smali").read_text()
+          logger_share = (root / "smali/er.smali").read_text()
+          assert "SwiftLogger" not in logger_export and "SwiftLogger" not in logger_share, (
+              "BΛR☰ logger user-facing/export strings must not retain SwiftLogger branding"
+          )
           PY
 
       - name: Replace native library with reconstructed JNI implementation
