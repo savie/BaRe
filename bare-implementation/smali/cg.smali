@@ -130,7 +130,7 @@
     move-result-object v0
 
     .line 57
-    const-string v7, "Swift Backup metadata"
+    const-string v7, "BΛR☰ metadata"
 
     .line 58
     .line 59
