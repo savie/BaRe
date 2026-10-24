@@ -102,12 +102,6 @@ jobs:
           # endpoint explicitly supplied by the project's configuration.
           if project_info.get("firebase_url"):
               firebase_values["firebase_database_url"] = project_info["firebase_url"]
-          elif project_info.get("project_id") == "bare-6f8d6":
-              # Explicit endpoint confirmed in the BΛR☰ Firebase Console (Singapore).
-              # This is a configured project URL, not a hostname inferred from project ID.
-              firebase_values["firebase_database_url"] = (
-                  "https://bare-6f8d6-default-rtdb.asia-southeast1.firebasedatabase.app"
-              )
           else:
               print("Firebase RTDB URL is not configured; not injecting a guessed endpoint.")
           for oauth_client in firebase_client.get("oauth_client", []):
@@ -172,15 +166,10 @@ jobs:
           assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
           assert 'swift-backup-31751.appspot.com' not in strings_text, "Legacy Swift Backup storage bucket remains in resources"
           assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
-          expected_database_url = project_info.get("firebase_url")
-          if not expected_database_url and project_info.get("project_id") == "bare-6f8d6":
-              expected_database_url = (
-                  "https://bare-6f8d6-default-rtdb.asia-southeast1.firebasedatabase.app"
-              )
-          if expected_database_url:
+          if project_info.get("firebase_url"):
               assert re.search(
                   r'<string name="firebase_database_url" translatable="false">'
-                  + re.escape(escape(str(expected_database_url))) + r'</string>',
+                  + re.escape(escape(str(project_info["firebase_url"]))) + r'</string>',
                   strings_text,
               ), "Configured Firebase Database URL was not injected"
           else:
@@ -308,10 +297,12 @@ jobs:
           app = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
 
           assert 'const-string v3, "BΛR☰"' in home
-          # The dynamic title span was removed after Android reported a VerifyError
-          # caused by conflicting register types in HomeActivity.onCreate.
-          assert 'if-ltz v8, :title_span_done' not in home, (
-              "Fragile dynamic title span should remain removed"
+          assert 'if-ltz v8, :title_span_done' in home, "Home title span must skip missing matches"
+          assert 'invoke-interface {v4}, Ljava/lang/CharSequence;->length()I' in home, (
+              "Home title span must use the actual title length"
+          )
+          assert 'if-gt v3, v4, :title_span_done' in home, (
+              "Home title span must check its end against builder length"
           )
           assert 'default-rtdb.firebaseio.com' not in rtdb_factory, (
               "Firebase Database URL must never be inferred from project ID"
