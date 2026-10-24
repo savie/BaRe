@@ -6306,7 +6306,6 @@
     <public type="string" name="firebase_backend_diagnostics_workaround_allowlist" id="0x7f13025c" />
     <public type="string" name="firebase_backend_diagnostics_workaround_disable_filters" id="0x7f13025d" />
     <public type="string" name="firebase_backend_diagnostics_workaround_network_vpn" id="0x7f13025e" />
-    <public type="string" name="firebase_database_url" id="0x7f13025f" />
     <public type="string" name="folder" id="0x7f130260" />
     <public type="string" name="folder_already_exists" id="0x7f130261" />
     <public type="string" name="folder_backup" id="0x7f130262" />
@@ -6358,7 +6357,6 @@
     <public type="string" name="google_api_key" id="0x7f130294" />
     <public type="string" name="google_app_id" id="0x7f130295" />
     <public type="string" name="google_drive" id="0x7f130297" />
-    <public type="string" name="google_storage_bucket" id="0x7f130298" />
     <public type="string" name="got_it" id="0x7f130299" />
     <public type="string" name="grant_notifications_permission" id="0x7f13029a" />
     <public type="string" name="grant_permissions" id="0x7f13029b" />
