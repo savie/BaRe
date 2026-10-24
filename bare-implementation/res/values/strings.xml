@@ -166,7 +166,7 @@
     <string name="backup_storage_step_reconnect">Reconnect or remount the card or drive.</string>
     <string name="backup_storage_step_review_access">Tap Review storage access and enable “Allow access to manage all files.”</string>
     <string name="backup_storage_unavailable">Backup storage unavailable</string>
-    <string name="backup_storage_unavailable_diagnostics">Need more details? Open SwiftLogger from the three-dot menu. It includes storage details and detected root-module names.</string>
+    <string name="backup_storage_unavailable_diagnostics">Need more details? Open BΛR☰ Logger from the three-dot menu. It includes storage details and detected root-module names.</string>
     <string name="backup_storage_unavailable_internal_description">BΛR☰ could not create its required backup folders.</string>
     <string name="backup_storage_unavailable_removable_description">BΛR☰ could not prepare the selected card or drive.</string>
     <string name="backup_storage_what_to_try">What to try</string>
@@ -1207,9 +1207,9 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="share_apks">Share APKs</string>
     <string name="share_logs">Share logs</string>
     <string name="share_swiftbackup">Share BΛR☰</string>
-    <string name="share_swiftbackup_msg">"Check out this awesome new backup manager I'm using! Its called BΛR☰ and here's the link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
+    <string name="share_swiftbackup_msg">"I'm using BΛR☰, an Android backup manager."</string>
     <string name="share_swiftbackup_subject">BΛR☰ - Simple, fast backup solution for Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + Device Logcat</string>
+    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Device Logcat</string>
     <string name="share_swiftlogger_text_only">Share text-only report</string>
     <string name="shared_libraries">Shared libraries</string>
     <string name="shortcuts">Shortcuts</string>
@@ -1291,9 +1291,9 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
     <string name="swift_backup">BΛR☰</string>
     <string name="swift_backup_is_busy">BΛR☰ is busy</string>
-    <string name="swift_labs">Swift Labs</string>
+    <string name="swift_labs">BΛR☰ Labs</string>
     <string name="swift_labs_settings_summary">Experimental and repair tools</string>
-    <string name="swiftlogger">SwiftLogger</string>
+    <string name="swiftlogger">BΛR☰ Logger</string>
     <string name="swiftlogger_info">Logs for bug reports</string>
     <string name="swipe_actions">Swipe actions</string>
     <string name="swipe_actions_description">Choose up to two actions for each swipe direction</string>
