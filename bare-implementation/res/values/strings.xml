@@ -1003,7 +1003,7 @@ When you setup BΛR☰, you need to enter your password again so it can decrypt 
     <string name="private_key_passphrase">Key passphrase</string>
     <string name="processing">Processing</string>
     <string name="processing_please_wait">Processing, please wait as this may take a while…</string>
-    <string name="project_id">swift-backup-31751</string>
+    <string name="project_id">bare-6f8d6</string>
     <string name="protect_backup">Protect backup</string>
     <string name="protected_backup">Protected backup</string>
     <string name="protected_backup_description">"Protected backups are backups that you want to keep safe from updates and deletion.
@@ -1330,7 +1330,7 @@ Proper data restore for such apps is not guaranteed."</string>
 Solution: Format your storage with exFAT and use a kernel that supports mounting exFAT storages."</string>
     <string name="to_cloud">To cloud</string>
     <string name="to_device">To device</string>
-    <string name="tos_privacy_agreement">"By continuing you agree with our &lt;a href=https://www.swiftapps.org/tos>Terms of Service&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Privacy Policy&lt;/a>. "</string>
+    <string name="tos_privacy_agreement">"By continuing you agree to the Terms of Service and Privacy Policy."</string>
     <string name="translation_project">Translation project</string>
     <string name="translation_project_summary">Help translate BΛR☰</string>
     <string name="turn_off">Turn off</string>
