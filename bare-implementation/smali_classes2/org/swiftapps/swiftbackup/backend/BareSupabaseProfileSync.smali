@@ -14,7 +14,8 @@
 
     if-eqz v1, :return_void
 
-    const/4 v2, 0x0
+    # Force-refresh the Firebase ID token so backend role claims are picked up.
+    const/4 v2, 0x1
     invoke-virtual {v0, v2}, Lcom/google/firebase/auth/FirebaseAuth;->b(Z)Lcom/google/android/gms/tasks/Task;
     move-result-object v0
 
