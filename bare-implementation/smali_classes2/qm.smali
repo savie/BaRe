@@ -844,11 +844,11 @@
 
     .line 394
     .line 395
-    const-string p0, "SwiftBackupApkSaver"
+    const-string p0, "BareBackupApkSaver"
 
     .line 396
     .line 397
-    const-string v0, "APK already saved to SwiftBackup folder"
+    const-string v0, "APK already saved to BΛR☰ folder"
 
     .line 398
     .line 399
@@ -941,7 +941,7 @@
 
     .line 442
     .line 443
-    const-string p0, "Copied Swift Backup APK to "
+    const-string p0, "Copied BΛR☰ APK to "
 
     .line 444
     .line 445
@@ -959,7 +959,7 @@
     const/4 v9, 0x0
 
     .line 451
-    const-string v5, "SwiftBackupApkSaver"
+    const-string v5, "BareBackupApkSaver"
 
     .line 452
     .line 453
