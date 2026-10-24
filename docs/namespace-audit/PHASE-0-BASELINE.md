@@ -23,6 +23,26 @@
 | Effective package ID in built APK | **Not yet independently verified** | Must inspect the APK manifest; do not infer from workflow success |
 | Version name/code in built APK | **Not yet independently verified** | Must inspect the APK manifest |
 
+## Latest baseline correction — Run #21
+
+The earlier record referred to run #20 and was stale once run #21 completed. Use **run #21** as the latest artifact baseline:
+
+| Field | Run #21 value |
+|---|---|
+| Workflow run | [39982975194](https://github.com/savie/BaRe/actions/runs/39982975194) |
+| Commit | [e3d2ad5839cb057ca2fc94a075cb7f94e8f6bd89](https://github.com/savie/BaRe/commit/e3d2ad5839cb057ca2fc94a075cb7f94e8f6bd89) |
+| Job | `build-namespace-apk` — success |
+| Checkout step | `Checkout BΛR☰ implementation` |
+| Artifact ID/name | `12514008798` / `barebackup-namespace-test` |
+| Artifact ZIP SHA-256 | `0a63d998ea83ef670251d3e00ea982903ab08db9f4f4cf399aeade0fea6bc376` |
+| APK file | `BaRe-namespace-signed.apk` |
+| APK SHA-256 | `c56a1f741eb3b9f0f1f7761cc3a91c6573c76152dd5cdfb5e5fb394a3a7932b8` |
+| APK size | 15,766,598 bytes |
+| Signing certificate SHA-256 | `1B:AF:08:DC:AC:7A:EE:98:E4:76:97:95:A7:1E:3F:74:07:0F:DB:56:B0:3A:44:C3:11:9D:27:3A:66:72:23:91` |
+| Package/version decoded from binary manifest | Still pending; Android APK inspection tools were unavailable in this inspection environment |
+
+The ZIP digest above matches GitHub's artifact metadata. The APK SHA-256 was computed from the APK extracted from that exact downloaded ZIP. The signing certificate was extracted from `META-INF/ANDROIDD.RSA` and inspected with `keytool`; authoritative `apksigner verify --print-certs` validation remains pending.
+
 ## Source-state observations
 
 - `bare-implementation/AndroidManifest.xml` at this branch currently declares `package="org.swiftapps.swiftbackup"`, with application class `org.swiftapps.swiftbackup.SwiftApp` and authorities/redirect schemes containing the same namespace.
