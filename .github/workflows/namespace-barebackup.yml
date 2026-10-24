@@ -306,7 +306,14 @@ jobs:
           rtdb_factory = (root / "smali/ig3.smali").read_text()
           connection = (root / "smali_classes2/gg3.smali").read_text()
           app = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
+          storage = (root / "smali/qy5.smali").read_text()
 
+          assert 'const-string p0, "/BΛR☰/"' in storage, (
+              "Local backup storage directory must be isolated under /storage/emulated/0/BΛR☰/"
+          )
+          assert 'const-string p0, "/SwiftBackup/"' not in storage, (
+              "Legacy SwiftBackup local storage path remains in the implementation"
+          )
           assert 'const-string v4, "BΛR☰"' in home, "Home title must use the BΛR☰ branding"
           assert 'const/4 v4, 0x4' in home, "Home title span length must match the four-character brand"
           assert 'default-rtdb.firebaseio.com' not in rtdb_factory, (
