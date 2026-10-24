@@ -92,8 +92,8 @@
     <string name="app_usage_storage_text">App usage is %s%%</string>
     <string name="app_visibility_copy_results">Copy</string>
     <string name="app_visibility_diagnostics">App visibility diagnostics</string>
-    <string name="app_visibility_diagnostics_explanation">This is the raw package list returned to Swift Backup by Android PackageManager. If it is incomplete, that may indicate external filtering, such as an OEM app-list permission or an HMA configuration. This utility cannot identify the exact cause.</string>
-    <string name="app_visibility_diagnostics_labs_summary">Inspect the raw packages visible to Swift Backup</string>
+    <string name="app_visibility_diagnostics_explanation">This is the raw package list returned to BΛR☰ by Android PackageManager. If it is incomplete, that may indicate external filtering, such as an OEM app-list permission or an HMA configuration. This utility cannot identify the exact cause.</string>
+    <string name="app_visibility_diagnostics_labs_summary">Inspect the raw packages visible to BΛR☰</string>
     <string name="app_visibility_no_packages">PackageManager returned no packages.</string>
     <string name="app_visibility_no_search_matches">No packages match this search.</string>
     <string name="app_visibility_query_failed">PackageManager query failed: %1$s</string>
@@ -162,13 +162,13 @@
     <string name="backup_storage_internal_fallback_note">Using internal storage leaves existing files on this card or drive untouched.</string>
     <string name="backup_storage_location">Backup location</string>
     <string name="backup_storage_step_disable_modules">If you use Magisk modules, LSPosed storage modules, bind mounts, or FUSE mounts, disable them temporarily and reboot.</string>
-    <string name="backup_storage_step_disable_tools">Temporarily disable storage-isolation, redirection, or cleanup tools for Swift Backup.</string>
+    <string name="backup_storage_step_disable_tools">Temporarily disable storage-isolation, redirection, or cleanup tools for BΛR☰.</string>
     <string name="backup_storage_step_reconnect">Reconnect or remount the card or drive.</string>
     <string name="backup_storage_step_review_access">Tap Review storage access and enable “Allow access to manage all files.”</string>
     <string name="backup_storage_unavailable">Backup storage unavailable</string>
     <string name="backup_storage_unavailable_diagnostics">Need more details? Open SwiftLogger from the three-dot menu. It includes storage details and detected root-module names.</string>
-    <string name="backup_storage_unavailable_internal_description">Swift Backup could not create its required backup folders.</string>
-    <string name="backup_storage_unavailable_removable_description">Swift Backup could not prepare the selected card or drive.</string>
+    <string name="backup_storage_unavailable_internal_description">BΛR☰ could not create its required backup folders.</string>
+    <string name="backup_storage_unavailable_removable_description">BΛR☰ could not prepare the selected card or drive.</string>
     <string name="backup_storage_what_to_try">What to try</string>
     <string name="backup_successful">Backup successful</string>
     <string name="backup_tag">Backup tag</string>
@@ -179,7 +179,7 @@
     <string name="backup_updated_apps_summary">Backup apps that have newer version APKs installed on this device</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Encrypted with AEGIS-256 by default</string>
     <string name="backups_tagged_with">"Backups tagged with '%s'"</string>
-    <string name="backups_tied_warning">Backups are linked to the Swift Backup account used to create them. Use the same account to restore them later.</string>
+    <string name="backups_tied_warning">Backups are linked to the BΛR☰ account used to create them. Use the same account to restore them later.</string>
     <string name="backups_with_notes">Backups with notes</string>
     <string name="base_backup">Base backup</string>
     <string name="batch_actions">Batch actions</string>
@@ -221,7 +221,7 @@
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
     <string name="cancelling_please_wait">Cancelling, Please wait</string>
-    <string name="cannot_purchase_with_test_release_of_app_message">This is a test APK of Swift Backup. Purchases can only be made with APKs downloaded from Google Play. Please download the app from Google Play and make the purchase. After making the purchase, you can start using test APKs of the app.</string>
+    <string name="cannot_purchase_with_test_release_of_app_message">This is a test APK of BΛR☰. Purchases can only be made with APKs downloaded from Google Play. Please download the app from Google Play and make the purchase. After making the purchase, you can start using test APKs of the app.</string>
     <string name="change_blacklist_mode">Change blacklist mode</string>
     <string name="change_password">Change password</string>
     <string name="change_sms_app">Change SMS app</string>
@@ -243,7 +243,7 @@
     <string name="cloud_backup_for_apps">Cloud backups for apps and folders</string>
     <string name="cloud_backup_limit">Cloud backup limit</string>
     <string name="cloud_backup_tag">Cloud backup tag</string>
-    <string name="cloud_backup_tag_message">"Backups of Apps, Messages, Call Logs and Folders are grouped under a backup tag. This helps you manage backups when using Swift Backup across multiple devices. 
+    <string name="cloud_backup_tag_message">"Backups of Apps, Messages, Call Logs and Folders are grouped under a backup tag. This helps you manage backups when using BΛR☰ across multiple devices. 
 
 Note: Wallpapers and WiFi backups cannot be tagged."</string>
     <string name="cloud_backups">Cloud backups</string>
@@ -253,7 +253,7 @@ Note: Wallpapers and WiFi backups cannot be tagged."</string>
     <string name="cloud_diagnostics">Cloud diagnostics</string>
     <string name="cloud_diagnostics_access_failed">Access failed: %s</string>
     <string name="cloud_diagnostics_access_passed">%s access verified</string>
-    <string name="cloud_diagnostics_access_summary">Checks account access and Swift Backup folder access</string>
+    <string name="cloud_diagnostics_access_summary">Checks account access and BΛR☰ folder access</string>
     <string name="cloud_diagnostics_access_title">Account access</string>
     <string name="cloud_diagnostics_backup_scan_marker_missing">Listing marker was not returned by cloud scan: %s</string>
     <string name="cloud_diagnostics_backup_tag">Backup tag: %s</string>
@@ -268,20 +268,20 @@ Note: Wallpapers and WiFi backups cannot be tagged."</string>
     <string name="cloud_diagnostics_download_size_mismatch">Downloaded file size mismatch. Expected %1$s, got %2$s.</string>
     <string name="cloud_diagnostics_firebase_failed">Firebase Database connection check failed: %s</string>
     <string name="cloud_diagnostics_firebase_passed">Firebase Database connection verified</string>
-    <string name="cloud_diagnostics_firebase_summary">Checks Firebase Database connectivity required for Swift Backup cloud metadata</string>
+    <string name="cloud_diagnostics_firebase_summary">Checks Firebase Database connectivity required for BΛR☰ cloud metadata</string>
     <string name="cloud_diagnostics_firebase_title">Firebase Database connection</string>
-    <string name="cloud_diagnostics_firebase_unavailable">Swift Backup could not connect to Firebase Database. Cloud backup metadata cannot be read or written until the app backend is reachable.</string>
+    <string name="cloud_diagnostics_firebase_unavailable">BΛR☰ could not connect to Firebase Database. Cloud backup metadata cannot be read or written until the app backend is reachable.</string>
     <string name="cloud_diagnostics_internet_passed">Internet access verified</string>
     <string name="cloud_diagnostics_internet_summary">Checks that this device can reach the internet before cloud diagnostics run</string>
     <string name="cloud_diagnostics_internet_title">Internet connectivity</string>
     <string name="cloud_diagnostics_internet_unavailable">Internet access could not be verified. Check the connection, captive portal, VPN, firewall, or DNS settings on this device.</string>
     <string name="cloud_diagnostics_large_round_trip_summary">Verifies an 80 MB temporary file round trip and shares it with related transfer checks when selected</string>
     <string name="cloud_diagnostics_large_round_trip_title">Large upload/download/delete</string>
-    <string name="cloud_diagnostics_main_folder_missing">Swift Backup cloud folder is not ready.</string>
+    <string name="cloud_diagnostics_main_folder_missing">BΛR☰ cloud folder is not ready.</string>
     <string name="cloud_diagnostics_multithread_download_passed">Multithreaded download verified on a %1$s file with %2$d connections</string>
     <string name="cloud_diagnostics_multithread_download_summary">Forces a multi-connection download using a shared transfer file, or a 32 MB file when run by itself</string>
     <string name="cloud_diagnostics_multithread_download_title">Multithreaded download</string>
-    <string name="cloud_diagnostics_multithread_download_unavailable">Not available for this cloud provider because Swift Backup does not use its multithreaded downloader here.</string>
+    <string name="cloud_diagnostics_multithread_download_unavailable">Not available for this cloud provider because BΛR☰ does not use its multithreaded downloader here.</string>
     <string name="cloud_diagnostics_preparing_file">Preparing %s diagnostic file</string>
     <string name="cloud_diagnostics_preview_original_download_passed">Image download verified because this provider does not expose a preview image path here</string>
     <string name="cloud_diagnostics_preview_provider_thumbnail_passed">Provider preview image download verified</string>
@@ -291,7 +291,7 @@ Note: Wallpapers and WiFi backups cannot be tagged."</string>
     <string name="cloud_diagnostics_report_action_required">Action required: %1$d check(s) need attention, %2$d skipped.</string>
     <string name="cloud_diagnostics_report_failed">%1$d failed, %2$d passed, %3$d skipped.</string>
     <string name="cloud_diagnostics_report_failure">Report failure</string>
-    <string name="cloud_diagnostics_report_failure_subject">Swift Backup cloud diagnostics report</string>
+    <string name="cloud_diagnostics_report_failure_subject">BΛR☰ cloud diagnostics report</string>
     <string name="cloud_diagnostics_report_not_finished">%1$d completed, %2$d still pending.</string>
     <string name="cloud_diagnostics_report_passed">All selected tests passed: %1$d passed, %2$d skipped.</string>
     <string name="cloud_diagnostics_report_ready">Ready to run the selected tests.</string>
@@ -319,7 +319,7 @@ Note: Wallpapers and WiFi backups cannot be tagged."</string>
     <string name="cloud_diagnostics_status_skipped">Skipped</string>
     <string name="cloud_diagnostics_summary">Test the current provider</string>
     <string name="cloud_diagnostics_summary_title">Diagnostics complete</string>
-    <string name="cloud_diagnostics_temp_file_notice">Temporary diagnostic files are uploaded, verified, reused across related transfer tests when possible, and removed from your Swift Backup cloud folder.</string>
+    <string name="cloud_diagnostics_temp_file_notice">Temporary diagnostic files are uploaded, verified, reused across related transfer tests when possible, and removed from your BΛR☰ cloud folder.</string>
     <string name="cloud_diagnostics_tests">Tests</string>
     <string name="cloud_diagnostics_thumbnail_decode_failed">Thumbnail did not decode as an image.</string>
     <string name="cloud_diagnostics_thumbnail_empty">Thumbnail response was empty.</string>
@@ -341,15 +341,15 @@ Note: Wallpapers and WiFi backups cannot be tagged."</string>
 
 Please add the name of an existing folder in the Path field."</string>
     <string name="cloud_folder_creation_failed">Folder creation failed</string>
-    <string name="cloud_folder_edit_warning">"Please DO NOT delete, modify, or move cloud files or folders managed by Swift Backup from the cloud service app, website or dashboard. 
+    <string name="cloud_folder_edit_warning">"Please DO NOT delete, modify, or move cloud files or folders managed by BΛR☰ from the cloud service app, website or dashboard. 
 
-Swift Backup keeps a database of the cloud file paths/ids on its server for reducing network requests and faster performance. If you delete, modify, or move cloud files or folders manually, you will face issues when using the app and lose access to your cloud backups."</string>
+BΛR☰ keeps a database of the cloud file paths/ids on its server for reducing network requests and faster performance. If you delete, modify, or move cloud files or folders manually, you will face issues when using the app and lose access to your cloud backups."</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
     <string name="cloud_mail_ru_external_password_warning">"Create and use external app password instead of your regular account password:
 https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru requires users to have a paid storage plan with them for this option</string>
     <string name="cloud_maintenance_running_message">Cloud maintenance is in progress. Try again when it finishes.</string>
-    <string name="cloud_not_connected_summary">Swift Backup is not connected with a cloud service</string>
+    <string name="cloud_not_connected_summary">BΛR☰ is not connected with a cloud service</string>
     <string name="cloud_orphan_cleaner">Orphaned cloud files</string>
     <string name="cloud_orphan_cleaner_summary">Find unreferenced App and Folder backup files</string>
     <string name="cloud_orphan_delete_confirmation_message">Delete %1$d selected file(s) (%2$s) permanently from %3$s? Firebase and cloud contents will be checked again first. This cannot be undone.</string>
@@ -461,7 +461,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Data</string>
     <string name="data_encryption_smb_3">Data Encryption (SMB 3+)</string>
     <string name="date_used">Date used</string>
-    <string name="default_sms_app_rationale">"To restore messages on your device, Swift Backup needs to be the default SMS app.
+    <string name="default_sms_app_rationale">"To restore messages on your device, BΛR☰ needs to be the default SMS app.
 
 After restoring is complete you will be requested to reset the SMS app to your current one."</string>
     <string name="default_word">Default</string>
@@ -470,7 +470,7 @@ After restoring is complete you will be requested to reset the SMS app to your c
     <string name="delete_active_tag_message">"Note: This will delete all cloud backup files associated with '%s' tag!"</string>
     <string name="delete_all">Delete all</string>
     <string name="delete_all_data">Delete all data</string>
-    <string name="delete_all_data_summary">Delete all data used by the app on the device for this account, including backup/cache files. This will also reset the app to its default state and clear all your synced Swift Backup settings.</string>
+    <string name="delete_all_data_summary">Delete all data used by the app on the device for this account, including backup/cache files. This will also reset the app to its default state and clear all your synced BΛR☰ settings.</string>
     <string name="delete_backup">Delete backup</string>
     <string name="delete_backup_files">Delete backup files</string>
     <string name="delete_backup_files_summary">Delete all local backup files from the device for this account:</string>
@@ -497,7 +497,7 @@ After restoring is complete you will be requested to reset the SMS app to your c
     <string name="disable">Disable</string>
     <string name="disable_apps">Disable apps</string>
     <string name="disable_apps_warning">Note: Be careful when using this action and make sure you do not disable core system apps or services</string>
-    <string name="disable_battery_opt_message">Please disable battery optimizations for Swift Backup</string>
+    <string name="disable_battery_opt_message">Please disable battery optimizations for BΛR☰</string>
     <string name="disabled">Disabled</string>
     <string name="discard_changes_confirmation">Discard changes?</string>
     <string name="disconnect_cloud">Disconnect</string>
@@ -550,10 +550,10 @@ After restoring is complete you will be requested to reset the SMS app to your c
     <string name="favorites">Favorites</string>
     <string name="feature_requires_root_access_message">"This feature requires root access to work.
 
-Please check if your device is rooted and Swift Backup has been granted root access."</string>
+Please check if your device is rooted and BΛR☰ has been granted root access."</string>
     <string name="feature_requires_root_access_or_shizuku_message">"This feature requires Root access or Shizuku to work.
 
-Please check if your device is rooted and Swift Backup has been granted root access or if Shizuku service is running."</string>
+Please check if your device is rooted and BΛR☰ has been granted root access or if Shizuku service is running."</string>
     <string name="filen">Filen</string>
     <string name="filen_two_factor_authentication">Filen two-factor authentication</string>
     <string name="filen_two_factor_code_hint">2FA code or recovery code</string>
@@ -568,13 +568,13 @@ Please check if your device is rooted and Swift Backup has been granted root acc
     <string name="firebase_backend_diagnostics_common_causes">This is usually caused by Private DNS, an ad blocker, VPN, firewall, or a network that blocks Google/Firebase domains.</string>
     <string name="firebase_backend_diagnostics_detected_no">Not detected</string>
     <string name="firebase_backend_diagnostics_detected_yes">Detected</string>
-    <string name="firebase_backend_diagnostics_message">Swift Backup has internet access, but it cannot reach its Firebase backend. Due to this, you may face issues with cloud backups, premium activation, syncing Swift Backup settings, etc.</string>
+    <string name="firebase_backend_diagnostics_message">BΛR☰ has internet access, but it cannot reach its Firebase backend. Due to this, you may face issues with cloud backups, premium activation, syncing BΛR☰ settings, etc.</string>
     <string name="firebase_backend_diagnostics_network_dns">Network DNS</string>
     <string name="firebase_backend_diagnostics_private_dns">Private DNS</string>
     <string name="firebase_backend_diagnostics_root_firewall_blocking_rules_found">"%1$s
 What we checked: active app UID %2$d, iptables/ip6tables OUTPUT owner rules, and Firebase DNS resolution.
 Resolved Firebase address(es): %3$s"</string>
-    <string name="firebase_backend_diagnostics_root_firewall_blocking_summary">Found firewall rule(s) that can block Swift Backup from Firebase.</string>
+    <string name="firebase_backend_diagnostics_root_firewall_blocking_summary">Found firewall rule(s) that can block BΛR☰ from Firebase.</string>
     <string name="firebase_backend_diagnostics_root_firewall_check_failed">"Could not complete root/firewall checks.
 What we tried to check: active app UID, iptables/ip6tables OUTPUT owner rules, and Firebase DNS resolution.
 Error: %s"</string>
@@ -582,14 +582,14 @@ Error: %s"</string>
     <string name="firebase_backend_diagnostics_root_firewall_checks">Root/firewall checks</string>
     <string name="firebase_backend_diagnostics_root_firewall_no_blocking_rules">"What we checked: active app UID %1$d, iptables/ip6tables OUTPUT owner rules, and Firebase DNS resolution.
 No app-specific firewall rule was found for the resolved Firebase address(es): %2$s"</string>
-    <string name="firebase_backend_diagnostics_root_firewall_not_checked">Not checked. Root access is not available to Swift Backup, so it could not inspect iptables/ip6tables OUTPUT owner rules for this app UID.</string>
+    <string name="firebase_backend_diagnostics_root_firewall_not_checked">Not checked. Root access is not available to BΛR☰, so it could not inspect iptables/ip6tables OUTPUT owner rules for this app UID.</string>
     <string name="firebase_backend_diagnostics_title">Unable to connect with app backend</string>
     <string name="firebase_backend_diagnostics_try_these_steps">Try these steps:</string>
     <string name="firebase_backend_diagnostics_vpn">VPN</string>
-    <string name="firebase_backend_diagnostics_workaround_allowlist">Allowlist swift-backup-31751.firebaseio.com or *.firebaseio.com.</string>
+    <string name="firebase_backend_diagnostics_workaround_allowlist">Use the configured BΛR☰ backend endpoint in your network allowlist if your network blocks it.</string>
     <string name="firebase_backend_diagnostics_workaround_disable_filters">Temporarily disable Private DNS, ad blockers, VPN, DNS filtering, or firewall rules.</string>
     <string name="firebase_backend_diagnostics_workaround_network_vpn">Use a different network, or use a VPN if Firebase is blocked in your region.</string>
-    <string name="firebase_database_url">https://swift-backup-31751.firebaseio.com</string>
+    
     <string name="folder">Folder</string>
     <string name="folder_already_exists">Folder already exists!</string>
     <string name="folder_backup">Folder backup</string>
@@ -642,7 +642,7 @@ You can still continue, but it may be harder to tell them apart."</string>
     <string name="google_api_key">AIzaSyAz1CRU8T8s6bobSAXv9IZNkEv3V5yeY1s</string>
     <string name="google_app_id">1:65312358122:android:ea39a9e3952e6522</string>
     <string name="google_drive">Google Drive</string>
-    <string name="google_storage_bucket">swift-backup-31751.appspot.com</string>
+    
     <string name="got_it">Got it</string>
     <string name="grant_notifications_permission">Grant Notifications permission</string>
     <string name="grant_permissions">Grant permissions</string>
@@ -693,7 +693,7 @@ Please use an alternate launcher to back up wallpapers correctly."</string>
     <string name="intro_benefit_keys_title">Encryption keys</string>
     <string name="intro_benefit_premium_subtitle">Purchase and use Premium with your account</string>
     <string name="intro_benefit_premium_title">Premium features</string>
-    <string name="intro_benefit_settings_subtitle">Sync Swift Backup settings, schedules, app labels, app configs, etc.</string>
+    <string name="intro_benefit_settings_subtitle">Sync BΛR☰ settings, schedules, app labels, app configs, etc.</string>
     <string name="intro_benefit_settings_title">App preferences</string>
     <string name="invalid_apks_archive">Invalid APKs archive</string>
     <string name="invalid_config">Invalid config</string>
@@ -929,7 +929,7 @@ Click below to create a new schedule"</string>
     <string name="ok">OK</string>
     <string name="old_password">Old password</string>
     <string name="old_passwords">Old passwords</string>
-    <string name="old_passwords_description">If you have backups encrypted with different passwords used earlier, Swift Backup can use your old passwords to decrypt those backups.</string>
+    <string name="old_passwords_description">If you have backups encrypted with different passwords used earlier, BΛR☰ can use your old passwords to decrypt those backups.</string>
     <string name="one_drive">OneDrive</string>
     <string name="one_time_purchase">Purchase once, premium forever</string>
     <string name="only_if_battery_is_x_percent">Only if battery level is at least %s</string>
@@ -947,13 +947,13 @@ Click below to create a new schedule"</string>
     <string name="password_copied_to_clipboard">Password copied to clipboard</string>
     <string name="password_remember_warning">Please remember or note down the password as you will not be able to retrieve it later.</string>
     <string name="password_saved">Password saved</string>
-    <string name="password_strategy_standard_description">"Let Swift Backup handle generating passwords for your encrypted backups. The passwords are unique to your Swift Backup account and are different depending upon the feature to be backed up (Messages, Call Logs, App package being backed up, etc). 
+    <string name="password_strategy_standard_description">"Let BΛR☰ handle generating passwords for your encrypted backups. The passwords are unique to your BΛR☰ account and are different depending upon the feature to be backed up (Messages, Call Logs, App package being backed up, etc). 
 The generated passwords contain random alphanumeric characters and look something like bfb69f180e4e1db7671c3188f90881d7. 
 For Anonymous users (users using the app without an account), the password generation strategy is common and not unique. Please use Advanced strategy if you want to keep your passwords unique."</string>
     <string name="password_strategy_standard_title">Standard</string>
     <string name="password_strategy_user_password_description">"Same as the Standard strategy but additionally uses a password entered by user to generate the final encryption password. If you lose your password, the backups cannot be decrypted/restored. 
-Swift Backup will store your password only locally in it's private data directory in an encrypted form. 
-When you setup Swift Backup, you need to enter your password again so it can decrypt and restore your encrypted backups."</string>
+BΛR☰ will store your password only locally in it's private data directory in an encrypted form. 
+When you setup BΛR☰, you need to enter your password again so it can decrypt and restore your encrypted backups."</string>
     <string name="password_strategy_user_password_title">Advanced</string>
     <string name="password_toggle_content_description">Show password</string>
     <string name="passwords_matching_error">Passwords do not match</string>
@@ -966,7 +966,7 @@ When you setup Swift Backup, you need to enter your password again so it can dec
     <string name="pending_payment">Pending payment</string>
     <string name="permission_error">Permission error</string>
     <string name="permission_needed_to_proceed">Permission needed to proceed</string>
-    <string name="permission_request_message">Swift Backup needs the below permissions to perform some actions. Please click below and grant the permissions in the popups.</string>
+    <string name="permission_request_message">BΛR☰ needs the below permissions to perform some actions. Please click below and grant the permissions in the popups.</string>
     <string name="permissions_needed">Permissions needed</string>
     <string name="permissions_needed_for_service">You cannot use this service without below permissions</string>
     <string name="pinned_to_home_page">Pinned to home page</string>
@@ -1008,7 +1008,7 @@ When you setup Swift Backup, you need to enter your password again so it can dec
     <string name="protected_backup">Protected backup</string>
     <string name="protected_backup_description">"Protected backups are backups that you want to keep safe from updates and deletion.
 
-In case you have enabled Multiple backups, Swift Backup will not delete the protected backups when maximum number of backups limit is reached."</string>
+In case you have enabled Multiple backups, BΛR☰ will not delete the protected backups when maximum number of backups limit is reached."</string>
     <string name="protocol">Protocol</string>
     <string name="purchase">Purchase</string>
     <string name="purchase_plan">Purchase %1$s</string>
@@ -1042,14 +1042,14 @@ In case you have enabled Multiple backups, Swift Backup will not delete the prot
     <string name="requires_android_15_root_access">Requires Android 15+ and root access</string>
     <string name="reset">Reset</string>
     <string name="reset_app">Reset app</string>
-    <string name="reset_app_summary">Reset the app to its default state. This will clear all your synced Swift Backup settings. Backup files or cloud cache will not be deleted.</string>
+    <string name="reset_app_summary">Reset the app to its default state. This will clear all your synced BΛR☰ settings. Backup files or cloud cache will not be deleted.</string>
     <string name="reset_filters">Reset filters</string>
     <string name="reset_sms_app_warning">"You won't be able to receive messages if you don't set a default SMS app! Please select 'YES' in the next dialog!"</string>
     <string name="reset_sms_app_warning_q">"You won't be able to receive messages if you don't set a default SMS app!
 
 Please set a default SMS app in the next screen!"</string>
     <string name="restart_app">Restart app</string>
-    <string name="restart_app_settings_summary">Reload Swift Backup</string>
+    <string name="restart_app_settings_summary">Reload BΛR☰</string>
     <string name="restore">Restore</string>
     <string name="restore_all">Restore all</string>
     <string name="restore_all_apps">Restore all apps</string>
@@ -1075,7 +1075,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="restore_permission_option_all">Restore all permissions supported by the app</string>
     <string name="restore_permission_option_granted">Restore backed up permission choices</string>
     <string name="restore_permission_option_none">"Don't restore permissions"</string>
-    <string name="restore_previous_password_message">You previously used a custom password for your encrypted backups. Please enter it now so Swift Backup can decrypt and restore your encrypted backups.</string>
+    <string name="restore_previous_password_message">You previously used a custom password for your encrypted backups. Please enter it now so BΛR☰ can decrypt and restore your encrypted backups.</string>
     <string name="restore_purchases">Restore purchases</string>
     <string name="restore_runtime_permissions">Restore runtime permissions</string>
     <string name="restore_special_data_accessibility_service_summary">Enabled accessibility services</string>
@@ -1123,7 +1123,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="root_access_needed">Root access needed</string>
     <string name="root_access_or_shizuku_needed">Root access or Shizuku needed</string>
     <string name="root_grant_permissions">Grant all with Root or Shizuku</string>
-    <string name="root_grant_permissions_dialog_msg_prefix">Grant below permissions to Swift Backup in one click using Root access or Shizuku.</string>
+    <string name="root_grant_permissions_dialog_msg_prefix">Grant below permissions to BΛR☰ in one click using Root access or Shizuku.</string>
     <string name="root_grant_permissions_dialog_title">Grant permissions with Root access or Shizuku</string>
     <string name="root_provider">Provider</string>
     <string name="root_status">Root status</string>
@@ -1137,8 +1137,8 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="s3_default_region_value">Default region: %s</string>
     <string name="s3_endpoint_example_value">Endpoint example: %s</string>
     <string name="s3_endpoint_resolution_endpoint">Endpoint</string>
-    <string name="s3_endpoint_resolution_explanation">This usually means Private DNS, network DNS, an ad blocker, VPN, or DNS filter is blocking the endpoint before Swift Backup can reach it.</string>
-    <string name="s3_endpoint_resolution_failed_intro">Swift Backup could not connect because this device resolved the S3 endpoint to a local address.</string>
+    <string name="s3_endpoint_resolution_explanation">This usually means Private DNS, network DNS, an ad blocker, VPN, or DNS filter is blocking the endpoint before BΛR☰ can reach it.</string>
+    <string name="s3_endpoint_resolution_failed_intro">BΛR☰ could not connect because this device resolved the S3 endpoint to a local address.</string>
     <string name="s3_endpoint_resolution_failed_title">Endpoint blocked by DNS</string>
     <string name="s3_endpoint_resolution_network_dns">Network DNS</string>
     <string name="s3_endpoint_resolution_private_dns">Private DNS</string>
@@ -1167,7 +1167,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="search">Search</string>
     <string name="search_hint">Search</string>
     <string name="search_hint_apps">Search apps</string>
-    <string name="search_swift_backup">Search Swift Backup</string>
+    <string name="search_swift_backup">Search BΛR☰</string>
     <string name="secondary_action">Secondary action</string>
     <string name="secondary_user_warning_msg">Secondary/Work user profiles are not officially supported due to some unavoidable issues. Please switch to the Main user on this device.</string>
     <string name="see_all">See all</string>
@@ -1206,8 +1206,8 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="share_apk">Share APK</string>
     <string name="share_apks">Share APKs</string>
     <string name="share_logs">Share logs</string>
-    <string name="share_swiftbackup">Share Swift Backup</string>
-    <string name="share_swiftbackup_msg">"Check out this awesome new backup manager I'm using! Its called Swift Backup and here's the link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
+    <string name="share_swiftbackup">Share BΛR☰</string>
+    <string name="share_swiftbackup_msg">"Check out this awesome new backup manager I'm using! Its called BΛR☰ and here's the link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
     <string name="share_swiftbackup_subject">BΛR☰ - Simple, fast backup solution for Android</string>
     <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + Device Logcat</string>
     <string name="share_swiftlogger_text_only">Share text-only report</string>
@@ -1219,8 +1219,8 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="side_sheet_accessibility_pane_title">Side Sheet</string>
     <string name="sign_in_required_for_full_features">Google Sign-in is required to use all the available features in the app including cloud backups, making purchases, using premium features, etc.</string>
     <string name="sign_out">Sign out</string>
-    <string name="signin_intro_subtitle">Create your Swift Backup account for cloud backups, Premium, and account-based encryption.</string>
-    <string name="signin_title">Setup your Swift Backup account</string>
+    <string name="signin_intro_subtitle">Create your BΛR☰ account for cloud backups, Premium, and account-based encryption.</string>
+    <string name="signin_title">Setup your BΛR☰ account</string>
     <string name="size">Size</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="skip_mms">Skip MMS messages</string>
@@ -1290,7 +1290,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="sure_to_cancel_task">Are you sure you want to cancel?</string>
     <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
     <string name="swift_backup">BΛR☰</string>
-    <string name="swift_backup_is_busy">Swift Backup is busy</string>
+    <string name="swift_backup_is_busy">BΛR☰ is busy</string>
     <string name="swift_labs">Swift Labs</string>
     <string name="swift_labs_settings_summary">Experimental and repair tools</string>
     <string name="swiftlogger">SwiftLogger</string>
@@ -1332,7 +1332,7 @@ Solution: Format your storage with exFAT and use a kernel that supports mounting
     <string name="to_device">To device</string>
     <string name="tos_privacy_agreement">"By continuing you agree with our &lt;a href=https://www.swiftapps.org/tos>Terms of Service&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Privacy Policy&lt;/a>. "</string>
     <string name="translation_project">Translation project</string>
-    <string name="translation_project_summary">Help translate Swift Backup</string>
+    <string name="translation_project_summary">Help translate BΛR☰</string>
     <string name="turn_off">Turn off</string>
     <string name="turn_on">Turn on</string>
     <string name="turn_on_schedule">Turn on schedule</string>
@@ -1392,7 +1392,7 @@ Solution: Format your storage with exFAT and use a kernel that supports mounting
     <string name="wifi_networks">WiFi networks</string>
     <string name="wifi_networks_backup">WiFi networks backup</string>
     <string name="wifi_not_available">Wifi not available or internet not working</string>
-    <string name="wifi_not_enabled">WiFi not enabled. Turn on WiFi to let Swift Backup check for saved WiFi networks.</string>
+    <string name="wifi_not_enabled">WiFi not enabled. Turn on WiFi to let BΛR☰ check for saved WiFi networks.</string>
     <string name="wifi_on_device">WiFi networks on device</string>
     <string name="wifi_or_mobile_data">WiFi or Mobile data</string>
     <string name="x_app_failed_to_install_message">%s failed to install</string>
