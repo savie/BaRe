@@ -245,6 +245,36 @@ jobs:
           print("Validated global entitlement, incremental folder strategy, multi-backup strategy, and batch gates.")
           PY
 
+      - name: Validate Firebase-to-Supabase metadata sync
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path("build-src")
+          probe = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseBackendProbe.smali").read_text()
+          listener = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener.smali").read_text()
+          sign_in = (root / "smali/org/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity.smali").read_text()
+          manifest = (root / "AndroidManifest.xml").read_text()
+
+          assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/profiles?on_conflict=user_id" in probe
+          assert 'const-string v1, "apikey"' in probe
+          assert 'const-string v1, "Authorization"' in probe
+          assert "FirebaseAuth;->b(Z)Lcom/google/android/gms/tasks/Task;" in probe
+          assert "Ldx3;->a:Ljava/lang/String;" in probe, "Firebase ID token extraction is missing"
+          assert 'const-string v3, "user_id"' in probe
+          assert "resolution=merge-duplicates,return=minimal" in probe
+          assert "service_role" not in probe and "eyJhbGci" not in probe, (
+              "A server credential or hard-coded JWT must never be embedded in the app"
+          )
+          assert "SupabaseBackendProbe;->probe()V" in listener
+          assert "SupabaseLoginSuccessListener" in sign_in
+          assert "addOnSuccessListener(Lcom/google/android/gms/tasks/OnSuccessListener;)Lcom/google/android/gms/tasks/Task;" in sign_in
+          assert 'android.permission.INTERNET' in manifest
+          print("Validated Firebase ID-token to Supabase profile upsert wiring; no service-role credential embedded.")
+          PY
+
       - name: Replace native library with reconstructed JNI implementation
         shell: bash
         run: |
