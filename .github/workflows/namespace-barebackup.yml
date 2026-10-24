@@ -108,6 +108,19 @@ jobs:
           strings_path = values_dir / "strings.xml"
           strings_text = strings_path.read_text()
 
+          # Remove optional Firebase resources from any previous backend before injecting
+          # this build's values. Missing keys must not leave Swift Backup Firebase endpoints behind.
+          optional_firebase_keys = ("firebase_database_url", "google_storage_bucket", "default_web_client_id")
+          for name in optional_firebase_keys:
+              strings_text, _ = re.subn(
+                  rf'<string\s+name="{re.escape(name)}"[^>]*>.*?</string>',
+                  "",
+                  strings_text,
+                  count=1,
+                  flags=re.DOTALL,
+              )
+          strings_path.write_text(strings_text)
+
           for name, value in firebase_values.items():
               tag = (
                   f'<string name="{name}"[^>]*>.*?</string>'
@@ -144,6 +157,9 @@ jobs:
           apktool_yml = (root / "apktool.yml").read_text()
           assert re.search(r'(?m)^  versionCode: 102$', apktool_yml)
           assert re.search(r'(?m)^  versionName: 1.0.2$', apktool_yml)
+          assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
+          assert 'swift-backup-31751.appspot.com' not in strings_text, "Legacy Swift Backup storage bucket remains in resources"
+          assert 'name="project_id">bare-6f8d6</string>' in strings_text, "Expected BΛR☰ Firebase project_id was not injected"
           print("Validated source-controlled BΛR☰ implementation and injected Firebase runtime configuration.")
           PY
           grep -q 'package="com.bareapps.barebackup"' build-src/AndroidManifest.xml
