@@ -338,7 +338,7 @@
 
     .line 146
     .line 147
-    const-string p0, "Backup requires a higher version of Swift Backup for restore. Current Swift Backup version: "
+    const-string p0, "Backup requires a higher version of BΛR☰ for restore. Current BΛR☰ version: "
 
     .line 148
     .line 149
