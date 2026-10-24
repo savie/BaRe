@@ -271,26 +271,38 @@ jobs:
           from pathlib import Path
 
           root = Path("build-src")
-          probe = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseBackendProbe.smali").read_text()
-          listener = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener.smali").read_text()
+          backend = root / "smali_classes2/org/swiftapps/swiftbackup/backend"
+          sync = (backend / "BareSupabaseProfileSync.smali").read_text()
+          token_listener = (backend / "BareSupabaseProfileSync$TokenListener.smali").read_text()
+          device_runner = (backend / "BareSupabaseProfileSync$ProfileUpsertRunner.smali").read_text()
+          login_listener = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener.smali").read_text()
           sign_in = (root / "smali/org/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity.smali").read_text()
+          app_smali = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
           manifest = (root / "AndroidManifest.xml").read_text()
 
-          assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/profiles?on_conflict=user_id" in probe
-          assert 'const-string v1, "apikey"' in probe
-          assert 'const-string v1, "Authorization"' in probe
-          assert "FirebaseAuth;->b(Z)Lcom/google/android/gms/tasks/Task;" in probe
-          assert "Ldx3;->a:Ljava/lang/String;" in probe, "Firebase ID token extraction is missing"
-          assert 'const-string v3, "user_id"' in probe
-          assert "resolution=merge-duplicates,return=minimal" in probe
-          assert "service_role" not in probe and "eyJhbGci" not in probe, (
+          assert "FirebaseAuth;->c()Lp49;" in sync, "Current Firebase user lookup is missing"
+          assert "FirebaseAuth;->b(Z)Lcom/google/android/gms/tasks/Task;" in sync
+          assert "BareSupabaseProfileSync$TokenListener" in sync
+          assert "Ldx3;->a:Ljava/lang/String;" in token_listener, "Firebase ID-token extraction is missing"
+          assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/profiles?on_conflict=user_id" in device_runner
+          assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/devices?on_conflict=user_id,device_key" in device_runner
+          assert "getOrCreateDeviceKey()Ljava/lang/String;" in device_runner
+          assert "java/util/UUID;->randomUUID()Ljava/util/UUID;" in sync
+          assert "bare_supabase_metadata" in sync and "device_key" in sync
+          assert 'const-string v1, "apikey"' in device_runner
+          assert 'const-string v2, "Authorization"' in device_runner
+          assert "resolution=merge-duplicates,return=minimal" in device_runner
+          assert "service_role" not in device_runner.lower() and "eyJhbGci" not in device_runner, (
               "A server credential or hard-coded JWT must never be embedded in the app"
           )
-          assert "SupabaseBackendProbe;->probe()V" in listener
+          assert "BareSupabaseProfileSync;->syncCurrentUser()V" in login_listener
           assert "SupabaseLoginSuccessListener" in sign_in
           assert "addOnSuccessListener(Lcom/google/android/gms/tasks/OnSuccessListener;)Lcom/google/android/gms/tasks/Task;" in sign_in
+          assert "BareSupabaseProfileSync;->syncCurrentUser()V" in app_smali, (
+              "Existing signed-in users are not reconciled on app startup"
+          )
           assert 'android.permission.INTERNET' in manifest
-          print("Validated Firebase ID-token to Supabase profile upsert wiring; no service-role credential embedded.")
+          print("Validated Firebase-authenticated Supabase profile/device upserts and startup/login wiring.")
           PY
 
       - name: Replace native library with reconstructed JNI implementation
