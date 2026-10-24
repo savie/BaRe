@@ -9,8 +9,6 @@ on:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
-      - "supabase/migrations/**"
-      - ".github/workflows/validate-backend-migration.yml"
 
 permissions:
   contents: read
