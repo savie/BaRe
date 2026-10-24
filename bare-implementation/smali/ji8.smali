@@ -493,7 +493,7 @@
     move-result-object v2
 
     .line 44
-    const-string v5, "/SwiftBackup/"
+    const-string v5, "/BΛR☰/"
 
     .line 45
     .line 46
