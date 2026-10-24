@@ -387,11 +387,9 @@
 .method public final isPremium()Z
     .locals 0
 
-    .line 1
-    iget-boolean p0, p0, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->isPremium:Z
+    # BΛR☰ product policy: incremental folder backup is free.
+    const/4 p0, 0x0
 
-    .line 2
-    .line 3
     return p0
 .end method
 
