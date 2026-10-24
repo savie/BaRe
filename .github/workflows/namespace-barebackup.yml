@@ -422,10 +422,31 @@ jobs:
           sha256sum build/BaRe-namespace-signed.apk
           echo "Signing uses the stable BARE_DEBUG_KEYSTORE_B64 CI key shared with the rewrite rebuild workflow."
 
-      - name: Upload signed test APK
+      - name: Package CI-labelled ZIP artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          ARTIFACT_NAME="BaRe-CI-${GITHUB_RUN_NUMBER}-run-${GITHUB_RUN_ATTEMPT}"
+          mkdir -p build/package
+          cp build/BaRe-namespace-signed.apk "build/package/${ARTIFACT_NAME}.apk"
+          sha256sum "build/package/${ARTIFACT_NAME}.apk" > build/package/SHA256SUMS.txt
+          {
+            echo "Project: BΛR☰"
+            echo "CI run number: ${GITHUB_RUN_NUMBER}"
+            echo "CI run attempt: ${GITHUB_RUN_ATTEMPT}"
+            echo "Commit: ${GITHUB_SHA}"
+            echo "Workflow run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "APK: ${ARTIFACT_NAME}.apk"
+          } > build/package/BUILD-INFO.txt
+          (cd build/package && zip -9 "../${ARTIFACT_NAME}.zip" "${ARTIFACT_NAME}.apk" SHA256SUMS.txt BUILD-INFO.txt)
+          unzip -l "build/${ARTIFACT_NAME}.zip"
+          sha256sum "build/${ARTIFACT_NAME}.zip"
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "$GITHUB_ENV"
+
+      - name: Upload CI-labelled ZIP artifact
         uses: actions/upload-artifact@v4
         with:
-          name: barebackup-namespace-test
-          path: build/BaRe-namespace-signed.apk
+          name: ${{ env.ARTIFACT_NAME }}
+          path: build/${{ env.ARTIFACT_NAME }}.zip
           if-no-files-found: error
           retention-days: 14
