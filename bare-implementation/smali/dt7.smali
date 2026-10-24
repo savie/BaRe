@@ -124,7 +124,7 @@
 
     .line 53
     .line 54
-    const-string v6, "SwiftLogger.xml"
+    const-string v6, "BareLogger.xml"
 
     .line 55
     .line 56
@@ -166,7 +166,7 @@
     .line 74
     .line 75
     .line 76
-    const-string v0, "SwiftLoggerExportHelper"
+    const-string v0, "BareLoggerExportHelper"
 
     .line 77
     .line 78
@@ -476,7 +476,7 @@
 
     .line 231
     .line 232
-    const-string v17, "SwiftLoggerExportHelper"
+    const-string v17, "BareLoggerExportHelper"
 
     .line 233
     .line 234
@@ -579,7 +579,7 @@
 
     .line 275
     .line 276
-    const-string v17, "SwiftLoggerExportHelper"
+    const-string v17, "BareLoggerExportHelper"
 
     .line 277
     .line 278
@@ -695,7 +695,7 @@
     move-result-object v1
 
     .line 329
-    const-string v6, "SwiftLogger_"
+    const-string v6, "BareLogger_"
 
     .line 330
     .line 331
@@ -836,7 +836,7 @@
 
     .line 398
     .line 399
-    const-string v17, "SwiftLoggerExportHelper"
+    const-string v17, "BareLoggerExportHelper"
 
     .line 400
     .line 401
@@ -2591,7 +2591,7 @@
 
     .line 1211
     .line 1212
-    const-string v1, "Failed to create SwiftLogger archive"
+    const-string v1, "Failed to create BareLogger archive"
 
     .line 1213
     .line 1214
@@ -2605,7 +2605,7 @@
     const/4 v12, 0x0
 
     .line 1217
-    const-string v8, "SwiftLoggerExportHelper"
+    const-string v8, "BareLoggerExportHelper"
 
     .line 1218
     .line 1219
@@ -2632,7 +2632,7 @@
     const/4 v13, 0x0
 
     .line 1230
-    const-string v8, "SwiftLoggerExportHelper"
+    const-string v8, "BareLoggerExportHelper"
 
     .line 1231
     .line 1232
@@ -2704,7 +2704,7 @@
 
     .line 1261
     .line 1262
-    const-string v0, "Created SwiftLogger archive is missing or empty: "
+    const-string v0, "Created BareLogger archive is missing or empty: "
 
     .line 1263
     .line 1264
@@ -2722,7 +2722,7 @@
     const/4 v12, 0x0
 
     .line 1270
-    const-string v8, "SwiftLoggerExportHelper"
+    const-string v8, "BareLoggerExportHelper"
 
     .line 1271
     .line 1272
@@ -2748,7 +2748,7 @@
 
     .line 1281
     .line 1282
-    const-string v0, "SwiftLogger log file missing or empty: "
+    const-string v0, "BareLogger log file missing or empty: "
 
     .line 1283
     .line 1284
@@ -2766,7 +2766,7 @@
     const/4 v11, 0x0
 
     .line 1290
-    const-string v7, "SwiftLoggerExportHelper"
+    const-string v7, "BareLoggerExportHelper"
 
     .line 1291
     .line 1292
@@ -2806,7 +2806,7 @@
     move-result v0
 
     .line 9
-    const-string v1, "\n[SwiftLogger end]"
+    const-string v1, "\n[BareLogger end]"
 
     .line 10
     .line 11
@@ -2999,7 +2999,7 @@
 
     .line 2
     .line 3
-    const-string v1, "\n[DeviceInfo end]\n\n[SwiftLogger start]\n"
+    const-string v1, "\n[DeviceInfo end]\n\n[BareLogger start]\n"
 
     .line 4
     .line 5
@@ -3078,7 +3078,7 @@
     move-result-object p0
 
     .line 31
-    const-string p1, "\n[SwiftLogger end]"
+    const-string p1, "\n[BareLogger end]"
 
     .line 32
     .line 33
@@ -3105,7 +3105,7 @@
     move-result-object p0
 
     .line 5
-    const-string v0, "[SwiftLogger truncated: older entries omitted]\n"
+    const-string v0, "[BareLogger truncated: older entries omitted]\n"
 
     .line 6
     .line 7
@@ -3137,7 +3137,7 @@
     move-result v1
 
     .line 21
-    const-string v2, "\n[SwiftLogger end]"
+    const-string v2, "\n[BareLogger end]"
 
     .line 22
     .line 23
@@ -3343,7 +3343,7 @@
     sub-int/2addr v1, v8
 
     .line 112
-    const-string p1, "[SwiftLogger log line truncated]\n"
+    const-string p1, "[BareLogger log line truncated]\n"
 
     .line 113
     .line 114
