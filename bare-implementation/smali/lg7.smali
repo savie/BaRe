@@ -2789,7 +2789,7 @@
 
     .line 60
     :goto_0
-    const-string v5, "Swift Backup package visible: "
+    const-string v5, "BΛR☰ package visible: "
 
     .line 61
     .line 62
