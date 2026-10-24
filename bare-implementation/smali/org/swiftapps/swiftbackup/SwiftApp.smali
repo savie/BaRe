@@ -1384,6 +1384,10 @@
     .line 1
     invoke-super {p0}, Landroid/app/Application;->onCreate()V
 
+    # Initialize the BΛR☰ Firebase project before Firebase-backed classes are touched.
+    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;
+    move-result-object v0
+
     .line 2
     .line 3
     .line 4
