@@ -786,7 +786,7 @@
     .line 84
     .line 85
     .line 86
-    const-string v4, "Backup"
+    const-string v4, "BΛR☰"
 
     .line 87
     .line 88
@@ -812,7 +812,7 @@
     move-result v3
 
     .line 98
-    const/4 v4, 0x6
+    const/4 v4, 0x4
 
     .line 99
     add-int/2addr v3, v4
