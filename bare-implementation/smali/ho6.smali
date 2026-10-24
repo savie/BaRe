@@ -6091,7 +6091,7 @@
 
     .line 47
     .line 48
-    const-string p4, "SwiftLogger.7z"
+    const-string p4, "BΛR☰-Logger.7z"
 
     .line 49
     .line 50
