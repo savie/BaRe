@@ -2175,7 +2175,7 @@
     move-result-object v4
 
     .line 30
-    const-string v5, "SwiftBackup"
+    const-string v5, "BΛR☰"
 
     .line 31
     .line 32
