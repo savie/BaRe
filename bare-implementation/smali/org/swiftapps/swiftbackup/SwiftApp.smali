@@ -1966,18 +1966,11 @@
     .line 307
     .line 308
     sget-object v0, Lgg3;->j:Lzc2;
+    if-eqz v0, :goto_1
 
-    .line 309
-    .line 310
     sget-object v1, Lgg3;->k:Lcg3;
-
-    .line 311
-    .line 312
     invoke-virtual {v0, v1}, Lzc2;->c(Laj8;)V
 
-    .line 313
-    .line 314
-    .line 315
     :goto_1
     new-instance v0, Ljz4;
 
