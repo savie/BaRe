@@ -3607,7 +3607,7 @@
 
     .line 21
     .line 22
-    const-string v2, "org.swiftapps.swiftbackup v5.1.0 (620)"
+    const-string v2, "com.bareapps.barebackup BΛR☰"
 
     .line 23
     .line 24
