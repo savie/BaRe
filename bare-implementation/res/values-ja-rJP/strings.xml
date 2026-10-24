@@ -130,7 +130,7 @@
     <string name="backup_updated_apps_summary">このデバイスに新しいバージョンの APK がインストールされているアプリをバックアップします</string>
     <string name="backups_encrypted_with_aegis_by_default_message">デフォルトで AEGIS-256 で暗号化されます</string>
     <string name="backups_tagged_with">"'%s' でタグ付けされたバックアップ"</string>
-    <string name="backups_tied_warning">バックアップは、バックアップの作成に使用された Swift Backup アカウントにリンクされます。後で復元するには同じアカウントを使用します。</string>
+    <string name="backups_tied_warning">バックアップは、バックアップの作成に使用された BΛR☰ アカウントにリンクされます。後で復元するには同じアカウントを使用します。</string>
     <string name="backups_with_notes">メモ付きバックアップ</string>
     <string name="base_backup">ベースバックアップ</string>
     <string name="batch_actions">バッチアクション</string>
@@ -160,7 +160,7 @@
     <string name="calls">電話</string>
     <string name="cancel">キャンセル</string>
     <string name="cancelling_please_wait">キャンセル中です、お待ちください</string>
-    <string name="cannot_purchase_with_test_release_of_app_message">これはSwift BackupのテストAPKです。購入は、Google Play からダウンロードした APK でのみ行うことができます。Google Playからアプリをダウンロードしてご購入ください。購入後、アプリのテスト APK の使用を開始できます。</string>
+    <string name="cannot_purchase_with_test_release_of_app_message">これはBΛR☰のテストAPKです。購入は、Google Play からダウンロードした APK でのみ行うことができます。Google Playからアプリをダウンロードしてご購入ください。購入後、アプリのテスト APK の使用を開始できます。</string>
     <string name="change_blacklist_mode">ブラックリストモードを変更する</string>
     <string name="change_password">パスワードを変更する</string>
     <string name="change_sms_app">SMSアプリを変更する</string>
@@ -178,7 +178,7 @@
     <string name="cloud_backup_for_apps">アプリとフォルダーのクラウドバックアップ</string>
     <string name="cloud_backup_limit">クラウドバックアップの制限</string>
     <string name="cloud_backup_tag">クラウドバックアップタグ</string>
-    <string name="cloud_backup_tag_message">"アプリ、メッセージ、通話記録、フォルダーのバックアップは、バックアップ タグの下にグループ化されます。これは、複数のデバイス間で Swift Backup を使用するときにバックアップを管理するのに役立ちます。 
+    <string name="cloud_backup_tag_message">"アプリ、メッセージ、通話記録、フォルダーのバックアップは、バックアップ タグの下にグループ化されます。これは、複数のデバイス間で BΛR☰ を使用するときにバックアップを管理するのに役立ちます。 
 
 注: 壁紙と WiFi バックアップにはタグを付けることができません。"</string>
     <string name="cloud_backups">クラウドバックアップ</string>
@@ -191,15 +191,15 @@
 
 [パス]フィールドに既存のフォルダーの名前を追加してください。"</string>
     <string name="cloud_folder_creation_failed">フォルダーの作成に失敗しました</string>
-    <string name="cloud_folder_edit_warning">"Swift Backup によって管理されているクラウド ファイルやフォルダーを、クラウド サービス アプリ、Web サイト、またはダッシュボードから削除、変更、または移動しないでください。 
+    <string name="cloud_folder_edit_warning">"BΛR☰ によって管理されているクラウド ファイルやフォルダーを、クラウド サービス アプリ、Web サイト、またはダッシュボードから削除、変更、または移動しないでください。 
 
-Swift Backup は、ネットワーク リクエストを削減し、パフォーマンスを高速化するために、サーバー上にクラウド ファイルのパス/ID のデータベースを保持します。クラウド ファイルやフォルダーを手動で削除、変更、移動すると、アプリの使用時に問題が発生し、クラウド バックアップにアクセスできなくなります。"</string>
+BΛR☰ は、ネットワーク リクエストを削減し、パフォーマンスを高速化するために、サーバー上にクラウド ファイルのパス/ID のデータベースを保持します。クラウド ファイルやフォルダーを手動で削除、変更、移動すると、アプリの使用時に問題が発生し、クラウド バックアップにアクセスできなくなります。"</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
     <string name="cloud_mail_ru_external_password_warning">"通常のアカウントパスワードの代わりに、外部アプリ用パスワードを作成して使用してください:
 https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru では、ユーザーがこのオプションを利用するには有料のストレージ プランを持っている必要があります</string>
     <string name="cloud_maintenance_running_message">クラウドメンテナンス中です。終了したらもう一度試してください。</string>
-    <string name="cloud_not_connected_summary">Swift Backup はクラウド サービスに接続されていません</string>
+    <string name="cloud_not_connected_summary">BΛR☰ はクラウド サービスに接続されていません</string>
     <string name="cloud_sync">クラウド同期</string>
     <string name="cloud_synced_apps">クラウド同期アプリ</string>
     <string name="cloud_upload_skipped_cloud_not_connected">クラウド アカウントが接続されていないため、クラウド アップロードはスキップされました</string>
@@ -260,7 +260,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">データ</string>
     <string name="data_encryption_smb_3">データ暗号化 (SMB 3+)</string>
     <string name="date_used">使用日</string>
-    <string name="default_sms_app_rationale">"デバイス上のメッセージを復元するには、Swift Backup をデフォルトの SMS アプリにする必要があります。
+    <string name="default_sms_app_rationale">"デバイス上のメッセージを復元するには、BΛR☰ をデフォルトの SMS アプリにする必要があります。
 
 復元が完了すると、SMS アプリを現在のアプリにリセットするよう要求されます。"</string>
     <string name="default_word">デフォルト</string>
@@ -269,7 +269,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="delete_active_tag_message">"注: これにより、'%s' タグに関連付けられたすべてのクラウド バックアップ ファイルが削除されます。"</string>
     <string name="delete_all">すべて削除</string>
     <string name="delete_all_data">すべてのデータを削除する</string>
-    <string name="delete_all_data_summary">このアカウントのデバイス上のアプリで使用されているすべてのデータ (バックアップ/キャッシュ ファイルを含む) を削除します。これにより、アプリがデフォルトの状態にリセットされ、同期された Swift Backup 設定がすべてクリアされます。</string>
+    <string name="delete_all_data_summary">このアカウントのデバイス上のアプリで使用されているすべてのデータ (バックアップ/キャッシュ ファイルを含む) を削除します。これにより、アプリがデフォルトの状態にリセットされ、同期された BΛR☰ 設定がすべてクリアされます。</string>
     <string name="delete_backup">バックアップを削除</string>
     <string name="delete_backup_files">バックアップファイルを削除する</string>
     <string name="delete_backup_files_summary">このアカウントのすべてのローカル バックアップ ファイルをデバイスから削除します。</string>
@@ -296,7 +296,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="disable">無効にする</string>
     <string name="disable_apps">アプリを無効にする</string>
     <string name="disable_apps_warning">注: このアクションを使用するときは注意し、コア システムのアプリやサービスを無効にしないようにしてください。</string>
-    <string name="disable_battery_opt_message">Swift Backupのバッテリー最適化を無効にしてください</string>
+    <string name="disable_battery_opt_message">BΛR☰のバッテリー最適化を無効にしてください</string>
     <string name="disabled">無効</string>
     <string name="discard_changes_confirmation">変更を破棄しますか?</string>
     <string name="disconnect_cloud">切断する</string>
@@ -344,10 +344,10 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="favorites">お気に入り</string>
     <string name="feature_requires_root_access_message">"この機能を動作させるには root アクセスが必要です。
 
-デバイスが root 化されており、Swift Backup に root アクセスが付与されているかどうかを確認してください。"</string>
+デバイスが root 化されており、BΛR☰ に root アクセスが付与されているかどうかを確認してください。"</string>
     <string name="feature_requires_root_access_or_shizuku_message">"この機能を使用するには、Root アクセスまたは Shizuku が必要です。
 
-デバイスが root 化されており、Swift Backup に root アクセスが付与されているか、または Shizuku サービスが実行されているかどうかを確認してください。"</string>
+デバイスが root 化されており、BΛR☰ に root アクセスが付与されているか、または Shizuku サービスが実行されているかどうかを確認してください。"</string>
     <string name="filen_two_factor_authentication">Filen の 2 要素認証</string>
     <string name="filen_two_factor_code_hint">2FA コードまたはリカバリ コード</string>
     <string name="files">ファイル</string>
@@ -450,7 +450,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="intro_benefit_keys_title">暗号化キー</string>
     <string name="intro_benefit_premium_subtitle">アカウントでプレミアムを購入して使用する</string>
     <string name="intro_benefit_premium_title">プレミアム機能</string>
-    <string name="intro_benefit_settings_subtitle">Swift Backup の設定、スケジュール、アプリのラベル、アプリの構成などを同期します。</string>
+    <string name="intro_benefit_settings_subtitle">BΛR☰ の設定、スケジュール、アプリのラベル、アプリの構成などを同期します。</string>
     <string name="intro_benefit_settings_title">アプリの設定</string>
     <string name="invalid_apks_archive">無効な APK アーカイブ</string>
     <string name="invalid_config">無効な構成</string>
@@ -612,12 +612,12 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="ok">OK</string>
     <string name="old_password">古いパスワード</string>
     <string name="old_passwords">古いパスワード</string>
-    <string name="old_passwords_description">以前に使用した別のパスワードで暗号化されたバックアップがある場合、Swift Backup は古いパスワードを使用してそれらのバックアップを復号化できます。</string>
+    <string name="old_passwords_description">以前に使用した別のパスワードで暗号化されたバックアップがある場合、BΛR☰ は古いパスワードを使用してそれらのバックアップを復号化できます。</string>
     <string name="one_time_purchase">一度購入すれば永久にプレミアム</string>
     <string name="only_if_battery_is_x_percent">バッテリー残量が %s 以上の場合のみ</string>
     <string name="only_when_charging">充電時のみ</string>
     <string name="open_folder">フォルダーを開く</string>
-    <string name="open_in_swift_backup">Swift Backup で開く</string>
+    <string name="open_in_swift_backup">BΛR☰ で開く</string>
     <string name="optimizing_battery_use">バッテリー使用の最適化</string>
     <string name="original_size">元のサイズ</string>
     <string name="other_quick_actions">その他のクイックアクション</string>
@@ -629,20 +629,20 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="password_copied_to_clipboard">パスワードがクリップボードにコピーされました</string>
     <string name="password_remember_warning">パスワードは後で取得することができないため、覚えておくかメモしておいてください。</string>
     <string name="password_saved">パスワードが保存されました</string>
-    <string name="password_strategy_standard_description">"暗号化されたバックアップのパスワードの生成は Swift Backup に任せてください。 パスワードは Swift Backup アカウントに固有であり、バックアップする機能 (メッセージ、通話記録、バックアップされるアプリ パッケージなど) によって異なります。 
+    <string name="password_strategy_standard_description">"暗号化されたバックアップのパスワードの生成は BΛR☰ に任せてください。 パスワードは BΛR☰ アカウントに固有であり、バックアップする機能 (メッセージ、通話記録、バックアップされるアプリ パッケージなど) によって異なります。 
 生成されたパスワードにはランダムな英数字が含まれており、bfb69f180e4e1db7671c3188f90881d7 のようになります。
 匿名ユーザー (アカウントなしでアプリを使用するユーザー) の場合、パスワード生成戦略は一般的であり、固有のものではありません。パスワードを一意に保ちたい場合は、高度な戦略を使用してください。"</string>
     <string name="password_strategy_standard_title">標準</string>
     <string name="password_strategy_user_password_description">"標準戦略と同じですが、ユーザーが入力したパスワードをさらに使用して、最終的な暗号化パスワードを生成します。パスワードを紛失した場合、バックアップを復号化/復元することはできません。 
-Swift Backup は、パスワードを暗号化した形式でアプリの非公開データディレクトリにのみ保存します。 
-Swift Backup をセットアップするときは、暗号化されたバックアップを復号化して復元できるように、パスワードを再度入力する必要があります。"</string>
+BΛR☰ は、パスワードを暗号化した形式でアプリの非公開データディレクトリにのみ保存します。 
+BΛR☰ をセットアップするときは、暗号化されたバックアップを復号化して復元できるように、パスワードを再度入力する必要があります。"</string>
     <string name="password_strategy_user_password_title">上級者向け</string>
     <string name="passwords_matching_error">パスワードが一致しません</string>
     <string name="path">パス</string>
     <string name="pending_payment">支払い保留中</string>
     <string name="permission_error">権限エラー</string>
     <string name="permission_needed_to_proceed">続行するには権限が必要です</string>
-    <string name="permission_request_message">Swift Backup で一部のアクションを実行するには、以下の権限が必要です。以下をクリックして、ポップアップで権限を付与してください。</string>
+    <string name="permission_request_message">BΛR☰ で一部のアクションを実行するには、以下の権限が必要です。以下をクリックして、ポップアップで権限を付与してください。</string>
     <string name="permissions_needed">必要な権限</string>
     <string name="permissions_needed_for_service">以下の許可がなければ本サービスを利用することはできません</string>
     <string name="pinned_to_home_page">ホームページに固定されています</string>
@@ -681,7 +681,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="protected_backup">保護されたバックアップ</string>
     <string name="protected_backup_description">"保護されたバックアップは、更新や削除から安全に保管したいバックアップです。
 
-複数のバックアップを有効にしている場合、バックアップの最大数制限に達しても、Swift Backup は保護されたバックアップを削除しません。"</string>
+複数のバックアップを有効にしている場合、バックアップの最大数制限に達しても、BΛR☰ は保護されたバックアップを削除しません。"</string>
     <string name="protocol">プロトコル</string>
     <string name="purchase">購入する</string>
     <string name="purchase_plan">%1$sを購入</string>
@@ -711,14 +711,14 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="requires_android_15_root_access">Android 15 以降と root アクセスが必要です</string>
     <string name="reset">リセット</string>
     <string name="reset_app">アプリをリセットする</string>
-    <string name="reset_app_summary">アプリをデフォルトの状態にリセットします。これにより、同期されたすべての Swift Backup 設定がクリアされます。バックアップ ファイルやクラウド キャッシュは削除されません。</string>
+    <string name="reset_app_summary">アプリをデフォルトの状態にリセットします。これにより、同期されたすべての BΛR☰ 設定がクリアされます。バックアップ ファイルやクラウド キャッシュは削除されません。</string>
     <string name="reset_filters">フィルターをリセットする</string>
     <string name="reset_sms_app_warning">デフォルトの SMS アプリを設定しないと、メッセージを受信できなくなります。次のダイアログで「はい」を選択してください。</string>
     <string name="reset_sms_app_warning_q">"デフォルトの SMS アプリを設定しないと、メッセージを受信できなくなります。
 
 次の画面でデフォルトの SMS アプリを設定してください。"</string>
     <string name="restart_app">アプリを再起動する</string>
-    <string name="restart_app_settings_summary">Swift Backup を再起動する</string>
+    <string name="restart_app_settings_summary">BΛR☰ を再起動する</string>
     <string name="restore">復元</string>
     <string name="restore_all">すべて復元</string>
     <string name="restore_all_apps">すべてのアプリを復元する</string>
@@ -744,7 +744,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="restore_permission_option_all">アプリでサポートされているすべての権限を復元します</string>
     <string name="restore_permission_option_granted">バックアップされた権限の選択を復元する</string>
     <string name="restore_permission_option_none">権限を復元しない</string>
-    <string name="restore_previous_password_message">以前は、暗号化されたバックアップにカスタム パスワードを使用していました。Swift Backup が暗号化されたバックアップを復号化して復元できるように、今すぐ入力してください。</string>
+    <string name="restore_previous_password_message">以前は、暗号化されたバックアップにカスタム パスワードを使用していました。BΛR☰ が暗号化されたバックアップを復号化して復元できるように、今すぐ入力してください。</string>
     <string name="restore_purchases">購入したものを復元する</string>
     <string name="restore_runtime_permissions">実行時の権限を復元する</string>
     <string name="restore_special_data_accessibility_service_summary">有効なアクセシビリティ サービス</string>
@@ -791,7 +791,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="root_access_needed">root 権限が必要です</string>
     <string name="root_access_or_shizuku_needed">rootアクセスまたはShizukuが必要です</string>
     <string name="root_grant_permissions">root または Shizuku ですべて付与</string>
-    <string name="root_grant_permissions_dialog_msg_prefix">ルートアクセスまたはShizukuを使用して、ワンクリックでSwift Backupに以下の権限を付与します。</string>
+    <string name="root_grant_permissions_dialog_msg_prefix">ルートアクセスまたはShizukuを使用して、ワンクリックでBΛR☰に以下の権限を付与します。</string>
     <string name="root_grant_permissions_dialog_title">RootアクセスまたはShizukuで権限を付与します。</string>
     <string name="root_provider">プロバイダー</string>
     <string name="root_status">ルートステータス</string>
@@ -822,7 +822,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="schedules">スケジュール</string>
     <string name="search">検索</string>
     <string name="search_hint_apps">アプリを検索する</string>
-    <string name="search_swift_backup">Swift Backup を検索</string>
+    <string name="search_swift_backup">BΛR☰ を検索</string>
     <string name="secondary_action">二次アクション</string>
     <string name="secondary_user_warning_msg">いくつかの避けられない問題のため、セカンダリ/仕事用ユーザー プロファイルは正式にサポートされていません。このデバイスのメイン ユーザーに切り替えてください。</string>
     <string name="see_all">全て見る</string>
@@ -860,10 +860,10 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="share_apk">APKを共有する</string>
     <string name="share_apks">APKを共有する</string>
     <string name="share_logs">ログを共有する</string>
-    <string name="share_swiftbackup">Swift Backup を共有</string>
-    <string name="share_swiftbackup_msg">私が使っている便利なバックアップマネージャー、Swift Backup をぜひお試しください: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">Swift Backup - Android 向けのシンプル、高速、スマートなバックアップ ソリューション</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + デバイス Logcat</string>
+    <string name="share_swiftbackup">BΛR☰ を共有</string>
+    <string name="share_swiftbackup_msg">私が使っている便利なバックアップマネージャー、BΛR☰ をぜひお試しください: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
+    <string name="share_swiftbackup_subject">BΛR☰ - Android 向けのシンプル、高速、スマートなバックアップ ソリューション</string>
+    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + デバイス Logcat</string>
     <string name="share_swiftlogger_text_only">テキストのみのレポートを共有する</string>
     <string name="shared_libraries">共有ライブラリ</string>
     <string name="shortcuts">ショートカット</string>
@@ -872,8 +872,8 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="show_system_apps">システムアプリを表示</string>
     <string name="sign_in_required_for_full_features">クラウド バックアップ、購入、プレミアム機能の使用など、アプリで利用可能なすべての機能を使用するには、Google サインインが必要です。</string>
     <string name="sign_out">サインアウト</string>
-    <string name="signin_intro_subtitle">クラウド バックアップ、プレミアム、アカウントベースの暗号化用の Swift Backup アカウントを作成します。</string>
-    <string name="signin_title">Swift Backup アカウントをセットアップする</string>
+    <string name="signin_intro_subtitle">クラウド バックアップ、プレミアム、アカウントベースの暗号化用の BΛR☰ アカウントを作成します。</string>
+    <string name="signin_title">BΛR☰ アカウントをセットアップする</string>
     <string name="size">サイズ</string>
     <string name="skip_for_now">今のところスキップしてください</string>
     <string name="skip_mms">MMS メッセージをスキップする</string>
@@ -906,7 +906,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="successful">成功しました</string>
     <string name="sure_to_cancel_task">本当にキャンセルしてもよろしいですか?</string>
     <string name="sure_to_proceed">続行してもよろしいですか? 「はい」をクリックして確認します。</string>
-    <string name="swift_backup_is_busy">Swift Backup は処理中です</string>
+    <string name="swift_backup_is_busy">BΛR☰ は処理中です</string>
     <string name="swift_labs_settings_summary">実験および修復ツール</string>
     <string name="swiftlogger_info">バグレポートのログ</string>
     <string name="swipe_actions">スワイプアクション</string>
@@ -941,7 +941,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="to_device">デバイスへ</string>
     <string name="tos_privacy_agreement">続行すると、<a href="https://www.swiftapps.org/tos">利用規約</a>および<a href="https://www.swiftapps.org/privacy-policy">プライバシーポリシー</a>に同意したことになります。</string>
     <string name="translation_project">翻訳プロジェクト</string>
-    <string name="translation_project_summary">Swift Backup の翻訳を手伝ってください</string>
+    <string name="translation_project_summary">BΛR☰ の翻訳を手伝ってください</string>
     <string name="turn_off">オフにする</string>
     <string name="turn_on">オンにする</string>
     <string name="turn_on_schedule">スケジュールをオンにする</string>
@@ -991,7 +991,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="wifi_networks">WiFiネットワーク</string>
     <string name="wifi_networks_backup">WiFiネットワークのバックアップ</string>
     <string name="wifi_not_available">Wi-Fi が利用できない、またはインターネットが機能していない</string>
-    <string name="wifi_not_enabled">WiFi が有効になっていません。WiFi をオンにして、Swift Backup で保存された WiFi ネットワークを確認できるようにします。</string>
+    <string name="wifi_not_enabled">WiFi が有効になっていません。WiFi をオンにして、BΛR☰ で保存された WiFi ネットワークを確認できるようにします。</string>
     <string name="wifi_on_device">デバイス上の WiFi ネットワーク</string>
     <string name="wifi_or_mobile_data">WiFi またはモバイルデータ</string>
     <string name="x_app_failed_to_install_message">%s のインストールに失敗しました</string>
