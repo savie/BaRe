@@ -96,8 +96,16 @@ jobs:
           }
           if project_info.get("storage_bucket"):
               firebase_values["google_storage_bucket"] = project_info["storage_bucket"]
+          # Realtime Database URL is not always emitted by google-services.json.
+          # Prefer an explicitly configured URL; otherwise use Firebase's default
+          # RTDB hostname for this project rather than leaving the app pointed at
+          # the removed Swift Backup database or with no database URL at all.
           if project_info.get("firebase_url"):
               firebase_values["firebase_database_url"] = project_info["firebase_url"]
+          else:
+              firebase_values["firebase_database_url"] = (
+                  f"https://{project_info['project_id']}-default-rtdb.firebaseio.com"
+              )
           for oauth_client in firebase_client.get("oauth_client", []):
               if str(oauth_client.get("client_type")) == "3" and oauth_client.get("client_id"):
                   firebase_values["default_web_client_id"] = oauth_client["client_id"]
@@ -159,6 +167,8 @@ jobs:
           assert re.search(r'(?m)^  versionName: 1.0.2$', apktool_yml)
           assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
           assert 'swift-backup-31751.appspot.com' not in strings_text, "Legacy Swift Backup storage bucket remains in resources"
+          assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
+          assert re.search(r'<string name="firebase_database_url" translatable="false">https://bare-6f8d6-default-rtdb.firebaseio.com</string>', strings_text), "Expected BΛR☰ Firebase Database URL was not injected"
           assert re.search(r'<string name="project_id" translatable="false">bare-6f8d6</string>', strings_text), "Expected BΛR☰ Firebase project_id was not injected"
           print("Validated source-controlled BΛR☰ implementation and injected Firebase runtime configuration.")
           PY
