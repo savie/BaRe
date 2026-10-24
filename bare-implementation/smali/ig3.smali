@@ -58,107 +58,18 @@
     .line 11
     invoke-virtual {v1}, Lcom/google/firebase/FirebaseOptions;->getDatabaseUrl()Ljava/lang/String;
 
+    .line 11
     .line 12
     .line 13
-    .line 14
     move-result-object v1
 
-    .line 15
     if-nez v1, :cond_1
 
-    .line 16
-    .line 17
-    invoke-virtual {v0}, Lcom/google/firebase/FirebaseApp;->getOptions()Lcom/google/firebase/FirebaseOptions;
-
-    .line 18
-    .line 19
-    .line 20
-    move-result-object v1
-
-    .line 21
-    invoke-virtual {v1}, Lcom/google/firebase/FirebaseOptions;->getProjectId()Ljava/lang/String;
-
-    .line 22
-    .line 23
-    .line 24
-    move-result-object v1
-
-    .line 25
-    if-eqz v1, :cond_0
-
-    .line 26
-    .line 27
-    new-instance v1, Ljava/lang/StringBuilder;
-
-    .line 28
-    .line 29
-    const-string v2, "https://"
-
-    .line 30
-    .line 31
-    invoke-direct {v1, v2}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-
-    .line 32
-    .line 33
-    .line 34
-    invoke-virtual {v0}, Lcom/google/firebase/FirebaseApp;->getOptions()Lcom/google/firebase/FirebaseOptions;
-
-    .line 35
-    .line 36
-    .line 37
-    move-result-object v2
-
-    .line 38
-    invoke-virtual {v2}, Lcom/google/firebase/FirebaseOptions;->getProjectId()Ljava/lang/String;
-
-    .line 39
-    .line 40
-    .line 41
-    move-result-object v2
-
-    .line 42
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    .line 43
-    .line 44
-    .line 45
-    const-string v2, "-default-rtdb.firebaseio.com"
-
-    .line 46
-    .line 47
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    .line 48
-    .line 49
-    .line 50
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    .line 51
-    .line 52
-    .line 53
-    move-result-object v1
-
-    .line 54
-    goto :goto_0
-
-    .line 55
-    :cond_0
     new-instance v0, Lxc2;
-
-    .line 56
-    .line 57
-    const-string v1, "Failed to get FirebaseDatabase instance: Can\'t determine Firebase Database URL. Be sure to include a Project ID in your configuration."
-
-    .line 58
-    .line 59
+    const-string v1, "Firebase Realtime Database is not configured; provide an explicit database URL."
     invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
-
-    .line 60
-    .line 61
-    .line 62
     throw v0
 
-    .line 63
     :cond_1
     :goto_0
     const-string v2, "Specified Database URL \'"
