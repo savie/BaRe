@@ -352,7 +352,7 @@
 
     .line 140
     .line 141
-    const-string v10, "Swift Backup crashed"
+    const-string v10, "BΛR☰ crashed"
 
     .line 142
     .line 143
