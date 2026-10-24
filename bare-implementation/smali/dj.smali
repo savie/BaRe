@@ -151,7 +151,7 @@
     const/4 v11, 0x0
 
     .line 54
-    const-string v8, "Share logs called with SwiftLogger text only"
+    const-string v8, "Share logs called with BΛR☰ Logger text only"
 
     .line 55
     .line 56
