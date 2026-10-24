@@ -103,7 +103,7 @@
     .line 21
     .line 22
     .line 23
-    const/4 v6, 0x1
+    const/4 v6, 0x0
 
     .line 24
     const-string v2, "Incremental"
