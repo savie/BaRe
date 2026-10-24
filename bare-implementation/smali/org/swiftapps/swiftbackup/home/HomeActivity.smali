@@ -734,7 +734,7 @@
 
     .line 57
     .line 58
-    const-string v3, "SWIFTBACKUP"
+    const-string v3, "BΛR☰"
 
     .line 59
     .line 60
