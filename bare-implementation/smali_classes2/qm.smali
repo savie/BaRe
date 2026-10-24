@@ -725,7 +725,7 @@
 
     .line 331
     .line 332
-    const-string v4, "swift_backup_apks/"
+    const-string v4, "bare_backup_apks/"
 
     .line 333
     .line 334
