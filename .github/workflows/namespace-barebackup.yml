@@ -47,6 +47,7 @@ jobs:
           set -euo pipefail
           curl --fail --location --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o apktool.jar
           java -jar apktool.jar --version
+          sha256sum apktool.jar
 
       - name: Apply minimal package namespace changes
         shell: bash
@@ -55,8 +56,12 @@ jobs:
           cp -a bare-implementation build-src
           mkdir -p build
           git fetch --no-tags --depth=1 origin rewrite
-          git show FETCH_HEAD:app/google-services.json > build/google-services.json
-          git show FETCH_HEAD:app/src/main/res/values/strings.xml > build/rewrite-strings.xml
+          REWRITE_SHA="$(git rev-parse FETCH_HEAD)"
+          echo "Resolved rewrite source commit: $REWRITE_SHA"
+          git show "$REWRITE_SHA:app/google-services.json" > build/google-services.json
+          git show "$REWRITE_SHA:app/src/main/res/values/strings.xml" > build/rewrite-strings.xml
+          sha256sum build/google-services.json build/rewrite-strings.xml
+          sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 - <<'PY'
           from pathlib import Path
           import json
@@ -289,6 +294,8 @@ jobs:
           x86_64:x86_64-linux-android24
           ABIS
           sha256sum build-src/lib/*/libnative-lib.so
+          "$NDK_BIN/clang++" --version | head -n 1
+          "$NDK_BIN/llvm-readelf" --version | head -n 1
 
       - name: Rebuild unsigned APK
         run: |
@@ -296,6 +303,7 @@ jobs:
           mkdir -p build
           java -jar apktool.jar b build-src --use-aapt2 --output build/barebackup-unsigned.apk
           unzip -t build/barebackup-unsigned.apk
+          sha256sum build/barebackup-unsigned.apk
           ls -lh build/barebackup-unsigned.apk
 
       - name: Prepare stable CI signing key
@@ -320,6 +328,9 @@ jobs:
           BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
           test -x "$BUILD_TOOLS/zipalign"
           test -x "$BUILD_TOOLS/apksigner"
+          echo "Selected Android build-tools: $BUILD_TOOLS"
+          "$BUILD_TOOLS/zipalign" -h 2>&1 | head -n 2 || true
+          "$BUILD_TOOLS/apksigner" version
           "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
           python3 - <<'PY'
           import zipfile
@@ -338,6 +349,7 @@ jobs:
               print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
           PY
           "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
+          sha256sum build/barebackup-aligned.apk
           "$BUILD_TOOLS/apksigner" sign --ks "$CI_KEYSTORE" --ks-key-alias androiddebugkey \
             --ks-pass pass:android --key-pass pass:android \
             --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
