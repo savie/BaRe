@@ -215,12 +215,13 @@ jobs:
               "BΛR☰ global premium entitlement must be enabled"
           )
 
-          folder_strategy = secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali"
-          folder_text = folder_strategy.read_text()
-          assert re.search(
-              r'const-string v2, "Incremental".*?const/4 v6, 0x0',
-              folder_text, re.DOTALL
-          ), "Incremental folder backup must be marked free"
+          folder_premium = method_body(
+              secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali",
+              "isPremium()Z",
+          )
+          assert re.search(r"(?m)^\\s*const/4 p0, 0x0\\s*$", folder_premium), (
+              "Incremental folder backup must be marked free"
+          )
 
           multi_premium = method_body(
               secondary / "org/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation.smali",
