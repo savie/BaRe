@@ -219,7 +219,7 @@ jobs:
               secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali",
               "isPremium()Z",
           )
-          assert re.search(r"(?m)^\\s*const/4 p0, 0x0\\s*$", folder_premium), (
+          assert re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", folder_premium), (
               "Incremental folder backup must be marked free"
           )
 
