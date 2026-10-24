@@ -88,6 +88,158 @@
     return-void
 .end method
 
+.method private final syncDevice()V
+    .locals 8
+
+    :try_start_1
+    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    move-result-object v0
+
+    const-string v1, "bare_backend"
+    const/4 v2, 0x0
+    invoke-virtual {v0, v1, v2}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+    move-result-object v2
+
+    const-string v1, "device_key"
+    const/4 v3, 0x0
+    invoke-interface {v2, v1, v3}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v3
+    if-eqz v3, :device_key_new
+    goto :device_key_ready
+
+    :device_key_new
+    invoke-static {}, Ljava/util/UUID;->randomUUID()Ljava/util/UUID;
+    move-result-object v3
+    invoke-virtual {v3}, Ljava/util/UUID;->toString()Ljava/lang/String;
+    move-result-object v3
+    invoke-interface {v2}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+    move-result-object v4
+    const-string v5, "device_key"
+    invoke-interface {v4, v5, v3}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+    move-result-object v4
+    invoke-interface {v4}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    :device_key_ready
+    new-instance v4, Lorg/json/JSONObject;
+    invoke-direct {v4}, Lorg/json/JSONObject;-><init>()V
+
+    const-string v5, "user_id"
+    iget-object v6, p0, Lorg/swiftapps/swiftbackup/backend/SupabaseBackendProbe;->userId:Ljava/lang/String;
+    invoke-virtual {v4, v5, v6}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    const-string v5, "device_key"
+    invoke-virtual {v4, v5, v3}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    const-string v5, "display_name"
+    const-string v6, "Android device"
+    invoke-virtual {v4, v5, v6}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    const-string v5, "platform"
+    const-string v6, "android"
+    invoke-virtual {v4, v5, v6}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    const-string v5, "app_version"
+    const-string v6, "1.0.2"
+    invoke-virtual {v4, v5, v6}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    const-string v5, "last_seen_at"
+    invoke-static {}, Ljava/time/Instant;->now()Ljava/time/Instant;
+    move-result-object v6
+    invoke-virtual {v6}, Ljava/time/Instant;->toString()Ljava/lang/String;
+    move-result-object v6
+    invoke-virtual {v4, v5, v6}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+
+    new-instance v0, Ljava/net/URL;
+    const-string v1, "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/devices?on_conflict=user_id,device_key"
+    invoke-direct {v0, v1}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v0}, Ljava/net/URL;->openConnection()Ljava/net/URLConnection;
+    move-result-object v0
+    check-cast v0, Ljava/net/HttpURLConnection;
+
+    const-string v1, "POST"
+    invoke-virtual {v0, v1}, Ljava/net/HttpURLConnection;->setRequestMethod(Ljava/lang/String;)V
+    const/4 v1, 0x1
+    invoke-virtual {v0, v1}, Ljava/net/HttpURLConnection;->setDoOutput(Z)V
+    const/16 v1, 0x1388
+    invoke-virtual {v0, v1}, Ljava/net/URLConnection;->setConnectTimeout(I)V
+    invoke-virtual {v0, v1}, Ljava/net/URLConnection;->setReadTimeout(I)V
+
+    const-string v1, "apikey"
+    const-string v2, "sb_publishable_qTDGXWoCW79yAL0jyO27mw_MPJY_Ryi"
+    invoke-virtual {v0, v1, v2}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+
+    const-string v1, "Authorization"
+    new-instance v2, Ljava/lang/StringBuilder;
+    const-string v3, "Bearer "
+    invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    iget-object v3, p0, Lorg/swiftapps/swiftbackup/backend/SupabaseBackendProbe;->token:Ljava/lang/String;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v2
+    invoke-virtual {v0, v1, v2}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+
+    const-string v1, "Content-Type"
+    const-string v2, "application/json; charset=utf-8"
+    invoke-virtual {v0, v1, v2}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v1, "Prefer"
+    const-string v2, "resolution=merge-duplicates,return=minimal"
+    invoke-virtual {v0, v1, v2}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+
+    invoke-virtual {v4}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
+    move-result-object v2
+    const-string v3, "UTF-8"
+    invoke-virtual {v2, v3}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+    move-result-object v2
+    invoke-virtual {v0}, Ljava/net/URLConnection;->getOutputStream()Ljava/io/OutputStream;
+    move-result-object v4
+    invoke-virtual {v4, v2}, Ljava/io/OutputStream;->write([B)V
+    invoke-virtual {v4}, Ljava/io/OutputStream;->flush()V
+    invoke-virtual {v4}, Ljava/io/OutputStream;->close()V
+
+    invoke-virtual {v0}, Ljava/net/HttpURLConnection;->getResponseCode()I
+    move-result v1
+    const/16 v2, 0xc8
+    if-ne v1, v2, :device_check_created
+    goto :device_upsert_accepted
+
+    :device_check_created
+    const/16 v2, 0xc9
+    if-ne v1, v2, :device_check_no_content
+    goto :device_upsert_accepted
+
+    :device_check_no_content
+    const/16 v2, 0xcc
+    if-ne v1, v2, :device_upsert_rejected
+    goto :device_upsert_accepted
+
+    :device_upsert_rejected
+    const-string v2, "BΛR☰Backend"
+    const-string v3, "Supabase rejected device metadata sync; check JWT trust and RLS configuration."
+    invoke-static {v2, v3}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
+    goto :device_disconnect
+
+    :device_upsert_accepted
+    const-string v2, "BΛR☰Backend"
+    const-string v3, "Supabase device metadata sync succeeded."
+    invoke-static {v2, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    :device_disconnect
+    invoke-virtual {v0}, Ljava/net/HttpURLConnection;->disconnect()V
+    :try_end_1
+    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :device_catch
+
+    return-void
+
+    :device_catch
+    move-exception v0
+    const-string v1, "BΛR☰Backend"
+    const-string v2, "Supabase device metadata sync failed."
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    return-void
+.end method
+
+
 .method public run()V
     .locals 8
 
@@ -176,6 +328,9 @@
     const-string v2, "BΛR☰Backend"
     const-string v3, "Supabase accepted Firebase identity; profile metadata sync succeeded."
     invoke-static {v2, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    invoke-virtual {v0}, Ljava/net/HttpURLConnection;->disconnect()V
+    invoke-direct {p0}, Lorg/swiftapps/swiftbackup/backend/SupabaseBackendProbe;->syncDevice()V
+    goto :try_end_0
 
     :disconnect
     invoke-virtual {v0}, Ljava/net/HttpURLConnection;->disconnect()V
