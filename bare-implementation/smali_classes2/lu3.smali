@@ -655,7 +655,7 @@
 
     .line 216
     .line 217
-    const-string v4, "Main Swift Backup folder \'"
+    const-string v4, "Main BΛR☰ folder \'"
 
     .line 218
     .line 219
@@ -693,7 +693,7 @@
 
     .line 234
     .line 235
-    const-string v2, "\n                    User has manually deleted the Main Swift Backup folder \'"
+    const-string v2, "\n                    User has manually deleted the Main BΛR☰ folder \'"
 
     .line 236
     .line 237
@@ -707,7 +707,7 @@
     .line 241
     .line 242
     .line 243
-    const-string v0, "\' from Google Drive. ALL cloud backups are now invalid and should be deleted from Swift Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Swift Backup and go to \'Cloud sync\' section.\n                    2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Swift Backup.\n                    "
+    const-string v0, "\' from Google Drive. ALL cloud backups are now invalid and should be deleted from BΛR☰.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open BΛR☰ and go to \'Cloud sync\' section.\n                    2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in BΛR☰.\n                    "
 
     .line 244
     .line 245
@@ -814,7 +814,7 @@
     .line 294
     .line 295
     .line 296
-    const-string v9, "User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in Swift Backup and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open Swift Backup and go to \'Cloud sync\' section.\n2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in Swift Backup."
+    const-string v9, "User has manually deleted uploaded files from Google Drive. If multiple files were deleted, it is best to delete ALL cloud backups in BΛR☰ and start fresh.\n----------------\nSteps to resolve\n----------------\n1. Open BΛR☰ and go to \'Cloud sync\' section.\n2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n3. Disconnect then reconnect Google Drive in BΛR☰."
 
     .line 297
     .line 298
