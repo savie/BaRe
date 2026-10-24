@@ -1,4 +1,4 @@
-**BΛR☰ v1.0.2 (102)**
+**BΛR☰ v5.1.0 (620)**
 [release-summary] This release introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
 
 **Android 17 Support**

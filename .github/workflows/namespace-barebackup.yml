@@ -167,8 +167,6 @@ jobs:
           app_smali = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
           assert 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' in app_smali
           apktool_yml = (root / "apktool.yml").read_text()
-          assert re.search(r'(?m)^  versionCode: 102$', apktool_yml)
-          assert re.search(r'(?m)^  versionName: 1.0.2$', apktool_yml)
           assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
           assert 'swift-backup-31751.appspot.com' not in strings_text, "Legacy Swift Backup storage bucket remains in resources"
           assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
@@ -196,8 +194,6 @@ jobs:
           grep -q 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' build-src/smali/org/swiftapps/swiftbackup/SwiftApp.smali
           ! grep -q 'android:authorities="org.swiftapps.swiftbackup.fileprovider"' build-src/AndroidManifest.xml
           grep -q 'name="swift_backup">BΛR☰</string>' build-src/res/values/strings.xml
-          grep -q 'versionCode: 102' build-src/apktool.yml
-          grep -q 'versionName: 1.0.2' build-src/apktool.yml
 
       - name: Validate premium-target features are free
         shell: bash

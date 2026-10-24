@@ -105,7 +105,7 @@
     move-result-object v3
 
     const-string v4, "app_version"
-    const-string v5, "1.0.2"
+    const-string v5, "5.1.0"
     invoke-virtual {v3, v4, v5}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
     move-result-object v3
 
