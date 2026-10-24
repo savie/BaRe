@@ -200,6 +200,7 @@ jobs:
 
           root = Path("build-src/smali")
           secondary = Path("build-src/smali_classes2")
+
           def method_body(path, signature):
               source = path.read_text()
               match = re.search(
@@ -213,17 +214,13 @@ jobs:
           assert re.search(r"(?m)^\s*const/4 p0, 0x1\s*$", premium_state), (
               "BΛR☰ global premium entitlement must be enabled"
           )
-          assert not re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", premium_state), (
-              "BΛR☰ premium entitlement must not fall back to false"
-          )
 
-          folder_premium = method_body(
-              secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali",
-              "isPremium()Z",
-          )
-          assert re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", folder_premium), (
-              "Incremental folder backup must be treated as free"
-          )
+          folder_strategy = secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali"
+          folder_text = folder_strategy.read_text()
+          assert re.search(
+              r'const-string v2, "Incremental".*?const/4 v6, 0x0',
+              folder_text, re.DOTALL
+          ), "Incremental folder backup must be marked free"
 
           multi_premium = method_body(
               secondary / "org/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation.smali",
@@ -232,7 +229,19 @@ jobs:
           assert re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", multi_premium), (
               "Multi-version app backups must be treated as free"
           )
-          print("Validated BΛR☰ global entitlement, incremental folder backup, and multi-version backup gates.")
+
+          # The bulk app/folder batch activities must jump directly to the normal
+          # workflow, skipping the old premium-denial block.
+          gates = [
+              (root / "org/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity.smali", "goto :cond_c"),
+              (secondary / "org/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity.smali", "goto :cond_0"),
+              (secondary / "org/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity.smali", "goto :cond_6"),
+          ]
+          for path, expected in gates:
+              text = path.read_text()
+              assert expected in text, f"Expected premium gate bypass in {path}"
+              assert "User not premium! Finishing." in text, f"Gate audit marker missing in {path}"
+          print("Validated global entitlement, incremental folder strategy, multi-backup strategy, and batch gates.")
           PY
 
       - name: Replace native library with reconstructed JNI implementation
