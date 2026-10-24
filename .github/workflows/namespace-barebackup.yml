@@ -327,6 +327,14 @@ jobs:
               "App startup must skip attaching a null RTDB connection listener"
           )
           print("Validated the known-good HomeActivity brand span and optional, explicitly configured Firebase RTDB.")
+
+          apk_saver = (root / "smali_classes2/qm.smali").read_text()
+          assert 'const-string v4, "bare_backup_apks/"' in apk_saver, (
+              "Saved APKs must use the BΛR☰ bare_backup_apks directory"
+          )
+          assert 'const-string v4, "swift_backup_apks/"' not in apk_saver, (
+              "Legacy Swift Backup APK directory must not be used by BΛR☰"
+          )
           PY
 
       - name: Replace native library with reconstructed JNI implementation
