@@ -49,7 +49,7 @@ jobs:
           java -jar apktool.jar --version
           sha256sum apktool.jar
 
-      - name: Apply minimal package namespace changes
+      - name: Inject Firebase config and validate implementation source
         shell: bash
         run: |
           set -euo pipefail
