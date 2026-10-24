@@ -439,7 +439,7 @@
 .method public final isPremium()Z
     .locals 0
 
-    .line 1
+    # BΛR☰ product policy: multi-version app backups are free.
     const/4 p0, 0x0
 
     return p0
