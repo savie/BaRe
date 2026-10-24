@@ -92,67 +92,39 @@
 
     .line 32
     .line 33
-    invoke-static {}, Lig3;->b()Lig3;
-
-    .line 34
-    .line 35
-    .line 36
+    # RTDB is optional. Do not initialize Firebase Database unless an explicit URL exists.
+    invoke-static {}, Lcom/google/firebase/FirebaseApp;->getInstance()Lcom/google/firebase/FirebaseApp;
     move-result-object v0
+    invoke-virtual {v0}, Lcom/google/firebase/FirebaseApp;->getOptions()Lcom/google/firebase/FirebaseOptions;
+    move-result-object v0
+    invoke-virtual {v0}, Lcom/google/firebase/FirebaseOptions;->getDatabaseUrl()Ljava/lang/String;
+    move-result-object v1
+    if-eqz v1, :rtdb_unconfigured
 
-    .line 37
+    invoke-static {}, Lig3;->b()Lig3;
+    move-result-object v0
     invoke-virtual {v0}, Lig3;->a()V
 
-    .line 38
-    .line 39
-    .line 40
     const-string v1, ".info/connected"
-
-    .line 41
-    .line 42
     invoke-static {v1}, Lui8;->b(Ljava/lang/String;)V
-
-    .line 43
-    .line 44
-    .line 45
     new-instance v2, Lgy5;
-
-    .line 46
-    .line 47
     invoke-direct {v2, v1}, Lgy5;-><init>(Ljava/lang/String;)V
-
-    .line 48
-    .line 49
-    .line 50
     new-instance v1, Lzc2;
-
-    .line 51
-    .line 52
     iget-object v0, v0, Lig3;->c:Lwj6;
-
-    .line 53
-    .line 54
     invoke-direct {v1, v0, v2}, Lzc2;-><init>(Lwj6;Lgy5;)V
-
-    .line 55
-    .line 56
-    .line 57
     sput-object v1, Lgg3;->j:Lzc2;
 
-    .line 58
-    .line 59
     new-instance v0, Lcg3;
-
-    .line 60
-    .line 61
     invoke-direct {v0}, Ljava/lang/Object;-><init>()V
-
-    .line 62
-    .line 63
-    .line 64
     sput-object v0, Lgg3;->k:Lcg3;
+    return-void
 
-    .line 65
-    .line 66
+    :rtdb_unconfigured
+    const/4 v0, 0x0
+    sput-object v0, Lgg3;->j:Lzc2;
+    new-instance v0, Lcg3;
+    invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+    sput-object v0, Lgg3;->k:Lcg3;
     return-void
 .end method
 
