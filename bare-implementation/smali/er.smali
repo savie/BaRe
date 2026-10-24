@@ -97,7 +97,7 @@
 
     .line 26
     .line 27
-    const-string v4, "Share logs called with SwiftLogger"
+    const-string v4, "Share logs called with BareLogger"
 
     .line 28
     .line 29
