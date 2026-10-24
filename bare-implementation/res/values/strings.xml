@@ -935,7 +935,7 @@ Click below to create a new schedule"</string>
     <string name="only_if_battery_is_x_percent">Only if battery level is at least %s</string>
     <string name="only_when_charging">Only when charging</string>
     <string name="open_folder">Open folder</string>
-    <string name="open_in_swift_backup">Open in Swift Backup</string>
+    <string name="open_in_swift_backup">Open in BΛR☰</string>
     <string name="optimizing_battery_use">Optimizing battery use</string>
     <string name="original_size">Original size</string>
     <string name="other_quick_actions">Other quick actions</string>
@@ -1208,7 +1208,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="share_logs">Share logs</string>
     <string name="share_swiftbackup">Share Swift Backup</string>
     <string name="share_swiftbackup_msg">"Check out this awesome new backup manager I'm using! Its called Swift Backup and here's the link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
-    <string name="share_swiftbackup_subject">Swift Backup - Simple, Fast, and smart backup solution for Android</string>
+    <string name="share_swiftbackup_subject">BΛR☰ - Simple, fast backup solution for Android</string>
     <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + Device Logcat</string>
     <string name="share_swiftlogger_text_only">Share text-only report</string>
     <string name="shared_libraries">Shared libraries</string>
@@ -1289,7 +1289,7 @@ Proper data restore for such apps is not guaranteed."</string>
     <string name="summary_collapsed_preference_list">%1$s, %2$s</string>
     <string name="sure_to_cancel_task">Are you sure you want to cancel?</string>
     <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
-    <string name="swift_backup">Swift Backup</string>
+    <string name="swift_backup">BΛR☰</string>
     <string name="swift_backup_is_busy">Swift Backup is busy</string>
     <string name="swift_labs">Swift Labs</string>
     <string name="swift_labs_settings_summary">Experimental and repair tools</string>
