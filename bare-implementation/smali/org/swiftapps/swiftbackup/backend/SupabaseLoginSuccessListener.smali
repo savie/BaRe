@@ -10,6 +10,6 @@
 
 .method public onSuccess(Ljava/lang/Object;)V
     .locals 0
-    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/SupabaseBackendProbe;->probe()V
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseProfileSync;->syncCurrentUser()V
     return-void
 .end method
