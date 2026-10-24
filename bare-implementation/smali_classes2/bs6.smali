@@ -314,7 +314,7 @@
     .line 106
     .line 107
     .line 108
-    const-string v3, "\n\u2026 [SwiftLogger preview truncated] \u2026\n"
+    const-string v3, "\n\u2026 [BΛR☰ Logger preview truncated] \u2026\n"
 
     .line 109
     .line 110
