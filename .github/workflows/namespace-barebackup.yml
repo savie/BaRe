@@ -166,7 +166,7 @@ jobs:
               "share_swiftbackup_subject": "BΛR☰ - Simple, fast backup solution for Android",
           }
           for name, value in branding_overrides.items():
-              pattern = rf'(<string\\s+name="{re.escape(name)}"[^>]*>)(.*?)(</string>)'
+              pattern = rf'(<string\s+name="{re.escape(name)}"[^>]*>)(.*?)(</string>)'
               strings_text, count = re.subn(
                   pattern,
                   lambda match, value=value: match.group(1) + escape(value) + match.group(3),
