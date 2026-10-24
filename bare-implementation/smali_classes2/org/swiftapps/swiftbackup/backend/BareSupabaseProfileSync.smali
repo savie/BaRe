@@ -31,8 +31,7 @@
 .method public static getOrCreateDeviceKey()Ljava/lang/String;
     .locals 5
 
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
     move-result-object v0
 
     const-string v1, "bare_supabase_metadata"
