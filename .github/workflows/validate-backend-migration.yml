@@ -34,9 +34,8 @@ jobs:
           names = [p.name for p in files]
           assert len(names) == len(set(names)), "Duplicate migration file names found"
 
-          # Guard only destructive operations that are not appropriate for routine migrations.
           destructive = re.compile(
-              r"\\b(drop\\s+schema|drop\\s+database|truncate\\s+table)\\b",
+              r"\b(drop\s+schema|drop\s+database|truncate\s+table)\b",
               re.IGNORECASE,
           )
           for path in files:
@@ -48,20 +47,25 @@ jobs:
               "supabase/migrations/20261024020000_firebase_uid_text_and_sub_rls.sql"
           )
           assert ownership_migration.exists(), "Firebase UID ownership migration missing"
-          sql = ownership_migration.read_text()
+          normalized = re.sub(r"\s+", " ", ownership_migration.read_text().lower())
           tables = [
               "profiles", "devices", "backup_records", "backup_versions",
               "folder_configs", "backup_schedules", "app_settings", "sync_state",
           ]
+          assert "auth.jwt()->>'sub'" in normalized, "RLS must bind ownership to the JWT subject"
           for table in tables:
-              assert re.search(
-                  rf"alter\\s+table\\s+public\\.{table}\\s+alter\\s+column\\s+user_id\\s+type\\s+text",
-                  sql, re.IGNORECASE
-              ), f"{table}: Firebase UID text migration missing"
-              policy = re.search(
-                  rf'create\\s+policy\\s+"{table} own rows"\\s+on\\s+public\\.{table}\\s+for\\s+all\\s+to\\s+authenticated\\s+using\\s*\\(.*?auth\\.jwt\\(\\)\\s*->>\\s*\'sub\'.*?with\\s+check\\s*\\(',
-                  sql, re.IGNORECASE | re.DOTALL
+              alter = f"alter table public.{table} alter column user_id type text"
+              policy = f'create policy "{table} own rows" on public.{table} for all to authenticated'
+              assert alter in normalized, f"{table}: Firebase UID text migration missing"
+              assert policy in normalized, f"{table}: ownership policy declaration missing"
+              start = normalized.index(policy)
+              next_policy = normalized.find("create policy ", start + len(policy))
+              body = normalized[start: next_policy if next_policy >= 0 else len(normalized)]
+              assert "using (" in body and "with check (" in body, (
+                  f"{table}: RLS policy must check row ownership on read and write"
               )
-              assert policy, f"{table}: ownership RLS policy missing or incomplete"
+              assert body.count("auth.jwt()->>'sub'") >= 2, (
+                  f"{table}: RLS must bind both USING and WITH CHECK to JWT subject"
+              )
           print(f"Validated {len(files)} migration files and ownership RLS coverage.")
           PY
