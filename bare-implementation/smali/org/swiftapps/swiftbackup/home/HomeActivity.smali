@@ -777,49 +777,8 @@
     move-result v4
 
     .line 81
-    new-instance v5, Landroid/text/style/ForegroundColorSpan;
-
-    .line 82
-    .line 83
-    invoke-direct {v5, v4}, Landroid/text/style/ForegroundColorSpan;-><init>(I)V
-
-    .line 84
-    .line 85
-    .line 86
-    const-string v4, "BΛR☰"
-
-    .line 87
-    .line 88
-    const/4 v6, 0x1
-
-    .line 89
-    const/4 v7, 0x2
-
-    .line 90
-    invoke-static {v3, v4, v0, v6, v7}, Lnq7;->h0(Ljava/lang/CharSequence;Ljava/lang/String;IZI)I
-
-    move-result v8
-
-    # Do not pass a missing title match to setSpan as a negative index.
-    if-ltz v8, :title_span_done
-
-    # Compute the end from the actual title length, not a hard-coded value.
-    invoke-interface {v4}, Ljava/lang/CharSequence;->length()I
-    move-result v3
-    add-int/2addr v3, v8
-
-    invoke-virtual {v2}, Landroid/text/SpannableStringBuilder;->length()I
-    move-result v4
-    if-gt v3, v4, :title_span_done
-
-    const/16 v9, 0x21
-    invoke-virtual {v2, v5, v8, v3, v9}, Landroid/text/SpannableStringBuilder;->setSpan(Ljava/lang/Object;III)V
-
-    :title_span_done
-
-    .line 103
-    .line 104
-    .line 105
+    # Keep the branded title plain to avoid invalid Smali register merges
+    # in this method. The title remains BΛR☰; no fragile dynamic span is needed.
     invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     .line 106
