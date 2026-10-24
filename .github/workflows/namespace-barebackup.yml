@@ -157,6 +157,24 @@ jobs:
           assert copied >= 1300, f"Unexpectedly few rewrite strings copied: {copied}"
           assert not missing, "Rewrite strings missing from APK resource set: " + ", ".join(missing[:20])
           print(f"Applied {copied} user-facing strings from rewrite branch using existing APK resource keys.")
+
+          # BΛR☰ branding is owned by bare-implementation. Re-apply these explicit
+          # values after the rewrite overlay so upstream copy cannot silently revert them.
+          branding_overrides = {
+              "swift_backup": "BΛR☰",
+              "open_in_swift_backup": "Open in BΛR☰",
+              "share_swiftbackup_subject": "BΛR☰ - Simple, fast backup solution for Android",
+          }
+          for name, value in branding_overrides.items():
+              pattern = rf'(<string\\s+name="{re.escape(name)}"[^>]*>)(.*?)(</string>)'
+              strings_text, count = re.subn(
+                  pattern,
+                  lambda match, value=value: match.group(1) + escape(value) + match.group(3),
+                  strings_text, count=1, flags=re.DOTALL
+              )
+              assert count == 1, f"Could not apply BΛR☰ branding override for {name}"
+          print("Applied implementation-owned BΛR☰ branding overrides after upstream string overlay.")
+
           for name, value in firebase_values.items():
               tag = (
                   f'<string name="{name}"[^>]*>.*?</string>'
