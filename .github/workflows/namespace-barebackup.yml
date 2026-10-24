@@ -308,12 +308,10 @@ jobs:
           app = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
 
           assert 'const-string v3, "BΛR☰"' in home
-          assert 'if-ltz v8, :title_span_done' in home, "Home title span must skip missing matches"
-          assert 'invoke-interface {v4}, Ljava/lang/CharSequence;->length()I' in home, (
-              "Home title span must use the actual title length"
-          )
-          assert 'if-gt v3, v4, :title_span_done' in home, (
-              "Home title span must check its end against builder length"
+          # The dynamic title span was removed after Android reported a VerifyError
+          # caused by conflicting register types in HomeActivity.onCreate.
+          assert 'if-ltz v8, :title_span_done' not in home, (
+              "Fragile dynamic title span should remain removed"
           )
           assert 'default-rtdb.firebaseio.com' not in rtdb_factory, (
               "Firebase Database URL must never be inferred from project ID"
