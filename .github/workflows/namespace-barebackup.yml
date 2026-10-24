@@ -203,17 +203,17 @@ jobs:
           def method_body(path, signature):
               source = path.read_text()
               match = re.search(
-                  rf"(?ms)^\\.method public final {re.escape(signature)}\\n(.*?)^\\.end method",
+                  rf"(?ms)^\.method public final {re.escape(signature)}\n(.*?)^\.end method",
                   source,
               )
               assert match is not None, f"Missing method {signature} in {path}"
               return match.group(1)
 
           premium_state = method_body(root / "org/swiftapps/swiftbackup/common/V.smali", "getA()Z")
-          assert re.search(r"(?m)^\\s*const/4 p0, 0x1\\s*$", premium_state), (
+          assert re.search(r"(?m)^\s*const/4 p0, 0x1\s*$", premium_state), (
               "BΛR☰ global premium entitlement must be enabled"
           )
-          assert not re.search(r"(?m)^\\s*const/4 p0, 0x0\\s*$", premium_state), (
+          assert not re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", premium_state), (
               "BΛR☰ premium entitlement must not fall back to false"
           )
 
@@ -221,7 +221,7 @@ jobs:
               secondary / "org/swiftapps/swiftbackup/settings/FolderBackupStrategy.smali",
               "isPremium()Z",
           )
-          assert re.search(r"(?m)^\\s*const/4 p0, 0x0\\s*$", folder_premium), (
+          assert re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", folder_premium), (
               "Incremental folder backup must be treated as free"
           )
 
@@ -229,7 +229,7 @@ jobs:
               secondary / "org/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation.smali",
               "isPremium()Z",
           )
-          assert re.search(r"(?m)^\\s*const/4 p0, 0x0\\s*$", multi_premium), (
+          assert re.search(r"(?m)^\s*const/4 p0, 0x0\s*$", multi_premium), (
               "Multi-version app backups must be treated as free"
           )
           print("Validated BΛR☰ global entitlement, incremental folder backup, and multi-version backup gates.")
