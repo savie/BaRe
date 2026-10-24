@@ -1444,7 +1444,7 @@
 
     .line 467
     :try_start_a
-    const-string v0, "swift-backup-31751.firebaseio.com"
+    const-string v0, "bare-6f8d6-default-rtdb.firebaseio.com"
 
     .line 468
     .line 469
