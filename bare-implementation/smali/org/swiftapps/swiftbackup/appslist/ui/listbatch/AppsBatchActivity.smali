@@ -2609,7 +2609,7 @@
     move-result p1
 
     .line 254
-    if-nez p1, :cond_c
+    if-eqz p1, :cond_c
 
     .line 255
     .line 256
