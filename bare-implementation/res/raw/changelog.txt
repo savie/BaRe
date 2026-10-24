@@ -1,5 +1,5 @@
-**v5.1.0**
-[release-summary] BΛR☰ 5.1 introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
+**BΛR☰ v1.0.2 (102)**
+[release-summary] This release introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
 
 **Android 17 Support**
 - BΛR☰ now targets Android 17.
