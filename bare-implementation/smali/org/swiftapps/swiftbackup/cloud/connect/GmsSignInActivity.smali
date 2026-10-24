@@ -388,16 +388,6 @@
     .line 80
     invoke-virtual {v0, v2}, Lcom/google/android/gms/tasks/Task;->addOnCompleteListener(Lcom/google/android/gms/tasks/OnCompleteListener;)Lcom/google/android/gms/tasks/Task;
 
-    # After Firebase sign-in completes, sync only the user's profile metadata.
-    # The profile request uses the Firebase ID token; local backup/restore is unchanged.
-    new-instance v4, Lorg/swiftapps/swiftbackup/backend/BareSupabaseProfileSync$SignInListener;
-
-    invoke-direct {v4}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseProfileSync$SignInListener;-><init>()V
-
-    invoke-virtual {v0, v4}, Lcom/google/android/gms/tasks/Task;->addOnCompleteListener(Lcom/google/android/gms/tasks/OnCompleteListener;)Lcom/google/android/gms/tasks/Task;
-
-    move-result-object v0
-
     .line 81
     .line 82
     .line 83
