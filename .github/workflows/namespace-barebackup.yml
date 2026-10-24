@@ -231,8 +231,6 @@ jobs:
               "Multi-version app backups must be treated as free"
           )
 
-          # The bulk app/folder batch activities must jump directly to the normal
-          # workflow, skipping the old premium-denial block.
           gates = [
               (root / "org/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity.smali", "goto :cond_c"),
               (secondary / "org/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity.smali", "goto :cond_0"),
@@ -242,25 +240,7 @@ jobs:
               text = path.read_text()
               assert expected in text, f"Expected premium gate bypass in {path}"
               assert "User not premium! Finishing." in text, f"Gate audit marker missing in {path}"
-          backend = secondary / "org/swiftapps/swiftbackup/backend"
-          sync_class = backend / "BareSupabaseProfileSync.smali"
-          sign_in_listener = backend / "BareSupabaseProfileSync$SignInListener.smali"
-          token_listener = backend / "BareSupabaseProfileSync$TokenListener.smali"
-          runner = backend / "BareSupabaseProfileSync$ProfileUpsertRunner.smali"
-          for path in (sync_class, sign_in_listener, token_listener, runner):
-              assert path.exists(), f"Supabase profile sync class missing: {path}"
-
-          sign_in = root / "org/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity.smali"
-          assert "BareSupabaseProfileSync$SignInListener" in sign_in.read_text(), (
-              "Firebase sign-in success is not wired to Supabase profile sync"
-          )
-          runner_text = runner.read_text()
-          assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/profiles?on_conflict=user_id" in runner_text
-          assert "sb_publishable_" in runner_text, "Supabase publishable key is missing"
-          assert "service_role" not in runner_text.lower(), "Service-role credentials must never ship in the app"
-          assert "resolution=merge-duplicates,return=minimal" in runner_text
-          assert "Authorization" in runner_text and "Bearer " in runner_text
-          print("Validated premium gates and Firebase-authenticated Supabase profile sync wiring.")
+          print("Validated BΛR☰ global entitlement, incremental folder backups, multi-backup strategies, and batch gates.")
           PY
 
       - name: Validate Firebase-to-Supabase metadata sync
