@@ -437,10 +437,7 @@
     invoke-static {v0, v1}, Lpe4;->d(Ljava/lang/Object;Ljava/lang/Object;)Z
     move-result v0
     if-eqz v0, :folder_fetch_worker
-
-    :folder_fetch_null
-    const/4 v0, 0x0
-    return-object v0
+    goto :folder_fetch_null
 
     :folder_fetch_worker
     invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->currentUid()Ljava/lang/String;
@@ -462,15 +459,11 @@
     invoke-direct {v5, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
     invoke-virtual {v5, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
     const-string v0, "&backup_kind=eq.folder&object_key=eq."
-    invoke-virtual {v5, v0}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v5
-    new-instance v6, Ljava/lang/StringBuilder;
-    invoke-direct {v6, v5}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
-    invoke-virtual {v6, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
     const-string v0, "&limit=1"
-    invoke-virtual {v6, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-    move-result-object v0
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v0
 
     invoke-static {v0, v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->responseText(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
@@ -505,6 +498,7 @@
     const-string v1, "BΛR☰Backend"
     const-string v2, "Supabase folder metadata could not be loaded; local metadata remains authoritative."
     invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    :folder_fetch_null
     const/4 v0, 0x0
     return-object v0
 .end method
@@ -537,6 +531,7 @@
     move-result-object v2
     invoke-static {v4}, Landroid/net/Uri;->encode(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v4
+    const/4 v6, 0x0
 
     new-instance v5, Ljava/lang/StringBuilder;
     const-string v0, "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/backup_records?user_id=eq."
@@ -548,8 +543,7 @@
     invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v0
     const-string v1, "DELETE"
-    const/4 v4, 0x0
-    invoke-static {v0, v1, v3, v4}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->request(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Laf3;
+    invoke-static {v0, v1, v3, v6}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->request(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Laf3;
     move-result-object v0
     instance-of v1, v0, Lze3;
     if-eqz v1, :folder_remove_failed
@@ -564,7 +558,7 @@
     invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v0
     const-string v1, "DELETE"
-    invoke-static {v0, v1, v3, v4}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->request(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Laf3;
+    invoke-static {v0, v1, v3, v6}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->request(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Laf3;
     move-result-object v0
     instance-of v1, v0, Lze3;
     if-eqz v1, :folder_remove_failed
@@ -578,12 +572,14 @@
     throw v0
 
     :folder_remove_no_user
-    const-string v0, "Folder metadata deletion requires a signed-in Firebase user."
-    invoke-static {v0}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+    new-instance v0, Ljava/lang/IllegalStateException;
+    const-string v1, "Folder metadata deletion requires a signed-in Firebase user."
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
     throw v0
 
     :folder_remove_no_token
-    const-string v0, "Firebase ID token unavailable; folder metadata deletion failed."
-    invoke-static {v0}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+    new-instance v0, Ljava/lang/IllegalStateException;
+    const-string v1, "Firebase ID token unavailable; folder metadata deletion failed."
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
     throw v0
 .end method
