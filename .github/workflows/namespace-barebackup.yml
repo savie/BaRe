@@ -283,6 +283,40 @@ jobs:
           print("Validated Firebase-authenticated Supabase profile/device upserts and startup/login wiring.")
           PY
 
+      - name: Validate HomeActivity span bounds and optional Firebase RTDB
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path("build-src")
+          home = (root / "smali/org/swiftapps/swiftbackup/home/HomeActivity.smali").read_text()
+          rtdb_factory = (root / "smali/ig3.smali").read_text()
+          connection = (root / "smali_classes2/gg3.smali").read_text()
+          app = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
+
+          assert 'const-string v3, "BΛR☰"' in home
+          assert 'if-ltz v8, :title_span_done' in home, "Home title span must skip missing matches"
+          assert 'invoke-interface {v4}, Ljava/lang/CharSequence;->length()I' in home, (
+              "Home title span must use the actual title length"
+          )
+          assert 'if-gt v3, v4, :title_span_done' in home, (
+              "Home title span must check its end against builder length"
+          )
+          assert 'default-rtdb.firebaseio.com' not in rtdb_factory, (
+              "Firebase Database URL must never be inferred from project ID"
+          )
+          assert 'Firebase Realtime Database is not configured; provide an explicit database URL.' in rtdb_factory
+          assert 'if-eqz v1, :rtdb_unconfigured' in connection, (
+              "Realtime Database connection observer must be optional when no URL is configured"
+          )
+          assert 'if-eqz v0, :goto_1' in app, (
+              "App startup must skip attaching a null RTDB connection listener"
+          )
+          print("Validated safe title-span bounds and optional, explicitly configured Firebase RTDB.")
+          PY
+
       - name: Replace native library with reconstructed JNI implementation
         shell: bash
         run: |
