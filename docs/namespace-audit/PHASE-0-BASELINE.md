@@ -18,8 +18,8 @@
 | Artifact SHA-256 | `d7346a9e01b27ee861fbc076b27a42516710d243013d0198e97bc36e82c69cec` | GitHub artifact archive digest; **this is the ZIP artifact digest, not the APK digest** |
 | Artifact size | 13,857,208 bytes | GitHub artifact metadata |
 | Artifact created | 2026-10-23 15:30 UTC | GitHub artifact metadata |
-| APK SHA-256 | **Not yet verified** | Must hash the APK extracted from the artifact |
-| APK signing certificate SHA-256 | **Not yet verified** | Must inspect the actual signed APK with `apksigner` |
+| APK SHA-256 | `281c2454fd55e4a5c3234ab32443e50a08b7af9546d2d93af849c3cdc1b17ec8` | Computed from `BaRe-namespace-signed.apk` extracted from the CI artifact ZIP |
+| APK signing certificate SHA-256 | `1b:af:08:dc:ac:7a:ee:98:e4:76:97:95:a7:1e:3f:74:07:0f:db:56:b0:3a:44:c3:11:9d:27:3a:66:72:23:91` | Extracted `META-INF/ANDROIDD.RSA` certificate with `keytool`; subject/issuer `CN=Android Debug, O=Android, C=US`. `apksigner` was not available in this environment. |
 | Effective package ID in built APK | **Not yet independently verified** | Must inspect the APK manifest; do not infer from workflow success |
 | Version name/code in built APK | **Not yet independently verified** | Must inspect the APK manifest |
 
@@ -41,6 +41,6 @@
 
 ## Gate before Phase 1
 
-**Phase 0 is partially recorded but not fully verified.** The artifact ZIP digest and successful CI job are confirmed; APK-level hash, certificate fingerprint, package ID, and version metadata remain pending because the APK itself has not yet been extracted and inspected in this run.
+**Phase 0 is partially recorded but not fully verified.** The artifact ZIP digest, extracted APK SHA-256, certificate fingerprint, and successful CI job are confirmed. Effective package ID and version metadata remain pending because this environment did not have `apksigner`/`aapt`/`apktool` available to decode the binary manifest. `jarsigner` emitted warnings about some Kotlin/Firebase metadata entries when streaming verification; use Android `apksigner verify --print-certs` in CI to make the APK signature check authoritative.
 
-Before changing branding, audit the exact workflow file and remove its dependency on untracked branch-side source/config mutation, or prove each transformation is deterministic and represented by committed implementation inputs. Then inspect the signed APK and complete the missing artifact fields. Do not call the migration baseline fully verified until those values are recorded.
+Before changing branding, locate and audit the exact workflow file and remove its dependency on branch-side source/config mutation, or prove each transformation is deterministic and represented by committed implementation inputs. Then inspect the APK manifest and complete the remaining package/version fields. Do not call the migration baseline fully verified until those values are recorded.
