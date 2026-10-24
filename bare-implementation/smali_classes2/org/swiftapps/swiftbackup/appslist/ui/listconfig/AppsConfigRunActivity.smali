@@ -552,7 +552,7 @@
     move-result v1
 
     .line 21
-    if-eqz v1, :cond_0
+    goto :cond_0
 
     .line 22
     .line 23
