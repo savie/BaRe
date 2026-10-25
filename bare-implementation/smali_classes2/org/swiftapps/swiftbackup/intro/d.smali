@@ -1167,12 +1167,8 @@
 
     .line 104
     .line 105
-    invoke-virtual {v0, v8, v9, v7}, Lgg3;->k(JLkv1;)Ljava/lang/Object;
-
-    .line 106
-    .line 107
-    .line 108
-    move-result-object v0
+    # BΛR☰ cloud settings are restored from Supabase; do not block first-run on legacy RTDB health permissions.
+    sget-object v0, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
