@@ -35,7 +35,7 @@
     if-ge v0, v2, :payload_write_exhausted
 
     # Bounded exponential backoff: 500ms, then 1000ms.
-    const/16 v2, 0x1f4
+    const/16 v2, 0xfa
     shl-int/2addr v2, v0
     :try_start_backoff
     invoke-static {v2, v3}, Ljava/lang/Thread;->sleep(J)V
