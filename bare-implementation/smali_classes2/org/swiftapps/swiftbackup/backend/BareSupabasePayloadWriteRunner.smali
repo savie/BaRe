@@ -37,6 +37,7 @@
     # Bounded exponential backoff: 500ms, then 1000ms.
     const/16 v2, 0xfa
     shl-int/2addr v2, v0
+    int-to-long v2, v2
     :try_start_backoff
     invoke-static {v2, v3}, Ljava/lang/Thread;->sleep(J)V
     :try_end_backoff
