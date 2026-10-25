@@ -7,6 +7,7 @@ on:
       - feature/namespace-barebackup
       - fix/supabase-appsettings-first-run-restore
       - feat/bare-own-onedrive-msal
+      - fix/optional-multithreaded-feature-fallback
       - fix/supabase-user-mutation-payload-writes
     paths:
       - "bare-implementation/**"
