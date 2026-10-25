@@ -1663,8 +1663,7 @@
 
     :bare_settings_rtdb_fallback
     # BΛR☰ must not call legacy RTDB when its rules deny access.
-    # Missing Supabase settings means no cloud settings are available.
-    invoke-static {}, Lq;->j()V
+    # Missing Supabase settings means no cloud settings are available; skip restore without throwing.
     return v1
 
     :cond_7
