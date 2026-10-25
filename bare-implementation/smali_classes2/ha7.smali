@@ -1662,32 +1662,10 @@
     return v2
 
     :bare_settings_rtdb_fallback
-    invoke-static {}, Lre3;->k()Lzc2;
-
-    .line 66
-    .line 67
-    .line 68
-    move-result-object v0
-
-    .line 69
-    const-string v3, "appSettings"
-
-    .line 70
-    .line 71
-    invoke-virtual {v0, v3}, Lzc2;->d(Ljava/lang/String;)Lzc2;
-
-    .line 72
-    .line 73
-    .line 74
-    move-result-object v0
-
-    .line 75
-    invoke-static {v0, v2}, Lcf3;->a(Lzc2;Z)Ll73;
-
-    .line 76
-    .line 77
-    .line 78
-    move-result-object v0
+    # BΛR☰ must not call legacy RTDB when its rules deny access.
+    # Missing Supabase settings means no cloud settings are available.
+    invoke-static {}, Lq;->j()V
+    return v1
 
     .line 79
     instance-of v3, v0, Lxe3;
@@ -1782,23 +1760,8 @@
     :cond_5
     instance-of p0, v0, Lwe3;
 
-    # RTDB read failed: try the BΛR☰ Supabase payload store for appSettings.
-    if-eqz p0, :cond_6
-    const-string v3, "appSettings"
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v3
-    if-eqz v3, :cond_5_fallback_failed
-    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
-    move-result-object v4
-    const-class v5, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
-    invoke-virtual {v4, v3, v5}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
-    move-result-object v4
-    check-cast v4, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
-    if-eqz v4, :cond_5_fallback_failed
-    invoke-static {v4}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
-    return v2
-
-    :cond_5_fallback_failed
+    # Legacy RTDB is not a fallback for BΛR☰ cloud settings.
+    # Keep the error handling below for unexpected result types.
     .line 123
     .line 124
     if-eqz p0, :cond_6
