@@ -12,6 +12,8 @@ create table if not exists public.user_realtime_data (
   constraint user_realtime_data_known_path check (
     path_key in (
       'appSettings',
+      'labelsData',
+      'configs',
       'favoriteApps',
       'blacklistApps',
       'schedule_data',
