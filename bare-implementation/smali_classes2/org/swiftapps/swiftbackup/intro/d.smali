@@ -1266,7 +1266,7 @@
 
     .line 150
     .line 151
-    const-string v13, "Firebase settings read failed. Skipping first-run cloud settings restore."
+    const-string v13, "Supabase app settings unavailable. Skipping first-run cloud settings restore."
 
     .line 152
     .line 153
