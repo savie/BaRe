@@ -1765,6 +1765,23 @@
     :cond_5
     instance-of p0, v0, Lwe3;
 
+    # RTDB read failed: try the BΛR☰ Supabase payload store for appSettings.
+    if-eqz p0, :cond_6
+    const-string v3, "appSettings"
+    invoke-static {v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v3
+    if-eqz v3, :cond_5_fallback_failed
+    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
+    move-result-object v4
+    const-class v5, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    invoke-virtual {v4, v3, v5}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+    move-result-object v4
+    check-cast v4, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    if-eqz v4, :cond_5_fallback_failed
+    invoke-static {v4}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+    return v2
+
+    :cond_5_fallback_failed
     .line 123
     .line 124
     if-eqz p0, :cond_6
