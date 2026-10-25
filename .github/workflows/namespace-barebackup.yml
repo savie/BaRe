@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - feature/namespace-barebackup
+      - fix/supabase-appsettings-first-run-restore
+      - feat/bare-own-onedrive-msal
     paths:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
@@ -22,7 +24,7 @@ jobs:
       - name: Checkout BΛR☰ implementation
         uses: actions/checkout@v4
         with:
-          ref: feature/namespace-barebackup
+          ref: ${{ github.ref_name }}
           fetch-depth: 1
 
       - name: Set up Java

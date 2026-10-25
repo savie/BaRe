@@ -1645,25 +1645,36 @@
     .line 64
     .line 65
     :cond_2
-    # Prefer BΛR☰ Supabase for appSettings; RTDB is legacy fallback only.
+    # Prefer BΛR☰ Supabase for appSettings; RTDB is never used as an implicit fallback.
     :bare_settings_supabase_first
     const-string v3, "appSettings"
     invoke-static {v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v3
-    if-eqz v3, :bare_settings_rtdb_fallback
+    if-eqz v3, :bare_settings_unavailable
+    :try_start_supabase_settings_parse
     invoke-static {}, Lw14;->c()Lcom/google/gson/a;
     move-result-object v4
     const-class v5, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
     invoke-virtual {v4, v3, v5}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
     move-result-object v4
     check-cast v4, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
-    if-eqz v4, :bare_settings_rtdb_fallback
+    :try_end_supabase_settings_parse
+    .catch Ljava/lang/Exception; {:try_start_supabase_settings_parse .. :try_end_supabase_settings_parse} :bare_settings_parse_failed
+    if-eqz v4, :bare_settings_unavailable
     invoke-static {v4}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
     return v2
 
-    :bare_settings_rtdb_fallback
-    # BΛR☰ must not call legacy RTDB when its rules deny access.
-    # Missing Supabase settings means no cloud settings are available; skip restore without throwing.
+    :bare_settings_parse_failed
+    move-exception v3
+    const-string v4, "BΛR☰Backend"
+    const-string v5, "Supabase appSettings payload could not be parsed; skipping first-run restore."
+    invoke-static {v4, v5, v3}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+
+    :bare_settings_unavailable
+    # Missing or unreadable Supabase settings must not trigger the legacy RTDB throw path.
+    const-string v3, "BΛR☰Backend"
+    const-string v4, "Supabase app settings unavailable; skipping first-run settings restore."
+    invoke-static {v3, v4}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
     return v1
 
     :cond_7

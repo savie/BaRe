@@ -94,7 +94,7 @@
 .end method
 
 .method public final invokeSuspend(Ljava/lang/Object;)Ljava/lang/Object;
-    .locals 12
+    .locals 13
 
     .line 1
     iget v0, p0, Lorg/swiftapps/swiftbackup/intro/e;->a:I
@@ -164,13 +164,10 @@
 
     .line 30
     :catch_0
-    move-exception v0
+    move-exception v12
 
     .line 31
-    move-object p1, v0
-
-    .line 32
-    move-object v8, p1
+    move-object v8, v12
 
     .line 33
     goto :goto_1

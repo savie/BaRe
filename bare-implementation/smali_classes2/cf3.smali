@@ -197,6 +197,28 @@
     iget-object v1, v6, Lzc2;->b:Lgy5;
     invoke-virtual {v1}, Ljava/lang/Object;->toString()Ljava/lang/String;
     move-result-object v1
+
+    # BΛR☰: denying legacy cloud-tag listing is an expected compatibility fallback.
+    # Keep a warning for this exact read path; all other Firebase read failures remain errors.
+    const-string v3, "/cloud_v1/"
+    invoke-virtual {v1, v3}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+    move-result v3
+    if-eqz v3, :bare_read_log_as_error
+    const-string v3, "/tags"
+    invoke-virtual {v1, v3}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+    move-result v3
+    if-eqz v3, :bare_read_log_as_error
+
+    sget-object v0, Lvr6;->INSTANCE:Lvr6;
+    const-string v1, "BΛR☰Backend"
+    const-string v2, "Legacy RTDB cloud-tag listing unavailable; the app continues with local/current-cloud tag candidates."
+    const/4 v3, 0x0
+    const/4 v4, 0x4
+    const/4 v5, 0x0
+    invoke-static/range {v0 .. v5}, Lvr6;->w$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
+    goto :bare_read_error_wrapped
+
+    :bare_read_log_as_error
     new-instance v2, Ljava/lang/StringBuilder;
     const-string v3, "readReference path="
     invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
@@ -210,21 +232,13 @@
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v2
 
-    .line 92
     const/4 v4, 0x4
-
-    .line 93
     const/4 v5, 0x0
-
-    .line 94
     const-string v1, "FireSynchronizer"
-
-    .line 95
-    .line 96
     const/4 v3, 0x0
-
-    .line 97
     invoke-static/range {v0 .. v5}, Lvr6;->e$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
+
+    :bare_read_error_wrapped
 
     .line 98
     .line 99
