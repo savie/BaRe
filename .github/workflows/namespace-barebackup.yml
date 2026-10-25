@@ -7,6 +7,7 @@ on:
       - feature/namespace-barebackup
       - fix/supabase-appsettings-first-run-restore
       - feat/bare-own-onedrive-msal
+      - fix/optional-multithreaded-feature-fallback
     paths:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
