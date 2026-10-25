@@ -3128,6 +3128,13 @@
 
     .line 177
     :cond_a
+    # RTDB is optional after the Supabase migration; skip the legacy health probe when no RTDB reference is configured.
+    sget-object v0, Lgg3;->j:Lzc2;
+    if-nez v0, :legacy_health_probe
+    invoke-virtual {v1}, Lgg3;->d()V
+    sget-object v0, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
+    return-object v0
+    :legacy_health_probe
     const-wide/16 v14, 0x1388
 
     .line 178
