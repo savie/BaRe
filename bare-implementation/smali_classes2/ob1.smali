@@ -299,40 +299,9 @@
 
     .line 142
     .line 143
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    # BΛR☰: cloud tag listing is optional when legacy RTDB denies access.
+    # Preserve local/current-cloud tag candidates and continue without blocking the flow.
 
-    .line 144
-    .line 145
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
-
-    .line 146
-    .line 147
-    .line 148
-    move-result-object v1
-
-    .line 149
-    const v2, 0x7f130222
-
-    .line 150
-    .line 151
-    .line 152
-    invoke-static {v2}, Ldj7;->g(I)Ljava/lang/String;
-
-    .line 153
-    .line 154
-    .line 155
-    move-result-object v2
-
-    .line 156
-    sget-object v3, Lzn4;->a:Lzn4;
-
-    .line 157
-    .line 158
-    invoke-static {v1, v2}, Ldj7;->y(Landroid/content/Context;Ljava/lang/String;)V
-
-    .line 159
-    .line 160
-    .line 161
     :cond_5
     invoke-static {v0}, Leq3;->p(Ljava/util/ArrayList;)Ljava/util/List;
 
