@@ -1781,220 +1781,41 @@
 .end method
 
 .method public final b()Z
-    .locals 8
+    .locals 4
 
-    .line 1
     const-string v0, "LabelRepo"
-
-    .line 2
-    .line 3
-    const-string v1, "Fetching on demand"
-
-    .line 4
-    .line 5
+    const-string v1, "Fetching from BΛR☰ Supabase"
     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 6
-    .line 7
-    .line 8
     invoke-static {}, Lai8;->b()V
-
-    .line 9
-    .line 10
-    .line 11
     invoke-static {}, Lai8;->h()Z
-
-    .line 12
-    .line 13
-    .line 14
     move-result v0
+    if-eqz v0, :supabase_offline
 
-    .line 15
-    const/4 v1, 0x1
-
-    .line 16
-    if-nez v0, :cond_0
-
-    .line 17
-    .line 18
-    sget-object v2, Lvr6;->INSTANCE:Lvr6;
-
-    .line 19
-    .line 20
-    const/4 v6, 0x4
-
-    .line 21
-    const/4 v7, 0x0
-
-    .line 22
-    const-string v3, "LabelRepo"
-
-    .line 23
-    .line 24
-    const-string v4, "Internet not available, fetching from cache"
-
-    .line 25
-    .line 26
-    const/4 v5, 0x0
-
-    .line 27
-    invoke-static/range {v2 .. v7}, Lvr6;->i$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
-
-    .line 28
-    .line 29
-    .line 30
-    invoke-virtual {p0}, Llr4;->a()V
-
-    .line 31
-    .line 32
-    .line 33
-    return v1
-
-    .line 34
-    :cond_0
-    sget-object v0, Llr4;->c:Lgv7;
-
-    .line 35
-    .line 36
-    invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
-
-    .line 37
-    .line 38
-    .line 39
+    const-string v0, "labelsData"
+    invoke-static {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v0
+    if-eqz v0, :supabase_no_payload
 
-    .line 40
-    check-cast v0, Lzc2;
-
-    .line 41
-    .line 42
-    invoke-static {v0, v1}, Lcf3;->a(Lzc2;Z)Ll73;
-
-    .line 43
-    .line 44
-    .line 45
-    move-result-object v0
-
-    .line 46
-    instance-of v2, v0, Lxe3;
-
-    .line 47
-    .line 48
-    if-eqz v2, :cond_1
-
-    .line 49
-    .line 50
-    check-cast v0, Lxe3;
-
-    .line 51
-    .line 52
-    iget-object v0, v0, Lxe3;->n:Leb2;
-
-    .line 53
-    .line 54
+    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
+    move-result-object v1
     const-class v2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
-
-    .line 55
-    .line 56
-    invoke-virtual {v0, v2}, Leb2;->c(Ljava/lang/Class;)Ljava/lang/Object;
-
-    .line 57
-    .line 58
-    .line 59
+    invoke-virtual {v1, v0, v2}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
     move-result-object v0
-
-    .line 60
     check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
-
-    .line 61
-    .line 62
     invoke-virtual {p0, v0}, Llr4;->l(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
+    const/4 v0, 0x1
+    return v0
 
-    .line 63
-    .line 64
-    .line 65
-    new-instance p0, Ld76;
+    :supabase_offline
+    invoke-virtual {p0}, Llr4;->a()V
+    const/4 v0, 0x1
+    return v0
 
-    .line 66
-    .line 67
-    const-string v2, "fetchFromLocalOrCloud"
-
-    .line 68
-    .line 69
-    invoke-direct {p0, v0, v2}, Ld76;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;Ljava/lang/String;)V
-
-    .line 70
-    .line 71
-    .line 72
-    invoke-static {p0}, Lzn4;->c(Lbt3;)V
-
-    .line 73
-    .line 74
-    .line 75
-    return v1
-
-    .line 76
-    :cond_1
-    instance-of p0, v0, Lwe3;
-
-    .line 77
-    .line 78
-    const/4 v1, 0x0
-
-    .line 79
-    if-eqz p0, :cond_2
-
-    .line 80
-    .line 81
-    sget-object v2, Lvr6;->INSTANCE:Lvr6;
-
-    .line 82
-    .line 83
-    check-cast v0, Lwe3;
-
-    .line 84
-    .line 85
-    iget-object p0, v0, Lwe3;->n:Lwc2;
-
-    .line 86
-    .line 87
-    iget-object v4, p0, Lwc2;->b:Ljava/lang/String;
-
-    .line 88
-    .line 89
-    invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
-
-    .line 90
-    .line 91
-    .line 92
-    const/4 v6, 0x4
-
-    .line 93
-    const/4 v7, 0x0
-
-    .line 94
-    const-string v3, "LabelRepo"
-
-    .line 95
-    .line 96
-    const/4 v5, 0x0
-
-    .line 97
-    invoke-static/range {v2 .. v7}, Lvr6;->e$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
-
-    .line 98
-    .line 99
-    .line 100
-    return v1
-
-    .line 101
-    :cond_2
+    :supabase_no_payload
     invoke-static {}, Lq;->j()V
-
-    .line 102
-    .line 103
-    .line 104
-    return v1
+    const/4 v0, 0x0
+    return v0
 .end method
 
 .method public final declared-synchronized l(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
