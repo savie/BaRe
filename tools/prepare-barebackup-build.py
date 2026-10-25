@@ -266,3 +266,20 @@ logger_share = (root / "smali/er.smali").read_text()
 assert "SwiftLogger" not in logger_export and "SwiftLogger" not in logger_share, (
     "BΛR☰ logger user-facing/export strings must not retain SwiftLogger branding"
 )
+
+
+# Firebase-first read policy regression checks for the user payloads migrated so far.
+config_repo = (root / "smali/br1.smali").read_text()
+label_repo = (root / "smali/lr4.smali").read_text()
+for name, source, firebase_call, supabase_key in [
+    ("configs", config_repo, "Lbr1;->a()V", '"configs"'),
+    ("labelsData", label_repo, "Llr4;->a()V", '"labelsData"'),
+]:
+    method = source[source.index(".method public final b()Z"):source.index(".end method", source.index(".method public final b()Z"))]
+    assert method.index(firebase_call) < method.index("BareSupabaseMetadataStore;->readUserPayload"), (
+        f"{name} must attempt Firebase before Supabase fallback"
+    )
+    assert method.index(supabase_key) < method.index("BareSupabaseMetadataStore;->readUserPayload"), (
+        f"{name} fallback must use its explicit payload key"
+    )
+print("Validated Firebase-first reads with Supabase fallback for configs and labelsData.")

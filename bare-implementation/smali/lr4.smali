@@ -1784,39 +1784,57 @@
     .locals 4
 
     const-string v0, "LabelRepo"
-    const-string v1, "Fetching from BΛR☰ Supabase"
+    const-string v1, "Reading Firebase first; Supabase is fallback"
     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
+    # Firebase is authoritative. Refresh the existing Firebase-backed repository first.
+    invoke-virtual {p0}, Llr4;->a()V
+    sget-object v0, Llr4;->e:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    if-eqz v0, :firebase_labels_unavailable
+    const/4 v0, 0x1
+    return v0
+
+    # Only fall back when Firebase has no usable label state.
+    :firebase_labels_unavailable
     invoke-static {}, Lai8;->b()V
     invoke-static {}, Lai8;->h()Z
     move-result v0
-    if-eqz v0, :supabase_offline
+    if-eqz v0, :supabase_labels_unavailable
 
     const-string v0, "labelsData"
     invoke-static {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v0
-    if-eqz v0, :supabase_no_payload
+    if-eqz v0, :supabase_labels_unavailable
 
+    :try_start_supabase_labels_parse
     invoke-static {}, Lw14;->c()Lcom/google/gson/a;
     move-result-object v1
     const-class v2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
     invoke-virtual {v1, v0, v2}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
     move-result-object v0
     check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    :try_end_supabase_labels_parse
+    .catch Ljava/lang/Exception; {:try_start_supabase_labels_parse .. :try_end_supabase_labels_parse} :supabase_labels_parse_failed
+
+    if-eqz v0, :supabase_labels_unavailable
     invoke-virtual {p0, v0}, Llr4;->l(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
     const/4 v0, 0x1
     return v0
 
-    :supabase_offline
-    invoke-virtual {p0}, Llr4;->a()V
-    const/4 v0, 0x1
-    return v0
+    :supabase_labels_parse_failed
+    move-exception v0
+    const-string v1, "LabelRepo"
+    const-string v2, "Supabase fallback label payload could not be parsed"
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    :supabase_no_payload
-    invoke-static {}, Lq;->j()V
+    :supabase_labels_unavailable
+    const-string v0, "LabelRepo"
+    const-string v1, "Firebase labels unavailable and Supabase fallback has no usable payload"
+    invoke-static {v0, v1}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
     const/4 v0, 0x0
     return v0
 .end method
+
 
 .method public final declared-synchronized l(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
     .locals 2
