@@ -754,6 +754,10 @@
 .method public final declared-synchronized c()Lcom/microsoft/identity/client/SingleAccountPublicClientApplication;
     .locals 10
 
+    # BΛR☰ isolation: OneDrive MSAL is disabled until a BΛR☰-owned Entra app registration exists.
+    const/4 v0, 0x0
+    return-object v0
+
     .line 1
     const-string v0, "Setting OneDrive client application with Authorization Agent: "
 
