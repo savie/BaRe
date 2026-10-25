@@ -583,3 +583,126 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
     throw v0
 .end method
+
+
+# RTDB migration bridge: persist one known feature-root payload in BΛR☰ Supabase.
+# Call from a worker thread only. The database constraint allow-lists path_key.
+.method public static writeUserPayload(Ljava/lang/String;Ljava/lang/String;)Laf3;
+    .locals 8
+
+    invoke-static {}, Landroid/os/Looper;->myLooper()Landroid/os/Looper;
+    move-result-object v0
+    invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
+    move-result-object v1
+    invoke-static {v0, v1}, Lpe4;->d(Ljava/lang/Object;Ljava/lang/Object;)Z
+    move-result v0
+    if-nez v0, :payload_main_thread
+
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->currentUid()Ljava/lang/String;
+    move-result-object v2
+    if-eqz v2, :payload_no_uid
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->currentToken()Ljava/lang/String;
+    move-result-object v3
+    if-eqz v3, :payload_no_token
+
+    new-instance v4, Lorg/json/JSONObject;
+    invoke-direct {v4}, Lorg/json/JSONObject;-><init>()V
+    const-string v0, "user_id"
+    invoke-virtual {v4, v0, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+    const-string v0, "path_key"
+    invoke-virtual {v4, v0, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+    const-string v0, "payload"
+    new-instance v1, Lorg/json/JSONTokener;
+    invoke-direct {v1, p1}, Lorg/json/JSONTokener;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v1}, Lorg/json/JSONTokener;->nextValue()Ljava/lang/Object;
+    move-result-object v1
+    invoke-virtual {v4, v0, v1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
+    invoke-virtual {v4}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
+    move-result-object v5
+
+    const-string v6, "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/user_realtime_data?on_conflict=user_id,path_key"
+    const-string v7, "POST"
+    invoke-static {v6, v7, v3, v5}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->request(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Laf3;
+    move-result-object v0
+    return-object v0
+
+    :payload_main_thread
+    const-string v0, "User payload sync must run off the main thread."
+    invoke-static {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->failure(Ljava/lang/String;)Laf3;
+    move-result-object v0
+    return-object v0
+
+    :payload_no_uid
+    const-string v0, "User payload sync requires a signed-in Firebase user."
+    invoke-static {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->failure(Ljava/lang/String;)Laf3;
+    move-result-object v0
+    return-object v0
+
+    :payload_no_token
+    const-string v0, "Firebase ID token unavailable; user payload was not synced."
+    invoke-static {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->failure(Ljava/lang/String;)Laf3;
+    move-result-object v0
+    return-object v0
+.end method
+
+# Returns the JSON payload text, or null when no synced payload is available.
+.method public static readUserPayload(Ljava/lang/String;)Ljava/lang/String;
+    .locals 6
+
+    invoke-static {}, Landroid/os/Looper;->myLooper()Landroid/os/Looper;
+    move-result-object v0
+    invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
+    move-result-object v1
+    invoke-static {v0, v1}, Lpe4;->d(Ljava/lang/Object;Ljava/lang/Object;)Z
+    move-result v0
+    if-eqz v0, :payload_read_worker
+    const/4 v0, 0x0
+    return-object v0
+
+    :payload_read_worker
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->currentUid()Ljava/lang/String;
+    move-result-object v2
+    if-eqz v2, :payload_read_null
+    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->currentToken()Ljava/lang/String;
+    move-result-object v3
+    if-eqz v3, :payload_read_null
+
+    invoke-static {v2}, Landroid/net/Uri;->encode(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v2
+    invoke-static {p0}, Landroid/net/Uri;->encode(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    new-instance v5, Ljava/lang/StringBuilder;
+    const-string v0, "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/user_realtime_data?select=payload&user_id=eq."
+    invoke-direct {v5, v0}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v5, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v0, "&path_key=eq."
+    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v0, "&limit=1"
+    invoke-virtual {v5, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v0
+    invoke-static {v0, v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->responseText(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v0
+    if-eqz v0, :payload_read_null
+
+    new-instance v1, Lorg/json/JSONArray;
+    invoke-direct {v1, v0}, Lorg/json/JSONArray;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
+    move-result v0
+    if-lez v0, :payload_read_null
+    const/4 v0, 0x0
+    invoke-virtual {v1, v0}, Lorg/json/JSONArray;->getJSONObject(I)Lorg/json/JSONObject;
+    move-result-object v0
+    const-string v1, "payload"
+    invoke-virtual {v0, v1}, Lorg/json/JSONObject;->get(Ljava/lang/String;)Ljava/lang/Object;
+    move-result-object v0
+    invoke-virtual {v0}, Ljava/lang/Object;->toString()Ljava/lang/String;
+    move-result-object v0
+    return-object v0
+
+    :payload_read_null
+    const/4 v0, 0x0
+    return-object v0
+.end method
+
