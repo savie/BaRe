@@ -9,6 +9,7 @@ on:
       - feat/bare-own-onedrive-msal
       - fix/optional-multithreaded-feature-fallback
       - fix/supabase-user-mutation-payload-writes
+      - feat/firebase-primary-supabase-fallback
     paths:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
