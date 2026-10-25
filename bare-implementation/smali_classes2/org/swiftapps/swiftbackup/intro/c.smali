@@ -6,7 +6,6 @@
 .implements Lmt3;
 
 
-# virtual methods
 .method public final invoke(Ljava/lang/Object;)Ljava/lang/Object;
     .locals 1
 
@@ -15,7 +14,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()
 
     .line 4
     .line 5
@@ -32,7 +31,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+    invoke-virtual {p0}, Ljava/lang/Object;->getClass()
 
     .line 13
     .line 14
@@ -102,7 +101,7 @@
     .line 44
     .line 45
     .line 46
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->X()V
+    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V()V
 
     .line 47
     .line 48
