@@ -1645,6 +1645,23 @@
     .line 64
     .line 65
     :cond_2
+    # Prefer BΛR☰ Supabase for appSettings; RTDB is legacy fallback only.
+    :bare_settings_supabase_first
+    const-string v3, "appSettings"
+    invoke-static {v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v3
+    if-eqz v3, :bare_settings_rtdb_fallback
+    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
+    move-result-object v4
+    const-class v5, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    invoke-virtual {v4, v3, v5}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+    move-result-object v4
+    check-cast v4, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    if-eqz v4, :bare_settings_rtdb_fallback
+    invoke-static {v4}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+    return v2
+
+    :bare_settings_rtdb_fallback
     invoke-static {}, Lre3;->k()Lzc2;
 
     .line 66
