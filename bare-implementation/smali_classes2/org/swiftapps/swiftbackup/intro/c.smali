@@ -14,7 +14,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {p1}, Ljava/lang/Object;->getClass()
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     .line 4
     .line 5
@@ -31,7 +31,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Ljava/lang/Object;->getClass()
+    invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     .line 13
     .line 14
