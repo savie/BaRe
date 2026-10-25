@@ -217,6 +217,15 @@
     return-object v5
 
     :response_empty
+    const-string v2, "BΛR☰Backend"
+    new-instance v3, Ljava/lang/StringBuilder;
+    const-string v4, "Supabase GET returned HTTP "
+    invoke-direct {v3, v4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    move-result-object v3
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v3
+    invoke-static {v2, v3}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
     invoke-virtual {v0}, Ljava/net/HttpURLConnection;->disconnect()V
     const/4 v0, 0x0
     return-object v0
