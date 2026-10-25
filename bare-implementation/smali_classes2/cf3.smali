@@ -12,9 +12,11 @@
 .end method
 
 .method public static a(Lzc2;Z)Ll73;
-    .locals 6
+    .locals 7
 
     .line 1
+    move-object v6, p0
+
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     .line 2
@@ -192,15 +194,20 @@
     move-result-object p0
 
     .line 86
-    const-string v1, "readReference: "
-
-    .line 87
-    .line 88
-    invoke-virtual {v1, p0}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
-
-    .line 89
-    .line 90
-    .line 91
+    iget-object v1, v6, Lzc2;->b:Lgy5;
+    invoke-virtual {v1}, Ljava/lang/Object;->toString()Ljava/lang/String;
+    move-result-object v1
+    new-instance v2, Ljava/lang/StringBuilder;
+    const-string v3, "readReference path="
+    invoke-direct {v2, v3}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
+    const-string v1, ": "
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
+    invoke-virtual {v2, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v2
 
     .line 92
