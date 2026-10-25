@@ -1951,7 +1951,7 @@
 
 # virtual methods
 .method public final declared-synchronized c(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
-    .locals 2
+    .locals 3
 
     .line 1
     monitor-enter p0
@@ -2070,6 +2070,18 @@
 
     .line 54
     invoke-virtual {v0, p1}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
+
+    # Mirror appSettings to BΛR☰ Supabase on a worker thread. Keep Firebase Auth.
+    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
+    move-result-object v0
+    invoke-virtual {v0, p1}, Lcom/google/gson/a;->i(Ljava/lang/Object;)Ljava/lang/String;
+    move-result-object v1
+    new-instance v0, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;
+    const-string v2, "appSettings"
+    invoke-direct {v0, v2, v1}, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v2, Ljava/lang/Thread;
+    invoke-direct {v2, v0}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
+    invoke-virtual {v2}, Ljava/lang/Thread;->start()V
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
