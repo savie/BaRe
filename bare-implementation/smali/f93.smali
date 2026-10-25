@@ -57,7 +57,7 @@
     move-result-object v0
 
     .line 7
-    const-string v1, "org.swiftapps.swiftbackup.fileprovider"
+    const-string v1, "com.bareapps.barebackup.fileprovider"
 
     .line 8
     .line 9
