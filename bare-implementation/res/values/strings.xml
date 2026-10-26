@@ -935,7 +935,7 @@ Click below to create a new schedule"</string>
     <string name="only_if_battery_is_x_percent">Only if battery level is at least %s</string>
     <string name="only_when_charging">Only when charging</string>
     <string name="open_folder">Open folder</string>
-    <string name="open_in_swift_backup">Open in BΛR☰</string>
+    <string name="open_in_bare_backup">Open in BΛR☰</string>
     <string name="optimizing_battery_use">Optimizing battery use</string>
     <string name="original_size">Original size</string>
     <string name="other_quick_actions">Other quick actions</string>
