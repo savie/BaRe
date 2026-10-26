@@ -347,7 +347,7 @@
     .line 9
     .line 10
     .line 11
-    const-string v1, "support@swiftapps.org"
+    const-string v1, "support@bareapps.com"
 
     .line 12
     .line 13
