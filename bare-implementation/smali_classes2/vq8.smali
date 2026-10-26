@@ -1643,7 +1643,7 @@
 
     .line 694
     .line 695
-    const-string v12, "Server killed connection with Swift Backup before assembly is complete!"
+    const-string v12, "Server killed connection with BΛR☰ before assembly is complete!"
 
     .line 696
     .line 697
@@ -1655,7 +1655,7 @@
     .line 699
     .line 700
     .line 701
-    const-string v0, "Swift Backup will attempt to verify assembly success manually for 1hr"
+    const-string v0, "BΛR☰ will attempt to verify assembly success manually for 1hr"
 
     .line 702
     .line 703
@@ -1790,7 +1790,7 @@
 
     .line 764
     :cond_e
-    const-string v0, "Swift Backup waited but the server couldn\'t assemble the chunks in time!"
+    const-string v0, "BΛR☰ waited but the server couldn\'t assemble the chunks in time!"
 
     .line 765
     .line 766
