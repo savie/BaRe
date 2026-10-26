@@ -6642,7 +6642,7 @@
     <public type="string" name="only_if_battery_is_x_percent" id="0x7f1303ec" />
     <public type="string" name="only_when_charging" id="0x7f1303ed" />
     <public type="string" name="open_folder" id="0x7f1303ee" />
-    <public type="string" name="open_in_swift_backup" id="0x7f1303ef" />
+    <public type="string" name="open_in_bare_backup" id="0x7f1303ef" />
     <public type="string" name="optimizing_battery_use" id="0x7f1303f0" />
     <public type="string" name="original_size" id="0x7f1303f1" />
     <public type="string" name="other_quick_actions" id="0x7f1303f2" />
