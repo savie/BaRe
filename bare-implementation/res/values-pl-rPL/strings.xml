@@ -944,7 +944,7 @@ Wymagany dostęp Root lub Shizuku"</string>
 Rozwiązanie: Sformatuj swoją pamięć za pomocą exFAT i użyj jądra, które obsługuje montowanie pamięci exFAT."</string>
     <string name="to_cloud">Do chmury</string>
     <string name="to_device">Na urządzenie</string>
-    <string name="tos_privacy_agreement">Kontynuując, zgadzasz się z naszymi &lt;a href=https://www.swiftapps.org/tos>Warunkami korzystania z usługi&lt;/a> i &lt;a href=https://www.swiftapps.org/privacy-policy>Polityką prywatności&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Kontynuując, zgadzasz się z naszymi &lt;a href=https://bareapps.com/terms-of-service>Warunkami korzystania z usługi&lt;/a> i &lt;a href=https://bareapps.com/privacy-policy>Polityką prywatności&lt;/a>.</string>
     <string name="translation_project">Tłumaczenie</string>
     <string name="translation_project_summary">Pomóż przetłumaczyć aplikację na swój język</string>
     <string name="turn_off">Wyłącz</string>
