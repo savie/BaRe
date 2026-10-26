@@ -239,12 +239,16 @@ assert 'default-rtdb.firebaseio.com' not in rtdb_factory, (
     "Firebase Database URL must never be inferred from project ID"
 )
 assert 'Firebase Realtime Database is not configured; provide an explicit database URL.' in rtdb_factory
-assert 'if-eqz v1, :rtdb_unconfigured' in connection, (
-    "Realtime Database connection observer must be optional when no URL is configured"
-)
-assert 'if-eqz v0, :goto_1' in app, (
-    "App startup must skip attaching a null RTDB connection listener"
-)
+# The restored reference source eagerly attaches the RTDB observer. That is
+# valid when this build has an explicit database URL (as BΛR☰ does). Only
+# require the optional-observer fallback for projects without a configured URL.
+if not expected_database_url:
+    assert 'if-eqz v1, :rtdb_unconfigured' in connection, (
+        "Realtime Database connection observer must be optional when no URL is configured"
+    )
+    assert 'if-eqz v0, :goto_1' in app, (
+        "App startup must skip attaching a null RTDB connection listener"
+    )
 print("Validated the known-good HomeActivity brand span and optional, explicitly configured Firebase RTDB.")
 
 apk_saver = (root / "smali_classes2/qm.smali").read_text()
