@@ -923,7 +923,7 @@
 
     .line 416
     .line 417
-    const-string v15, "SwiftLogger archive unavailable, falling back to text-only report"
+    const-string v15, "BΛR☰ Logger archive unavailable, falling back to text-only report"
 
     .line 418
     .line 419
