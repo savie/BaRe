@@ -185,38 +185,22 @@ print("Validated BΛR☰ global entitlement, incremental folder backups, multi-b
 from pathlib import Path
 
 root = Path("build-src")
-backend = root / "smali_classes2/org/swiftapps/swiftbackup/backend"
-sync = (backend / "BareSupabaseProfileSync.smali").read_text()
-token_listener = (backend / "BareSupabaseProfileSync$TokenListener.smali").read_text()
-device_runner = (backend / "BareSupabaseProfileSync$ProfileUpsertRunner.smali").read_text()
-login_listener = (root / "smali/org/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener.smali").read_text()
 sign_in = (root / "smali/org/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity.smali").read_text()
 app_smali = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
 manifest = (root / "AndroidManifest.xml").read_text()
 
-assert "FirebaseAuth;->c()Lp49;" in sync, "Current Firebase user lookup is missing"
-assert "FirebaseAuth;->b(Z)Lcom/google/android/gms/tasks/Task;" in sync
-assert "BareSupabaseProfileSync$TokenListener" in sync
-assert "Ldx3;->a:Ljava/lang/String;" in token_listener, "Firebase ID-token extraction is missing"
-assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/profiles?on_conflict=user_id" in device_runner
-assert "https://fbiazqbrkwovzrirnzpb.supabase.co/rest/v1/devices?on_conflict=user_id,device_key" in device_runner
-assert "getOrCreateDeviceKey()Ljava/lang/String;" in device_runner
-assert "java/util/UUID;->randomUUID()Ljava/util/UUID;" in sync
-assert "bare_supabase_metadata" in sync and "device_key" in sync
-assert 'const-string v1, "apikey"' in device_runner
-assert 'const-string v2, "Authorization"' in device_runner
-assert "resolution=merge-duplicates,return=minimal" in device_runner
-assert "service_role" not in device_runner.lower() and "eyJhbGci" not in device_runner, (
-    "A server credential or hard-coded JWT must never be embedded in the app"
-)
-assert "BareSupabaseProfileSync;->syncCurrentUser()V" in login_listener
-assert "SupabaseLoginSuccessListener" in sign_in
-assert "addOnSuccessListener(Lcom/google/android/gms/tasks/OnSuccessListener;)Lcom/google/android/gms/tasks/Task;" in sign_in
-assert "BareSupabaseProfileSync;->syncCurrentUser()V" in app_smali, (
-    "Existing signed-in users are not reconciled on app startup"
-)
+# Reject active Supabase dependencies from the APK source tree.
+for path in list((root / "smali").rglob("*.smali")) + list((root / "smali_classes2").rglob("*.smali")):
+    source_text = path.read_text()
+    assert "supabase.co" not in source_text.lower(), f"Supabase endpoint remains in {path}"
+    assert "BareSupabase" not in source_text and "SupabaseLoginSuccessListener" not in source_text, (
+        f"Supabase backend hook remains in {path}"
+    )
+
+assert "SupabaseLoginSuccessListener" not in sign_in
+assert "BareSupabaseProfileSync" not in app_smali
 assert 'android.permission.INTERNET' in manifest
-print("Validated Firebase-authenticated Supabase profile/device upserts and startup/login wiring.")
+print("Validated Firebase-only APK sources: no Supabase endpoints, backend classes, or login/startup hooks.")
 
 # -----------------------------------------------------------------------------
 # Additional source validation
