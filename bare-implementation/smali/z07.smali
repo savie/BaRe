@@ -5879,7 +5879,7 @@
     .line 261
     .line 262
     .line 263
-    const-string v12, "Swift Backup Archive"
+    const-string v12, "BΛR☰ Archive"
 
     .line 264
     .line 265
