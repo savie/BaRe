@@ -579,18 +579,6 @@
     .line 265
     invoke-virtual {v0, v8}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
 
-    # Supabase dual-write only on the explicit user label mutation path.
-    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
-    move-result-object v9
-    invoke-virtual {v9, v8}, Lcom/google/gson/a;->i(Ljava/lang/Object;)Ljava/lang/String;
-    move-result-object v10
-    new-instance v11, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;
-    const-string v12, "labelsData"
-    invoke-direct {v11, v12, v10}, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-    new-instance v13, Ljava/lang/Thread;
-    invoke-direct {v13, v11}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
-    invoke-virtual {v13}, Ljava/lang/Thread;->start()V
-
     .line 266
     .line 267
     .line 268
