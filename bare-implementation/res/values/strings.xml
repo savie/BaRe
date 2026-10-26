@@ -1330,7 +1330,7 @@ Proper data restore for such apps is not guaranteed."</string>
 Solution: Format your storage with exFAT and use a kernel that supports mounting exFAT storages."</string>
     <string name="to_cloud">To cloud</string>
     <string name="to_device">To device</string>
-    <string name="tos_privacy_agreement">"By continuing you agree to the Terms of Service and Privacy Policy."</string>
+    <string name="tos_privacy_agreement">By continuing you agree to the &lt;a href=https://bareapps.com/terms-of-service>Terms of Service&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Privacy Policy&lt;/a>.</string>
     <string name="translation_project">Translation project</string>
     <string name="translation_project_summary">Help translate BΛR☰</string>
     <string name="turn_off">Turn off</string>
