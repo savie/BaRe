@@ -1075,7 +1075,7 @@ BΛR☰ 將只會在本機私有目錄中以加密的形式儲存您的密碼。
 解決方案：格式化您的儲存裝置成 exFAT 和使用支援掛載 exFAT 儲存空間的內核。"</string>
     <string name="to_cloud">到雲端</string>
     <string name="to_device">到本裝置</string>
-    <string name="tos_privacy_agreement">繼續下一步時您將視為同意我們的&lt;a href=https://www.swiftapps.org/tos>服務條款&lt;/a>&amp;amp;和 &lt;a href=https://www.swiftapps.org/privacy-policy>隱私權政策&lt;/a>。</string>
+    <string name="tos_privacy_agreement">繼續下一步時您將視為同意我們的&lt;a href=https://bareapps.com/terms-of-service>服務條款&lt;/a>&amp;amp;和 &lt;a href=https://bareapps.com/privacy-policy>隱私權政策&lt;/a>。</string>
     <string name="translation_project">翻譯計劃</string>
     <string name="translation_project_summary">幫助我們將本應用程式翻譯成您的語言</string>
     <string name="turn_off">關閉</string>
