@@ -619,7 +619,7 @@ Klik di bawah untuk membuat jadwal baru"</string>
     <string name="only_if_battery_is_x_percent">Hanya jika level baterai lebih dari %s</string>
     <string name="only_when_charging">Hanya saat mengisi daya</string>
     <string name="open_folder">Buka map</string>
-    <string name="open_in_swift_backup">Buka di BΛR☰</string>
+    <string name="open_in_bare_backup">Buka di BΛR☰</string>
     <string name="optimizing_battery_use">Mengoptimalkan penggunaan baterai</string>
     <string name="original_size">Ukuran asli</string>
     <string name="other_quick_actions">Tindakan cepat lainnya</string>
