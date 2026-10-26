@@ -939,7 +939,7 @@ BΛR☰ をセットアップするときは、暗号化されたバックアッ
 解決策: ストレージを exFAT でフォーマットし、exFAT ストレージのマウントをサポートするカーネルを使用します。"</string>
     <string name="to_cloud">クラウドへ</string>
     <string name="to_device">デバイスへ</string>
-    <string name="tos_privacy_agreement">続行すると、<a href="https://www.swiftapps.org/tos">利用規約</a>および<a href="https://www.swiftapps.org/privacy-policy">プライバシーポリシー</a>に同意したことになります。</string>
+    <string name="tos_privacy_agreement">続行すると、<a href="https://bareapps.com/terms-of-service">利用規約</a>および<a href="https://bareapps.com/privacy-policy">プライバシーポリシー</a>に同意したことになります。</string>
     <string name="translation_project">翻訳プロジェクト</string>
     <string name="translation_project_summary">BΛR☰ の翻訳を手伝ってください</string>
     <string name="turn_off">オフにする</string>
