@@ -944,7 +944,7 @@ L'accès Root ou l'application Shizuku est nécessaire"</string>
 Solution : Formatez votre stockage avec exFAT et utilisez un kernel qui autorise le montage des stockages exFAT."</string>
     <string name="to_cloud">Vers le cloud</string>
     <string name="to_device">"Sur l'appareil"</string>
-    <string name="tos_privacy_agreement">"En continuant, vous acceptez nos &lt;a href=https://www.swiftapps.org/tos>Conditions d'utilisation&lt;/a> &amp;amp; notre &lt;a href=https://www.swiftapps.org/privacy-policy>Politique de confidentialité&lt;/a>."</string>
+    <string name="tos_privacy_agreement">"En continuant, vous acceptez nos &lt;a href=https://bareapps.com/terms-of-service>Conditions d'utilisation&lt;/a> &amp;amp; notre &lt;a href=https://bareapps.com/privacy-policy>Politique de confidentialité&lt;/a>."</string>
     <string name="translation_project">Traduction</string>
     <string name="translation_project_summary">"Aidez-nous à traduire l'application dans votre langue !"</string>
     <string name="turn_off">Désactiver</string>
