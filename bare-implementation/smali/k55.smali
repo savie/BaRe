@@ -3504,7 +3504,7 @@
 
     .line 28
     .line 29
-    const-string p2, "Swift Backup main folder name is blank"
+    const-string p2, "BΛR☰ main folder name is blank"
 
     .line 30
     .line 31
