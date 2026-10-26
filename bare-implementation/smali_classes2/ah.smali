@@ -929,18 +929,6 @@
     .line 433
     invoke-virtual {v0, v6}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
 
-    # Supabase dual-write only on the explicit user config-save path.
-    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
-    move-result-object v1
-    invoke-virtual {v1, v6}, Lcom/google/gson/a;->i(Ljava/lang/Object;)Ljava/lang/String;
-    move-result-object v2
-    new-instance v3, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;
-    const-string v4, "configs"
-    invoke-direct {v3, v4, v2}, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-    new-instance v4, Ljava/lang/Thread;
-    invoke-direct {v4, v3}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
-    invoke-virtual {v4}, Ljava/lang/Thread;->start()V
-
     .line 434
     .line 435
     .line 436
