@@ -619,7 +619,7 @@ Nhấp vào bên dưới để tạo Lịch Trình mới"</string>
     <string name="only_if_battery_is_x_percent">Chỉ khi mức pin ít nhất là %s</string>
     <string name="only_when_charging">Chỉ khi đang sạc</string>
     <string name="open_folder">Mở thư mục</string>
-    <string name="open_in_swift_backup">Mở trong BΛR☰</string>
+    <string name="open_in_bare_backup">Mở trong BΛR☰</string>
     <string name="optimizing_battery_use">Tối ưu hóa việc sử dụng pin</string>
     <string name="original_size">Kích thước gốc</string>
     <string name="other_quick_actions">Các lối tắt khác</string>
