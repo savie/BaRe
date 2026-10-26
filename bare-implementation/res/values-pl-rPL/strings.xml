@@ -619,7 +619,7 @@ Kliknij poniżej, aby utworzyć nowy harmonogram"</string>
     <string name="only_if_battery_is_x_percent">Tylko jeśli poziom baterii wynosi co najmniej %s</string>
     <string name="only_when_charging">Tylko podczas ładowania</string>
     <string name="open_folder">Otwórz folder</string>
-    <string name="open_in_swift_backup">Otwórz w BΛR☰</string>
+    <string name="open_in_bare_backup">Otwórz w BΛR☰</string>
     <string name="optimizing_battery_use">Optymalizacja zużycia baterii</string>
     <string name="original_size">Oryginalny rozmiar</string>
     <string name="other_quick_actions">Inne szybkie akcje</string>
