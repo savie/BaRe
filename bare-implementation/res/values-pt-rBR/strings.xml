@@ -1080,7 +1080,7 @@ Nota: Esses recursos podem desaparecer a qualquer momento."</string>
 Solução: Formate o seu armazenamento como exFAT e use um kernel que suporta montagem de armazenamentos exFAT."</string>
     <string name="to_cloud">Para a nuvem</string>
     <string name="to_device">Para o dispositivo</string>
-    <string name="tos_privacy_agreement">Ao continuar, você concorda com nossos &lt;a href=https://www.swiftapps.org/tos>Termos de Serviço&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Política de Privacidade&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Ao continuar, você concorda com nossos &lt;a href=https://bareapps.com/terms-of-service>Termos de Serviço&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Política de Privacidade&lt;/a>.</string>
     <string name="translation_project">Projeto de tradução</string>
     <string name="translation_project_summary">Ajude-nos a traduzir o aplicativo para seu idioma.</string>
     <string name="turn_off"> Desligar</string>
