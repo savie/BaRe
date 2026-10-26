@@ -3965,7 +3965,7 @@
     move-result-wide v14
 
     .line 233
-    const-string v16, "Swift Backup"
+    const-string v16, "BΛR☰"
 
     .line 234
     .line 235
@@ -5631,7 +5631,7 @@
     move-result-wide v11
 
     .line 313
-    const-string v13, "Swift Backup"
+    const-string v13, "BΛR☰"
 
     .line 314
     .line 315
