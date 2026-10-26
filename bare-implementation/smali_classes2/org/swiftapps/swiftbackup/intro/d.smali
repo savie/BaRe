@@ -1167,8 +1167,12 @@
 
     .line 104
     .line 105
-    # BΛR☰ cloud settings are restored from Supabase; do not block first-run on legacy RTDB health permissions.
-    sget-object v0, Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;
+    invoke-virtual {v0, v8, v9, v7}, Lgg3;->k(JLkv1;)Ljava/lang/Object;
+
+    .line 106
+    .line 107
+    .line 108
+    move-result-object v0
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
@@ -1266,7 +1270,7 @@
 
     .line 150
     .line 151
-    const-string v13, "Supabase app settings unavailable. Skipping first-run cloud settings restore."
+    const-string v13, "Firebase settings read failed. Skipping first-run cloud settings restore."
 
     .line 152
     .line 153
