@@ -106,7 +106,7 @@
 
     .line 40
     .line 41
-    const-string v0, "https://t.me/swiftbackupsupport"
+    const-string v0, "https://t.me/+WEf0Qj-hZF3Igavo"
 
     .line 42
     .line 43
