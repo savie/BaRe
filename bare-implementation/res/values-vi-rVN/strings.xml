@@ -944,7 +944,7 @@ Cần quyền Root hoặc Shizuku"</string>
 Giải pháp: Định dạng bộ nhớ của bạn bằng exFAT và sử dụng kernel hỗ trợ việc gắn các bộ lưu trữ exFAT."</string>
     <string name="to_cloud">Đến đám mây</string>
     <string name="to_device">Đến thiết bị</string>
-    <string name="tos_privacy_agreement">Bằng cách tiếp tục, bạn đồng ý với chúng tôi&lt;a href=https://www.swiftapps.org/tos>Điều Khoản Dịch Vụ&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Chính Sách Quyền Riêng Tư&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Bằng cách tiếp tục, bạn đồng ý với chúng tôi&lt;a href=https://bareapps.com/terms-of-service>Điều Khoản Dịch Vụ&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Chính Sách Quyền Riêng Tư&lt;/a>.</string>
     <string name="translation_project">Dự án dịch thuật</string>
     <string name="translation_project_summary">Giúp dịch ứng dụng sang ngôn ngữ của bạn</string>
     <string name="turn_off">Tắt</string>
