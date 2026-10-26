@@ -28,7 +28,7 @@ jobs:
       - name: Read Firebase users and send snapshot
         env:
           ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
-          FIREBASE_DB_URL: https://bare-6f8d6-default-rtdb.firebaseio.com
+          FIREBASE_DB_URL: https://bare-6f8d6-default-rtdb.asia-southeast1.firebasedatabase.app
           MIRROR_URL: https://fbiazqbrkwovzrirnzpb.supabase.co/functions/v1/firebase-rtdb-github-mirror
           MIRROR_SECRET: ${{ secrets.RTDB_GITHUB_MIRROR_SECRET }}
         shell: bash
