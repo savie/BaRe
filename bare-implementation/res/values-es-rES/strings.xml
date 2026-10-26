@@ -619,7 +619,7 @@ Haga clic abajo para crear una nueva"</string>
     <string name="only_if_battery_is_x_percent">Sólo si el nivel de batería es al menos %s</string>
     <string name="only_when_charging">Solo cuando se está cargando</string>
     <string name="open_folder">Abrir carpeta</string>
-    <string name="open_in_swift_backup">Abrir en BΛR☰</string>
+    <string name="open_in_bare_backup">Abrir en BΛR☰</string>
     <string name="optimizing_battery_use">Optimizando el uso de la batería</string>
     <string name="original_size">Tamaño original</string>
     <string name="other_quick_actions">Otras acciones rápidas</string>
