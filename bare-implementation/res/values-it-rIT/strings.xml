@@ -619,7 +619,7 @@ Clicca qui sotto per creare una nuova pianificazione"</string>
     <string name="only_if_battery_is_x_percent">Solo se il livello della batteria è almeno %s</string>
     <string name="only_when_charging">Solo quando in carica</string>
     <string name="open_folder">Apri cartella</string>
-    <string name="open_in_swift_backup">Apri in BΛR☰</string>
+    <string name="open_in_bare_backup">Apri in BΛR☰</string>
     <string name="optimizing_battery_use">Ottimizzazione della batteria</string>
     <string name="original_size">Dimensione originale</string>
     <string name="other_quick_actions">Altre azioni rapide</string>
