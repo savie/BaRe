@@ -1645,38 +1645,183 @@
     .line 64
     .line 65
     :cond_2
-    # Prefer BΛR☰ Supabase for appSettings; RTDB is never used as an implicit fallback.
-    :bare_settings_supabase_first
+    invoke-static {}, Lre3;->k()Lzc2;
+
+    .line 66
+    .line 67
+    .line 68
+    move-result-object v0
+
+    .line 69
     const-string v3, "appSettings"
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseMetadataStore;->readUserPayload(Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v3
-    if-eqz v3, :bare_settings_unavailable
-    :try_start_supabase_settings_parse
-    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
-    move-result-object v4
-    const-class v5, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
-    invoke-virtual {v4, v3, v5}, Lcom/google/gson/a;->c(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
-    move-result-object v4
-    check-cast v4, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
-    :try_end_supabase_settings_parse
-    .catch Ljava/lang/Exception; {:try_start_supabase_settings_parse .. :try_end_supabase_settings_parse} :bare_settings_parse_failed
-    if-eqz v4, :bare_settings_unavailable
-    invoke-static {v4}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+
+    .line 70
+    .line 71
+    invoke-virtual {v0, v3}, Lzc2;->d(Ljava/lang/String;)Lzc2;
+
+    .line 72
+    .line 73
+    .line 74
+    move-result-object v0
+
+    .line 75
+    invoke-static {v0, v2}, Lcf3;->a(Lzc2;Z)Ll73;
+
+    .line 76
+    .line 77
+    .line 78
+    move-result-object v0
+
+    .line 79
+    instance-of v3, v0, Lxe3;
+
+    .line 80
+    .line 81
+    if-eqz v3, :cond_5
+
+    .line 82
+    .line 83
+    check-cast v0, Lxe3;
+
+    .line 84
+    .line 85
+    iget-object v0, v0, Lxe3;->n:Leb2;
+
+    .line 86
+    .line 87
+    const-class v1, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+
+    .line 88
+    .line 89
+    invoke-virtual {v0, v1}, Leb2;->c(Ljava/lang/Class;)Ljava/lang/Object;
+
+    .line 90
+    .line 91
+    .line 92
+    move-result-object v0
+
+    .line 93
+    check-cast v0, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+
+    .line 94
+    .line 95
+    if-nez v0, :cond_3
+
+    .line 96
+    .line 97
+    goto :goto_0
+
+    .line 98
+    :cond_3
+    if-eqz p0, :cond_4
+
+    .line 99
+    .line 100
+    const v1, 0x7f130498
+
+    .line 101
+    .line 102
+    .line 103
+    invoke-virtual {p0, v1}, Lqo0;->h(I)V
+
+    .line 104
+    .line 105
+    .line 106
+    :cond_4
+    invoke-static {v0}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+
+    .line 107
+    .line 108
+    .line 109
+    sget-object v3, Lvr6;->INSTANCE:Lvr6;
+
+    .line 110
+    .line 111
+    const/4 v7, 0x4
+
+    .line 112
+    const/4 v8, 0x0
+
+    .line 113
+    const-string v4, "SettingsBackupHelper"
+
+    .line 114
+    .line 115
+    const-string v5, "Restoring settings from cloud complete"
+
+    .line 116
+    .line 117
+    const/4 v6, 0x0
+
+    .line 118
+    invoke-static/range {v3 .. v8}, Lvr6;->i$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
+
+    .line 119
+    .line 120
+    .line 121
     return v2
 
-    :bare_settings_parse_failed
-    move-exception v3
-    const-string v4, "BΛR☰Backend"
-    const-string v5, "Supabase appSettings payload could not be parsed; skipping first-run restore."
-    invoke-static {v4, v5, v3}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    .line 122
+    :cond_5
+    instance-of p0, v0, Lwe3;
 
-    :bare_settings_unavailable
-    # Missing or unreadable Supabase settings must not trigger the legacy RTDB throw path.
-    const-string v3, "BΛR☰Backend"
-    const-string v4, "Supabase app settings unavailable; skipping first-run settings restore."
-    invoke-static {v3, v4}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I
+    .line 123
+    .line 124
+    if-eqz p0, :cond_6
+
+    .line 125
+    .line 126
+    sget-object v2, Lvr6;->INSTANCE:Lvr6;
+
+    .line 127
+    .line 128
+    check-cast v0, Lwe3;
+
+    .line 129
+    .line 130
+    iget-object p0, v0, Lwe3;->n:Lwc2;
+
+    .line 131
+    .line 132
+    iget-object v4, p0, Lwc2;->b:Ljava/lang/String;
+
+    .line 133
+    .line 134
+    invoke-virtual {v4}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    .line 135
+    .line 136
+    .line 137
+    const/4 v6, 0x4
+
+    .line 138
+    const/4 v7, 0x0
+
+    .line 139
+    const-string v3, "SettingsBackupHelper"
+
+    .line 140
+    .line 141
+    const/4 v5, 0x0
+
+    .line 142
+    invoke-static/range {v2 .. v7}, Lvr6;->e$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
+
+    .line 143
+    .line 144
+    .line 145
     return v1
 
+    .line 146
+    :cond_6
+    invoke-static {}, Lq;->j()V
+
+    .line 147
+    .line 148
+    .line 149
+    return v1
+
+    .line 150
     :cond_7
     :goto_0
     return v2
@@ -1789,7 +1934,7 @@
 
 # virtual methods
 .method public final declared-synchronized c(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
-    .locals 3
+    .locals 2
 
     .line 1
     monitor-enter p0
@@ -1908,18 +2053,6 @@
 
     .line 54
     invoke-virtual {v0, p1}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
-
-    # Mirror appSettings to BΛR☰ Supabase on a worker thread. Keep Firebase Auth.
-    invoke-static {}, Lw14;->c()Lcom/google/gson/a;
-    move-result-object v0
-    invoke-virtual {v0, p1}, Lcom/google/gson/a;->i(Ljava/lang/Object;)Ljava/lang/String;
-    move-result-object v1
-    new-instance v0, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;
-    const-string v2, "appSettings"
-    invoke-direct {v0, v2, v1}, Lorg/swiftapps/swiftbackup/backend/BareSupabasePayloadWriteRunner;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-    new-instance v2, Ljava/lang/Thread;
-    invoke-direct {v2, v0}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
-    invoke-virtual {v2}, Ljava/lang/Thread;->start()V
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
