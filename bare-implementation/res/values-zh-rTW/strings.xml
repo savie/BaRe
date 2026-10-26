@@ -709,7 +709,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="only_if_battery_is_x_percent">僅在電量超過 %s 時</string>
     <string name="only_when_charging">僅充電時</string>
     <string name="open_folder">打開資料夾</string>
-    <string name="open_in_swift_backup">在 BΛR☰ 中開啟</string>
+    <string name="open_in_bare_backup">在 BΛR☰ 中開啟</string>
     <string name="optimizing_battery_use">最佳化電池使用</string>
     <string name="original_size">原始大小</string>
     <string name="other_quick_actions">其它快速動作</string>
