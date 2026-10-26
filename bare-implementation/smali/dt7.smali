@@ -632,7 +632,7 @@
 
     .line 298
     :cond_7
-    const-string v0, "claimSBDataOwnership: Unable to get Swift Backup package info"
+    const-string v0, "claimSBDataOwnership: Unable to get BΛR☰ package info"
 
     .line 299
     .line 300
