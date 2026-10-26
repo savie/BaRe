@@ -6737,7 +6737,7 @@
 
     .line 109
     .line 110
-    const-string v0, "Shizuku package shouldn\'t be backed up or restored when Swift Backup is actively using Shizuku! Skipping."
+    const-string v0, "Shizuku package shouldn\'t be backed up or restored when BΛR☰ is actively using Shizuku! Skipping."
 
     .line 111
     .line 112
