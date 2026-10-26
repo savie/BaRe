@@ -754,7 +754,7 @@
 
     .line 4
     .line 5
-    const-string v1, "mega_swift_session"
+    const-string v1, "mega_bare_session"
 
     .line 6
     .line 7
