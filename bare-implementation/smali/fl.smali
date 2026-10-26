@@ -395,14 +395,78 @@
 
     .line 173
     :pswitch_a
-    # Configs now come from BΛR☰ Supabase; disable legacy RTDB listener.
+    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+
+    .line 174
+    .line 175
+    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+
+    .line 176
+    .line 177
+    .line 178
+    move-result p0
+
+    .line 179
+    if-nez p0, :cond_1
+
+    .line 180
+    .line 181
+    goto :goto_0
+
+    .line 182
+    :cond_1
     const-string p0, "ConfigRepo"
-    const-string v0, "Skipping legacy RTDB listener; Supabase is the source of truth"
+
+    .line 183
+    .line 184
+    const-string v0, "fetchFromCloud"
+
+    .line 185
+    .line 186
     invoke-static {p0, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 187
+    .line 188
+    .line 189
+    sget-object p0, Lre3;->a:Lzc2;
+
+    .line 190
+    .line 191
+    sget-object p0, Lbr1;->c:Lzc2;
+
+    .line 192
+    .line 193
+    sget-object v0, Lbr1;->d:Lar1;
+
+    .line 194
+    .line 195
+    invoke-static {p0, v0}, Lre3;->n(Lzc2;Laj8;)V
+
+    .line 196
+    .line 197
+    .line 198
+    new-instance v0, Lar1;
+
+    .line 199
+    .line 200
+    invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+
+    .line 201
+    .line 202
+    .line 203
+    sput-object v0, Lbr1;->d:Lar1;
+
+    .line 204
+    .line 205
+    invoke-virtual {p0, v0}, Lzc2;->c(Laj8;)V
+
+    .line 206
+    .line 207
+    .line 208
+    :goto_0
     return-object v1
 
-    
-
+    .line 209
     :pswitch_b
     invoke-static {}, Ldd1;->C()Ltb1;
 
