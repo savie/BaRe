@@ -622,7 +622,7 @@ Klicke unten, um einen neuen Zeitplan zu erstellen"</string>
     <string name="only_if_battery_is_x_percent">Nur wenn Akkustand mindestens %s beträgt</string>
     <string name="only_when_charging">Nur beim Laden</string>
     <string name="open_folder">Ordner öffnen</string>
-    <string name="open_in_swift_backup">In BΛR☰ öffnen</string>
+    <string name="open_in_bare_backup">In BΛR☰ öffnen</string>
     <string name="optimizing_battery_use">Akkuverbrauch optimieren</string>
     <string name="original_size">Originalgröße</string>
     <string name="other_quick_actions">Andere Schnellaktionen</string>
