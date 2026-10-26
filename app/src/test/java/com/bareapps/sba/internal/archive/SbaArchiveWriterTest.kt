@@ -1,0 +1,333 @@
+package com.bareapps.sba.internal.archive
+
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.io.IOException
+import java.util.zip.CRC32
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class SbaArchiveWriterTest {
+    @Test
+    fun writesValidUnencryptedSbaV1WithTARPayloadAndChecksummedFooter() {
+        val root = Files.createTempDirectory("sba-writer-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("data.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("backup.sba")
+            val metadata = "{}".toByteArray(StandardCharsets.UTF_8)
+
+            val stats = SbaArchiveWriter.createArchive(
+                1, destination.toString(), metadata,
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                null, null, null, null, null,
+            )
+
+            val bytes = Files.readAllBytes(destination)
+            assertArrayEquals("SBA1".toByteArray(StandardCharsets.US_ASCII), bytes.copyOfRange(0, 4))
+            assertEquals(1, ByteBuffer.wrap(bytes, 4, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(bytes.size.toLong(), stats[0])
+            assertEquals("SAI1", String(bytes, stats[1].toInt(), 4, StandardCharsets.US_ASCII))
+            assertEquals(stats[2], (bytes.size - stats[1] - 32).toLong())
+            assertEquals("SAF1", String(bytes, bytes.size - 32, 4, StandardCharsets.US_ASCII))
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(1, parsed.version)
+            assertArrayEquals(metadata, parsed.metadata)
+            assertEquals(listOf("data"), parsed.entries.map { it.name })
+            assertEquals(stats[1], parsed.indexOffset)
+            assertEquals(stats[2], parsed.indexSize)
+
+            val footer = bytes.copyOfRange(bytes.size - 32, bytes.size)
+            val expectedCrc = ByteBuffer.wrap(footer, 28, 4).order(ByteOrder.BIG_ENDIAN).int
+            val actualCrc = CRC32().apply { update(footer, 0, 28) }.value.toInt()
+            assertEquals(expectedCrc, actualCrc)
+
+            val entryHeaderOffset = 96
+            assertEquals("SAE1", String(bytes, entryHeaderOffset, 4, StandardCharsets.US_ASCII))
+            // Reference us2.q() uses entry flags 1 for uncompressed/no-encryption entries.
+            assertEquals(1, ByteBuffer.wrap(bytes, entryHeaderOffset + 8, 4).order(ByteOrder.BIG_ENDIAN).int)
+            val indexRecordFlagsOffset = stats[1].toInt() + 16 + metadata.size + 40
+            assertEquals(1, ByteBuffer.wrap(bytes, indexRecordFlagsOffset, 4).order(ByteOrder.BIG_ENDIAN).int)
+            val nameLength = ByteBuffer.wrap(bytes, entryHeaderOffset + 12, 2).order(ByteOrder.BIG_ENDIAN).short.toInt() and 0xffff
+            var payloadOffset = entryHeaderOffset + 24 + nameLength
+            // PAX mtime may precede the first real TAR header when the filesystem
+            // reports sub-second timestamps. Skip valid extension records.
+            while (payloadOffset + 512 <= bytes.size) {
+                val tarType = bytes[payloadOffset + 156].toInt().toChar()
+                if (tarType != 'x' && tarType != 'g' && tarType != 'L' && tarType != 'K') break
+                var size = 0L
+                for (i in payloadOffset + 124 until payloadOffset + 136) {
+                    val ch = bytes[i].toInt().toChar()
+                    if (ch == '\u0000' || ch == ' ') continue
+                    if (ch !in '0'..'7') throw AssertionError("Invalid TAR extension size")
+                    size = (size shl 3) + (ch.code - '0'.code)
+                }
+                payloadOffset += 512 + (((size + 511) / 512) * 512).toInt()
+            }
+            assertEquals("source", String(bytes, payloadOffset, 6, StandardCharsets.US_ASCII))
+            assertTrue(bytes.size > payloadOffset + 1024)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun writesUnencryptedSbaV2WithTARCountsAndVersionedFooter() {
+        val root = Files.createTempDirectory("sba-writer-v2-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("data.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("backup-v2.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                null, null, null, null, null,
+            )
+            val bytes = Files.readAllBytes(destination)
+            assertEquals(2, ByteBuffer.wrap(bytes, 4, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(144, ByteBuffer.wrap(bytes, 6, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            assertEquals(2, ByteBuffer.wrap(bytes, bytes.size - 26, 2).order(ByteOrder.BIG_ENDIAN).short.toInt())
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(2, parsed.version)
+            assertEquals(listOf(2L), parsed.entries.map { it.tarEntryCount })
+            assertEquals(listOf(1L), parsed.entries.map { it.regularFileCount })
+            assertEquals(listOf(1L), parsed.entries.map { it.directoryCount })
+            assertEquals(1, parsed.entries.single().flags)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun acceptsWhitespaceOnlyEntryNamesAsTheReferenceDoes() {
+        val root = Files.createTempDirectory("sba-whitespace-name")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload"), byteArrayOf(1))
+            val destination = root.resolve("whitespace.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("   "), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            assertEquals(listOf("   "), SbaArchiveReader.read(destination.toString()).entries.map { it.name })
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun appliesIncludeExcludeFlagsAndKeepsParentDirectories() {
+        val root = Files.createTempDirectory("sba-filter-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            val nested = Files.createDirectory(source.resolve("nested"))
+            Files.write(nested.resolve("keep.txt"), byteArrayOf(1))
+            Files.write(nested.resolve("skip.txt"), byteArrayOf(2))
+            Files.write(source.resolve("other.txt"), byteArrayOf(3))
+            val destination = root.resolve("filtered.sba")
+
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8 or 1 or 4),
+                arrayOf(arrayOf("nested/keep.txt")), arrayOf(arrayOf("nested/skip.txt")),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+
+            val info = SbaArchiveReader.read(destination.toString())
+            val entry = info.entries.single()
+            val archive = Files.readAllBytes(destination)
+            val tar = archive.copyOfRange(
+                entry.payloadOffset.toInt(),
+                (entry.payloadOffset + entry.tarSize).toInt(),
+            )
+            val names = readTarNames(tar)
+            assertTrue(names.contains("source"))
+            assertTrue(names.contains("source/nested"))
+            assertTrue(names.contains("source/nested/keep.txt"))
+            assertTrue(!names.contains("source/nested/skip.txt"))
+            assertTrue(!names.contains("source/other.txt"))
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun writesAndReadsZstandardCompressedSbaEntry() {
+        val root = Files.createTempDirectory("sba-zstd-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.bin"), ByteArray(4097) { (it % 251).toByte() })
+            val destination = root.resolve("compressed.sba")
+            val stats = SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                1, 3, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val parsed = SbaArchiveReader.read(destination.toString())
+            assertEquals(1, parsed.compressionMethod)
+            assertEquals(3, parsed.compressionLevel)
+            // Reference us2.q() uses entry flags 3 for compressed/no-encryption entries.
+            val archiveBytes = Files.readAllBytes(destination)
+            assertEquals(3, ByteBuffer.wrap(archiveBytes, 96 + 8, 4).order(ByteOrder.BIG_ENDIAN).int)
+            val indexFlagsOffset = parsed.indexOffset.toInt() + 16 + 2 + 40
+            assertEquals(3, ByteBuffer.wrap(archiveBytes, indexFlagsOffset, 4).order(ByteOrder.BIG_ENDIAN).int)
+            assertEquals(stats[0], Files.size(destination))
+            assertEquals(1, parsed.entries.size)
+            assertTrue(parsed.entries.single().compressedSize < parsed.entries.single().tarSize)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun writesPaxHeaderForPathsLongerThanUstarLimit() {
+        val root = Files.createTempDirectory("sba-pax-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            val longPath = source.resolve("a".repeat(90)).resolve("b".repeat(90)).resolve("c".repeat(90))
+            Files.createDirectories(longPath)
+            Files.write(longPath.resolve("payload.txt"), "ok".toByteArray(StandardCharsets.UTF_8))
+            val destination = root.resolve("pax.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(8),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val info = SbaArchiveReader.read(destination.toString())
+            val archive = Files.readAllBytes(destination)
+            val entry = info.entries.single()
+            val tar = archive.copyOfRange(entry.payloadOffset.toInt(), (entry.payloadOffset + entry.tarSize).toInt())
+            var offset = 0
+            var foundPax = false
+            while (offset + 512 <= tar.size) {
+                if (tar[offset + 156] == 'x'.code.toByte()) foundPax = true
+                if (tar[offset] == 0.toByte()) break
+                offset += 512
+            }
+            assertTrue("Expected a POSIX PAX extension header for the long path", foundPax)
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun rejectsArchiveWithCorruptedFooterCrc() {
+        val root = Files.createTempDirectory("sba-corruption-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.bin"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("valid.sba")
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), "{}".toByteArray(StandardCharsets.UTF_8),
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null,
+            )
+            val bytes = Files.readAllBytes(destination)
+            bytes[bytes.lastIndex] = (bytes.last().toInt() xor 1).toByte()
+            val corrupt = root.resolve("corrupt.sba")
+            Files.write(corrupt, bytes)
+            assertThrows(IOException::class.java) { SbaArchiveReader.read(corrupt.toString()) }
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder<java.nio.file.Path>()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    private fun readTarNames(tar: ByteArray): Set<String> {
+        val names = linkedSetOf<String>()
+        var offset = 0
+        while (offset + 512 <= tar.size) {
+            if (tar[offset] == 0.toByte()) break
+            val type = tar[offset + 156].toInt().toChar()
+            val nameEnd = (offset until offset + 100).firstOrNull { tar[it] == 0.toByte() } ?: (offset + 100)
+            val rawName = String(tar, offset, nameEnd - offset, StandardCharsets.UTF_8)
+            val name = if (type == '5') rawName.trimEnd('/') else rawName
+            val size = parseTarOctal(tar, offset + 124, 12)
+            if (type != 'x' && type != 'g' && type != 'L' && type != 'K') names.add(name)
+            offset += 512 + (((size + 511) / 512) * 512).toInt()
+        }
+        return names
+    }
+
+    private fun parseTarOctal(bytes: ByteArray, start: Int, length: Int): Long {
+        var value = 0L
+        for (i in start until start + length) {
+            val ch = bytes[i].toInt().toChar()
+            if (ch == '\u0000' || ch == ' ') continue
+            if (ch !in '0'..'7') throw AssertionError("Invalid TAR octal value")
+            value = (value shl 3) + (ch.code - '0'.code)
+        }
+        return value
+    }
+
+    @Test
+    fun rejectsInvalidEncryptedOptionsWithoutReplacingExistingDestination() {
+        val root = Files.createTempDirectory("sba-writer-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("existing.sba")
+            val sentinel = byteArrayOf(9, 8, 7)
+            Files.write(destination, sentinel)
+            try {
+                // Mode 2 is implemented, but an encrypted request must explicitly select
+                // AEGIS, Argon2id parameters, chunk size, format version, and key material.
+                SbaArchiveWriter.createArchive(
+                    2, destination.toString(), byteArrayOf(), arrayOf(source.toString()),
+                    arrayOf("data"), intArrayOf(8), arrayOf(emptyArray<String>()),
+                    arrayOf(emptyArray<String>()), 0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                    null, null, null, null, null,
+                )
+                throw AssertionError("invalid encrypted options should be rejected")
+            } catch (_: IllegalArgumentException) {
+                assertArrayEquals(sentinel, Files.readAllBytes(destination))
+            }
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    @Test
+    fun acceptsMetadataBeyondOneMiBWithinTheIndexBoundAndRejectsMalformedUtf8() {
+        val root = Files.createTempDirectory("sba-writer-metadata-test")
+        try {
+            val source = Files.createDirectory(root.resolve("source"))
+            Files.write(source.resolve("payload.txt"), byteArrayOf(1, 2, 3))
+            val destination = root.resolve("large-metadata.sba")
+            val metadata = ByteArray((1 shl 20) + 1) { ' '.code.toByte() }
+            SbaArchiveWriter.createArchive(
+                1, destination.toString(), metadata,
+                arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                null, null, null, null, null,
+            )
+            assertArrayEquals(metadata, SbaArchiveReader.read(destination.toString()).metadata)
+
+            assertThrows(IOException::class.java) {
+                SbaArchiveWriter.createArchive(
+                    1, root.resolve("invalid-metadata.sba").toString(), byteArrayOf(0xff.toByte()),
+                    arrayOf(source.toString()), arrayOf("data"), intArrayOf(0),
+                    arrayOf(emptyArray<String>()), arrayOf(emptyArray<String>()),
+                    0, 0, 0, 0, 0, 0, 0, 0, 2, 0,
+                    null, null, null, null, null,
+                )
+            }
+        } finally {
+            Files.walk(root).sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) }
+        }
+    }
+}

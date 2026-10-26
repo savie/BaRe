@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_content_copy" android:id="@id/action_copy_folder_setup_to_local" android:title="@string/copy_folder_setup_to_device" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_edit_pencil" android:id="@id/action_edit_folder_setup" android:title="@string/edit_folder_setup" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_delete" android:id="@id/action_delete_folder_setup" android:title="@string/delete_folder_setup" android:iconTint="@color/red" android:iconTintMode="src_in" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_delete" android:id="@id/action_delete_local_backup" android:title="@string/delete_local_backup" android:iconTint="@color/red" android:iconTintMode="src_in" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_delete" android:id="@id/action_delete_cloud_backup" android:title="@string/delete_cloud_backup" android:iconTint="@color/red" android:iconTintMode="src_in" app:showAsAction="never" />
+</menu>
