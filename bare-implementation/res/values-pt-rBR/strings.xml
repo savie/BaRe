@@ -711,7 +711,7 @@ Clique abaixo para criar um novo agendamento"</string>
     <string name="only_if_battery_is_x_percent">Somente se o nível da bateria estiver pelo menos %s</string>
     <string name="only_when_charging">Apenas quando estiver carregando</string>
     <string name="open_folder">Abrir pasta</string>
-    <string name="open_in_swift_backup">Abrir no BΛR☰</string>
+    <string name="open_in_bare_backup">Abrir no BΛR☰</string>
     <string name="optimizing_battery_use">Otimizando o uso de bateria</string>
     <string name="original_size">Tamanho original</string>
     <string name="other_quick_actions">Outras ações rápidas</string>
