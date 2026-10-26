@@ -948,7 +948,7 @@ Sync"</string>
 Lösung: Formatieren Sie Ihr Speichermedium mit exFAT und verwenden Sie einen Kernel, der das Mounten von exFAT-Speichermedien unterstützt."</string>
     <string name="to_cloud">In die Cloud</string>
     <string name="to_device">Auf Gerät</string>
-    <string name="tos_privacy_agreement">Indem du fortfährst, stimmst du unseren &lt;a href=https://www.swiftapps.org/tos>Nutzungsbedingungen&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Datenschutzrichtlinien&lt;/a>zu.</string>
+    <string name="tos_privacy_agreement">Indem du fortfährst, stimmst du unseren &lt;a href=https://bareapps.com/terms-of-service>Nutzungsbedingungen&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Datenschutzrichtlinien&lt;/a>zu.</string>
     <string name="translation_project">Übersetzung</string>
     <string name="translation_project_summary">Hilf beim Übersetzen der App in deine Sprache</string>
     <string name="turn_off">Ausschalten</string>
