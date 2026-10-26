@@ -615,7 +615,7 @@ Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
     <string name="only_if_battery_is_x_percent">Sadece pil yüzdesi en az %s ise</string>
     <string name="only_when_charging">Sadece şarj ederken</string>
     <string name="open_folder">Klasörü aç</string>
-    <string name="open_in_swift_backup">BΛR☰’ta aç</string>
+    <string name="open_in_bare_backup">BΛR☰’ta aç</string>
     <string name="optimizing_battery_use">Pil kullanımı optimize ediliyor</string>
     <string name="original_size">Orijinal boyut</string>
     <string name="other_quick_actions">Diğer hızlı işlemler</string>
