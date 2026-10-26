@@ -370,12 +370,6 @@
     .line 74
     move-result-object v0
 
-    # After Firebase sign-in succeeds, sync only the authenticated UID to BΛR☰ metadata.
-    new-instance v4, Lorg/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener;
-    invoke-direct {v4}, Lorg/swiftapps/swiftbackup/backend/SupabaseLoginSuccessListener;-><init>()V
-    invoke-virtual {v0, v4}, Lcom/google/android/gms/tasks/Task;->addOnSuccessListener(Lcom/google/android/gms/tasks/OnSuccessListener;)Lcom/google/android/gms/tasks/Task;
-    move-result-object v0
-
     .line 75
     new-instance v2, Liq0;
 
