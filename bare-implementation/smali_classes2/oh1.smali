@@ -1364,7 +1364,7 @@
 
     .line 663
     .line 664
-    const-string v2, "You are using Swift Backup on ROM without built-in Google apps.\n\nTo use premium on this ROM:\n\n1. Purchase Swift Backup\'s \'Lifetime\' plan using a supported ROM with working Google Play Store.\n\n2. Share the purchasing Google account email id with us at support@swiftapps.org and we\'ll activate premium for that account within 24 hrs.\n\nIMPORTANT:\n- On any ROM without Google apps, you can only use premium if you sign-in in Swift Backup with the Google account with which you purchased the \'Lifetime\' plan.\n- Make sure you purchase the \'Lifetime\' plan using the Google account you want to use in Swift Backup."
+    const-string v2, "You are using Swift Backup on ROM without built-in Google apps.\n\nTo use premium on this ROM:\n\n1. Purchase Swift Backup\'s \'Lifetime\' plan using a supported ROM with working Google Play Store.\n\n2. Share the purchasing Google account email id with us at support@bareapps.com and we\'ll activate premium for that account within 24 hrs.\n\nIMPORTANT:\n- On any ROM without Google apps, you can only use premium if you sign-in in Swift Backup with the Google account with which you purchased the \'Lifetime\' plan.\n- Make sure you purchase the \'Lifetime\' plan using the Google account you want to use in Swift Backup."
 
     .line 665
     .line 666
