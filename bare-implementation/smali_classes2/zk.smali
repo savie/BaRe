@@ -281,15 +281,110 @@
 
     .line 114
     :pswitch_5
-    # Labels now come from BΛR☰ Supabase; disable legacy RTDB listener.
+    sget-object p0, Llr4;->a:Llr4;
+
+    .line 115
+    .line 116
+    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+
+    .line 117
+    .line 118
+    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+
+    .line 119
+    .line 120
+    .line 121
+    move-result p0
+
+    .line 122
+    if-nez p0, :cond_2
+
+    .line 123
+    .line 124
+    goto :goto_0
+
+    .line 125
+    :cond_2
     const-string p0, "LabelRepo"
-    const-string v0, "Skipping legacy RTDB listener; Supabase is the source of truth"
+
+    .line 126
+    .line 127
+    const-string v0, "fetchFromCloud"
+
+    .line 128
+    .line 129
     invoke-static {p0, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 130
+    .line 131
+    .line 132
+    sget-object p0, Lre3;->a:Lzc2;
+
+    .line 133
+    .line 134
+    sget-object p0, Llr4;->c:Lgv7;
+
+    .line 135
+    .line 136
+    invoke-virtual {p0}, Lgv7;->getValue()Ljava/lang/Object;
+
+    .line 137
+    .line 138
+    .line 139
+    move-result-object v0
+
+    .line 140
+    check-cast v0, Lzc2;
+
+    .line 141
+    .line 142
+    sget-object v1, Llr4;->d:Lkr4;
+
+    .line 143
+    .line 144
+    invoke-static {v0, v1}, Lre3;->n(Lzc2;Laj8;)V
+
+    .line 145
+    .line 146
+    .line 147
+    new-instance v0, Lkr4;
+
+    .line 148
+    .line 149
+    invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+
+    .line 150
+    .line 151
+    .line 152
+    sput-object v0, Llr4;->d:Lkr4;
+
+    .line 153
+    .line 154
+    invoke-virtual {p0}, Lgv7;->getValue()Ljava/lang/Object;
+
+    .line 155
+    .line 156
+    .line 157
+    move-result-object p0
+
+    .line 158
+    check-cast p0, Lzc2;
+
+    .line 159
+    .line 160
+    invoke-virtual {p0, v0}, Lzc2;->c(Laj8;)V
+
+    .line 161
+    .line 162
+    .line 163
+    :goto_0
     sget-object p0, Lbe8;->a:Lbe8;
+
+    .line 164
+    .line 165
     return-object p0
 
-    
-
+    .line 166
     :pswitch_6
     sget-object p0, Lx54;->j:Ljava/util/Set;
 
