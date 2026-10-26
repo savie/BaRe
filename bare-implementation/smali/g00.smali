@@ -5375,7 +5375,7 @@
     .line 2
     .line 3
     .line 4
-    const-string v0, "org.swiftapps.swiftbackup"
+    const-string v0, "com.bareapps.barebackup"
 
     .line 5
     .line 6
