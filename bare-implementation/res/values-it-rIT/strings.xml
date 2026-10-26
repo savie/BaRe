@@ -944,7 +944,7 @@ Accesso root o Shizuku necessari"</string>
 Soluzione: Formatta il tuo storage con exFAT e utilizza un kernel che lo supporti."</string>
     <string name="to_cloud">Su cloud</string>
     <string name="to_device">Su dispositivo</string>
-    <string name="tos_privacy_agreement">Continuando accetti i nostri &lt;a href=https://www.swiftapps.org/tos>Termini di Servizio&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Informativa sulla Privacy&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Continuando accetti i nostri &lt;a href=https://bareapps.com/terms-of-service>Termini di Servizio&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Informativa sulla Privacy&lt;/a>.</string>
     <string name="translation_project">Progetto di traduzione</string>
     <string name="translation_project_summary">"Aiuta a tradurre l'app nella tua lingua"</string>
     <string name="turn_off">Spegni</string>
