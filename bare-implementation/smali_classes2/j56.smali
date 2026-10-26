@@ -84,7 +84,7 @@
 
     .line 13
     :cond_1
-    const-string v0, "https://www.swiftapps.org/configs"
+    const-string v0, "https://bareapps.com/configs"
 
     .line 14
     .line 15
