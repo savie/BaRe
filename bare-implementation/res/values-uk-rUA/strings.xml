@@ -939,7 +939,7 @@ BΛR☰ зберігатиме ваш пароль лише локально в 
 Рішення: відформатуйте сховище за допомогою exFAT і використовуйте ядро, яке підтримує монтування сховища exFAT."</string>
     <string name="to_cloud">В хмару</string>
     <string name="to_device">На пристрій</string>
-    <string name="tos_privacy_agreement">Продовжуючи, ви погоджуєтеся з нашими &lt;a href=https://www.swiftapps.org/tos>Умовами надання послуг&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Політикою конфіденційності&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Продовжуючи, ви погоджуєтеся з нашими &lt;a href=https://bareapps.com/terms-of-service>Умовами надання послуг&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Політикою конфіденційності&lt;/a>.</string>
     <string name="translation_project">Проєкт перекладу</string>
     <string name="translation_project_summary">Допоможіть перекласти BΛR☰</string>
     <string name="turn_off">Вимкнути</string>
