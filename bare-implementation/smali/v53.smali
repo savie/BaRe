@@ -1749,6 +1749,13 @@
     .line 224
     invoke-virtual {p0, p1}, Lv53;->e(Ljava/util/List;)V
 
+    # Mirror full Favorites root to Supabase after the Firebase/local mutation.
+    new-instance v0, Lorg/swiftapps/swiftbackup/backend/BareSupabaseFavoritePayloadWriteRunner;
+    invoke-direct {v0}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseFavoritePayloadWriteRunner;-><init>()V
+    new-instance v1, Ljava/lang/Thread;
+    invoke-direct {v1, v0}, Ljava/lang/Thread;-><init>(Ljava/lang/Runnable;)V
+    invoke-virtual {v1}, Ljava/lang/Thread;->start()V
+
     .line 225
     .line 226
     .line 227
