@@ -1676,7 +1676,7 @@
 
     .line 183
     .line 184
-    const-string v0, "https://www.swiftapps.org/configs"
+    const-string v0, "https://bareapps.com/configs"
 
     .line 185
     .line 186
