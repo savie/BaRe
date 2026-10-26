@@ -666,7 +666,7 @@
 
     .line 292
     .line 293
-    const-string v12, "support@swiftapps.org"
+    const-string v12, "support@bareapps.com"
 
     .line 294
     .line 295
