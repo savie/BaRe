@@ -103,8 +103,20 @@ strings_text = (root / "res/values/strings.xml").read_text()
 assert re.search(r'<string name="swift_backup">BΛR☰</string>', strings_text)
 assert 'name="google_app_id"' in strings_text
 assert 'name="google_api_key"' in strings_text
-app_smali = (root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali").read_text()
-assert 'FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;' in app_smali
+app_smali_path = root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali"
+app_smali = app_smali_path.read_text()
+firebase_init = "invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;"
+# Keep the reference/apktool source as the baseline, but add the required Firebase
+# initialization to the build copy. This is idempotent and never mutates source files.
+if firebase_init not in app_smali:
+    on_create = re.search(
+        r"(?ms)(^\\.method public final onCreate\\(\\)V\\n.*?^\\s*invoke-super \\{p0\\}, Landroid/app/Application;->onCreate\\(\\)V\\n)",
+        app_smali,
+    )
+    assert on_create is not None, "Could not locate SwiftApp.onCreate() Application super call"
+    app_smali = app_smali[:on_create.end()] + "\\n    " + firebase_init + app_smali[on_create.end():]
+    app_smali_path.write_text(app_smali)
+assert firebase_init in app_smali, "Firebase initialization was not added to the build copy"
 apktool_yml = (root / "apktool.yml").read_text()
 assert 'swift-backup-31751.firebaseio.com' not in strings_text, "Legacy Swift Backup Firebase URL remains in resources"
 assert 'swift-backup-31751.appspot.com' not in strings_text, "Legacy Swift Backup storage bucket remains in resources"
