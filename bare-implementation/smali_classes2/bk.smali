@@ -2229,7 +2229,7 @@
 
     .line 1074
     .line 1075
-    const-string v1, "https://www.swiftapps.org/faq#appparts"
+    const-string v1, "https://bareapps.com/faq#appparts"
 
     .line 1076
     .line 1077
