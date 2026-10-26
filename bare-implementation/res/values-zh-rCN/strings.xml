@@ -1074,7 +1074,7 @@ BΛR☰ 将仅在本地私有数据目录中以加密的方式存储您的密码
 解决方案：使用 exFAT 格式化您的存储，并使用支持装载 exFAT 存储的内核。"</string>
     <string name="to_cloud">到云端</string>
     <string name="to_device">到设备</string>
-    <string name="tos_privacy_agreement">继续将视为您同意我们的 &lt;a href=https://www.swiftapps.org/tos>服务条款&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>隐私政策&lt;/a>.</string>
+    <string name="tos_privacy_agreement">继续将视为您同意我们的 &lt;a href=https://bareapps.com/terms-of-service>服务条款&lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>隐私政策&lt;/a>.</string>
     <string name="translation_project">翻译计划</string>
     <string name="translation_project_summary">帮助我们将本应用翻译成您的语言</string>
     <string name="turn_off">关闭</string>
