@@ -3720,7 +3720,7 @@
 
     .line 35
     :cond_0
-    const-string p0, "Swift Backup ("
+    const-string p0, "BΛR☰ ("
 
     .line 36
     .line 37
