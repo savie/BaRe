@@ -176,7 +176,7 @@
     const/4 v1, 0x4
 
     .line 56
-    const-string v2, "swiftapps.org"
+    const-string v2, "bareapps.com"
 
     .line 57
     .line 58
