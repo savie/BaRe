@@ -940,7 +940,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
 Çözüm: Depolama alanınızı exFAT ile biçimlendirin ve exFAT depolama alanlarını bağlamayı destekleyen bir kernel kullanın."</string>
     <string name="to_cloud">Buluta</string>
     <string name="to_device">Cihaza</string>
-    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://www.swiftapps.org/tos>Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Gizlilik politikası&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://bareapps.com/terms-of-service>Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a> &amp;amp; &lt;a href=https://bareapps.com/privacy-policy>Gizlilik politikası&lt;/a>.</string>
     <string name="translation_project">Çeviri projesi</string>
     <string name="translation_project_summary">Uygulamayı kendi dilinize çevirmek için bize yardımcı olun</string>
     <string name="turn_off">Kapat</string>
