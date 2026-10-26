@@ -884,7 +884,7 @@
 
     .line 411
     .line 412
-    const-string v1, "https://swiftapps.org/faq#pc"
+    const-string v1, "https://bareapps.com/faq#pc"
 
     .line 413
     .line 414
