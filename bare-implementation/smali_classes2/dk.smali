@@ -1537,7 +1537,7 @@
 
     .line 745
     .line 746
-    const-string v1, "https://www.swiftapps.org/faq#appparts"
+    const-string v1, "https://bareapps.com/faq#appparts"
 
     .line 747
     .line 748
