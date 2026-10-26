@@ -1384,10 +1384,6 @@
     .line 1
     invoke-super {p0}, Landroid/app/Application;->onCreate()V
 
-    # Initialize the BΛR☰ Firebase project before Firebase-backed classes are touched.
-    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;
-    move-result-object v0
-
     .line 2
     .line 3
     .line 4
@@ -1966,11 +1962,18 @@
     .line 307
     .line 308
     sget-object v0, Lgg3;->j:Lzc2;
-    if-eqz v0, :goto_1
 
+    .line 309
+    .line 310
     sget-object v1, Lgg3;->k:Lcg3;
+
+    .line 311
+    .line 312
     invoke-virtual {v0, v1}, Lzc2;->c(Laj8;)V
 
+    .line 313
+    .line 314
+    .line 315
     :goto_1
     new-instance v0, Ljz4;
 
@@ -2333,9 +2336,6 @@
 
     .line 492
     invoke-static {p0}, Landroid/os/StrictMode;->setVmPolicy(Landroid/os/StrictMode$VmPolicy;)V
-
-    # Reconcile an already signed-in Firebase user on app launch as well as after sign-in.
-    invoke-static {}, Lorg/swiftapps/swiftbackup/backend/BareSupabaseProfileSync;->syncCurrentUser()V
 
     .line 493
     .line 494
