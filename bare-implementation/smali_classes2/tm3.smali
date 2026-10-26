@@ -980,7 +980,7 @@
 
     .line 248
     .line 249
-    const-string p1, "Manifest version incompatible with current version of Swift Backup: "
+    const-string p1, "Manifest version incompatible with current version of BΛR☰: "
 
     .line 250
     .line 251
