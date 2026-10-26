@@ -209,7 +209,7 @@
     move-result-object p0
 
     .line 72
-    const-string p1, "https://www.swiftapps.org/privacy-policy"
+    const-string p1, "https://bareapps.com/privacy-policy"
 
     .line 73
     .line 74
@@ -613,7 +613,7 @@
     move-result-object p0
 
     .line 267
-    const-string p1, "https://www.swiftapps.org/tos"
+    const-string p1, "https://bareapps.com/terms-of-service"
 
     .line 268
     .line 269
