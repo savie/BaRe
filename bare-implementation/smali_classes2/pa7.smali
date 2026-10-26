@@ -1128,7 +1128,7 @@
     move-result-object p0
 
     .line 390
-    const-string p1, "https://www.swiftapps.org/help"
+    const-string p1, "https://bareapps.com/help"
 
     .line 391
     .line 392
