@@ -617,7 +617,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="only_if_battery_is_x_percent">Лише якщо рівень заряду батареї не менше %s</string>
     <string name="only_when_charging">Тільки під час зарядки</string>
     <string name="open_folder">Відкрити папку</string>
-    <string name="open_in_swift_backup">Відкрити в BΛR☰</string>
+    <string name="open_in_bare_backup">Відкрити в BΛR☰</string>
     <string name="optimizing_battery_use">Оптимізація використання батареї</string>
     <string name="original_size">Оригінальний розмір</string>
     <string name="other_quick_actions">Інші швидкі дії</string>
