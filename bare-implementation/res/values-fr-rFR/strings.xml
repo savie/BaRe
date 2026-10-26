@@ -619,7 +619,7 @@ Cliquez ci-dessous pour créer une programmation"</string>
     <string name="only_if_battery_is_x_percent">Disponible uniquement lorsque le niveau de batterie est supérieur à %s</string>
     <string name="only_when_charging">"Uniquement lorsque l'appareil est en charge."</string>
     <string name="open_folder">Ouvrir le dossier</string>
-    <string name="open_in_swift_backup">Ouvrir dans BΛR☰</string>
+    <string name="open_in_bare_backup">Ouvrir dans BΛR☰</string>
     <string name="optimizing_battery_use">Utilisation de la batterie optimisée</string>
     <string name="original_size">"Taille d'origine"</string>
     <string name="other_quick_actions">Autre actions rapides</string>
