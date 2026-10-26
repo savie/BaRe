@@ -274,7 +274,7 @@
 
     .line 124
     .line 125
-    const-string v5, "Swift Backup metadata"
+    const-string v5, "BΛR☰ metadata"
 
     .line 126
     .line 127
@@ -1567,7 +1567,7 @@
 
     .line 8
     .line 9
-    const-string v0, "Swift Backup metadata"
+    const-string v0, "BΛR☰ metadata"
 
     .line 10
     .line 11
