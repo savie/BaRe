@@ -1968,7 +1968,7 @@
     .line 47
     .line 48
     :try_start_0
-    const-string v0, "https://swiftapps.org/issues#nopremium"
+    const-string v0, "https://bareapps.com/issues#nopremium"
 
     .line 49
     .line 50
