@@ -619,7 +619,7 @@
 
     .line 292
     :cond_6
-    const-string v0, "claimSBDataOwnership: Missing Swift Backup application info"
+    const-string v0, "claimSBDataOwnership: Missing BΛR☰ application info"
 
     .line 293
     .line 294
