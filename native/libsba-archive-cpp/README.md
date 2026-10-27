@@ -33,7 +33,7 @@ Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the libra
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
 - `SbaRuntimeNative.version`
 
-The current TAR listing prototype understands checksum-validated 512-byte headers, octal and positive base-256 numeric fields, USTAR prefix/name fields, and basic PAX/GNU long path/link overrides. It still does not implement PAX size/mtime semantics, sparse formats, xattrs, or extraction. It does not yet implement PAX/GNU extensions, sparse metadata, xattrs, or extraction. The exact JNI descriptors, return shapes, callback/progress behavior, archive metadata, error handling, and format semantics must be matched. Exporting placeholder symbols is not compatibility.
+The current TAR listing prototype understands checksum-validated 512-byte headers, octal and positive base-256 numeric fields, USTAR prefix/name fields, and basic PAX/GNU long path/link overrides. It now honors PAX size and fractional mtime overrides. Sparse formats, xattrs, TAR extraction, and archive creation remain unimplemented. It does not yet implement PAX/GNU extensions, sparse metadata, xattrs, or extraction. The exact JNI descriptors, return shapes, callback/progress behavior, archive metadata, error handling, and format semantics must be matched. Exporting placeholder symbols is not compatibility.
 
 ## Build
 
