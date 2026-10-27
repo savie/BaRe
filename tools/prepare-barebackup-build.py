@@ -85,25 +85,3 @@ for name, value in firebase_values.items():
 strings_path.write_text(strings_text)
 print("Applied Firebase values from app/google-services.json (values redacted).")
 
-# Firebase init belongs only in the disposable build copy; keep it idempotent.
-app_smali_path = root / "smali/org/swiftapps/swiftbackup/SwiftApp.smali"
-app_smali = app_smali_path.read_text()
-firebase_init = (
-    "invoke-static {p0}, "
-    "Lcom/google/firebase/FirebaseApp;->initializeApp"
-    "(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;"
-)
-if firebase_init not in app_smali:
-    on_create = re.search(
-        r"(?ms)(^\.method public final onCreate\(\)V\n.*?^\s*invoke-super "
-        r"\{p0\}, Landroid/app/Application;->onCreate\(\)V\n)",
-        app_smali,
-    )
-    if on_create:
-        app_smali = (
-            app_smali[:on_create.end()]
-            + "\n    "
-            + firebase_init
-            + app_smali[on_create.end():]
-        )
-        app_smali_path.write_text(app_smali)
