@@ -89,7 +89,17 @@ std::string tarString(const std::uint8_t* p, std::size_t n) {
 
 bool tarNumber(const std::uint8_t* p, std::size_t n, std::uint64_t* value) {
   if (n == 0 || value == nullptr) return false;
-  // POSIX octal fields; base-256 extensions are intentionally rejected in this initial parser.
+  if ((p[0] & 0x80u) != 0) {
+    // GNU/POSIX base-256 positive values. Signed negative values are not valid for size/mode.
+    if ((p[0] & 0x40u) != 0 || n > 9) return false;
+    std::uint64_t result = p[0] & 0x3fu;
+    for (std::size_t i = 1; i < n; ++i) {
+      if (result > (std::numeric_limits<std::uint64_t>::max() - p[i]) / 256) return false;
+      result = result * 256 + p[i];
+    }
+    *value = result;
+    return true;
+  }
   std::size_t i = 0;
   while (i < n && (p[i] == 0 || p[i] == ' ')) ++i;
   std::uint64_t result = 0;
