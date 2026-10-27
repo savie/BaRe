@@ -5,7 +5,7 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 ## First milestone
 
 - Cross-compile an isolated Android shared library for the four project ABIs.
-- Implement JNI byte-array compression/decompression using pinned Zstandard v1.5.7.
+- Implement JNI byte-array compression/decompression and file-descriptor streaming decompression using pinned Zstandard v1.5.7.
 - Keep the app's current native library untouched while this prototype is developed.
 
 ## Required compatibility surface
@@ -14,7 +14,7 @@ Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the libra
 
 - `SbaArchiveNative.createArchive`
 - `SbaSwiftTarNative`: TAR extraction/listing, Zstandard TAR paths, Aegis archive extraction, and write statistics
-- `SbaZstdNative`: byte operations and file-descriptor streaming decompression
+- `SbaZstdNative`: byte operations and file-descriptor streaming decompression (the FD decompressor is implemented in this prototype; progress callbacks and exact result-array semantics still need verification)
 - `SbaNativeCrypto.deriveArgon2id`
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
 - `SbaRuntimeNative.version`
@@ -28,7 +28,7 @@ Use Android NDK CMake with ABI values `arm64-v8a`, `armeabi-v7a`, `x86`, and `x8
 ## Acceptance gates before integration
 
 1. Compile all four ABIs and inspect JNI exports/dependencies.
-2. Add native tests for empty, normal, malformed, truncated, and oversized Zstandard frames.
+2. Add native tests for byte-array and FD paths: empty, normal, concatenated, malformed, truncated, and oversized Zstandard frames; verify returned byte counters against the Java call sites.
 3. Implement and test TAR parsing/extraction semantics, including path traversal defenses and metadata/xattrs/sparse files.
 4. Implement Argon2id and AEGIS using audited, pinned source dependencies and known-answer test vectors.
 5. Match archive creation/extraction formats and progress/statistics contracts against known fixtures.
