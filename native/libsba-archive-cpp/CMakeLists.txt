@@ -22,6 +22,7 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/facebook/zstd.git
   GIT_TAG v1.5.7
   GIT_SHALLOW TRUE
+  SOURCE_SUBDIR build/cmake
 )
 FetchContent_MakeAvailable(zstd)
 
