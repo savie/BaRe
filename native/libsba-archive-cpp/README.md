@@ -7,9 +7,10 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Cross-compile the isolated Android shared library for all four project ABIs.
 - [x] Implement JNI byte-array Zstandard compression/decompression.
 - [x] Implement file-descriptor streaming Zstandard decompression with progress/cancellation callbacks.
+- [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated octal/POSIX headers.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
-- [ ] Implement TAR listing/extraction and archive creation.
+- [ ] Extend TAR listing for PAX/GNU long names, base-256 numeric fields, sparse files, and xattrs; implement TAR extraction and archive creation.
 - [ ] Implement Argon2id and AEGIS operations with known-answer tests.
 - [ ] Run backup/restore round trips before any APK integration.
 
@@ -32,7 +33,7 @@ Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the libra
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
 - `SbaRuntimeNative.version`
 
-The exact JNI descriptors, return shapes, callback/progress behavior, archive metadata, error handling, and format semantics must be matched. Exporting placeholder symbols is not compatibility.
+The current TAR listing prototype only understands basic checksum-validated 512-byte headers with octal numeric fields and the USTAR prefix/name fields. It does not yet implement PAX/GNU extensions, sparse metadata, xattrs, or extraction. The exact JNI descriptors, return shapes, callback/progress behavior, archive metadata, error handling, and format semantics must be matched. Exporting placeholder symbols is not compatibility.
 
 ## Build
 
