@@ -447,16 +447,29 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
         std::size_t pos = 0;
         while (pos < metadata.size()) {
           std::size_t space = metadata.find(' ', pos);
-          if (space == std::string::npos || space == pos) break;
+          if (space == std::string::npos || space == pos) {
+            throwJava(env, "java/io/IOException", "malformed PAX record length");
+            goto tar_error;
+          }
           char* end = nullptr;
           unsigned long long record_len = std::strtoull(metadata.c_str() + pos, &end, 10);
           if (end == metadata.c_str() + pos || *end != ' ' || record_len == 0 ||
-              record_len > metadata.size() - pos) break;
+              record_len > metadata.size() - pos) {
+            throwJava(env, "java/io/IOException", "invalid PAX record length");
+            goto tar_error;
+          }
           std::size_t record_end = pos + static_cast<std::size_t>(record_len);
-          if (record_end > metadata.size() || metadata[record_end - 1] != '\n') break;
+          if (record_end > metadata.size() || metadata[record_end - 1] != '\n') {
+            throwJava(env, "java/io/IOException", "truncated PAX record");
+            goto tar_error;
+          }
           std::size_t key_start = static_cast<std::size_t>(end - metadata.c_str()) + 1;
           std::size_t equal = metadata.find('=', key_start);
-          if (equal != std::string::npos && equal < record_end - 1) {
+          if (equal == std::string::npos || equal >= record_end - 1 || equal < key_start) {
+            throwJava(env, "java/io/IOException", "PAX record has no key/value separator");
+            goto tar_error;
+          }
+          {
             std::string key = metadata.substr(key_start, equal - key_start);
             std::string value = metadata.substr(equal + 1, record_end - equal - 2);
             if (key == "path") {
