@@ -65,6 +65,52 @@ jbyteArray makeByteArray(JNIEnv* env, const std::uint8_t* bytes, std::size_t siz
   return output;
 }
 
+
+bool readExact(int fd, void* destination, std::size_t size, std::size_t* received) {
+  auto* out = static_cast<std::uint8_t*>(destination);
+  std::size_t offset = 0;
+  while (offset < size) {
+    ssize_t n;
+    do { n = ::read(fd, out + offset, size - offset); } while (n < 0 && errno == EINTR);
+    if (n < 0) return false;
+    if (n == 0) break;
+    offset += static_cast<std::size_t>(n);
+  }
+  if (received != nullptr) *received = offset;
+  return true;
+}
+
+std::string tarString(const std::uint8_t* p, std::size_t n) {
+  std::size_t length = 0;
+  while (length < n && p[length] != 0) ++length;
+  return std::string(reinterpret_cast<const char*>(p), length);
+}
+
+bool tarNumber(const std::uint8_t* p, std::size_t n, std::uint64_t* value) {
+  if (n == 0 || value == nullptr) return false;
+  // POSIX octal fields; base-256 extensions are intentionally rejected in this initial parser.
+  std::size_t i = 0;
+  while (i < n && (p[i] == 0 || p[i] == ' ')) ++i;
+  std::uint64_t result = 0;
+  bool digit = false;
+  for (; i < n && p[i] != 0 && p[i] != ' '; ++i) {
+    if (p[i] < '0' || p[i] > '7') return false;
+    digit = true;
+    if (result > (std::numeric_limits<std::uint64_t>::max() - (p[i] - '0')) / 8) return false;
+    result = result * 8 + (p[i] - '0');
+  }
+  *value = digit ? result : 0;
+  return true;
+}
+
+bool validTarChecksum(const std::uint8_t* h) {
+  std::uint64_t stored = 0;
+  if (!tarNumber(h + 148, 8, &stored)) return false;
+  std::uint64_t sum = 0;
+  for (std::size_t i = 0; i < 512; ++i) sum += (i >= 148 && i < 156) ? 32 : h[i];
+  return sum == stored;
+}
+
 }  // namespace
 
 extern "C" JNIEXPORT jbyteArray JNICALL
@@ -274,3 +320,149 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
   env->SetLongArrayRegion(result, 0, 2, values);
   return env->ExceptionCheck() ? nullptr : result;
 }
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
+    JNIEnv* env, jobject /* self */, jint input_fd, jlong max_bytes) {
+  if (input_fd < 0 || max_bytes < 0) {
+    throwJava(env, "java/lang/IllegalArgumentException", "invalid file descriptor or TAR length");
+    return nullptr;
+  }
+
+  constexpr std::size_t kBlock = 512;
+  std::vector<jobject> entries;
+  std::uint64_t consumed = 0;
+  std::uint64_t remaining_data = 0;
+  std::uint8_t header[kBlock];
+  bool ended = false;
+
+  while (consumed < static_cast<std::uint64_t>(max_bytes)) {
+    if (static_cast<std::uint64_t>(max_bytes) - consumed < kBlock) {
+      throwJava(env, "java/io/IOException", "TAR data ends in a partial header");
+      goto tar_error;
+    }
+    {
+      std::size_t got = 0;
+      if (!readExact(input_fd, header, kBlock, &got)) {
+        throwJava(env, "java/io/IOException", std::string("TAR read failed: ") + std::strerror(errno));
+        goto tar_error;
+      }
+      if (got == 0) break;
+      if (got != kBlock) {
+        throwJava(env, "java/io/IOException", "truncated TAR header");
+        goto tar_error;
+      }
+    }
+    consumed += kBlock;
+    bool zero = true;
+    for (std::uint8_t byte : header) if (byte != 0) { zero = false; break; }
+    if (zero) { ended = true; break; }
+    if (!validTarChecksum(header)) {
+      throwJava(env, "java/io/IOException", "invalid TAR header checksum");
+      goto tar_error;
+    }
+
+    std::uint64_t size = 0, mode = 0, mtime = 0;
+    if (!tarNumber(header + 124, 12, &size) ||
+        !tarNumber(header + 100, 8, &mode) ||
+        !tarNumber(header + 136, 12, &mtime)) {
+      throwJava(env, "java/io/IOException", "unsupported or invalid TAR numeric field");
+      goto tar_error;
+    }
+    if (size > static_cast<std::uint64_t>(max_bytes) - consumed) {
+      throwJava(env, "java/io/IOException", "TAR entry exceeds supplied data length");
+      goto tar_error;
+    }
+    std::uint64_t padded = (size + 511u) & ~std::uint64_t(511u);
+    if (padded < size || padded > static_cast<std::uint64_t>(max_bytes) - consumed) {
+      throwJava(env, "java/io/IOException", "TAR entry payload exceeds supplied data length");
+      goto tar_error;
+    }
+
+    std::string name = tarString(header, 100);
+    std::string prefix = tarString(header + 345, 155);
+    if (!prefix.empty()) name = prefix + "/" + name;
+    std::string link = tarString(header + 157, 100);
+    char typeflag = static_cast<char>(header[156]);
+    jint type = 99;
+    switch (typeflag) {
+      case 0: case '0': type = 1; break;
+      case '5': type = 2; break;
+      case '2': type = 3; break;
+      case '1': type = 4; break;
+      case '6': type = 5; break;
+      case '3': type = 6; break;
+      case '4': type = 7; break;
+      default: type = 99; break;
+    }
+    if (type == 1 && !link.empty()) link.clear();
+    jclass string_class = env->FindClass("java/lang/String");
+    jclass info_class = env->FindClass("com/swiftapps/sba/internal/tar/SbaTarEntryInfo");
+    if (string_class == nullptr || info_class == nullptr) {
+      if (string_class != nullptr) env->DeleteLocalRef(string_class);
+      if (info_class != nullptr) env->DeleteLocalRef(info_class);
+      goto tar_error;
+    }
+    jmethodID ctor = env->GetMethodID(info_class, "<init>", "(Ljava/lang/String;ILjava/lang/String;IJJJZ[Ljava/lang/String;)V");
+    if (ctor == nullptr) {
+      env->DeleteLocalRef(string_class); env->DeleteLocalRef(info_class);
+      goto tar_error;
+    }
+    jstring jname = env->NewStringUTF(name.c_str());
+    jstring jlink = link.empty() ? nullptr : env->NewStringUTF(link.c_str());
+    jobjectArray xattrs = env->NewObjectArray(0, string_class, nullptr);
+    jlong real_size = static_cast<jlong>(size);
+    jlong mtime_ms = mtime > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max() / 1000)
+        ? std::numeric_limits<jlong>::max() : static_cast<jlong>(mtime * 1000);
+    jobject entry = nullptr;
+    if (jname != nullptr && xattrs != nullptr && !env->ExceptionCheck()) {
+      entry = env->NewObject(info_class, ctor, jname, type, jlink,
+          static_cast<jint>(mode), static_cast<jlong>(size), real_size, mtime_ms,
+          JNI_FALSE, xattrs);
+    }
+    if (jname != nullptr) env->DeleteLocalRef(jname);
+    if (jlink != nullptr) env->DeleteLocalRef(jlink);
+    if (xattrs != nullptr) env->DeleteLocalRef(xattrs);
+    env->DeleteLocalRef(string_class); env->DeleteLocalRef(info_class);
+    if (entry == nullptr || env->ExceptionCheck()) {
+      if (entry != nullptr) env->DeleteLocalRef(entry);
+      goto tar_error;
+    }
+    entries.push_back(entry);
+
+    std::uint64_t to_skip = padded;
+    std::uint8_t discard[8192];
+    while (to_skip > 0) {
+      std::size_t want = static_cast<std::size_t>(to_skip < sizeof(discard) ? to_skip : sizeof(discard));
+      std::size_t got = 0;
+      if (!readExact(input_fd, discard, want, &got) || got != want) {
+        env->DeleteLocalRef(entry);
+        throwJava(env, "java/io/IOException", "truncated TAR entry payload");
+        goto tar_error;
+      }
+      to_skip -= got;
+    }
+    consumed += padded;
+    env->DeleteLocalRef(entry);
+  }
+
+  {
+    jclass info_class = env->FindClass("com/swiftapps/sba/internal/tar/SbaTarEntryInfo");
+    if (info_class == nullptr) goto tar_error;
+    jobjectArray result = env->NewObjectArray(static_cast<jsize>(entries.size()), info_class, nullptr);
+    env->DeleteLocalRef(info_class);
+    if (result == nullptr) goto tar_error;
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+      env->SetObjectArrayElement(result, static_cast<jsize>(i), entries[i]);
+      env->DeleteLocalRef(entries[i]);
+      if (env->ExceptionCheck()) return nullptr;
+    }
+    (void)ended;
+    return result;
+  }
+
+tar_error:
+  for (jobject entry : entries) env->DeleteLocalRef(entry);
+  return nullptr;
+}
+
