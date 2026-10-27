@@ -64,6 +64,7 @@ jobs:
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
           printf 'ABI=%s\nGIT_SHA=%s\n' "$ABI" "$GITHUB_SHA" > "artifacts/$ABI/BUILD-METADATA.txt"
           sha256sum "artifacts/$ABI/libsba_archive_cpp.so" | tee "artifacts/$ABI/SHA256SUMS.txt"
 
