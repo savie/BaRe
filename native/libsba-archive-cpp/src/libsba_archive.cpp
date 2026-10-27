@@ -473,7 +473,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
               errno = 0;
               char* size_end = nullptr;
               unsigned long long parsed_size = std::strtoull(value.c_str(), &size_end, 10);
-              if (errno == ERANGE || size_end == value.c_str() || *size_end != '\\0') {
+              if (errno == ERANGE || size_end == value.c_str() || *size_end != '\0') {
                 throwJava(env, "java/io/IOException", "invalid PAX size value");
                 goto tar_error;
               }
