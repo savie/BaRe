@@ -232,6 +232,11 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
           failed = true;
           break;
         }
+        if (expected_size >= 0 && total_written > static_cast<std::uint64_t>(expected_size)) {
+          error_message = "decompressed output exceeds expected size";
+          failed = true;
+          break;
+        }
       }
       if (failed) break;
       if (!notifyProgress(env, progress_listener, static_cast<jlong>(total_written), expected_size)) {
@@ -249,6 +254,10 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
   }
 
   ZSTD_freeDStream(stream);
+  if (!failed && expected_size >= 0 && total_written != static_cast<std::uint64_t>(expected_size)) {
+    error_message = "decompressed output size does not match expected size";
+    failed = true;
+  }
   if (failed) {
     throwJava(env, "java/io/IOException", error_message);
     return nullptr;
