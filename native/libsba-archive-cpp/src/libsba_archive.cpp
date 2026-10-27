@@ -428,7 +428,13 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       if (entry != nullptr) env->DeleteLocalRef(entry);
       goto tar_error;
     }
-    entries.push_back(entry);
+    jobject global_entry = env->NewGlobalRef(entry);
+    if (global_entry == nullptr) {
+      env->DeleteLocalRef(entry);
+      goto tar_error;
+    }
+    entries.push_back(global_entry);
+    env->DeleteLocalRef(entry);
 
     std::uint64_t to_skip = padded;
     std::uint8_t discard[8192];
@@ -436,14 +442,12 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       std::size_t want = static_cast<std::size_t>(to_skip < sizeof(discard) ? to_skip : sizeof(discard));
       std::size_t got = 0;
       if (!readExact(input_fd, discard, want, &got) || got != want) {
-        env->DeleteLocalRef(entry);
         throwJava(env, "java/io/IOException", "truncated TAR entry payload");
         goto tar_error;
       }
       to_skip -= got;
     }
     consumed += padded;
-    env->DeleteLocalRef(entry);
   }
 
   {
@@ -454,7 +458,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
     if (result == nullptr) goto tar_error;
     for (std::size_t i = 0; i < entries.size(); ++i) {
       env->SetObjectArrayElement(result, static_cast<jsize>(i), entries[i]);
-      env->DeleteLocalRef(entries[i]);
+      env->DeleteGlobalRef(entries[i]);
       if (env->ExceptionCheck()) return nullptr;
     }
     (void)ended;
@@ -462,7 +466,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
   }
 
 tar_error:
-  for (jobject entry : entries) env->DeleteLocalRef(entry);
+  for (jobject entry : entries) env->DeleteGlobalRef(entry);
   return nullptr;
 }
 
