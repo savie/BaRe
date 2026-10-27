@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <cstdlib>
 #include <limits>
 #include <cerrno>
 #include <unistd.h>
@@ -332,9 +333,12 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
   constexpr std::size_t kBlock = 512;
   std::vector<jobject> entries;
   std::uint64_t consumed = 0;
-  std::uint64_t remaining_data = 0;
   std::uint8_t header[kBlock];
   bool ended = false;
+  std::string pending_name;
+  std::string pending_link;
+  std::string global_name;
+  std::string global_link;
 
   while (consumed < static_cast<std::uint64_t>(max_bytes)) {
     if (static_cast<std::uint64_t>(max_bytes) - consumed < kBlock) {
@@ -347,7 +351,13 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
         throwJava(env, "java/io/IOException", std::string("TAR read failed: ") + std::strerror(errno));
         goto tar_error;
       }
-      if (got == 0) break;
+      if (got == 0) {
+        if (consumed < static_cast<std::uint64_t>(max_bytes)) {
+          throwJava(env, "java/io/IOException", "TAR ended before supplied data length");
+          goto tar_error;
+        }
+        break;
+      }
       if (got != kBlock) {
         throwJava(env, "java/io/IOException", "truncated TAR header");
         goto tar_error;
@@ -379,11 +389,75 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       goto tar_error;
     }
 
+    char typeflag = static_cast<char>(header[156]);
+    if (typeflag == 'x' || typeflag == 'g' || typeflag == 'L' || typeflag == 'K') {
+      constexpr std::uint64_t kMaxExtensionSize = 1024 * 1024;
+      if (size > kMaxExtensionSize) {
+        throwJava(env, "java/io/IOException", "TAR extension metadata exceeds 1 MiB safety limit");
+        goto tar_error;
+      }
+      std::string metadata(static_cast<std::size_t>(size), '\\0');
+      if (size > 0) {
+        std::size_t got = 0;
+        if (!readExact(input_fd, metadata.data(), static_cast<std::size_t>(size), &got) || got != size) {
+          throwJava(env, "java/io/IOException", "truncated TAR extension metadata");
+          goto tar_error;
+        }
+      }
+      std::uint64_t pad = padded - size;
+      std::uint8_t discard[512];
+      if (pad > 0) {
+        std::size_t got = 0;
+        if (!readExact(input_fd, discard, static_cast<std::size_t>(pad), &got) || got != pad) {
+          throwJava(env, "java/io/IOException", "truncated TAR extension padding");
+          goto tar_error;
+        }
+      }
+      consumed += padded;
+      if (typeflag == 'L' || typeflag == 'K') {
+        while (!metadata.empty() && (metadata.back() == '\\0' || metadata.back() == '\\n')) metadata.pop_back();
+        if (typeflag == 'L') pending_name = metadata;
+        else pending_link = metadata;
+      } else {
+        std::size_t pos = 0;
+        while (pos < metadata.size()) {
+          std::size_t space = metadata.find(' ', pos);
+          if (space == std::string::npos || space == pos) break;
+          char* end = nullptr;
+          unsigned long long record_len = std::strtoull(metadata.c_str() + pos, &end, 10);
+          if (end == metadata.c_str() + pos || *end != ' ' || record_len == 0 ||
+              record_len > metadata.size() - pos) break;
+          std::size_t record_end = pos + static_cast<std::size_t>(record_len);
+          if (record_end > metadata.size() || metadata[record_end - 1] != '\\n') break;
+          std::size_t key_start = static_cast<std::size_t>(end - metadata.c_str()) + 1;
+          std::size_t equal = metadata.find('=', key_start);
+          if (equal != std::string::npos && equal < record_end - 1) {
+            std::string key = metadata.substr(key_start, equal - key_start);
+            std::string value = metadata.substr(equal + 1, record_end - equal - 2);
+            if (key == "path") {
+              if (typeflag == 'g') global_name = value;
+              else pending_name = value;
+            } else if (key == "linkpath") {
+              if (typeflag == 'g') global_link = value;
+              else pending_link = value;
+            }
+          }
+          pos = record_end;
+        }
+      }
+      continue;
+    }
+
     std::string name = tarString(header, 100);
     std::string prefix = tarString(header + 345, 155);
     if (!prefix.empty()) name = prefix + "/" + name;
     std::string link = tarString(header + 157, 100);
-    char typeflag = static_cast<char>(header[156]);
+    if (!global_name.empty()) name = global_name;
+    if (!global_link.empty()) link = global_link;
+    if (!pending_name.empty()) name = pending_name;
+    if (!pending_link.empty()) link = pending_link;
+    pending_name.clear();
+    pending_link.clear();
     jint type = 99;
     switch (typeflag) {
       case 0: case '0': type = 1; break;
