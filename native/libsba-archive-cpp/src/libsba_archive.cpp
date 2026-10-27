@@ -41,6 +41,63 @@ bool notifyProgress(JNIEnv* env, jobject listener, jlong completed, jlong total)
   return !env->ExceptionCheck();
 }
 
+jstring newJavaStringUtf8(JNIEnv* env, const std::string& input) {
+  std::vector<jchar> utf16;
+  utf16.reserve(input.size());
+  for (std::size_t i = 0; i < input.size();) {
+    const auto first = static_cast<std::uint8_t>(input[i]);
+    std::uint32_t cp = 0;
+    std::size_t count = 0;
+    if (first <= 0x7f) {
+      cp = first;
+      count = 1;
+    } else if (first >= 0xc2 && first <= 0xdf) {
+      cp = first & 0x1f;
+      count = 2;
+    } else if (first >= 0xe0 && first <= 0xef) {
+      cp = first & 0x0f;
+      count = 3;
+    } else if (first >= 0xf0 && first <= 0xf4) {
+      cp = first & 0x07;
+      count = 4;
+    } else {
+      throwJava(env, "java/io/IOException", "TAR path contains invalid UTF-8");
+      return nullptr;
+    }
+    if (count > input.size() - i) {
+      throwJava(env, "java/io/IOException", "TAR path contains truncated UTF-8");
+      return nullptr;
+    }
+    for (std::size_t j = 1; j < count; ++j) {
+      const auto next = static_cast<std::uint8_t>(input[i + j]);
+      if ((next & 0xc0) != 0x80) {
+        throwJava(env, "java/io/IOException", "TAR path contains invalid UTF-8 continuation");
+        return nullptr;
+      }
+      cp = (cp << 6) | (next & 0x3f);
+    }
+    if ((count == 2 && cp < 0x80) || (count == 3 && cp < 0x800) ||
+        (count == 4 && cp < 0x10000) || cp > 0x10ffff ||
+        (cp >= 0xd800 && cp <= 0xdfff)) {
+      throwJava(env, "java/io/IOException", "TAR path contains non-canonical UTF-8");
+      return nullptr;
+    }
+    if (cp <= 0xffff) {
+      utf16.push_back(static_cast<jchar>(cp));
+    } else {
+      cp -= 0x10000;
+      utf16.push_back(static_cast<jchar>(0xd800 + (cp >> 10)));
+      utf16.push_back(static_cast<jchar>(0xdc00 + (cp & 0x3ff)));
+    }
+    i += count;
+  }
+  if (utf16.size() > static_cast<std::size_t>(std::numeric_limits<jsize>::max())) {
+    throwJava(env, "java/lang/IllegalArgumentException", "TAR path exceeds Java string limit");
+    return nullptr;
+  }
+  return env->NewString(utf16.empty() ? nullptr : utf16.data(), static_cast<jsize>(utf16.size()));
+}
+
 bool copyInput(JNIEnv* env, jbyteArray input, std::vector<std::uint8_t>& bytes) {
   if (input == nullptr) {
     throwJava(env, "java/lang/IllegalArgumentException", "input must not be null");
@@ -586,8 +643,8 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       env->DeleteLocalRef(string_class); env->DeleteLocalRef(info_class);
       goto tar_error;
     }
-    jstring jname = env->NewStringUTF(name.c_str());
-    jstring jlink = link.empty() ? nullptr : env->NewStringUTF(link.c_str());
+    jstring jname = newJavaStringUtf8(env, name);
+    jstring jlink = link.empty() ? nullptr : newJavaStringUtf8(env, link);
     jobjectArray xattrs = env->NewObjectArray(0, string_class, nullptr);
     jlong real_size = static_cast<jlong>(size);
     jlong mtime_ms = mtime > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max() / 1000)
