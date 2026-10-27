@@ -1,4 +1,5 @@
 #include <jni.h>
+#define ZSTD_STATIC_LINKING_ONLY
 #include <zstd.h>
 
 #include <cstdint>
@@ -85,7 +86,7 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes(JNIEnv* env, jobject /*
   unsigned long long output_bound = frame_size;
   if (frame_size == ZSTD_CONTENTSIZE_UNKNOWN) {
     output_bound = ZSTD_decompressBound(compressed.data(), compressed.size());
-    if (ZSTD_isError(static_cast<std::size_t>(output_bound))) {
+    if (output_bound == ZSTD_CONTENTSIZE_ERROR) {
       throwJava(env, "java/lang/IllegalArgumentException", "cannot determine Zstandard output bound");
       return nullptr;
     }
