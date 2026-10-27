@@ -49,3 +49,13 @@ Use Android NDK CMake with ABI values `arm64-v8a`, `armeabi-v7a`, `x86`, and `x8
 4. Implement Argon2id and AEGIS using audited, pinned source dependencies and known-answer test vectors.
 5. Match archive creation/extraction formats and progress/statistics contracts against known fixtures.
 6. Run end-to-end backup/restore round trips before changing the APK's library files.
+
+
+## Third-party cryptography
+
+Argon2id is built from the reference C implementation in
+[P-H-C/phc-winner-argon2](https://github.com/P-H-C/phc-winner-argon2), release
+`20190702`. Its source offers CC0 1.0 or Apache-2.0 licensing; see the
+upstream `LICENSE` file. This prototype uses the reference implementation
+rather than a hand-written Argon2 implementation. Runtime and known-answer
+validation are still required before integration.
