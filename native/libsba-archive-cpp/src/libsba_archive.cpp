@@ -352,6 +352,8 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
   std::string pending_link;
   std::string global_name;
   std::string global_link;
+  bool global_name_set = false;
+  bool global_link_set = false;
   bool pending_mtime_set = false;
   bool global_mtime_set = false;
   jlong pending_mtime_ms = 0;
@@ -475,11 +477,25 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
             std::string key = metadata.substr(key_start, equal - key_start);
             std::string value = metadata.substr(equal + 1, record_end - equal - 2);
             if (key == "path") {
-              if (typeflag == 'g') global_name = value;
-              else pending_name = value;
+              if (typeflag == 'g' && value.empty()) {
+                global_name.clear();
+                global_name_set = false;
+              } else if (typeflag == 'g') {
+                global_name = value;
+                global_name_set = true;
+              } else {
+                pending_name = value;
+              }
             } else if (key == "linkpath") {
-              if (typeflag == 'g') global_link = value;
-              else pending_link = value;
+              if (typeflag == 'g' && value.empty()) {
+                global_link.clear();
+                global_link_set = false;
+              } else if (typeflag == 'g') {
+                global_link = value;
+                global_link_set = true;
+              } else {
+                pending_link = value;
+              }
             } else if (key == "size") {
               if (typeflag == 'g' && value.empty()) {
                 global_size = 0;
@@ -540,8 +556,8 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
     std::string prefix = tarString(header + 345, 155);
     if (!prefix.empty()) name = prefix + "/" + name;
     std::string link = tarString(header + 157, 100);
-    if (!global_name.empty()) name = global_name;
-    if (!global_link.empty()) link = global_link;
+    if (global_name_set) name = global_name;
+    if (global_link_set) link = global_link;
     if (!pending_name.empty()) name = pending_name;
     if (!pending_link.empty()) link = pending_link;
     pending_name.clear();
