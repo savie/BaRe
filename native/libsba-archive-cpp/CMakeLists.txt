@@ -26,8 +26,33 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(zstd)
 
+# Reference Argon2 implementation, pinned to the 2019-07-02 release. The
+# library is built in no-thread mode for portable Android NDK builds; Argon2
+# still computes the same result, with lanes scheduled serially.
+FetchContent_Declare(
+  argon2
+  GIT_REPOSITORY https://github.com/P-H-C/phc-winner-argon2.git
+  GIT_TAG 20190702
+  GIT_SHALLOW TRUE
+)
+FetchContent_GetProperties(argon2)
+if(NOT argon2_POPULATED)
+  FetchContent_Populate(argon2)
+endif()
+
+add_library(argon2_ref STATIC
+  "${argon2_SOURCE_DIR}/src/argon2.c"
+  "${argon2_SOURCE_DIR}/src/core.c"
+  "${argon2_SOURCE_DIR}/src/encoding.c"
+  "${argon2_SOURCE_DIR}/src/ref.c"
+  "${argon2_SOURCE_DIR}/src/blake2/blake2b.c"
+)
+target_include_directories(argon2_ref PUBLIC "${argon2_SOURCE_DIR}/include")
+target_include_directories(argon2_ref PRIVATE "${argon2_SOURCE_DIR}/src")
+target_compile_definitions(argon2_ref PRIVATE ARGON2_NO_THREADS)
+
 add_library(sba_archive_cpp SHARED src/libsba_archive.cpp)
-target_include_directories(sba_archive_cpp PRIVATE "${zstd_SOURCE_DIR}/lib")
-target_link_libraries(sba_archive_cpp PRIVATE libzstd_static log)
+target_include_directories(sba_archive_cpp PRIVATE "${zstd_SOURCE_DIR}/lib" "${argon2_SOURCE_DIR}/include")
+target_link_libraries(sba_archive_cpp PRIVATE libzstd_static argon2_ref log)
 target_compile_options(sba_archive_cpp PRIVATE -Wall -Wextra -Wpedantic -Werror=return-type)
 set_target_properties(sba_archive_cpp PROPERTIES OUTPUT_NAME "sba_archive_cpp")
