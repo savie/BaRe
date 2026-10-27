@@ -50,7 +50,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes(JNIEnv* env, jobject /* self */, jbyteArray input, jint level) {
   std::vector<std::uint8_t> source;
   if (!copyInput(env, input, source)) return nullptr;
-  if (level < ZSTD_minCLevel() || level > ZSTD_maxCLevel()) {
+  if (level < 1 || level > 22) {
     throwJava(env, "java/lang/IllegalArgumentException", "invalid Zstandard compression level");
     return nullptr;
   }
@@ -81,17 +81,28 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes(JNIEnv* env, jobject /*
     throwJava(env, "java/lang/IllegalArgumentException", "invalid Zstandard frame");
     return nullptr;
   }
-  if (frame_size == ZSTD_CONTENTSIZE_UNKNOWN || frame_size > static_cast<unsigned long long>(std::numeric_limits<jsize>::max())) {
-    throwJava(env, "java/lang/IllegalArgumentException", "frame size is unknown or exceeds Java array limit");
+
+  unsigned long long output_bound = frame_size;
+  if (frame_size == ZSTD_CONTENTSIZE_UNKNOWN) {
+    output_bound = ZSTD_decompressBound(compressed.data(), compressed.size());
+    if (ZSTD_isError(static_cast<std::size_t>(output_bound))) {
+      throwJava(env, "java/lang/IllegalArgumentException", "cannot determine Zstandard output bound");
+      return nullptr;
+    }
+  }
+  if (output_bound > static_cast<unsigned long long>(std::numeric_limits<jsize>::max())) {
+    throwJava(env, "java/lang/IllegalArgumentException", "decompressed output exceeds Java array limit");
     return nullptr;
   }
-  std::vector<std::uint8_t> output(static_cast<std::size_t>(frame_size));
+
+  // Allocate one byte even for an empty frame so the C API receives a valid destination pointer.
+  std::vector<std::uint8_t> output(static_cast<std::size_t>(output_bound == 0 ? 1 : output_bound));
   const std::size_t written = ZSTD_decompress(output.data(), output.size(), compressed.data(), compressed.size());
   if (ZSTD_isError(written)) {
     throwJava(env, "java/lang/IllegalArgumentException", ZSTD_getErrorName(written));
     return nullptr;
   }
-  if (written != output.size()) {
+  if (frame_size != ZSTD_CONTENTSIZE_UNKNOWN && written != frame_size) {
     throwJava(env, "java/lang/IllegalArgumentException", "Zstandard frame size mismatch");
     return nullptr;
   }
