@@ -354,6 +354,10 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
   bool global_mtime_set = false;
   jlong pending_mtime_ms = 0;
   jlong global_mtime_ms = 0;
+  bool pending_size_set = false;
+  bool global_size_set = false;
+  std::uint64_t pending_size = 0;
+  std::uint64_t global_size = 0;
 
   while (consumed < static_cast<std::uint64_t>(max_bytes)) {
     if (static_cast<std::uint64_t>(max_bytes) - consumed < kBlock) {
@@ -394,6 +398,14 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       throwJava(env, "java/io/IOException", "unsupported or invalid TAR numeric field");
       goto tar_error;
     }
+    char typeflag = static_cast<char>(header[156]);
+    const bool is_extension = typeflag == 'x' || typeflag == 'g' || typeflag == 'L' || typeflag == 'K';
+    if (!is_extension) {
+      if (global_size_set) size = global_size;
+      if (pending_size_set) size = pending_size;
+      pending_size_set = false;
+      pending_size = 0;
+    }
     if (size > static_cast<std::uint64_t>(max_bytes) - consumed) {
       throwJava(env, "java/io/IOException", "TAR entry exceeds supplied data length");
       goto tar_error;
@@ -403,8 +415,6 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       throwJava(env, "java/io/IOException", "TAR entry payload exceeds supplied data length");
       goto tar_error;
     }
-
-    char typeflag = static_cast<char>(header[156]);
     if (typeflag == 'x' || typeflag == 'g' || typeflag == 'L' || typeflag == 'K') {
       constexpr std::uint64_t kMaxExtensionSize = 1024 * 1024;
       if (size > kMaxExtensionSize) {
@@ -455,6 +465,25 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
             } else if (key == "linkpath") {
               if (typeflag == 'g') global_link = value;
               else pending_link = value;
+            } else if (key == "size") {
+              if (value.empty() || value[0] < '0' || value[0] > '9') {
+                throwJava(env, "java/io/IOException", "invalid PAX size value");
+                goto tar_error;
+              }
+              errno = 0;
+              char* size_end = nullptr;
+              unsigned long long parsed_size = std::strtoull(value.c_str(), &size_end, 10);
+              if (errno == ERANGE || size_end == value.c_str() || *size_end != '\\0') {
+                throwJava(env, "java/io/IOException", "invalid PAX size value");
+                goto tar_error;
+              }
+              if (typeflag == 'g') {
+                global_size = static_cast<std::uint64_t>(parsed_size);
+                global_size_set = true;
+              } else {
+                pending_size = static_cast<std::uint64_t>(parsed_size);
+                pending_size_set = true;
+              }
             } else if (key == "mtime") {
               char* mtime_end = nullptr;
               long double seconds = std::strtold(value.c_str(), &mtime_end);
