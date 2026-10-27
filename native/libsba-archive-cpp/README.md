@@ -7,11 +7,12 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Cross-compile the isolated Android shared library for all four project ABIs.
 - [x] Implement JNI byte-array Zstandard compression/decompression.
 - [x] Implement file-descriptor streaming Zstandard decompression with progress/cancellation callbacks.
+- [x] Integrate the pinned Argon2 reference implementation and expose `deriveArgon2id` with the app’s parameter bounds.
 - [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated headers with octal and positive base-256 numeric fields.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
 - [ ] Extend TAR listing for PAX/GNU long names, base-256 numeric fields, sparse files, and xattrs; implement TAR extraction and archive creation.
-- [ ] Implement Argon2id and AEGIS operations with known-answer tests.
+- [ ] Verify Argon2id output against known-answer vectors and the original library.\n- [ ] Implement AEGIS operations with known-answer tests.
 - [ ] Run backup/restore round trips before any APK integration.
 
 The CI workflow at `.github/workflows/build-libsba-cpp-prototype.yml` passed on commit `b6f28d058fdf79445575519fafe17a33cf10700e` for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`. This confirms compilation and the configured symbol/metadata checks, not runtime compatibility. See [the workflow run](https://github.com/savie/BaRe/actions/runs/40603101599).
@@ -19,7 +20,7 @@ The CI workflow at `.github/workflows/build-libsba-cpp-prototype.yml` passed on 
 ## First milestone details
 
 - Uses Android NDK CMake and C++17.
-- Fetches Zstandard pinned to v1.5.7.
+- Fetches Zstandard pinned to v1.5.7 and the Argon2 reference implementation pinned to release `20190702` (serial lane scheduling for portable Android builds).
 - Keeps the app's current native library untouched while this prototype is developed.
 
 ## Required compatibility surface
@@ -29,7 +30,7 @@ Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the libra
 - `SbaArchiveNative.createArchive`
 - `SbaSwiftTarNative`: TAR extraction/listing, Zstandard TAR paths, Aegis archive extraction, and write statistics
 - `SbaZstdNative`: byte operations and file-descriptor streaming decompression (the FD decompressor is implemented in this prototype; exact result-array and progress semantics still need verification)
-- `SbaNativeCrypto.deriveArgon2id`
+- `SbaNativeCrypto.deriveArgon2id` (now implemented, runtime/vector validation pending)
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
 - `SbaRuntimeNative.version`
 
