@@ -13,6 +13,28 @@ permissions:
   contents: read
 
 jobs:
+  test-argon2-kat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout prototype
+        uses: actions/checkout@v4
+      - name: Build and run Argon2id known-answer test
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch 20190702 https://github.com/P-H-C/phc-winner-argon2.git /tmp/phc-winner-argon2
+          cc -std=c99 -O2 -DARGON2_NO_THREADS \
+            -I/tmp/phc-winner-argon2/include -I/tmp/phc-winner-argon2/src \
+            /tmp/phc-winner-argon2/src/argon2.c \
+            /tmp/phc-winner-argon2/src/core.c \
+            /tmp/phc-winner-argon2/src/encoding.c \
+            /tmp/phc-winner-argon2/src/ref.c \
+            /tmp/phc-winner-argon2/src/blake2/blake2b.c \
+            native/libsba-archive-cpp/tests/argon2id_kat.c \
+            -o /tmp/argon2id_kat
+          /tmp/argon2id_kat
+
   build-prototype:
     runs-on: ubuntu-latest
     timeout-minutes: 35
