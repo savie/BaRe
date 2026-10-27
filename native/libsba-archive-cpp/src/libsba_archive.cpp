@@ -458,7 +458,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
             } else if (key == "mtime") {
               char* mtime_end = nullptr;
               long double seconds = std::strtold(value.c_str(), &mtime_end);
-              if (mtime_end == value.c_str() || *mtime_end != '\\0' || !std::isfinite(seconds)) {
+              if (mtime_end == value.c_str() || *mtime_end != '\0' || !std::isfinite(seconds)) {
                 throwJava(env, "java/io/IOException", "invalid PAX mtime value");
                 goto tar_error;
               }
