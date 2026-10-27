@@ -11,6 +11,7 @@ on:
       - fix/supabase-user-mutation-payload-writes
       - feat/firebase-only-backend
     paths:
+      - "app/google-services.json"
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
@@ -55,16 +56,13 @@ jobs:
           java -jar apktool.jar --version
           sha256sum apktool.jar
 
-      - name: Prepare build source and validate implementation
+      - name: Prepare build source and inject Firebase configuration
         shell: bash
         run: |
           set -euo pipefail
           cp -a bare-implementation build-src
           mkdir -p build
-          git fetch --no-tags --depth=1 origin rewrite
-          REWRITE_SHA="$(git rev-parse FETCH_HEAD)"
-          echo "Resolved rewrite source commit: $REWRITE_SHA"
-          git show "$REWRITE_SHA:app/google-services.json" > build/google-services.json
+          cp app/google-services.json build/google-services.json
           sha256sum build/google-services.json
           sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 tools/prepare-barebackup-build.py
