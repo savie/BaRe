@@ -3,7 +3,10 @@
 #include <zstd.h>
 
 #include <cstdint>
+#include <cstring>
 #include <limits>
+#include <cerrno>
+#include <unistd.h>
 #include <string>
 #include <vector>
 
@@ -108,4 +111,108 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes(JNIEnv* env, jobject /*
     return nullptr;
   }
   return makeByteArray(env, output.data(), written);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
+    JNIEnv* env, jobject /* self */, jint input_fd, jint output_fd, jlong /* expected_size */,
+    jobject /* progress_listener */) {
+  if (input_fd < 0 || output_fd < 0) {
+    throwJava(env, "java/lang/IllegalArgumentException", "file descriptor must be valid");
+    return nullptr;
+  }
+
+  ZSTD_DStream* stream = ZSTD_createDStream();
+  if (stream == nullptr) {
+    throwJava(env, "java/lang/OutOfMemoryError", "could not allocate Zstandard decompression stream");
+    return nullptr;
+  }
+  const std::size_t init_result = ZSTD_initDStream(stream);
+  if (ZSTD_isError(init_result)) {
+    ZSTD_freeDStream(stream);
+    throwJava(env, "java/lang/IllegalStateException", ZSTD_getErrorName(init_result));
+    return nullptr;
+  }
+
+  constexpr std::size_t kInputChunk = 64 * 1024;
+  constexpr std::size_t kOutputChunk = 64 * 1024;
+  std::vector<std::uint8_t> input(kInputChunk);
+  std::vector<std::uint8_t> output(kOutputChunk);
+  std::uint64_t total_read = 0;
+  std::uint64_t total_written = 0;
+  std::size_t remaining = 1;
+  bool saw_input = false;
+  bool failed = false;
+  std::string error_message;
+
+  while (true) {
+    ssize_t count;
+    do {
+      count = ::read(input_fd, input.data(), input.size());
+    } while (count < 0 && errno == EINTR);
+
+    if (count < 0) {
+      error_message = std::string("read failed: ") + std::strerror(errno);
+      failed = true;
+      break;
+    }
+    if (count == 0) {
+      if (!saw_input) {
+        error_message = "input is not a Zstandard frame";
+        failed = true;
+      } else if (remaining != 0) {
+        error_message = "truncated Zstandard frame";
+        failed = true;
+      }
+      break;
+    }
+
+    saw_input = true;
+    total_read += static_cast<std::uint64_t>(count);
+    ZSTD_inBuffer in{input.data(), static_cast<std::size_t>(count), 0};
+    while (in.pos < in.size) {
+      ZSTD_outBuffer out{output.data(), output.size(), 0};
+      remaining = ZSTD_decompressStream(stream, &out, &in);
+      if (ZSTD_isError(remaining)) {
+        error_message = ZSTD_getErrorName(remaining);
+        failed = true;
+        break;
+      }
+
+      std::size_t offset = 0;
+      while (offset < out.pos) {
+        ssize_t written;
+        do {
+          written = ::write(output_fd, output.data() + offset, out.pos - offset);
+        } while (written < 0 && errno == EINTR);
+        if (written <= 0) {
+          error_message = std::string("write failed: ") + std::strerror(errno);
+          failed = true;
+          break;
+        }
+        offset += static_cast<std::size_t>(written);
+        total_written += static_cast<std::uint64_t>(written);
+      }
+      if (failed) break;
+      if (out.pos == 0 && in.pos == in.size && remaining != 0) break;
+    }
+    if (failed) break;
+  }
+
+  ZSTD_freeDStream(stream);
+  if (failed) {
+    throwJava(env, "java/io/IOException", error_message);
+    return nullptr;
+  }
+  if (total_read > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max()) ||
+      total_written > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+    throwJava(env, "java/lang/IllegalStateException", "stream byte count overflow");
+    return nullptr;
+  }
+
+  jlong values[2] = {static_cast<jlong>(total_read), static_cast<jlong>(total_written)};
+  jlongArray result = env->NewLongArray(2);
+  if (result == nullptr) return nullptr;
+  env->SetLongArrayRegion(result, 0, 2, values);
+  return env->ExceptionCheck() ? nullptr : result;
 }
