@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cstdlib>
+#include <cmath>
 #include <limits>
 #include <cerrno>
 #include <unistd.h>
@@ -349,6 +350,10 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
   std::string pending_link;
   std::string global_name;
   std::string global_link;
+  bool pending_mtime_set = false;
+  bool global_mtime_set = false;
+  jlong pending_mtime_ms = 0;
+  jlong global_mtime_ms = 0;
 
   while (consumed < static_cast<std::uint64_t>(max_bytes)) {
     if (static_cast<std::uint64_t>(max_bytes) - consumed < kBlock) {
@@ -450,6 +455,25 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
             } else if (key == "linkpath") {
               if (typeflag == 'g') global_link = value;
               else pending_link = value;
+            } else if (key == "mtime") {
+              char* mtime_end = nullptr;
+              long double seconds = std::strtold(value.c_str(), &mtime_end);
+              if (mtime_end == value.c_str() || *mtime_end != '\\0' || !std::isfinite(seconds)) {
+                throwJava(env, "java/io/IOException", "invalid PAX mtime value");
+                goto tar_error;
+              }
+              long double millis = seconds * 1000.0L;
+              jlong converted = millis > static_cast<long double>(std::numeric_limits<jlong>::max())
+                  ? std::numeric_limits<jlong>::max()
+                  : (millis < static_cast<long double>(std::numeric_limits<jlong>::min())
+                      ? std::numeric_limits<jlong>::min() : static_cast<jlong>(millis));
+              if (typeflag == 'g') {
+                global_mtime_ms = converted;
+                global_mtime_set = true;
+              } else {
+                pending_mtime_ms = converted;
+                pending_mtime_set = true;
+              }
             }
           }
           pos = record_end;
@@ -498,6 +522,10 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
     jlong real_size = static_cast<jlong>(size);
     jlong mtime_ms = mtime > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max() / 1000)
         ? std::numeric_limits<jlong>::max() : static_cast<jlong>(mtime * 1000);
+    if (global_mtime_set) mtime_ms = global_mtime_ms;
+    if (pending_mtime_set) mtime_ms = pending_mtime_ms;
+    pending_mtime_set = false;
+    pending_mtime_ms = 0;
     jobject entry = nullptr;
     if (jname != nullptr && xattrs != nullptr && !env->ExceptionCheck()) {
       entry = env->NewObject(info_class, ctor, jname, type, jlink,
