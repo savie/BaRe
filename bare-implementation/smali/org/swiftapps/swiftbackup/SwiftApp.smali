@@ -1384,6 +1384,9 @@
     .line 1
     invoke-super {p0}, Landroid/app/Application;->onCreate()V
 
+    # Initialize Firebase once from the permanent source implementation.
+    invoke-static {p0}, Lcom/google/firebase/FirebaseApp;->initializeApp(Landroid/content/Context;)Lcom/google/firebase/FirebaseApp;
+
     .line 2
     .line 3
     .line 4
