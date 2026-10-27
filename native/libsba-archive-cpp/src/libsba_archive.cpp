@@ -396,7 +396,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
         throwJava(env, "java/io/IOException", "TAR extension metadata exceeds 1 MiB safety limit");
         goto tar_error;
       }
-      std::string metadata(static_cast<std::size_t>(size), '\\0');
+      std::string metadata(static_cast<std::size_t>(size), '\0');
       if (size > 0) {
         std::size_t got = 0;
         if (!readExact(input_fd, metadata.data(), static_cast<std::size_t>(size), &got) || got != size) {
@@ -415,7 +415,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
       }
       consumed += padded;
       if (typeflag == 'L' || typeflag == 'K') {
-        while (!metadata.empty() && (metadata.back() == '\\0' || metadata.back() == '\\n')) metadata.pop_back();
+        while (!metadata.empty() && (metadata.back() == '\0' || metadata.back() == '\n')) metadata.pop_back();
         if (typeflag == 'L') pending_name = metadata;
         else pending_link = metadata;
       } else {
@@ -428,7 +428,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
           if (end == metadata.c_str() + pos || *end != ' ' || record_len == 0 ||
               record_len > metadata.size() - pos) break;
           std::size_t record_end = pos + static_cast<std::size_t>(record_len);
-          if (record_end > metadata.size() || metadata[record_end - 1] != '\\n') break;
+          if (record_end > metadata.size() || metadata[record_end - 1] != '\n') break;
           std::size_t key_start = static_cast<std::size_t>(end - metadata.c_str()) + 1;
           std::size_t equal = metadata.find('=', key_start);
           if (equal != std::string::npos && equal < record_end - 1) {
