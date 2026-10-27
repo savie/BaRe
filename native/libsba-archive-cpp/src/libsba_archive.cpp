@@ -1,8 +1,10 @@
 #include <jni.h>
 #define ZSTD_STATIC_LINKING_ONLY
 #include <zstd.h>
+#include <argon2.h>
 
 #include <cstdint>
+#include <algorithm>
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -624,3 +626,61 @@ tar_error:
   return nullptr;
 }
 
+
+
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
+    JNIEnv* env, jobject /* self */, jbyteArray password, jbyteArray salt,
+    jint iterations, jint memory_kib, jint parallelism, jint output_bytes) {
+  std::vector<std::uint8_t> password_bytes;
+  std::vector<std::uint8_t> salt_bytes;
+  if (!copyInput(env, password, password_bytes) ||
+      !copyInput(env, salt, salt_bytes)) return nullptr;
+
+  if (password_bytes.empty()) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA encryption password must not be empty");
+    return nullptr;
+  }
+  if (salt_bytes.size() != 16) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA Argon2id salt must be 16 bytes");
+    return nullptr;
+  }
+  if (iterations < 1 || iterations > 100) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA Argon2id iterations out of range");
+    return nullptr;
+  }
+  if (memory_kib < 16384 || memory_kib > 65536) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA Argon2id memoryKiB out of range");
+    return nullptr;
+  }
+  if (parallelism < 1 || parallelism > 8) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA Argon2id parallelism out of range");
+    return nullptr;
+  }
+  if (output_bytes < 1) {
+    throwJava(env, "java/lang/IllegalArgumentException", "SBA Argon2id output length must be positive");
+    return nullptr;
+  }
+
+  std::vector<std::uint8_t> output(static_cast<std::size_t>(output_bytes));
+  const int rc = argon2id_hash_raw(
+      static_cast<std::uint32_t>(iterations),
+      static_cast<std::uint32_t>(memory_kib),
+      static_cast<std::uint32_t>(parallelism),
+      password_bytes.data(), password_bytes.size(),
+      salt_bytes.data(), salt_bytes.size(),
+      output.data(), output.size());
+
+  // Best-effort wipe of the copied password before releasing its storage.
+  volatile std::uint8_t* password_ptr = password_bytes.data();
+  for (std::size_t i = 0; i < password_bytes.size(); ++i) password_ptr[i] = 0;
+  if (rc != ARGON2_OK) {
+    std::fill(output.begin(), output.end(), 0);
+    throwJava(env, "java/lang/IllegalStateException", argon2_error_message(rc));
+    return nullptr;
+  }
+  jbyteArray result = makeByteArray(env, output.data(), output.size());
+  volatile std::uint8_t* output_ptr = output.data();
+  for (std::size_t i = 0; i < output.size(); ++i) output_ptr[i] = 0;
+  return result;
+}
