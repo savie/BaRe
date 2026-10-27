@@ -12,7 +12,8 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
 - [ ] Extend TAR listing for PAX/GNU long names, base-256 numeric fields, sparse files, and xattrs; implement TAR extraction and archive creation.
-- [ ] Verify Argon2id output against known-answer vectors and the original library.\n- [ ] Implement AEGIS operations with known-answer tests.
+- [ ] Verify Argon2id output against known-answer vectors and the original library.
+- [ ] Implement AEGIS operations with known-answer tests.
 - [ ] Run backup/restore round trips before any APK integration.
 
 The CI workflow at `.github/workflows/build-libsba-cpp-prototype.yml` passed on commit `b6f28d058fdf79445575519fafe17a33cf10700e` for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`. This confirms compilation and the configured symbol/metadata checks, not runtime compatibility. See [the workflow run](https://github.com/savie/BaRe/actions/runs/40603101599).
