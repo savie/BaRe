@@ -62,6 +62,8 @@ jobs:
           "$NDK_BIN/llvm-readelf" -Ws "artifacts/$ABI/libsba_archive_cpp.so" > "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          printf 'ABI=%s\nGIT_SHA=%s\n' "$ABI" "$GITHUB_SHA" > "artifacts/$ABI/BUILD-METADATA.txt"
           sha256sum "artifacts/$ABI/libsba_archive_cpp.so" | tee "artifacts/$ABI/SHA256SUMS.txt"
 
       - name: Upload prototype artifact
