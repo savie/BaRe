@@ -20,6 +20,23 @@ void throwJava(JNIEnv* env, const char* class_name, const std::string& message) 
   }
 }
 
+bool notifyProgress(JNIEnv* env, jobject listener, jlong completed, jlong total) {
+  if (listener == nullptr) return true;
+  jclass type = env->GetObjectClass(listener);
+  if (type == nullptr) return false;
+  jmethodID cancelled = env->GetMethodID(type, "isCancellationRequested", "()Z");
+  jmethodID progress = env->GetMethodID(type, "onProgress", "(JJ)V");
+  env->DeleteLocalRef(type);
+  if (cancelled == nullptr || progress == nullptr) return false;
+  if (env->CallBooleanMethod(listener, cancelled) == JNI_TRUE) {
+    throwJava(env, "java/util/concurrent/CancellationException", "Zstandard decompression cancelled");
+    return false;
+  }
+  if (env->ExceptionCheck()) return false;
+  env->CallVoidMethod(listener, progress, completed, total);
+  return !env->ExceptionCheck();
+}
+
 bool copyInput(JNIEnv* env, jbyteArray input, std::vector<std::uint8_t>& bytes) {
   if (input == nullptr) {
     throwJava(env, "java/lang/IllegalArgumentException", "input must not be null");
@@ -115,8 +132,8 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes(JNIEnv* env, jobject /*
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
-    JNIEnv* env, jobject /* self */, jint input_fd, jint output_fd, jlong /* expected_size */,
-    jobject /* progress_listener */) {
+    JNIEnv* env, jobject /* self */, jint input_fd, jint output_fd, jlong expected_size,
+    jobject progress_listener) {
   if (input_fd < 0 || output_fd < 0) {
     throwJava(env, "java/lang/IllegalArgumentException", "file descriptor must be valid");
     return nullptr;
@@ -169,6 +186,24 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
 
     saw_input = true;
     total_read += static_cast<std::uint64_t>(count);
+    if (total_read > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max()) ||
+        total_written > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+      error_message = "stream byte count overflow";
+      failed = true;
+      break;
+    }
+    if (!notifyProgress(env, progress_listener, static_cast<jlong>(total_written), expected_size)) {
+      if (!env->ExceptionCheck()) {
+        error_message = "progress callback failed";
+        failed = true;
+      }
+      if (env->ExceptionCheck()) {
+        ZSTD_freeDStream(stream);
+        return nullptr;
+      }
+      failed = true;
+      break;
+    }
     ZSTD_inBuffer in{input.data(), static_cast<std::size_t>(count), 0};
     while (in.pos < in.size) {
       ZSTD_outBuffer out{output.data(), output.size(), 0};
@@ -192,8 +227,22 @@ Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
         }
         offset += static_cast<std::size_t>(written);
         total_written += static_cast<std::uint64_t>(written);
+        if (total_written > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+          error_message = "stream byte count overflow";
+          failed = true;
+          break;
+        }
       }
       if (failed) break;
+      if (!notifyProgress(env, progress_listener, static_cast<jlong>(total_written), expected_size)) {
+        if (env->ExceptionCheck()) {
+          ZSTD_freeDStream(stream);
+          return nullptr;
+        }
+        error_message = "progress callback failed";
+        failed = true;
+        break;
+      }
       if (out.pos == 0 && in.pos == in.size && remaining != 0) break;
     }
     if (failed) break;
