@@ -481,42 +481,52 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw(
               if (typeflag == 'g') global_link = value;
               else pending_link = value;
             } else if (key == "size") {
-              if (value.empty() || value[0] < '0' || value[0] > '9') {
-                throwJava(env, "java/io/IOException", "invalid PAX size value");
-                goto tar_error;
-              }
-              errno = 0;
-              char* size_end = nullptr;
-              unsigned long long parsed_size = std::strtoull(value.c_str(), &size_end, 10);
-              if (errno == ERANGE || size_end == value.c_str() || *size_end != '\0') {
-                throwJava(env, "java/io/IOException", "invalid PAX size value");
-                goto tar_error;
-              }
-              if (typeflag == 'g') {
-                global_size = static_cast<std::uint64_t>(parsed_size);
-                global_size_set = true;
+              if (typeflag == 'g' && value.empty()) {
+                global_size = 0;
+                global_size_set = false;
               } else {
-                pending_size = static_cast<std::uint64_t>(parsed_size);
-                pending_size_set = true;
+                if (value.empty() || value[0] < '0' || value[0] > '9') {
+                  throwJava(env, "java/io/IOException", "invalid PAX size value");
+                  goto tar_error;
+                }
+                errno = 0;
+                char* size_end = nullptr;
+                unsigned long long parsed_size = std::strtoull(value.c_str(), &size_end, 10);
+                if (errno == ERANGE || size_end == value.c_str() || *size_end != '\0') {
+                  throwJava(env, "java/io/IOException", "invalid PAX size value");
+                  goto tar_error;
+                }
+                if (typeflag == 'g') {
+                  global_size = static_cast<std::uint64_t>(parsed_size);
+                  global_size_set = true;
+                } else {
+                  pending_size = static_cast<std::uint64_t>(parsed_size);
+                  pending_size_set = true;
+                }
               }
             } else if (key == "mtime") {
-              char* mtime_end = nullptr;
-              long double seconds = std::strtold(value.c_str(), &mtime_end);
-              if (mtime_end == value.c_str() || *mtime_end != '\0' || !std::isfinite(seconds)) {
-                throwJava(env, "java/io/IOException", "invalid PAX mtime value");
-                goto tar_error;
-              }
-              long double millis = seconds * 1000.0L;
-              jlong converted = millis > static_cast<long double>(std::numeric_limits<jlong>::max())
-                  ? std::numeric_limits<jlong>::max()
-                  : (millis < static_cast<long double>(std::numeric_limits<jlong>::min())
-                      ? std::numeric_limits<jlong>::min() : static_cast<jlong>(millis));
-              if (typeflag == 'g') {
-                global_mtime_ms = converted;
-                global_mtime_set = true;
+              if (typeflag == 'g' && value.empty()) {
+                global_mtime_ms = 0;
+                global_mtime_set = false;
               } else {
-                pending_mtime_ms = converted;
-                pending_mtime_set = true;
+                char* mtime_end = nullptr;
+                long double seconds = std::strtold(value.c_str(), &mtime_end);
+                if (mtime_end == value.c_str() || *mtime_end != '\0' || !std::isfinite(seconds)) {
+                  throwJava(env, "java/io/IOException", "invalid PAX mtime value");
+                  goto tar_error;
+                }
+                long double millis = seconds * 1000.0L;
+                jlong converted = millis > static_cast<long double>(std::numeric_limits<jlong>::max())
+                    ? std::numeric_limits<jlong>::max()
+                    : (millis < static_cast<long double>(std::numeric_limits<jlong>::min())
+                        ? std::numeric_limits<jlong>::min() : static_cast<jlong>(millis));
+                if (typeflag == 'g') {
+                  global_mtime_ms = converted;
+                  global_mtime_set = true;
+                } else {
+                  pending_mtime_ms = converted;
+                  pending_mtime_set = true;
+                }
               }
             }
           }
