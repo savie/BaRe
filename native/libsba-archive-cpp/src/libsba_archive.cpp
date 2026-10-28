@@ -76,6 +76,10 @@ jstring newJavaStringUtf8(JNIEnv* env, const std::string& input) {
       }
       cp = (cp << 6) | (next & 0x3f);
     }
+    if (cp == 0) {
+      throwJava(env, "java/io/IOException", "TAR path contains a NUL character");
+      return nullptr;
+    }
     if ((count == 2 && cp < 0x80) || (count == 3 && cp < 0x800) ||
         (count == 4 && cp < 0x10000) || cp > 0x10ffff ||
         (cp >= 0xd800 && cp <= 0xdfff)) {
