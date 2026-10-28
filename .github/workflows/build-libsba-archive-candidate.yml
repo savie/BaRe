@@ -87,6 +87,7 @@ jobs:
           "$NDK_BIN/llvm-readelf" -Ws "$CANDIDATE" > "artifacts/$ABI/jni-symbols.txt"
           "$NDK_BIN/llvm-readelf" -d "$CANDIDATE" > "artifacts/$ABI/jni-dynamic.txt"
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-jni-symbols.txt"
+          strings "$ORIGINAL" | grep -Ei 'version|sba|aegis|argon|zstd|tar|archive|invalid|unsupported|failed|error' | sort -u > "artifacts/$ABI/original-relevant-strings.txt" || true
           grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/original-jni-symbols.txt" | sort -u > "artifacts/$ABI/original-jni-exports.txt"
           grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/candidate-jni-exports.txt"
           comm -23 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/missing-original-jni-exports.txt"
