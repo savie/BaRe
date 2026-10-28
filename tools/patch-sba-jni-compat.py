@@ -25,8 +25,8 @@ for relative in relative_paths:
             )
         replacement = (
             needle
-            + '\\n\\n    const-string v0, "sba_compat"'
-            + '\\n\\n    invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
+            + '\n\n    const-string v0, "sba_compat"'
+            + '\n\n    invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
         )
         target.write_text(text.replace(needle, replacement, 1), encoding="utf-8")
         print(f"Patched staging copy only: {target}")
