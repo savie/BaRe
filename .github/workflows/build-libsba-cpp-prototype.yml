@@ -6,7 +6,7 @@ on:
     branches:
       - feat/libsba-archive-cpp
     paths:
-      - "native/libsba-archive-cpp/**"
+      - "tools/libsba-archive-cpp/**"
       - ".github/workflows/build-libsba-cpp-prototype.yml"
 
 permissions:
@@ -31,7 +31,7 @@ jobs:
             /tmp/phc-winner-argon2/src/encoding.c \
             /tmp/phc-winner-argon2/src/ref.c \
             /tmp/phc-winner-argon2/src/blake2/blake2b.c \
-            native/libsba-archive-cpp/tests/argon2id_kat.c \
+            tools/libsba-archive-cpp/tests/argon2id_kat.c \
             -o /tmp/argon2id_kat
           /tmp/argon2id_kat
 
@@ -69,28 +69,10 @@ jobs:
           ABI: ${{ matrix.abi }}
         run: |
           set -euo pipefail
-          export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
-          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
-          cmake --version
-          cmake -S native/libsba-archive-cpp -B "build/libsba-cpp/$ABI" \
-            -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
-            -DANDROID_ABI="$ABI" \
-            -DANDROID_PLATFORM=android-24 \
-            -DCMAKE_BUILD_TYPE=Release
-          cmake --build "build/libsba-cpp/$ABI" --parallel 2
-          mkdir -p "artifacts/$ABI"
-          cp "build/libsba-cpp/$ABI/libsba_archive_cpp.so" "artifacts/$ABI/"
-          "$NDK_BIN/llvm-readelf" -h "artifacts/$ABI/libsba_archive_cpp.so"
-          "$NDK_BIN/llvm-readelf" -Ws "artifacts/$ABI/libsba_archive_cpp.so" > "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
-          printf 'ABI=%s\nGIT_SHA=%s\n' "$ABI" "$GITHUB_SHA" > "artifacts/$ABI/BUILD-METADATA.txt"
-          sha256sum "artifacts/$ABI/libsba_archive_cpp.so" | tee "artifacts/$ABI/SHA256SUMS.txt"
-          ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
+          export ANDROID_NDK_VERSION="27.2.12479018"
+          tools/libsba-archive-cpp/build-prototype.sh "$ABI" "artifacts/$ABI"
+          NDK_BIN="$ANDROID_HOME/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin"
+                    ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
           test -f "$ORIGINAL"
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-symbols-all.txt"
           # JNI may be registered dynamically rather than exported as Java_* symbols.
