@@ -41,6 +41,14 @@ bool notifyProgress(JNIEnv* env, jobject listener, jlong completed, jlong total)
   return !env->ExceptionCheck();
 }
 
+struct WipeVectorOnExit {
+  std::vector<std::uint8_t>& bytes;
+  ~WipeVectorOnExit() {
+    volatile std::uint8_t* data = bytes.data();
+    for (std::size_t i = 0; i < bytes.size(); ++i) data[i] = 0;
+  }
+};
+
 jstring newJavaStringUtf8(JNIEnv* env, const std::string& input) {
   std::vector<jchar> utf16;
   utf16.reserve(input.size());
@@ -721,6 +729,7 @@ Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject /* self */, jbyteArray password, jbyteArray salt,
     jint iterations, jint memory_kib, jint parallelism, jint output_bytes) {
   std::vector<std::uint8_t> password_bytes;
+  WipeVectorOnExit wipe_password{password_bytes};
   std::vector<std::uint8_t> salt_bytes;
   if (!copyInput(env, password, password_bytes) ||
       !copyInput(env, salt, salt_bytes)) return nullptr;
