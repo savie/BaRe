@@ -1084,6 +1084,18 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
         return nullptr;
       }
       extracted.push_back(full_path);
+      std::uint8_t discard[8192];
+      std::uint64_t skip = padded;
+      while (skip > 0) {
+        const std::size_t want = static_cast<std::size_t>(std::min<std::uint64_t>(skip, sizeof(discard)));
+        got = 0;
+        if (!readExact(input_fd, discard, want, &got) || got != want) {
+          throwJava(env, "java/io/IOException", "truncated TAR directory payload");
+          return nullptr;
+        }
+        skip -= got;
+      }
+      consumed += padded;
     } else if (type == 0 || type == '0') {
       if (!ensure_parent(full_path)) {
         throwJava(env, "java/io/IOException", "cannot create TAR file parent directory");
