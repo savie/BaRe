@@ -12,7 +12,7 @@ This is the `tools/`-based build path modeled on `tools/native-jni-replacement/`
 
 ## Source
 
-`src/libsba_archive.cpp` and `CMakeLists.txt` are the staged C++ implementation and pinned build definition. Zstandard is pinned to v1.5.7; Argon2 reference source is pinned to 20190702. The generated binary name is `libsba_archive.so` so a later gated integration step can replace only the disposable build copy.
+`src/libsba_archive.cpp` and `CMakeLists.txt` are the staged C++ implementation and pinned build definition. Zstandard is pinned to v1.5.7; Argon2 reference source is pinned to 20190702; the upstream `aegis-aead/libaegis` C implementation is pinned to signed release commit `0bb16395782de7d3b0ec28735c5e7e09e6551c93` (0.10.3, MIT). The generated binary name is `libsba_archive.so` so a later gated integration step can replace only the disposable build copy.
 
 ## Run
 
@@ -22,3 +22,5 @@ Use GitHub Actions → **Build libsba_archive.so candidate from tools** → Run 
 ## Explicitly not guessed
 
 `SbaRuntimeNative.version()` returns `SwiftTar`, matching the original x86_64 binary's disassembly and referenced string. The workflow reports missing JNI exports against each original ABI as a compatibility-gap artifact.
+
+The candidate now links the pinned upstream `libaegis` target and matches the original `SbaLibaegisCryptoNative.isAvailable()` behavior (unconditional `true`, confirmed by original x86_64 disassembly). AEGIS chunk decryption/encryption methods are still not implemented, so this does not make the candidate safe to integrate.
