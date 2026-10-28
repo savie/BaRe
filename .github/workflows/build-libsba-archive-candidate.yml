@@ -1,0 +1,126 @@
+name: Build libsba_archive.so candidate from tools
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/libsba-archive-cpp/**"
+      - ".github/workflows/build-libsba-archive-candidate.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  argon2-kat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and run pinned Argon2id known-answer tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch 20190702 https://github.com/P-H-C/phc-winner-argon2.git /tmp/phc-winner-argon2
+          cc -std=c99 -O2 -DARGON2_NO_THREADS \
+            -I/tmp/phc-winner-argon2/include -I/tmp/phc-winner-argon2/src \
+            /tmp/phc-winner-argon2/src/argon2.c \
+            /tmp/phc-winner-argon2/src/core.c \
+            /tmp/phc-winner-argon2/src/encoding.c \
+            /tmp/phc-winner-argon2/src/ref.c \
+            /tmp/phc-winner-argon2/src/blake2/blake2b.c \
+            tools/libsba-archive-cpp/tests/argon2id_kat.c \
+            -o /tmp/argon2id_kat
+          /tmp/argon2id_kat
+
+  build-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [arm64-v8a, armeabi-v7a, x86, x86_64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+      - name: Install pinned NDK and CMake
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
+      - name: Build candidate and stage into a disposable build copy only
+        shell: bash
+        env:
+          ABI: ${{ matrix.abi }}
+        run: |
+          set -euo pipefail
+          export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+
+          # Snapshot the checked-in original. Never write to bare-implementation.
+          mkdir -p artifacts/"$ABI" build
+          ORIGINAL="bare-implementation/lib/$ABI/libsba_archive.so"
+          if test -f "$ORIGINAL"; then
+            sha256sum "$ORIGINAL" | tee "build/original-$ABI.sha256"
+          else
+            echo "Missing original library: $ORIGINAL" >&2
+            exit 1
+          fi
+
+          cmake -S tools/libsba-archive-cpp -B "build/libsba-cpp/$ABI" \
+            -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
+            -DANDROID_ABI="$ABI" \
+            -DANDROID_PLATFORM=android-24 \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build "build/libsba-cpp/$ABI" --parallel 2
+          CANDIDATE="build/libsba-cpp/$ABI/libsba_archive.so"
+          test -s "$CANDIDATE"
+
+          "$NDK_BIN/llvm-readelf" -h "$CANDIDATE"
+          "$NDK_BIN/llvm-readelf" -Ws "$CANDIDATE" > "artifacts/$ABI/jni-symbols.txt"
+          "$NDK_BIN/llvm-readelf" -d "$CANDIDATE" > "artifacts/$ABI/jni-dynamic.txt"
+          "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-jni-symbols.txt"
+          strings "$ORIGINAL" | grep -Ei 'version|sba|aegis|argon|zstd|tar|archive|invalid|unsupported|failed|error' | sort -u > "artifacts/$ABI/original-relevant-strings.txt" || true
+          strings "$ORIGINAL" | sort -u > "artifacts/$ABI/original-all-strings.txt"
+          grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/original-jni-symbols.txt" | sort -u > "artifacts/$ABI/original-jni-exports.txt"
+          grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/candidate-jni-exports.txt"
+          comm -23 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/missing-original-jni-exports.txt"
+          comm -13 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/extra-candidate-jni-exports.txt"
+          printf 'Original JNI exports: '; wc -l < "artifacts/$ABI/original-jni-exports.txt"
+          printf 'Candidate JNI exports: '; wc -l < "artifacts/$ABI/candidate-jni-exports.txt"
+          printf 'Missing original JNI exports: '; wc -l < "artifacts/$ABI/missing-original-jni-exports.txt"
+          if test -s "artifacts/$ABI/missing-original-jni-exports.txt"; then
+            echo "Candidate is incomplete; missing original JNI exports are recorded as an artifact. This build is not drop-in compatible."
+          fi
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
+
+          # Mirror the native-lib workflow's isolation model: only build-src is staged.
+          cp -a bare-implementation "build-src-$ABI"
+          install -m 0644 "$CANDIDATE" "build-src-$ABI/lib/$ABI/libsba_archive.so"
+          cp "build-src-$ABI/lib/$ABI/libsba_archive.so" "artifacts/$ABI/libsba_archive.so"
+          # Include an audit copy of the original so its native implementation can be disassembled offline.
+          cp "$ORIGINAL" "artifacts/$ABI/original-libsba_archive.so"
+          "$NDK_BIN/llvm-objdump" -d --demangle --disassemble-symbols=Java_com_swiftapps_sba_SbaRuntimeNative_version "$ORIGINAL" > "artifacts/$ABI/original-version-disassembly.txt"
+          printf 'ABI=%s\nGIT_SHA=%s\nORIGINAL_SHA256=' "$ABI" "$GITHUB_SHA" > "artifacts/$ABI/BUILD-METADATA.txt"
+          cat "build/original-$ABI.sha256" >> "artifacts/$ABI/BUILD-METADATA.txt"
+          sha256sum "artifacts/$ABI/libsba_archive.so" | tee "artifacts/$ABI/SHA256SUMS.txt"
+
+          # Prove the tracked original was not replaced or modified.
+          sha256sum --check "build/original-$ABI.sha256"
+      - name: Upload isolated candidate library
+        uses: actions/upload-artifact@v4
+        with:
+          name: libsba-archive-candidate-${{ matrix.abi }}
+          path: artifacts/${{ matrix.abi }}/
+          if-no-files-found: error
+          retention-days: 14
