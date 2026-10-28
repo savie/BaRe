@@ -110,6 +110,9 @@ jobs:
           cp -a bare-implementation "build-src-$ABI"
           install -m 0644 "$CANDIDATE" "build-src-$ABI/lib/$ABI/libsba_archive.so"
           cp "build-src-$ABI/lib/$ABI/libsba_archive.so" "artifacts/$ABI/libsba_archive.so"
+          # Include an audit copy of the original so its native implementation can be disassembled offline.
+          cp "$ORIGINAL" "artifacts/$ABI/original-libsba_archive.so"
+          "$NDK_BIN/llvm-objdump" -d --demangle --disassemble-symbols=Java_com_swiftapps_sba_SbaRuntimeNative_version "$ORIGINAL" > "artifacts/$ABI/original-version-disassembly.txt"
           printf 'ABI=%s\nGIT_SHA=%s\nORIGINAL_SHA256=' "$ABI" "$GITHUB_SHA" > "artifacts/$ABI/BUILD-METADATA.txt"
           cat "build/original-$ABI.sha256" >> "artifacts/$ABI/BUILD-METADATA.txt"
           sha256sum "artifacts/$ABI/libsba_archive.so" | tee "artifacts/$ABI/SHA256SUMS.txt"
