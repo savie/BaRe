@@ -28,6 +28,18 @@ T resolve(JNIEnv* env, const char* symbol) {
                         "Resolved legacy JNI export: %s", symbol);
     return reinterpret_cast<T>(address);
 }
+
+// Bridge the Bare callback object to the original interface expected by libsba_archive.
+jobject adaptProgressListener(JNIEnv* env, jobject listener) {
+    if (listener == nullptr) return nullptr;
+    jclass cls = env->FindClass("com/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter");
+    if (cls == nullptr) return nullptr;
+    jmethodID ctor = env->GetMethodID(cls, "<init>", "(Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)V");
+    if (ctor == nullptr) { env->DeleteLocalRef(cls); return nullptr; }
+    jobject result = env->NewObject(cls, ctor, listener);
+    env->DeleteLocalRef(cls);
+    return result;
+}
 }
 
 extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM*, void*) {
@@ -54,11 +66,13 @@ Java_com_bareapps_sba_SbaArchiveNative_createArchive(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaArchiveNative_createArchive");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, mode, outputPath, metadata, entryBytes, entryNames,
         entryFlags, entryOptions, entryMetadata, compression, compressionLevel,
         encryption, cipher, chunkSize, argonIterations, argonMemory,
         argonParallelism, argonOutputLength, flags, key, salt, nonce, extra,
-        progressListener);
+        legacyListener);
 }
 
 extern "C" JNIEXPORT jstring JNICALL
@@ -102,8 +116,10 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, fd, entryOffset, chunkSize, key, nonce, aad,
-              plainSize, cipherSize, flags, progressListener);
+              plainSize, cipherSize, flags, legacyListener);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
@@ -116,8 +132,10 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, fd, entryOffset, chunkSize, key, nonce, aad,
-              plainSize, cipherSize, flags, progressListener);
+              plainSize, cipherSize, flags, legacyListener);
 }
 
 extern "C" JNIEXPORT jbyteArray JNICALL
@@ -148,7 +166,9 @@ Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw");
     if (fn == nullptr) return nullptr;
-    return fn(env, self, inputFd, outputFd, expectedSize, progressListener);
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
+    return fn(env, self, inputFd, outputFd, expectedSize, legacyListener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
@@ -160,7 +180,9 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw");
     if (fn == nullptr) return nullptr;
-    return fn(env, self, fd, offset, destination, flags, options, progressListener);
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
+    return fn(env, self, fd, offset, destination, flags, options, legacyListener);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
@@ -172,7 +194,9 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw");
     if (fn == nullptr) return nullptr;
-    return fn(env, self, fd, offset, destination, flags, options, progressListener);
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
+    return fn(env, self, fd, offset, destination, flags, options, legacyListener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
@@ -184,8 +208,10 @@ Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, fd, offset, compressedSize, destination, flags, options,
-              progressListener);
+              legacyListener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
@@ -221,9 +247,11 @@ Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, archivePath, entryOffset, plainSize, cipherSize,
         entrySize, destination, flags, options, chunkSize, cipher, key, nonce,
-        aad, metadataOffset, metadataSize, progressListener);
+        aad, metadataOffset, metadataSize, legacyListener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
@@ -239,8 +267,10 @@ Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
     Fn fn = resolve<Fn>(env,
         "Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused");
     if (fn == nullptr) return nullptr;
+    jobject legacyListener = adaptProgressListener(env, progressListener);
+    if (progressListener != nullptr && legacyListener == nullptr) return nullptr;
     return fn(env, self, archivePath, entryOffset, plainSize, cipherSize,
         entrySize, destination, flags, options, chunkSize, cipher, key, nonce,
-        aad, metadataOffset, metadataSize, progressListener);
+        aad, metadataOffset, metadataSize, legacyListener);
 }
 
