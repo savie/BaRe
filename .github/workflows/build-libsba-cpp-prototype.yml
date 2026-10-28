@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - feat/libsba-archive-cpp
+      - feat/firebase-only-backend
     paths:
       - "tools/libsba-archive-cpp/**"
       - ".github/workflows/build-libsba-cpp-prototype.yml"
@@ -72,7 +73,13 @@ jobs:
           export ANDROID_NDK_VERSION="27.2.12479018"
           tools/libsba-archive-cpp/build-prototype.sh "$ABI" "artifacts/$ABI"
           NDK_BIN="$ANDROID_HOME/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin"
-                    ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
+          grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
+          ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
           test -f "$ORIGINAL"
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-symbols-all.txt"
           # JNI may be registered dynamically rather than exported as Java_* symbols.
