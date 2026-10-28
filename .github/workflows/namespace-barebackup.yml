@@ -119,6 +119,18 @@ jobs:
           NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
           test -f tools/sba-jni-compat/sba_compat.cpp
           while IFS=: read -r abi target; do
+            original="build-src/lib/$abi/libsba_archive.so"
+            test -f "$original" || { echo "Missing original $original" >&2; exit 1; }
+            "$NDK_BIN/llvm-readelf" -Ws "$original" > "build/$abi-sba-archive-symbols.txt"
+            for symbol in \
+              Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable \
+              Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw \
+              Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw; do
+              if ! grep -q "$symbol" "build/$abi-sba-archive-symbols.txt"; then
+                echo "Original $original does not export required legacy JNI symbol: $symbol" >&2
+                exit 1
+              fi
+            done
             out="build-src/lib/$abi/libsba_compat.so"
             mkdir -p "build-src/lib/$abi"
             "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
