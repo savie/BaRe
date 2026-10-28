@@ -15,6 +15,7 @@ on:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
+      - "tools/libsba-archive-cpp/**"
       - "tools/prepare-barebackup-build.py"
 
 permissions:
@@ -105,6 +106,34 @@ jobs:
           sha256sum build-src/lib/*/libnative-lib.so
           "$NDK_BIN/clang++" --version | head -n 1
           "$NDK_BIN/llvm-readelf" --version | head -n 1
+
+      - name: Replace libsba archive in isolated APK copy (compatibility gate)
+        if: ${{ vars.SBA_CPP_REPLACEMENT_APPROVED == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # This gate stays closed until the original JNI/API and differential tests are complete.
+          test -f tools/libsba-archive-cpp/COMPATIBILITY-APPROVED || {
+            echo "Refusing libsba replacement: missing tools/libsba-archive-cpp/COMPATIBILITY-APPROVED approval manifest." >&2
+            exit 1
+          }
+          mkdir -p build/libsba-cpp/replacement
+          for ABI in arm64-v8a armeabi-v7a x86 x86_64; do
+            ORIGINAL="$GITHUB_WORKSPACE/bare-implementation/lib/$ABI/libsba_archive.so"
+            BUILD_COPY="$GITHUB_WORKSPACE/build-src/lib/$ABI/libsba_archive.so"
+            test -f "$ORIGINAL"
+            test -f "$BUILD_COPY"
+            sha256sum "$ORIGINAL" > "build/libsba-cpp/original-$ABI.sha256"
+            export SBA_LIBRARY_OUTPUT_NAME=sba_archive
+            bash tools/libsba-archive-cpp/build-prototype.sh "$ABI" "build/libsba-cpp/replacement/$ABI"
+            NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+            bash tools/libsba-archive-cpp/verify-jni-surface.sh \
+              "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$NDK_BIN/llvm-readelf"
+            cp "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$BUILD_COPY"
+            cmp "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$BUILD_COPY"
+            sha256sum -c "build/libsba-cpp/original-$ABI.sha256"
+            echo "Built libsba candidate for $ABI into build-src only; checked-in original is unchanged."
+          done
 
       - name: Rebuild unsigned APK
         run: |
