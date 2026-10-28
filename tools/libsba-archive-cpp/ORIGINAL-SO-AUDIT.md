@@ -52,7 +52,7 @@ The current candidate intentionally remains isolated. It does not yet implement 
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.isAvailable`
-- `SbaRuntimeNative.version` (the original return value must be recovered; no made-up version string)
+- `SbaRuntimeNative.version` (recovered from original x86_64 disassembly: returns `SwiftTar`; implemented in candidate)
 - `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
 - `SbaSwiftTarNative.extractAegisArchiveEntry`
 - `SbaSwiftTarNative.extractAegisArchiveEntryFused`
@@ -66,8 +66,8 @@ The workflow emits `missing-original-jni-exports.txt` and `extra-candidate-jni-e
 
 ## Next reverse-engineering priorities
 
-1. Recover the original `SbaRuntimeNative.version()` return value from the binary's code/data and preserve its exact contract.
-2. Map all JNI exports to exact Smali descriptors and callers, including exports not present in the current decompiled Java wrapper.
+1. Confirm `SbaRuntimeNative.version()` returns `SwiftTar` on all four original ABIs; x86_64 disassembly and its referenced string establish this implementation.
+2. Map all remaining JNI exports to exact Smali descriptors and callers, including exports not present in the current decompiled Java wrapper.
 3. Recover the `SBA1` header/index layout and creation parameters from `createArchive` call sites and the original binary.
 4. Recover AEGIS chunk framing using the observed AAD/nonce domain strings, then verify with original-generated fixtures and known-answer tests.
 5. Implement TAR create/extract behavior only after matching the original's path validation, sparse file, PAX, xattr, metadata, progress, and return-array semantics.
