@@ -4,7 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       use_sba_cpp_candidate:
-        description: "Build and stage the C++ libsba candidate only if its JNI exports exactly match the original"
+        description: "Build and stage the C++ libsba candidate in the disposable APK tree"
+        required: true
+        type: boolean
+        default: false
+      confirm_sba_runtime_compatibility:
+        description: "Confirm original-fixture and backup/restore compatibility tests passed"
         required: true
         type: boolean
         default: false
@@ -114,7 +119,7 @@ jobs:
           "$NDK_BIN/llvm-readelf" --version | head -n 1
 
       - name: Build and gate optional C++ libsba candidate
-        if: ${{ inputs.use_sba_cpp_candidate }}
+        if: ${{ inputs.use_sba_cpp_candidate && inputs.confirm_sba_runtime_compatibility }}
         shell: bash
         run: |
           set -euo pipefail
