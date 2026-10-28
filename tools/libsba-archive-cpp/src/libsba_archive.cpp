@@ -1066,7 +1066,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
         throwJava(env, "java/io/IOException", "TAR path metadata exceeds 1 MiB safety limit");
         return nullptr;
       }
-      std::string metadata(static_cast<std::size_t>(size), '\\0');
+      std::string metadata(static_cast<std::size_t>(size), '\0');
       if (size > 0) {
         got = 0;
         if (!readExact(input_fd, metadata.data(), static_cast<std::size_t>(size), &got) || got != size) {
@@ -1085,7 +1085,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
       }
       consumed += padded;
       if (type == 'L') {
-        while (!metadata.empty() && (metadata.back() == '\\0' || metadata.back() == '\\n')) metadata.pop_back();
+        while (!metadata.empty() && (metadata.back() == '\0' || metadata.back() == '\n')) metadata.pop_back();
         pending_name = metadata;
         pending_name_set = true;
       } else {
@@ -1104,7 +1104,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
             return nullptr;
           }
           const std::size_t record_end = pos + static_cast<std::size_t>(record_len);
-          if (record_end > metadata.size() || metadata[record_end - 1] != '\\n') {
+          if (record_end > metadata.size() || metadata[record_end - 1] != '\n') {
             throwJava(env, "java/io/IOException", "truncated PAX record");
             return nullptr;
           }
