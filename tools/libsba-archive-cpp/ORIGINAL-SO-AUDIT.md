@@ -11,6 +11,7 @@ Original exports:
 - `SbaArchiveNative.createArchive`
 - `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`
+- `SbaLibaegisCryptoNative.isAvailable`
 - `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
 - `SbaNativeCrypto.deriveArgon2id`
 - `SbaRuntimeNative.version`
