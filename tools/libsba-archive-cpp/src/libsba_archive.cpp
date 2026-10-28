@@ -1191,9 +1191,109 @@ SBA_UNIMPLEMENTED_LONG_ARRAY(
     Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw,
     "TAR extraction with statistics")
 
-SBA_UNIMPLEMENTED_OBJECT_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw,
-    "Zstandard TAR extraction")
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
+    JNIEnv* env, jobject self, jint input_fd, jlong input_offset,
+    jlong compressed_size, jstring destination, jint options,
+    jobjectArray filters, jobject progress_listener) {
+  if (input_fd < 0 || input_offset < 0 || compressed_size <= 0 ||
+      input_offset > static_cast<jlong>(std::numeric_limits<off_t>::max()) ||
+      compressed_size > static_cast<jlong>(std::numeric_limits<off_t>::max()) - input_offset) {
+    throwJava(env, "java/lang/IllegalArgumentException", "invalid compressed TAR range");
+    return nullptr;
+  }
+  std::FILE* temporary = std::tmpfile();
+  if (temporary == nullptr) {
+    throwJava(env, "java/io/IOException",
+        std::string("cannot create temporary TAR stream: ") + std::strerror(errno));
+    return nullptr;
+  }
+  const int temporary_fd = ::fileno(temporary);
+  ZSTD_DStream* stream = ZSTD_createDStream();
+  if (stream == nullptr) {
+    std::fclose(temporary);
+    throwJava(env, "java/lang/OutOfMemoryError", "cannot allocate Zstandard stream");
+    return nullptr;
+  }
+  std::size_t zr = ZSTD_initDStream(stream);
+  if (ZSTD_isError(zr)) {
+    ZSTD_freeDStream(stream);
+    std::fclose(temporary);
+    throwJava(env, "java/lang/IllegalStateException", ZSTD_getErrorName(zr));
+    return nullptr;
+  }
+  constexpr std::size_t kChunk = 64 * 1024;
+  std::vector<std::uint8_t> input(kChunk), output(kChunk);
+  std::uint64_t total_input = 0, total_output = 0;
+  std::size_t remaining = 1;
+  std::string error;
+  bool failed = false;
+  while (total_input < static_cast<std::uint64_t>(compressed_size)) {
+    const std::size_t want = static_cast<std::size_t>(std::min<std::uint64_t>(
+        input.size(), static_cast<std::uint64_t>(compressed_size) - total_input));
+    ssize_t n;
+    do { n = ::pread(input_fd, input.data(), want,
+        static_cast<off_t>(input_offset + static_cast<jlong>(total_input))); }
+    while (n < 0 && errno == EINTR);
+    if (n <= 0) {
+      error = n < 0 ? std::string("read compressed TAR failed: ") + std::strerror(errno)
+                    : "compressed TAR range is truncated";
+      failed = true;
+      break;
+    }
+    total_input += static_cast<std::uint64_t>(n);
+    ZSTD_inBuffer in{input.data(), static_cast<std::size_t>(n), 0};
+    while (in.pos < in.size) {
+      ZSTD_outBuffer out{output.data(), output.size(), 0};
+      remaining = ZSTD_decompressStream(stream, &out, &in);
+      if (ZSTD_isError(remaining)) {
+        error = std::string("invalid Zstandard TAR: ") + ZSTD_getErrorName(remaining);
+        failed = true;
+        break;
+      }
+      std::size_t off = 0;
+      while (off < out.pos) {
+        ssize_t written;
+        do { written = ::write(temporary_fd, output.data() + off, out.pos - off); }
+        while (written < 0 && errno == EINTR);
+        if (written <= 0) {
+          error = std::string("write temporary TAR failed: ") + std::strerror(errno);
+          failed = true;
+          break;
+        }
+        off += static_cast<std::size_t>(written);
+      }
+      if (failed) break;
+      total_output += out.pos;
+      if (total_output > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+        error = "decompressed TAR size exceeds supported range";
+        failed = true;
+        break;
+      }
+    }
+    if (failed) break;
+  }
+  ZSTD_freeDStream(stream);
+  if (!failed && (total_input != static_cast<std::uint64_t>(compressed_size) ||
+                  remaining != 0 || total_output == 0)) {
+    error = "truncated or empty Zstandard TAR stream";
+    failed = true;
+  }
+  if (!failed && ::lseek(temporary_fd, 0, SEEK_SET) < 0) {
+    error = std::string("rewind temporary TAR failed: ") + std::strerror(errno);
+    failed = true;
+  }
+  jobjectArray result = nullptr;
+  if (failed) {
+    throwJava(env, "java/io/IOException", error);
+  } else {
+    result = Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+        env, self, temporary_fd, static_cast<jlong>(total_output),
+        destination, options, filters, progress_listener);
+  }
+  std::fclose(temporary);
+  return result;
+}
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaZstdNative_compressZstdFdToFdRaw(
