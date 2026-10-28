@@ -65,3 +65,34 @@ Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
     return fn(env, self, fd, entryOffset, chunkSize, key, nonce, aad,
               plainSize, cipherSize, flags, progressListener);
 }
+
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_com_bareapps_sba_SbaZstdNative_compressZstdBytes(
+    JNIEnv* env, jobject self, jbyteArray input, jint level) {
+    using Fn = jbyteArray (JNICALL *)(JNIEnv*, jobject, jbyteArray, jint);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, input, level);
+}
+
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes(
+    JNIEnv* env, jobject self, jbyteArray input) {
+    using Fn = jbyteArray (JNICALL *)(JNIEnv*, jobject, jbyteArray);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, input);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
+    JNIEnv* env, jobject self, jint inputFd, jint outputFd, jlong expectedSize,
+    jobject progressListener) {
+    using Fn = jlongArray (JNICALL *)(JNIEnv*, jobject, jint, jint, jlong, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, inputFd, outputFd, expectedSize, progressListener);
+}
