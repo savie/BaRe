@@ -782,3 +782,10 @@ Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
   for (std::size_t i = 0; i < output.size(); ++i) output_ptr[i] = 0;
   return result;
 }
+
+
+// This identifies the isolated prototype explicitly; it is not a claim of drop-in compatibility.
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_swiftapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject /* self */) {
+  return env->NewStringUTF("sba_archive_cpp/0.1.0-prototype");
+}
