@@ -125,7 +125,10 @@ jobs:
             for symbol in \
               Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable \
               Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw \
-              Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw; do
+              Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
+              Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes \
+              Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes \
+              Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw; do
               if ! grep -q "$symbol" "build/$abi-sba-archive-symbols.txt"; then
                 echo "Original $original does not export required legacy JNI symbol: $symbol" >&2
                 exit 1
