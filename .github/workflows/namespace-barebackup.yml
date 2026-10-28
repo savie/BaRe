@@ -72,6 +72,13 @@ jobs:
           python3 tools/prepare-barebackup-build.py
           # Apply compatibility changes only to build-src; tracked source files stay unchanged.
           python3 tools/patch-sba-jni-compat.py build-src
+          for smali in \
+            build-src/smali/com/bareapps/sba/SbaLibaegisCryptoNative.smali \
+            build-src/smali/com/bareapps/sba/SbaZstdNative.smali; do
+            grep -q 'const-string v0, "sba_compat"' "$smali"
+            grep -q 'System;->loadLibrary(Ljava/lang/String;)V' "$smali"
+            echo "Validated staged SBA compatibility loader: $smali"
+          done
 
       - name: Replace native library with reconstructed JNI implementation
         shell: bash
@@ -141,9 +148,18 @@ jobs:
               tools/sba-jni-compat/sba_compat.cpp -o "$out" -ldl -llog
             "$NDK_BIN/llvm-readelf" -Ws "$out" > "build/$abi-sba-compat-symbols.txt"
             "$NDK_BIN/llvm-readelf" -d "$out" > "build/$abi-sba-compat-dynamic.txt"
-            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable' "build/$abi-sba-compat-symbols.txt"
-            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw' "build/$abi-sba-compat-symbols.txt"
-            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw' "build/$abi-sba-compat-symbols.txt"
+            for symbol in \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
+              Java_com_bareapps_sba_SbaZstdNative_compressZstdBytes \
+              Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes \
+              Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw; do
+              if ! grep -q "$symbol" "build/$abi-sba-compat-symbols.txt"; then
+                echo "Shim $out does not export required bare JNI symbol: $symbol" >&2
+                exit 1
+              fi
+            done
             if grep -q 'NEEDED.*libc++_shared\\.so' "build/$abi-sba-compat-dynamic.txt"; then
               echo "Unexpected libc++_shared.so dependency in $abi SBA compatibility shim" >&2
               exit 1
