@@ -126,9 +126,11 @@ for row in rows:
 for row in rows:
     if overloads[(row["class"], row["method"])] > 1 and row["method"] != "<parse-error>":
         args = row["descriptor"][1:row["descriptor"].find(")")]
-        suffix = "__" + jni_escape_signature(args)
-        row["bare_symbol"] += suffix
-        row["legacy_symbol"] += suffix
+        bare_suffix = "__" + jni_escape_signature(args)
+        legacy_args = args.replace("Lcom/bareapps/sba/", "Lcom/swiftapps/sba/")
+        legacy_suffix = "__" + jni_escape_signature(legacy_args)
+        row["bare_symbol"] += bare_suffix
+        row["legacy_symbol"] += legacy_suffix
 
 abis = ("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
 fieldnames = ["abi", "class", "method", "descriptor", "source", "line",
