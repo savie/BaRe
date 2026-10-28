@@ -17,6 +17,7 @@ on:
       - "tools/prepare-barebackup-build.py"
       - "tools/sba-jni-compat/**"
       - "tools/patch-sba-jni-compat.py"
+      - "tools/audit-sba-jni.py"
 
 permissions:
   contents: read
@@ -178,7 +179,17 @@ jobs:
           x86:i686-linux-android24
           x86_64:x86_64-linux-android24
           ABIS
+          python3 tools/audit-sba-jni.py build-src build
+          echo "Generated full SBA JNI declaration/export matrix."
           sha256sum build-src/lib/*/libsba_compat.so
+
+      - name: Upload SBA JNI audit matrix
+        uses: actions/upload-artifact@v4
+        with:
+          name: sba-jni-audit-matrix
+          path: build/sba-jni-matrix.csv
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Rebuild unsigned APK
         run: |
