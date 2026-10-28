@@ -163,6 +163,37 @@ with output.open("w", newline="", encoding="utf-8") as handle:
                 "legacy_export": "yes" if legacy_found else "no",
                 "assessment": assessment,
             })
+
+        # Also inventory every ORI SBA JNI export, including exports for which
+        # the Bare tree has no corresponding native declaration.
+        represented = {row["legacy_symbol"] for row in rows if row["legacy_symbol"]}
+        extra_count = 0
+        for symbol in sorted(original):
+            if not symbol.startswith("Java_com_swiftapps_sba_"):
+                continue
+            if any(symbol == expected or symbol.startswith(expected + "__")
+                   for expected in represented):
+                continue
+            bare_candidate = symbol.replace("Java_com_swiftapps_sba_", "Java_com_bareapps_sba_", 1)
+            bare_candidate = bare_candidate.replace(
+                "Java_com_bareapps_sba_SbaSwiftTarNative_",
+                "Java_com_bareapps_sba_SbaBareTarNative_", 1)
+            bare_found = bare_candidate in compat
+            writer.writerow({
+                "abi": abi,
+                "class": "<ORI export without matched Bare declaration>",
+                "method": symbol.rsplit("_", 1)[-1],
+                "descriptor": "",
+                "source": "libsba_archive.so",
+                "line": "",
+                "bare_symbol": bare_candidate,
+                "legacy_symbol": symbol,
+                "bare_export": "yes" if bare_found else "no",
+                "legacy_export": "yes",
+                "assessment": "ORI_EXPORT_WITHOUT_MATCHING_BARE_DECLARATION",
+            })
+            extra_count += 1
+        tally["ORI_EXPORT_WITHOUT_MATCHING_BARE_DECLARATION"] = extra_count
         counts[abi] = tally
 
 print(f"Native declarations audited: {len(rows)}")
