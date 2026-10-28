@@ -13,6 +13,7 @@ relative_paths = (
     Path("smali/com/bareapps/sba/SbaArchiveNative.smali"),
     Path("smali/com/bareapps/sba/SbaRuntimeNative.smali"),
     Path("smali/com/bareapps/sba/SbaZstdNative.smali"),
+    Path("smali/com/bareapps/sba/SbaBareTarNative.smali"),
 )
 needle = 'invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
 for relative in relative_paths:
