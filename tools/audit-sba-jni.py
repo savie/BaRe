@@ -23,9 +23,10 @@ if len(sys.argv) != 3:
 
 root = Path(sys.argv[1])
 build = Path(sys.argv[2])
-smali_root = root / "smali" / "com" / "bareapps" / "sba"
-if not smali_root.is_dir():
-    raise SystemExit(f"Missing SBA Smali root: {smali_root}")
+smali_roots = [p / "com" / "bareapps" / "sba" for p in root.glob("smali*")]
+smali_roots = [p for p in smali_roots if p.is_dir()]
+if not smali_roots:
+    raise SystemExit(f"Missing SBA Smali roots under {root}/smali*")
 
 # The implementation renamed the legacy SwiftTar wrapper class.
 LEGACY_CLASS = {"SbaBareTarNative": "SbaSwiftTarNative"}
@@ -41,46 +42,47 @@ def symbol_for(package: str, class_name: str, method: str) -> str:
 
 def parse_declarations():
     rows = []
-    for path in sorted(smali_root.rglob("*.smali")):
-        content = path.read_text(encoding="utf-8", errors="replace")
-        class_match = re.search(r"^\.class\s+[^\n]*?L([^;]+);", content, re.M)
-        if not class_match:
-            continue
-        class_path = class_match.group(1)
-        if not class_path.startswith("com/bareapps/sba/"):
-            continue
-        package, class_name = class_path.rsplit("/", 1)
-        package = package.replace("/", ".")
-        for line_no, line in enumerate(content.splitlines(), 1):
-            if not re.search(r"\.method\s+.*\bnative\b", line):
+    for smali_root in smali_roots:
+        for path in sorted(smali_root.rglob("*.smali")):
+            content = path.read_text(encoding="utf-8", errors="replace")
+            class_match = re.search(r"^\.class\s+[^\n]*?L([^;]+);", content, re.M)
+            if not class_match:
                 continue
-            match = re.search(r"\.method\s+.*?\bnative\s+([A-Za-z0-9_$<>]+)\((.*)\)(\S+)", line)
-            if not match:
+            class_path = class_match.group(1)
+            if not class_path.startswith("com/bareapps/sba/"):
+                continue
+            package, class_name = class_path.rsplit("/", 1)
+            package = package.replace("/", ".")
+            for line_no, line in enumerate(content.splitlines(), 1):
+                if not re.search(r"\.method\s+.*\bnative\b", line):
+                    continue
+                match = re.search(r"\.method\s+.*?\bnative\s+([A-Za-z0-9_$<>]+)\((.*)\)(\S+)", line)
+                if not match:
+                    rows.append({
+                        "class": class_path.replace("/", "."),
+                        "method": "<parse-error>",
+                        "descriptor": line.strip(),
+                        "line": line_no,
+                        "bare_symbol": "",
+                        "legacy_symbol": "",
+                        "source": str(path.relative_to(root)),
+                    })
+                    continue
+                method = match.group(1)
+                descriptor = "(" + match.group(2) + ")" + match.group(3)
+                bare = symbol_for(package, class_name, method)
+                legacy_class = LEGACY_CLASS.get(class_name, class_name)
+                legacy_pkg = package.replace("com.bareapps.sba", "com.swiftapps.sba", 1)
+                legacy = symbol_for(legacy_pkg, legacy_class, method)
                 rows.append({
                     "class": class_path.replace("/", "."),
-                    "method": "<parse-error>",
-                    "descriptor": line.strip(),
+                    "method": method,
+                    "descriptor": descriptor,
                     "line": line_no,
-                    "bare_symbol": "",
-                    "legacy_symbol": "",
+                    "bare_symbol": bare,
+                    "legacy_symbol": legacy,
                     "source": str(path.relative_to(root)),
                 })
-                continue
-            method = match.group(1)
-            descriptor = "(" + match.group(2) + ")" + match.group(3)
-            bare = symbol_for(package, class_name, method)
-            legacy_class = LEGACY_CLASS.get(class_name, class_name)
-            legacy_pkg = package.replace("com.bareapps.sba", "com.swiftapps.sba", 1)
-            legacy = symbol_for(legacy_pkg, legacy_class, method)
-            rows.append({
-                "class": class_path.replace("/", "."),
-                "method": method,
-                "descriptor": descriptor,
-                "line": line_no,
-                "bare_symbol": bare,
-                "legacy_symbol": legacy,
-                "source": str(path.relative_to(root)),
-            })
     return rows
 
 def exports(path: Path) -> set[str]:
@@ -96,7 +98,7 @@ def exports(path: Path) -> set[str]:
 
 rows = parse_declarations()
 if not rows:
-    raise SystemExit(f"No native declarations found below {smali_root}")
+    raise SystemExit(f"No native declarations found below {root}/smali*/com/bareapps/sba")
 
 abis = ("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
 fieldnames = ["abi", "class", "method", "descriptor", "source", "line",
