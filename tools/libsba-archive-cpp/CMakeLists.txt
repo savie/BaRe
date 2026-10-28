@@ -66,4 +66,10 @@ target_include_directories(sba_archive PRIVATE "${zstd_SOURCE_DIR}/lib" "${argon
 target_include_directories(sba_archive PRIVATE "${libaegis_SOURCE_DIR}/src/include")
 target_link_libraries(sba_archive PRIVATE libzstd_static argon2_ref aegis log)
 target_compile_options(sba_archive PRIVATE -Wall -Wextra -Wpedantic -Werror=return-type)
-set_target_properties(sba_archive PROPERTIES OUTPUT_NAME "sba_archive")
+# Export only explicit JNIEXPORT entry points. This prevents local C++ helpers
+# (including lambda call operators) from appearing as unexpected JNI symbols.
+set_target_properties(sba_archive PROPERTIES
+  OUTPUT_NAME "sba_archive"
+  CXX_VISIBILITY_PRESET hidden
+  VISIBILITY_INLINES_HIDDEN YES
+)
