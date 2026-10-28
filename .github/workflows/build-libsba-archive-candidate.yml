@@ -32,6 +32,24 @@ jobs:
             -o /tmp/argon2id_kat
           /tmp/argon2id_kat
 
+  aegis-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned libaegis and test AEGIS-256/128X2 authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone https://github.com/aegis-aead/libaegis.git /tmp/libaegis
+          git -C /tmp/libaegis checkout 0bb16395782de7d3b0ec28735c5e7e09e6551c93
+          cmake -S /tmp/libaegis -B /tmp/libaegis-build -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/libaegis-build --parallel 2
+          cc -std=c99 -O2 -I/tmp/libaegis/src/include \
+            tools/libsba-archive-cpp/tests/aegis_smoke.c \
+            /tmp/libaegis-build/libaegis.a -o /tmp/aegis-smoke
+          /tmp/aegis-smoke
+
   build-candidate:
     runs-on: ubuntu-latest
     timeout-minutes: 35
