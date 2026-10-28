@@ -31,9 +31,9 @@ mkdir -p "$OUTPUT_DIR"
 cp "$BUILD_DIR/lib${OUTPUT_NAME}.so" "$OUTPUT_DIR/lib${OUTPUT_NAME}.so"
 NDK_BIN="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
 "$NDK_BIN/llvm-readelf" -h "$OUTPUT_DIR/lib${OUTPUT_NAME}.so"
-"$NDK_BIN/llvm-readelf" -Ws "$OUTPUT_DIR/libsba_archive_cpp.so" > "$OUTPUT_DIR/jni-symbols.txt"
+"$NDK_BIN/llvm-readelf" -Ws "$OUTPUT_DIR/lib${OUTPUT_NAME}.so" > "$OUTPUT_DIR/jni-symbols.txt"
 printf 'ABI=%s\nGIT_SHA=%s\n' "$ABI" "${GITHUB_SHA:-local}" > "$OUTPUT_DIR/BUILD-METADATA.txt"
-sha256sum "$OUTPUT_DIR/libsba_archive_cpp.so" | tee "$OUTPUT_DIR/SHA256SUMS.txt"
+sha256sum "$OUTPUT_DIR/lib${OUTPUT_NAME}.so" | tee "$OUTPUT_DIR/SHA256SUMS.txt"
 
-# Safety invariant: this helper only emits a separately named prototype artifact.
-# It never writes to bare-implementation/lib or modifies the original APK copy.
+# Safety invariant: this helper writes only to OUTPUT_DIR. It never writes to
+# bare-implementation/lib; callers must explicitly choose an isolated build-copy destination.
