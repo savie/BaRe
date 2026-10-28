@@ -1722,6 +1722,18 @@
     return-void
 .end method
 
+.method public final onResume()V
+    .locals 1
+
+    invoke-super {p0}, Landroidx/fragment/app/u;->onResume()V
+
+    # Refresh permission-card state after returning from Android Settings.
+    const/4 v0, 0x0
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/intro/IntroActivity;->Y(Z)V
+
+    return-void
+.end method
+
 .method public final onActivityResult(IILandroid/content/Intent;)V
     .locals 7
 
