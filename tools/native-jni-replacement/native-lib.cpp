@@ -14,7 +14,7 @@
 
 namespace {
 
-// Reconstructed SwiftBackup 5.1.0 (620) JNI implementation XOR-encodes these constants with 0x2e.
+// Reconstructed JNI compatibility implementation for the BΛR☰ namespace; client ID constants remain XOR-encoded with 0x2e.
 constexpr unsigned char kAndroidClientId[] = {
     0x1f, 0x1e, 0x1c, 0x17, 0x16, 0x1f, 0x1f, 0x18, 0x1d, 0x1a, 0x1a, 0x19,
     0x1c, 0x03, 0x4c, 0x1f, 0x1e, 0x4d, 0x4a, 0x44, 0x1e, 0x5f, 0x5f, 0x4b,
@@ -76,20 +76,20 @@ int clampReferenceTimeout(int timeout_ms) {
 }  // namespace
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId(JNIEnv* env, jobject) {
+Java_com_bareapps_barebackup_BareApp_getGoogleAuthAndroidClientId(JNIEnv* env, jobject) {
     const std::string client_id =
         decodeClientId(kAndroidClientId, sizeof(kAndroidClientId));
     return env->NewStringUTF(client_id.c_str());
 }
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId(JNIEnv* env, jobject) {
+Java_com_bareapps_barebackup_BareApp_getGoogleAuthWebClientId(JNIEnv* env, jobject) {
     const std::string client_id = decodeClientId(kWebClientId, sizeof(kWebClientId));
     return env->NewStringUTF(client_id.c_str());
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
-Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission(
+Java_com_bareapps_barebackup_BareApp_isLocalNetworkTcpBlockedByPermission(
     JNIEnv* env, jobject, jstring host, jint port, jint timeout_ms) {
     if (host == nullptr || port < 1 || port > 65535) {
         return JNI_FALSE;
