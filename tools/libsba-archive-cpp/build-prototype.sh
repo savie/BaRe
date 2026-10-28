@@ -23,8 +23,7 @@ cmake -S "$ROOT/tools/libsba-archive-cpp" -B "$BUILD_DIR" \
   -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN" \
   -DANDROID_ABI="$ABI" \
   -DANDROID_PLATFORM=android-24 \
-  -DCMAKE_BUILD_TYPE=Release \\
-  -DSBA_LIBRARY_OUTPUT_NAME="$OUTPUT_NAME"
+  -DCMAKE_BUILD_TYPE=Release -DSBA_LIBRARY_OUTPUT_NAME="$OUTPUT_NAME"
 cmake --build "$BUILD_DIR" --parallel "${BUILD_JOBS:-2}"
 
 mkdir -p "$OUTPUT_DIR"
