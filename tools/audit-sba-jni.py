@@ -40,6 +40,24 @@ def symbol_for(package: str, class_name: str, method: str) -> str:
     cls = (package + "." + class_name).replace(".", "/")
     return "Java_" + jni_escape(cls) + "_" + jni_escape(method)
 
+def jni_escape_signature(signature: str) -> str:
+    # JNI long-name suffix encoding for the argument descriptor only.
+    out = []
+    for char in signature:
+        if char.isascii() and char.isalnum():
+            out.append(char)
+        elif char == "_":
+            out.append("_1")
+        elif char == ";":
+            out.append("_2")
+        elif char == "[":
+            out.append("_3")
+        elif char == "/":
+            out.append("_")
+        else:
+            out.append(f"_0{ord(char):04x}")
+    return "".join(out)
+
 def parse_declarations():
     rows = []
     for smali_root in smali_roots:
@@ -99,6 +117,18 @@ def exports(path: Path) -> set[str]:
 rows = parse_declarations()
 if not rows:
     raise SystemExit(f"No native declarations found below {root}/smali*/com/bareapps/sba")
+
+# JNI requires descriptor suffixes when the same class overloads a native method.
+overloads = {}
+for row in rows:
+    key = (row["class"], row["method"])
+    overloads[key] = overloads.get(key, 0) + 1
+for row in rows:
+    if overloads[(row["class"], row["method"])] > 1 and row["method"] != "<parse-error>":
+        args = row["descriptor"][1:row["descriptor"].find(")")]
+        suffix = "__" + jni_escape_signature(args)
+        row["bare_symbol"] += suffix
+        row["legacy_symbol"] += suffix
 
 abis = ("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
 fieldnames = ["abi", "class", "method", "descriptor", "source", "line",
