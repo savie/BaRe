@@ -45,23 +45,40 @@ It also contains error strings for malformed/truncated Zstandard frames, SBA met
 
 ## Compatibility gaps in the current C++ candidate
 
-The current candidate intentionally remains isolated. It does not yet implement these original exports:
+The current candidate exports seven methods. Comparing against the original binary reports 13 original exports not yet implemented. Of those, **nine are declared by the current Java/Smali API and are required for the current APK**; four are legacy exports found in the original binary but absent from the current decompiled `SbaZstdNative`, `SbaSwiftTarNative`, and `SbaLibaegisCryptoNative` declarations.
+
+### Required by current Java/Smali declarations
 
 - `SbaArchiveNative.createArchive`
 - `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`
-- `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.isAvailable`
-- `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
 - `SbaSwiftTarNative.extractAegisArchiveEntry`
 - `SbaSwiftTarNative.extractAegisArchiveEntryFused`
 - `SbaSwiftTarNative.extractTarFromFdRaw`
 - `SbaSwiftTarNative.extractTarFromFdWithStatsRaw`
 - `SbaSwiftTarNative.extractTarZstdFromFdRaw`
+
+The current source declarations establish these JNI descriptors:
+
+- `SbaArchiveNative.createArchive`: `(ILjava/lang/String;[B[[B[Ljava/lang/String;[I[[Ljava/lang/String;[[Ljava/lang/String;IIIIIIIIII[B[B[B[BLcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
+- `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw`: `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
+- `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`: `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
+- `SbaLibaegisCryptoNative.isAvailable`: `()Z`
+- `SbaSwiftTarNative.extractAegisArchiveEntry` and `extractAegisArchiveEntryFused`: `(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;`
+- `SbaSwiftTarNative.extractTarFromFdRaw` and `extractTarFromFdWithStatsRaw`: `(IJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;` and `(IJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J` respectively.
+- `SbaSwiftTarNative.extractTarZstdFromFdRaw`: `(IJJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;`
+
+### Additional legacy exports present in the original binary
+
+These four symbols are in the original `.so` but not declared by the current decompiled Java wrappers. Their historical descriptors/callers still need investigation before deciding whether to reproduce them:
+
+- `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
+- `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
 - `SbaZstdNative.compressZstdFdToFdRaw`
 - `SbaZstdNative.compressZstdFileToFdRaw`
 
-The workflow emits `missing-original-jni-exports.txt` and `extra-candidate-jni-exports.txt` per ABI. The candidate must have no extra exports that are not grounded in the original contract, and every original export must be implemented with matching signature and behavior before integration.
+The candidate workflow emits `missing-original-jni-exports.txt` and `extra-candidate-jni-exports.txt` per ABI. The APK staging gate is deliberately stricter than the minimum current wrapper surface: it requires the candidate's export set to match the original binary exactly, so the workflow cannot silently accept a partial drop-in.
 
 ## Next reverse-engineering priorities
 
