@@ -16,15 +16,17 @@ NDK_VERSION="${ANDROID_NDK_VERSION:-27.2.12479018}"
 CMAKE_VERSION="${CMAKE_VERSION:-3.22.1}"
 NDK="$ANDROID_HOME/ndk/$NDK_VERSION"
 TOOLCHAIN="$NDK/build/cmake/android.toolchain.cmake"
+CMAKE_BIN="$ANDROID_HOME/cmake/$CMAKE_VERSION/bin/cmake"
 test -f "$TOOLCHAIN"
+test -x "$CMAKE_BIN" || { echo "Pinned CMake $CMAKE_VERSION is not installed at $CMAKE_BIN" >&2; exit 2; }
 
 BUILD_DIR="$ROOT/build/libsba-cpp/$ABI"
-cmake -S "$ROOT/tools/libsba-archive-cpp" -B "$BUILD_DIR" \
+"$CMAKE_BIN" -S "$ROOT/tools/libsba-archive-cpp" -B "$BUILD_DIR" \
   -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN" \
   -DANDROID_ABI="$ABI" \
   -DANDROID_PLATFORM=android-24 \
   -DCMAKE_BUILD_TYPE=Release -DSBA_LIBRARY_OUTPUT_NAME="$OUTPUT_NAME"
-cmake --build "$BUILD_DIR" --parallel "${BUILD_JOBS:-2}"
+"$CMAKE_BIN" --build "$BUILD_DIR" --parallel "${BUILD_JOBS:-2}"
 
 mkdir -p "$OUTPUT_DIR"
 cp "$BUILD_DIR/lib${OUTPUT_NAME}.so" "$OUTPUT_DIR/lib${OUTPUT_NAME}.so"
