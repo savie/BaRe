@@ -82,6 +82,7 @@ jobs:
           ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
           test -f "$ORIGINAL"
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-symbols-all.txt"
+          bash tools/libsba-archive-cpp/verify-jni-surface.sh "$ORIGINAL" "$NDK_BIN/llvm-readelf"
           # JNI may be registered dynamically rather than exported as Java_* symbols.
           # An empty named-export list is inconclusive, not a workflow failure.
           grep -oE 'Java_com_swiftapps_sba_[A-Za-z0-9_\\$]+' "artifacts/$ABI/original-symbols-all.txt" | sort -u > "artifacts/$ABI/original-jni-symbols.txt" || true
