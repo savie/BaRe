@@ -81,6 +81,8 @@ jobs:
           grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
           ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
           test -f "$ORIGINAL"
+          cmp "$ORIGINAL" "$GITHUB_WORKSPACE/bare-implementation/lib/$ABI/libsba_archive.so"
+          echo "Verified reference/apktool and bare-implementation originals are byte-identical for $ABI."
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-symbols-all.txt"
           bash tools/libsba-archive-cpp/verify-jni-surface.sh "$ORIGINAL" "$NDK_BIN/llvm-readelf"
           # JNI may be registered dynamically rather than exported as Java_* symbols.
