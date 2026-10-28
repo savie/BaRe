@@ -8,6 +8,7 @@ on:
       - fix/supabase-appsettings-first-run-restore
       - feat/bare-own-onedrive-msal
       - fix/optional-multithreaded-feature-fallback
+      - fix/sba-jni-compat-shim
       - fix/supabase-user-mutation-payload-writes
       - feat/firebase-only-backend
     paths:
