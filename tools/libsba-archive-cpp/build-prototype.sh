@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ABI="${1:?usage: build-prototype.sh <abi> [output-dir]}"
 OUTPUT_DIR="${2:-$ROOT/build/libsba-cpp/artifacts/$ABI}"
 OUTPUT_NAME="${SBA_LIBRARY_OUTPUT_NAME:-sba_archive_cpp}"
+case "$OUTPUT_NAME" in ""|*[!A-Za-z0-9_-]*) echo "Invalid output library basename: $OUTPUT_NAME" >&2; exit 2 ;; esac
 
 mkdir -p "$OUTPUT_DIR"
 OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd)"
