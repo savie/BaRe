@@ -24,8 +24,16 @@ T resolve(JNIEnv* env, const char* symbol) {
         }
         return nullptr;
     }
+    __android_log_print(ANDROID_LOG_INFO, kTag,
+                        "Resolved legacy JNI export: %s", symbol);
     return reinterpret_cast<T>(address);
 }
+}
+
+extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM*, void*) {
+    __android_log_print(ANDROID_LOG_INFO, kTag,
+                        "libsba_compat.so loaded; legacy SBA forwarding enabled");
+    return JNI_VERSION_1_6;
 }
 
 extern "C" JNIEXPORT jboolean JNICALL
