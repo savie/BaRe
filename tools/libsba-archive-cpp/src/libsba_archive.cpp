@@ -916,5 +916,8 @@ Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
 }
 
 
-// SbaRuntimeNative.version() is intentionally not implemented until its exact
-// return value/semantics are recovered from the original libsba_archive.so.
+// Verified from the original x86_64 libsba_archive.so disassembly: version() returns "SwiftTar".
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_swiftapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject /* self */) {
+  return env->NewStringUTF("SwiftTar");
+}
