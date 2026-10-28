@@ -12,7 +12,6 @@ Original exports:
 - `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
-- `SbaLibaegisCryptoNative.isAvailable`
 - `SbaNativeCrypto.deriveArgon2id`
 - `SbaRuntimeNative.version`
 - `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
@@ -45,7 +44,7 @@ It also contains error strings for malformed/truncated Zstandard frames, SBA met
 
 ## Compatibility gaps in the current C++ candidate
 
-The current candidate exports seven methods. Comparing against the original binary reports 13 original exports not yet implemented. Of those, **nine are declared by the current Java/Smali API and are required for the current APK**; four are legacy exports found in the original binary but absent from the current decompiled `SbaZstdNative`, `SbaSwiftTarNative`, and `SbaLibaegisCryptoNative` declarations.
+The current candidate exports eight methods. Comparing against the original binary reports 12 original exports not yet implemented. Of those, **eight are declared by the current Java/Smali API and are required for the current APK**; four are legacy exports found in the original binary but absent from the current decompiled `SbaZstdNative`, `SbaSwiftTarNative`, and `SbaLibaegisCryptoNative` declarations.
 
 ### Required by current Java/Smali declarations
 
@@ -59,12 +58,12 @@ The current candidate exports seven methods. Comparing against the original bina
 - `SbaSwiftTarNative.extractTarFromFdWithStatsRaw`
 - `SbaSwiftTarNative.extractTarZstdFromFdRaw`
 
-The current source declarations establish these JNI descriptors:
+The current source declarations establish these JNI descriptors (the availability method is implemented; the other listed methods remain required):
 
 - `SbaArchiveNative.createArchive`: `(ILjava/lang/String;[B[[B[Ljava/lang/String;[I[[Ljava/lang/String;[[Ljava/lang/String;IIIIIIIIII[B[B[B[BLcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
 - `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw`: `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`: `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J`
-- `SbaLibaegisCryptoNative.isAvailable`: `()Z`
+- `SbaLibaegisCryptoNative.isAvailable`: `()Z` (implemented as unconditional `true`, matching the original x86_64 disassembly; AEGIS encrypt/decrypt remain incomplete).
 - `SbaSwiftTarNative.extractAegisArchiveEntry` and `extractAegisArchiveEntryFused`: `(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;`
 - `SbaSwiftTarNative.extractTarFromFdRaw` and `extractTarFromFdWithStatsRaw`: `(IJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;` and `(IJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J` respectively.
 - `SbaSwiftTarNative.extractTarZstdFromFdRaw`: `(IJJLjava/lang/String;I[Ljava/lang/String;Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;`
