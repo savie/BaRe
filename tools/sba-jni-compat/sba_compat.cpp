@@ -7,8 +7,12 @@ constexpr const char* kTag = "BaReSbaJniCompat";
 
 template <typename T>
 T resolve(JNIEnv* env, const char* symbol) {
+    static void* library = dlopen("libsba_archive.so", RTLD_NOW);
+    if (library == nullptr) {
+        __android_log_print(ANDROID_LOG_ERROR, kTag, "Unable to open libsba_archive.so: %s", dlerror());
+    }
     dlerror();
-    void* address = dlsym(RTLD_DEFAULT, symbol);
+    void* address = library != nullptr ? dlsym(library, symbol) : nullptr;
     const char* error = dlerror();
     if (error != nullptr || address == nullptr) {
         __android_log_print(ANDROID_LOG_ERROR, kTag,
