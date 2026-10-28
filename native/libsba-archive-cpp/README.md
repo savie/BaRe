@@ -9,7 +9,8 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Implement file-descriptor streaming Zstandard decompression with progress/cancellation callbacks.
 - [x] Integrate the pinned Argon2 reference implementation and expose `deriveArgon2id` with the app’s parameter bounds.
 - [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated headers with octal and positive base-256 numeric fields.
-- [x] Add Zstandard-compressed TAR listing for a bounded `(offset, compressed length)` descriptor range using a temporary spool and the validated TAR parser.
+- [x] Add a CI audit comparing the prototype JNI exports and relevant binary strings with the original `.so` for each ABI.
+- [x] Add Zstandard-compressed TAR listing for the declared `(fd, offset, compressed length)` JNI signature; its behavioral compatibility with the original `.so` still needs differential tests.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
 - [x] Add PAX/GNU long names, positive base-256 numeric fields, and PAX size/fractional-mtime support to TAR listing.\n- [ ] Add sparse-file and xattr support; implement TAR extraction and archive creation.
