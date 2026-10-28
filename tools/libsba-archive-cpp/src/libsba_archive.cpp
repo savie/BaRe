@@ -13,6 +13,9 @@
 #include <limits>
 #include <cerrno>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <string>
 #include <vector>
 
@@ -975,9 +978,202 @@ SBA_UNIMPLEMENTED_OBJECT_ARRAY(
     Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused,
     "fused AEGIS archive-entry extraction")
 
-SBA_UNIMPLEMENTED_OBJECT_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw,
-    "TAR extraction")
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+    JNIEnv* env, jobject /* self */, jint input_fd, jlong tar_bytes,
+    jstring destination, jint /* options */, jobjectArray /* filters */,
+    jobject progress_listener) {
+  if (input_fd < 0 || tar_bytes < 0 || destination == nullptr) {
+    throwJava(env, "java/lang/IllegalArgumentException", "invalid TAR extraction arguments");
+    return nullptr;
+  }
+  const char* destination_utf = env->GetStringUTFChars(destination, nullptr);
+  if (destination_utf == nullptr) return nullptr;
+  std::string root(destination_utf);
+  env->ReleaseStringUTFChars(destination, destination_utf);
+  if (root.empty()) {
+    throwJava(env, "java/lang/IllegalArgumentException", "destination path must not be empty");
+    return nullptr;
+  }
+  while (root.size() > 1 && root.back() == '/') root.pop_back();
+  if (::mkdir(root.c_str(), 0700) != 0 && errno != EEXIST) {
+    throwJava(env, "java/io/IOException",
+        std::string("cannot create extraction directory: ") + std::strerror(errno));
+    return nullptr;
+  }
+  struct stat root_stat {};
+  if (::stat(root.c_str(), &root_stat) != 0 || !S_ISDIR(root_stat.st_mode)) {
+    throwJava(env, "java/io/IOException", "extraction destination is not a directory");
+    return nullptr;
+  }
+
+  auto ensure_parent = [&](const std::string& full_path) -> bool {
+    std::size_t pos = root.size() + (root == "/" ? 0 : 1);
+    while ((pos = full_path.find('/', pos)) != std::string::npos) {
+      const std::string parent = full_path.substr(0, pos);
+      if (::mkdir(parent.c_str(), 0700) != 0 && errno != EEXIST) return false;
+      struct stat st {};
+      if (::lstat(parent.c_str(), &st) != 0 || !S_ISDIR(st.st_mode)) return false;
+      ++pos;
+    }
+    return true;
+  };
+
+  std::vector<std::string> extracted;
+  std::uint64_t consumed = 0;
+  constexpr std::size_t kBlock = 512;
+  std::uint8_t header[kBlock];
+  while (consumed < static_cast<std::uint64_t>(tar_bytes)) {
+    std::size_t got = 0;
+    if (static_cast<std::uint64_t>(tar_bytes) - consumed < kBlock ||
+        !readExact(input_fd, header, kBlock, &got) || got != kBlock) {
+      throwJava(env, "java/io/IOException", "truncated TAR header");
+      return nullptr;
+    }
+    consumed += kBlock;
+    bool zero = true;
+    for (std::uint8_t b : header) if (b != 0) { zero = false; break; }
+    if (zero) break;
+    if (!validTarChecksum(header)) {
+      throwJava(env, "java/io/IOException", "invalid TAR header checksum");
+      return nullptr;
+    }
+    std::uint64_t size = 0, mode = 0;
+    if (!tarNumber(header + 124, 12, &size) || !tarNumber(header + 100, 8, &mode)) {
+      throwJava(env, "java/io/IOException", "invalid TAR size or mode");
+      return nullptr;
+    }
+    std::string name = tarString(header, 100);
+    const std::string prefix = tarString(header + 345, 155);
+    if (!prefix.empty()) name = prefix + "/" + name;
+    const char type = static_cast<char>(header[156]);
+    const std::uint64_t padded = (size + 511u) & ~std::uint64_t(511u);
+    if (padded < size || padded > static_cast<std::uint64_t>(tar_bytes) - consumed) {
+      throwJava(env, "java/io/IOException", "TAR entry exceeds supplied byte range");
+      return nullptr;
+    }
+
+    // Reject absolute paths, drive-like paths, NULs, and traversal before touching disk.
+    bool safe = !name.empty() && name[0] != '/' && name.find('\0') == std::string::npos;
+    std::size_t begin = 0;
+    while (safe && begin <= name.size()) {
+      const std::size_t end = name.find('/', begin);
+      const std::string component = name.substr(begin, end == std::string::npos ? std::string::npos : end - begin);
+      if (component == ".." || component == "." || component.find(':') != std::string::npos) safe = false;
+      if (end == std::string::npos) break;
+      begin = end + 1;
+    }
+    if (!safe) {
+      throwJava(env, "java/io/IOException", "unsafe TAR path rejected");
+      return nullptr;
+    }
+    const std::string full_path = root == "/" ? root + name : root + "/" + name;
+    if (type == '5') {
+      if (!ensure_parent(full_path) && errno != EEXIST) {
+        throwJava(env, "java/io/IOException", "cannot create TAR directory parent");
+        return nullptr;
+      }
+      if (::mkdir(full_path.c_str(), 0700) != 0 && errno != EEXIST) {
+        throwJava(env, "java/io/IOException",
+            std::string("cannot create TAR directory: ") + std::strerror(errno));
+        return nullptr;
+      }
+      struct stat st {};
+      if (::lstat(full_path.c_str(), &st) != 0 || !S_ISDIR(st.st_mode)) {
+        throwJava(env, "java/io/IOException", "TAR directory conflicts with non-directory path");
+        return nullptr;
+      }
+      extracted.push_back(full_path);
+    } else if (type == 0 || type == '0') {
+      if (!ensure_parent(full_path)) {
+        throwJava(env, "java/io/IOException", "cannot create TAR file parent directory");
+        return nullptr;
+      }
+      int out_fd = ::open(full_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC | O_NOFOLLOW, 0600);
+      if (out_fd < 0) {
+        throwJava(env, "java/io/IOException",
+            std::string("cannot create extracted file: ") + std::strerror(errno));
+        return nullptr;
+      }
+      std::uint64_t remaining = size;
+      std::uint8_t buffer[64 * 1024];
+      bool write_failed = false;
+      while (remaining > 0) {
+        const std::size_t want = static_cast<std::size_t>(
+            std::min<std::uint64_t>(remaining, sizeof(buffer)));
+        got = 0;
+        if (!readExact(input_fd, buffer, want, &got) || got != want) {
+          write_failed = true;
+          break;
+        }
+        std::size_t offset = 0;
+        while (offset < got) {
+          ssize_t n;
+          do { n = ::write(out_fd, buffer + offset, got - offset); }
+          while (n < 0 && errno == EINTR);
+          if (n <= 0) { write_failed = true; break; }
+          offset += static_cast<std::size_t>(n);
+        }
+        if (write_failed) break;
+        remaining -= got;
+        consumed += got;
+        if (!notifyProgress(env, progress_listener,
+              static_cast<jlong>(consumed), tar_bytes)) {
+          ::close(out_fd);
+          if (env->ExceptionCheck()) return nullptr;
+          throwJava(env, "java/io/IOException", "TAR extraction progress callback failed");
+          return nullptr;
+        }
+      }
+      if (!write_failed && padded > size) {
+        std::uint8_t padding[512];
+        const std::size_t pad = static_cast<std::size_t>(padded - size);
+        got = 0;
+        if (!readExact(input_fd, padding, pad, &got) || got != pad) write_failed = true;
+        else consumed += pad;
+      }
+      if (::close(out_fd) != 0) write_failed = true;
+      if (write_failed) {
+        throwJava(env, "java/io/IOException", "failed while writing extracted TAR file");
+        return nullptr;
+      }
+      if (::chmod(full_path.c_str(), static_cast<mode_t>(mode & 0777u)) != 0) {
+        throwJava(env, "java/io/IOException", "cannot apply extracted file mode");
+        return nullptr;
+      }
+      extracted.push_back(full_path);
+      continue;
+    } else {
+      // Do not create device nodes, links, FIFOs, or unknown entry types.
+      std::uint8_t discard[8192];
+      std::uint64_t skip = padded;
+      while (skip > 0) {
+        const std::size_t want = static_cast<std::size_t>(std::min<std::uint64_t>(skip, sizeof(discard)));
+        got = 0;
+        if (!readExact(input_fd, discard, want, &got) || got != want) {
+          throwJava(env, "java/io/IOException", "truncated unsupported TAR entry");
+          return nullptr;
+        }
+        skip -= got;
+      }
+      consumed += padded;
+    }
+  }
+
+  jclass string_class = env->FindClass("java/lang/String");
+  if (string_class == nullptr) return nullptr;
+  jobjectArray result = env->NewObjectArray(static_cast<jsize>(extracted.size()), string_class, nullptr);
+  env->DeleteLocalRef(string_class);
+  if (result == nullptr) return nullptr;
+  for (std::size_t i = 0; i < extracted.size(); ++i) {
+    jstring path = newJavaStringUtf8(env, extracted[i]);
+    if (path == nullptr) return nullptr;
+    env->SetObjectArrayElement(result, static_cast<jsize>(i), path);
+    env->DeleteLocalRef(path);
+    if (env->ExceptionCheck()) return nullptr;
+  }
+  return result;
+}
 
 SBA_UNIMPLEMENTED_LONG_ARRAY(
     Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw,
