@@ -21,4 +21,4 @@ Use GitHub Actions → **Build libsba_archive.so candidate from tools** → Run 
 
 ## Explicitly not guessed
 
-`SbaRuntimeNative.version()` is intentionally not exported by this candidate yet. Its native return value is part of the original library contract, and the candidate will not substitute a made-up prototype string. The workflow reports missing JNI exports against each original ABI as a compatibility-gap artifact.
+`SbaRuntimeNative.version()` returns `SwiftTar`, matching the original x86_64 binary's disassembly and referenced string. The workflow reports missing JNI exports against each original ABI as a compatibility-gap artifact.
