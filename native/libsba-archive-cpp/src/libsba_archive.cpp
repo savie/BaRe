@@ -95,7 +95,8 @@ jstring newJavaStringUtf8(JNIEnv* env, const std::string& input) {
     throwJava(env, "java/lang/IllegalArgumentException", "TAR path exceeds Java string limit");
     return nullptr;
   }
-  return env->NewString(utf16.empty() ? nullptr : utf16.data(), static_cast<jsize>(utf16.size()));
+  const jchar empty = 0;
+  return env->NewString(utf16.empty() ? &empty : utf16.data(), static_cast<jsize>(utf16.size()));
 }
 
 bool copyInput(JNIEnv* env, jbyteArray input, std::vector<std::uint8_t>& bytes) {
