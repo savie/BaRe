@@ -37,6 +37,38 @@ extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM*, void*) {
 }
 
 
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_sba_SbaArchiveNative_createArchive(
+    JNIEnv* env, jobject self, jint mode, jstring outputPath, jbyteArray metadata,
+    jobjectArray entryBytes, jobjectArray entryNames, jintArray entryFlags,
+    jobjectArray entryOptions, jobjectArray entryMetadata,
+    jint compression, jint compressionLevel, jint encryption, jint cipher,
+    jint chunkSize, jint argonIterations, jint argonMemory, jint argonParallelism,
+    jint argonOutputLength, jint flags, jbyteArray key, jbyteArray salt,
+    jbyteArray nonce, jbyteArray extra, jobject progressListener) {
+    using Fn = jlongArray (JNICALL *)(JNIEnv*, jobject, jint, jstring, jbyteArray,
+        jobjectArray, jobjectArray, jintArray, jobjectArray, jobjectArray,
+        jint, jint, jint, jint, jint, jint, jint, jint, jint, jint,
+        jbyteArray, jbyteArray, jbyteArray, jbyteArray, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaArchiveNative_createArchive");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, mode, outputPath, metadata, entryBytes, entryNames,
+        entryFlags, entryOptions, entryMetadata, compression, compressionLevel,
+        encryption, cipher, chunkSize, argonIterations, argonMemory,
+        argonParallelism, argonOutputLength, flags, key, salt, nonce, extra,
+        progressListener);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_bareapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject self) {
+    using Fn = jstring (JNICALL *)(JNIEnv*, jobject);
+    Fn fn = resolve<Fn>(env, "Java_com_swiftapps_sba_SbaRuntimeNative_version");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self);
+}
+
 extern "C" JNIEXPORT jbyteArray JNICALL
 Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
     JNIEnv* env, jobject self, jbyteArray password, jbyteArray salt,
