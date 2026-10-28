@@ -9,6 +9,7 @@ if len(sys.argv) != 2:
 root = Path(sys.argv[1])
 relative_paths = (
     Path("smali/com/bareapps/sba/SbaLibaegisCryptoNative.smali"),
+    Path("smali/com/bareapps/sba/SbaNativeCrypto.smali"),
     Path("smali/com/bareapps/sba/SbaZstdNative.smali"),
 )
 needle = 'invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
