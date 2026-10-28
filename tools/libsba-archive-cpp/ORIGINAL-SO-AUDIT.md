@@ -95,6 +95,7 @@ The decompiled reader `reference/jadx/sources/defpackage/z07.java` parses the on
 - AEGIS-256 and AEGIS-128X2 are encryption methods 4 and 5 respectively. Their parsed metadata requires 16-byte key-check, salt, and nonce-seed fields, zero MAC-related fields, and a chunk size from 4096 through 16777216 bytes (upper bound exclusive).
 - For encrypted headers, the reader derives the key from the stored salt/KDF parameters and checks the derived key against the stored key-check before constructing the payload decryptor.
 
+- The Java key-check function in `reference/jadx/sources/defpackage/sy6.java` computes SHA-256 over the concatenation `domain || salt || nonceSeed || derivedKey`, then truncates the digest to 16 bytes. For AEGIS-256 the domain is `SBA1-AEGIS256-key-check-v1`; for AEGIS-128X2 it is `SBA1-AEGIS128X2-key-check-v1`. This is a **header key-check** formula, not the per-chunk AAD/nonce formula.
 ### Footer and index records
 
 - The footer is exactly 32 bytes at end-of-file. The final 4 bytes are a CRC32 over the preceding 28 bytes. The footer parser also checks its encoded size is 32 and that the footer version matches the header version.
