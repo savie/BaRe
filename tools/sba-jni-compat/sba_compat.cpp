@@ -36,6 +36,20 @@ extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM*, void*) {
     return JNI_VERSION_1_6;
 }
 
+
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id(
+    JNIEnv* env, jobject self, jbyteArray password, jbyteArray salt,
+    jint iterations, jint memoryCost, jint parallelism, jint outputLength) {
+    using Fn = jbyteArray (JNICALL *)(JNIEnv*, jobject, jbyteArray, jbyteArray,
+        jint, jint, jint, jint);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, password, salt, iterations, memoryCost,
+              parallelism, outputLength);
+}
+
 extern "C" JNIEXPORT jboolean JNICALL
 Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable(
     JNIEnv* env, jobject self) {
