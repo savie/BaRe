@@ -90,9 +90,9 @@ jobs:
               echo "Unexpected libc++_shared.so dependency in reconstructed $abi library" >&2
               exit 1
             fi
-            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "build/$abi-native-symbols.txt"
-            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "build/$abi-native-symbols.txt"
-            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "build/$abi-native-symbols.txt"
+            grep -q 'Java_com_bareapps_barebackup_BareApp_getGoogleAuthAndroidClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_com_bareapps_barebackup_BareApp_getGoogleAuthWebClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_com_bareapps_barebackup_BareApp_isLocalNetworkTcpBlockedByPermission' "build/$abi-native-symbols.txt"
             if grep -q 'JNI_OnLoad' "build/$abi-native-symbols.txt"; then
               echo "Unexpected JNI_OnLoad found in reconstructed $abi library" >&2
               exit 1
