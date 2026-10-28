@@ -874,23 +874,10 @@
 
     .line 389
     .line 390
-    invoke-static {}, Lcom/bareapps/barebackup/intro/d;->j()Z
-
-    .line 391
-    .line 392
-    .line 393
-    move-result v1
-
-    .line 394
-    if-nez v1, :cond_15
-
-    .line 395
-    .line 396
+    # Clear the processing overlay whenever root/Shizuku grant finishes.
+    # Successful navigation is still handled by the existing readiness observer.
     invoke-virtual {v0}, Lqo0;->f()V
 
-    .line 397
-    .line 398
-    .line 399
     goto :goto_f
 
     .line 400
