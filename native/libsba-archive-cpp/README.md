@@ -8,7 +8,6 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Implement JNI byte-array Zstandard compression/decompression.
 - [x] Implement file-descriptor streaming Zstandard decompression with progress/cancellation callbacks.
 - [x] Integrate the pinned Argon2 reference implementation and expose `deriveArgon2id` with the app’s parameter bounds.
-- [x] Expose a prototype-identifying `SbaRuntimeNative.version()` JNI method (does not imply compatibility).
 - [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated headers with octal and positive base-256 numeric fields.
 - [x] Add Zstandard-compressed TAR listing for a bounded `(offset, compressed length)` descriptor range using a temporary spool and the validated TAR parser.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
@@ -33,10 +32,10 @@ Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the libra
 
 - `SbaArchiveNative.createArchive`
 - `SbaSwiftTarNative`: plain TAR listing and bounded Zstandard TAR listing are implemented as prototypes; TAR extraction, other Zstandard TAR paths, Aegis archive extraction, and write statistics remain missing
+- `SbaRuntimeNative.version`: intentionally not implemented until the exact version contract/value can be verified against the original library
 - `SbaZstdNative`: byte operations and file-descriptor streaming decompression (the FD decompressor is implemented in this prototype; exact result-array and progress semantics still need verification)
 - `SbaNativeCrypto.deriveArgon2id` (now implemented, runtime/vector validation pending)
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
-- `SbaRuntimeNative.version` (prototype identifier is implemented; the expected upstream version string/contract still needs comparison).
 
 The current TAR listing prototype understands checksum-validated 512-byte headers, octal and positive base-256 numeric fields, USTAR prefix/name fields, and basic PAX/GNU long path/link overrides. It now honors PAX size and fractional mtime overrides. Sparse formats, xattrs, TAR extraction, and archive creation remain unimplemented. It does not yet implement PAX/GNU extensions, sparse metadata, xattrs, or extraction. The exact JNI descriptors, return shapes, callback/progress behavior, archive metadata, error handling, and format semantics must be matched. Exporting placeholder symbols is not compatibility.
 
