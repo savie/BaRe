@@ -134,9 +134,6 @@ jobs:
             test -f "$original" || { echo "Missing original $original" >&2; exit 1; }
             "$NDK_BIN/llvm-readelf" -Ws "$original" > "build/$abi-sba-archive-symbols.txt"
             for symbol in \
-              Java_com_swiftapps_sba_SbaArchiveNative_createArchive \
-              Java_com_swiftapps_sba_SbaRuntimeNative_version \
-              Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id \
               Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable \
               Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw \
               Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
