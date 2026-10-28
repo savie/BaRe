@@ -7,14 +7,14 @@ OUTPUT_DIR="${2:-$ROOT/build/libsba-cpp/artifacts/$ABI}"
 OUTPUT_NAME="${SBA_LIBRARY_OUTPUT_NAME:-sba_archive_cpp}"
 case "$OUTPUT_NAME" in ""|*[!A-Za-z0-9_-]*) echo "Invalid output library basename: $OUTPUT_NAME" >&2; exit 2 ;; esac
 
-mkdir -p "$OUTPUT_DIR"
-OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd)"
+OUTPUT_DIR="$(realpath -m "$OUTPUT_DIR")"
 case "$OUTPUT_DIR/" in
   "$ROOT/bare-implementation/lib/"*)
     echo "Refusing to write a generated library into bare-implementation/lib; use an isolated build directory." >&2
     exit 2
     ;;
 esac
+mkdir -p "$OUTPUT_DIR"
 
 case "$ABI" in
   arm64-v8a|armeabi-v7a|x86|x86_64) ;;
