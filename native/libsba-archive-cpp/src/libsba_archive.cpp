@@ -264,8 +264,9 @@ extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     JNIEnv* env, jobject /* self */, jint input_fd, jint output_fd, jlong expected_size,
     jobject progress_listener) {
-  if (input_fd < 0 || output_fd < 0) {
-    throwJava(env, "java/lang/IllegalArgumentException", "file descriptor must be valid");
+  if (input_fd < 0 || output_fd < 0 || expected_size < -1) {
+    throwJava(env, "java/lang/IllegalArgumentException",
+        "invalid file descriptor or expected decompressed size");
     return nullptr;
   }
 
