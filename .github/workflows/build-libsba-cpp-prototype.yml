@@ -93,9 +93,17 @@ jobs:
           ORIGINAL="$GITHUB_WORKSPACE/reference/apktool/lib/$ABI/libsba_archive.so"
           test -f "$ORIGINAL"
           "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-symbols-all.txt"
-          grep -oE 'Java_com_swiftapps_sba_[A-Za-z0-9_\$]+' "artifacts/$ABI/original-symbols-all.txt" | sort -u > "artifacts/$ABI/original-jni-symbols.txt"
-          grep -oE 'Java_com_swiftapps_sba_[A-Za-z0-9_\$]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/prototype-jni-symbols.txt"
-          comm -23 "artifacts/$ABI/original-jni-symbols.txt" "artifacts/$ABI/prototype-jni-symbols.txt" > "artifacts/$ABI/missing-original-jni-symbols.txt"
+          # JNI may be registered dynamically rather than exported as Java_* symbols.
+          # An empty named-export list is inconclusive, not a workflow failure.
+          grep -oE 'Java_com_swiftapps_sba_[A-Za-z0-9_\\$]+' "artifacts/$ABI/original-symbols-all.txt" | sort -u > "artifacts/$ABI/original-jni-symbols.txt" || true
+          grep -oE 'Java_com_swiftapps_sba_[A-Za-z0-9_\\$]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/prototype-jni-symbols.txt" || true
+          if test -s "artifacts/$ABI/original-jni-symbols.txt"; then
+            comm -23 "artifacts/$ABI/original-jni-symbols.txt" "artifacts/$ABI/prototype-jni-symbols.txt" > "artifacts/$ABI/missing-original-jni-symbols.txt"
+            echo "Original binary has named JNI exports; missing exports are listed for compatibility tracking."
+          else
+            : > "artifacts/$ABI/missing-original-jni-symbols.txt"
+            echo "Original binary has no matching named JNI exports; inspect JNI_OnLoad/RegisterNatives and Java declarations separately."
+          fi
           strings -a "$ORIGINAL" | grep -Ei 'version|SwiftTar|aegis|zstd|argon2|tar' > "artifacts/$ABI/original-relevant-strings.txt" || true
           printf 'Original JNI exports: '; wc -l < "artifacts/$ABI/original-jni-symbols.txt"
           printf 'Prototype JNI exports: '; wc -l < "artifacts/$ABI/prototype-jni-symbols.txt"
