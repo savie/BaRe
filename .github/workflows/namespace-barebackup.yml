@@ -15,6 +15,7 @@ on:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
+      - "tools/libsba-archive-cpp/**"
       - "tools/prepare-barebackup-build.py"
 
 permissions:
