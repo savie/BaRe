@@ -11,7 +11,7 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated headers with octal and positive base-256 numeric fields.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
-- [ ] Extend TAR listing for PAX/GNU long names, base-256 numeric fields, sparse files, and xattrs; implement TAR extraction and archive creation.
+- [x] Add PAX/GNU long names, positive base-256 numeric fields, and PAX size/fractional-mtime support to TAR listing.\n- [ ] Add sparse-file and xattr support; implement TAR extraction and archive creation.
 - [x] Add a host-side Argon2id known-answer test against the upstream reference implementation.
 - [ ] Verify the JNI output against the original library.
 - [ ] Implement AEGIS operations with known-answer tests.
