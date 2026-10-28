@@ -7,7 +7,7 @@ This is the `tools/`-based build path modeled on `tools/native-jni-replacement/`
 - The workflow never writes to `bare-implementation/lib/*/libsba_archive.so`.
 - It verifies the original library SHA-256 before and after staging.
 - It does not package or sign an APK and does not wire the candidate into the normal APK workflow.
-- The candidate is **not drop-in compatible yet**. JNI coverage, archive creation/extraction, AEGIS chunk decryption, and runtime/end-to-end comparisons are still incomplete.
+- The candidate now exposes the same 20 JNI symbol names as the original, and CI enforces exact export parity. This is only symbol/API-surface parity: 12 newly exposed entry points currently fail closed with `UnsupportedOperationException` until their implementations and behavior tests are added. The candidate is **not drop-in compatible yet**; archive creation/extraction, AEGIS chunk operations, and runtime/end-to-end comparisons remain incomplete.
 - The original `libnative-lib.so` and its build process are independent and untouched.
 
 ## Source
