@@ -61,7 +61,7 @@ target_include_directories(argon2_ref PUBLIC "${argon2_SOURCE_DIR}/include")
 target_include_directories(argon2_ref PRIVATE "${argon2_SOURCE_DIR}/src")
 target_compile_definitions(argon2_ref PRIVATE ARGON2_NO_THREADS)
 
-add_library(sba_archive SHARED src/libsba_archive.cpp)
+add_library(sba_archive SHARED src/libsba_archive.cpp src/sba1_format.cpp)
 target_include_directories(sba_archive PRIVATE "${zstd_SOURCE_DIR}/lib" "${argon2_SOURCE_DIR}/include")
 target_include_directories(sba_archive PRIVATE "${libaegis_SOURCE_DIR}/src/include")
 target_link_libraries(sba_archive PRIVATE libzstd_static argon2_ref aegis log)
