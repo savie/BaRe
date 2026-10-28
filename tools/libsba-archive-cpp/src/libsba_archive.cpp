@@ -1021,6 +1021,10 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
 
   std::vector<std::string> extracted;
   std::uint64_t consumed = 0;
+  std::string global_name;
+  std::string pending_name;
+  bool global_name_set = false;
+  bool pending_name_set = false;
   constexpr std::size_t kBlock = 512;
   std::uint8_t header[kBlock];
   while (consumed < static_cast<std::uint64_t>(tar_bytes)) {
@@ -1051,6 +1055,87 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
     if (padded < size || padded > static_cast<std::uint64_t>(tar_bytes) - consumed) {
       throwJava(env, "java/io/IOException", "TAR entry exceeds supplied byte range");
       return nullptr;
+    }
+
+    // Consume GNU long-name and POSIX PAX path metadata before handling the
+    // following real entry. Metadata is bounded to avoid attacker-controlled
+    // allocations from malformed archives.
+    if (type == 'L' || type == 'x' || type == 'g') {
+      constexpr std::uint64_t kMaxMetadata = 1024 * 1024;
+      if (size > kMaxMetadata) {
+        throwJava(env, "java/io/IOException", "TAR path metadata exceeds 1 MiB safety limit");
+        return nullptr;
+      }
+      std::string metadata(static_cast<std::size_t>(size), '\\0');
+      if (size > 0) {
+        got = 0;
+        if (!readExact(input_fd, metadata.data(), static_cast<std::size_t>(size), &got) || got != size) {
+          throwJava(env, "java/io/IOException", "truncated TAR path metadata");
+          return nullptr;
+        }
+      }
+      const std::uint64_t padding = padded - size;
+      if (padding > 0) {
+        std::uint8_t pad[512];
+        got = 0;
+        if (!readExact(input_fd, pad, static_cast<std::size_t>(padding), &got) || got != padding) {
+          throwJava(env, "java/io/IOException", "truncated TAR metadata padding");
+          return nullptr;
+        }
+      }
+      consumed += padded;
+      if (type == 'L') {
+        while (!metadata.empty() && (metadata.back() == '\\0' || metadata.back() == '\\n')) metadata.pop_back();
+        pending_name = metadata;
+        pending_name_set = true;
+      } else {
+        std::size_t pos = 0;
+        while (pos < metadata.size()) {
+          const std::size_t space = metadata.find(' ', pos);
+          if (space == std::string::npos || space == pos) {
+            throwJava(env, "java/io/IOException", "malformed PAX record length");
+            return nullptr;
+          }
+          char* end = nullptr;
+          const unsigned long long record_len = std::strtoull(metadata.c_str() + pos, &end, 10);
+          if (end == metadata.c_str() + pos || *end != ' ' || record_len == 0 ||
+              record_len > metadata.size() - pos) {
+            throwJava(env, "java/io/IOException", "invalid PAX record length");
+            return nullptr;
+          }
+          const std::size_t record_end = pos + static_cast<std::size_t>(record_len);
+          if (record_end > metadata.size() || metadata[record_end - 1] != '\\n') {
+            throwJava(env, "java/io/IOException", "truncated PAX record");
+            return nullptr;
+          }
+          const std::size_t key_start = static_cast<std::size_t>(end - metadata.c_str()) + 1;
+          const std::size_t equal = metadata.find('=', key_start);
+          if (equal == std::string::npos || equal >= record_end - 1 || equal < key_start) {
+            throwJava(env, "java/io/IOException", "PAX record has no key/value separator");
+            return nullptr;
+          }
+          const std::string key = metadata.substr(key_start, equal - key_start);
+          const std::string value = metadata.substr(equal + 1, record_end - equal - 2);
+          if (key == "path") {
+            if (type == 'g') {
+              global_name = value;
+              global_name_set = !value.empty();
+            } else {
+              pending_name = value;
+              pending_name_set = !value.empty();
+            }
+          }
+          pos = record_end;
+        }
+      }
+      continue;
+    }
+    if (pending_name_set) {
+      name = pending_name;
+      pending_name.clear();
+      pending_name_set = false;
+    } else if (global_name_set) {
+      name = global_name;
     }
 
     // Reject absolute paths, drive-like paths, NULs, and traversal before touching disk.
