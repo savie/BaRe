@@ -11,6 +11,21 @@ permissions:
   contents: read
 
 jobs:
+  sba1-format-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and run SBA1 header/footer parser tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          c++ -std=c++17 -Wall -Wextra -Werror \
+            tools/libsba-archive-cpp/src/sba1_format.cpp \
+            tools/libsba-archive-cpp/tests/sba1_format_test.cpp \
+            -o /tmp/sba1-format-test
+          /tmp/sba1-format-test
+
   argon2-kat:
     runs-on: ubuntu-latest
     timeout-minutes: 10
