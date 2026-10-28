@@ -109,7 +109,13 @@ jobs:
           grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/candidate-jni-exports.txt"
           comm -23 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/missing-original-jni-exports.txt"
           comm -13 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/extra-candidate-jni-exports.txt"
-          printf 'Original JNI exports: '; wc -l < "artifacts/$ABI/original-jni-exports.txt"
+          ORIGINAL_EXPORT_COUNT=$(wc -l < "artifacts/$ABI/original-jni-exports.txt")
+          printf 'Original JNI exports: %s\n' "$ORIGINAL_EXPORT_COUNT"
+          if test "$ORIGINAL_EXPORT_COUNT" -ne 20; then
+            echo "Expected 20 original JNI exports for $ABI, found $ORIGINAL_EXPORT_COUNT" >&2
+            exit 1
+          fi
+          grep -q 'Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable' "artifacts/$ABI/original-jni-exports.txt"
           printf 'Candidate JNI exports: '; wc -l < "artifacts/$ABI/candidate-jni-exports.txt"
           printf 'Missing original JNI exports: '; wc -l < "artifacts/$ABI/missing-original-jni-exports.txt"
           if test -s "artifacts/$ABI/missing-original-jni-exports.txt"; then
