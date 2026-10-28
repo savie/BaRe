@@ -2,6 +2,12 @@ name: Build BΛR☰ Namespace APK
 
 on:
   workflow_dispatch:
+    inputs:
+      use_sba_cpp_candidate:
+        description: "Build and stage the C++ libsba candidate only if its JNI exports exactly match the original"
+        required: true
+        type: boolean
+        default: false
   push:
     branches:
       - feature/namespace-barebackup
@@ -15,6 +21,7 @@ on:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
+      - "tools/libsba-archive-cpp/**"
       - "tools/prepare-barebackup-build.py"
 
 permissions:
@@ -46,7 +53,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sdkmanager --install "ndk;27.2.12479018"
+          sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> "$GITHUB_ENV"
 
       - name: Download Apktool
@@ -106,6 +113,57 @@ jobs:
           "$NDK_BIN/clang++" --version | head -n 1
           "$NDK_BIN/llvm-readelf" --version | head -n 1
 
+      - name: Build and gate optional C++ libsba candidate
+        if: ${{ inputs.use_sba_cpp_candidate }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          ABIS="arm64-v8a armeabi-v7a x86 x86_64"
+
+          # Phase 1: build and compare all ABIs. Do not stage any replacement until every
+          # ABI has exactly the original JNI export set.
+          for abi in $ABIS; do
+            original="build-src/lib/$abi/libsba_archive.so"
+            test -s "$original"
+            cmake -S tools/libsba-archive-cpp -B "build/libsba-cpp/$abi" \
+              -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
+              -DANDROID_ABI="$abi" \
+              -DANDROID_PLATFORM=android-24 \
+              -DCMAKE_BUILD_TYPE=Release
+            cmake --build "build/libsba-cpp/$abi" --parallel 2
+            candidate="build/libsba-cpp/$abi/libsba_archive.so"
+            test -s "$candidate"
+
+            "$NDK_BIN/llvm-readelf" -Ws "$original" > "build/$abi-original-sba-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -Ws "$candidate" > "build/$abi-candidate-sba-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "$candidate" > "build/$abi-candidate-sba-dynamic.txt"
+            if grep -q 'NEEDED.*libc++_shared\.so' "build/$abi-candidate-sba-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in candidate $abi library" >&2
+              exit 1
+            fi
+            grep -oE 'Java_[[:alnum:]_]+' "build/$abi-original-sba-symbols.txt" | sort -u > "build/$abi-original-sba-exports.txt"
+            grep -oE 'Java_[[:alnum:]_]+' "build/$abi-candidate-sba-symbols.txt" | sort -u > "build/$abi-candidate-sba-exports.txt"
+            comm -23 "build/$abi-original-sba-exports.txt" "build/$abi-candidate-sba-exports.txt" > "build/$abi-missing-sba-exports.txt"
+            comm -13 "build/$abi-original-sba-exports.txt" "build/$abi-candidate-sba-exports.txt" > "build/$abi-extra-sba-exports.txt"
+            if test -s "build/$abi-missing-sba-exports.txt" || test -s "build/$abi-extra-sba-exports.txt"; then
+              echo "C++ libsba candidate does not match original JNI exports for $abi." >&2
+              echo "Missing exports:" >&2
+              cat "build/$abi-missing-sba-exports.txt" >&2
+              echo "Extra exports:" >&2
+              cat "build/$abi-extra-sba-exports.txt" >&2
+              exit 1
+            fi
+          done
+
+          # Phase 2: all ABI export gates passed. Replace only the disposable build copy,
+          # never bare-implementation/lib/*/libsba_archive.so.
+          for abi in $ABIS; do
+            install -m 0644 "build/libsba-cpp/$abi/libsba_archive.so" "build-src/lib/$abi/libsba_archive.so"
+          done
+          sha256sum bare-implementation/lib/*/libsba_archive.so > build/original-sba-sha256.txt
+          sha256sum --check build/original-sba-sha256.txt
       - name: Rebuild unsigned APK
         run: |
           set -euo pipefail
