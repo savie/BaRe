@@ -6,6 +6,15 @@ ABI="${1:?usage: build-prototype.sh <abi> [output-dir]}"
 OUTPUT_DIR="${2:-$ROOT/build/libsba-cpp/artifacts/$ABI}"
 OUTPUT_NAME="${SBA_LIBRARY_OUTPUT_NAME:-sba_archive_cpp}"
 
+mkdir -p "$OUTPUT_DIR"
+OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd)"
+case "$OUTPUT_DIR/" in
+  "$ROOT/bare-implementation/lib/"*)
+    echo "Refusing to write a generated library into bare-implementation/lib; use an isolated build directory." >&2
+    exit 2
+    ;;
+esac
+
 case "$ABI" in
   arm64-v8a|armeabi-v7a|x86|x86_64) ;;
   *) echo "Unsupported Android ABI: $ABI" >&2; exit 2 ;;
@@ -28,7 +37,6 @@ BUILD_DIR="$ROOT/build/libsba-cpp/$ABI"
   -DCMAKE_BUILD_TYPE=Release -DSBA_LIBRARY_OUTPUT_NAME="$OUTPUT_NAME"
 "$CMAKE_BIN" --build "$BUILD_DIR" --parallel "${BUILD_JOBS:-2}"
 
-mkdir -p "$OUTPUT_DIR"
 cp "$BUILD_DIR/lib${OUTPUT_NAME}.so" "$OUTPUT_DIR/lib${OUTPUT_NAME}.so"
 NDK_BIN="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
 "$NDK_BIN/llvm-readelf" -h "$OUTPUT_DIR/lib${OUTPUT_NAME}.so"
