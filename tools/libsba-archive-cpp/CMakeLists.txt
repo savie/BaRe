@@ -32,7 +32,7 @@ FetchContent_Declare(
   libaegis
   GIT_REPOSITORY https://github.com/aegis-aead/libaegis.git
   GIT_TAG 0bb16395782de7d3b0ec28735c5e7e09e6551c93
-  GIT_SHALLOW TRUE
+  GIT_SHALLOW FALSE
 )
 FetchContent_MakeAvailable(libaegis)
 
