@@ -930,3 +930,70 @@ extern "C" JNIEXPORT jboolean JNICALL
 Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv* /* env */, jobject /* self */) {
   return JNI_TRUE;
 }
+
+
+// Export-parity phase: keep every original JNI entry point discoverable while
+// the corresponding archive operation is implemented and tested incrementally.
+// These fail closed rather than returning fabricated success metadata.
+#define SBA_UNIMPLEMENTED_LONG_ARRAY(symbol, description) \
+  extern "C" JNIEXPORT jlongArray JNICALL symbol(JNIEnv* env, jobject /* self */) { \
+    throwJava(env, "java/lang/UnsupportedOperationException", description " is not implemented in the C++ candidate yet"); \
+    return nullptr; \
+  }
+
+#define SBA_UNIMPLEMENTED_OBJECT_ARRAY(symbol, description) \
+  extern "C" JNIEXPORT jobjectArray JNICALL symbol(JNIEnv* env, jobject /* self */) { \
+    throwJava(env, "java/lang/UnsupportedOperationException", description " is not implemented in the C++ candidate yet"); \
+    return nullptr; \
+  }
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaArchiveNative_createArchive,
+    "SBA archive creation")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw,
+    "AEGIS-128X2 chunk decryption")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw,
+    "AEGIS-256 chunk decryption")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw,
+    "legacy AEGIS-256 chunk encryption")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw,
+    "legacy TAR creation with write statistics")
+
+SBA_UNIMPLEMENTED_OBJECT_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry,
+    "AEGIS archive-entry extraction")
+
+SBA_UNIMPLEMENTED_OBJECT_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused,
+    "fused AEGIS archive-entry extraction")
+
+SBA_UNIMPLEMENTED_OBJECT_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw,
+    "TAR extraction")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw,
+    "TAR extraction with statistics")
+
+SBA_UNIMPLEMENTED_OBJECT_ARRAY(
+    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw,
+    "Zstandard TAR extraction")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaZstdNative_compressZstdFdToFdRaw,
+    "legacy Zstandard fd-to-fd compression")
+
+SBA_UNIMPLEMENTED_LONG_ARRAY(
+    Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw,
+    "legacy Zstandard file-to-fd compression")
+
+#undef SBA_UNIMPLEMENTED_LONG_ARRAY
+#undef SBA_UNIMPLEMENTED_OBJECT_ARRAY
