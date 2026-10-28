@@ -8,6 +8,7 @@ Reference sources are under `reference/jadx/sources/com/swiftapps/sba/` and matc
 |---|---|
 | `SbaArchiveNative.createArchive` | `(ILjava/lang/String;[B[[B[Ljava/lang/String;[I[[Ljava/lang/String;[[Ljava/lang/String;IIIIIIIIII[B[B[B[BLcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J` |
 | `SbaNativeCrypto.deriveArgon2id` | `([B[BIIII)[B` |
+| `SbaRuntimeNative.version` | `()Ljava/lang/String;` |
 | `SbaLibaegisCryptoNative.decryptAegis128X2ChunkedEntryFdRaw` | `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J` |
 | `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw` | `(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J` |
 | `SbaLibaegisCryptoNative.isAvailable` | `()Z` |
@@ -24,10 +25,9 @@ Reference sources are under `reference/jadx/sources/com/swiftapps/sba/` and matc
 
 ## Original binary exports without a matching declaration in the checked-in wrapper
 
-The original `.so` exports these additional names, but the current checked-in Java wrapper sources do not provide their declarations. Their full native signatures and runtime contracts must be recovered from the exact original binary/version before implementation; do not guess parameter lists.
+The original `.so` exports these additional names, but the current checked-in Java wrapper sources do not provide their declarations. Their full native signatures and runtime contracts must be recovered from the exact original binary/version before implementation; do not guess parameter lists. The `SbaRuntimeNative.version()` descriptor itself is known, but its returned value is still unverified.
 
 - `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
-- `SbaRuntimeNative.version` — the returned version value is not verified.
 - `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
 - `SbaZstdNative.compressZstdFdToFdRaw`
 - `SbaZstdNative.compressZstdFileToFdRaw`
