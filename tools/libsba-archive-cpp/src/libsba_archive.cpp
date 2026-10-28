@@ -916,8 +916,5 @@ Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
 }
 
 
-// This identifies the isolated prototype explicitly; it is not a claim of drop-in compatibility.
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_swiftapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject /* self */) {
-  return env->NewStringUTF("sba_archive_cpp/0.1.0-prototype");
-}
+// SbaRuntimeNative.version() is intentionally not implemented until its exact
+// return value/semantics are recovered from the original libsba_archive.so.
