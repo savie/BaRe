@@ -8,7 +8,7 @@ MISSING="$(mktemp)"
 trap 'rm -f "$SYMBOLS" "$MISSING"' EXIT
 "$READELF" -Ws "$SO_PATH" > "$SYMBOLS"
 while IFS= read -r symbol; do
-  [[ -z "$symbol" || "$symbol" == \\#* ]] && continue
+  [[ -z "$symbol" || "$symbol" == \#* ]] && continue
   grep -Fq "$symbol" "$SYMBOLS" || printf '%s\n' "$symbol" >> "$MISSING"
 done < "$(dirname "$0")/original-jni-surface.txt"
 if [[ -s "$MISSING" ]]; then
