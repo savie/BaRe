@@ -200,6 +200,18 @@ bool validTarChecksum(const std::uint8_t* h) {
   return sum == stored;
 }
 
+bool ensureTarParentDirectories(const std::string& root, const std::string& full_path) {
+  std::size_t pos = root.size() + (root == "/" ? 0 : 1);
+  while ((pos = full_path.find('/', pos)) != std::string::npos) {
+    const std::string parent = full_path.substr(0, pos);
+    if (::mkdir(parent.c_str(), 0700) != 0 && errno != EEXIST) return false;
+    struct stat st {};
+    if (::lstat(parent.c_str(), &st) != 0 || !S_ISDIR(st.st_mode)) return false;
+    ++pos;
+  }
+  return true;
+}
+
 }  // namespace
 
 extern "C" JNIEXPORT jbyteArray JNICALL
@@ -1007,18 +1019,6 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
     return nullptr;
   }
 
-  auto ensure_parent = [&](const std::string& full_path) -> bool {
-    std::size_t pos = root.size() + (root == "/" ? 0 : 1);
-    while ((pos = full_path.find('/', pos)) != std::string::npos) {
-      const std::string parent = full_path.substr(0, pos);
-      if (::mkdir(parent.c_str(), 0700) != 0 && errno != EEXIST) return false;
-      struct stat st {};
-      if (::lstat(parent.c_str(), &st) != 0 || !S_ISDIR(st.st_mode)) return false;
-      ++pos;
-    }
-    return true;
-  };
-
   std::vector<std::string> extracted;
   std::uint64_t consumed = 0;
   constexpr std::size_t kBlock = 512;
@@ -1069,7 +1069,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
     }
     const std::string full_path = root == "/" ? root + name : root + "/" + name;
     if (type == '5') {
-      if (!ensure_parent(full_path) && errno != EEXIST) {
+      if (!ensureTarParentDirectories(root, full_path) && errno != EEXIST) {
         throwJava(env, "java/io/IOException", "cannot create TAR directory parent");
         return nullptr;
       }
@@ -1097,7 +1097,7 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
       }
       consumed += padded;
     } else if (type == 0 || type == '0') {
-      if (!ensure_parent(full_path)) {
+      if (!ensureTarParentDirectories(root, full_path)) {
         throwJava(env, "java/io/IOException", "cannot create TAR file parent directory");
         return nullptr;
       }
