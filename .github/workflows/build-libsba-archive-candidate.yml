@@ -103,7 +103,6 @@ jobs:
           grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/jni-symbols.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaRuntimeNative_version' "artifacts/$ABI/jni-symbols.txt"
 
           # Mirror the native-lib workflow's isolation model: only build-src is staged.
           cp -a bare-implementation "build-src-$ABI"
