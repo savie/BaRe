@@ -2,6 +2,7 @@
 #define ZSTD_STATIC_LINKING_ONLY
 #include <zstd.h>
 #include <argon2.h>
+#include <aegis.h>
 
 #include <cstdint>
 #include <algorithm>
@@ -920,4 +921,12 @@ Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id(
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_swiftapps_sba_SbaRuntimeNative_version(JNIEnv* env, jobject /* self */) {
   return env->NewStringUTF("SwiftTar");
+}
+
+
+// The original x86_64 binary returns JNI_TRUE unconditionally from this method.
+// Actual AEGIS operations remain gated on implementing the original chunk format.
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv* /* env */, jobject /* self */) {
+  return JNI_TRUE;
 }
