@@ -26,6 +26,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(zstd)
 
+# Pinned upstream AEGIS implementation; the original SBA binary statically
+# includes AEGIS-128X2 and AEGIS-256 support.
+FetchContent_Declare(
+  libaegis
+  GIT_REPOSITORY https://github.com/aegis-aead/libaegis.git
+  GIT_TAG 0bb16395782de7d3b0ec28735c5e7e09e6551c93
+  GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(libaegis)
+
 # Reference Argon2 implementation, pinned to the 2019-07-02 release. The
 # library is built in no-thread mode for portable Android NDK builds; Argon2
 # still computes the same result, with lanes scheduled serially.
@@ -53,6 +63,6 @@ target_compile_definitions(argon2_ref PRIVATE ARGON2_NO_THREADS)
 
 add_library(sba_archive SHARED src/libsba_archive.cpp)
 target_include_directories(sba_archive PRIVATE "${zstd_SOURCE_DIR}/lib" "${argon2_SOURCE_DIR}/include")
-target_link_libraries(sba_archive PRIVATE libzstd_static argon2_ref log)
+target_link_libraries(sba_archive PRIVATE libzstd_static argon2_ref aegis log)
 target_compile_options(sba_archive PRIVATE -Wall -Wextra -Wpedantic -Werror=return-type)
 set_target_properties(sba_archive PROPERTIES OUTPUT_NAME "sba_archive")
