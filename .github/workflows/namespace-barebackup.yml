@@ -76,6 +76,8 @@ jobs:
           for smali in \
             build-src/smali/com/bareapps/sba/SbaLibaegisCryptoNative.smali \
             build-src/smali/com/bareapps/sba/SbaNativeCrypto.smali \
+            build-src/smali/com/bareapps/sba/SbaArchiveNative.smali \
+            build-src/smali/com/bareapps/sba/SbaRuntimeNative.smali \
             build-src/smali/com/bareapps/sba/SbaZstdNative.smali; do
             grep -q 'const-string v0, "sba_compat"' "$smali"
             grep -q 'System;->loadLibrary(Ljava/lang/String;)V' "$smali"
