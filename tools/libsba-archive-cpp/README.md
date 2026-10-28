@@ -7,7 +7,7 @@ This is the `tools/`-based build path modeled on `tools/native-jni-replacement/`
 - The workflow never writes to `bare-implementation/lib/*/libsba_archive.so`.
 - It verifies the original library SHA-256 before and after staging.
 - It does not package or sign an APK and does not wire the candidate into the normal APK workflow.
-- The candidate now exposes the same 20 JNI symbol names as the original, and CI enforces exact export parity. This is only symbol/API-surface parity: 11 newly exposed entry points currently fail closed with `UnsupportedOperationException`; the legacy Zstandard fd-to-fd compression export now has a streaming implementation until their implementations and behavior tests are added. The candidate is **not drop-in compatible yet**; archive creation/extraction, AEGIS chunk operations, and runtime/end-to-end comparisons remain incomplete.
+- The candidate now exposes the same 20 JNI symbol names as the original, and CI enforces exact export parity. This is only symbol/API-surface parity: 10 newly exposed entry points currently fail closed with `UnsupportedOperationException`; legacy Zstandard fd-to-fd compression and basic safe TAR extraction now have implementations until their implementations and behavior tests are added. The candidate is **not drop-in compatible yet**; archive creation, AEGIS chunk operations, advanced TAR features, and runtime/end-to-end comparisons remain incomplete. The basic TAR extractor currently handles regular files and directories only; it rejects unsafe paths and skips unsupported special entries.
 - The original `libnative-lib.so` and its build process are independent and untouched.
 
 ## Source
