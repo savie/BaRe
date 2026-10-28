@@ -182,7 +182,7 @@ with output.open("w", newline="", encoding="utf-8") as handle:
             writer.writerow({
                 "abi": abi,
                 "class": "<ORI export without matched Bare declaration>",
-                "method": symbol.rsplit("_", 1)[-1],
+                "method": symbol,
                 "descriptor": "",
                 "source": "libsba_archive.so",
                 "line": "",
