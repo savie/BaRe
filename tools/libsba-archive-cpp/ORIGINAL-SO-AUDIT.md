@@ -80,6 +80,30 @@ These four symbols are in the original `.so` but not declared by the current dec
 
 The candidate workflow emits `missing-original-jni-exports.txt` and `extra-candidate-jni-exports.txt` per ABI. The APK staging gate is deliberately stricter than the minimum current wrapper surface: it requires the candidate's export set to match the original binary exactly, so the workflow cannot silently accept a partial drop-in.
 
+## Recovered SBA1 container layout from the Java reader
+
+The decompiled reader `reference/jadx/sources/defpackage/z07.java` parses the on-disk container independently of the native library. This is useful format evidence for a future C++ reader, but should still be checked against original-produced files before it becomes the implementation contract.
+
+### File header
+
+- The reader requires the header magic checked by `tr9.a("file header", zv1.c)`, then reads a 16-bit version and 16-bit header size.
+- Supported versions are 1 and 2. Version 1 requires a 96-byte header; version 2 requires a 144-byte header.
+- Both versions then contain 32-bit archive flags and a 64-bit creation timestamp, followed by eight 16-bit fields, three fixed 16-byte values, two further 16-bit fields, and a 32-bit chunk-size field.
+- Version 1 ends with four reserved bytes, all required to be zero.
+- Version 2 adds one 32-bit field, four 16-bit fields, a 32-byte value, and eight reserved bytes, all required to be zero.
+- The reader validates compression method/level consistency against flag bit 0. Compression method 0 requires level 0; method 1 is Zstandard with a level in the accepted range 1–22.
+- AEGIS-256 and AEGIS-128X2 are encryption methods 4 and 5 respectively. Their parsed metadata requires 16-byte key-check, salt, and nonce-seed fields, zero MAC-related fields, and a chunk size from 4096 through 16777216 bytes (upper bound exclusive).
+- For encrypted headers, the reader derives the key from the stored salt/KDF parameters and checks the derived key against the stored key-check before constructing the payload decryptor.
+
+### Footer and index records
+
+- The footer is exactly 32 bytes at end-of-file. The final 4 bytes are a CRC32 over the preceding 28 bytes. The footer parser also checks its encoded size is 32 and that the footer version matches the header version.
+- An index record starts with five 64-bit values, then a 32-bit field, a 16-bit entry-name length, another 32-bit field, a 16-bit reserved field, and a 32-byte value. Version 2 records then include three additional 64-bit TAR-entry counters. The entry name follows as a variable-length UTF-8 byte sequence.
+- The reader rejects empty/invalid entry-name lengths, nonzero reserved fields, unsupported flags, negative or inconsistent offsets/counts, and v1 records with unsupported entry metadata.
+- The reader exposes archive information under format label `SBA1` and product label `Swift Backup Archive`.
+
+These observations recover meaningful parts of the container parser, but do not establish the native chunk framing or the exact nonce/AAD derivation. The string constants alone are insufficient to reproduce those safely.
+
 ## Recovered Java-side archive-creation contract
 
 The decompiled call site in `reference/jadx/sources/defpackage/tu0.java` establishes several inputs to the native `createArchive` call. These are caller-side facts; they do **not** establish the binary `SBA1` header/index layout or the native meaning of every integer.
