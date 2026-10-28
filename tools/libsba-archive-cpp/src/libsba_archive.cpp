@@ -5,6 +5,7 @@
 #include <aegis.h>
 
 #include <cstdint>
+#include <chrono>
 #include <algorithm>
 #include <cstring>
 #include <cstdio>
@@ -1272,9 +1273,65 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
   return result;
 }
 
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw,
-    "TAR extraction with statistics")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw(
+    JNIEnv* env, jobject self, jint input_fd, jlong tar_bytes,
+    jstring destination, jint options, jobjectArray filters,
+    jobject progress_listener) {
+  const auto started = std::chrono::steady_clock::now();
+  jobjectArray paths = Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+      env, self, input_fd, tar_bytes, destination, options, filters, progress_listener);
+  if (paths == nullptr || env->ExceptionCheck()) return nullptr;
+
+  // Match the 20-field SbaSwiftTarExtractStats contract used by the Java
+  // wrapper. Populate values we can measure reliably from this implementation;
+  // optimized-I/O counters remain zero because this path uses read/write.
+  jlong values[20] = {};
+  values[0] = tar_bytes;
+  values[1] = static_cast<jlong>(env->GetArrayLength(paths));
+  jclass file_class = env->FindClass("java/io/File");
+  if (file_class == nullptr) return nullptr;
+  jmethodID ctor = env->GetMethodID(file_class, "<init>", "(Ljava/lang/String;)V");
+  jmethodID is_dir = env->GetMethodID(file_class, "isDirectory", "()Z");
+  jmethodID length = env->GetMethodID(file_class, "length", "()J");
+  if (ctor == nullptr || is_dir == nullptr || length == nullptr) {
+    env->DeleteLocalRef(file_class);
+    return nullptr;
+  }
+  for (jsize i = 0; i < env->GetArrayLength(paths); ++i) {
+    auto path = static_cast<jstring>(env->GetObjectArrayElement(paths, i));
+    if (path == nullptr) continue;
+    jobject file = env->NewObject(file_class, ctor, path);
+    env->DeleteLocalRef(path);
+    if (file == nullptr || env->ExceptionCheck()) {
+      if (file != nullptr) env->DeleteLocalRef(file);
+      env->DeleteLocalRef(file_class);
+      return nullptr;
+    }
+    if (env->CallBooleanMethod(file, is_dir) == JNI_TRUE) {
+      ++values[3];
+    } else {
+      ++values[2];
+      const jlong bytes = env->CallLongMethod(file, length);
+      if (bytes > 0 && values[8] <= std::numeric_limits<jlong>::max() - bytes) {
+        values[8] += bytes;
+      }
+    }
+    env->DeleteLocalRef(file);
+    if (env->ExceptionCheck()) {
+      env->DeleteLocalRef(file_class);
+      return nullptr;
+    }
+  }
+  env->DeleteLocalRef(file_class);
+  const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::steady_clock::now() - started).count();
+  values[16] = static_cast<jlong>(elapsed);
+  jlongArray result = env->NewLongArray(20);
+  if (result == nullptr) return nullptr;
+  env->SetLongArrayRegion(result, 0, 20, values);
+  return env->ExceptionCheck() ? nullptr : result;
+}
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
