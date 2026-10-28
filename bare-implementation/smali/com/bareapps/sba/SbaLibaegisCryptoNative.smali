@@ -38,116 +38,22 @@
 .end method
 
 .method public static a(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
-    .locals 14
+    .locals 0
 
-    .line 1
-    sget-object v0, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
+    invoke-static/range {p0 .. p12}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
 
-    .line 2
-    .line 3
-    move v12, p0
-
-    .line 4
-    move-wide v2, p1
-
-    .line 5
-    move/from16 v1, p3
-
-    .line 6
-    .line 7
-    move-object/from16 v5, p4
-
-    .line 8
-    .line 9
-    move-object/from16 v6, p5
-
-    .line 10
-    .line 11
-    move-object/from16 v7, p6
-
-    .line 12
-    .line 13
-    move-wide/from16 v8, p7
-
-    .line 14
-    .line 15
-    move-wide/from16 v10, p9
-
-    .line 16
-    .line 17
-    move/from16 v4, p11
-
-    .line 18
-    .line 19
-    move-object/from16 v13, p12
-
-    .line 20
-    .line 21
-    invoke-direct/range {v0 .. v13}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->decryptAegis128X2ChunkedEntryFdRaw(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
-
-    .line 22
-    .line 23
-    .line 24
     move-result-object p0
 
-    .line 25
     return-object p0
 .end method
 
 .method public static b(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
-    .locals 14
+    .locals 0
 
-    .line 1
-    sget-object v0, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
+    invoke-static/range {p0 .. p12}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->b(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
 
-    .line 2
-    .line 3
-    move v12, p0
-
-    .line 4
-    move-wide v2, p1
-
-    .line 5
-    move/from16 v1, p3
-
-    .line 6
-    .line 7
-    move-object/from16 v5, p4
-
-    .line 8
-    .line 9
-    move-object/from16 v6, p5
-
-    .line 10
-    .line 11
-    move-object/from16 v7, p6
-
-    .line 12
-    .line 13
-    move-wide/from16 v8, p7
-
-    .line 14
-    .line 15
-    move-wide/from16 v10, p9
-
-    .line 16
-    .line 17
-    move/from16 v4, p11
-
-    .line 18
-    .line 19
-    move-object/from16 v13, p12
-
-    .line 20
-    .line 21
-    invoke-direct/range {v0 .. v13}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->decryptAegis256ChunkedEntryFdRaw(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
-
-    .line 22
-    .line 23
-    .line 24
     move-result-object p0
 
-    .line 25
     return-object p0
 .end method
 
@@ -292,5 +198,14 @@
 
 
 # virtual methods
-.method public final native isAvailable()Z
+.method public final isAvailable()Z
+    .locals 1
+
+    sget-object v0, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a:Lcom/swiftapps/sba/SbaLibaegisCryptoNative;
+
+    invoke-virtual {v0}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
+
+    move-result v0
+
+    return v0
 .end method
