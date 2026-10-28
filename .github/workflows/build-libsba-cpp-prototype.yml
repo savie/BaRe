@@ -71,7 +71,7 @@ jobs:
         run: |
           set -euo pipefail
           export ANDROID_NDK_VERSION="27.2.12479018"
-          tools/libsba-archive-cpp/build-prototype.sh "$ABI" "artifacts/$ABI"
+          bash tools/libsba-archive-cpp/build-prototype.sh "$ABI" "artifacts/$ABI"
           NDK_BIN="$ANDROID_HOME/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
