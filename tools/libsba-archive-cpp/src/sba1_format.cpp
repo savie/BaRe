@@ -74,9 +74,9 @@ bool parseHeader(const std::uint8_t* data, std::size_t size, Header* out,
   h.key_check_size = u16be(data + p); p += 2;
   h.salt_size = u16be(data + p); p += 2;
   h.nonce_seed_size = u16be(data + p); p += 2;
+  p += 48;  // key-check, salt and nonce-seed storage
   h.mac_method = u16be(data + p); p += 2;
   h.mac_size = u16be(data + p); p += 2;
-  p += 48;  // key-check, salt and nonce-seed storage
   h.chunk_size = u32be(data + p); p += 4;
 
   if (h.version == 1) {
@@ -104,7 +104,7 @@ bool parseHeader(const std::uint8_t* data, std::size_t size, Header* out,
         h.key_check_size != 0 || h.salt_size != 0 || h.nonce_seed_size != 0 ||
         h.mac_method != 0 || h.mac_size != 0 || h.chunk_size != 0)
       return fail(error, "inconsistent unencrypted SBA fields");
-    if (!allZero(data + 40, 48)) return fail(error, "non-zero unencrypted SBA key material");
+    if (!allZero(data + 36, 48)) return fail(error, "non-zero unencrypted SBA key material");
   } else if (h.encryption_method == 4 || h.encryption_method == 5) {
     if ((h.flags & 2u) == 0 || h.kdf_method != 1 || h.key_check_size != 16 ||
         h.salt_size != 16 || h.nonce_seed_size != 16 || h.mac_method != 0 ||
