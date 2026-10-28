@@ -15,6 +15,8 @@ on:
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
       - "tools/prepare-barebackup-build.py"
+      - "tools/sba-jni-compat/**"
+      - "tools/patch-sba-jni-compat.py"
 
 permissions:
   contents: read
@@ -68,6 +70,8 @@ jobs:
           sha256sum build/google-services.json
           sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 tools/prepare-barebackup-build.py
+          # Apply compatibility changes only to build-src; tracked source files stay unchanged.
+          python3 tools/patch-sba-jni-compat.py build-src
 
       - name: Replace native library with reconstructed JNI implementation
         shell: bash
@@ -107,6 +111,36 @@ jobs:
           sha256sum build-src/lib/*/libnative-lib.so
           "$NDK_BIN/clang++" --version | head -n 1
           "$NDK_BIN/llvm-readelf" --version | head -n 1
+
+      - name: Build SBA JNI compatibility shim for all APK ABIs
+        shell: bash
+        run: |
+          set -euo pipefail
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          test -f tools/sba-jni-compat/sba_compat.cpp
+          while IFS=: read -r abi target; do
+            out="build-src/lib/$abi/libsba_compat.so"
+            mkdir -p "build-src/lib/$abi"
+            "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
+              -Wall -Wextra -Werror=return-type -static-libstdc++ \
+              tools/sba-jni-compat/sba_compat.cpp -o "$out" -ldl -llog
+            "$NDK_BIN/llvm-readelf" -Ws "$out" > "build/$abi-sba-compat-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "$out" > "build/$abi-sba-compat-dynamic.txt"
+            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable' "build/$abi-sba-compat-symbols.txt"
+            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw' "build/$abi-sba-compat-symbols.txt"
+            grep -q 'Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw' "build/$abi-sba-compat-symbols.txt"
+            if grep -q 'NEEDED.*libc++_shared\\.so' "build/$abi-sba-compat-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in $abi SBA compatibility shim" >&2
+              exit 1
+            fi
+            echo "Validated SBA JNI compatibility shim for $abi ($target)"
+          done <<'ABIS'
+          arm64-v8a:aarch64-linux-android24
+          armeabi-v7a:armv7a-linux-androideabi24
+          x86:i686-linux-android24
+          x86_64:x86_64-linux-android24
+          ABIS
+          sha256sum build-src/lib/*/libsba_compat.so
 
       - name: Rebuild unsigned APK
         run: |
