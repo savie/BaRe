@@ -150,3 +150,97 @@ Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw(
     if (fn == nullptr) return nullptr;
     return fn(env, self, inputFd, outputFd, expectedSize, progressListener);
 }
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw(
+    JNIEnv* env, jobject self, jint fd, jlong offset, jstring destination,
+    jint flags, jobjectArray options, jobject progressListener) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jint, jlong, jstring,
+        jint, jobjectArray, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, fd, offset, destination, flags, options, progressListener);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw(
+    JNIEnv* env, jobject self, jint fd, jlong offset, jstring destination,
+    jint flags, jobjectArray options, jobject progressListener) {
+    using Fn = jlongArray (JNICALL *)(JNIEnv*, jobject, jint, jlong, jstring,
+        jint, jobjectArray, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdWithStatsRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, fd, offset, destination, flags, options, progressListener);
+}
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw(
+    JNIEnv* env, jobject self, jint fd, jlong offset, jlong compressedSize,
+    jstring destination, jint flags, jobjectArray options, jobject progressListener) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jint, jlong, jlong,
+        jstring, jint, jobjectArray, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, fd, offset, compressedSize, destination, flags, options,
+              progressListener);
+}
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesFromFdRaw(
+    JNIEnv* env, jobject self, jint fd, jlong offset) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jint, jlong);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesFromFdRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, fd, offset);
+}
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw(
+    JNIEnv* env, jobject self, jint fd, jlong offset, jlong compressedSize) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jint, jlong, jlong);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_listTarEntriesZstdFromFdRaw");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, fd, offset, compressedSize);
+}
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry(
+    JNIEnv* env, jobject self, jstring archivePath, jlong entryOffset,
+    jlong plainSize, jlong cipherSize, jlong entrySize, jstring destination,
+    jint flags, jobjectArray options, jint chunkSize, jint cipher,
+    jbyteArray key, jbyteArray nonce, jbyteArray aad, jlong metadataOffset,
+    jint metadataSize, jobject progressListener) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jstring, jlong, jlong,
+        jlong, jlong, jstring, jint, jobjectArray, jint, jint, jbyteArray,
+        jbyteArray, jbyteArray, jlong, jint, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, archivePath, entryOffset, plainSize, cipherSize,
+        entrySize, destination, flags, options, chunkSize, cipher, key, nonce,
+        aad, metadataOffset, metadataSize, progressListener);
+}
+
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused(
+    JNIEnv* env, jobject self, jstring archivePath, jlong entryOffset,
+    jlong plainSize, jlong cipherSize, jlong entrySize, jstring destination,
+    jint flags, jobjectArray options, jint chunkSize, jint cipher,
+    jbyteArray key, jbyteArray nonce, jbyteArray aad, jlong metadataOffset,
+    jint metadataSize, jobject progressListener) {
+    using Fn = jobjectArray (JNICALL *)(JNIEnv*, jobject, jstring, jlong, jlong,
+        jlong, jlong, jstring, jint, jobjectArray, jint, jint, jbyteArray,
+        jbyteArray, jbyteArray, jlong, jint, jobject);
+    Fn fn = resolve<Fn>(env,
+        "Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused");
+    if (fn == nullptr) return nullptr;
+    return fn(env, self, archivePath, entryOffset, plainSize, cipherSize,
+        entrySize, destination, flags, options, chunkSize, cipher, key, nonce,
+        aad, metadataOffset, metadataSize, progressListener);
+}
+
