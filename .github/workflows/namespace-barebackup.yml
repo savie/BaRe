@@ -126,6 +126,9 @@ jobs:
             sha256sum "$ORIGINAL" > "build/libsba-cpp/original-$ABI.sha256"
             export SBA_LIBRARY_OUTPUT_NAME=sba_archive
             bash tools/libsba-archive-cpp/build-prototype.sh "$ABI" "build/libsba-cpp/replacement/$ABI"
+            NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+            bash tools/libsba-archive-cpp/verify-jni-surface.sh \
+              "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$NDK_BIN/llvm-readelf"
             cp "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$BUILD_COPY"
             cmp "build/libsba-cpp/replacement/$ABI/libsba_archive.so" "$BUILD_COPY"
             sha256sum -c "build/libsba-cpp/original-$ABI.sha256"
