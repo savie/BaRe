@@ -15,6 +15,31 @@ relative_paths = (
     Path("smali/com/bareapps/sba/SbaZstdNative.smali"),
     Path("smali/com/bareapps/sba/SbaBareTarNative.smali"),
 )
+# The legacy native library resolves this callback interface by its original
+# package name. Keep a build-only compatibility interface; source trees stay untouched.
+legacy_listener = root / "smali/com/swiftapps/sba/internal/progress/SbaNativeProgressListener.smali"
+legacy_listener.parent.mkdir(parents=True, exist_ok=True)
+listener_text = """.class public interface abstract Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+.super Ljava/lang/Object;
+
+.method public isCancellationRequested()Z
+    .locals 0
+    const/4 p0, 0x0
+    return p0
+.end method
+
+.method public abstract onProgress(JJ)V
+.end method
+"""
+if legacy_listener.exists():
+    existing = legacy_listener.read_text(encoding="utf-8")
+    if "Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;" not in existing:
+        raise SystemExit(f"Unexpected legacy listener compatibility class: {legacy_listener}")
+    print(f"Legacy progress listener compatibility class already present: {legacy_listener}")
+else:
+    legacy_listener.write_text(listener_text, encoding="utf-8")
+    print(f"Added build-only legacy progress listener compatibility class: {legacy_listener}")
+
 needle = 'invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
 for relative in relative_paths:
     target = root / relative
