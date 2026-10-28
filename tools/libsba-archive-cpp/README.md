@@ -1,6 +1,6 @@
 # C++ implementation track for libsba_archive.so
 
-This directory under `tools/` is the source-owned C++ prototype and build tooling. It is deliberately NOT wired into APK packaging and must not replace the checked-in original library. It is deliberately NOT wired into APK packaging and must not replace the checked-in `bare-implementation/lib/*/libsba_archive.so` until the full JNI surface and compatibility tests are implemented.
+This directory under `tools/` is the source-owned C++ prototype and build tooling. It is deliberately NOT wired into APK packaging and must not replace the checked-in `bare-implementation/lib/*/libsba_archive.so` until the full JNI surface and compatibility tests are implemented.
 
 ## Current status
 
