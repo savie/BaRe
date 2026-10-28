@@ -24,7 +24,7 @@ These are prototype implementations only. Build success does not establish compa
 
 ## Evidence from the original binary
 
-The CI audit read the original `.so` symbols with `llvm-readelf -Ws`. On the recorded baseline run, the original library exposed **20 JNI symbols** and the prototype exposed **6**, leaving **14 original exports unimplemented**. The observed JNI surface is recorded in `original-jni-surface.txt`; the run and source binary are linked in that manifest. The comparison is based on the original checked-in binary, not guessed signatures.
+The CI audit read the original `.so` symbols with `llvm-readelf -Ws`. On the recorded baseline run, the original library exposed **20 JNI symbols** and the prototype exposed **6**, leaving **14 original exports unimplemented**. The observed JNI surface is recorded in `original-jni-surface.txt`; verified descriptors from the Java/smali declarations are listed in [`jni-descriptor-inventory.md`](jni-descriptor-inventory.md). The run and source binary are linked in the manifest. The comparison is based on the original checked-in binary, not guessed signatures.
 
 The missing original operations include archive creation, TAR creation and extraction, compressed TAR extraction, AEGIS entry encryption/decryption, the runtime version method, and Zstandard FD/file compression. Their exact JNI descriptors and behavior must be matched against the Java declarations, call sites, original binary, and known-good fixtures.
 
