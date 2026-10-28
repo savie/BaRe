@@ -987,9 +987,136 @@ SBA_UNIMPLEMENTED_OBJECT_ARRAY(
     Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw,
     "Zstandard TAR extraction")
 
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaZstdNative_compressZstdFdToFdRaw,
-    "legacy Zstandard fd-to-fd compression")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaZstdNative_compressZstdFdToFdRaw(
+    JNIEnv* env, jobject /* self */, jint input_fd, jint output_fd,
+    jlong expected_size, jobject progress_listener) {
+  if (input_fd < 0 || output_fd < 0 || input_fd == output_fd || expected_size < -1) {
+    throwJava(env, "java/lang/IllegalArgumentException",
+        "invalid file descriptor or expected input size");
+    return nullptr;
+  }
+
+  ZSTD_CStream* stream = ZSTD_createCStream();
+  if (stream == nullptr) {
+    throwJava(env, "java/lang/OutOfMemoryError", "could not allocate Zstandard compression stream");
+    return nullptr;
+  }
+  const std::size_t init_result = ZSTD_initCStream(stream, ZSTD_CLEVEL_DEFAULT);
+  if (ZSTD_isError(init_result)) {
+    ZSTD_freeCStream(stream);
+    throwJava(env, "java/lang/IllegalStateException", ZSTD_getErrorName(init_result));
+    return nullptr;
+  }
+
+  constexpr std::size_t kChunk = 64 * 1024;
+  std::vector<std::uint8_t> input(kChunk);
+  std::vector<std::uint8_t> output(ZSTD_CStreamOutSize());
+  std::uint64_t total_read = 0;
+  std::uint64_t total_written = 0;
+  bool failed = false;
+  std::string error_message;
+
+  while (true) {
+    ssize_t count;
+    do { count = ::read(input_fd, input.data(), input.size()); }
+    while (count < 0 && errno == EINTR);
+    if (count < 0) {
+      error_message = std::string("read failed: ") + std::strerror(errno);
+      failed = true;
+      break;
+    }
+    if (count == 0) {
+      if (expected_size >= 0 && total_read != static_cast<std::uint64_t>(expected_size)) {
+        error_message = "input size does not match expected size";
+        failed = true;
+      }
+      ZSTD_inBuffer in{nullptr, 0, 0};
+      std::size_t remaining = 1;
+      while (!failed && remaining != 0) {
+        ZSTD_outBuffer out{output.data(), output.size(), 0};
+        remaining = ZSTD_compressStream2(stream, &out, &in, ZSTD_e_end);
+        if (ZSTD_isError(remaining)) {
+          error_message = ZSTD_getErrorName(remaining);
+          failed = true;
+          break;
+        }
+        std::size_t offset = 0;
+        while (offset < out.pos) {
+          ssize_t n;
+          do { n = ::write(output_fd, output.data() + offset, out.pos - offset); }
+          while (n < 0 && errno == EINTR);
+          if (n <= 0) {
+            error_message = std::string("write failed: ") + std::strerror(errno);
+            failed = true;
+            break;
+          }
+          offset += static_cast<std::size_t>(n);
+          total_written += static_cast<std::uint64_t>(n);
+        }
+      }
+      break;
+    }
+
+    total_read += static_cast<std::uint64_t>(count);
+    if (total_read > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+      error_message = "stream byte count overflow";
+      failed = true;
+      break;
+    }
+    if (!notifyProgress(env, progress_listener, static_cast<jlong>(total_read), expected_size)) {
+      if (env->ExceptionCheck()) {
+        ZSTD_freeCStream(stream);
+        return nullptr;
+      }
+      error_message = "progress callback failed";
+      failed = true;
+      break;
+    }
+
+    ZSTD_inBuffer in{input.data(), static_cast<std::size_t>(count), 0};
+    while (in.pos < in.size) {
+      ZSTD_outBuffer out{output.data(), output.size(), 0};
+      const std::size_t remaining = ZSTD_compressStream2(stream, &out, &in, ZSTD_e_continue);
+      if (ZSTD_isError(remaining)) {
+        error_message = ZSTD_getErrorName(remaining);
+        failed = true;
+        break;
+      }
+      std::size_t offset = 0;
+      while (offset < out.pos) {
+        ssize_t n;
+        do { n = ::write(output_fd, output.data() + offset, out.pos - offset); }
+        while (n < 0 && errno == EINTR);
+        if (n <= 0) {
+          error_message = std::string("write failed: ") + std::strerror(errno);
+          failed = true;
+          break;
+        }
+        offset += static_cast<std::size_t>(n);
+        total_written += static_cast<std::uint64_t>(n);
+        if (total_written > static_cast<std::uint64_t>(std::numeric_limits<jlong>::max())) {
+          error_message = "stream byte count overflow";
+          failed = true;
+          break;
+        }
+      }
+      if (failed) break;
+    }
+    if (failed) break;
+  }
+
+  ZSTD_freeCStream(stream);
+  if (failed) {
+    throwJava(env, "java/io/IOException", error_message);
+    return nullptr;
+  }
+  jlong values[2] = {static_cast<jlong>(total_read), static_cast<jlong>(total_written)};
+  jlongArray result = env->NewLongArray(2);
+  if (result == nullptr) return nullptr;
+  env->SetLongArrayRegion(result, 0, 2, values);
+  return env->ExceptionCheck() ? nullptr : result;
+}
 
 SBA_UNIMPLEMENTED_LONG_ARRAY(
     Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw,
