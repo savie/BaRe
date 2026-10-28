@@ -134,7 +134,19 @@ jobs:
           printf 'Candidate JNI exports: '; wc -l < "artifacts/$ABI/candidate-jni-exports.txt"
           printf 'Missing original JNI exports: '; wc -l < "artifacts/$ABI/missing-original-jni-exports.txt"
           if test -s "artifacts/$ABI/missing-original-jni-exports.txt"; then
-            echo "Candidate is incomplete; missing original JNI exports are recorded as an artifact. This build is not drop-in compatible."
+            echo "Candidate is missing one or more original JNI entry points." >&2
+            cat "artifacts/$ABI/missing-original-jni-exports.txt" >&2
+            exit 1
+          fi
+          if test -s "artifacts/$ABI/extra-candidate-jni-exports.txt"; then
+            echo "Candidate has unexpected JNI exports." >&2
+            cat "artifacts/$ABI/extra-candidate-jni-exports.txt" >&2
+            exit 1
+          fi
+          CANDIDATE_EXPORT_COUNT=$(wc -l < "artifacts/$ABI/candidate-jni-exports.txt")
+          if test "$CANDIDATE_EXPORT_COUNT" -ne 20; then
+            echo "Expected exactly 20 candidate JNI exports for $ABI, found $CANDIDATE_EXPORT_COUNT" >&2
+            exit 1
           fi
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
