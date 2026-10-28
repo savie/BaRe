@@ -52,7 +52,6 @@ The current candidate intentionally remains isolated. It does not yet implement 
 - `SbaLibaegisCryptoNative.decryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.encryptAegis256ChunkedEntryFdRaw`
 - `SbaLibaegisCryptoNative.isAvailable`
-- `SbaRuntimeNative.version` (recovered from original x86_64 disassembly: returns `SwiftTar`; implemented in candidate)
 - `SbaSwiftTarNative.createTarToFdWithWriteStatsRaw`
 - `SbaSwiftTarNative.extractAegisArchiveEntry`
 - `SbaSwiftTarNative.extractAegisArchiveEntryFused`
