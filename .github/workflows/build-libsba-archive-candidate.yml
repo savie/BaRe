@@ -86,6 +86,17 @@ jobs:
           "$NDK_BIN/llvm-readelf" -h "$CANDIDATE"
           "$NDK_BIN/llvm-readelf" -Ws "$CANDIDATE" > "artifacts/$ABI/jni-symbols.txt"
           "$NDK_BIN/llvm-readelf" -d "$CANDIDATE" > "artifacts/$ABI/jni-dynamic.txt"
+          "$NDK_BIN/llvm-readelf" -Ws "$ORIGINAL" > "artifacts/$ABI/original-jni-symbols.txt"
+          grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/original-jni-symbols.txt" | sort -u > "artifacts/$ABI/original-jni-exports.txt"
+          grep -oE 'Java_[[:alnum:]_]+' "artifacts/$ABI/jni-symbols.txt" | sort -u > "artifacts/$ABI/candidate-jni-exports.txt"
+          comm -23 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/missing-original-jni-exports.txt"
+          comm -13 "artifacts/$ABI/original-jni-exports.txt" "artifacts/$ABI/candidate-jni-exports.txt" > "artifacts/$ABI/extra-candidate-jni-exports.txt"
+          printf 'Original JNI exports: '; wc -l < "artifacts/$ABI/original-jni-exports.txt"
+          printf 'Candidate JNI exports: '; wc -l < "artifacts/$ABI/candidate-jni-exports.txt"
+          printf 'Missing original JNI exports: '; wc -l < "artifacts/$ABI/missing-original-jni-exports.txt"
+          if test -s "artifacts/$ABI/missing-original-jni-exports.txt"; then
+            echo "Candidate is incomplete; missing original JNI exports are recorded as an artifact. This build is not drop-in compatible."
+          fi
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdBytes' "artifacts/$ABI/jni-symbols.txt"
           grep -q 'Java_com_swiftapps_sba_SbaZstdNative_decompressZstdFdToFdRaw' "artifacts/$ABI/jni-symbols.txt"
