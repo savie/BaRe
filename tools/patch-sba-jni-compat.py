@@ -22,10 +22,7 @@ legacy_listener.parent.mkdir(parents=True, exist_ok=True)
 listener_text = """.class public interface abstract Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
 .super Ljava/lang/Object;
 
-.method public isCancellationRequested()Z
-    .locals 0
-    const/4 p0, 0x0
-    return p0
+.method public abstract isCancellationRequested()Z
 .end method
 
 .method public abstract onProgress(JJ)V
@@ -39,6 +36,47 @@ if legacy_listener.exists():
 else:
     legacy_listener.write_text(listener_text, encoding="utf-8")
     print(f"Added build-only legacy progress listener compatibility class: {legacy_listener}")
+
+# Native libsba_archive expects the original callback interface, while application
+# objects implement the Bare interface. Add a build-only adapter that forwards callbacks.
+adapter = root / "smali/com/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter.smali"
+adapter_text = """ .class public final Lcom/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter;
+.super Ljava/lang/Object;
+.implements Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+
+.field private final delegate:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
+
+.method public constructor <init>(Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)V
+    .locals 0
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    iput-object p1, p0, Lcom/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter;->delegate:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
+    return-void
+.end method
+
+.method public isCancellationRequested()Z
+    .locals 1
+    iget-object v0, p0, Lcom/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter;->delegate:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
+    invoke-interface {v0}, Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;->isCancellationRequested()Z
+    move-result v0
+    return v0
+.end method
+
+.method public onProgress(JJ)V
+    .locals 1
+    iget-object v0, p0, Lcom/swiftapps/sba/internal/progress/SbaLegacyProgressListenerAdapter;->delegate:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
+    invoke-interface {v0, p1, p2, p3, p4}, Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;->onProgress(JJ)V
+    return-void
+.end method
+""".lstrip()
+adapter.parent.mkdir(parents=True, exist_ok=True)
+if adapter.exists():
+    current = adapter.read_text(encoding="utf-8")
+    if "SbaLegacyProgressListenerAdapter" not in current:
+        raise SystemExit(f"Unexpected legacy progress adapter: {adapter}")
+    print(f"Legacy progress adapter already present: {adapter}")
+else:
+    adapter.write_text(adapter_text, encoding="utf-8")
+    print(f"Added build-only legacy progress adapter: {adapter}")
 
 needle = 'invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V'
 for relative in relative_paths:
