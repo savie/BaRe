@@ -10,6 +10,7 @@ This directory is an isolated, source-owned prototype. It is deliberately NOT wi
 - [x] Integrate the pinned Argon2 reference implementation and expose `deriveArgon2id` with the app’s parameter bounds.
 - [x] Expose a prototype-identifying `SbaRuntimeNative.version()` JNI method (does not imply compatibility).
 - [x] Add a bounded basic TAR entry-listing JNI prototype for checksum-validated headers with octal and positive base-256 numeric fields.
+- [x] Add Zstandard-compressed TAR listing for a bounded `(offset, compressed length)` descriptor range using a temporary spool and the validated TAR parser.
 - [x] CI verifies the streaming JNI export and records the source revision and SHA-256 of each ABI artifact.
 - [ ] Verify runtime behavior and exact result/progress semantics against the original library.
 - [x] Add PAX/GNU long names, positive base-256 numeric fields, and PAX size/fractional-mtime support to TAR listing.\n- [ ] Add sparse-file and xattr support; implement TAR extraction and archive creation.
@@ -31,7 +32,7 @@ The CI workflow at `.github/workflows/build-libsba-cpp-prototype.yml` passed on 
 Declarations under `bare-implementation/smali/com/swiftapps/sba/` show the library is much larger than a Zstandard wrapper. A production-compatible replacement still needs, at minimum:
 
 - `SbaArchiveNative.createArchive`
-- `SbaSwiftTarNative`: TAR extraction/listing, Zstandard TAR paths, Aegis archive extraction, and write statistics
+- `SbaSwiftTarNative`: plain TAR listing and bounded Zstandard TAR listing are implemented as prototypes; TAR extraction, other Zstandard TAR paths, Aegis archive extraction, and write statistics remain missing
 - `SbaZstdNative`: byte operations and file-descriptor streaming decompression (the FD decompressor is implemented in this prototype; exact result-array and progress semantics still need verification)
 - `SbaNativeCrypto.deriveArgon2id` (now implemented, runtime/vector validation pending)
 - `SbaLibaegisCryptoNative`: AEGIS-128X2 and AEGIS-256 chunked decryption
