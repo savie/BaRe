@@ -79,7 +79,7 @@
     .line 24
     .line 25
     .line 26
-    sget p0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget p0, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 27
     .line 28
@@ -182,7 +182,7 @@
     .line 24
     .line 25
     .line 26
-    sget p0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget p0, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 27
     .line 28
@@ -288,7 +288,7 @@
     .line 24
     .line 25
     .line 26
-    sget p0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget p0, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 27
     .line 28

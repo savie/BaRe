@@ -355,7 +355,7 @@
 
     .line 129
     .line 130
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 131
     .line 132
@@ -485,7 +485,7 @@
     .line 190
     :cond_5
     :goto_1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->o()Ljava/util/Map;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->o()Ljava/util/Map;
 
     .line 191
     .line 192
@@ -493,11 +493,11 @@
     move-result-object p0
 
     .line 194
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 195
     .line 196
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 197
     .line 198

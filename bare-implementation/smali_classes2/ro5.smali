@@ -142,7 +142,7 @@
     move-result-object v1
 
     .line 67
-    check-cast v1, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast v1, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 68
     .line 69

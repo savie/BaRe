@@ -27,7 +27,7 @@
 
 .field public final q:Landroid/widget/ImageView;
 
-.field public final r:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final r:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final t:Landroid/widget/TextView;
 
@@ -37,7 +37,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lij2;Landroid/view/View;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lij2;Landroid/view/View;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -86,7 +86,7 @@
 
     .line 23
     .line 24
-    iput-object p11, p0, Lhj2;->r:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p11, p0, Lhj2;->r:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 25
     .line 26

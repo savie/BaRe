@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/orphans/a;
 
 .field public final synthetic b:Lpe4;
 
@@ -15,7 +15,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/orphans/a;Lpe4;Lci1;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/orphans/a;Lpe4;Lci1;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lxh1;->a:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    iput-object p1, p0, Lxh1;->a:Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 5
     .line 6
@@ -49,16 +49,16 @@
 
     .line 2
     .line 3
-    iget-object v1, p0, Lxh1;->a:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    iget-object v1, p0, Lxh1;->a:Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 4
     .line 5
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->j(Lpe4;Lorg/swiftapps/swiftbackup/cloud/orphans/a;)V
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/cloud/orphans/a;->j(Lpe4;Lcom/bareapps/barebackup/cloud/orphans/a;)V
 
     .line 6
     .line 7
     .line 8
-    iget-object v0, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->f:Lix6;
+    iget-object v0, v1, Lcom/bareapps/barebackup/cloud/orphans/a;->f:Lix6;
 
     .line 9
     .line 10

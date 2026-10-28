@@ -45,7 +45,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    check-cast p0, Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 8
     .line 9
@@ -58,7 +58,7 @@
     .line 12
     .line 13
     .line 14
-    iget-object v0, p1, Ll01;->C:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object v0, p1, Ll01;->C:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 15
     .line 16
@@ -82,7 +82,7 @@
 
     .line 25
     .line 26
-    iget-object v3, v2, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v3, v2, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 27
     .line 28
@@ -98,7 +98,7 @@
 
     .line 33
     .line 34
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getPhotoUri()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getPhotoUri()Ljava/lang/String;
 
     .line 35
     .line 36
@@ -115,7 +115,7 @@
 
     .line 42
     .line 43
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getName()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -135,7 +135,7 @@
 
     .line 52
     .line 53
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
 
     .line 54
     .line 55
@@ -147,7 +147,7 @@
 
     .line 58
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getName()Ljava/lang/String;
 
     .line 59
     .line 60
@@ -178,7 +178,7 @@
     .line 72
     .line 73
     .line 74
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getType()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getType()I
 
     .line 75
     .line 76
@@ -305,7 +305,7 @@
     move-result v5
 
     .line 135
-    invoke-static {v4, v8, v5}, Lorg/swiftapps/swiftbackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
+    invoke-static {v4, v8, v5}, Lcom/bareapps/barebackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
 
     .line 136
     .line 137
@@ -322,7 +322,7 @@
 
     .line 143
     .line 144
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
 
     .line 145
     .line 146
@@ -339,7 +339,7 @@
 
     .line 152
     .line 153
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getDate()J
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getDate()J
 
     .line 154
     .line 155
@@ -347,7 +347,7 @@
     move-result-wide v4
 
     .line 157
-    invoke-static {v4, v5}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v4, v5}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 158
     .line 159
@@ -404,7 +404,7 @@
     .line 186
     .line 187
     .line 188
-    iget-object v1, v2, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v1, v2, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 189
     .line 190
@@ -425,7 +425,7 @@
 
     .line 198
     .line 199
-    invoke-direct {v1, p2, p0, p1}, Lk01;-><init>(Lm01;Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;Ll01;)V
+    invoke-direct {v1, p2, p0, p1}, Lk01;-><init>(Lm01;Lcom/bareapps/barebackup/model/provider/CallLogItem;Ll01;)V
 
     .line 200
     .line 201
@@ -435,7 +435,7 @@
     .line 203
     .line 204
     .line 205
-    iget-object p0, p1, Ll01;->w:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p1, Ll01;->w:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 206
     .line 207

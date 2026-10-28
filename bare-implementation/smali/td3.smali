@@ -296,7 +296,7 @@
 
     .line 21
     .line 22
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 23
     .line 24
@@ -326,7 +326,7 @@
 
     .line 36
     :cond_1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 37
     .line 38
@@ -430,7 +430,7 @@
 
     .line 84
     .line 85
-    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 86
     .line 87
@@ -509,7 +509,7 @@
 
     .line 120
     :cond_9
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 121
     .line 122
@@ -679,7 +679,7 @@
 
     .line 66
     .line 67
-    invoke-static {v4}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v4}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 68
     .line 69

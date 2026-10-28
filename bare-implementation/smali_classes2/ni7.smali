@@ -13,11 +13,11 @@
 
 .field public final c:Lix0;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lix0;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lix0;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
     .locals 0
 
     .line 1
@@ -38,7 +38,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lni7;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p4, p0, Lni7;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 11
     .line 12
@@ -139,7 +139,7 @@
     move-result-object v4
 
     .line 47
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v4, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 48
     .line 49
@@ -155,7 +155,7 @@
 
     .line 54
     .line 55
-    invoke-direct {v2, p0, v0, v1, v4}, Lni7;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lix0;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {v2, p0, v0, v1, v4}, Lni7;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lix0;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 56
     .line 57

@@ -307,7 +307,7 @@
 
     .line 42
     .line 43
-    invoke-virtual {v1}, Lfs4;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {v1}, Lfs4;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 44
     .line 45
@@ -990,7 +990,7 @@
 
     .line 388
     .line 389
-    invoke-static {}, Lb45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 390
     .line 391
@@ -998,7 +998,7 @@
     move-result-object v13
 
     .line 393
-    invoke-static {v13}, Lqy5;->e(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Ljava/lang/String;
+    invoke-static {v13}, Lqy5;->e(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Ljava/lang/String;
 
     .line 394
     .line 395
@@ -1941,7 +1941,7 @@
     move-result v3
 
     .line 855
-    invoke-static {v3, v4, v2}, Lorg/swiftapps/swiftbackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
+    invoke-static {v3, v4, v2}, Lcom/bareapps/barebackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
 
     .line 856
     .line 857
@@ -2019,7 +2019,7 @@
     .line 890
     .line 891
     :try_start_0
-    invoke-static {v13}, Lcu;->c(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {v13}, Lcu;->c(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 892
     .line 893
@@ -2270,7 +2270,7 @@
     move-result v2
 
     .line 1011
-    invoke-static {v2, v4, v0}, Lorg/swiftapps/swiftbackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
+    invoke-static {v2, v4, v0}, Lcom/bareapps/barebackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
 
     .line 1012
     .line 1013
@@ -2430,7 +2430,7 @@
     move-result v8
 
     .line 1088
-    invoke-static {v8, v4, v0}, Lorg/swiftapps/swiftbackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
+    invoke-static {v8, v4, v0}, Lcom/bareapps/barebackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
 
     .line 1089
     .line 1090
@@ -2476,7 +2476,7 @@
     move-result v2
 
     .line 1111
-    invoke-static {v2, v4, v0}, Lorg/swiftapps/swiftbackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
+    invoke-static {v2, v4, v0}, Lcom/bareapps/barebackup/common/Const;->t(ILandroid/content/Context;Ljava/lang/String;)Landroid/text/SpannableStringBuilder;
 
     .line 1112
     .line 1113

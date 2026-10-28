@@ -98,7 +98,7 @@
     move-result-object v0
 
     .line 38
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    const-class v1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 39
     .line 40

@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 .field public final b:Landroid/widget/TextView;
 
@@ -16,7 +16,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -35,7 +35,7 @@
     .line 8
     .line 9
     .line 10
-    iput-object p1, p0, Ldy7;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Ldy7;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 11
     .line 12
@@ -261,7 +261,7 @@
     move-result-object v1
 
     .line 57
-    iget-object v4, p0, Ldy7;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v4, p0, Ldy7;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 58
     .line 59

@@ -80,7 +80,7 @@
 
     .line 18
     .line 19
-    const-string v5, "onViewStatusUI(Lorg/swiftapps/swiftbackup/cloud/clients/CloudClient$ViewStatus;)V"
+    const-string v5, "onViewStatusUI(Lcom/bareapps/barebackup/cloud/clients/CloudClient$ViewStatus;)V"
 
     .line 20
     .line 21

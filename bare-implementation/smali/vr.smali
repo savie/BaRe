@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lvr;->b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iput-object p1, p0, Lvr;->b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lvr;->b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object p0, p0, Lvr;->b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->p0()Los;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->p0()Los;
 
     .line 11
     .line 12
@@ -72,11 +72,11 @@
 
     .line 17
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 18
     .line 19
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->s0()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->s0()Z
 
     .line 20
     .line 21
@@ -88,7 +88,7 @@
 
     .line 24
     .line 25
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->h0()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->h0()V
 
     .line 26
     .line 27
@@ -97,7 +97,7 @@
 
     .line 29
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
 
     .line 30
     .line 31
@@ -116,7 +116,7 @@
 
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
 
     .line 39
     .line 40

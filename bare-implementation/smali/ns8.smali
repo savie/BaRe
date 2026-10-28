@@ -19,7 +19,7 @@
 
     .line 2
     .line 3
-    const-string v4, "currentWifiAccessSnapshot()Lorg/swiftapps/swiftbackup/wifi/device/WifiAccessSnapshot;"
+    const-string v4, "currentWifiAccessSnapshot()Lcom/bareapps/barebackup/wifi/device/WifiAccessSnapshot;"
 
     .line 4
     .line 5

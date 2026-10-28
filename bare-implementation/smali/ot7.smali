@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+.field public final synthetic a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
 .field public final synthetic b:Landroid/view/View;
 
@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/view/View;Lcom/google/android/material/card/MaterialCardView;Landroid/view/View;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/view/View;Lcom/google/android/material/card/MaterialCardView;Landroid/view/View;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lot7;->a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    iput-object p1, p0, Lot7;->a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 5
     .line 6
@@ -59,7 +59,7 @@
 
     .line 4
     .line 5
-    iget-object p3, p0, Lot7;->a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    iget-object p3, p0, Lot7;->a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 6
     .line 7
@@ -67,7 +67,7 @@
 
     .line 8
     .line 9
-    invoke-static {p3, p0, p1, p2}, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;->c(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/view/View;Lcom/google/android/material/card/MaterialCardView;Landroid/view/View;)V
+    invoke-static {p3, p0, p1, p2}, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;->c(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/view/View;Lcom/google/android/material/card/MaterialCardView;Landroid/view/View;)V
 
     .line 10
     .line 11

@@ -17,7 +17,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -40,7 +40,7 @@
 
     .line 15
     :cond_1
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getProviderData()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getProviderData()Ljava/util/List;
 
     .line 16
     .line 17
@@ -137,7 +137,7 @@
     .line 59
     .line 60
     :cond_4
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
 
     .line 61
     .line 62
@@ -167,11 +167,11 @@
 
     .line 73
     :cond_6
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 74
     .line 75
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 76
     .line 77
@@ -1227,11 +1227,11 @@
     .line 2
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 5
     .line 6
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getG()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getG()Z
 
     .line 7
     .line 8
@@ -1255,11 +1255,11 @@
 
     .line 16
     .line 17
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 18
     .line 19
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 20
     .line 21
@@ -1283,7 +1283,7 @@
 
     .line 30
     .line 31
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->N:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->N:I
 
     .line 32
     .line 33
@@ -1291,7 +1291,7 @@
 
     .line 34
     .line 35
-    const-class v2, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    const-class v2, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 36
     .line 37
@@ -1349,7 +1349,7 @@
     .line 61
     .line 62
     .line 63
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;->M:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;->M:I
 
     .line 64
     .line 65
@@ -1357,7 +1357,7 @@
 
     .line 66
     .line 67
-    const-class v2, Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;
+    const-class v2, Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;
 
     .line 68
     .line 69

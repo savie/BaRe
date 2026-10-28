@@ -8,7 +8,7 @@
 
 .field public final b:Landroid/widget/TextView;
 
-.field public final c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
@@ -41,11 +41,11 @@
 
     .line 13
     .line 14
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 15
     .line 16
-    iput-object p1, p0, Ltq1;->c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltq1;->c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 17
     .line 18
@@ -54,7 +54,7 @@
 
 
 # virtual methods
-.method public final a(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;)V
+.method public final a(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;)V
     .locals 9
 
     .line 1
@@ -62,7 +62,7 @@
 
     .line 2
     .line 3
-    iget-object v1, p0, Ltq1;->c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, p0, Ltq1;->c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 4
     .line 5
@@ -83,7 +83,7 @@
     const/4 v5, 0x0
 
     .line 12
-    invoke-static {p1, v3, v4, v5}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->isValid$default(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;ZILjava/lang/Object;)Z
+    invoke-static {p1, v3, v4, v5}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->isValid$default(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;ZILjava/lang/Object;)Z
 
     .line 13
     .line 14
@@ -104,7 +104,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->getLabels()Ljava/util/Set;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->getLabels()Ljava/util/Set;
 
     .line 23
     .line 24

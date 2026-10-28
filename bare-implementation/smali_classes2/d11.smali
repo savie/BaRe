@@ -177,7 +177,7 @@
 
     .line 66
     .line 67
-    check-cast v0, Lorg/swiftapps/swiftbackup/notice/NoticeListActivity;
+    check-cast v0, Lcom/bareapps/barebackup/notice/NoticeListActivity;
 
     .line 68
     .line 69
@@ -185,15 +185,15 @@
 
     .line 70
     .line 71
-    check-cast p0, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast p0, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 72
     .line 73
-    sget v1, Lorg/swiftapps/swiftbackup/notice/NoticeListActivity;->N:I
+    sget v1, Lcom/bareapps/barebackup/notice/NoticeListActivity;->N:I
 
     .line 74
     .line 75
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
 
     .line 76
     .line 77
@@ -201,7 +201,7 @@
     move-result-object p0
 
     .line 79
-    invoke-static {v0, p0}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {v0, p0}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 80
     .line 81
@@ -233,11 +233,11 @@
 
     .line 93
     .line 94
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast p0, Lcom/bareapps/barebackup/intro/d;
 
     .line 95
     .line 96
-    sget v1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 97
     .line 98
@@ -483,7 +483,7 @@
 
     .line 219
     .line 220
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast p0, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 221
     .line 222
@@ -535,7 +535,7 @@
     .line 244
     .line 245
     .line 246
-    invoke-static {p0, v2, v2}, Lorg/swiftapps/swiftbackup/folders/data/a;->a(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;ZZ)Lkj3;
+    invoke-static {p0, v2, v2}, Lcom/bareapps/barebackup/folders/data/a;->a(Lcom/bareapps/barebackup/folders/data/FolderItem;ZZ)Lkj3;
 
     .line 247
     .line 248
@@ -555,7 +555,7 @@
 
     .line 255
     .line 256
-    invoke-static {p0, v3}, Lal3;->b(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Z)V
+    invoke-static {p0, v3}, Lal3;->b(Lcom/bareapps/barebackup/folders/data/FolderItem;Z)V
 
     .line 257
     .line 258
@@ -778,7 +778,7 @@
 
     .line 359
     .line 360
-    check-cast v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 361
     .line 362
@@ -790,11 +790,11 @@
 
     .line 365
     .line 366
-    sget v1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 367
     .line 368
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 369
     .line 370
@@ -819,7 +819,7 @@
 
     .line 379
     .line 380
-    check-cast v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 381
     .line 382
@@ -831,7 +831,7 @@
 
     .line 385
     .line 386
-    sget v2, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v2, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 387
     .line 388
@@ -958,7 +958,7 @@
     .line 449
     .line 450
     .line 451
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->W(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/detail/DetailActivity;->W(J)Ljava/lang/String;
 
     .line 452
     .line 453
@@ -966,7 +966,7 @@
     move-result-object v7
 
     .line 455
-    invoke-static {v2, v11, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v11, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 456
     .line 457
@@ -1050,7 +1050,7 @@
     .line 494
     .line 495
     .line 496
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->W(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/detail/DetailActivity;->W(J)Ljava/lang/String;
 
     .line 497
     .line 498
@@ -1058,7 +1058,7 @@
     move-result-object v7
 
     .line 500
-    invoke-static {v2, v4, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v4, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 501
     .line 502
@@ -1102,7 +1102,7 @@
     .line 520
     .line 521
     .line 522
-    invoke-static {v2, v4, v5}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v4, v5}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 523
     .line 524
@@ -1153,7 +1153,7 @@
     .line 547
     .line 548
     .line 549
-    invoke-static {v2, v4, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v4, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 550
     .line 551
@@ -1637,7 +1637,7 @@
     .line 786
     .line 787
     .line 788
-    invoke-static {v2, v12, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v12, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 789
     .line 790
@@ -1693,7 +1693,7 @@
     move-result-object v12
 
     .line 817
-    invoke-static {v2, v7, v12}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v7, v12}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 818
     .line 819
@@ -1729,7 +1729,7 @@
     move-result-object v12
 
     .line 836
-    invoke-static {v2, v7, v12}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v7, v12}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 837
     .line 838
@@ -1780,7 +1780,7 @@
     move-result-object v7
 
     .line 863
-    invoke-static {v2, v11, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v11, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 864
     .line 865
@@ -1820,7 +1820,7 @@
     .line 882
     .line 883
     .line 884
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->V(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/detail/DetailActivity;->V(J)Ljava/lang/String;
 
     .line 885
     .line 886
@@ -1828,7 +1828,7 @@
     move-result-object v7
 
     .line 888
-    invoke-static {v2, v11, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v11, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 889
     .line 890
@@ -1868,7 +1868,7 @@
     .line 907
     .line 908
     .line 909
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->V(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/detail/DetailActivity;->V(J)Ljava/lang/String;
 
     .line 910
     .line 911
@@ -1876,7 +1876,7 @@
     move-result-object v7
 
     .line 913
-    invoke-static {v2, v11, v7}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v11, v7}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 914
     .line 915
@@ -1983,7 +1983,7 @@
     .line 963
     .line 964
     .line 965
-    invoke-static {v2, v7, v4}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
+    invoke-static {v2, v7, v4}, Lcom/bareapps/barebackup/detail/DetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/CharSequence;)V
 
     .line 966
     .line 967
@@ -2179,7 +2179,7 @@
     .line 1058
     .line 1059
     .line 1060
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 1061
     .line 1062
@@ -2309,7 +2309,7 @@
 
     .line 1123
     .line 1124
-    check-cast v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 1125
     .line 1126
@@ -2321,11 +2321,11 @@
 
     .line 1129
     .line 1130
-    sget v1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget v1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 1131
     .line 1132
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
 
     .line 1133
     .line 1134

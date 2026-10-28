@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/walls/WallApplyActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lzn8;->a:Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    iput-object p1, p0, Lzn8;->a:Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 5
     .line 6
@@ -66,15 +66,15 @@
 
     .line 11
     .line 12
-    sget-object p2, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object p2, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 13
     .line 14
-    iget-object p0, p0, Lzn8;->a:Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    iget-object p0, p0, Lzn8;->a:Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 15
     .line 16
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->N()Lno8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->N()Lno8;
 
     .line 17
     .line 18
@@ -117,7 +117,7 @@
     .line 37
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->N()Lno8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->N()Lno8;
 
     .line 40
     .line 41

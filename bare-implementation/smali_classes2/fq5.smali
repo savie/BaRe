@@ -501,7 +501,7 @@
 
     .line 91
     .line 92
-    const-string v4, "org.swiftapps.swiftbackup.yandex://oauth"
+    const-string v4, "com.bareapps.barebackup.yandex://oauth"
 
     .line 93
     .line 94
@@ -557,11 +557,11 @@
 
     .line 118
     .line 119
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 120
     .line 121
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 122
     .line 123
@@ -849,7 +849,7 @@
     const/4 v7, 0x0
 
     .line 264
-    const-string v4, "No handler activity found for org.swiftapps.swiftbackup.yandex://oauth"
+    const-string v4, "No handler activity found for com.bareapps.barebackup.yandex://oauth"
 
     .line 265
     .line 266
@@ -874,11 +874,11 @@
 
     .line 275
     .line 276
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 277
     .line 278
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 279
     .line 280

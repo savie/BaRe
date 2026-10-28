@@ -333,11 +333,11 @@
     move-result-object v3
 
     .line 144
-    check-cast v3, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v3, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 145
     .line 146
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupTag()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupTag()Ljava/lang/String;
 
     .line 147
     .line 148

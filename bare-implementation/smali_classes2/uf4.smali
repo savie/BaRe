@@ -6,17 +6,17 @@
 # instance fields
 .field public synthetic a:Ljava/lang/Object;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/intro/d;
+.field public final synthetic b:Lcom/bareapps/barebackup/intro/d;
 
 .field public c:I
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/intro/d;Lkv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/intro/d;Lkv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Luf4;->b:Lorg/swiftapps/swiftbackup/intro/d;
+    iput-object p1, p0, Luf4;->b:Lcom/bareapps/barebackup/intro/d;
 
     .line 2
     .line 3
@@ -53,11 +53,11 @@
 
     .line 9
     .line 10
-    iget-object p1, p0, Luf4;->b:Lorg/swiftapps/swiftbackup/intro/d;
+    iget-object p1, p0, Luf4;->b:Lcom/bareapps/barebackup/intro/d;
 
     .line 11
     .line 12
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/intro/d;->l(Lkv1;)Ljava/lang/Object;
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/intro/d;->l(Lkv1;)Ljava/lang/Object;
 
     .line 13
     .line 14

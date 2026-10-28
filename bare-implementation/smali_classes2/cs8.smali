@@ -4,13 +4,13 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+.field public final a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
 .field public final b:Liu8;
 
 .field public final c:Landroid/widget/TextView;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final e:Landroidx/constraintlayout/widget/ConstraintLayout;
 
@@ -28,7 +28,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/wifi/WifiActivity;Lyr8;Liu8;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/wifi/WifiActivity;Lyr8;Liu8;)V
     .locals 3
 
     .line 1
@@ -42,7 +42,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lcs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iput-object p1, p0, Lcs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 8
     .line 9
@@ -58,11 +58,11 @@
 
     .line 14
     .line 15
-    iget-object p1, p2, Lyr8;->e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p1, p2, Lyr8;->e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 16
     .line 17
-    iput-object p1, p0, Lcs8;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Lcs8;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 18
     .line 19
@@ -155,7 +155,7 @@
     const/4 p0, 0x0
 
     .line 64
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 65
     .line 66
@@ -193,7 +193,7 @@
     .locals 2
 
     .line 1
-    iget-object v0, p0, Lcs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v0, p0, Lcs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 2
     .line 3

@@ -195,11 +195,11 @@
 
     .line 76
     :pswitch_4
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 77
     .line 78
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 79
     .line 80
@@ -215,11 +215,11 @@
     move-result-object p0
 
     .line 86
-    check-cast p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 87
     .line 88
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 89
     .line 90
@@ -462,11 +462,11 @@
 
     .line 201
     :pswitch_8
-    check-cast p1, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p1, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 202
     .line 203
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
 
     .line 204
     .line 205
@@ -474,11 +474,11 @@
     move-result-object p0
 
     .line 207
-    check-cast p2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p2, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 208
     .line 209
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
 
     .line 210
     .line 211

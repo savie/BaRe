@@ -4,7 +4,7 @@
 
 
 # direct methods
-.method public static final a(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)Z
+.method public static final a(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)Z
     .locals 9
 
     .line 1
@@ -49,7 +49,7 @@
 
     .line 19
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->isNameValid()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->isNameValid()Z
 
     .line 20
     .line 21
@@ -73,7 +73,7 @@
 
     .line 30
     .line 31
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 32
     .line 33
@@ -89,7 +89,7 @@
     move-result-object v4
 
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 40
     .line 41
@@ -127,7 +127,7 @@
 
     .line 56
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->isNameTaken()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->isNameTaken()Z
 
     .line 57
     .line 58
@@ -147,7 +147,7 @@
 
     .line 65
     .line 66
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 67
     .line 68
@@ -163,7 +163,7 @@
     move-result-object v4
 
     .line 74
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 75
     .line 76
@@ -201,7 +201,7 @@
 
     .line 91
     :cond_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->hasValidSettings()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->hasValidSettings()Z
 
     .line 92
     .line 93
@@ -221,7 +221,7 @@
 
     .line 100
     .line 101
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 102
     .line 103

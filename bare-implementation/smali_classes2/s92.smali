@@ -77,7 +77,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 22
     .line 23

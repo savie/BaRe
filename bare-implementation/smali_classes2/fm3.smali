@@ -291,11 +291,11 @@
 
     .line 112
     :cond_0
-    iget-object v0, v4, Lim3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v0, v4, Lim3;->b:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 113
     .line 114
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 115
     .line 116
@@ -303,7 +303,7 @@
     move-result-object v0
 
     .line 118
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 119
     .line 120

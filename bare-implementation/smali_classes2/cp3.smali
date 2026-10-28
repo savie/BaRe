@@ -126,11 +126,11 @@
     .line 31
     .line 32
     .line 33
-    iget-object v7, v2, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v7, v2, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 34
     .line 35
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 36
     .line 37
@@ -147,7 +147,7 @@
 
     .line 43
     .line 44
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 45
     .line 46
@@ -254,7 +254,7 @@
     move-result-wide v13
 
     .line 96
-    invoke-static {v13, v14}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v13, v14}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 97
     .line 98
@@ -387,7 +387,7 @@
     .line 164
     .line 165
     .line 166
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSetupCreationTime()J
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSetupCreationTime()J
 
     .line 167
     .line 168
@@ -413,7 +413,7 @@
     .line 178
     .line 179
     .line 180
-    invoke-static {v6, v7}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v6, v7}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 181
     .line 182
@@ -615,7 +615,7 @@
     move-object v4, v1
 
     .line 11
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v4, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 12
     .line 13
@@ -705,7 +705,7 @@
     move-object v6, v1
 
     .line 57
-    check-cast v6, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v6, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 58
     .line 59
@@ -896,7 +896,7 @@
 
     .line 153
     .line 154
-    invoke-direct/range {v2 .. v12}, Lop3;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lorg/swiftapps/swiftbackup/views/MCheckBox;Landroid/view/View;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Landroid/view/View;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v12}, Lop3;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/bareapps/barebackup/views/MCheckBox;Landroid/view/View;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Landroid/view/View;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 155
     .line 156

@@ -286,11 +286,11 @@
 
     .line 116
     .line 117
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 118
     .line 119
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 120
     .line 121
@@ -318,7 +318,7 @@
     move-result-object v0
 
     .line 133
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 134
     .line 135
@@ -326,7 +326,7 @@
 
     .line 136
     .line 137
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->b:Lmt3;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->b:Lmt3;
 
     .line 138
     .line 139
@@ -630,7 +630,7 @@
 
     .line 271
     .line 272
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 273
     .line 274
@@ -642,7 +642,7 @@
 
     .line 277
     .line 278
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v1, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 279
     .line 280
@@ -678,11 +678,11 @@
 
     .line 294
     .line 295
-    sget-object v3, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v3, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 296
     .line 297
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 298
     .line 299
@@ -730,7 +730,7 @@
     .line 320
     .line 321
     :goto_5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->V()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->V()V
 
     .line 322
     .line 323
@@ -1050,7 +1050,7 @@
 
     .line 474
     .line 475
-    invoke-virtual {v0}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v0}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 476
     .line 477
@@ -1062,11 +1062,11 @@
 
     .line 480
     .line 481
-    iget-object v5, p0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v5, p0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 482
     .line 483
-    invoke-direct {v1, v2, v3, v4, v5}, Lbo3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;)V
+    invoke-direct {v1, v2, v3, v4, v5}, Lbo3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;)V
 
     .line 484
     .line 485
@@ -1455,7 +1455,7 @@
 
     .line 668
     .line 669
-    check-cast v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 670
     .line 671
@@ -1467,11 +1467,11 @@
 
     .line 674
     .line 675
-    sget v1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 676
     .line 677
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 678
     .line 679
@@ -1731,7 +1731,7 @@
 
     .line 803
     .line 804
-    iget-object p0, v0, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object p0, v0, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 805
     .line 806
@@ -3461,7 +3461,7 @@
 
     .line 1586
     .line 1587
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1588
     .line 1589

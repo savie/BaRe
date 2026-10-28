@@ -110,11 +110,11 @@
 
     .line 41
     .line 42
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 43
     .line 44
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getVp()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getVp()Z
 
     .line 45
     .line 46
@@ -1327,7 +1327,7 @@
 
     move/from16 v22, v14
 
-    iget-object v14, v12, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v14, v12, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     move-object/from16 v26, v14
 
@@ -1473,7 +1473,7 @@
 
     move-object/from16 v22, v35
 
-    invoke-direct/range {v22 .. v27}, Lmq;-><init>(Ljz;Lc40;Ljava/lang/String;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Lzn7;)V
+    invoke-direct/range {v22 .. v27}, Lmq;-><init>(Ljz;Lc40;Ljava/lang/String;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Lzn7;)V
 
     move-object/from16 v44, v14
 
@@ -1668,9 +1668,9 @@
     invoke-virtual {v12, v7}, Lc40;->p(Lji;)V
 
     .line 74
-    iget-object v0, v14, Lmq;->g:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v0, v14, Lmq;->g:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSBVersionCodesRequired()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSBVersionCodesRequired()Ljava/util/List;
 
     move-result-object v0
 
@@ -2177,9 +2177,9 @@
     move-result-object v2
 
     .line 118
-    sget-object v7, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v7, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v7
 
@@ -2329,9 +2329,9 @@
     iget-object v0, v12, Lpw6;->i:Lex6;
 
     .line 135
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v5
 
@@ -2358,13 +2358,13 @@
     .line 139
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     move-result-object v0
 
     if-eqz v0, :cond_27
 
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     move-result v0
 
@@ -2443,7 +2443,7 @@
     .line 144
     sget-object v22, Lvr6;->INSTANCE:Lvr6;
 
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/common/Const;->v(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/common/Const;->v(J)Ljava/lang/String;
 
     move-result-object v24
 
@@ -2936,9 +2936,9 @@
     .line 194
     new-instance v5, Lq63;
 
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v0
 
@@ -3298,9 +3298,9 @@
     invoke-static/range {v28 .. v33}, Lvr6;->i$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
 
     .line 231
-    sget-object v12, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v12, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v12
 
@@ -3637,9 +3637,9 @@
     invoke-static/range {v16 .. v21}, Lvr6;->i$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
 
     .line 275
-    sget-object v10, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v10, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v10
 
@@ -3900,11 +3900,11 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -3959,11 +3959,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -4740,10 +4740,10 @@
     iput-object v2, v5, La00;->n:Lyk;
 
     .line 63
-    iget-object v0, v11, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v0, v11, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 64
-    sget-object v1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v1, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     const-string v2, ": "
 
@@ -4751,7 +4751,7 @@
 
     if-ne v0, v1, :cond_14
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->z()Z
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->z()Z
 
     move-result v0
 
@@ -4771,7 +4771,7 @@
     invoke-static/range {v33 .. v38}, Lvr6;->e$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
 
     .line 66
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->a()Z
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->a()Z
 
     move-result v0
 
@@ -4795,9 +4795,9 @@
 
     move-result-object v0
 
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v1
 
@@ -4881,13 +4881,13 @@
     iget-object v0, v0, Lxe3;->n:Leb2;
 
     .line 79
-    const-class v1, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    const-class v1, Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     invoke-virtual {v0, v1}, Leb2;->c(Ljava/lang/Class;)Ljava/lang/Object;
 
     move-result-object v0
 
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    check-cast v0, Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     goto :goto_b
 
@@ -4898,7 +4898,7 @@
     if-eqz v0, :cond_17
 
     .line 80
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->isValidCloudDetails()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->isValidCloudDetails()Z
 
     move-result v1
 
@@ -4913,7 +4913,7 @@
     if-eqz v0, :cond_19
 
     .line 82
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v1
 
@@ -4960,7 +4960,7 @@
     invoke-static/range {v33 .. v38}, Lvr6;->w$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
 
     .line 86
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->removeSplitsDetails()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->removeSplitsDetails()V
 
     :cond_19
     if-eqz v0, :cond_1a
@@ -5110,14 +5110,14 @@
 
     move-object/from16 v34, v0
 
-    invoke-static/range {v34 .. v104}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->copy$default(Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;IIILjava/lang/Object;)Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-static/range {v34 .. v104}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->copy$default(Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;IIILjava/lang/Object;)Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     move-result-object v0
 
     if-nez v0, :cond_1b
 
     :cond_1a
-    new-instance v30, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    new-instance v30, Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 88
     invoke-virtual/range {v19 .. v19}, Lji;->getPackageName()Ljava/lang/String;
@@ -5266,13 +5266,13 @@
     const/16 v98, -0x1
 
     .line 90
-    invoke-direct/range {v30 .. v100}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;IIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v30 .. v100}, Lcom/bareapps/barebackup/model/app/CloudMetadata;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;IIILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     move-object/from16 v0, v30
 
     .line 91
     :cond_1b
-    iput-object v0, v5, La00;->h:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object v0, v5, La00;->h:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 92
     new-instance v1, Ljava/util/concurrent/ConcurrentHashMap;
@@ -5301,7 +5301,7 @@
 
     iget-object v14, v5, La00;->e:Lmz;
 
-    iget-object v15, v5, La00;->f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v15, v5, La00;->f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     if-eqz v4, :cond_34
 
@@ -5621,7 +5621,7 @@
     invoke-static/range {v35 .. v40}, Lvr6;->i$default(Lvr6;Ljava/lang/String;Ljava/lang/String;Lvr6$a;ILjava/lang/Object;)V
 
     .line 116
-    iget-object v14, v5, La00;->h:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v14, v5, La00;->h:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     if-nez v14, :cond_23
 
@@ -5667,7 +5667,7 @@
 
     .line 124
     :pswitch_8
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSpecialDataLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSpecialDataLink()Ljava/lang/String;
 
     move-result-object v6
 
@@ -5679,12 +5679,12 @@
 
     .line 125
     :pswitch_9
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 126
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasMedia()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasMedia()Z
 
     move-result v15
 
@@ -5702,7 +5702,7 @@
     iget-object v15, v0, Lrf8;->a:Lq63;
 
     .line 130
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaBackupDate()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaBackupDate()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5711,7 +5711,7 @@
     move-result-wide v40
 
     .line 131
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5720,7 +5720,7 @@
     move-result-wide v42
 
     .line 132
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5729,7 +5729,7 @@
     move-result-wide v44
 
     .line 133
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5738,12 +5738,12 @@
     move-result-wide v46
 
     .line 134
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
 
     move-result-object v48
 
     .line 135
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaPasswordHash()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaPasswordHash()Ljava/lang/String;
 
     move-result-object v49
 
@@ -5769,12 +5769,12 @@
 
     .line 137
     :pswitch_a
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 138
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExtData()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExtData()Z
 
     move-result v15
 
@@ -5792,7 +5792,7 @@
     iget-object v15, v0, Lrf8;->a:Lq63;
 
     .line 142
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataBackupDate()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataBackupDate()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5801,7 +5801,7 @@
     move-result-wide v40
 
     .line 143
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5810,7 +5810,7 @@
     move-result-wide v42
 
     .line 144
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5819,7 +5819,7 @@
     move-result-wide v44
 
     .line 145
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5828,12 +5828,12 @@
     move-result-wide v46
 
     .line 146
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataPasswordHash()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataPasswordHash()Ljava/lang/String;
 
     move-result-object v48
 
     .line 147
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataPasswordHash()Ljava/lang/String;
 
     move-result-object v49
 
@@ -5854,12 +5854,12 @@
 
     .line 149
     :pswitch_b
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 150
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExpansion()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExpansion()Z
 
     move-result v15
 
@@ -5877,7 +5877,7 @@
     iget-object v15, v0, Lrf8;->a:Lq63;
 
     .line 154
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpansionBackupDate()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpansionBackupDate()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5886,7 +5886,7 @@
     move-result-wide v40
 
     .line 155
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExpSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExpSizeMirrored()Ljava/lang/Long;
 
     move-result-object v21
 
@@ -5895,7 +5895,7 @@
     move-result-wide v42
 
     .line 156
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
 
     move-result-object v21
 
@@ -5904,7 +5904,7 @@
     move-result-wide v46
 
     .line 157
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpSizeMirrored()Ljava/lang/Long;
 
     move-result-object v14
 
@@ -5933,12 +5933,12 @@
 
     .line 159
     :pswitch_c
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 160
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasData()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasData()Z
 
     move-result v15
 
@@ -5956,7 +5956,7 @@
     iget-object v15, v0, Lrf8;->a:Lq63;
 
     .line 164
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataBackupDate()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataBackupDate()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5965,7 +5965,7 @@
     move-result-wide v40
 
     .line 165
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5974,7 +5974,7 @@
     move-result-wide v42
 
     .line 166
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataSizeMirrored()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5983,7 +5983,7 @@
     move-result-wide v44
 
     .line 167
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
 
     move-result-object v23
 
@@ -5992,12 +5992,12 @@
     move-result-wide v46
 
     .line 168
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataPasswordHash()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataPasswordHash()Ljava/lang/String;
 
     move-result-object v48
 
     .line 169
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataPasswordHash()Ljava/lang/String;
 
     move-result-object v49
 
@@ -6018,19 +6018,19 @@
 
     .line 171
     :pswitch_d
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSharedLibsLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSharedLibsLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 172
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v15
 
     if-eqz v15, :cond_24
 
     .line 173
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6039,7 +6039,7 @@
     move-result-wide v36
 
     .line 174
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
 
     move-result-object v38
 
@@ -6047,7 +6047,7 @@
     new-instance v39, Lpg;
 
     .line 176
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6062,7 +6062,7 @@
 
     .line 177
     :goto_12
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6081,12 +6081,12 @@
 
     .line 178
     :goto_13
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSplitApks()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSplitApks()Z
 
     move-result v43
 
     .line 179
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSharedLibs()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSharedLibs()Z
 
     move-result v44
 
@@ -6097,7 +6097,7 @@
     new-instance v40, Lpg;
 
     .line 182
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6112,7 +6112,7 @@
 
     .line 183
     :goto_14
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6126,12 +6126,12 @@
     move-wide/from16 v42, v23
 
     .line 184
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v44
 
     .line 185
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v45
 
@@ -6139,12 +6139,12 @@
     invoke-direct/range {v40 .. v45}, Lpg;-><init>(Ljava/lang/String;JZZ)V
 
     .line 187
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v41
 
     .line 188
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v42
 
@@ -6159,19 +6159,19 @@
 
     .line 190
     :pswitch_e
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSplitsLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSplitsLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 191
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v15
 
     if-eqz v15, :cond_24
 
     .line 192
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6180,7 +6180,7 @@
     move-result-wide v36
 
     .line 193
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
 
     move-result-object v38
 
@@ -6188,7 +6188,7 @@
     new-instance v39, Lpg;
 
     .line 195
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6203,7 +6203,7 @@
 
     .line 196
     :goto_15
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6222,12 +6222,12 @@
 
     .line 197
     :goto_16
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSplitApks()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSplitApks()Z
 
     move-result v43
 
     .line 198
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSharedLibs()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSharedLibs()Z
 
     move-result v44
 
@@ -6238,7 +6238,7 @@
     new-instance v40, Lpg;
 
     .line 201
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6253,7 +6253,7 @@
 
     .line 202
     :goto_17
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6267,12 +6267,12 @@
     move-wide/from16 v42, v23
 
     .line 203
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v44
 
     .line 204
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v45
 
@@ -6280,12 +6280,12 @@
     invoke-direct/range {v40 .. v45}, Lpg;-><init>(Ljava/lang/String;JZZ)V
 
     .line 206
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v41
 
     .line 207
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v42
 
@@ -6300,19 +6300,19 @@
 
     .line 209
     :pswitch_f
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getApkLink()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getApkLink()Ljava/lang/String;
 
     move-result-object v6
 
     .line 210
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasApk()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasApk()Z
 
     move-result v15
 
     if-eqz v15, :cond_24
 
     .line 211
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6321,7 +6321,7 @@
     move-result-wide v36
 
     .line 212
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
 
     move-result-object v38
 
@@ -6329,7 +6329,7 @@
     new-instance v39, Lpg;
 
     .line 214
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6344,7 +6344,7 @@
 
     .line 215
     :goto_18
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6363,12 +6363,12 @@
 
     .line 216
     :goto_19
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSplitApks()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSplitApks()Z
 
     move-result v43
 
     .line 217
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hasSharedLibs()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hasSharedLibs()Z
 
     move-result v44
 
@@ -6379,7 +6379,7 @@
     new-instance v40, Lpg;
 
     .line 220
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionName()Ljava/lang/String;
 
     move-result-object v15
 
@@ -6394,7 +6394,7 @@
 
     .line 221
     :goto_1a
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getVersionCode()Ljava/lang/Long;
 
     move-result-object v15
 
@@ -6408,12 +6408,12 @@
     move-wide/from16 v42, v23
 
     .line 222
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v44
 
     .line 223
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v45
 
@@ -6421,12 +6421,12 @@
     invoke-direct/range {v40 .. v45}, Lpg;-><init>(Ljava/lang/String;JZZ)V
 
     .line 225
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     move-result v41
 
     .line 226
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     move-result v42
 
@@ -6698,7 +6698,7 @@
 
     move-object/from16 v31, v5
 
-    invoke-direct/range {v30 .. v39}, Lwz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lwz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6720,7 +6720,7 @@
 
     new-instance v30, Lvz;
 
-    invoke-direct/range {v30 .. v39}, Lvz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lvz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6739,7 +6739,7 @@
 
     new-instance v30, Luz;
 
-    invoke-direct/range {v30 .. v39}, Luz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Luz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6758,7 +6758,7 @@
 
     new-instance v30, Ltz;
 
-    invoke-direct/range {v30 .. v39}, Ltz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Ltz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6777,7 +6777,7 @@
 
     new-instance v30, Lsz;
 
-    invoke-direct/range {v30 .. v39}, Lsz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lsz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6796,7 +6796,7 @@
 
     new-instance v30, Lrz;
 
-    invoke-direct/range {v30 .. v39}, Lrz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lrz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6815,7 +6815,7 @@
 
     new-instance v30, Lqz;
 
-    invoke-direct/range {v30 .. v39}, Lqz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lqz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v4, v30
 
@@ -6834,7 +6834,7 @@
 
     new-instance v30, Lpz;
 
-    invoke-direct/range {v30 .. v39}, Lpz;-><init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+    invoke-direct/range {v30 .. v39}, Lpz;-><init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
 
     move-object/from16 v5, v30
 
@@ -6862,9 +6862,9 @@
     iget-object v1, v8, Lpw6;->i:Lex6;
 
     .line 264
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     move-result-object v5
 
@@ -6891,13 +6891,13 @@
     .line 268
     invoke-virtual {v1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     move-result-object v1
 
     if-eqz v1, :cond_39
 
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     move-result v1
 
@@ -6973,7 +6973,7 @@
     .line 273
     sget-object v30, Lvr6;->INSTANCE:Lvr6;
 
-    invoke-static {v5, v6}, Lorg/swiftapps/swiftbackup/common/Const;->v(J)Ljava/lang/String;
+    invoke-static {v5, v6}, Lcom/bareapps/barebackup/common/Const;->v(J)Ljava/lang/String;
 
     move-result-object v32
 
@@ -7046,12 +7046,12 @@
     invoke-static {v1, v5}, Lzn4;->b(Lqh4;Lqt3;)Lbl7;
 
     .line 279
-    iget-object v1, v4, La00;->h:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v1, v4, La00;->h:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     if-eqz v1, :cond_5d
 
     .line 280
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasBackups()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasBackups()Z
 
     move-result v5
 
@@ -7077,11 +7077,11 @@
     if-nez v5, :cond_3e
 
     .line 283
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->removeSpecialDataDetails()V
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->removeSpecialDataDetails()V
 
     .line 284
     :cond_3e
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
 
     move-result-object v5
 
@@ -7097,14 +7097,14 @@
     const/4 v5, 0x0
 
     :cond_40
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->setInstallerPackage(Ljava/lang/String;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->setInstallerPackage(Ljava/lang/String;)V
 
     .line 285
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getKeyVersion()Ljava/lang/Integer;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getKeyVersion()Ljava/lang/Integer;
 
     move-result-object v5
 
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->setKeyVersion(Ljava/lang/Integer;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->setKeyVersion(Ljava/lang/Integer;)V
 
     .line 286
     invoke-virtual {v11}, Lhz;->d()Z
@@ -7113,7 +7113,7 @@
 
     if-nez v5, :cond_41
 
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDateBackup()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDateBackup()Ljava/lang/Long;
 
     move-result-object v5
 
@@ -7121,7 +7121,7 @@
 
     .line 287
     :cond_41
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
 
     move-result-object v5
 
@@ -7136,7 +7136,7 @@
     move-result-object v5
 
     :cond_42
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->setDateBackup(Ljava/lang/Long;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->setDateBackup(Ljava/lang/Long;)V
 
     .line 288
     :cond_43
@@ -7146,7 +7146,7 @@
 
     if-nez v5, :cond_44
 
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
 
     move-result-object v5
 
@@ -7162,11 +7162,11 @@
 
     .line 289
     :cond_44
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
 
     move-result-object v5
 
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateNote(Ljava/lang/String;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateNote(Ljava/lang/String;)V
 
     .line 290
     :cond_45
@@ -7177,7 +7177,7 @@
 
     if-nez v5, :cond_46
 
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     move-result v5
 
@@ -7185,11 +7185,11 @@
 
     .line 291
     :cond_46
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     move-result v5
 
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateProtection(Z)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateProtection(Z)V
 
     .line 292
     :cond_47
@@ -7200,11 +7200,11 @@
     if-eqz v5, :cond_48
 
     .line 293
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
 
     move-result-object v5
 
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
 
     goto :goto_2a
 
@@ -7215,7 +7215,7 @@
     if-eqz v5, :cond_4a
 
     .line 295
-    invoke-virtual/range {v21 .. v21}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
+    invoke-virtual/range {v21 .. v21}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
 
     move-result-object v5
 
@@ -7230,12 +7230,12 @@
     move-result-object v5
 
     :cond_49
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
 
     .line 296
     :cond_4a
     :goto_2a
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->prepareForFirebaseUpload()V
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->prepareForFirebaseUpload()V
 
     .line 297
     iget-object v5, v4, La00;->j:Lzc2;
@@ -7381,26 +7381,26 @@
 
     .line 317
     :cond_4c
-    iget-object v0, v11, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v0, v11, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 318
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/settings/f;->a(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    invoke-static {v0}, Lcom/bareapps/barebackup/settings/f;->a(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     move-result-object v0
 
     .line 319
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->Companion:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;
+    sget-object v1, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->Companion:Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;
 
     invoke-virtual/range {v19 .. v19}, Lji;->getPackageName()Ljava/lang/String;
 
     move-result-object v4
 
-    invoke-virtual {v1, v4}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;->fetchForPackage(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;
+    invoke-virtual {v1, v4}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;->fetchForPackage(Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;
 
     move-result-object v1
 
     .line 320
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
 
     move-result-object v4
 
@@ -7409,7 +7409,7 @@
     if-eqz v4, :cond_4d
 
     .line 321
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
 
     move-result-object v0
 
@@ -7442,7 +7442,7 @@
 
     move-result-object v0
 
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
 
     move-result-object v1
 
@@ -7461,13 +7461,13 @@
 
     .line 326
     :cond_4d
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getAppCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getAppCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     move-result-object v1
 
     if-eqz v1, :cond_56
 
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->hasBackups()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->hasBackups()Z
 
     move-result v2
 
@@ -7485,7 +7485,7 @@
 
     .line 327
     :cond_4f
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     move-result-object v1
 
@@ -7513,14 +7513,14 @@
 
     move-object v6, v5
 
-    check-cast v6, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v6, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 330
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     move-result-object v6
 
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->isProtectedBackup()Z
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->isProtectedBackup()Z
 
     move-result v6
 
@@ -7556,7 +7556,7 @@
 
     move-object v9, v6
 
-    check-cast v9, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v9, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 334
     invoke-virtual {v2, v9}, Ljava/util/ArrayList;->contains(Ljava/lang/Object;)Z
@@ -7640,14 +7640,14 @@
 
     move-result v1
 
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     move-result v2
 
     if-le v1, v2, :cond_55
 
     .line 343
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     move-result v1
 
@@ -7666,7 +7666,7 @@
 
     .line 345
     :cond_54
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     move-result v0
 
@@ -7957,11 +7957,11 @@
 
     .line 383
     :cond_63
-    invoke-virtual {v1}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v1}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     move-result-object v0
 
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     move-result-object v0
 

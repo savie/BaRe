@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Ly47;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iput-object p1, p0, Ly47;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 4
     .line 5
@@ -46,7 +46,7 @@
     const/4 v1, 0x0
 
     .line 4
-    iget-object p0, p0, Ly47;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p0, p0, Ly47;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 5
     .line 6
@@ -70,7 +70,7 @@
     move-object v2, p0
 
     .line 16
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 17
     .line 18
@@ -93,7 +93,7 @@
     const/4 v7, 0x0
 
     .line 25
-    invoke-static/range {v2 .. v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    invoke-static/range {v2 .. v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 26
     .line 27
@@ -117,7 +117,7 @@
     move-object v2, p0
 
     .line 36
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 37
     .line 38
@@ -204,7 +204,7 @@
     const/4 v10, 0x0
 
     .line 70
-    invoke-static/range {v2 .. v12}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    invoke-static/range {v2 .. v12}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 71
     .line 72
@@ -216,7 +216,7 @@
 
     .line 75
     :pswitch_1
-    check-cast p1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    check-cast p1, Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 76
     .line 77
@@ -228,11 +228,11 @@
     move-object v2, p0
 
     .line 81
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 82
     .line 83
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->getLocations()Ljava/util/List;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->getLocations()Ljava/util/List;
 
     .line 84
     .line 85
@@ -252,7 +252,7 @@
 
     .line 92
     .line 93
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 94
     .line 95
@@ -306,7 +306,7 @@
     const/4 v8, 0x0
 
     .line 114
-    invoke-static/range {v2 .. v10}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    invoke-static/range {v2 .. v10}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 115
     .line 116

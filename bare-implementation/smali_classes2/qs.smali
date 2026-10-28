@@ -73,7 +73,7 @@
     .line 13
     .line 14
     .line 15
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 16
     .line 17
@@ -93,7 +93,7 @@
 
     .line 24
     .line 25
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    check-cast v2, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 26
     .line 27
@@ -110,7 +110,7 @@
     move-object v5, v0
 
     .line 34
-    check-cast v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    check-cast v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 35
     .line 36
@@ -154,7 +154,7 @@
     const/4 v14, 0x0
 
     .line 52
-    invoke-static/range {v5 .. v16}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    invoke-static/range {v5 .. v16}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 53
     .line 54
@@ -184,7 +184,7 @@
 
     .line 65
     .line 66
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast v4, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 67
     .line 68
@@ -212,7 +212,7 @@
     move-result v2
 
     .line 80
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v5, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 81
     .line 82
@@ -237,7 +237,7 @@
 
     .line 92
     .line 93
-    invoke-virtual {v4, v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->Z(Ls54;)V
+    invoke-virtual {v4, v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->Z(Ls54;)V
 
     .line 94
     .line 95
@@ -365,7 +365,7 @@
 
     .line 153
     .line 154
-    iget-object v0, v4, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v0, v4, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 155
     .line 156

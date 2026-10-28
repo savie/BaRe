@@ -573,7 +573,7 @@
     .line 159
     .line 160
     .line 161
-    sget-object p1, Lgs0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    sget-object p1, Lgs0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 162
     .line 163
@@ -581,7 +581,7 @@
 
     .line 164
     .line 165
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;->getItems()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;->getItems()Ljava/util/List;
 
     .line 166
     .line 167
@@ -638,11 +638,11 @@
     move-object v8, v7
 
     .line 190
-    check-cast v8, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v8, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 191
     .line 192
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 193
     .line 194
@@ -678,7 +678,7 @@
 
     .line 209
     :cond_c
-    check-cast v6, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v6, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 210
     .line 211
@@ -706,7 +706,7 @@
 
     .line 221
     .line 222
-    const-class p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    const-class p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 223
     .line 224

@@ -542,7 +542,7 @@
     .line 232
     .line 233
     .line 234
-    invoke-virtual {p1}, Lji;->getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {p1}, Lji;->getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 235
     .line 236
@@ -554,7 +554,7 @@
 
     .line 239
     .line 240
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getTotalSize()J
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getTotalSize()J
 
     .line 241
     .line 242

@@ -30,7 +30,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Landroid/os/Parcelable;Liz4;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Landroid/os/Parcelable;Liz4;)V
     .locals 0
 
     .line 1
@@ -101,11 +101,11 @@
 
     .line 18
     .line 19
-    check-cast v6, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    check-cast v6, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 20
     .line 21
-    invoke-static {v0, v6}, Lah8;->a(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+    invoke-static {v0, v6}, Lah8;->a(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
 
     .line 22
     .line 23
@@ -117,19 +117,19 @@
 
     .line 26
     :pswitch_0
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 27
     .line 28
-    check-cast v6, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;
+    check-cast v6, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;
 
     .line 29
     .line 30
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 31
     .line 32
-    invoke-virtual {v0, v6}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->d(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;)V
+    invoke-virtual {v0, v6}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->d(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;)V
 
     .line 33
     .line 34
@@ -138,7 +138,7 @@
 
     .line 36
     .line 37
-    invoke-static {v0, v3, v3, v4, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->c(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;ZZLa37;I)V
+    invoke-static {v0, v3, v3, v4, v1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->c(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;ZZLa37;I)V
 
     .line 38
     .line 39
@@ -286,11 +286,11 @@
 
     .line 112
     .line 113
-    check-cast v6, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast v6, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 114
     .line 115
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v1, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 116
     .line 117
@@ -302,7 +302,7 @@
 
     .line 120
     .line 121
-    invoke-direct {v1, v0, v6, v4}, Ly44;-><init>(Lzc6;Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;Ljv1;)V
+    invoke-direct {v1, v0, v6, v4}, Ly44;-><init>(Lzc6;Lcom/bareapps/barebackup/home/search/HomeSearchActivity;Ljv1;)V
 
     .line 122
     .line 123
@@ -859,7 +859,7 @@
     move-result-object v2
 
     .line 390
-    sget-object v4, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->Companion:Lfk3;
+    sget-object v4, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;->Companion:Lfk3;
 
     .line 391
     .line 392
@@ -868,11 +868,11 @@
     .line 393
     .line 394
     .line 395
-    sget-object v4, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->Single:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    sget-object v4, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;->Single:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 396
     .line 397
-    invoke-direct {v1, v2, v4, v3}, Luy7;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Z)V
+    invoke-direct {v1, v2, v4, v3}, Luy7;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Z)V
 
     .line 398
     .line 399
@@ -881,7 +881,7 @@
 
     .line 401
     .line 402
-    invoke-virtual {v0}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v0}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 403
     .line 404
@@ -889,7 +889,7 @@
     move-result-object v7
 
     .line 406
-    invoke-direct {v3, v7, v2, v6, v4}, Lbo3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;)V
+    invoke-direct {v3, v7, v2, v6, v4}, Lbo3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;)V
 
     .line 407
     .line 408
@@ -915,7 +915,7 @@
 
     .line 419
     :pswitch_5
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 420
     .line 421
@@ -923,7 +923,7 @@
 
     .line 422
     .line 423
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 424
     .line 425
@@ -944,7 +944,7 @@
 
     .line 433
     :pswitch_6
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
     .line 434
     .line 435
@@ -1010,7 +1010,7 @@
 
     .line 467
     :pswitch_8
-    check-cast v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 468
     .line 469
@@ -1018,7 +1018,7 @@
 
     .line 470
     .line 471
-    sget v1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 472
     .line 473
@@ -1208,7 +1208,7 @@
 
     .line 559
     :pswitch_d
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 560
     .line 561
@@ -1216,7 +1216,7 @@
 
     .line 562
     .line 563
-    invoke-static {v6, v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->j(Lpe4;Lorg/swiftapps/swiftbackup/cloud/orphans/a;)V
+    invoke-static {v6, v0}, Lcom/bareapps/barebackup/cloud/orphans/a;->j(Lpe4;Lcom/bareapps/barebackup/cloud/orphans/a;)V
 
     .line 564
     .line 565

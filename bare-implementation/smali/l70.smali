@@ -266,7 +266,7 @@
 
     .line 73
     .line 74
-    invoke-virtual {v1}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v1}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 75
     .line 76
@@ -274,7 +274,7 @@
     move-result-object v1
 
     .line 78
-    instance-of v1, v1, Lorg/swiftapps/filesystem/File$FileType$LibsuFile;
+    instance-of v1, v1, Lcom/bareapps/filesystem/File$FileType$LibsuFile;
 
     .line 79
     .line 80

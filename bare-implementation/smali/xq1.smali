@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/widget/TextView;
 
@@ -68,7 +68,7 @@
     move-result-object v0
 
     .line 27
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v0, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 28
     .line 29
@@ -118,7 +118,7 @@
 
     .line 52
     .line 53
-    iput-object v0, p0, Lxq1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object v0, p0, Lxq1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 54
     .line 55

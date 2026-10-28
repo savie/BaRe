@@ -226,7 +226,7 @@
     .line 13
     .line 14
     .line 15
-    sget-object p1, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object p1, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 16
     .line 17
@@ -239,7 +239,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-static {p0}, Lcom/bareapps/barebackup/cloud/protocols/a;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 23
     .line 24
@@ -259,7 +259,7 @@
 
     .line 30
     .line 31
-    invoke-static {p0, v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->a(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;Ltn2;)V
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/cloud/protocols/a;->a(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;Ltn2;)V
 
     .line 32
     .line 33

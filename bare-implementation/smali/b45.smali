@@ -4,15 +4,15 @@
 
 
 # direct methods
-.method public static a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+.method public static a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
     .locals 16
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->e()[Landroid/content/pm/Signature;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->e()[Landroid/content/pm/Signature;
 
     .line 4
     .line 5
@@ -193,11 +193,11 @@
     move-result-object v4
 
     .line 85
-    new-instance v3, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    new-instance v3, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 86
     .line 87
-    const-string v5, "anonymous@swiftbackup.app"
+    const-string v5, "anonymous@barebackup.app"
 
     .line 88
     .line 89
@@ -215,7 +215,7 @@
 
     .line 94
     .line 95
-    invoke-direct/range {v3 .. v10}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;-><init>(Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+    invoke-direct/range {v3 .. v10}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;-><init>(Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
 
     .line 96
     .line 97

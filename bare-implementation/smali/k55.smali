@@ -1009,7 +1009,7 @@
 
     .line 2
     .line 3
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 4
     .line 5
@@ -1029,7 +1029,7 @@
 
     .line 11
     .line 12
-    const-class v1, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    const-class v1, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 13
     .line 14

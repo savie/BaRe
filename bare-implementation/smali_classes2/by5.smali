@@ -170,11 +170,11 @@
     move-result p1
 
     .line 53
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 54
     .line 55
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 56
     .line 57
@@ -259,11 +259,11 @@
     move-result p1
 
     .line 96
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 97
     .line 98
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 99
     .line 100

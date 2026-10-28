@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lwd5;->b:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    iput-object p1, p0, Lwd5;->b:Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lwd5;->b:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    iget-object p0, p0, Lwd5;->b:Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 6
     .line 7
@@ -56,7 +56,7 @@
     .line 8
     .line 9
     .line 10
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 11
     .line 12
@@ -105,7 +105,7 @@
 
     .line 34
     :pswitch_0
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 35
     .line 36

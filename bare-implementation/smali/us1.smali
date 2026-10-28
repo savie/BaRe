@@ -81,7 +81,7 @@
 
     .line 23
     .line 24
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/Const;->a:Lorg/swiftapps/swiftbackup/common/Const;
+    sget-object v1, Lcom/bareapps/barebackup/common/Const;->a:Lcom/bareapps/barebackup/common/Const;
 
     .line 25
     .line 26
@@ -89,13 +89,13 @@
 
     .line 27
     .line 28
-    invoke-virtual {v1, p0}, Lorg/swiftapps/swiftbackup/common/Const;->Q(Ljava/lang/String;)V
+    invoke-virtual {v1, p0}, Lcom/bareapps/barebackup/common/Const;->Q(Ljava/lang/String;)V
 
     .line 29
     .line 30
     .line 31
     :cond_1
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 32
     .line 33
@@ -111,7 +111,7 @@
 
     .line 37
     :goto_1
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/common/V;->setB(Ljava/lang/Integer;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/common/V;->setB(Ljava/lang/Integer;)V
 
     .line 38
     .line 39

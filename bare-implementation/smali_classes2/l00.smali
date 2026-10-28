@@ -80,15 +80,15 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 9
     .line 10
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 11
     .line 12
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->A0:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->A0:Lgv7;
 
     .line 13
     .line 14
@@ -147,7 +147,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 38
     .line 39
@@ -155,7 +155,7 @@
     move-result-object p1
 
     .line 41
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 42
     .line 43
@@ -163,7 +163,7 @@
     move-result-object p0
 
     .line 45
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 46
     .line 47
@@ -172,11 +172,11 @@
 
     .line 49
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
 
     .line 50
     .line 51
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O()Lq00;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O()Lq00;
 
     .line 52
     .line 53

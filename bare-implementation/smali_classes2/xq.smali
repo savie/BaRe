@@ -30,7 +30,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;Ljava/util/List;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/walls/WallsManageActivity;Ljava/util/List;)V
     .locals 1
 
     .line 1
@@ -91,7 +91,7 @@
     .line 12
     .line 13
     .line 14
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 15
     .line 16
@@ -99,11 +99,11 @@
 
     .line 17
     .line 18
-    sget v0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;->S:I
+    sget v0, Lcom/bareapps/barebackup/walls/WallsManageActivity;->S:I
 
     .line 19
     .line 20
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;->X()Ltp8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallsManageActivity;->X()Ltp8;
 
     .line 21
     .line 22
@@ -140,7 +140,7 @@
 
     .line 37
     .line 38
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 39
     .line 40
@@ -152,7 +152,7 @@
 
     .line 43
     .line 44
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 45
     .line 46
@@ -377,7 +377,7 @@
 
     .line 154
     :pswitch_3
-    check-cast v4, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v4, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 155
     .line 156
@@ -385,7 +385,7 @@
 
     .line 157
     .line 158
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 159
     .line 160
@@ -497,7 +497,7 @@
     .line 214
     .line 215
     .line 216
-    invoke-static {v0, v7, v1}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v7, v1}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 217
     .line 218
@@ -568,7 +568,7 @@
     .line 248
     .line 249
     .line 250
-    invoke-static {v9, v10}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->V(J)Ljava/lang/String;
+    invoke-static {v9, v10}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->V(J)Ljava/lang/String;
 
     .line 251
     .line 252
@@ -576,7 +576,7 @@
     move-result-object v9
 
     .line 254
-    invoke-static {v0, v1, v9}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v9}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 255
     .line 256
@@ -668,7 +668,7 @@
     .line 296
     .line 297
     .line 298
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->V(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->V(J)Ljava/lang/String;
 
     .line 299
     .line 300
@@ -676,7 +676,7 @@
     move-result-object v5
 
     .line 302
-    invoke-static {v0, v1, v5}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v5}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 303
     .line 304
@@ -1096,7 +1096,7 @@
     move-result-object v9
 
     .line 508
-    invoke-static {v0, v5, v9}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v5, v9}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 509
     .line 510
@@ -1152,7 +1152,7 @@
     move-result-object v9
 
     .line 537
-    invoke-static {v0, v5, v9}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v5, v9}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 538
     .line 539
@@ -1208,7 +1208,7 @@
     move-result-object v7
 
     .line 566
-    invoke-static {v0, v5, v7}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v5, v7}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 567
     .line 568
@@ -1264,7 +1264,7 @@
     move-result-object v5
 
     .line 595
-    invoke-static {v0, v1, v5}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v5}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 596
     .line 597
@@ -1410,7 +1410,7 @@
     move-result-wide v0
 
     .line 665
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->h(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->h(J)Ljava/lang/String;
 
     .line 666
     .line 667
@@ -1434,7 +1434,7 @@
     move-result-wide v1
 
     .line 677
-    invoke-static {v1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->h(J)Ljava/lang/String;
+    invoke-static {v1, v2}, Lcom/bareapps/barebackup/common/Const;->h(J)Ljava/lang/String;
 
     .line 678
     .line 679
@@ -1610,11 +1610,11 @@
 
     .line 760
     .line 761
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 762
     .line 763
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 764
     .line 765

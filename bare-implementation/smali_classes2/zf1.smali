@@ -65,11 +65,11 @@
 
     .line 12
     .line 13
-    iget-object p0, p0, Las8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object p0, p0, Las8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 14
     .line 15
-    invoke-virtual {p0, v2}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->b0(Z)V
+    invoke-virtual {p0, v2}, Lcom/bareapps/barebackup/wifi/WifiActivity;->b0(Z)V
 
     .line 16
     .line 17
@@ -82,7 +82,7 @@
 
     .line 20
     .line 21
-    iget-object p1, p0, Lto8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iget-object p1, p0, Lto8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 22
     .line 23
@@ -108,11 +108,11 @@
 
     .line 34
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;
+    check-cast p0, Lcom/bareapps/barebackup/password/UserPasswordActivity;
 
     .line 35
     .line 36
-    sget p1, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;->O:I
+    sget p1, Lcom/bareapps/barebackup/password/UserPasswordActivity;->O:I
 
     .line 37
     .line 38
@@ -138,15 +138,15 @@
 
     .line 48
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 49
     .line 50
-    sget p1, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget p1, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 51
     .line 52
-    sget p1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelEditActivity;->U:I
+    sget p1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelEditActivity;->U:I
 
     .line 53
     .line 54
@@ -159,15 +159,15 @@
 
     .line 58
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 59
     .line 60
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 61
     .line 62
-    invoke-virtual {p0, v0, v2}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {p0, v0, v2}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 63
     .line 64
@@ -176,15 +176,15 @@
 
     .line 66
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    check-cast p0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 67
     .line 68
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 69
     .line 70
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 71
     .line 72
@@ -307,15 +307,15 @@
 
     .line 128
     :pswitch_8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 129
     .line 130
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object p1, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 131
     .line 132
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Y()Lol5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Y()Lol5;
 
     .line 133
     .line 134
@@ -372,15 +372,15 @@
 
     .line 161
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 162
     .line 163
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->V:I
 
     .line 164
     .line 165
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
 
     .line 166
     .line 167
@@ -388,7 +388,7 @@
     move-result-object p1
 
     .line 169
-    invoke-virtual {p1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {p1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 170
     .line 171
@@ -396,7 +396,7 @@
     move-result-object p1
 
     .line 173
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getApplyData()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getApplyData()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 174
     .line 175
@@ -408,7 +408,7 @@
 
     .line 178
     .line 179
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
 
     .line 180
     .line 181
@@ -424,7 +424,7 @@
 
     .line 185
     :goto_1
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->S:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->S:Lgv7;
 
     .line 186
     .line 187
@@ -482,11 +482,11 @@
     move-result-object v2
 
     .line 214
-    check-cast v2, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    check-cast v2, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 215
     .line 216
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
 
     .line 217
     .line 218
@@ -601,7 +601,7 @@
     .line 271
     :cond_9
     :goto_4
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->U:Lt9;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->U:Lt9;
 
     .line 272
     .line 273

@@ -6,7 +6,7 @@
 .implements Lgd4;
 .implements Ljk8;
 .implements Lba4;
-.implements Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+.implements Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
 .implements Ln59;
 
 

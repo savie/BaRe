@@ -97,7 +97,7 @@
     move-result-object p0
 
     .line 27
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 28
     .line 29
@@ -234,7 +234,7 @@
 
     .line 89
     .line 90
-    invoke-static {v0, v1, v5, v6}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {v0, v1, v5, v6}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 91
     .line 92
@@ -396,7 +396,7 @@
 
     .line 166
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 167
     .line 168
@@ -420,7 +420,7 @@
 
     .line 177
     .line 178
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->O()Lmg;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->O()Lmg;
 
     .line 179
     .line 180
@@ -437,11 +437,11 @@
 
     .line 186
     :cond_8
-    sget p1, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget p1, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 187
     .line 188
-    invoke-virtual {p0, v4}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->R(Lzf;)V
+    invoke-virtual {p0, v4}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->R(Lzf;)V
 
     .line 189
     .line 190

@@ -1670,7 +1670,7 @@
 
     .line 741
     .line 742
-    sget-object v6, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v6, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 743
     .line 744
@@ -1739,11 +1739,11 @@
 
     .line 772
     :goto_f
-    new-instance v2, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    new-instance v2, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 773
     .line 774
-    invoke-direct/range {v2 .. v7}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;-><init>(ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;)V
+    invoke-direct/range {v2 .. v7}, Lcom/bareapps/barebackup/appconfigs/data/Config;-><init>(ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;)V
 
     .line 775
     .line 776
@@ -1975,7 +1975,7 @@
 
     .line 48
     :pswitch_d
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    new-array p0, p1, [Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 49
     .line 50

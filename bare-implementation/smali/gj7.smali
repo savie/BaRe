@@ -6,7 +6,7 @@
 # instance fields
 .field public final u:Landroidx/constraintlayout/widget/ConstraintLayout;
 
-.field public final v:Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+.field public final v:Lcom/bareapps/barebackup/views/LocaleTextView;
 
 .field public final w:Landroid/widget/ImageView;
 
@@ -131,7 +131,7 @@
     move-result-object v4
 
     .line 58
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+    check-cast v4, Lcom/bareapps/barebackup/views/LocaleTextView;
 
     .line 59
     .line 60
@@ -143,7 +143,7 @@
 
     .line 63
     .line 64
-    iput-object v4, p0, Lgj7;->v:Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+    iput-object v4, p0, Lgj7;->v:Lcom/bareapps/barebackup/views/LocaleTextView;
 
     .line 65
     .line 66
@@ -274,7 +274,7 @@
     move-result-object v4
 
     .line 123
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+    check-cast v4, Lcom/bareapps/barebackup/views/LocaleTextView;
 
     .line 124
     .line 125
@@ -286,7 +286,7 @@
 
     .line 128
     .line 129
-    iput-object v4, p0, Lgj7;->v:Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+    iput-object v4, p0, Lgj7;->v:Lcom/bareapps/barebackup/views/LocaleTextView;
 
     .line 130
     .line 131

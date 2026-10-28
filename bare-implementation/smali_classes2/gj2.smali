@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 .field public final b:Lmk2;
 
@@ -20,7 +20,7 @@
 
 .field public final h:Landroid/widget/TextView;
 
-.field public final i:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final i:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final j:Lcom/google/android/material/button/MaterialButton;
 
@@ -36,7 +36,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Lhj2;Lmk2;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Lhj2;Lmk2;)V
     .locals 0
 
     .line 1
@@ -50,7 +50,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 8
     .line 9
@@ -106,11 +106,11 @@
 
     .line 34
     .line 35
-    iget-object p1, p2, Lhj2;->r:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p1, p2, Lhj2;->r:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 36
     .line 37
-    iput-object p1, p0, Lgj2;->i:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Lgj2;->i:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 38
     .line 39

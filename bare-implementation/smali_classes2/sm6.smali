@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lsm6;->a:Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;
+    iput-object p1, p0, Lsm6;->a:Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;
 
     .line 5
     .line 6
@@ -37,7 +37,7 @@
 
     .line 2
     .line 3
-    sget v1, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->R:I
+    sget v1, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->R:I
 
     .line 4
     .line 5
@@ -50,11 +50,11 @@
 
     .line 9
     .line 10
-    iget-object v1, v1, Lsm6;->a:Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;
+    iget-object v1, v1, Lsm6;->a:Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;
 
     .line 11
     .line 12
-    iget-object v2, v1, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->Q:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    iget-object v2, v1, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->Q:Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 13
     .line 14
@@ -107,7 +107,7 @@
 
     .line 37
     :cond_1
-    sget-object v4, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->Companion:Ldr1;
+    sget-object v4, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->Companion:Ldr1;
 
     .line 38
     .line 39
@@ -220,7 +220,7 @@
 
     .line 84
     .line 85
-    invoke-static/range {v2 .. v20}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-static/range {v2 .. v20}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 86
     .line 87
@@ -228,7 +228,7 @@
     move-result-object v0
 
     .line 89
-    iput-object v0, v1, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->Q:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    iput-object v0, v1, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->Q:Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 90
     .line 91

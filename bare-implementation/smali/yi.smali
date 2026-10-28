@@ -76,7 +76,7 @@
     move-result-object p0
 
     .line 19
-    iget-object p0, p0, Lsj;->f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p0, p0, Lsj;->f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 20
     .line 21

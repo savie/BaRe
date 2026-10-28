@@ -6,13 +6,13 @@
 # instance fields
 .field public final A:Lcom/google/android/flexbox/FlexboxLayout;
 
-.field public final B:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+.field public final B:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
 .field public final C:Lcom/google/android/material/button/MaterialButton;
 
 .field public final synthetic D:Lac1;
 
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/widget/TextView;
 
@@ -41,11 +41,11 @@
     .line 6
     .line 7
     .line 8
-    iget-object p1, p2, Lcc1;->c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p1, p2, Lcc1;->c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 9
     .line 10
-    iput-object p1, p0, Lzb1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p1, p0, Lzb1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 11
     .line 12
@@ -89,11 +89,11 @@
 
     .line 31
     .line 32
-    iget-object p1, p2, Lcc1;->e:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    iget-object p1, p2, Lcc1;->e:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 33
     .line 34
-    iput-object p1, p0, Lzb1;->B:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    iput-object p1, p0, Lzb1;->B:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 35
     .line 36

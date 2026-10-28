@@ -25,7 +25,7 @@
 .method public abstract c(Ljava/lang/String;Lt15;)Ltc4;
 .end method
 
-.method public abstract d(Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+.method public abstract d(Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 .end method
 
 .method public abstract e(Lc62;Ljava/lang/String;JLcz;)V

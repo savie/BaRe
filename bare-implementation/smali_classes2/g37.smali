@@ -16,7 +16,7 @@
 
     .line 4
     .line 5
-    const-class v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;
+    const-class v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;
 
     .line 6
     .line 7

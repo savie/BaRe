@@ -59,11 +59,11 @@
 
     .line 14
     .line 15
-    check-cast p0, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;
+    check-cast p0, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;
 
     .line 16
     .line 17
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;->M:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;->M:Lgv7;
 
     .line 18
     .line 19
@@ -112,7 +112,7 @@
 
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;->N()Lby5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;->N()Lby5;
 
     .line 39
     .line 40
@@ -137,7 +137,7 @@
 
     .line 48
     .line 49
-    const-string v11, "onModeClicked(Lorg/swiftapps/swiftbackup/password/PasswordStrategy;)V"
+    const-string v11, "onModeClicked(Lcom/bareapps/barebackup/password/PasswordStrategy;)V"
 
     .line 50
     .line 51
@@ -154,7 +154,7 @@
     .line 56
     .line 57
     .line 58
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;->N:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;->N:Lgv7;
 
     .line 59
     .line 60
@@ -186,7 +186,7 @@
 
     .line 72
     .line 73
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;->N()Lby5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;->N()Lby5;
 
     .line 74
     .line 75
@@ -211,7 +211,7 @@
 
     .line 83
     .line 84
-    const-string v9, "onModeClicked(Lorg/swiftapps/swiftbackup/password/PasswordStrategy;)V"
+    const-string v9, "onModeClicked(Lcom/bareapps/barebackup/password/PasswordStrategy;)V"
 
     .line 85
     .line 86
@@ -258,11 +258,11 @@
 
     .line 107
     .line 108
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast p0, Lcom/bareapps/barebackup/intro/d;
 
     .line 109
     .line 110
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/intro/d;->k(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/intro/d;->k(Z)V
 
     .line 111
     .line 112
@@ -287,15 +287,15 @@
 
     .line 121
     .line 122
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 123
     .line 124
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 125
     .line 126
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->u0(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->u0(Z)V
 
     .line 127
     .line 128

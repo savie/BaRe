@@ -64,7 +64,7 @@
 
     .line 12
     .line 13
-    const-string v6, "onRootInfoUI(Lorg/swiftapps/swiftbackup/model/RootInfo;)V"
+    const-string v6, "onRootInfoUI(Lcom/bareapps/barebackup/model/RootInfo;)V"
 
     .line 14
     .line 15
@@ -208,7 +208,7 @@
 
     .line 39
     :goto_2
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 40
     .line 41
@@ -224,7 +224,7 @@
     move-result v4
 
     .line 47
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 48
     .line 49
@@ -272,7 +272,7 @@
 
     .line 68
     :cond_5
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 69
     .line 70
@@ -498,7 +498,7 @@
     .line 179
     .line 180
     .line 181
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 182
     .line 183

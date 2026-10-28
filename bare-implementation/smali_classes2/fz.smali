@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 .field public final b:Lcy7;
 
@@ -12,7 +12,7 @@
 
 .field public final d:Landroid/widget/TextView;
 
-.field public final e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final f:Landroid/widget/TextView;
 
@@ -38,7 +38,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
     .locals 2
 
     .line 1
@@ -57,7 +57,7 @@
     .line 8
     .line 9
     .line 10
-    iput-object p1, p0, Lfz;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Lfz;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 11
     .line 12
@@ -81,11 +81,11 @@
 
     .line 21
     .line 22
-    iget-object p1, p2, Lcy7;->k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p1, p2, Lcy7;->k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 23
     .line 24
-    iput-object p1, p0, Lfz;->e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Lfz;->e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 25
     .line 26

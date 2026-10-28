@@ -232,7 +232,7 @@
 
     .line 58
     .line 59
-    iget-object v8, v8, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v8, v8, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 60
     .line 61
@@ -244,7 +244,7 @@
     move-result v9
 
     .line 65
-    invoke-virtual {v8, v9}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->hasBackup(Z)Z
+    invoke-virtual {v8, v9}, Lcom/bareapps/barebackup/folders/data/FolderItem;->hasBackup(Z)Z
 
     .line 66
     .line 67
@@ -347,7 +347,7 @@
 
     .line 113
     .line 114
-    iget-object v7, v7, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v7, v7, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 115
     .line 116
@@ -418,11 +418,11 @@
     move-result-object v6
 
     .line 149
-    check-cast v6, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v6, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 150
     .line 151
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 152
     .line 153
@@ -477,11 +477,11 @@
     move-result-object v7
 
     .line 178
-    check-cast v7, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v7, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 179
     .line 180
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 181
     .line 182
@@ -540,11 +540,11 @@
     move-object v8, v7
 
     .line 208
-    check-cast v8, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v8, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 209
     .line 210
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 211
     .line 212

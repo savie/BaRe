@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+.field public final a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
 .field public final b:Landroid/widget/LinearLayout;
 
@@ -17,7 +17,7 @@
 
 .field public final e:Landroidx/recyclerview/widget/RecyclerView;
 
-.field public final f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final k:Lcom/google/android/material/button/MaterialButton;
 
@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/widget/LinearLayout;Landroid/view/View;Landroidx/constraintlayout/widget/ConstraintLayout;Landroidx/recyclerview/widget/RecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lcom/google/android/material/button/MaterialButton;Lgm1;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/widget/LinearLayout;Landroid/view/View;Landroidx/constraintlayout/widget/ConstraintLayout;Landroidx/recyclerview/widget/RecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/google/android/material/button/MaterialButton;Lgm1;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -36,7 +36,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ltf1;->a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    iput-object p1, p0, Ltf1;->a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 5
     .line 6
@@ -56,7 +56,7 @@
 
     .line 13
     .line 14
-    iput-object p6, p0, Ltf1;->f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p6, p0, Ltf1;->f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 15
     .line 16
@@ -81,7 +81,7 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Ltf1;->a:Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    iget-object p0, p0, Ltf1;->a:Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 2
     .line 3

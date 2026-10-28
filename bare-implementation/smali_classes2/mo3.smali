@@ -99,15 +99,15 @@
 
     .line 30
     :pswitch_0
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 31
     .line 32
-    sget-object v1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object v1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 33
     .line 34
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O()Lco8;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O()Lco8;
 
     .line 35
     .line 36
@@ -348,15 +348,15 @@
 
     .line 159
     :pswitch_1
-    check-cast v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    check-cast v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 160
     .line 161
-    sget v1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 162
     .line 163
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->N()Lay7;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->N()Lay7;
 
     .line 164
     .line 165
@@ -401,7 +401,7 @@
     .line 183
     .line 184
     .line 185
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 186
     .line 187
@@ -409,15 +409,15 @@
 
     .line 188
     :pswitch_3
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 189
     .line 190
-    sget v1, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget v1, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 191
     .line 192
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
 
     .line 193
     .line 194
@@ -449,11 +449,11 @@
 
     .line 206
     :pswitch_5
-    check-cast v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast v0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 207
     .line 208
-    sget v1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget v1, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 209
     .line 210
@@ -632,19 +632,19 @@
 
     .line 299
     :pswitch_7
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 300
     .line 301
-    sget v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget v1, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 302
     .line 303
-    new-instance v1, Lorg/swiftapps/swiftbackup/settings/h;
+    new-instance v1, Lcom/bareapps/barebackup/settings/h;
 
     .line 304
     .line 305
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->O()Lbj5;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->O()Lbj5;
 
     .line 306
     .line 307
@@ -656,7 +656,7 @@
 
     .line 310
     .line 311
-    invoke-direct {v1, v0, v2}, Lorg/swiftapps/swiftbackup/settings/h;-><init>(Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;Lcj5;)V
+    invoke-direct {v1, v0, v2}, Lcom/bareapps/barebackup/settings/h;-><init>(Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;Lcj5;)V
 
     .line 312
     .line 313
@@ -665,15 +665,15 @@
 
     .line 315
     :pswitch_8
-    check-cast v0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast v0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 316
     .line 317
-    sget v1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget v1, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 318
     .line 319
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->a0()Lli7;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->a0()Lli7;
 
     .line 320
     .line 321
@@ -689,15 +689,15 @@
 
     .line 326
     :pswitch_9
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 327
     .line 328
-    sget v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 329
     .line 330
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N()Lub5;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N()Lub5;
 
     .line 331
     .line 332
@@ -738,11 +738,11 @@
 
     .line 349
     :pswitch_b
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 350
     .line 351
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object v1, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 352
     .line 353
@@ -1042,7 +1042,7 @@
     move-object v14, v1
 
     .line 505
-    check-cast v14, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    check-cast v14, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 506
     .line 507
@@ -1066,7 +1066,7 @@
     move-object v15, v1
 
     .line 517
-    check-cast v15, Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+    check-cast v15, Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
     .line 518
     .line 519
@@ -1078,7 +1078,7 @@
 
     .line 522
     .line 523
-    invoke-direct/range {v9 .. v15}, Lw44;-><init>(Landroid/view/View;Landroid/widget/FrameLayout;Lx44;Landroid/view/View;Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;)V
+    invoke-direct/range {v9 .. v15}, Lw44;-><init>(Landroid/view/View;Landroid/widget/FrameLayout;Lx44;Landroid/view/View;Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Lcom/bareapps/barebackup/views/NoSwipeViewPager;)V
 
     .line 524
     .line 525
@@ -1189,11 +1189,11 @@
 
     .line 574
     :pswitch_d
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 575
     .line 576
-    sget v1, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->N:I
+    sget v1, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->N:I
 
     .line 577
     .line 578
@@ -1263,11 +1263,11 @@
 
     .line 610
     :pswitch_f
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 611
     .line 612
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 613
     .line 614
@@ -1333,7 +1333,7 @@
     move-result-object v4
 
     .line 645
-    check-cast v4, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v4, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 646
     .line 647
@@ -1346,7 +1346,7 @@
 
     .line 651
     .line 652
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 653
     .line 654
@@ -1354,7 +1354,7 @@
     move-result-object v6
 
     .line 656
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getLatestBackupDate()J
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getLatestBackupDate()J
 
     .line 657
     .line 658
@@ -1362,7 +1362,7 @@
     move-result-wide v9
 
     .line 660
-    invoke-direct {v5, v6, v9, v10, v8}, Lzk3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;JLjava/lang/String;)V
+    invoke-direct {v5, v6, v9, v10, v8}, Lzk3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;JLjava/lang/String;)V
 
     .line 661
     .line 662
@@ -1426,7 +1426,7 @@
 
     .line 691
     .line 692
-    iget-object v5, v5, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v5, v5, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 693
     .line 694
@@ -1497,11 +1497,11 @@
     move-result-object v4
 
     .line 727
-    check-cast v4, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v4, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 728
     .line 729
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 730
     .line 731
@@ -1556,11 +1556,11 @@
     move-result-object v5
 
     .line 756
-    check-cast v5, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v5, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 757
     .line 758
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 759
     .line 760
@@ -1619,11 +1619,11 @@
     move-object v6, v5
 
     .line 786
-    check-cast v6, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v6, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 787
     .line 788
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 789
     .line 790
@@ -1668,7 +1668,7 @@
 
     .line 809
     .line 810
-    invoke-direct {v3, v0, v1, v2}, Lro3;-><init>(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;ILjava/util/ArrayList;)V
+    invoke-direct {v3, v0, v1, v2}, Lro3;-><init>(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;ILjava/util/ArrayList;)V
 
     .line 811
     .line 812
@@ -1682,11 +1682,11 @@
 
     .line 817
     :pswitch_10
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 818
     .line 819
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 820
     .line 821
@@ -1724,7 +1724,7 @@
     move-result-object v3
 
     .line 839
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast v3, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 840
     .line 841

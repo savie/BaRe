@@ -24,7 +24,7 @@
 
 .field public final X:Lgv7;
 
-.field public Y:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+.field public Y:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
 .field public Z:Lq63;
 
@@ -459,7 +459,7 @@
 
     .line 217
     .line 218
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->getEntries()Ljx2;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->getEntries()Ljx2;
 
     .line 219
     .line 220
@@ -509,11 +509,11 @@
     move-object v4, v1
 
     .line 243
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    check-cast v4, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 244
     .line 245
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->isCheckedInExpansion()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->isCheckedInExpansion()Z
 
     .line 246
     .line 247
@@ -529,7 +529,7 @@
 
     .line 252
     :cond_1
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    check-cast v3, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 253
     .line 254
@@ -537,7 +537,7 @@
 
     .line 255
     .line 256
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->Companion:Ltn3;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->Companion:Ltn3;
 
     .line 257
     .line 258
@@ -546,12 +546,12 @@
     .line 259
     .line 260
     .line 261
-    sget-object v3, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v3, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 262
     .line 263
     :cond_2
-    iput-object v3, v0, Lln3;->Y:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iput-object v3, v0, Lln3;->Y:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 264
     .line 265
@@ -626,11 +626,11 @@
 
 
 # virtual methods
-.method public final j(Lao3;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+.method public final j(Lao3;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
     .locals 7
 
     .line 1
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->getTitleStringRes()I
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->getTitleStringRes()I
 
     .line 2
     .line 3
@@ -638,7 +638,7 @@
     move-result v1
 
     .line 5
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->getDescriptionStringRes()I
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->getDescriptionStringRes()I
 
     .line 6
     .line 7
@@ -646,7 +646,7 @@
     move-result v2
 
     .line 9
-    iget-object v0, p0, Lln3;->Y:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object v0, p0, Lln3;->Y:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 10
     .line 11
@@ -705,7 +705,7 @@
     .locals 4
 
     .line 1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->getEntries()Ljx2;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->getEntries()Ljx2;
 
     .line 2
     .line 3
@@ -742,11 +742,11 @@
     move-result-object v1
 
     .line 19
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    check-cast v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 20
     .line 21
-    iget-object v2, p0, Lln3;->Y:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object v2, p0, Lln3;->Y:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 22
     .line 23
@@ -765,7 +765,7 @@
 
     .line 28
     :goto_1
-    invoke-virtual {v1, v2}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->setCheckedInExpansion(Z)V
+    invoke-virtual {v1, v2}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->setCheckedInExpansion(Z)V
 
     .line 29
     .line 30
@@ -785,7 +785,7 @@
 
     .line 36
     .line 37
-    iget-object v2, p0, Lln3;->Y:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object v2, p0, Lln3;->Y:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 38
     .line 39
@@ -852,11 +852,11 @@
 
     .line 8
     .line 9
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 10
     .line 11
-    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
 
     .line 12
     .line 13
@@ -877,11 +877,11 @@
 
     .line 21
     .line 22
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->OVERWRITE:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->OVERWRITE:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 23
     .line 24
-    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
 
     .line 25
     .line 26
@@ -902,11 +902,11 @@
 
     .line 34
     .line 35
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->FULL_RESTORE:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->FULL_RESTORE:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 36
     .line 37
-    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+    invoke-virtual {p0, v0, v1}, Lln3;->j(Lao3;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
 
     .line 38
     .line 39

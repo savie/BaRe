@@ -520,7 +520,7 @@
 
     .line 219
     .line 220
-    iget-object v0, p0, Lcs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v0, p0, Lcs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 221
     .line 222
@@ -697,7 +697,7 @@
     .line 308
     .line 309
     .line 310
-    invoke-static {v0, v1, v11, v12}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {v0, v1, v11, v12}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 311
     .line 312

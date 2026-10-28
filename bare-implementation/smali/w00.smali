@@ -458,7 +458,7 @@
 
     .line 20
     .line 21
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast p0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 22
     .line 23
@@ -1431,7 +1431,7 @@
 
     .line 11
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast p0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 12
     .line 13

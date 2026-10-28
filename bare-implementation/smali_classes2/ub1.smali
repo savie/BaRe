@@ -26,7 +26,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;Ly2;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;Ly2;)V
     .locals 0
 
     .line 1
@@ -81,11 +81,11 @@
 
     .line 14
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 15
     .line 16
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 17
     .line 18
@@ -110,7 +110,7 @@
 
     .line 27
     .line 28
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;->Q:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;->Q:I
 
     .line 29
     .line 30

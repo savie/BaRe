@@ -129,11 +129,11 @@
 
     .line 47
     :pswitch_1
-    check-cast p1, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast p1, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 48
     .line 49
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
 
     .line 50
     .line 51
@@ -153,11 +153,11 @@
 
     .line 58
     :cond_0
-    check-cast p2, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast p2, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 59
     .line 60
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
 
     .line 61
     .line 62
@@ -468,11 +468,11 @@
 
     .line 204
     :pswitch_6
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 205
     .line 206
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getUpdateDate()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getUpdateDate()J
 
     .line 207
     .line 208
@@ -488,11 +488,11 @@
     move-result-object p0
 
     .line 214
-    check-cast p2, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p2, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 215
     .line 216
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getUpdateDate()J
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getUpdateDate()J
 
     .line 217
     .line 218

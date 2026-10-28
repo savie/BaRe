@@ -4,11 +4,11 @@
 
 
 # direct methods
-.method public static a()Lorg/swiftapps/swiftbackup/database/MDatabase;
+.method public static a()Lcom/bareapps/barebackup/database/MDatabase;
     .locals 3
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/database/MDatabase;->k:Lorg/swiftapps/swiftbackup/database/MDatabase;
+    sget-object v0, Lcom/bareapps/barebackup/database/MDatabase;->k:Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 2
     .line 3
@@ -16,7 +16,7 @@
 
     .line 4
     .line 5
-    const-class v0, Lorg/swiftapps/swiftbackup/database/MDatabase;
+    const-class v0, Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 6
     .line 7
@@ -24,7 +24,7 @@
 
     .line 8
     :try_start_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/database/MDatabase;->k:Lorg/swiftapps/swiftbackup/database/MDatabase;
+    sget-object v1, Lcom/bareapps/barebackup/database/MDatabase;->k:Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 9
     .line 10
@@ -32,11 +32,11 @@
 
     .line 11
     .line 12
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 13
     .line 14
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 15
     .line 16
@@ -44,7 +44,7 @@
     move-result-object v1
 
     .line 18
-    const-string v2, "swiftbackup-db"
+    const-string v2, "barebackup-db"
 
     .line 19
     .line 20
@@ -95,11 +95,11 @@
     move-result-object v1
 
     .line 43
-    check-cast v1, Lorg/swiftapps/swiftbackup/database/MDatabase;
+    check-cast v1, Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 44
     .line 45
-    sput-object v1, Lorg/swiftapps/swiftbackup/database/MDatabase;->k:Lorg/swiftapps/swiftbackup/database/MDatabase;
+    sput-object v1, Lcom/bareapps/barebackup/database/MDatabase;->k:Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 46
     .line 47
@@ -149,7 +149,7 @@
     .line 62
     :cond_2
     :goto_2
-    sget-object v0, Lorg/swiftapps/swiftbackup/database/MDatabase;->k:Lorg/swiftapps/swiftbackup/database/MDatabase;
+    sget-object v0, Lcom/bareapps/barebackup/database/MDatabase;->k:Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 63
     .line 64

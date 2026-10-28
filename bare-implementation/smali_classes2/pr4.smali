@@ -83,15 +83,15 @@
 
     .line 22
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;
+    check-cast p0, Lcom/bareapps/barebackup/password/UserPasswordActivity;
 
     .line 23
     .line 24
-    sget v0, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/password/UserPasswordActivity;->O:I
 
     .line 25
     .line 26
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;->O()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/password/UserPasswordActivity;->O()V
 
     .line 27
     .line 28
@@ -323,11 +323,11 @@
 
     .line 142
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 143
     .line 144
-    sget v0, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/settings/SettingsActivity;->Z:I
 
     .line 145
     .line 146
@@ -351,15 +351,15 @@
 
     .line 155
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 156
     .line 157
-    sget v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget v0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 158
     .line 159
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
 
     .line 160
     .line 161
@@ -375,15 +375,15 @@
 
     .line 166
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 167
     .line 168
-    sget v0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget v0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 169
     .line 170
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->O()Lp36;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->O()Lp36;
 
     .line 171
     .line 172
@@ -567,15 +567,15 @@
 
     .line 256
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 257
     .line 258
-    sget v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 259
     .line 260
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->O()Lbj5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->O()Lbj5;
 
     .line 261
     .line 262
@@ -923,7 +923,7 @@
     .line 424
     .line 425
     .line 426
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 427
     .line 428
@@ -931,15 +931,15 @@
 
     .line 429
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 430
     .line 431
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 432
     .line 433
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->X()Lzx2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->X()Lzx2;
 
     .line 434
     .line 435
@@ -1008,7 +1008,7 @@
     .line 464
     .line 465
     .line 466
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 467
     .line 468
@@ -1016,15 +1016,15 @@
 
     .line 469
     :pswitch_d
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 470
     .line 471
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 472
     .line 473
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
 
     .line 474
     .line 475

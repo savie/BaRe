@@ -80,7 +80,7 @@
 
     .line 17
     .line 18
-    check-cast p1, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    check-cast p1, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 19
     .line 20
@@ -98,7 +98,7 @@
     .line 26
     .line 27
     .line 28
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -106,7 +106,7 @@
     move-result-object v2
 
     .line 32
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
 
     .line 33
     .line 34
@@ -462,7 +462,7 @@
 
     .line 205
     .line 206
-    iget-object p0, p0, Lj57;->l:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Lj57;->l:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 207
     .line 208
@@ -563,7 +563,7 @@
 
     .line 256
     .line 257
-    sget-object p0, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object p0, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 258
     .line 259
@@ -580,7 +580,7 @@
     .line 264
     .line 265
     .line 266
-    invoke-static {p0, v0, v1}, Lcom/swiftapps/sba/SbaSwiftTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    invoke-static {p0, v0, v1}, Lcom/bareapps/sba/SbaBareTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 267
     .line 268
@@ -600,7 +600,7 @@
 
     .line 274
     .line 275
-    sget-object p0, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object p0, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 276
     .line 277
@@ -621,7 +621,7 @@
 
     .line 285
     .line 286
-    invoke-static {p0, v0, v1, v2, v3}, Lcom/swiftapps/sba/SbaSwiftTarNative;->e(Ljava/io/FileDescriptor;JJ)[Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    invoke-static {p0, v0, v1, v2, v3}, Lcom/bareapps/sba/SbaBareTarNative;->e(Ljava/io/FileDescriptor;JJ)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 287
     .line 288
@@ -676,22 +676,22 @@
 
     .line 310
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 311
     .line 312
     move-object v0, v4
 
     .line 313
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 314
     .line 315
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 316
     .line 317
-    sget v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget v1, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 318
     .line 319
@@ -731,7 +731,7 @@
     move-object v4, p0
 
     .line 335
-    invoke-static/range {v4 .. v9}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->copy$default(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static/range {v4 .. v9}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->copy$default(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 336
     .line 337
@@ -739,7 +739,7 @@
     move-result-object p0
 
     .line 339
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->P()Lorg/swiftapps/swiftbackup/settings/k;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->P()Lcom/bareapps/barebackup/settings/k;
 
     .line 340
     .line 341
@@ -747,7 +747,7 @@
     move-result-object p1
 
     .line 343
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/settings/k;->k(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/settings/k;->k(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)V
 
     .line 344
     .line 345
@@ -841,11 +841,11 @@
 
     .line 388
     :cond_6
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 389
     .line 390
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 391
     .line 392
@@ -1060,7 +1060,7 @@
     .line 493
     .line 494
     .line 495
-    iget-object v5, p0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v5, p0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 496
     .line 497
@@ -1068,7 +1068,7 @@
 
     .line 498
     .line 499
-    iget-object v9, v4, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v9, v4, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 500
     .line 501
@@ -1098,7 +1098,7 @@
     const/4 v8, 0x0
 
     .line 511
-    invoke-virtual/range {v5 .. v10}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v5 .. v10}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 512
     .line 513

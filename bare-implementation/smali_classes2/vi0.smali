@@ -15,7 +15,7 @@
 
 .field public final synthetic d:Z
 
-.field public final synthetic e:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final synthetic e:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final synthetic f:Lcd;
 
@@ -23,7 +23,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lxi0;Landroid/app/Activity;ZZLorg/swiftapps/swiftbackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
+.method public constructor <init>(Lxi0;Landroid/app/Activity;ZZLcom/bareapps/barebackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
     .locals 0
 
     .line 1
@@ -43,7 +43,7 @@
 
     .line 8
     .line 9
-    iput-object p5, p0, Lvi0;->e:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p5, p0, Lvi0;->e:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 10
     .line 11
@@ -100,14 +100,14 @@
 
     .line 14
     .line 15
-    iget-object v5, p0, Lvi0;->e:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v5, p0, Lvi0;->e:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 16
     .line 17
     move-object v8, p2
 
     .line 18
-    invoke-direct/range {v0 .. v8}, Lvi0;-><init>(Lxi0;Landroid/app/Activity;ZZLorg/swiftapps/swiftbackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
+    invoke-direct/range {v0 .. v8}, Lvi0;-><init>(Lxi0;Landroid/app/Activity;ZZLcom/bareapps/barebackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
 
     .line 19
     .line 20
@@ -222,11 +222,11 @@
 
     .line 30
     :goto_3
-    iget-object v2, v0, Lvi0;->e:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v2, v0, Lvi0;->e:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 31
     .line 32
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasApk()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasApk()Z
 
     .line 33
     .line 34
@@ -234,7 +234,7 @@
     move-result v9
 
     .line 36
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasApk()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasApk()Z
 
     .line 37
     .line 38
@@ -253,7 +253,7 @@
 
     .line 44
     .line 45
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getTotalApkSize()J
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getTotalApkSize()J
 
     .line 46
     .line 47
@@ -289,7 +289,7 @@
 
     .line 61
     :goto_4
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSplitApks()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSplitApks()Z
 
     .line 62
     .line 63
@@ -297,7 +297,7 @@
     move-result v11
 
     .line 65
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasSharedLibs()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasSharedLibs()Z
 
     .line 66
     .line 67
@@ -305,7 +305,7 @@
     move-result v12
 
     .line 69
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasData()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasData()Z
 
     .line 70
     .line 71
@@ -313,7 +313,7 @@
     move-result v13
 
     .line 73
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasData()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasData()Z
 
     .line 74
     .line 75
@@ -329,7 +329,7 @@
 
     .line 80
     .line 81
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
 
     .line 82
     .line 83
@@ -356,7 +356,7 @@
 
     .line 92
     :goto_5
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExtData()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExtData()Z
 
     .line 93
     .line 94
@@ -364,7 +364,7 @@
     move-result v15
 
     .line 96
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExtData()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExtData()Z
 
     .line 97
     .line 98
@@ -380,7 +380,7 @@
 
     .line 103
     .line 104
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
 
     .line 105
     .line 106
@@ -409,7 +409,7 @@
     .line 116
     .line 117
     :goto_6
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasMedia()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasMedia()Z
 
     .line 118
     .line 119
@@ -417,7 +417,7 @@
     move-result v17
 
     .line 121
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasMedia()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasMedia()Z
 
     .line 122
     .line 123
@@ -433,7 +433,7 @@
 
     .line 128
     .line 129
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
 
     .line 130
     .line 131
@@ -462,7 +462,7 @@
     .line 141
     .line 142
     :goto_7
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExpansion()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExpansion()Z
 
     .line 143
     .line 144
@@ -470,7 +470,7 @@
     move-result v19
 
     .line 146
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasExpansion()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasExpansion()Z
 
     .line 147
     .line 148
@@ -486,7 +486,7 @@
 
     .line 153
     .line 154
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
 
     .line 155
     .line 156

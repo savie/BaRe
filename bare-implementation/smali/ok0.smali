@@ -16,13 +16,13 @@
 
 .field public final s:Z
 
-.field public final t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.field public final t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
 .field public final u:Z
 
 
 # direct methods
-.method public constructor <init>(Lhk;ZZZZZLorg/swiftapps/swiftbackup/model/app/LocalMetadata;Z)V
+.method public constructor <init>(Lhk;ZZZZZLcom/bareapps/barebackup/model/app/LocalMetadata;Z)V
     .locals 0
 
     .line 1
@@ -60,7 +60,7 @@
 
     .line 18
     .line 19
-    iput-object p7, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iput-object p7, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 20
     .line 21
@@ -200,11 +200,11 @@
 
     .line 54
     :cond_7
-    iget-object v0, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 55
     .line 56
-    iget-object v2, p1, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v2, p1, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 57
     .line 58
@@ -331,11 +331,11 @@
     move-result v0
 
     .line 40
-    iget-object v2, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v2, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 41
     .line 42
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hashCode()I
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hashCode()I
 
     .line 43
     .line 44
@@ -492,7 +492,7 @@
     .line 66
     .line 67
     .line 68
-    iget-object v1, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v1, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 69
     .line 70

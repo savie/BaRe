@@ -129,7 +129,7 @@
     .line 56
     .line 57
     .line 58
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 59
     .line 60

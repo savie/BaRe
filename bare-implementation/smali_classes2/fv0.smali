@@ -98,7 +98,7 @@
     move-result-object v0
 
     .line 38
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$Data;
+    const-class v1, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$Data;
 
     .line 39
     .line 40

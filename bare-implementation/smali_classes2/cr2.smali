@@ -9,17 +9,17 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
 .field public final synthetic c:Lg90;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;Lg90;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;Lg90;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lcr2;->b:Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+    iput-object p1, p0, Lcr2;->b:Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
     .line 2
     .line 3
@@ -48,7 +48,7 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lcr2;->b:Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+    iget-object v0, p0, Lcr2;->b:Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
     .line 4
     .line 5
@@ -56,7 +56,7 @@
 
     .line 6
     .line 7
-    invoke-direct {p1, v0, p0, p2}, Lcr2;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;Lg90;Ljv1;)V
+    invoke-direct {p1, v0, p0, p2}, Lcr2;-><init>(Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;Lg90;Ljv1;)V
 
     .line 8
     .line 9
@@ -120,7 +120,7 @@
     const/4 v3, 0x1
 
     .line 6
-    iget-object v4, p0, Lcr2;->b:Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+    iget-object v4, p0, Lcr2;->b:Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
     .line 7
     .line 8
@@ -192,11 +192,11 @@
     .line 37
     .line 38
     :try_start_1
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;->P:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;->P:I
 
     .line 39
     .line 40
-    iget-object p1, v4, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;->M:Lgv7;
+    iget-object p1, v4, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;->M:Lgv7;
 
     .line 41
     .line 42
@@ -322,7 +322,7 @@
     .line 101
     .line 102
     .line 103
-    invoke-static {v4, p1}, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;->N(Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;Lvj;)Ljava/lang/String;
+    invoke-static {v4, p1}, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;->N(Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;Lvj;)Ljava/lang/String;
 
     .line 104
     .line 105

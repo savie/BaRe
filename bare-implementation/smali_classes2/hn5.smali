@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lhn5;->a:Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;
+    iput-object p1, p0, Lhn5;->a:Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;
 
     .line 5
     .line 6
@@ -33,14 +33,14 @@
     .locals 0
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;->M:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;->M:I
 
     .line 2
     .line 3
     const/4 p1, 0x0
 
     .line 4
-    iget-object p0, p0, Lhn5;->a:Lorg/swiftapps/swiftbackup/cloud/connect/NoGmsSignInActivity;
+    iget-object p0, p0, Lhn5;->a:Lcom/bareapps/barebackup/cloud/connect/NoGmsSignInActivity;
 
     .line 5
     .line 6

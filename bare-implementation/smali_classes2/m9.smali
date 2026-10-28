@@ -52,7 +52,7 @@
 
     .line 12
     .line 13
-    const-class v0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;
+    const-class v0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;
 
     .line 14
     .line 15

@@ -44,7 +44,7 @@
         value = {
             "(",
             "Ljava/util/List<",
-            "Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;",
+            "Lcom/bareapps/barebackup/model/provider/CallLogItem;",
             ">;)",
             "Lsz0;"
         }

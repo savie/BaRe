@@ -281,7 +281,7 @@
     .line 115
     .line 116
     .line 117
-    iget-object v6, v0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v6, v0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 118
     .line 119
@@ -311,7 +311,7 @@
     const/4 v11, 0x0
 
     .line 131
-    invoke-virtual/range {v6 .. v11}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v6 .. v11}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 132
     .line 133
@@ -332,7 +332,7 @@
 
     .line 140
     .line 141
-    check-cast v1, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast v1, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 142
     .line 143
@@ -341,7 +341,7 @@
     .line 144
     .line 145
     .line 146
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->isLinkOnly()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/notice/NoticeItem;->isLinkOnly()Z
 
     .line 147
     .line 148
@@ -379,11 +379,11 @@
 
     .line 165
     :cond_4
-    sget v0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;->O:I
 
     .line 166
     .line 167
-    invoke-virtual {v5}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v5}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 168
     .line 169
@@ -391,7 +391,7 @@
     move-result-object v0
 
     .line 171
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getTitle()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/notice/NoticeItem;->getTitle()Ljava/lang/String;
 
     .line 172
     .line 173
@@ -399,7 +399,7 @@
     move-result-object v2
 
     .line 175
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
 
     .line 176
     .line 177
@@ -436,7 +436,7 @@
 
     .line 192
     .line 193
-    const-class v5, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;
+    const-class v5, Lcom/bareapps/barebackup/notice/NoticeViewActivity;
 
     .line 194
     .line 195
@@ -547,7 +547,7 @@
 
     .line 247
     :pswitch_4
-    check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 248
     .line 249
@@ -571,7 +571,7 @@
 
     .line 258
     .line 259
-    invoke-direct {v3, v0, v1, v5, v2}, Lc20;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;Ltn2;Lq63;Ljv1;)V
+    invoke-direct {v3, v0, v1, v5, v2}, Lc20;-><init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;Ltn2;Lq63;Ljv1;)V
 
     .line 260
     .line 261
@@ -624,7 +624,7 @@
 
     .line 284
     .line 285
-    iget-object v12, v9, Lfz;->e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v12, v9, Lfz;->e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 286
     .line 287
@@ -649,7 +649,7 @@
 
     .line 297
     .line 298
-    iget-object v15, v9, Lfz;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v15, v9, Lfz;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 299
     .line 300
@@ -657,7 +657,7 @@
 
     .line 301
     .line 302
-    invoke-direct {v14, v15, v2}, Ldy7;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
+    invoke-direct {v14, v15, v2}, Ldy7;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
 
     .line 303
     .line 304
@@ -838,14 +838,14 @@
 
     .line 386
     .line 387
-    new-instance v13, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v13, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 388
     .line 389
     const/4 v1, 0x0
 
     .line 390
-    invoke-direct {v13, v15, v1}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
+    invoke-direct {v13, v15, v1}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
 
     .line 391
     .line 392
@@ -1435,7 +1435,7 @@
 
     .line 694
     .line 695
-    check-cast v0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast v0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 696
     .line 697
@@ -1451,7 +1451,7 @@
 
     .line 702
     .line 703
-    sget v2, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget v2, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 704
     .line 705
@@ -1460,7 +1460,7 @@
     .line 706
     .line 707
     .line 708
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->O()Lmg;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->O()Lmg;
 
     .line 709
     .line 710

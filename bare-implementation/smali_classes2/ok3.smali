@@ -74,7 +74,7 @@
 
     .line 21
     .line 22
-    iget-object v5, v4, Lqk3;->Q:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object v5, v4, Lqk3;->Q:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 23
     .line 24
@@ -86,7 +86,7 @@
     move-result v5
 
     .line 28
-    iget-object v4, v4, Lqk3;->Q:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object v4, v4, Lqk3;->Q:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 29
     .line 30
@@ -122,11 +122,11 @@
 
     .line 45
     .line 46
-    sget-object v7, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v7, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 47
     .line 48
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 49
     .line 50

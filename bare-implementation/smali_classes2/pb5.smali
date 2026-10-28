@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lpb5;->b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    iput-object p1, p0, Lpb5;->b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 4
     .line 5
@@ -50,7 +50,7 @@
     const/4 v2, 0x0
 
     .line 6
-    iget-object p0, p0, Lpb5;->b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    iget-object p0, p0, Lpb5;->b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 7
     .line 8
@@ -59,7 +59,7 @@
     .line 9
     .line 10
     .line 11
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N:Lgv7;
 
     .line 12
     .line 13
@@ -67,7 +67,7 @@
 
     .line 14
     .line 15
-    sget v3, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v3, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 16
     .line 17
@@ -213,7 +213,7 @@
 
     .line 82
     .line 83
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 84
     .line 85

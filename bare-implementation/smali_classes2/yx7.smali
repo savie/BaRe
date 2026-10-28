@@ -11,7 +11,7 @@
     .locals 0
 
     .line 1
-    sget p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 2
     .line 3

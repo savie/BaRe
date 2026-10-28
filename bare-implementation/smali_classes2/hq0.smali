@@ -287,7 +287,7 @@
 
     .line 116
     .line 117
-    check-cast v6, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast v6, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 118
     .line 119
@@ -299,7 +299,7 @@
 
     .line 122
     .line 123
-    sget v3, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget v3, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 124
     .line 125
@@ -525,7 +525,7 @@
 
     .line 229
     :pswitch_3
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 230
     .line 231
@@ -552,7 +552,7 @@
     move-object v7, v0
 
     .line 242
-    check-cast v7, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    check-cast v7, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 243
     .line 244
@@ -589,7 +589,7 @@
 
     .line 256
     .line 257
-    invoke-static/range {v7 .. v18}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    invoke-static/range {v7 .. v18}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 258
     .line 259
@@ -601,7 +601,7 @@
 
     .line 262
     .line 263
-    iput-object v0, v6, Lj57;->t:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    iput-object v0, v6, Lj57;->t:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 264
     .line 265
@@ -627,7 +627,7 @@
 
     .line 276
     .line 277
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->getFolderItems()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->getFolderItems()Ljava/util/List;
 
     .line 278
     .line 279
@@ -718,7 +718,7 @@
     move-result v1
 
     .line 321
-    invoke-static {}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->getEntries()Ljx2;
+    invoke-static {}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->getEntries()Ljx2;
 
     .line 322
     .line 323
@@ -787,7 +787,7 @@
     move-result-object v4
 
     .line 355
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 356
     .line 357
@@ -795,7 +795,7 @@
 
     .line 358
     .line 359
-    sget-object v9, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    sget-object v9, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 360
     .line 361
@@ -815,7 +815,7 @@
     .line 366
     .line 367
     :goto_6
-    invoke-direct {v7, v4, v9}, Lx27;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;I)V
+    invoke-direct {v7, v4, v9}, Lx27;-><init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;I)V
 
     .line 368
     .line 369
@@ -1029,7 +1029,7 @@
 
     .line 471
     .line 472
-    iget-object v15, v10, Ltp3;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v15, v10, Ltp3;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 473
     .line 474
@@ -1037,7 +1037,7 @@
 
     .line 475
     .line 476
-    invoke-direct {v14, v15, v2}, Ldy7;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
+    invoke-direct {v14, v15, v2}, Ldy7;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Landroid/widget/TextView;)V
 
     .line 477
     .line 478
@@ -1745,11 +1745,11 @@
 
     .line 837
     .line 838
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 839
     .line 840
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 841
     .line 842
@@ -1797,7 +1797,7 @@
     .line 864
     .line 865
     .line 866
-    invoke-static {v6}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {v6}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 867
     .line 868

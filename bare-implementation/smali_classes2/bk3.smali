@@ -77,11 +77,11 @@
 
     .line 16
     .line 17
-    iget-object v3, v3, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v3, v3, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 18
     .line 19
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 20
     .line 21

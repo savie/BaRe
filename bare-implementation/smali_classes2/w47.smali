@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lw47;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iput-object p1, p0, Lw47;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 4
     .line 5
@@ -53,7 +53,7 @@
     const/4 v3, 0x0
 
     .line 7
-    iget-object v0, v0, Lw47;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object v0, v0, Lw47;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 8
     .line 9
@@ -78,7 +78,7 @@
     move-object v4, v0
 
     .line 20
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 21
     .line 22
@@ -168,7 +168,7 @@
     const/4 v13, 0x0
 
     .line 55
-    invoke-static/range {v4 .. v15}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    invoke-static/range {v4 .. v15}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 56
     .line 57
@@ -196,7 +196,7 @@
     move-object v4, v0
 
     .line 68
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 69
     .line 70
@@ -277,7 +277,7 @@
     const/4 v10, 0x0
 
     .line 100
-    invoke-static/range {v4 .. v12}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    invoke-static/range {v4 .. v12}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 101
     .line 102

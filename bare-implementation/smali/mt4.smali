@@ -6,19 +6,19 @@
 # instance fields
 .field public final d:Lz60;
 
-.field public final synthetic e:Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+.field public final synthetic e:Lcom/bareapps/barebackup/settings/LicensesActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/settings/LicensesActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/settings/LicensesActivity;)V
     .locals 5
 
     .line 1
-    iput-object p1, p0, Lmt4;->e:Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+    iput-object p1, p0, Lmt4;->e:Lcom/bareapps/barebackup/settings/LicensesActivity;
 
     .line 2
     .line 3
-    sget p1, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget p1, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 4
     .line 5
@@ -235,7 +235,7 @@
 
     .line 33
     .line 34
-    sget v2, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget v2, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 35
     .line 36
@@ -411,7 +411,7 @@
     move-result v0
 
     .line 118
-    iget-object p0, p0, Lmt4;->e:Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+    iget-object p0, p0, Lmt4;->e:Lcom/bareapps/barebackup/settings/LicensesActivity;
 
     .line 119
     .line 120

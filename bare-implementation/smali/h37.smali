@@ -325,11 +325,11 @@
     move-result-object v0
 
     .line 32
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v0, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 33
     .line 34
-    invoke-virtual {v0, p1, p2}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->writeToParcel(Landroid/os/Parcel;I)V
+    invoke-virtual {v0, p1, p2}, Lcom/bareapps/barebackup/folders/data/FolderItem;->writeToParcel(Landroid/os/Parcel;I)V
 
     .line 35
     .line 36

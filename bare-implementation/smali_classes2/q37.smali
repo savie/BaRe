@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lq37;->b:Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    iput-object p1, p0, Lq37;->b:Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lq37;->b:Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    iget-object p0, p0, Lq37;->b:Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget v0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
 
     .line 11
     .line 12
@@ -72,11 +72,11 @@
 
     .line 17
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget v0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 18
     .line 19
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
 
     .line 20
     .line 21

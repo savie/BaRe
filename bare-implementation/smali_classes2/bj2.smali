@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lbj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Lbj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 5
     .line 6
@@ -33,14 +33,14 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lbj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lbj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 2
     .line 3
     const/4 p1, 0x0
 
     .line 4
-    iput-boolean p1, p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->X:Z
+    iput-boolean p1, p0, Lcom/bareapps/barebackup/detail/DetailActivity;->X:Z
 
     .line 5
     .line 6
@@ -51,14 +51,14 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lbj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lbj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 2
     .line 3
     const/4 p1, 0x0
 
     .line 4
-    iput-boolean p1, p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->X:Z
+    iput-boolean p1, p0, Lcom/bareapps/barebackup/detail/DetailActivity;->X:Z
 
     .line 5
     .line 6
@@ -83,14 +83,14 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lbj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lbj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 2
     .line 3
     const/4 p1, 0x1
 
     .line 4
-    iput-boolean p1, p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->X:Z
+    iput-boolean p1, p0, Lcom/bareapps/barebackup/detail/DetailActivity;->X:Z
 
     .line 5
     .line 6

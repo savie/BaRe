@@ -76,7 +76,7 @@
 
     .line 13
     .line 14
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 15
     .line 16
@@ -92,11 +92,11 @@
 
     .line 21
     .line 22
-    iget-object p1, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p1, v0, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 23
     .line 24
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 25
     .line 26

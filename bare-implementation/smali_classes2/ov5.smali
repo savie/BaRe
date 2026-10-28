@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+.field public a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
 .field public final b:Ldd1;
 
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 5
     .line 6
@@ -47,12 +47,12 @@
     const/4 v4, 0x0
 
     .line 13
-    invoke-direct/range {v0 .. v6}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;-><init>(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v6}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;-><init>(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 14
     .line 15
     .line 16
-    iput-object v0, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iput-object v0, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 17
     .line 18
@@ -901,11 +901,11 @@
     throw p0
 .end method
 
-.method public final d(Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+.method public final d(Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
     .locals 0
 
     .line 1
-    invoke-virtual {p0}, Lov5;->z()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+    invoke-virtual {p0}, Lov5;->z()Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 
     .line 2
     .line 3
@@ -1527,7 +1527,7 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->Companion:Li58;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->Companion:Li58;
 
     .line 2
     .line 3
@@ -1780,7 +1780,7 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->Companion:Li58;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->Companion:Li58;
 
     .line 2
     .line 3
@@ -1793,7 +1793,7 @@
 
     .line 7
     .line 8
-    invoke-static {v0}, Li58;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    invoke-static {v0}, Li58;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 9
     .line 10
@@ -1801,11 +1801,11 @@
     move-result-object v0
 
     .line 12
-    iput-object v0, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iput-object v0, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 13
     .line 14
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 15
     .line 16
@@ -2045,11 +2045,11 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object p0, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->isValid()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->isValid()Z
 
     .line 4
     .line 5
@@ -2167,11 +2167,11 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object p0, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getEmailAddressValue()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getEmailAddressValue()Ljava/lang/String;
 
     .line 4
     .line 5
@@ -2927,11 +2927,11 @@
 
     .line 4
     .line 5
-    iget-object v2, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object v2, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 6
     .line 7
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 8
     .line 9
@@ -3586,7 +3586,7 @@
     return-object v0
 .end method
 
-.method public final z()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+.method public final z()Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
     .locals 9
 
     .line 1
@@ -3594,11 +3594,11 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lov5;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object v0, p0, Lov5;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -3618,7 +3618,7 @@
 
     .line 14
     .line 15
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
 
     .line 16
     .line 17
@@ -3652,11 +3652,11 @@
     .line 29
     .line 30
     .line 31
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
 
     .line 32
     .line 33
-    invoke-direct {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
+    invoke-direct {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
@@ -3796,7 +3796,7 @@
     .line 92
     .line 93
     .line 94
-    invoke-virtual {p0}, Lov5;->z()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+    invoke-virtual {p0}, Lov5;->z()Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 
     .line 95
     .line 96
@@ -3848,11 +3848,11 @@
     .line 116
     .line 117
     .line 118
-    new-instance p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;
+    new-instance p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;
 
     .line 119
     .line 120
-    invoke-direct {p0, v5}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;-><init>(Ljava/lang/Exception;)V
+    invoke-direct {p0, v5}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;-><init>(Ljava/lang/Exception;)V
 
     .line 121
     .line 122

@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lux7;->b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Lux7;->b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lux7;->b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object p0, p0, Lux7;->b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->N()Lay7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->N()Lay7;
 
     .line 11
     .line 12
@@ -80,7 +80,7 @@
 
     .line 21
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 22
     .line 23
@@ -176,7 +176,7 @@
     move-object v7, v1
 
     .line 69
-    check-cast v7, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v7, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 70
     .line 71
@@ -429,7 +429,7 @@
 
     .line 197
     .line 198
-    invoke-direct/range {v4 .. v10}, Lay7;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Lfm1;Landroidx/appcompat/widget/Toolbar;)V
+    invoke-direct/range {v4 .. v10}, Lay7;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Lfm1;Landroidx/appcompat/widget/Toolbar;)V
 
     .line 199
     .line 200

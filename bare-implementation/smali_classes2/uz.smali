@@ -13,7 +13,7 @@
 
 .field public final synthetic c:Lrf8;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final synthetic d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final synthetic e:Ljava/util/concurrent/ConcurrentHashMap;
 
@@ -25,7 +25,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
     .locals 0
 
     .line 1
@@ -46,7 +46,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Luz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p4, p0, Luz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 11
     .line 12
@@ -91,7 +91,7 @@
     move-result v2
 
     .line 9
-    iget-object v9, v1, La00;->f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v9, v1, La00;->f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 10
     .line 11
@@ -171,7 +171,7 @@
     move-result-object v13
 
     .line 48
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
 
     .line 49
     .line 50
@@ -179,7 +179,7 @@
     move-result-object v14
 
     .line 52
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isMediaEncrypted()Ljava/lang/Boolean;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isMediaEncrypted()Ljava/lang/Boolean;
 
     .line 53
     .line 54
@@ -187,7 +187,7 @@
     move-result-object v15
 
     .line 56
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaEncryptionMethod()Ljava/lang/String;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaEncryptionMethod()Ljava/lang/String;
 
     .line 57
     .line 58
@@ -195,7 +195,7 @@
     move-result-object v16
 
     .line 60
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
 
     .line 61
     .line 62
@@ -219,11 +219,11 @@
     move-result-object v18
 
     .line 72
-    iget-object v11, v0, Luz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v11, v0, Luz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 73
     .line 74
-    invoke-virtual/range {v11 .. v18}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateMediaDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
+    invoke-virtual/range {v11 .. v18}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateMediaDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
 
     .line 75
     .line 76

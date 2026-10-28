@@ -347,14 +347,14 @@
     .line 17
     .line 18
     .line 19
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 20
     .line 21
     const/4 v2, 0x0
 
     .line 22
-    invoke-virtual {v1, v2}, Lorg/swiftapps/swiftbackup/common/V;->setNon(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+    invoke-virtual {v1, v2}, Lcom/bareapps/barebackup/common/V;->setNon(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
 
     .line 23
     .line 24
@@ -476,7 +476,7 @@
 
     .line 50
     .line 51
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 52
     .line 53

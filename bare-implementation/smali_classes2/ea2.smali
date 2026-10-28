@@ -16,11 +16,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 4
     .line 5

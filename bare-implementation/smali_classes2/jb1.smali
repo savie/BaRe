@@ -62,7 +62,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 11
     .line 12
@@ -70,11 +70,11 @@
 
     .line 13
     .line 14
-    sget p1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 15
     .line 16
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 17
     .line 18

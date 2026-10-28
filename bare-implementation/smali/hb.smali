@@ -673,7 +673,7 @@
 
     .line 16
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 17
     .line 18
@@ -681,7 +681,7 @@
 
     .line 19
     .line 20
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 21
     .line 22
@@ -756,7 +756,7 @@
 
     .line 53
     :cond_2
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->T:Lln3;
+    iget-object p0, p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->T:Lln3;
 
     .line 54
     .line 55

@@ -248,7 +248,7 @@
     move-result-object v0
 
     .line 66
-    iget-object v2, v0, Lj57;->t:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    iget-object v2, v0, Lj57;->t:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 67
     .line 68
@@ -326,7 +326,7 @@
     const/4 v11, 0x0
 
     .line 98
-    invoke-static/range {v2 .. v13}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    invoke-static/range {v2 .. v13}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 99
     .line 100
@@ -366,7 +366,7 @@
     move-result-object p0
 
     .line 119
-    iput-object v1, p0, Lj57;->t:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    iput-object v1, p0, Lj57;->t:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 120
     .line 121

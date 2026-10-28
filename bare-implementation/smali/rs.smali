@@ -72,7 +72,7 @@
     .line 14
     .line 15
     .line 16
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;
 
     .line 17
     .line 18
@@ -97,16 +97,16 @@
     .line 27
     .line 28
     .line 29
-    sget p2, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;->R:I
+    sget p2, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;->R:I
 
     .line 30
     .line 31
-    invoke-virtual {p0, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;->Q(Z)V
+    invoke-virtual {p0, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;->Q(Z)V
 
     .line 32
     .line 33
     .line 34
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;->P(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;->P(Z)V
 
     .line 35
     .line 36
@@ -115,7 +115,7 @@
 
     .line 38
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 39
     .line 40
@@ -140,7 +140,7 @@
     .line 49
     .line 50
     .line 51
-    iget-object p2, p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->T:Lbe5;
+    iget-object p2, p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->T:Lbe5;
 
     .line 52
     .line 53
@@ -153,7 +153,7 @@
     .line 56
     .line 57
     .line 58
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0(Z)V
 
     .line 59
     .line 60
@@ -175,7 +175,7 @@
 
     .line 68
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 69
     .line 70
@@ -192,7 +192,7 @@
     .line 75
     .line 76
     .line 77
-    sget-object p2, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p2, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 78
     .line 79
@@ -201,7 +201,7 @@
     .line 80
     .line 81
     .line 82
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->Z(Ls54;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->Z(Ls54;)V
 
     .line 83
     .line 84
@@ -210,7 +210,7 @@
 
     .line 86
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 87
     .line 88
@@ -218,11 +218,11 @@
 
     .line 89
     .line 90
-    check-cast p2, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    check-cast p2, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 91
     .line 92
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 93
     .line 94
@@ -240,12 +240,12 @@
 
     .line 101
     .line 102
-    invoke-direct {v0, p1, p2, v4}, Luy7;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Z)V
+    invoke-direct {v0, p1, p2, v4}, Luy7;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Z)V
 
     .line 103
     .line 104
     .line 105
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
+    iget-object p1, p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
 
     .line 106
     .line 107
@@ -315,15 +315,15 @@
 
     .line 139
     .line 140
-    iget-object v2, v2, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v2, v2, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 141
     .line 142
-    iget-object v8, v0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v8, v0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 143
     .line 144
-    invoke-direct {v7, v2, v4, v5, v8}, Lbo3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;)V
+    invoke-direct {v7, v2, v4, v5, v8}, Lbo3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;)V
 
     .line 145
     .line 146
@@ -377,7 +377,7 @@
 
     .line 170
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 171
     .line 172
@@ -394,7 +394,7 @@
     .line 177
     .line 178
     .line 179
-    sget p2, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget p2, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 180
     .line 181
@@ -403,7 +403,7 @@
     .line 182
     .line 183
     .line 184
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->O()Lin3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->O()Lin3;
 
     .line 185
     .line 186
@@ -411,7 +411,7 @@
     move-result-object p2
 
     .line 188
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->N()Lym3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->N()Lym3;
 
     .line 189
     .line 190
@@ -466,7 +466,7 @@
 
     .line 215
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;
 
     .line 216
     .line 217
@@ -483,7 +483,7 @@
     .line 222
     .line 223
     .line 224
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;->T:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;->T:I
 
     .line 225
     .line 226
@@ -526,7 +526,7 @@
     .line 244
     .line 245
     .line 246
-    iget-object p2, p0, Lf30;->l:Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;
+    iget-object p2, p0, Lf30;->l:Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;
 
     .line 247
     .line 248

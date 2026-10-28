@@ -356,7 +356,7 @@
     .line 78
     :cond_0
     :try_start_0
-    sget-object v2, Lcom/swiftapps/sba/SbaNativeCrypto;->a:Lcom/swiftapps/sba/SbaNativeCrypto;
+    sget-object v2, Lcom/bareapps/sba/SbaNativeCrypto;->a:Lcom/bareapps/sba/SbaNativeCrypto;
 
     .line 79
     .line 80
@@ -375,7 +375,7 @@
     move v8, p5
 
     .line 85
-    invoke-virtual/range {v2 .. v8}, Lcom/swiftapps/sba/SbaNativeCrypto;->deriveArgon2id([B[BIIII)[B
+    invoke-virtual/range {v2 .. v8}, Lcom/bareapps/sba/SbaNativeCrypto;->deriveArgon2id([B[BIIII)[B
 
     .line 86
     .line 87

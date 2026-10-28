@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
 .field public final synthetic b:Ljava/lang/String;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;Ljava/lang/String;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/walls/WallsDashActivity;Ljava/lang/String;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lqo8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iput-object p1, p0, Lqo8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 5
     .line 6
@@ -39,15 +39,15 @@
     .locals 0
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->W:I
+    sget p1, Lcom/bareapps/barebackup/walls/WallsDashActivity;->W:I
 
     .line 2
     .line 3
-    iget-object p1, p0, Lqo8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iget-object p1, p0, Lqo8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->Y()Lpp8;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/walls/WallsDashActivity;->Y()Lpp8;
 
     .line 6
     .line 7

@@ -1766,7 +1766,7 @@
 
     .line 289
     .line 290
-    invoke-static {}, Lorg/swiftapps/swiftbackup/apkreader/ApkManifestParser;->access$getANDROID_ATTR_IDS$cp()Ljava/util/Map;
+    invoke-static {}, Lcom/bareapps/barebackup/apkreader/ApkManifestParser;->access$getANDROID_ATTR_IDS$cp()Ljava/util/Map;
 
     .line 291
     .line 292
@@ -3454,7 +3454,7 @@
     .line 173
     .line 174
     .line 175
-    invoke-static {}, Lorg/swiftapps/swiftbackup/apkreader/ApkManifestParser;->access$getUTF_16_LE$cp()Ljava/nio/charset/Charset;
+    invoke-static {}, Lcom/bareapps/barebackup/apkreader/ApkManifestParser;->access$getUTF_16_LE$cp()Ljava/nio/charset/Charset;
 
     .line 176
     .line 177

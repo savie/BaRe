@@ -3118,7 +3118,7 @@
     .line 2
     .line 3
     .line 4
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 5
     .line 6
@@ -3129,7 +3129,7 @@
     move-object v0, p0
 
     .line 9
-    check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 10
     .line 11
@@ -3318,7 +3318,7 @@
 
     .line 23
     .line 24
-    const-class v1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    const-class v1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 25
     .line 26
@@ -6224,7 +6224,7 @@
     return p0
 .end method
 
-.method public static final s(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;)Z
+.method public static final s(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;)Z
     .locals 2
 
     .line 1
@@ -6239,7 +6239,7 @@
 
     .line 5
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -7719,11 +7719,11 @@
     return-object p0
 .end method
 
-.method public static final z(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;Ljava/lang/String;)V
+.method public static final z(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;Ljava/lang/String;)V
     .locals 2
 
     .line 1
-    invoke-static {p0}, Ly13;->s(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;)Z
+    invoke-static {p0}, Ly13;->s(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;)Z
 
     .line 2
     .line 3

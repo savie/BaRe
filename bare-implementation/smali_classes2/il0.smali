@@ -975,7 +975,7 @@
     .line 2
     .line 3
     .line 4
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 5
     .line 6
@@ -1079,7 +1079,7 @@
     .line 53
     .line 54
     .line 55
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 56
     .line 57
@@ -1197,7 +1197,7 @@
     move-result-object p0
 
     .line 114
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 115
     .line 116
@@ -1214,7 +1214,7 @@
 
     .line 120
     .line 121
-    instance-of p1, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    instance-of p1, p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 122
     .line 123
@@ -1222,7 +1222,7 @@
 
     .line 124
     .line 125
-    instance-of p1, p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    instance-of p1, p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 126
     .line 127
@@ -1327,11 +1327,11 @@
 
     .line 172
     .line 173
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 174
     .line 175
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 176
     .line 177
@@ -1339,7 +1339,7 @@
     move-result-object p1
 
     .line 179
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/SwiftApp;->b:Lgv7;
+    iget-object p1, p1, Lcom/bareapps/barebackup/BareApp;->b:Lgv7;
 
     .line 180
     .line 181
@@ -1499,7 +1499,7 @@
 
     .line 259
     .line 260
-    const-string v6, "showV5MigrationProgress(Lorg/swiftapps/swiftbackup/common/AppUtil$V5MigrationProgress;)V"
+    const-string v6, "showV5MigrationProgress(Lcom/bareapps/barebackup/common/AppUtil$V5MigrationProgress;)V"
 
     .line 261
     .line 262
@@ -1954,7 +1954,7 @@
     .locals 7
 
     .line 1
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 2
     .line 3
@@ -1966,11 +1966,11 @@
 
     .line 6
     .line 7
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 8
     .line 9
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 10
     .line 11
@@ -2016,7 +2016,7 @@
     .line 29
     .line 30
     .line 31
-    const-class v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    const-class v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 32
     .line 33

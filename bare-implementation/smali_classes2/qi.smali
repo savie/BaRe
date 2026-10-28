@@ -134,7 +134,7 @@
 
     .line 46
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 47
     .line 48
@@ -142,11 +142,11 @@
 
     .line 49
     .line 50
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 51
     .line 52
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;->T:I
 
     .line 53
     .line 54
@@ -167,7 +167,7 @@
 
     .line 61
     .line 62
-    iget-object p0, p0, Lml3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object p0, p0, Lml3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 63
     .line 64
@@ -186,7 +186,7 @@
     const/4 v2, 0x4
 
     .line 71
-    invoke-static {p0, p1, v0, v1, v2}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Landroid/view/View;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;I)V
+    invoke-static {p0, p1, v0, v1, v2}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Landroid/view/View;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;I)V
 
     .line 72
     .line 73

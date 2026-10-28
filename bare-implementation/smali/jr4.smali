@@ -100,7 +100,7 @@
     .line 29
     .line 30
     :cond_0
-    sget-object v0, Llr4;->e:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    sget-object v0, Llr4;->e:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 31
     .line 32
@@ -111,7 +111,7 @@
 
     .line 34
     .line 35
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;->getLabelParamsMap()Ljava/util/Map;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;->getLabelParamsMap()Ljava/util/Map;
 
     .line 36
     .line 37
@@ -223,7 +223,7 @@
 
     .line 89
     :cond_3
-    sget-object v0, Llr4;->e:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    sget-object v0, Llr4;->e:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 90
     .line 91
@@ -231,7 +231,7 @@
 
     .line 92
     .line 93
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;->getLabelledAppsMap()Ljava/util/Map;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;->getLabelledAppsMap()Ljava/util/Map;
 
     .line 94
     .line 95
@@ -297,11 +297,11 @@
     move-object v5, v4
 
     .line 125
-    check-cast v5, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;
+    check-cast v5, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;
 
     .line 126
     .line 127
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;->getLabelIds()Ljava/util/List;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;->getLabelIds()Ljava/util/List;
 
     .line 128
     .line 129
@@ -321,7 +321,7 @@
 
     .line 136
     .line 137
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;->getLabelIds()Ljava/util/List;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;->getLabelIds()Ljava/util/List;
 
     .line 138
     .line 139
@@ -349,7 +349,7 @@
     const/4 v7, 0x0
 
     .line 149
-    invoke-static/range {v5 .. v10}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;->copy$default(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;
+    invoke-static/range {v5 .. v10}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;->copy$default(Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;
 
     .line 150
     .line 151
@@ -357,7 +357,7 @@
     move-result-object v4
 
     .line 153
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;->hasLabels()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;->hasLabels()Z
 
     .line 154
     .line 155
@@ -467,7 +467,7 @@
     move-object v3, v0
 
     .line 203
-    check-cast v3, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;
+    check-cast v3, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;
 
     .line 204
     .line 205
@@ -475,7 +475,7 @@
 
     .line 206
     .line 207
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;->getPackageName()Ljava/lang/String;
 
     .line 208
     .line 209
@@ -500,11 +500,11 @@
 
     .line 219
     :cond_9
-    new-instance p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    new-instance p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 220
     .line 221
-    invoke-direct {p0, v2, v1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;-><init>(Ljava/util/Map;Ljava/util/Map;)V
+    invoke-direct {p0, v2, v1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;-><init>(Ljava/util/Map;Ljava/util/Map;)V
 
     .line 222
     .line 223

@@ -56,7 +56,7 @@
 
     .line 5
     :cond_0
-    const-string v0, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v0, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 6
     .line 7
@@ -122,7 +122,7 @@
     .end annotation
 
     .line 1
-    const-string v0, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v0, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 2
     .line 3

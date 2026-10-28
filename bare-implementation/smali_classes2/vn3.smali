@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public final a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public final b:Lkj3;
 
@@ -21,11 +21,11 @@
     .line 2
     .line 3
     .line 4
-    iget-object p2, p1, Ldo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p2, p1, Ldo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 5
     .line 6
-    iput-object p2, p0, Lvn3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object p2, p0, Lvn3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 7
     .line 8
@@ -57,7 +57,7 @@
 
     .line 21
     .line 22
-    iget-object p0, p1, Ldo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object p0, p1, Ldo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 23
     .line 24

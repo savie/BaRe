@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+.field public final synthetic a:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
 .field public final synthetic b:Ljh6;
 
@@ -19,7 +19,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lks0;->a:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    iput-object p1, p0, Lks0;->a:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 5
     .line 6
@@ -68,7 +68,7 @@
     const/4 v6, 0x0
 
     .line 6
-    iget-object v1, p0, Lks0;->a:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    iget-object v1, p0, Lks0;->a:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 7
     .line 8
@@ -88,7 +88,7 @@
 
     .line 15
     .line 16
-    invoke-direct/range {v0 .. v6}, Lms0;-><init>(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;Ljv1;)V
+    invoke-direct/range {v0 .. v6}, Lms0;-><init>(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;Ljv1;)V
 
     .line 17
     .line 18

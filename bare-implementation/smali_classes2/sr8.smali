@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/wifi/WifiActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/wifi/WifiActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lsr8;->b:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iput-object p1, p0, Lsr8;->b:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lsr8;->b:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object p0, p0, Lsr8;->b:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 6
     .line 7
@@ -60,7 +60,7 @@
 
     .line 11
     .line 12
-    sget-object v0, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y:Let8;
+    sget-object v0, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y:Let8;
 
     .line 13
     .line 14
@@ -85,7 +85,7 @@
 
     .line 24
     .line 25
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 26
     .line 27
@@ -101,7 +101,7 @@
     .line 31
     .line 32
     .line 33
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 34
     .line 35
@@ -127,7 +127,7 @@
     .line 45
     .line 46
     .line 47
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 48
     .line 49
@@ -144,7 +144,7 @@
     .line 54
     .line 55
     .line 56
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 57
     .line 58
@@ -157,7 +157,7 @@
     .line 61
     .line 62
     .line 63
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->f0(Lorg/swiftapps/swiftbackup/wifi/WifiActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->f0(Lcom/bareapps/barebackup/wifi/WifiActivity;)V
 
     .line 64
     .line 65
@@ -174,7 +174,7 @@
 
     .line 70
     .line 71
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 72
     .line 73
@@ -273,7 +273,7 @@
     move-result-object p1
 
     .line 124
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 125
     .line 126
@@ -286,7 +286,7 @@
     .line 129
     .line 130
     .line 131
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 132
     .line 133
@@ -299,7 +299,7 @@
     .line 136
     .line 137
     .line 138
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 139
     .line 140
@@ -312,7 +312,7 @@
     .line 143
     .line 144
     .line 145
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->f0(Lorg/swiftapps/swiftbackup/wifi/WifiActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->f0(Lcom/bareapps/barebackup/wifi/WifiActivity;)V
 
     .line 146
     .line 147
@@ -337,7 +337,7 @@
 
     .line 156
     .line 157
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->W()Lw45;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->W()Lw45;
 
     .line 158
     .line 159
@@ -379,7 +379,7 @@
     move-result p1
 
     .line 176
-    sget-object v0, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y:Let8;
+    sget-object v0, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y:Let8;
 
     .line 177
     .line 178

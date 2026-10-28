@@ -131,7 +131,7 @@
     move-result-object v1
 
     .line 8
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 9
     .line 10
@@ -189,7 +189,7 @@
 
     .line 37
     .line 38
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast p0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 39
     .line 40
@@ -655,7 +655,7 @@
 
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast p0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 14
     .line 15

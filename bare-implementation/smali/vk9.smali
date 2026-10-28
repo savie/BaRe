@@ -741,7 +741,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
@@ -757,7 +757,7 @@
     .line 9
     .line 10
     .line 11
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->k0()Lg20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->k0()Lg20;
 
     .line 12
     .line 13
@@ -793,7 +793,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->g0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->g0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
 
     .line 30
     .line 31
@@ -810,7 +810,7 @@
     .line 36
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 39
     .line 40
@@ -818,7 +818,7 @@
     move-result-object v1
 
     .line 42
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 43
     .line 44
@@ -885,7 +885,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
@@ -901,7 +901,7 @@
     .line 9
     .line 10
     .line 11
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->k0()Lg20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->k0()Lg20;
 
     .line 12
     .line 13
@@ -934,7 +934,7 @@
     .line 26
     .line 27
     .line 28
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->g0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->g0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
 
     .line 29
     .line 30
@@ -955,7 +955,7 @@
     .line 37
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 40
     .line 41
@@ -963,7 +963,7 @@
     move-result-object v1
 
     .line 43
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 44
     .line 45

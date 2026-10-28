@@ -100,15 +100,15 @@
 
     .line 33
     :pswitch_0
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 34
     .line 35
-    new-instance p0, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    new-instance p0, Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 36
     .line 37
-    invoke-direct {p0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;-><init>()V
+    invoke-direct {p0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;-><init>()V
 
     .line 38
     .line 39
@@ -179,15 +179,15 @@
 
     .line 71
     :pswitch_3
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 72
     .line 73
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 74
     .line 75
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 76
     .line 77
@@ -297,7 +297,7 @@
 
     .line 129
     :pswitch_4
-    sget p0, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->O:I
+    sget p0, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->O:I
 
     .line 130
     .line 131
@@ -395,11 +395,11 @@
 
     .line 173
     :pswitch_a
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 174
     .line 175
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 176
     .line 177
@@ -484,7 +484,7 @@
 
     .line 215
     .line 216
-    invoke-virtual {p0}, Lgs0;->a()Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-virtual {p0}, Lgs0;->a()Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 217
     .line 218

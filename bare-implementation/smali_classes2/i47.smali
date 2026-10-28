@@ -53,7 +53,7 @@
 
     .line 4
     .line 5
-    invoke-virtual {v1}, Lc47;->c()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v1}, Lc47;->c()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 6
     .line 7
@@ -110,7 +110,7 @@
     const/4 v15, 0x0
 
     .line 28
-    invoke-static/range {v2 .. v17}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-static/range {v2 .. v17}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 29
     .line 30
@@ -129,7 +129,7 @@
     const/4 v3, 0x1
 
     .line 37
-    invoke-direct {v2, v1, v0, v3}, Lqj3;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;Lq47;Z)V
+    invoke-direct {v2, v1, v0, v3}, Lqj3;-><init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;Lq47;Z)V
 
     .line 38
     .line 39
@@ -139,11 +139,11 @@
     .line 41
     .line 42
     .line 43
-    iget-object v0, v0, Lq47;->e:Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    iget-object v0, v0, Lq47;->e:Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 44
     .line 45
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->c()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->c()V
 
     .line 46
     .line 47

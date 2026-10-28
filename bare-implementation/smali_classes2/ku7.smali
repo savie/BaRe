@@ -12,7 +12,7 @@
     .locals 3
 
     .line 1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->values()[Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-static {}, Lcom/bareapps/barebackup/tasks/model/SyncOption;->values()[Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 2
     .line 3
@@ -28,7 +28,7 @@
     .line 7
     .line 8
     :try_start_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v1, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 9
     .line 10
@@ -51,7 +51,7 @@
     .line 17
     :catch_0
     :try_start_1
-    sget-object v1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->ANY:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v1, Lcom/bareapps/barebackup/tasks/model/SyncOption;->ANY:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 18
     .line 19

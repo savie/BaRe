@@ -30,7 +30,7 @@
 
 .field private hiddenSSID:Ljava/lang/Boolean;
 
-.field private passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+.field private passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
 .field private preSharedKey:Ljava/lang/String;
 
@@ -59,7 +59,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)V
+.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)V
     .locals 0
 
     invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
@@ -89,12 +89,12 @@
     iput-object p7, p0, Let8;->allowedGroupCiphers:Ljava/util/BitSet;
 
     .line 44
-    iput-object p8, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iput-object p8, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     return-void
 .end method
 
-.method public synthetic constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+.method public synthetic constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
     .locals 1
 
     .line 1
@@ -173,7 +173,7 @@
 
     .line 32
     :cond_5
-    invoke-direct/range {p0 .. p8}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)V
+    invoke-direct/range {p0 .. p8}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)V
 
     .line 33
     .line 34
@@ -181,7 +181,7 @@
     return-void
 .end method
 
-.method public static synthetic copy$default(Let8;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;ILjava/lang/Object;)Let8;
+.method public static synthetic copy$default(Let8;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;ILjava/lang/Object;)Let8;
     .locals 0
 
     .line 1
@@ -284,7 +284,7 @@
 
     .line 46
     .line 47
-    iget-object p8, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p8, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 48
     .line 49
@@ -316,7 +316,7 @@
     move-object p2, p0
 
     .line 58
-    invoke-virtual/range {p2 .. p10}, Let8;->copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)Let8;
+    invoke-virtual/range {p2 .. p10}, Let8;->copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)Let8;
 
     .line 59
     .line 60
@@ -406,18 +406,18 @@
     return-object p0
 .end method
 
-.method public final component8()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+.method public final component8()Lcom/bareapps/barebackup/wifi/PasswordInfo;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
     return-object p0
 .end method
 
-.method public final copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)Let8;
+.method public final copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)Let8;
     .locals 0
 
     .line 1
@@ -430,7 +430,7 @@
 
     .line 5
     .line 6
-    invoke-direct/range {p0 .. p8}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)V
+    invoke-direct/range {p0 .. p8}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)V
 
     .line 7
     .line 8
@@ -640,11 +640,11 @@
 
     .line 90
     :cond_8
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 91
     .line 92
-    iget-object p1, p1, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p1, p1, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 93
     .line 94
@@ -722,11 +722,11 @@
     return-object p0
 .end method
 
-.method public final getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+.method public final getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
@@ -748,7 +748,7 @@
     .locals 2
 
     .line 1
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
@@ -760,7 +760,7 @@
 
     .line 6
     .line 7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
 
     .line 8
     .line 9
@@ -881,7 +881,7 @@
     .locals 2
 
     .line 1
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
@@ -892,7 +892,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->hasValidEnterpriseDetails()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->hasValidEnterpriseDetails()Z
 
     .line 7
     .line 8
@@ -1123,7 +1123,7 @@
 
     .line 87
     .line 88
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 89
     .line 90
@@ -1135,7 +1135,7 @@
 
     .line 93
     :cond_6
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->hashCode()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->hashCode()I
 
     .line 94
     .line 95
@@ -1174,7 +1174,7 @@
 
     .line 10
     :cond_0
-    iget-object p0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object p0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 11
     .line 12
@@ -1182,7 +1182,7 @@
 
     .line 13
     .line 14
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->isHiddenSsid()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->isHiddenSsid()Z
 
     .line 15
     .line 16
@@ -1232,7 +1232,7 @@
     .locals 2
 
     .line 1
-    iget-object v0, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iget-object v0, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
@@ -1243,7 +1243,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->isOpenNetwork()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->isOpenNetwork()Z
 
     .line 7
     .line 8
@@ -1398,11 +1398,11 @@
     return-void
 .end method
 
-.method public final setPasswordInfo(Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)V
+.method public final setPasswordInfo(Lcom/bareapps/barebackup/wifi/PasswordInfo;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Let8;->passwordInfo:Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    iput-object p1, p0, Let8;->passwordInfo:Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3

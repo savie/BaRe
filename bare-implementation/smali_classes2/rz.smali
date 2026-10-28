@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
     .locals 1
 
     .line 1
@@ -450,11 +450,11 @@
 
     .line 166
     .line 167
-    iget-object v3, v10, Lio3;->e:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v3, v10, Lio3;->e:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 168
     .line 169
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 170
     .line 171
@@ -462,7 +462,7 @@
     move-result-object v3
 
     .line 173
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 174
     .line 175
@@ -588,7 +588,7 @@
 
     .line 231
     .line 232
-    check-cast v3, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    check-cast v3, Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 233
     .line 234
@@ -672,11 +672,11 @@
     move-result-object v1
 
     .line 273
-    iget-object v4, v9, La00;->f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v4, v9, La00;->f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 274
     .line 275
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getSharedLibsSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getSharedLibsSizeMirrored()Ljava/lang/Long;
 
     .line 276
     .line 277
@@ -700,7 +700,7 @@
     move-result-object v4
 
     .line 287
-    invoke-virtual {v3, v0, v1, v4}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateSharedLibsDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {v3, v0, v1, v4}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateSharedLibsDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 288
     .line 289

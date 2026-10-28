@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.field public final synthetic a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
 .field public final synthetic b:Landroid/animation/ValueAnimator;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/ValueAnimator;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/ValueAnimator;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Le37;->a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iput-object p1, p0, Le37;->a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 5
     .line 6
@@ -46,11 +46,11 @@
     .locals 1
 
     .line 1
-    iget-object p1, p0, Le37;->a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object p1, p0, Le37;->a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 2
     .line 3
-    iget-object v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->I:Landroid/animation/ValueAnimator;
+    iget-object v0, p1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->I:Landroid/animation/ValueAnimator;
 
     .line 4
     .line 5
@@ -73,7 +73,7 @@
     const/4 p0, 0x0
 
     .line 14
-    iput-object p0, p1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->I:Landroid/animation/ValueAnimator;
+    iput-object p0, p1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->I:Landroid/animation/ValueAnimator;
 
     .line 15
     .line 16

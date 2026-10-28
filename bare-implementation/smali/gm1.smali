@@ -22,7 +22,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 23
@@ -206,7 +206,7 @@
     move-object v6, v1
 
     .line 44
-    check-cast v6, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v6, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 45
     .line 46
@@ -273,7 +273,7 @@
 
     .line 76
     .line 77
-    invoke-direct/range {v2 .. v8}, Lgm1;-><init>(Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v8}, Lgm1;-><init>(Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 78
     .line 79

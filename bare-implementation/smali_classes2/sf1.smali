@@ -320,7 +320,7 @@
     move-result-object v11
 
     .line 132
-    const-class v12, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    const-class v12, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 133
     .line 134
@@ -332,7 +332,7 @@
     move-result-object v11
 
     .line 138
-    check-cast v11, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v11, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 139
     .line 140
@@ -413,7 +413,7 @@
 
     .line 178
     :cond_6
-    sget-object p0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->Companion:Lnm3;
+    sget-object p0, Lcom/bareapps/barebackup/folders/data/FolderItem;->Companion:Lnm3;
 
     .line 179
     .line 180

@@ -4,7 +4,7 @@
 
 
 # virtual methods
-.method public abstract a()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.method public abstract a()Lcom/bareapps/barebackup/folders/data/FolderItem;
 .end method
 
 .method public abstract b()Z

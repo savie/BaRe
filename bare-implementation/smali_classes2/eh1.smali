@@ -132,7 +132,7 @@
     return-object p0
 .end method
 
-.method public static c(Ljh1;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+.method public static c(Ljh1;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
     .locals 24
 
     .line 1
@@ -288,7 +288,7 @@
 
     .line 74
     .line 75
-    invoke-static {v1}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v1}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 76
     .line 77
@@ -398,11 +398,11 @@
 
     .line 125
     .line 126
-    iget-object v3, v10, Lzg1;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    iget-object v3, v10, Lzg1;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 127
     .line 128
-    invoke-static {v1}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v1}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 129
     .line 130
@@ -414,7 +414,7 @@
 
     .line 133
     .line 134
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 135
     .line 136
@@ -422,7 +422,7 @@
     move-result-object v4
 
     .line 138
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 139
     .line 140
@@ -500,7 +500,7 @@
     .line 176
     .line 177
     .line 178
-    invoke-static {v0, v2, v1, v3}, Leh1;->f(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0, v2, v1, v3}, Leh1;->f(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 179
     .line 180
@@ -565,7 +565,7 @@
     .line 207
     .line 208
     .line 209
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 210
     .line 211
@@ -666,7 +666,7 @@
 
     .line 255
     :cond_6
-    invoke-static {v0, v2, v3}, Leh1;->g(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0, v2, v3}, Leh1;->g(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 256
     .line 257
@@ -776,7 +776,7 @@
     .line 301
     .line 302
     .line 303
-    invoke-static {v1}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v1}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 304
     .line 305
@@ -792,7 +792,7 @@
 
     .line 310
     .line 311
-    invoke-static {v0, v2, v1, v10}, Leh1;->f(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0, v2, v1, v10}, Leh1;->f(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 312
     .line 313
@@ -823,7 +823,7 @@
     .line 323
     .line 324
     :goto_3
-    invoke-static {v1}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v1}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 325
     .line 326
@@ -835,7 +835,7 @@
 
     .line 329
     .line 330
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 331
     .line 332
@@ -897,7 +897,7 @@
 
     .line 359
     .line 360
-    invoke-direct {v5, v1, v12}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v5, v1, v12}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 361
     .line 362
@@ -955,7 +955,7 @@
     move-result-object v6
 
     .line 387
-    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 388
     .line 389
@@ -987,11 +987,11 @@
 
     .line 401
     .line 402
-    iget-object v5, v11, Lzg1;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    iget-object v5, v11, Lzg1;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 403
     .line 404
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 405
     .line 406
@@ -999,7 +999,7 @@
     move-result-object v5
 
     .line 408
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 409
     .line 410
@@ -1094,7 +1094,7 @@
 
     .line 452
     .line 453
-    invoke-direct {v6, v1, v5}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v6, v1, v5}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 454
     .line 455
@@ -1146,7 +1146,7 @@
     move-result-object v6
 
     .line 478
-    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 479
     .line 480
@@ -1171,7 +1171,7 @@
 
     .line 489
     .line 490
-    invoke-direct {v5, v1, v12}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v5, v1, v12}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 491
     .line 492
@@ -1398,11 +1398,11 @@
 
     .line 600
     .line 601
-    iget-object v13, v13, Lzg1;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    iget-object v13, v13, Lzg1;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 602
     .line 603
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 604
     .line 605
@@ -1616,11 +1616,11 @@
     move-object v10, v9
 
     .line 704
-    check-cast v10, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    check-cast v10, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 705
     .line 706
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 707
     .line 708
@@ -1732,7 +1732,7 @@
     move-result-object v1
 
     .line 762
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 763
     .line 764
@@ -1748,7 +1748,7 @@
     move-result-object v6
 
     .line 770
-    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+    invoke-direct {v5, v1, v6}, Lbh1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
 
     .line 771
     .line 772
@@ -1797,7 +1797,7 @@
 
     .line 791
     .line 792
-    iget-object v1, v5, Lbh1;->j:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    iget-object v1, v5, Lbh1;->j:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 793
     .line 794
@@ -1853,7 +1853,7 @@
 
     .line 819
     .line 820
-    invoke-static {v0, v2, v1, v3}, Leh1;->i(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
+    invoke-static {v0, v2, v1, v3}, Leh1;->i(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
 
     .line 821
     .line 822
@@ -1912,7 +1912,7 @@
     .line 846
     .line 847
     :cond_24
-    sget-object v1, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->Companion:Llj1;
+    sget-object v1, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->Companion:Llj1;
 
     .line 848
     .line 849
@@ -1921,7 +1921,7 @@
     .line 850
     .line 851
     .line 852
-    new-instance v13, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    new-instance v13, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 853
     .line 854
@@ -1931,7 +1931,7 @@
     const/4 v10, 0x0
 
     .line 856
-    invoke-direct {v13, v1, v10, v12, v10}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;-><init>(ILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v13, v1, v10, v12, v10}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;-><init>(ILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 857
     .line 858
@@ -2016,7 +2016,7 @@
     .line 899
     .line 900
     .line 901
-    invoke-static {v0, v1, v13}, Leh1;->h(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0, v1, v13}, Leh1;->h(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 902
     .line 903
@@ -2069,7 +2069,7 @@
 
     .line 926
     :cond_25
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 927
     .line 928
@@ -2118,7 +2118,7 @@
     .line 949
     .line 950
     .line 951
-    invoke-static {v0, v2, v13}, Leh1;->h(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0, v2, v13}, Leh1;->h(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 952
     .line 953
@@ -2168,7 +2168,7 @@
     .line 975
     :cond_26
     :goto_e
-    invoke-static {v13}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v13}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 976
     .line 977
@@ -2292,7 +2292,7 @@
 
     .line 1036
     .line 1037
-    invoke-static {v1}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v1}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 1038
     .line 1039
@@ -2809,7 +2809,7 @@
 
     .line 118
     .line 119
-    new-instance v2, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    new-instance v2, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 120
     .line 121
@@ -2821,12 +2821,12 @@
     move-result v0
 
     .line 125
-    invoke-direct {v2, v0, v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;-><init>(ILjava/lang/String;)V
+    invoke-direct {v2, v0, v1}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;-><init>(ILjava/lang/String;)V
 
     .line 126
     .line 127
     .line 128
-    invoke-direct {p0, v2}, Lzg1;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)V
+    invoke-direct {p0, v2}, Lzg1;-><init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)V
     :try_end_3
     .catch Ljava/lang/Exception; {:try_start_3 .. :try_end_3} :catch_0
 
@@ -2973,7 +2973,7 @@
     return-object p0
 .end method
 
-.method public static f(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+.method public static f(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
     .locals 7
 
     .line 1
@@ -3001,7 +3001,7 @@
     move-result-object v0
 
     .line 13
-    invoke-static {p0, p1, p2, v0}, Leh1;->i(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
+    invoke-static {p0, p1, p2, v0}, Leh1;->i(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
 
     .line 14
     .line 15
@@ -3035,7 +3035,7 @@
 
     .line 26
     .line 27
-    invoke-virtual {p3}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {p3}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 28
     .line 29
@@ -3203,11 +3203,11 @@
     return p2
 .end method
 
-.method public static g(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+.method public static g(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
     .locals 6
 
     .line 1
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 2
     .line 3
@@ -3257,7 +3257,7 @@
     .line 23
     .line 24
     .line 25
-    invoke-static {p0, p1, p2}, Leh1;->h(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {p0, p1, p2}, Leh1;->h(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 26
     .line 27
@@ -3303,7 +3303,7 @@
     return p0
 .end method
 
-.method public static h(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+.method public static h(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
     .locals 10
 
     .line 1
@@ -3498,7 +3498,7 @@
     return p0
 .end method
 
-.method public static i(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
+.method public static i(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)Z
     .locals 9
 
     .line 1
@@ -3533,7 +3533,7 @@
 
     .line 15
     .line 16
-    invoke-static {p0, v0, p2}, Leh1;->h(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {p0, v0, p2}, Leh1;->h(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 17
     .line 18
@@ -3599,7 +3599,7 @@
 
     .line 46
     .line 47
-    invoke-static {p0, p1, p2}, Leh1;->g(Ljh1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {p0, p1, p2}, Leh1;->g(Ljh1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 48
     .line 49

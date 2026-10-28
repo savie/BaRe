@@ -88,7 +88,7 @@
 
     .line 13
     .line 14
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 15
     .line 16
@@ -155,7 +155,7 @@
 
     .line 47
     :pswitch_1
-    check-cast p2, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast p2, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 48
     .line 49
@@ -163,11 +163,11 @@
 
     .line 50
     .line 51
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 52
     .line 53
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->O()Lin3;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->O()Lin3;
 
     .line 54
     .line 55

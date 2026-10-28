@@ -13,7 +13,7 @@
 
 .field public final c:Landroid/widget/LinearLayout;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final e:Lcp1;
 
@@ -21,7 +21,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/button/MaterialButton;Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lcp1;Lcp1;)V
+.method public constructor <init>(Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/button/MaterialButton;Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcp1;Lcp1;)V
     .locals 0
 
     .line 1
@@ -42,7 +42,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lsj3;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p4, p0, Lsj3;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 11
     .line 12

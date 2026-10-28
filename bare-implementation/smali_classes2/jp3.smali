@@ -80,7 +80,7 @@
 
     .line 25
     .line 26
-    check-cast v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 27
     .line 28
@@ -140,7 +140,7 @@
 
     .line 56
     .line 57
-    invoke-virtual {v0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {v0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 58
     .line 59
@@ -307,11 +307,11 @@
     move-result-object v12
 
     .line 138
-    check-cast v12, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v12, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 139
     .line 140
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 141
     .line 142
@@ -319,7 +319,7 @@
     move-result-object v12
 
     .line 144
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 145
     .line 146
@@ -327,11 +327,11 @@
     move-result-object v12
 
     .line 148
-    iget-object v15, v3, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v15, v3, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 149
     .line 150
-    invoke-virtual {v15}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v15}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 151
     .line 152
@@ -472,7 +472,7 @@
 
     .line 215
     .line 216
-    invoke-virtual {v0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {v0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 217
     .line 218
@@ -576,7 +576,7 @@
 
     .line 265
     .line 266
-    invoke-virtual {v0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {v0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 267
     .line 268
@@ -660,7 +660,7 @@
 
     .line 307
     .line 308
-    invoke-virtual {v0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {v0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 309
     .line 310

@@ -51,7 +51,7 @@
     move-result-object p2
 
     .line 7
-    check-cast p2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions$a;
+    check-cast p2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions$a;
 
     .line 8
     .line 9

@@ -2051,11 +2051,11 @@
     .locals 3
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 4
     .line 5
@@ -2067,7 +2067,7 @@
 
     .line 8
     .line 9
-    sget v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 10
     .line 11
@@ -2080,7 +2080,7 @@
 
     .line 15
     :cond_0
-    sget-object v0, Llr4;->e:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    sget-object v0, Llr4;->e:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 16
     .line 17
@@ -2091,7 +2091,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;->getLabelParamsMap()Ljava/util/Map;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;->getLabelParamsMap()Ljava/util/Map;
 
     .line 21
     .line 22
@@ -2216,7 +2216,7 @@
 
     .line 79
     .line 80
-    const-class v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelEditActivity;
+    const-class v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelEditActivity;
 
     .line 81
     .line 82

@@ -183,7 +183,7 @@
 .method public constructor <init>(Ljava/util/concurrent/Executor;)V
     .locals 1
 
-    sget v0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;->L:I
+    sget v0, Lcom/bareapps/barebackup/settings/LicensesActivity;->L:I
 
     .line 25
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V

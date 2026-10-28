@@ -79,7 +79,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 1
 
     const/4 v0, 0x0
@@ -141,7 +141,7 @@
 
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast p0, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 14
     .line 15

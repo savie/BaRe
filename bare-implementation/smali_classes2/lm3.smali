@@ -6,9 +6,9 @@
 # instance fields
 .field public e:Z
 
-.field public f:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public f:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
-.field public g:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public g:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public final h:Lex6;
 
@@ -71,11 +71,11 @@
 
 
 # virtual methods
-.method public final j(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;)V
+.method public final j(Lcom/bareapps/barebackup/folders/data/FolderItem;)V
     .locals 3
 
     .line 1
-    iput-object p1, p0, Llm3;->g:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object p1, p0, Llm3;->g:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
@@ -83,7 +83,7 @@
 
     .line 4
     .line 5
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->validateSourceFolder()Lom3;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->validateSourceFolder()Lom3;
 
     .line 6
     .line 7
@@ -113,7 +113,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->validateDisplayName()Lom3;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->validateDisplayName()Lom3;
 
     .line 21
     .line 22
@@ -139,7 +139,7 @@
     .line 32
     .line 33
     :cond_1
-    iget-object v0, p0, Llm3;->f:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Llm3;->f:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 34
     .line 35
@@ -157,7 +157,7 @@
 
     .line 40
     .line 41
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->isValid()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->isValid()Z
 
     .line 42
     .line 43
@@ -169,7 +169,7 @@
 
     .line 46
     .line 47
-    iget-object v0, p0, Llm3;->f:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Llm3;->f:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 48
     .line 49
@@ -205,7 +205,7 @@
 
     .line 62
     .line 63
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->isValid()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->isValid()Z
 
     .line 64
     .line 65

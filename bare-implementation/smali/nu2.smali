@@ -245,7 +245,7 @@
 
     .line 84
     .line 85
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 86
     .line 87
@@ -265,7 +265,7 @@
 
     .line 94
     .line 95
-    sget-object v2, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object v2, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 96
     .line 97
@@ -287,7 +287,7 @@
     .line 105
     .line 106
     .line 107
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 108
     .line 109

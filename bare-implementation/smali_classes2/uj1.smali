@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.field public final a:Lcom/bareapps/barebackup/home/HomeActivity;
 
 .field public final b:Ltf1;
 
@@ -22,7 +22,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Ltf1;Lng1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;Ltf1;Lng1;)V
     .locals 2
 
     .line 1
@@ -36,7 +36,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iput-object p1, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 8
     .line 9
@@ -324,7 +324,7 @@
     move-result-object v3
 
     .line 21
-    iget-object v4, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v4, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 22
     .line 23

@@ -130,7 +130,7 @@
 
     .line 41
     .line 42
-    iget-object v0, p0, Ljo6;->l:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object v0, p0, Ljo6;->l:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 43
     .line 44
@@ -311,11 +311,11 @@
 
     .line 128
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 129
     .line 130
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 131
     .line 132
@@ -368,7 +368,7 @@
 
     .line 155
     .line 156
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X()Lz44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X()Lz44;
 
     .line 157
     .line 158
@@ -459,15 +459,15 @@
 
     .line 198
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 199
     .line 200
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 201
     .line 202
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 203
     .line 204

@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/locale/LocaleActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/locale/LocaleActivity;
 
 .field public final synthetic b:Z
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/locale/LocaleActivity;Z)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/locale/LocaleActivity;Z)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ld05;->a:Lorg/swiftapps/swiftbackup/locale/LocaleActivity;
+    iput-object p1, p0, Ld05;->a:Lcom/bareapps/barebackup/locale/LocaleActivity;
 
     .line 5
     .line 6
@@ -39,11 +39,11 @@
     .locals 6
 
     .line 1
-    iget-object v0, p0, Ld05;->a:Lorg/swiftapps/swiftbackup/locale/LocaleActivity;
+    iget-object v0, p0, Ld05;->a:Lcom/bareapps/barebackup/locale/LocaleActivity;
 
     .line 2
     .line 3
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->M:Lgv7;
+    iget-object v1, v0, Lcom/bareapps/barebackup/locale/LocaleActivity;->M:Lgv7;
 
     .line 4
     .line 5
@@ -51,7 +51,7 @@
 
     .line 6
     .line 7
-    sget v2, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->P:I
+    sget v2, Lcom/bareapps/barebackup/locale/LocaleActivity;->P:I
 
     .line 8
     .line 9
@@ -64,7 +64,7 @@
 
     .line 13
     .line 14
-    iget-object v3, v0, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->N:Lg05;
+    iget-object v3, v0, Lcom/bareapps/barebackup/locale/LocaleActivity;->N:Lg05;
 
     .line 15
     .line 16
@@ -76,7 +76,7 @@
     .line 18
     .line 19
     .line 20
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->N()Ln05;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/locale/LocaleActivity;->N()Ln05;
 
     .line 21
     .line 22
@@ -92,7 +92,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->N()Ln05;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/locale/LocaleActivity;->N()Ln05;
 
     .line 29
     .line 30
@@ -112,7 +112,7 @@
     move-result-object p0
 
     .line 38
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p0, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 39
     .line 40
@@ -277,7 +277,7 @@
     move-result-object p0
 
     .line 115
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p0, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 116
     .line 117

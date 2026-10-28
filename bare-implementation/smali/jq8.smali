@@ -11,7 +11,7 @@
     return-void
 .end method
 
-.method public static a(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;Z)Z
+.method public static a(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;Z)Z
     .locals 4
 
     .line 1
@@ -44,7 +44,7 @@
     .line 13
     .line 14
     :goto_0
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getValidUsername()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getValidUsername()Ljava/lang/String;
 
     .line 15
     .line 16
@@ -52,7 +52,7 @@
     move-result-object v1
 
     .line 18
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
 
     .line 19
     .line 20

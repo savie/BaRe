@@ -303,7 +303,7 @@
     .line 34
     .line 35
     .line 36
-    const-string p1, "org.swiftapps.swiftbackup"
+    const-string p1, "com.bareapps.barebackup"
 
     .line 37
     .line 38
@@ -609,7 +609,7 @@
 
     .line 182
     .line 183
-    invoke-static {v7, v8, v9, v10}, Lorg/swiftapps/swiftbackup/common/Const;->m(JJ)J
+    invoke-static {v7, v8, v9, v10}, Lcom/bareapps/barebackup/common/Const;->m(JJ)J
 
     .line 184
     .line 185
@@ -641,7 +641,7 @@
     .line 197
     :cond_a
     :goto_3
-    sget p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 198
     .line 199

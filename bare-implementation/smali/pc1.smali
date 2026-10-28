@@ -60,11 +60,11 @@
     .line 14
     .line 15
     .line 16
-    new-instance p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
+    new-instance p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
 
     .line 17
     .line 18
-    invoke-direct {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
+    invoke-direct {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
 
     .line 19
     .line 20

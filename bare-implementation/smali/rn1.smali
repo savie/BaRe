@@ -74,11 +74,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 6
     .line 7
@@ -118,7 +118,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->R()Lorg/swiftapps/swiftbackup/intro/d;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
 
     .line 25
     .line 26
@@ -126,7 +126,7 @@
     move-result-object p1
 
     .line 28
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/intro/d;->o()V
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/intro/d;->o()V
 
     .line 29
     .line 30
@@ -164,7 +164,7 @@
 
     .line 47
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->N()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->N()V
 
     .line 48
     .line 49
@@ -181,7 +181,7 @@
 
     .line 55
     .line 56
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->P()Lqi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->P()Lqi7;
 
     .line 57
     .line 58
@@ -665,11 +665,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 6
     .line 7
@@ -690,7 +690,7 @@
 
     .line 15
     .line 16
-    const-class p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    const-class p1, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 17
     .line 18

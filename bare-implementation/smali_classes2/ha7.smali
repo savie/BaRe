@@ -28,7 +28,7 @@
     return-void
 .end method
 
-.method public static a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+.method public static a(Lcom/bareapps/barebackup/model/firebase/AppSettings;)V
     .locals 13
 
     .line 1
@@ -87,7 +87,7 @@
 
     .line 29
     :try_start_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isShowSystemApps()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isShowSystemApps()Ljava/lang/Boolean;
 
     .line 30
     .line 31
@@ -209,7 +209,7 @@
 
     .line 80
     .line 81
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getAppListRightSwipeActions()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getAppListRightSwipeActions()Ljava/lang/String;
 
     .line 82
     .line 83
@@ -226,7 +226,7 @@
 
     .line 89
     .line 90
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getAppListLeftSwipeActions()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getAppListLeftSwipeActions()Ljava/lang/String;
 
     .line 91
     .line 92
@@ -295,7 +295,7 @@
     .line 118
     :goto_4
     :try_start_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getAppsMultipleBackupStrategy()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getAppsMultipleBackupStrategy()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 119
     .line 120
@@ -314,7 +314,7 @@
     .line 125
     .line 126
     :try_start_3
-    sget-object v6, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object v6, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 127
     .line 128
@@ -336,7 +336,7 @@
 
     .line 137
     :cond_4
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isAppBackupArchivingEnabled()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isAppBackupArchivingEnabled()Ljava/lang/Boolean;
 
     .line 138
     .line 139
@@ -360,7 +360,7 @@
 
     .line 148
     .line 149
-    sget-object v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object v0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 150
     .line 151
@@ -369,7 +369,7 @@
     .line 152
     .line 153
     .line 154
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/b;->b()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/b;->b()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 155
     .line 156
@@ -448,7 +448,7 @@
 
     .line 186
     .line 187
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getRestorePermissionsMode()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getRestorePermissionsMode()Ljava/lang/Integer;
 
     .line 188
     .line 189
@@ -575,7 +575,7 @@
 
     .line 244
     :try_start_5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getRestoreSpecialAppPerms()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getRestoreSpecialAppPerms()Ljava/lang/Boolean;
 
     .line 245
     .line 246
@@ -710,7 +710,7 @@
     .line 302
     .line 303
     :try_start_6
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isAppCacheBackupReq()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isAppCacheBackupReq()Ljava/lang/Boolean;
 
     .line 304
     .line 305
@@ -828,7 +828,7 @@
     .line 353
     :goto_e
     :try_start_7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isRestoreSsaids()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isRestoreSsaids()Ljava/lang/Boolean;
 
     .line 354
     .line 355
@@ -946,7 +946,7 @@
     .line 403
     :goto_11
     :try_start_8
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isInPlaceApkDowngradeEnabled()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isInPlaceApkDowngradeEnabled()Ljava/lang/Boolean;
 
     .line 404
     .line 405
@@ -1113,7 +1113,7 @@
     .line 479
     .line 480
     :try_start_9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isPlayNotificationSounds()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isPlayNotificationSounds()Ljava/lang/Boolean;
 
     .line 481
     .line 482
@@ -1224,7 +1224,7 @@
     .line 528
     :goto_16
     :try_start_a
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getLanguage()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getLanguage()Ljava/lang/String;
 
     .line 529
     .line 530
@@ -1368,7 +1368,7 @@
 
     .line 593
     .line 594
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getCloudConnection()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getCloudConnection()Ljava/lang/String;
 
     .line 595
     .line 596
@@ -1506,7 +1506,7 @@
     return-void
 .end method
 
-.method public static b(Lorg/swiftapps/swiftbackup/intro/d;)Z
+.method public static b(Lcom/bareapps/barebackup/intro/d;)Z
     .locals 9
 
     .line 1
@@ -1550,7 +1550,7 @@
     .line 19
     .line 20
     .line 21
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 22
     .line 23
@@ -1578,7 +1578,7 @@
     .line 32
     .line 33
     .line 34
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 35
     .line 36
@@ -1590,7 +1590,7 @@
 
     .line 39
     .line 40
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 41
     .line 42
@@ -1689,7 +1689,7 @@
 
     .line 86
     .line 87
-    const-class v1, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    const-class v1, Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 88
     .line 89
@@ -1701,7 +1701,7 @@
     move-result-object v0
 
     .line 93
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    check-cast v0, Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 94
     .line 95
@@ -1728,7 +1728,7 @@
     .line 105
     .line 106
     :cond_4
-    invoke-static {v0}, Lha7;->a(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+    invoke-static {v0}, Lha7;->a(Lcom/bareapps/barebackup/model/firebase/AppSettings;)V
 
     .line 107
     .line 108
@@ -1840,11 +1840,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->Companion:Lorg/swiftapps/swiftbackup/model/firebase/AppSettings$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/firebase/AppSettings;->Companion:Lcom/bareapps/barebackup/model/firebase/AppSettings$a;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings$a;->withSavedSettings()Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/firebase/AppSettings$a;->withSavedSettings()Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 4
     .line 5
@@ -1856,7 +1856,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {v1, v0}, Lha7;->c(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+    invoke-virtual {v1, v0}, Lha7;->c(Lcom/bareapps/barebackup/model/firebase/AppSettings;)V
 
     .line 10
     .line 11
@@ -1933,7 +1933,7 @@
 
 
 # virtual methods
-.method public final declared-synchronized c(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+.method public final declared-synchronized c(Lcom/bareapps/barebackup/model/firebase/AppSettings;)V
     .locals 2
 
     .line 1
@@ -1955,7 +1955,7 @@
     .line 8
     .line 9
     .line 10
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 11
     .line 12
@@ -1982,7 +1982,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 23
     .line 24
@@ -1994,7 +1994,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 29
     .line 30

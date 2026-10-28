@@ -149,7 +149,7 @@
 
     .line 2
     .line 3
-    const-string v1, "SwiftLoggerShareOption(titleResId="
+    const-string v1, "BareLoggerShareOption(titleResId="
 
     .line 4
     .line 5

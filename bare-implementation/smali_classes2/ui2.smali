@@ -7,17 +7,17 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 .field public final synthetic b:Liu;
 
 .field public final synthetic c:Lhk;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+.field public final synthetic d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lui2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Lui2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 5
     .line 6
@@ -38,7 +38,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lui2;->d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iput-object p4, p0, Lui2;->d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 11
     .line 12
@@ -51,15 +51,15 @@
     .locals 6
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 2
     .line 3
-    iget-object p1, p0, Lui2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p1, p0, Lui2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 6
     .line 7
@@ -91,7 +91,7 @@
     move-result-object v3
 
     .line 21
-    iget-object p0, p0, Lui2;->d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Lui2;->d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 22
     .line 23

@@ -42,11 +42,11 @@
     .line 4
     .line 5
     .line 6
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 7
     .line 8
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 9
     .line 10
@@ -75,11 +75,11 @@
     .line 21
     .line 22
     .line 23
-    check-cast p2, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p2, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 24
     .line 25
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 26
     .line 27

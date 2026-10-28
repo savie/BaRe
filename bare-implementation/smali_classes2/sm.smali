@@ -124,7 +124,7 @@
 
     .line 41
     :pswitch_2
-    sget p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 42
     .line 43
@@ -302,11 +302,11 @@
 
     .line 124
     .line 125
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 126
     .line 127
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 128
     .line 129
@@ -665,11 +665,11 @@
 
     .line 303
     :pswitch_b
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 304
     .line 305
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 306
     .line 307

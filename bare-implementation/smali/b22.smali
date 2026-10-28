@@ -72,7 +72,7 @@
     .line 10
     .line 11
     .line 12
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 13
     .line 14
@@ -84,11 +84,11 @@
 
     .line 17
     .line 18
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 19
     .line 20
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
 
     .line 21
     .line 22

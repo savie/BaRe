@@ -37,7 +37,7 @@
 
 
 # virtual methods
-.method public final j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+.method public final j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
     .locals 0
 
     .line 1
@@ -58,14 +58,14 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 11
     .line 12
     return-object p0
 .end method
 
-.method public final k(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+.method public final k(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
     .locals 21
 
     .line 1
@@ -74,7 +74,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->isLegacyArchiveBackupEnabled()Z
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->isLegacyArchiveBackupEnabled()Z
 
     .line 5
     .line 6
@@ -94,7 +94,7 @@
 
     .line 13
     .line 14
-    sget-object v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object v0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 15
     .line 16
@@ -103,7 +103,7 @@
     .line 17
     .line 18
     .line 19
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/b;->b()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/b;->b()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 20
     .line 21
@@ -172,7 +172,7 @@
 
     .line 47
     .line 48
-    invoke-static/range {v2 .. v20}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-static/range {v2 .. v20}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 49
     .line 50

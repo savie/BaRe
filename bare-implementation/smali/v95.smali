@@ -124,7 +124,7 @@
     move-result-object v0
 
     .line 39
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    const-class v1, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 40
     .line 41
@@ -136,7 +136,7 @@
     move-result-object p0
 
     .line 45
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 46
     .line 47

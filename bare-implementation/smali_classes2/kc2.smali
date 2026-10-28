@@ -27,11 +27,11 @@
 
     .line 7
     .line 8
-    new-instance v0, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$listType$1;
+    new-instance v0, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$listType$1;
 
     .line 9
     .line 10
-    invoke-direct {v0}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$listType$1;-><init>()V
+    invoke-direct {v0}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$listType$1;-><init>()V
 
     .line 11
     .line 12
@@ -112,11 +112,11 @@
     move-object v3, v2
 
     .line 29
-    check-cast v3, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    check-cast v3, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 30
     .line 31
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
 
     .line 32
     .line 33
@@ -169,7 +169,7 @@
     const/4 v13, 0x0
 
     .line 54
-    invoke-static/range {v3 .. v15}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->copy$default(Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    invoke-static/range {v3 .. v15}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->copy$default(Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILjava/lang/Object;)Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 55
     .line 56
@@ -237,11 +237,11 @@
     move-result-object v4
 
     .line 22
-    check-cast v4, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    check-cast v4, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 23
     .line 24
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
 
     .line 25
     .line 26
@@ -281,7 +281,7 @@
 
     .line 41
     :cond_2
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getStartMs()J
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getStartMs()J
 
     .line 42
     .line 43
@@ -420,11 +420,11 @@
     move-object v7, v6
 
     .line 46
-    check-cast v7, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    check-cast v7, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 47
     .line 48
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getId()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getId()Ljava/lang/String;
 
     .line 49
     .line 50
@@ -452,7 +452,7 @@
     move-result-object v12
 
     .line 62
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getNote()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getNote()Ljava/lang/String;
 
     .line 63
     .line 64
@@ -491,7 +491,7 @@
 
     .line 78
     .line 79
-    invoke-static/range {v7 .. v19}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->copy$default(Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    invoke-static/range {v7 .. v19}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->copy$default(Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILjava/lang/Object;)Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 80
     .line 81
@@ -661,11 +661,11 @@
 
     .line 2
     .line 3
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 4
     .line 5
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 6
     .line 7
@@ -943,11 +943,11 @@
     move-object v4, v3
 
     .line 26
-    check-cast v4, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    check-cast v4, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 27
     .line 28
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;->getEndMs()Ljava/lang/Long;
 
     .line 29
     .line 30
@@ -1016,11 +1016,11 @@
 
     .line 2
     .line 3
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 4
     .line 5
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 6
     .line 7
@@ -1216,7 +1216,7 @@
     move-result-wide v3
 
     .line 6
-    new-instance v0, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    new-instance v0, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 7
     .line 8
@@ -1269,7 +1269,7 @@
 
     .line 30
     .line 31
-    invoke-direct/range {v0 .. v10}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;)V
+    invoke-direct/range {v0 .. v10}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;)V
 
     .line 32
     .line 33
@@ -1368,7 +1368,7 @@
     .line 17
     .line 18
     .line 19
-    new-instance v1, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
+    new-instance v1, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;
 
     .line 20
     .line 21
@@ -1403,7 +1403,7 @@
 
     .line 33
     .line 34
-    invoke-direct/range {v1 .. v13}, Lorg/swiftapps/swiftbackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v1 .. v13}, Lcom/bareapps/barebackup/tasks/fgs/DataSyncFgsRuntimeLedger$Entry;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Long;ZZLjava/lang/String;Ljc2;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 35
     .line 36

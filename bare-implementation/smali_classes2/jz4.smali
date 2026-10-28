@@ -67,7 +67,7 @@
     move-result-object p0
 
     .line 31
-    const-string p1, "org.swiftapps.swiftbackup"
+    const-string p1, "com.bareapps.barebackup"
 
     .line 32
     .line 33

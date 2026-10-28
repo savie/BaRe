@@ -357,11 +357,11 @@
 
     .line 4
     .line 5
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 6
     .line 7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 8
     .line 9
@@ -604,11 +604,11 @@
 
     .line 6
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 10
     .line 11
@@ -635,7 +635,7 @@
 
     .line 21
     .line 22
-    check-cast v3, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v3, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 23
     .line 24
@@ -658,7 +658,7 @@
 
     .line 30
     .line 31
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 32
     .line 33
@@ -899,7 +899,7 @@
 
     .line 132
     .line 133
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast p1, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 134
     .line 135
@@ -914,7 +914,7 @@
 
     .line 138
     :goto_9
-    invoke-direct/range {v3 .. v10}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+    invoke-direct/range {v3 .. v10}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
 
     .line 139
     .line 140
@@ -1066,11 +1066,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 6
     .line 7
@@ -1129,7 +1129,7 @@
     move-result-object v7
 
     .line 32
-    sget-object p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 33
     .line 34
@@ -1138,7 +1138,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/b;->c()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/b;->c()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 38
     .line 39
@@ -1158,7 +1158,7 @@
     move-object v3, p3
 
     .line 45
-    invoke-direct/range {v0 .. v9}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;ZLxp1;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
+    invoke-direct/range {v0 .. v9}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lcom/bareapps/barebackup/tasks/model/SyncOption;ZLxp1;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
 
     .line 46
     .line 47

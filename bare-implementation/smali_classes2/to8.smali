@@ -4,13 +4,13 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+.field public final a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
 .field public final b:Lpp8;
 
 .field public final c:Landroid/widget/TextView;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final e:Lzx2;
 
@@ -24,7 +24,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;Lxp3;Lpp8;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/walls/WallsDashActivity;Lxp3;Lpp8;)V
     .locals 3
 
     .line 1
@@ -38,7 +38,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lto8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iput-object p1, p0, Lto8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 8
     .line 9
@@ -62,11 +62,11 @@
 
     .line 18
     .line 19
-    check-cast p3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 20
     .line 21
-    iput-object p3, p0, Lto8;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p3, p0, Lto8;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 22
     .line 23
@@ -148,7 +148,7 @@
     .line 61
     .line 62
     .line 63
-    invoke-virtual {p3, v0}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {p3, v0}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 64
     .line 65
@@ -167,7 +167,7 @@
     .locals 2
 
     .line 1
-    iget-object v0, p0, Lto8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iget-object v0, p0, Lto8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 2
     .line 3

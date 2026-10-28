@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/widget/ImageView;
 
@@ -33,11 +33,11 @@
     move-result-object p1
 
     .line 8
-    iget-object v0, p1, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v0, p1, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 9
     .line 10
-    iput-object v0, p0, Ltv1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object v0, p0, Ltv1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 11
     .line 12
@@ -73,7 +73,7 @@
 
     .line 27
     .line 28
-    iget-object p0, p1, Lmi7;->b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object p0, p1, Lmi7;->b:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 29
     .line 30

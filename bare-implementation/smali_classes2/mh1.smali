@@ -91,7 +91,7 @@
 
     .line 28
     .line 29
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v4, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 30
     .line 31
@@ -107,7 +107,7 @@
 
     .line 36
     .line 37
-    check-cast v6, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v6, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 38
     .line 39
@@ -123,7 +123,7 @@
 
     .line 44
     .line 45
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v4, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 46
     .line 47
@@ -504,7 +504,7 @@
 
     .line 231
     .line 232
-    invoke-static {p1, p2}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p1, p2}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 233
     .line 234
@@ -578,7 +578,7 @@
     move-object v4, v1
 
     .line 11
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v4, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 12
     .line 13
@@ -623,7 +623,7 @@
     move-object v5, v1
 
     .line 34
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v5, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 35
     .line 36

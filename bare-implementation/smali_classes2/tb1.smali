@@ -88,7 +88,7 @@
 
 
 # virtual methods
-.method public final declared-synchronized a(Z)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final declared-synchronized a(Z)Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 9
 
     .line 1
@@ -231,7 +231,7 @@
     move-result-object p1
 
     .line 67
-    invoke-virtual {p1}, Ltb1;->n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p1}, Ltb1;->n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 68
     .line 69
@@ -602,11 +602,11 @@
 
     .line 239
     .line 240
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 241
     .line 242
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 243
     .line 244
@@ -856,5 +856,5 @@
 .method public abstract m()Ljm1;
 .end method
 
-.method public abstract n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public abstract n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
 .end method

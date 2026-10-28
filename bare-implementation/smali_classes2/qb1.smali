@@ -89,7 +89,7 @@
     .line 40
     .line 41
     .line 42
-    sget-object v3, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v3, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 43
     .line 44
@@ -256,11 +256,11 @@
 
     .line 130
     .line 131
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 132
     .line 133
-    invoke-static {}, Lx95;->p()Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    invoke-static {}, Lx95;->p()Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 134
     .line 135
@@ -268,7 +268,7 @@
     move-result-object v3
 
     .line 137
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;->getEmail()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;->getEmail()Ljava/lang/String;
 
     .line 138
     .line 139
@@ -279,12 +279,12 @@
     const/4 v4, 0x2
 
     .line 142
-    invoke-direct {v0, v3, v2, v4, v2}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;-><init>(Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v0, v3, v2, v4, v2}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;-><init>(Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 143
     .line 144
     .line 145
-    invoke-static {v0}, Lx95;->r(Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;)V
+    invoke-static {v0}, Lx95;->r(Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;)V
 
     .line 146
     .line 147
@@ -445,7 +445,7 @@
     .line 5
     .line 6
     .line 7
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 8
     .line 9
@@ -457,7 +457,7 @@
 
     .line 12
     .line 13
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 14
     .line 15
@@ -857,7 +857,7 @@
 
     .line 19
     .line 20
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 21
     .line 22
@@ -874,7 +874,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-static {v1}, Lcom/bareapps/barebackup/cloud/protocols/a;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 30
     .line 31
@@ -886,7 +886,7 @@
 
     .line 34
     .line 35
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->displayAccountIdValue()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->displayAccountIdValue()Ljava/lang/String;
 
     .line 36
     .line 37
@@ -1111,7 +1111,7 @@
     .line 37
     .line 38
     .line 39
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 40
     .line 41
@@ -1123,7 +1123,7 @@
 
     .line 44
     .line 45
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
 
     .line 46
     .line 47
@@ -2162,11 +2162,11 @@
     .line 30
     .line 31
     .line 32
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->Companion:Lorg/swiftapps/swiftbackup/model/firebase/AppSettings$a;
+    sget-object v1, Lcom/bareapps/barebackup/model/firebase/AppSettings;->Companion:Lcom/bareapps/barebackup/model/firebase/AppSettings$a;
 
     .line 33
     .line 34
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings$a;->withSavedSettings()Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/firebase/AppSettings$a;->withSavedSettings()Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 35
     .line 36
@@ -2331,7 +2331,7 @@
     .line 107
     .line 108
     .line 109
-    invoke-static/range {v2 .. v39}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->copy$default(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;IILjava/lang/Object;)Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    invoke-static/range {v2 .. v39}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->copy$default(Lcom/bareapps/barebackup/model/firebase/AppSettings;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Integer;IILjava/lang/Object;)Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 110
     .line 111
@@ -2343,7 +2343,7 @@
 
     .line 114
     .line 115
-    invoke-virtual {v2, v1}, Lha7;->c(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;)V
+    invoke-virtual {v2, v1}, Lha7;->c(Lcom/bareapps/barebackup/model/firebase/AppSettings;)V
 
     .line 116
     .line 117

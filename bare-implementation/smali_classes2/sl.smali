@@ -22,7 +22,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/orphans/a;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/orphans/a;)V
     .locals 0
 
     .line 1
@@ -134,7 +134,7 @@
 
     .line 43
     :pswitch_0
-    check-cast p1, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast p1, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 44
     .line 45
@@ -143,7 +143,7 @@
     .line 46
     .line 47
     .line 48
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
 
     .line 49
     .line 50
@@ -639,7 +639,7 @@
 
     .line 284
     :pswitch_2
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 285
     .line 286
@@ -648,7 +648,7 @@
     .line 287
     .line 288
     .line 289
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 290
     .line 291
@@ -656,7 +656,7 @@
     move-result-object p0
 
     .line 293
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 294
     .line 295
@@ -672,7 +672,7 @@
 
     .line 299
     .line 300
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->c(Lq05;)Ljava/lang/CharSequence;
+    invoke-static {p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->c(Lq05;)Ljava/lang/CharSequence;
 
     .line 301
     .line 302
@@ -687,7 +687,7 @@
     move-object v0, p1
 
     .line 306
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 307
     .line 308
@@ -696,15 +696,15 @@
     .line 309
     .line 310
     .line 311
-    sget-object v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->DELETING:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v1, Lcom/bareapps/barebackup/cloud/orphans/a$a;->DELETING:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 312
     .line 313
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 314
     .line 315
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 316
     .line 317
@@ -741,7 +741,7 @@
     const/4 v5, 0x0
 
     .line 332
-    invoke-static/range {v0 .. v7}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->a(Lorg/swiftapps/swiftbackup/cloud/orphans/b;Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    invoke-static/range {v0 .. v7}, Lcom/bareapps/barebackup/cloud/orphans/b;->a(Lcom/bareapps/barebackup/cloud/orphans/b;Lcom/bareapps/barebackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 333
     .line 334
@@ -753,7 +753,7 @@
 
     .line 337
     :pswitch_5
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 338
     .line 339
@@ -762,7 +762,7 @@
     .line 340
     .line 341
     .line 342
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 343
     .line 344
@@ -770,7 +770,7 @@
     move-result-object p0
 
     .line 346
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 347
     .line 348

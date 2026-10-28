@@ -365,7 +365,7 @@
     .locals 4
 
     .line 1
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 2
     .line 3
@@ -373,7 +373,7 @@
     move-result-object v0
 
     .line 5
-    instance-of v0, v0, Lorg/swiftapps/filesystem/File$FileType$JavaFile;
+    instance-of v0, v0, Lcom/bareapps/filesystem/File$FileType$JavaFile;
 
     .line 6
     .line 7
@@ -396,7 +396,7 @@
 
     .line 15
     :cond_0
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 16
     .line 17
@@ -404,7 +404,7 @@
     move-result-object v0
 
     .line 19
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 20
     .line 21

@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Lmk2;Z)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/model/app/AppCloudBackup;Lmk2;Z)V
     .locals 1
 
     .line 14
@@ -98,7 +98,7 @@
     .line 12
     .line 13
     .line 14
-    check-cast v4, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v4, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 15
     .line 16
@@ -106,7 +106,7 @@
 
     .line 17
     .line 18
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 19
     .line 20
@@ -166,7 +166,7 @@
     move-result-object v8
 
     .line 46
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 47
     .line 48
@@ -238,7 +238,7 @@
     .line 82
     .line 83
     .line 84
-    invoke-virtual {v1, v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateProtection(Z)V
+    invoke-virtual {v1, v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateProtection(Z)V
 
     .line 85
     .line 86
@@ -263,7 +263,7 @@
 
     .line 96
     .line 97
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 98
     .line 99

@@ -421,7 +421,7 @@
     .line 161
     .line 162
     :try_start_1
-    invoke-virtual {v2}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v2}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 163
     .line 164
@@ -429,7 +429,7 @@
     move-result-object v0
 
     .line 166
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 167
     .line 168
@@ -552,7 +552,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 5
     .line 6
@@ -560,7 +560,7 @@
     move-result-object p0
 
     .line 8
-    invoke-virtual {p0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {p0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 9
     .line 10
@@ -657,11 +657,11 @@
     return-object p0
 .end method
 
-.method public static e(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Ljava/lang/String;
+.method public static e(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Ljava/lang/String;
     .locals 2
 
     .line 1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 2
     .line 3
@@ -754,7 +754,7 @@
     .line 21
     .line 22
     .line 23
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 24
     .line 25
@@ -806,7 +806,7 @@
     move-result-object p1
 
     .line 46
-    invoke-direct {p0, v1, p1}, Lry5;-><init>(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Ljava/lang/String;)V
+    invoke-direct {p0, v1, p1}, Lry5;-><init>(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Ljava/lang/String;)V
 
     .line 47
     .line 48

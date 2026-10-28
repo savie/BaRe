@@ -15,7 +15,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast p0, Lcom/bareapps/barebackup/intro/d;
 
     .line 4
     .line 5

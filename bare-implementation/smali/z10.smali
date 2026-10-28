@@ -144,7 +144,7 @@
 
     .line 42
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 43
     .line 44
@@ -156,7 +156,7 @@
 
     .line 47
     .line 48
-    invoke-direct {v5, v3, p0}, La20;-><init>(ZLorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;)V
+    invoke-direct {v5, v3, p0}, La20;-><init>(ZLcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;)V
 
     .line 49
     .line 50

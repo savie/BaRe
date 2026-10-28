@@ -1003,7 +1003,7 @@
     .line 436
     .line 437
     .line 438
-    new-instance p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    new-instance p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 439
     .line 440
@@ -1031,7 +1031,7 @@
     move-result-object p1
 
     .line 452
-    invoke-direct {p0, v0, v1, p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, v0, v1, p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 453
     .line 454
@@ -1234,7 +1234,7 @@
 
     .line 33
     :pswitch_8
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    new-array p0, p1, [Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 34
     .line 35

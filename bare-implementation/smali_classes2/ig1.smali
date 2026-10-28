@@ -135,7 +135,7 @@
 
     .line 34
     .line 35
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 36
     .line 37
@@ -777,11 +777,11 @@
     move-object v1, v0
 
     .line 213
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 214
     .line 215
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 216
     .line 217
@@ -789,11 +789,11 @@
     move-result-object v7
 
     .line 219
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 220
     .line 221
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 222
     .line 223
@@ -805,7 +805,7 @@
 
     .line 226
     .line 227
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 228
     .line 229
@@ -1256,7 +1256,7 @@
     move-result-object v3
 
     .line 443
-    const-class v5, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    const-class v5, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 444
     .line 445
@@ -1268,7 +1268,7 @@
     move-result-object v0
 
     .line 449
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
     :try_end_3
     .catch Ljava/lang/Exception; {:try_start_3 .. :try_end_3} :catch_0
 
@@ -1396,7 +1396,7 @@
 
     .line 509
     .line 510
-    invoke-static/range {v21 .. v37}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->copy$default(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;Ljava/lang/String;Lfd1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lnc1;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;Ljava/lang/Boolean;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-static/range {v21 .. v37}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->copy$default(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;Ljava/lang/String;Lfd1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lnc1;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;Ljava/lang/Boolean;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 511
     .line 512
@@ -1404,7 +1404,7 @@
     move-result-object v0
 
     .line 514
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
 
     .line 515
     .line 516
@@ -1420,7 +1420,7 @@
 
     .line 521
     .line 522
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
 
     .line 523
     .line 524
@@ -1502,7 +1502,7 @@
     move-result-object v3
 
     .line 566
-    invoke-virtual {v0, v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->setCloudTypeConstant(Ljava/lang/String;)V
+    invoke-virtual {v0, v3}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->setCloudTypeConstant(Ljava/lang/String;)V
 
     .line 567
     .line 568
@@ -1515,7 +1515,7 @@
 
     .line 572
     .line 573
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getCloudType()Ldd1;
 
     .line 574
     .line 575
@@ -1527,7 +1527,7 @@
 
     .line 578
     .line 579
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getAuthType()Lnc1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getAuthType()Lnc1;
 
     .line 580
     .line 581
@@ -1572,17 +1572,17 @@
     .line 600
     .line 601
     .line 602
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->setAuthType(Lnc1;)V
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->setAuthType(Lnc1;)V
 
     .line 603
     .line 604
     .line 605
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->setKey(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;)V
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->setKey(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;)V
 
     .line 606
     .line 607
     .line 608
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->setPassword(Ljava/lang/String;)V
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->setPassword(Ljava/lang/String;)V
 
     .line 609
     .line 610
@@ -1596,7 +1596,7 @@
     move-result-object v2
 
     .line 615
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     .line 616
     .line 617
@@ -1624,7 +1624,7 @@
     move-result-object v2
 
     .line 629
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     .line 630
     .line 631
@@ -1774,7 +1774,7 @@
     .line 705
     .line 706
     .line 707
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->setProtocol(Lfd1;)V
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->setProtocol(Lfd1;)V
 
     .line 708
     .line 709
@@ -1784,11 +1784,11 @@
 
     .line 711
     :goto_8
-    iput-object v2, v7, Lm62;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iput-object v2, v7, Lm62;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 712
     .line 713
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 714
     .line 715
@@ -2020,11 +2020,11 @@
     .line 813
     .line 814
     .line 815
-    sget-object v7, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->Companion:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;
+    sget-object v7, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->Companion:Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;
 
     .line 816
     .line 817
-    invoke-virtual {v7, v8}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;->fromSnapshot(Leb2;)Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v7, v8}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;->fromSnapshot(Leb2;)Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 818
     .line 819
@@ -2036,7 +2036,7 @@
 
     .line 822
     .line 823
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 824
     .line 825
@@ -2048,7 +2048,7 @@
 
     .line 828
     .line 829
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 830
     .line 831
@@ -2068,7 +2068,7 @@
 
     .line 836
     .line 837
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasBackups()Z
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasBackups()Z
 
     .line 838
     .line 839
@@ -2088,7 +2088,7 @@
 
     .line 845
     .line 846
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->isValidCloudDetails()Z
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->isValidCloudDetails()Z
 
     .line 847
     .line 848
@@ -2104,7 +2104,7 @@
 
     .line 853
     .line 854
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getTotalSize()J
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getTotalSize()J
 
     .line 855
     .line 856
@@ -2234,7 +2234,7 @@
     move-result-object v7
 
     .line 917
-    const-class v8, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    const-class v8, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 918
     .line 919
@@ -2246,7 +2246,7 @@
     move-result-object v7
 
     .line 923
-    check-cast v7, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v7, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 924
     .line 925
@@ -2254,7 +2254,7 @@
 
     .line 926
     .line 927
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->isValid()Z
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->isValid()Z
 
     .line 928
     .line 929

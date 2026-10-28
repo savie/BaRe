@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lgq1;->b:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    iput-object p1, p0, Lgq1;->b:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lgq1;->b:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    iget-object p0, p0, Lgq1;->b:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 4
     .line 5
@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 9
     .line 10
@@ -77,7 +77,7 @@
 
     .line 20
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 21
     .line 22
@@ -85,7 +85,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
 
     .line 25
     .line 26
@@ -93,7 +93,7 @@
     move-result-object v0
 
     .line 28
-    invoke-virtual {v0}, Lqq1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-virtual {v0}, Lqq1;->j()Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 29
     .line 30
@@ -101,7 +101,7 @@
     move-result-object v0
 
     .line 32
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getId()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getId()Ljava/lang/String;
 
     .line 33
     .line 34

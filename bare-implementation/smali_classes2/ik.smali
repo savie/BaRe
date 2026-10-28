@@ -277,7 +277,7 @@
 
     .line 130
     .line 131
-    invoke-virtual {v10}, Lhk;->u()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v10}, Lhk;->u()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 132
     .line 133
@@ -289,7 +289,7 @@
 
     .line 136
     .line 137
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     .line 138
     .line 139
@@ -550,11 +550,11 @@
 
     .line 259
     .line 260
-    sget-object v10, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v10, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 261
     .line 262
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 263
     .line 264
@@ -1319,11 +1319,11 @@
 
     .line 632
     .line 633
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->Companion:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->Companion:Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;
 
     .line 634
     .line 635
-    invoke-virtual {v0, p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;->fetchForPackage(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;
+    invoke-virtual {v0, p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;->fetchForPackage(Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;
 
     .line 636
     .line 637
@@ -1331,7 +1331,7 @@
     move-result-object v0
 
     .line 639
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
 
     .line 640
     .line 641
@@ -1347,7 +1347,7 @@
 
     .line 646
     .line 647
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getDatabaseError()Lwc2;
 
     .line 648
     .line 649
@@ -1397,7 +1397,7 @@
 
     .line 670
     :cond_1c
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a$a;->getAppCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a$a;->getAppCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 671
     .line 672
@@ -1409,7 +1409,7 @@
 
     .line 675
     .line 676
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->hasBackups()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->hasBackups()Z
 
     .line 677
     .line 678
@@ -1433,7 +1433,7 @@
 
     .line 686
     :cond_1e
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 687
     .line 688
@@ -1771,11 +1771,11 @@
     move-object v2, v1
 
     .line 58
-    check-cast v2, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v2, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 59
     .line 60
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 61
     .line 62
@@ -1783,7 +1783,7 @@
     move-result-object v2
 
     .line 64
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->isProtectedBackup()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->isProtectedBackup()Z
 
     .line 65
     .line 66

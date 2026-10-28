@@ -80,11 +80,11 @@
 
     .line 4
     .line 5
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 6
     .line 7
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 8
     .line 9
@@ -308,19 +308,19 @@
 
     .line 113
     .line 114
-    check-cast v3, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    check-cast v3, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 115
     .line 116
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v5, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 117
     .line 118
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lorg/swiftapps/swiftbackup/home/schedule/data/o;
+    sget-object v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lcom/bareapps/barebackup/home/schedule/data/o;
 
     .line 119
     .line 120
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
 
     .line 121
     .line 122
@@ -345,11 +345,11 @@
 
     .line 132
     .line 133
-    new-instance v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$BlockedWifiPrivilegedAccess;
+    new-instance v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$BlockedWifiPrivilegedAccess;
 
     .line 134
     .line 135
-    invoke-direct {v5, v8, v9, v2, v6}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$BlockedWifiPrivilegedAccess;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v5, v8, v9, v2, v6}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$BlockedWifiPrivilegedAccess;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 136
     .line 137
@@ -358,17 +358,17 @@
 
     .line 139
     :cond_4
-    new-instance v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$FailedWifiDeviceRead;
+    new-instance v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$FailedWifiDeviceRead;
 
     .line 140
     .line 141
-    invoke-direct {v5, v8, v9, v2, v6}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$FailedWifiDeviceRead;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v5, v8, v9, v2, v6}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$FailedWifiDeviceRead;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 142
     .line 143
     .line 144
     :goto_1
-    invoke-static {v3, v5}, Lorg/swiftapps/swiftbackup/home/schedule/data/o;->d(Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;)V
+    invoke-static {v3, v5}, Lcom/bareapps/barebackup/home/schedule/data/o;->d(Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;)V
 
     .line 145
     .line 146
@@ -573,7 +573,7 @@
     .locals 0
 
     .line 1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
@@ -597,11 +597,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5

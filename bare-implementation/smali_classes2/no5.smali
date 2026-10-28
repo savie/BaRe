@@ -189,11 +189,11 @@
 
     .line 78
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 79
     .line 80
-    sget v0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->W:I
+    sget v0, Lcom/bareapps/barebackup/walls/WallsDashActivity;->W:I
 
     .line 81
     .line 82
@@ -210,11 +210,11 @@
 
     .line 88
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 89
     .line 90
-    sget-object v0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object v0, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 91
     .line 92
@@ -415,11 +415,11 @@
 
     .line 185
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;
+    check-cast p0, Lcom/bareapps/barebackup/password/UserPasswordActivity;
 
     .line 186
     .line 187
-    sget v0, Lorg/swiftapps/swiftbackup/password/UserPasswordActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/password/UserPasswordActivity;->O:I
 
     .line 188
     .line 189
@@ -467,7 +467,7 @@
 
     .line 209
     .line 210
-    iget-object p0, p0, Lqa8;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p0, p0, Lqa8;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 211
     .line 212
@@ -570,7 +570,7 @@
 
     .line 259
     :cond_5
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->k(Landroid/content/Context;)I
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->k(Landroid/content/Context;)I
 
     .line 260
     .line 261
@@ -632,11 +632,11 @@
 
     .line 287
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    check-cast p0, Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 288
     .line 289
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isParallelCloudTransfers()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isParallelCloudTransfers()Ljava/lang/Boolean;
 
     .line 290
     .line 291
@@ -693,7 +693,7 @@
     .line 314
     .line 315
     .line 316
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isMultithreadedDownloads()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isMultithreadedDownloads()Ljava/lang/Boolean;
 
     .line 317
     .line 318
@@ -746,7 +746,7 @@
     .line 339
     .line 340
     .line 341
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getMultiThreadChunksCount()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getMultiThreadChunksCount()Ljava/lang/Integer;
 
     .line 342
     .line 343
@@ -788,7 +788,7 @@
     .line 359
     .line 360
     .line 361
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getDropboxChunkSize()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getDropboxChunkSize()Ljava/lang/Integer;
 
     .line 362
     .line 363
@@ -822,7 +822,7 @@
     .line 375
     .line 376
     .line 377
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getOneDriveChunkSize()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getOneDriveChunkSize()Ljava/lang/Integer;
 
     .line 378
     .line 379
@@ -858,7 +858,7 @@
     .line 391
     .line 392
     .line 393
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getNextCloudChunkSize()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getNextCloudChunkSize()Ljava/lang/Integer;
 
     .line 394
     .line 395
@@ -892,7 +892,7 @@
     .line 407
     .line 408
     .line 409
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getNextCloudForcedChunking()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getNextCloudForcedChunking()Ljava/lang/Boolean;
 
     .line 410
     .line 411
@@ -918,7 +918,7 @@
     .line 420
     .line 421
     .line 422
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getS3ChunkSize()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getS3ChunkSize()Ljava/lang/Integer;
 
     .line 423
     .line 424
@@ -966,15 +966,15 @@
 
     .line 444
     :pswitch_8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 445
     .line 446
-    sget v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget v0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 447
     .line 448
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->N()Ls37;
 
     .line 449
     .line 450
@@ -990,11 +990,11 @@
 
     .line 455
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;
 
     .line 456
     .line 457
-    sget v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFolderSelectActivity;->R:I
+    sget v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFolderSelectActivity;->R:I
 
     .line 458
     .line 459
@@ -1027,7 +1027,7 @@
     move-result-object v0
 
     .line 474
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast v0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 475
     .line 476
@@ -1221,11 +1221,11 @@
 
     .line 566
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast p0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 567
     .line 568
-    sget v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget v0, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 569
     .line 570
@@ -1258,7 +1258,7 @@
     move-result-object v0
 
     .line 585
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast v0, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 586
     .line 587
@@ -1420,11 +1420,11 @@
 
     .line 664
     :pswitch_b
-    check-cast p0, Lorg/swiftapps/swiftbackup/notice/NoticeListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/notice/NoticeListActivity;
 
     .line 665
     .line 666
-    sget v0, Lorg/swiftapps/swiftbackup/notice/NoticeListActivity;->N:I
+    sget v0, Lcom/bareapps/barebackup/notice/NoticeListActivity;->N:I
 
     .line 667
     .line 668
@@ -1482,7 +1482,7 @@
     move-result-object v1
 
     .line 696
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 697
     .line 698
@@ -1498,7 +1498,7 @@
 
     .line 703
     .line 704
-    invoke-direct {v6, p0, v0, v1}, Loo5;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {v6, p0, v0, v1}, Loo5;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 705
     .line 706

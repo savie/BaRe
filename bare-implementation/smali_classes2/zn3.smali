@@ -88,7 +88,7 @@
     .line 16
     .line 17
     .line 18
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 19
     .line 20
@@ -310,11 +310,11 @@
     .line 53
     .line 54
     :goto_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 55
     .line 56
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 57
     .line 58

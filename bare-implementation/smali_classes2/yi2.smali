@@ -9,15 +9,15 @@
 # instance fields
 .field public final synthetic a:Lq05;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 .field public final synthetic c:Liz4;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+.field public final synthetic d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lq05;Lorg/swiftapps/swiftbackup/detail/DetailActivity;Liz4;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+.method public synthetic constructor <init>(Lq05;Lcom/bareapps/barebackup/detail/DetailActivity;Liz4;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
     .locals 0
 
     .line 1
@@ -30,7 +30,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lyi2;->b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p2, p0, Lyi2;->b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 7
     .line 8
@@ -38,7 +38,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lyi2;->d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iput-object p4, p0, Lyi2;->d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 11
     .line 12
@@ -55,7 +55,7 @@
 
     .line 2
     .line 3
-    sget v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v0, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 4
     .line 5
@@ -85,7 +85,7 @@
     const/4 v2, 0x0
 
     .line 17
-    iget-object v3, p0, Lyi2;->b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v3, p0, Lyi2;->b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 18
     .line 19
@@ -100,7 +100,7 @@
 
     .line 23
     .line 24
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {v3}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 25
     .line 26
@@ -112,7 +112,7 @@
 
     .line 29
     .line 30
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 31
     .line 32
@@ -120,11 +120,11 @@
     move-result-object v0
 
     .line 34
-    iget-object p0, p0, Lyi2;->d:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Lyi2;->d:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 35
     .line 36
-    invoke-virtual {v0, p0, p1}, Lmk2;->p(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual {v0, p0, p1}, Lmk2;->p(Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 37
     .line 38
@@ -142,7 +142,7 @@
 
     .line 44
     :cond_1
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 45
     .line 46

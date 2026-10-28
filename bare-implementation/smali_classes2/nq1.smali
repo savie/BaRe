@@ -207,11 +207,11 @@
     move-result-object p1
 
     .line 76
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 77
     .line 78
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 79
     .line 80
@@ -354,7 +354,7 @@
     move-result-object v2
 
     .line 150
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    check-cast v2, Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 151
     .line 152
@@ -442,7 +442,7 @@
 
     .line 194
     :cond_5
-    invoke-virtual {v2, v4}, Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
+    invoke-virtual {v2, v4}, Lcom/bareapps/barebackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
 
     .line 195
     .line 196
@@ -530,7 +530,7 @@
 
     .line 240
     .line 241
-    iget-object p1, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p1, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 242
     .line 243
@@ -559,7 +559,7 @@
 
     .line 254
     .line 255
-    check-cast v2, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v2, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 256
     .line 257

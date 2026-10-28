@@ -18,7 +18,7 @@
 
 
 # virtual methods
-.method public final j(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Lto3;)V
+.method public final j(Lcom/bareapps/barebackup/folders/data/FolderItem;Lto3;)V
     .locals 2
 
     .line 1

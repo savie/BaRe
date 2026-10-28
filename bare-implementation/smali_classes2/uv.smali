@@ -79,7 +79,7 @@
 
     .line 18
     .line 19
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 20
     .line 21
@@ -259,11 +259,11 @@
 
     .line 19
     .line 20
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 21
     .line 22
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 23
     .line 24
@@ -401,7 +401,7 @@
 
     .line 91
     .line 92
-    invoke-static {}, Lus8;->c()Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+    invoke-static {}, Lus8;->c()Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
 
     .line 93
     .line 94
@@ -413,7 +413,7 @@
 
     .line 97
     .line 98
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;->getDriveId()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;->getDriveId()Ljava/lang/String;
 
     .line 99
     .line 100
@@ -453,7 +453,7 @@
     .line 114
     .line 115
     :cond_3
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;->getFileSize()Ljava/lang/Long;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;->getFileSize()Ljava/lang/Long;
 
     .line 116
     .line 117
@@ -996,11 +996,11 @@
 
     .line 362
     .line 363
-    check-cast v1, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast v1, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 364
     .line 365
-    iget-object v1, v1, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->f:Ljava/lang/Object;
+    iget-object v1, v1, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->f:Ljava/lang/Object;
 
     .line 366
     .line 367
@@ -1014,7 +1014,7 @@
 
     .line 370
     .line 371
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 372
     .line 373
@@ -1022,7 +1022,7 @@
 
     .line 374
     .line 375
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->b(Ljc2;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->b(Ljc2;)V
 
     .line 376
     .line 377

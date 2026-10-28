@@ -304,11 +304,11 @@
 
     .line 126
     .line 127
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 128
     .line 129
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 130
     .line 131
@@ -430,7 +430,7 @@
 
     .line 186
     :pswitch_6
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;->P:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;->P:I
 
     .line 187
     .line 188
@@ -527,11 +527,11 @@
     .line 231
     .line 232
     :cond_7
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 233
     .line 234
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 235
     .line 236

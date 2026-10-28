@@ -191,7 +191,7 @@
     move-result-object v2
 
     .line 19
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast v2, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 20
     .line 21

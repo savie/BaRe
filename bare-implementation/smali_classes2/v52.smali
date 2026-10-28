@@ -774,7 +774,7 @@
     return-object p0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 14
 
     .line 1
@@ -888,11 +888,11 @@
 
     .line 53
     :cond_0
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 54
     .line 55
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 56
     .line 57
@@ -956,7 +956,7 @@
     const/4 v4, 0x1
 
     .line 86
-    invoke-interface {v0, v4}, Ljh1;->d(Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+    invoke-interface {v0, v4}, Ljh1;->d(Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 
     .line 87
     .line 88
@@ -964,7 +964,7 @@
     move-result-object v0
 
     .line 90
-    instance-of v4, v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
+    instance-of v4, v0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
 
     .line 91
     .line 92
@@ -1259,7 +1259,7 @@
 
     .line 231
     :cond_6
-    instance-of v1, v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Failed;
+    instance-of v1, v0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Failed;
 
     .line 232
     .line 233
@@ -1321,7 +1321,7 @@
     .line 259
     .line 260
     .line 261
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
 
     .line 262
     .line 263
@@ -1390,7 +1390,7 @@
 
     .line 294
     :cond_8
-    instance-of v1, v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
+    instance-of v1, v0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
 
     .line 295
     .line 296
@@ -1433,7 +1433,7 @@
     .line 313
     .line 314
     .line 315
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
 
     .line 316
     .line 317
@@ -1502,7 +1502,7 @@
 
     .line 348
     :cond_a
-    instance-of v1, v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$UnknownError;
+    instance-of v1, v0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$UnknownError;
 
     .line 349
     .line 350
@@ -1518,7 +1518,7 @@
 
     .line 355
     .line 356
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
 
     .line 357
     .line 358
@@ -1574,7 +1574,7 @@
 
     .line 382
     .line 383
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
 
     .line 384
     .line 385
@@ -1605,7 +1605,7 @@
 
     .line 398
     :cond_d
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;->getE()Ljava/lang/Exception;
 
     .line 399
     .line 400

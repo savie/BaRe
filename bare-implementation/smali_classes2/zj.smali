@@ -57,11 +57,11 @@
     .line 4
     .line 5
     .line 6
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 7
     .line 8
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 9
     .line 10
@@ -102,7 +102,7 @@
 
     .line 28
     :pswitch_0
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 29
     .line 30
@@ -138,7 +138,7 @@
     const/4 v9, 0x0
 
     .line 42
-    invoke-direct/range {v0 .. v11}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v11}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 43
     .line 44
@@ -317,7 +317,7 @@
 
     .line 127
     :pswitch_6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->g()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->g()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 128
     .line 129
@@ -377,7 +377,7 @@
 
     .line 153
     :pswitch_a
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 154
     .line 155

@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 9
     .line 10
@@ -68,7 +68,7 @@
 
     .line 15
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 16
     .line 17
@@ -84,7 +84,7 @@
 
     .line 22
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 23
     .line 24
@@ -100,7 +100,7 @@
 
     .line 29
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 30
     .line 31
@@ -116,7 +116,7 @@
 
     .line 36
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 37
     .line 38
@@ -132,7 +132,7 @@
 
     .line 43
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 44
     .line 45
@@ -148,7 +148,7 @@
 
     .line 50
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 51
     .line 52
@@ -180,7 +180,7 @@
 
     .line 64
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;
 
     .line 65
     .line 66
@@ -196,7 +196,7 @@
 
     .line 71
     :pswitch_8
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 72
     .line 73
@@ -212,7 +212,7 @@
 
     .line 78
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 79
     .line 80
@@ -240,7 +240,7 @@
 
     .line 90
     :pswitch_b
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 91
     .line 92

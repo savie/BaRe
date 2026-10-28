@@ -922,7 +922,7 @@ BΛR☰ 將只會在本機私有目錄中以加密的形式儲存您的密碼。
     <string name="schedules">排程</string>
     <string name="search">搜尋</string>
     <string name="search_hint_apps">搜尋應用程式</string>
-    <string name="search_swift_backup">搜尋 BΛR☰</string>
+    <string name="search_bare_backup">搜尋 BΛR☰</string>
     <string name="secondary_action">次要操作</string>
     <string name="secondary_user_warning_msg">次要/工作用的使用者個人設定檔因一些無法避免的問題而不被官方支援。請切換到這個裝置的主要使用者。</string>
     <string name="see_all">查看全部</string>
@@ -960,11 +960,11 @@ BΛR☰ 將只會在本機私有目錄中以加密的形式儲存您的密碼。
     <string name="share_apk">分享 APK</string>
     <string name="share_apks">分享 APKs</string>
     <string name="share_logs">分享記錄</string>
-    <string name="share_swiftbackup">分享 BΛR☰</string>
-    <string name="share_swiftbackup_msg">請過目我正在使用的這個超棒的備份管理員！其名為 BΛR☰ 而後連結在此：https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - 在 Android 系統上簡單、快速和智慧的備份解決方案</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + 裝置 Logcat</string>
-    <string name="share_swiftlogger_text_only">分享純文字報告</string>
+    <string name="share_barebackup">分享 BΛR☰</string>
+    <string name="share_barebackup_msg">請過目我正在使用的這個超棒的備份管理員！其名為 BΛR☰ 而後連結在此：https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - 在 Android 系統上簡單、快速和智慧的備份解決方案</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + 裝置 Logcat</string>
+    <string name="share_barelogger_text_only">分享純文字報告</string>
     <string name="shared_libraries">共享庫</string>
     <string name="shortcuts">捷徑</string>
     <string name="show_less">顯示較少</string>
@@ -1042,9 +1042,9 @@ BΛR☰ 將只會在本機私有目錄中以加密的形式儲存您的密碼。
     <string name="summary_collapsed_preference_list">%1$s、%2$s</string>
     <string name="sure_to_cancel_task">您確定要取消嗎？</string>
     <string name="sure_to_proceed">您確定要繼續嗎？點選「是」以確認。</string>
-    <string name="swift_backup_is_busy">BΛR☰ 忙不過來</string>
-    <string name="swift_labs_settings_summary">實驗性功能無法保證正常運作。這些功能可能隨時消失！</string>
-    <string name="swiftlogger_info">可能有助於回報錯誤的重要記錄</string>
+    <string name="barebackup_is_busy">BΛR☰ 忙不過來</string>
+    <string name="bare_labs_settings_summary">實驗性功能無法保證正常運作。這些功能可能隨時消失！</string>
+    <string name="barelogger_info">可能有助於回報錯誤的重要記錄</string>
     <string name="swipe_actions">滑動操作</string>
     <string name="swipe_actions_description">為每個滑動方向選擇最多兩個操作</string>
     <string name="sync_backups">同步備份</string>

@@ -133,7 +133,7 @@
 
     .line 34
     .line 35
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 36
     .line 37
@@ -367,7 +367,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-virtual {p1}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p1}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 30
     .line 31
@@ -375,7 +375,7 @@
     move-result-object p1
 
     .line 33
-    invoke-virtual {p1}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {p1}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 34
     .line 35
@@ -598,7 +598,7 @@
     .line 139
     .line 140
     .line 141
-    sget-object p1, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object p1, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 142
     .line 143
@@ -606,11 +606,11 @@
 
     .line 144
     .line 145
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 146
     .line 147
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 148
     .line 149
@@ -618,7 +618,7 @@
     move-result-object p0
 
     .line 151
-    iget-object p0, p0, Lm62;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iget-object p0, p0, Lm62;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 152
     .line 153
@@ -631,7 +631,7 @@
     .line 156
     .line 157
     .line 158
-    invoke-static {p0, v4}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->a(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;Ltn2;)V
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/cloud/protocols/a;->a(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;Ltn2;)V
 
     .line 159
     .line 160

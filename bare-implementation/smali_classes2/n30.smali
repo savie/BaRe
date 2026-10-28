@@ -108,7 +108,7 @@
 
     .line 17
     .line 18
-    iget-object p1, p1, Lk30;->b:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    iget-object p1, p1, Lk30;->b:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 19
     .line 20
@@ -120,7 +120,7 @@
 
     .line 23
     :cond_0
-    invoke-static {p1, v2}, Ley7;->a(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)Lvq;
+    invoke-static {p1, v2}, Ley7;->a(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)Lvq;
 
     .line 24
     .line 25

@@ -2312,9 +2312,9 @@
     <public type="color" name="secondary_text_disabled_material_light" id="0x7f0604bb" />
     <public type="color" name="segmented_list_item_background" id="0x7f0604bd" />
     <public type="color" name="status_bar_blk" id="0x7f0604be" />
-    <public type="color" name="swiftbackup_expressive_switch_thumb_icon_tint" id="0x7f0604c1" />
-    <public type="color" name="swiftbackup_expressive_switch_thumb_tint" id="0x7f0604c2" />
-    <public type="color" name="swiftbackup_expressive_switch_track_tint" id="0x7f0604c3" />
+    <public type="color" name="barebackup_expressive_switch_thumb_icon_tint" id="0x7f0604c1" />
+    <public type="color" name="barebackup_expressive_switch_thumb_tint" id="0x7f0604c2" />
+    <public type="color" name="barebackup_expressive_switch_track_tint" id="0x7f0604c3" />
     <public type="color" name="switch_thumb_disabled_material_dark" id="0x7f0604c5" />
     <public type="color" name="switch_thumb_disabled_material_light" id="0x7f0604c6" />
     <public type="color" name="switch_thumb_material_dark" id="0x7f0604c7" />
@@ -3181,7 +3181,7 @@
     <public type="dimen" name="subtitle_small" id="0x7f0704b6" />
     <public type="dimen" name="subtitle_smaller" id="0x7f0704b7" />
     <public type="dimen" name="subtitle_smallest" id="0x7f0704b8" />
-    <public type="dimen" name="swiftbackup_expressive_switch_min_width" id="0x7f0704b9" />
+    <public type="dimen" name="barebackup_expressive_switch_min_width" id="0x7f0704b9" />
     <public type="dimen" name="swipe_preview_action_width" id="0x7f0704ba" />
     <public type="dimen" name="task_activity_animation_size" id="0x7f0704bb" />
     <public type="dimen" name="title" id="0x7f0704bc" />
@@ -3699,9 +3699,9 @@
     <public type="drawable" name="ring" id="0x7f0802a6" />
     <public type="drawable" name="ring_ripple" id="0x7f0802a7" />
     <public type="drawable" name="splash_screen" id="0x7f0802ab" />
-    <public type="drawable" name="swiftbackup_expressive_icon_check" id="0x7f0802ac" />
-    <public type="drawable" name="swiftbackup_expressive_icon_close" id="0x7f0802ad" />
-    <public type="drawable" name="swiftbackup_expressive_switch_thumb_icon" id="0x7f0802ae" />
+    <public type="drawable" name="barebackup_expressive_icon_check" id="0x7f0802ac" />
+    <public type="drawable" name="barebackup_expressive_icon_close" id="0x7f0802ad" />
+    <public type="drawable" name="barebackup_expressive_switch_thumb_icon" id="0x7f0802ae" />
     <public type="drawable" name="swipe_preview_skeleton_line" id="0x7f0802af" />
     <public type="drawable" name="sym_def_app_icon" id="0x7f0802b0" />
     <public type="drawable" name="tab_indicator" id="0x7f0802b1" />
@@ -3857,7 +3857,7 @@
     <public type="id" name="action_sms_settings" id="0x7f0a0088" />
     <public type="id" name="action_sort" id="0x7f0a0089" />
     <public type="id" name="action_storage_switch" id="0x7f0a008a" />
-    <public type="id" name="action_swiftlogger" id="0x7f0a008b" />
+    <public type="id" name="action_barelogger" id="0x7f0a008b" />
     <public type="id" name="action_sync" id="0x7f0a008c" />
     <public type="id" name="action_sync_sms_backup" id="0x7f0a008d" />
     <public type="id" name="action_text" id="0x7f0a008e" />
@@ -3943,7 +3943,7 @@
     <public type="id" name="btnClose" id="0x7f0a00de" />
     <public type="id" name="btnInstall" id="0x7f0a00df" />
     <public type="id" name="btnLaunch" id="0x7f0a00e0" />
-    <public type="id" name="btnOpenInSwiftBackup" id="0x7f0a00e1" />
+    <public type="id" name="btnOpenInBareBackup" id="0x7f0a00e1" />
     <public type="id" name="btn_action" id="0x7f0a00e2" />
     <public type="id" name="btn_actions" id="0x7f0a00e3" />
     <public type="id" name="btn_add_first_schedule" id="0x7f0a00e4" />
@@ -4381,7 +4381,7 @@
     <public type="id" name="ivImportedAppIconLoading" id="0x7f0a0294" />
     <public type="id" name="ivMenu" id="0x7f0a0295" />
     <public type="id" name="ivStatus" id="0x7f0a0296" />
-    <public type="id" name="ivSwiftBackupLogo" id="0x7f0a0297" />
+    <public type="id" name="ivBareBackupLogo" id="0x7f0a0297" />
     <public type="id" name="iv_active_password_indicator" id="0x7f0a0298" />
     <public type="id" name="iv_add" id="0x7f0a0299" />
     <public type="id" name="iv_app_icon" id="0x7f0a029a" />
@@ -5175,10 +5175,10 @@
     <public type="id" name="tv_subtitle2" id="0x7f0a05ae" />
     <public type="id" name="tv_subtitle3" id="0x7f0a05af" />
     <public type="id" name="tv_summary" id="0x7f0a05b0" />
-    <public type="id" name="tv_swiftbackup" id="0x7f0a05b1" />
-    <public type="id" name="tv_swiftlogger" id="0x7f0a05b2" />
-    <public type="id" name="tv_swiftlogger_text_only" id="0x7f0a05b3" />
-    <public type="id" name="tv_swiftlogger_title" id="0x7f0a05b4" />
+    <public type="id" name="tv_barebackup" id="0x7f0a05b1" />
+    <public type="id" name="tv_barelogger" id="0x7f0a05b2" />
+    <public type="id" name="tv_barelogger_text_only" id="0x7f0a05b3" />
+    <public type="id" name="tv_barelogger_title" id="0x7f0a05b4" />
     <public type="id" name="tv_system_apps" id="0x7f0a05b5" />
     <public type="id" name="tv_task_chain_title" id="0x7f0a05b6" />
     <public type="id" name="tv_tests_subtitle" id="0x7f0a05b7" />
@@ -6864,7 +6864,7 @@
     <public type="string" name="search" id="0x7f1304ca" />
     <public type="string" name="search_hint" id="0x7f1304cb" />
     <public type="string" name="search_hint_apps" id="0x7f1304cc" />
-    <public type="string" name="search_swift_backup" id="0x7f1304ce" />
+    <public type="string" name="search_bare_backup" id="0x7f1304ce" />
     <public type="string" name="secondary_action" id="0x7f1304d2" />
     <public type="string" name="secondary_user_warning_msg" id="0x7f1304d3" />
     <public type="string" name="see_all" id="0x7f1304d4" />
@@ -6903,11 +6903,11 @@
     <public type="string" name="share_apk" id="0x7f1304f5" />
     <public type="string" name="share_apks" id="0x7f1304f6" />
     <public type="string" name="share_logs" id="0x7f1304f7" />
-    <public type="string" name="share_swiftbackup" id="0x7f1304f8" />
-    <public type="string" name="share_swiftbackup_msg" id="0x7f1304f9" />
-    <public type="string" name="share_swiftbackup_subject" id="0x7f1304fa" />
-    <public type="string" name="share_swiftlogger_archive_with_device_logcat" id="0x7f1304fb" />
-    <public type="string" name="share_swiftlogger_text_only" id="0x7f1304fc" />
+    <public type="string" name="share_barebackup" id="0x7f1304f8" />
+    <public type="string" name="share_barebackup_msg" id="0x7f1304f9" />
+    <public type="string" name="share_barebackup_subject" id="0x7f1304fa" />
+    <public type="string" name="share_barelogger_archive_with_device_logcat" id="0x7f1304fb" />
+    <public type="string" name="share_barelogger_text_only" id="0x7f1304fc" />
     <public type="string" name="shared_libraries" id="0x7f1304fd" />
     <public type="string" name="shortcuts" id="0x7f1304fe" />
     <public type="string" name="show_less" id="0x7f1304ff" />
@@ -6986,12 +6986,12 @@
     <public type="string" name="summary_collapsed_preference_list" id="0x7f13054c" />
     <public type="string" name="sure_to_cancel_task" id="0x7f13054d" />
     <public type="string" name="sure_to_proceed" id="0x7f13054e" />
-    <public type="string" name="swift_backup" id="0x7f13054f" />
-    <public type="string" name="swift_backup_is_busy" id="0x7f130550" />
-    <public type="string" name="swift_labs" id="0x7f130551" />
-    <public type="string" name="swift_labs_settings_summary" id="0x7f130552" />
-    <public type="string" name="swiftlogger" id="0x7f130553" />
-    <public type="string" name="swiftlogger_info" id="0x7f130554" />
+    <public type="string" name="bare_backup" id="0x7f13054f" />
+    <public type="string" name="barebackup_is_busy" id="0x7f130550" />
+    <public type="string" name="bare_labs" id="0x7f130551" />
+    <public type="string" name="bare_labs_settings_summary" id="0x7f130552" />
+    <public type="string" name="barelogger" id="0x7f130553" />
+    <public type="string" name="barelogger_info" id="0x7f130554" />
     <public type="string" name="swipe_actions" id="0x7f130555" />
     <public type="string" name="swipe_actions_description" id="0x7f130556" />
     <public type="string" name="swipe_actions_summary_format" id="0x7f130557" />
@@ -7514,8 +7514,8 @@
     <public type="style" name="ShapeAppearance.MaterialComponents.MediumComponent" id="0x7f140246" />
     <public type="style" name="ShapeAppearance.MaterialComponents.SmallComponent" id="0x7f140247" />
     <public type="style" name="ShapeAppearance.MaterialComponents.Tooltip" id="0x7f140248" />
-    <public type="style" name="ShapeAppearance.Swift.Circle" id="0x7f140249" />
-    <public type="style" name="ShapeAppearance.Swift.Segmented.Single" id="0x7f14024c" />
+    <public type="style" name="ShapeAppearance.Bare.Circle" id="0x7f140249" />
+    <public type="style" name="ShapeAppearance.Bare.Segmented.Single" id="0x7f14024c" />
     <public type="style" name="ShapeAppearanceOverlay.Material3.Button" id="0x7f14024e" />
     <public type="style" name="ShapeAppearanceOverlay.Material3.Corner.Top" id="0x7f140253" />
     <public type="style" name="ShapeAppearanceOverlay.Material3.FloatingActionButton" id="0x7f140254" />
@@ -7533,19 +7533,19 @@
     <public type="style" name="SizeOverlay.Material3Expressive.Button.Small" id="0x7f140284" />
     <public type="style" name="Subtitle" id="0x7f14028b" />
     <public type="style" name="Subtitle.Large" id="0x7f14028c" />
-    <public type="style" name="SwiftCircularProgressIndicator" id="0x7f14028d" />
-    <public type="style" name="SwiftLinearProgressIndicator" id="0x7f14028e" />
-    <public type="style" name="SwiftSegmentedListItemCardView" id="0x7f140294" />
-    <public type="style" name="SwiftSegmentedPreferenceCard" id="0x7f140295" />
-    <public type="style" name="SwiftTheme" id="0x7f140296" />
-    <public type="style" name="SwiftTheme.AppBarOverlay" id="0x7f140297" />
-    <public type="style" name="SwiftTheme.PopupOverlay" id="0x7f140298" />
-    <public type="style" name="SwiftTheme.PopupOverlay.Dark" id="0x7f140299" />
-    <public type="style" name="SwiftTheme.Translucent" id="0x7f14029a" />
-    <public type="style" name="SwiftTheme.Transparent" id="0x7f14029b" />
-    <public type="style" name="SwiftThemeBlack" id="0x7f14029c" />
-    <public type="style" name="SwiftThemeDark" id="0x7f14029d" />
-    <public type="style" name="SwiftThemeDark.Transparent" id="0x7f14029e" />
+    <public type="style" name="BareCircularProgressIndicator" id="0x7f14028d" />
+    <public type="style" name="BareLinearProgressIndicator" id="0x7f14028e" />
+    <public type="style" name="BareSegmentedListItemCardView" id="0x7f140294" />
+    <public type="style" name="BareSegmentedPreferenceCard" id="0x7f140295" />
+    <public type="style" name="BareTheme" id="0x7f140296" />
+    <public type="style" name="BareTheme.AppBarOverlay" id="0x7f140297" />
+    <public type="style" name="BareTheme.PopupOverlay" id="0x7f140298" />
+    <public type="style" name="BareTheme.PopupOverlay.Dark" id="0x7f140299" />
+    <public type="style" name="BareTheme.Translucent" id="0x7f14029a" />
+    <public type="style" name="BareTheme.Transparent" id="0x7f14029b" />
+    <public type="style" name="BareThemeBlack" id="0x7f14029c" />
+    <public type="style" name="BareThemeDark" id="0x7f14029d" />
+    <public type="style" name="BareThemeDark.Transparent" id="0x7f14029e" />
     <public type="style" name="SwipeActionPreviewButton" id="0x7f14029f" />
     <public type="style" name="TextAppearance.AppCompat" id="0x7f1402a0" />
     <public type="style" name="TextAppearance.AppCompat.Body1" id="0x7f1402a1" />
@@ -8208,7 +8208,7 @@
     <public type="style" name="Widget.MaterialComponents.Toolbar" id="0x7f1406a2" />
     <public type="style" name="Widget.MaterialComponents.Tooltip" id="0x7f1406a6" />
     <public type="style" name="Widget.Support.CoordinatorLayout" id="0x7f1406a7" />
-    <public type="style" name="Widget.SwiftBackup.MaterialSwitch" id="0x7f1406a8" />
+    <public type="style" name="Widget.BareBackup.MaterialSwitch" id="0x7f1406a8" />
     <public type="style" name="YubiKitPromptDialogButton" id="0x7f1406a9" />
     <public type="style" name="YubiKitPromptDialogTheme" id="0x7f1406aa" />
     <public type="xml" name="filepaths" id="0x7f160001" />

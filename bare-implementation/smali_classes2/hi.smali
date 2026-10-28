@@ -106,7 +106,7 @@
 
     .line 35
     .line 36
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->c(Ljd2;)Ljava/lang/CharSequence;
+    invoke-static {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->c(Ljd2;)Ljava/lang/CharSequence;
 
     .line 37
     .line 38

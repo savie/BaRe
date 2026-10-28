@@ -827,7 +827,7 @@ Accesso root o Shizuku necessari"</string>
     <string name="schedules">Pianificazioni</string>
     <string name="search">Cerca</string>
     <string name="search_hint_apps">Cerca app</string>
-    <string name="search_swift_backup">Cerca in BΛR☰</string>
+    <string name="search_bare_backup">Cerca in BΛR☰</string>
     <string name="secondary_action">Azione secondaria</string>
     <string name="secondary_user_warning_msg">"I profili utente secondari/di lavoro non sono ufficialmente supportati a causa di alcuni problemi inevitabili. Passa all'utente principale su questo dispositivo."</string>
     <string name="see_all">Vedi tutto</string>
@@ -865,11 +865,11 @@ Accesso root o Shizuku necessari"</string>
     <string name="share_apk">Condividi APK</string>
     <string name="share_apks">Condividi APKs</string>
     <string name="share_logs">Condividi log</string>
-    <string name="share_swiftbackup">Condividi BΛR☰</string>
-    <string name="share_swiftbackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di BΛR☰ e questo è il link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Soluzione di backup semplice, veloce e intelligente per Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat dispositivo</string>
-    <string name="share_swiftlogger_text_only">Condividi report solo testo</string>
+    <string name="share_barebackup">Condividi BΛR☰</string>
+    <string name="share_barebackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di BΛR☰ e questo è il link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup"</string>
+    <string name="share_barebackup_subject">BΛR☰ - Soluzione di backup semplice, veloce e intelligente per Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat dispositivo</string>
+    <string name="share_barelogger_text_only">Condividi report solo testo</string>
     <string name="shared_libraries">Librerie condivise</string>
     <string name="shortcuts">Scorciatoie</string>
     <string name="show_less">Mostra meno</string>
@@ -911,9 +911,9 @@ Accesso root o Shizuku necessari"</string>
     <string name="successful">Riuscito</string>
     <string name="sure_to_cancel_task">Sei sicuro di voler annullare?</string>
     <string name="sure_to_proceed">Sei sicuro di voler procedere? Clicca Sì per confermare.</string>
-    <string name="swift_backup_is_busy">BΛR☰ è occupato</string>
-    <string name="swift_labs_settings_summary">Funzionalità sperimentali il cui funzionamento non è garantito. Queste funzioni potrebbero scomparire in qualsiasi momento!</string>
-    <string name="swiftlogger_info">Log importanti che potrebbero aiutare a segnalare i bug</string>
+    <string name="barebackup_is_busy">BΛR☰ è occupato</string>
+    <string name="bare_labs_settings_summary">Funzionalità sperimentali il cui funzionamento non è garantito. Queste funzioni potrebbero scomparire in qualsiasi momento!</string>
+    <string name="barelogger_info">Log importanti che potrebbero aiutare a segnalare i bug</string>
     <string name="swipe_actions">Azioni di scorrimento</string>
     <string name="swipe_actions_description">Scegli fino a due azioni per ogni direzione di scorrimento</string>
     <string name="sync_backups">Sincronizza backup</string>

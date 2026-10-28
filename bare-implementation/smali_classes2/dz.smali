@@ -468,11 +468,11 @@
 
     .line 197
     .line 198
-    iget-object v0, p0, Lfz;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v0, p0, Lfz;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 199
     .line 200
-    iget-boolean v2, v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v2, v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 201
     .line 202

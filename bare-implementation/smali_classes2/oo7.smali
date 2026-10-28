@@ -15,11 +15,11 @@
 
 .field public final d:Lcom/google/android/material/progressindicator/CircularProgressIndicator;
 
-.field public final e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
     .locals 0
 
     .line 1
@@ -44,7 +44,7 @@
 
     .line 11
     .line 12
-    iput-object p5, p0, Loo7;->e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p5, p0, Loo7;->e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 13
     .line 14

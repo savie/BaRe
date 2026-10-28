@@ -266,7 +266,7 @@
     const/4 v1, 0x0
 
     .line 25
-    const-string v2, "__SWIFTBACKUP_FIND_STATUS__:"
+    const-string v2, "__BAREBACKUP_FIND_STATUS__:"
 
     .line 26
     .line 27
@@ -533,7 +533,7 @@
 
     .line 59
     .line 60
-    const-string v3, "; status=$?; printf \'__SWIFTBACKUP_FIND_STATUS__:%s\\n\' \"$status\"; }"
+    const-string v3, "; status=$?; printf \'__BAREBACKUP_FIND_STATUS__:%s\\n\' \"$status\"; }"
 
     .line 61
     .line 62

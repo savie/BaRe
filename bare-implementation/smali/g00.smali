@@ -461,11 +461,11 @@
 
     .line 105
     :cond_3
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 106
     .line 107
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 108
     .line 109
@@ -533,7 +533,7 @@
     .line 7
     .line 8
     .line 9
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 10
     .line 11
@@ -650,7 +650,7 @@
 
     .line 59
     :try_start_3
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 60
     .line 61
@@ -764,7 +764,7 @@
 
     .line 108
     :try_start_6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 109
     .line 110
@@ -776,11 +776,11 @@
 
     .line 113
     .line 114
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 115
     .line 116
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 117
     .line 118
@@ -918,7 +918,7 @@
 
     .line 173
     :try_start_a
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 174
     .line 175
@@ -1094,11 +1094,11 @@
 
     .line 14
     .line 15
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 18
     .line 19
@@ -2146,11 +2146,11 @@
     .line 77
     .line 78
     .line 79
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 80
     .line 81
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 82
     .line 83
@@ -3220,7 +3220,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 10
     .line 11
@@ -3228,7 +3228,7 @@
     move-result-object v0
 
     .line 13
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 14
     .line 15
@@ -4214,11 +4214,11 @@
 
     .line 26
     .line 27
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 28
     .line 29
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 30
     .line 31
@@ -4305,11 +4305,11 @@
 
     .line 27
     :cond_1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 28
     .line 29
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 30
     .line 31
@@ -4390,11 +4390,11 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -6527,7 +6527,7 @@
 
     .line 336
     :try_start_0
-    invoke-static {v0}, Lcu;->b(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {v0}, Lcu;->b(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 337
     .line 338
@@ -6563,7 +6563,7 @@
     .line 352
     .line 353
     :cond_a
-    invoke-virtual/range {v16 .. v16}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
+    invoke-virtual/range {v16 .. v16}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
 
     .line 354
     .line 355
@@ -8365,7 +8365,7 @@
     .line 1207
     .line 1208
     :goto_1f
-    invoke-virtual/range {v24 .. v24}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual/range {v24 .. v24}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 1209
     .line 1210
@@ -8373,7 +8373,7 @@
     move-result-object v0
 
     .line 1212
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 1213
     .line 1214

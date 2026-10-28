@@ -117,7 +117,7 @@
 
     .line 33
     .line 34
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 35
     .line 36
@@ -360,7 +360,7 @@
 
     .line 60
     .line 61
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->P()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->P()V
 
     .line 62
     .line 63
@@ -427,7 +427,7 @@
 
     .line 92
     .line 93
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 94
     .line 95

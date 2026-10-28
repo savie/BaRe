@@ -67,11 +67,11 @@
 
     .line 7
     .line 8
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 9
     .line 10
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 11
     .line 12
@@ -79,7 +79,7 @@
     move-result-object v2
 
     .line 14
-    const-class v3, Lorg/swiftapps/rootservice/ShizukuAidlService;
+    const-class v3, Lcom/bareapps/rootservice/ShizukuAidlService;
 
     .line 15
     .line 16
@@ -93,7 +93,7 @@
     .line 20
     .line 21
     .line 22
-    const-string v1, "swiftbackup_sba"
+    const-string v1, "barebackup_sba"
 
     .line 23
     .line 24

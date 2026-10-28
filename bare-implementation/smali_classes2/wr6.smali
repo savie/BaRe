@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/slog/SLogActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/slog/SLogActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/slog/SLogActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lwr6;->b:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    iput-object p1, p0, Lwr6;->b:Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 4
     .line 5
@@ -46,7 +46,7 @@
     const/4 v0, 0x0
 
     .line 4
-    iget-object p0, p0, Lwr6;->b:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    iget-object p0, p0, Lwr6;->b:Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 5
     .line 6
@@ -55,11 +55,11 @@
     .line 7
     .line 8
     .line 9
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->Q:Lgv7;
+    iget-object p1, p0, Lcom/bareapps/barebackup/slog/SLogActivity;->Q:Lgv7;
 
     .line 10
     .line 11
-    sget v1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget v1, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 12
     .line 13
@@ -227,11 +227,11 @@
 
     .line 94
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 95
     .line 96
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->N()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/slog/SLogActivity;->N()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 97
     .line 98

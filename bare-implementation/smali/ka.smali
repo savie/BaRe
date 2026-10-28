@@ -107,7 +107,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)V
     .locals 2
 
     .line 1
@@ -133,7 +133,7 @@
 
     .line 12
     .line 13
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getMetadataKeysHex()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getMetadataKeysHex()Ljava/util/List;
 
     .line 14
     .line 15
@@ -1210,11 +1210,11 @@
 
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 13
     .line 14

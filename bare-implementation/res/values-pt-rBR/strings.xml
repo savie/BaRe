@@ -308,7 +308,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Dados</string>
     <string name="data_encryption_smb_3">Criptografia de Dados (SMB 3+)</string>
     <string name="date_used">Dados utilizados</string>
-    <string name="default_sms_app_rationale">"Para restaurar as mensagens no seu dispositivo, o backup Swift precisa ser o app SMS padrão.
+    <string name="default_sms_app_rationale">"Para restaurar as mensagens no seu dispositivo, o backup BΛR☰ precisa ser o app SMS padrão.
 
 Após a restauração ser concluída, você será solicitado para redefinir o aplicativo SMS para o seu app atual."</string>
     <string name="default_word">Padrão</string>
@@ -926,7 +926,7 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="search">Pesquisar</string>
     <string name="search_hint">Pesquisar</string>
     <string name="search_hint_apps">Pesquisar aplicativos</string>
-    <string name="search_swift_backup">Pesquisar no BΛR☰</string>
+    <string name="search_bare_backup">Pesquisar no BΛR☰</string>
     <string name="secondary_action">Ação secundária</string>
     <string name="secondary_user_warning_msg">Perfis de usuário secundário/trabalho não são oficialmente suportados devido a alguns problemas inevitáveis. Mude para o usuário principal neste dispositivo.</string>
     <string name="see_all">Ver tudo</string>
@@ -964,11 +964,11 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="share_apk">Compartilhar APK</string>
     <string name="share_apks">Compartilhar APKs</string>
     <string name="share_logs">Compartilhar logs</string>
-    <string name="share_swiftbackup">Compartilhar o BΛR☰</string>
-    <string name="share_swiftbackup_msg">Confira este incrível novo gerenciador de backup que estou usando! O BΛR☰ e aqui está o link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰: Uma solução de backup simples, rápido e inteligente para seu Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat do dispositivo</string>
-    <string name="share_swiftlogger_text_only">Compartilhar relatório somente texto</string>
+    <string name="share_barebackup">Compartilhar o BΛR☰</string>
+    <string name="share_barebackup_msg">Confira este incrível novo gerenciador de backup que estou usando! O BΛR☰ e aqui está o link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰: Uma solução de backup simples, rápido e inteligente para seu Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat do dispositivo</string>
+    <string name="share_barelogger_text_only">Compartilhar relatório somente texto</string>
     <string name="shared_libraries">Bibliotecas compartilhadas</string>
     <string name="shortcuts">Atalhos</string>
     <string name="show_less">Mostrar menos</string>
@@ -1046,10 +1046,10 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="summary_collapsed_preference_list">%1$s, %2$s</string>
     <string name="sure_to_cancel_task">Você tem certeza que deseja cancelar?</string>
     <string name="sure_to_proceed">Você tem certeza que deseja continuar? Clique em \"Sim\" para confirmar.</string>
-    <string name="swift_backup_is_busy">O BΛR☰ está ocupado</string>
-    <string name="swift_labs_settings_summary">"Recursos experimentais que podem não funcionar corretamente. 
+    <string name="barebackup_is_busy">O BΛR☰ está ocupado</string>
+    <string name="bare_labs_settings_summary">"Recursos experimentais que podem não funcionar corretamente. 
 Nota: Esses recursos podem desaparecer a qualquer momento."</string>
-    <string name="swiftlogger_info">Registros importantes que podem ajudar ao reportar bugs</string>
+    <string name="barelogger_info">Registros importantes que podem ajudar ao reportar bugs</string>
     <string name="swipe_actions">Ações de deslizar</string>
     <string name="swipe_actions_description">Escolha até duas ações para cada direção do gesto</string>
     <string name="sync_backups">Sincronizar backups</string>

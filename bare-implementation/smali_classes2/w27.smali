@@ -70,11 +70,11 @@
     .line 29
     .line 30
     .line 31
-    iget-object v3, p0, Lx27;->a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    iget-object v3, p0, Lx27;->a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 32
     .line 33
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    sget-object v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 34
     .line 35
@@ -111,7 +111,7 @@
 
     .line 50
     .line 51
-    invoke-virtual {v3, v0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->toDisplayString(I)Ljava/lang/String;
+    invoke-virtual {v3, v0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->toDisplayString(I)Ljava/lang/String;
 
     .line 52
     .line 53

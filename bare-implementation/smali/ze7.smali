@@ -8,7 +8,7 @@
     .locals 3
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/shortcuts/ShortcutsActivity;->P:I
+    sget v0, Lcom/bareapps/barebackup/shortcuts/ShortcutsActivity;->P:I
 
     .line 2
     .line 3
@@ -24,11 +24,11 @@
 
     .line 8
     .line 9
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 10
     .line 11
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 12
     .line 13
@@ -49,7 +49,7 @@
     move-result-object p1
 
     .line 22
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 23
     .line 24

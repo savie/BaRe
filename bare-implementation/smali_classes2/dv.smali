@@ -217,7 +217,7 @@
 
     .line 22
     .line 23
-    sget-object v0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->Companion:Lnm3;
+    sget-object v0, Lcom/bareapps/barebackup/folders/data/FolderItem;->Companion:Lnm3;
 
     .line 24
     .line 25

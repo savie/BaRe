@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/home/HomeActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ls44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iput-object p1, p0, Ls44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 5
     .line 6
@@ -33,7 +33,7 @@
     .locals 6
 
     .line 1
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object p1, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 2
     .line 3
@@ -114,11 +114,11 @@
     .line 34
     .line 35
     .line 36
-    iget-object p0, p0, Ls44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Ls44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->a0()Lc64;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->a0()Lc64;
 
     .line 39
     .line 40

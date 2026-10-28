@@ -814,7 +814,7 @@
 
     .line 351
     :cond_11
-    sget-object v3, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v3, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 352
     .line 353
@@ -827,7 +827,7 @@
 
     .line 357
     :goto_11
-    check-cast v3, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    check-cast v3, Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 358
     .line 359
@@ -949,7 +949,7 @@
 
     .line 414
     .line 415
-    sget-object v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 416
     .line 417
@@ -1019,7 +1019,7 @@
 
     .line 448
     .line 449
-    invoke-direct/range {v0 .. v27}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
+    invoke-direct/range {v0 .. v27}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
 
     .line 450
     .line 451

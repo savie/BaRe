@@ -14,11 +14,11 @@
 
 .field public final e:Lmz;
 
-.field public final f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.field public final f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
 .field public final g:Ljava/util/concurrent/CopyOnWriteArrayList;
 
-.field public h:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public h:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public i:Z
 
@@ -84,7 +84,7 @@
 
     .line 24
     .line 25
-    iget-object v4, v1, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v4, v1, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 26
     .line 27
@@ -154,7 +154,7 @@
 
     .line 58
     .line 59
-    sget-object v5, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v5, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 60
     .line 61
@@ -252,7 +252,7 @@
 
     .line 102
     .line 103
-    sget-object v10, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v10, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 104
     .line 105
@@ -349,7 +349,7 @@
 
     .line 147
     .line 148
-    sget-object v9, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v9, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 149
     .line 150
@@ -451,7 +451,7 @@
 
     .line 195
     .line 196
-    sget-object v9, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v9, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 197
     .line 198
@@ -554,7 +554,7 @@
 
     .line 244
     .line 245
-    sget-object v9, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v9, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 246
     .line 247
@@ -657,7 +657,7 @@
 
     .line 293
     .line 294
-    sget-object v9, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v9, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 295
     .line 296
@@ -761,7 +761,7 @@
 
     .line 343
     .line 344
-    sget-object v5, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v5, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 345
     .line 346
@@ -849,7 +849,7 @@
 
     .line 385
     .line 386
-    sget-object v5, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v5, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 387
     .line 388
@@ -896,7 +896,7 @@
     .line 406
     .line 407
     :goto_f
-    invoke-virtual {v2}, Lhk;->u()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v2}, Lhk;->u()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 408
     .line 409
@@ -908,7 +908,7 @@
 
     .line 412
     .line 413
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->Companion:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata$a;
+    sget-object v1, Lcom/bareapps/barebackup/model/app/LocalMetadata;->Companion:Lcom/bareapps/barebackup/model/app/LocalMetadata$a;
 
     .line 414
     .line 415
@@ -920,7 +920,7 @@
     move-result-wide v4
 
     .line 419
-    invoke-virtual {v1, v3, v4, v5}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata$a;->from(Lji;J)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1, v3, v4, v5}, Lcom/bareapps/barebackup/model/app/LocalMetadata$a;->from(Lji;J)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 420
     .line 421
@@ -1148,7 +1148,7 @@
 
     .line 523
     .line 524
-    invoke-direct/range {v10 .. v23}, Lmz;-><init>(Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;JJ)V
+    invoke-direct/range {v10 .. v23}, Lmz;-><init>(Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lcom/bareapps/barebackup/model/app/LocalMetadata;JJ)V
 
     .line 525
     .line 526
@@ -1161,7 +1161,7 @@
 
     .line 530
     .line 531
-    invoke-virtual {v1}, Lhk;->u()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lhk;->u()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 532
     .line 533
@@ -1173,7 +1173,7 @@
 
     .line 536
     .line 537
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->Companion:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata$a;
+    sget-object v1, Lcom/bareapps/barebackup/model/app/LocalMetadata;->Companion:Lcom/bareapps/barebackup/model/app/LocalMetadata$a;
 
     .line 538
     .line 539
@@ -1193,7 +1193,7 @@
     move-result-wide v3
 
     .line 547
-    invoke-virtual {v1, v2, v3, v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata$a;->from(Lji;J)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1, v2, v3, v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata$a;->from(Lji;J)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 548
     .line 549
@@ -1202,7 +1202,7 @@
 
     .line 551
     :cond_13
-    iput-object v1, v0, La00;->f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iput-object v1, v0, La00;->f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 552
     .line 553
@@ -1711,11 +1711,11 @@
     move-object v4, v3
 
     .line 32
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v4, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 33
     .line 34
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 35
     .line 36
@@ -1735,7 +1735,7 @@
 
     .line 42
     :goto_0
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v3, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 43
     .line 44
@@ -1743,7 +1743,7 @@
 
     .line 45
     .line 46
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitBytes()J
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitBytes()J
 
     .line 47
     .line 48

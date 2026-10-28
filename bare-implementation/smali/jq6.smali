@@ -1754,7 +1754,7 @@
 
     .line 4
     .line 5
-    check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 6
     .line 7
@@ -1770,7 +1770,7 @@
     .line 11
     .line 12
     .line 13
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->p0()Los;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->p0()Los;
 
     .line 14
     .line 15
@@ -1806,7 +1806,7 @@
     .line 29
     .line 30
     .line 31
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->i0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->i0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
 
     .line 32
     .line 33
@@ -1823,7 +1823,7 @@
     .line 38
     .line 39
     .line 40
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 41
     .line 42
@@ -1839,7 +1839,7 @@
     .line 46
     .line 47
     .line 48
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0()Ltt;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0()Ltt;
 
     .line 49
     .line 50
@@ -1847,7 +1847,7 @@
     move-result-object v2
 
     .line 52
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->l0()Lws;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->l0()Lws;
 
     .line 53
     .line 54
@@ -2035,7 +2035,7 @@
 
     .line 140
     .line 141
-    invoke-static/range {v4 .. v33}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
+    invoke-static/range {v4 .. v33}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
 
     .line 142
     .line 143
@@ -2072,7 +2072,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
@@ -2088,7 +2088,7 @@
     .line 9
     .line 10
     .line 11
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->i0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->i0()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
 
     .line 12
     .line 13
@@ -2109,7 +2109,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 23
     .line 24
@@ -2122,7 +2122,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->p0()Los;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->p0()Los;
 
     .line 30
     .line 31
@@ -2155,7 +2155,7 @@
     .line 44
     .line 45
     .line 46
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0()Ltt;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0()Ltt;
 
     .line 47
     .line 48
@@ -2744,11 +2744,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 6
     .line 7
@@ -2756,7 +2756,7 @@
     move-result-object v0
 
     .line 9
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 10
     .line 11
@@ -3411,15 +3411,15 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
 
     .line 6
     .line 7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->j0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->j0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
 
     .line 8
     .line 9

@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 9
     .line 10
@@ -64,7 +64,7 @@
 
     .line 13
     .line 14
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;
+    const-class v0, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;
 
     .line 15
     .line 16
@@ -86,7 +86,7 @@
 
     .line 25
     :pswitch_0
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 26
     .line 27

@@ -49,7 +49,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 8
     .line 9
@@ -181,7 +181,7 @@
 
     .line 68
     .line 69
-    invoke-direct {v5, v3, v1, p0}, Llq1;-><init>(ZLpq1;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+    invoke-direct {v5, v3, v1, p0}, Llq1;-><init>(ZLpq1;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
 
     .line 70
     .line 71
@@ -256,7 +256,7 @@
 
     .line 104
     .line 105
-    invoke-direct {v3, v2, v1, p0}, Lmq1;-><init>(ZLpq1;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+    invoke-direct {v3, v2, v1, p0}, Lmq1;-><init>(ZLpq1;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
 
     .line 106
     .line 107
@@ -291,7 +291,7 @@
     .line 122
     .line 123
     .line 124
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getApplyData()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getApplyData()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 125
     .line 126
@@ -299,7 +299,7 @@
     move-result-object v2
 
     .line 128
-    invoke-virtual {v0, v2}, Ltq1;->a(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;)V
+    invoke-virtual {v0, v2}, Ltq1;->a(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;)V
 
     .line 129
     .line 130
@@ -313,7 +313,7 @@
     .line 134
     .line 135
     .line 136
-    invoke-virtual {p0, p2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->toDisplayString(Landroid/content/Context;)Landroid/text/SpannableStringBuilder;
+    invoke-virtual {p0, p2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->toDisplayString(Landroid/content/Context;)Landroid/text/SpannableStringBuilder;
 
     .line 137
     .line 138

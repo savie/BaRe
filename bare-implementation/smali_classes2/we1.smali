@@ -5045,7 +5045,7 @@
     const/4 v0, 0x0
 
     .line 16
-    invoke-virtual {p1, v0}, Ltb1;->a(Z)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p1, v0}, Ltb1;->a(Z)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 17
     .line 18
@@ -5158,7 +5158,7 @@
 
     .line 73
     :cond_1
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;->getErrorMessage()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/model/CloudResult;->getErrorMessage()Ljava/lang/String;
 
     .line 74
     .line 75

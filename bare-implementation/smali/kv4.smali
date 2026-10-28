@@ -31,7 +31,7 @@
     return-void
 .end method
 
-.method public static a(Lorg/swiftapps/swiftbackup/SwiftApp;Ljava/util/Locale;)V
+.method public static a(Lcom/bareapps/barebackup/BareApp;Ljava/util/Locale;)V
     .locals 4
 
     .line 1
@@ -55,7 +55,7 @@
 
     .line 9
     .line 10
-    invoke-direct {v0, p0, p1}, Lc00;-><init>(Lorg/swiftapps/swiftbackup/SwiftApp;Ljava/util/Locale;)V
+    invoke-direct {v0, p0, p1}, Lc00;-><init>(Lcom/bareapps/barebackup/BareApp;Ljava/util/Locale;)V
 
     .line 11
     .line 12
@@ -225,11 +225,11 @@
 
     .line 9
     .line 10
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 11
     .line 12
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 13
     .line 14

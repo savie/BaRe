@@ -21,7 +21,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lih6;Lorg/swiftapps/swiftbackup/cloud/orphans/a;JLjava/lang/String;Lbt3;)V
+.method public synthetic constructor <init>(Lih6;Lcom/bareapps/barebackup/cloud/orphans/a;JLjava/lang/String;Lbt3;)V
     .locals 1
 
     .line 1
@@ -191,7 +191,7 @@
     move-result-wide v8
 
     .line 52
-    invoke-static {v8, v9, v3, v4}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {v8, v9, v3, v4}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 53
     .line 54
@@ -265,11 +265,11 @@
 
     .line 88
     .line 89
-    sget-object v10, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v10, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 90
     .line 91
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 92
     .line 93
@@ -435,7 +435,7 @@
 
     .line 169
     .line 170
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 171
     .line 172
@@ -463,7 +463,7 @@
 
     .line 183
     :try_start_0
-    invoke-static {}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->o()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/cloud/orphans/a;->o()Ljava/lang/String;
 
     .line 184
     .line 185
@@ -471,7 +471,7 @@
     move-result-object v5
 
     .line 187
-    iget-wide v6, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->m:J
+    iget-wide v6, v1, Lcom/bareapps/barebackup/cloud/orphans/a;->m:J
 
     .line 188
     .line 189
@@ -483,7 +483,7 @@
 
     .line 192
     .line 193
-    iget-object v2, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->n:Ljava/lang/String;
+    iget-object v2, v1, Lcom/bareapps/barebackup/cloud/orphans/a;->n:Ljava/lang/String;
 
     .line 194
     .line 195
@@ -533,7 +533,7 @@
     :cond_4
     :goto_1
     :try_start_1
-    iget-wide v2, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->m:J
+    iget-wide v2, v1, Lcom/bareapps/barebackup/cloud/orphans/a;->m:J
 
     .line 213
     .line 214
@@ -544,11 +544,11 @@
     add-long/2addr v2, v6
 
     .line 217
-    iput-wide v2, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->m:J
+    iput-wide v2, v1, Lcom/bareapps/barebackup/cloud/orphans/a;->m:J
 
     .line 218
     .line 219
-    invoke-virtual {v1, v5}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->r(Ljava/lang/String;)V
+    invoke-virtual {v1, v5}, Lcom/bareapps/barebackup/cloud/orphans/a;->r(Ljava/lang/String;)V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 

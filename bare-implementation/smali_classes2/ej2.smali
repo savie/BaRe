@@ -21,7 +21,7 @@
 
 .field public final k:Lcom/google/android/material/progressindicator/CircularProgressIndicator;
 
-.field public final n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final p:Lcom/google/android/material/tabs/TabLayout;
 
@@ -31,7 +31,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Loe;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lcom/google/android/material/tabs/TabLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Loe;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/google/android/material/tabs/TabLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -68,7 +68,7 @@
 
     .line 17
     .line 18
-    iput-object p8, p0, Lej2;->n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p8, p0, Lej2;->n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 19
     .line 20
@@ -335,7 +335,7 @@
     move-object v10, v3
 
     .line 125
-    check-cast v10, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v10, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 126
     .line 127
@@ -426,7 +426,7 @@
 
     .line 169
     .line 170
-    invoke-direct/range {v2 .. v13}, Lej2;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Loe;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lcom/google/android/material/tabs/TabLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v13}, Lej2;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Loe;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/google/android/material/tabs/TabLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 171
     .line 172

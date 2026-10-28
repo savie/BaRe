@@ -443,7 +443,7 @@
     .line 52
     .line 53
     :cond_1
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 54
     .line 55
@@ -514,7 +514,7 @@
     move-result-object p1
 
     .line 88
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast p1, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 89
     .line 90
@@ -722,7 +722,7 @@
 
     .line 194
     .line 195
-    invoke-direct {v4, v3, p0, v1, p1}, Lj28;-><init>(ILjava/util/ArrayList;Lhj;Lorg/swiftapps/swiftbackup/settings/SettingsActivity;)V
+    invoke-direct {v4, v3, p0, v1, p1}, Lj28;-><init>(ILjava/util/ArrayList;Lhj;Lcom/bareapps/barebackup/settings/SettingsActivity;)V
 
     .line 196
     .line 197
@@ -770,7 +770,7 @@
     move-result-object p0
 
     .line 219
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 220
     .line 221
@@ -788,7 +788,7 @@
     .line 226
     .line 227
     .line 228
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 229
     .line 230
@@ -800,7 +800,7 @@
 
     .line 233
     .line 234
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 235
     .line 236
@@ -858,7 +858,7 @@
     .line 257
     .line 258
     .line 259
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 260
     .line 261
@@ -870,7 +870,7 @@
 
     .line 264
     .line 265
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 266
     .line 267
@@ -924,7 +924,7 @@
     .line 288
     .line 289
     .line 290
-    const-string v1, "swift_backup_settings.json"
+    const-string v1, "barebackup_settings.json"
 
     .line 291
     .line 292
@@ -938,7 +938,7 @@
     .line 296
     .line 297
     :sswitch_4
-    const-string v1, "swiftlogger"
+    const-string v1, "barelogger"
 
     .line 298
     .line 299
@@ -967,7 +967,7 @@
     move-result-object p0
 
     .line 311
-    const-class p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    const-class p1, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 312
     .line 313
@@ -1001,7 +1001,7 @@
     .line 326
     .line 327
     :cond_b
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 328
     .line 329
@@ -1090,7 +1090,7 @@
     .line 370
     .line 371
     .line 372
-    invoke-static {p0, v1, p1, v6}, Lorg/swiftapps/swiftbackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
+    invoke-static {p0, v1, p1, v6}, Lcom/bareapps/barebackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
 
     .line 373
     .line 374
@@ -1132,7 +1132,7 @@
 
     .line 391
     .line 392
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 393
     .line 394
@@ -1170,7 +1170,7 @@
     move-result-object p0
 
     .line 410
-    const-class p1, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    const-class p1, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 411
     .line 412
@@ -1204,7 +1204,7 @@
     .line 425
     .line 426
     :cond_f
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 427
     .line 428
@@ -1275,7 +1275,7 @@
     move-result-object p0
 
     .line 461
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 462
     .line 463
@@ -1293,7 +1293,7 @@
     .line 468
     .line 469
     .line 470
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 471
     .line 472
@@ -1305,7 +1305,7 @@
 
     .line 475
     .line 476
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 477
     .line 478
@@ -1363,7 +1363,7 @@
     .line 499
     .line 500
     .line 501
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 502
     .line 503
@@ -1375,7 +1375,7 @@
 
     .line 506
     .line 507
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 508
     .line 509
@@ -1460,7 +1460,7 @@
     .line 546
     .line 547
     :cond_15
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 548
     .line 549
@@ -1523,7 +1523,7 @@
     .line 577
     .line 578
     :cond_16
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 579
     .line 580
@@ -1598,7 +1598,7 @@
     move-result-object p1
 
     .line 615
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 616
     .line 617
@@ -1666,7 +1666,7 @@
     .line 647
     .line 648
     :cond_19
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 649
     .line 650
@@ -1748,7 +1748,7 @@
 
     .line 689
     .line 690
-    const-string v2, "org.swiftapps.swiftbackup"
+    const-string v2, "com.bareapps.barebackup"
 
     .line 691
     .line 692
@@ -1765,7 +1765,7 @@
     move-result-object p0
 
     .line 699
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 700
     .line 701
@@ -1869,7 +1869,7 @@
     move-result-object v1
 
     .line 749
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 750
     .line 751
@@ -1954,7 +1954,7 @@
     move-result-object p0
 
     .line 791
-    const-class p1, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    const-class p1, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 792
     .line 793
@@ -2034,7 +2034,7 @@
     move-result-object p0
 
     .line 827
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 828
     .line 829
@@ -2068,7 +2068,7 @@
 
     .line 843
     :cond_20
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 844
     .line 845
@@ -2131,7 +2131,7 @@
 
     .line 874
     :cond_21
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 875
     .line 876
@@ -2198,7 +2198,7 @@
     move-result-object p0
 
     .line 907
-    const-class p1, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;
+    const-class p1, Lcom/bareapps/barebackup/locale/LocaleActivity;
 
     .line 908
     .line 909
@@ -2239,7 +2239,7 @@
     move-result-object p0
 
     .line 926
-    const-class p1, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;
+    const-class p1, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;
 
     .line 927
     .line 928
@@ -2280,7 +2280,7 @@
     move-result-object p0
 
     .line 945
-    const-string p1, "https://t.me/swifttranslators"
+    const-string p1, "https://t.me/baretranslators"
 
     .line 946
     .line 947
@@ -2448,7 +2448,7 @@
     move-result-object v1
 
     .line 62
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 63
     .line 64
@@ -2473,7 +2473,7 @@
     move-result-object v1
 
     .line 75
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast v1, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 76
     .line 77
@@ -2558,7 +2558,7 @@
     move-result-object v2
 
     .line 117
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v2, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 118
     .line 119
@@ -2575,7 +2575,7 @@
     move-result-object v1
 
     .line 126
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 127
     .line 128
@@ -2653,7 +2653,7 @@
     .line 159
     .line 160
     .line 161
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 162
     .line 163
@@ -2665,7 +2665,7 @@
 
     .line 166
     .line 167
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 168
     .line 169
@@ -2724,7 +2724,7 @@
     move-result-object v1
 
     .line 193
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 194
     .line 195
@@ -3060,11 +3060,11 @@
     .line 349
     .line 350
     :goto_7
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 351
     .line 352
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 353
     .line 354
@@ -3100,7 +3100,7 @@
     .line 369
     .line 370
     .line 371
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 372
     .line 373
@@ -3112,7 +3112,7 @@
 
     .line 376
     .line 377
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 378
     .line 379
@@ -3318,11 +3318,11 @@
     .line 53
     .line 54
     :goto_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 55
     .line 56
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 57
     .line 58

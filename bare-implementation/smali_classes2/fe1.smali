@@ -8,7 +8,7 @@
 
 .field public final w:Lxe1;
 
-.field public final x:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final x:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 
 # direct methods
@@ -38,11 +38,11 @@
 
     .line 12
     .line 13
-    iget-object p1, p2, Lxe1;->c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p1, p2, Lxe1;->c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 14
     .line 15
-    iput-object p1, p0, Lfe1;->x:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p1, p0, Lfe1;->x:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 16
     .line 17

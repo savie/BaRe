@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public final a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public final b:Ljava/util/List;
 
@@ -12,17 +12,17 @@
 
 .field public d:Lkj3;
 
-.field public final e:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+.field public final e:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
 .field public final f:Lxp1;
 
-.field public final g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+.field public final g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
 .field public final h:Ljava/util/List;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;)V
     .locals 8
 
     .line 121
@@ -115,12 +115,12 @@
     move-object v7, v1
 
     .line 125
-    invoke-direct/range {v2 .. v7}, Lbo3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Lxp1;)V
+    invoke-direct/range {v2 .. v7}, Lbo3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Lxp1;)V
 
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Lxp1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;Lkj3;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Lxp1;)V
     .locals 1
 
     .line 1
@@ -149,7 +149,7 @@
     .line 14
     .line 15
     .line 16
-    iput-object p1, p0, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object p1, p0, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 17
     .line 18
@@ -168,7 +168,7 @@
 
     .line 24
     .line 25
-    iput-object p4, p0, Lbo3;->e:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iput-object p4, p0, Lbo3;->e:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 26
     .line 27
@@ -176,7 +176,7 @@
 
     .line 28
     .line 29
-    invoke-virtual {p4}, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->isPremium()Z
+    invoke-virtual {p4}, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;->isPremium()Z
 
     .line 30
     .line 31
@@ -188,11 +188,11 @@
 
     .line 34
     .line 35
-    sget-object p5, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p5, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 36
     .line 37
-    invoke-virtual {p5}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p5}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 38
     .line 39
@@ -204,7 +204,7 @@
 
     .line 42
     .line 43
-    sget-object p4, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->Companion:Lfk3;
+    sget-object p4, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;->Companion:Lfk3;
 
     .line 44
     .line 45
@@ -213,20 +213,20 @@
     .line 46
     .line 47
     .line 48
-    sget-object p4, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;->Single:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    sget-object p4, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;->Single:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 49
     .line 50
     :cond_0
-    iput-object p4, p0, Lbo3;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iput-object p4, p0, Lbo3;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 51
     .line 52
-    sget-object p4, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p4, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 53
     .line 54
-    invoke-virtual {p4}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p4}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 55
     .line 56
@@ -372,11 +372,11 @@
 
 
 # virtual methods
-.method public final a()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.method public final a()Lcom/bareapps/barebackup/folders/data/FolderItem;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p0, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
@@ -460,11 +460,11 @@
 
     .line 11
     .line 12
-    iget-object v1, p0, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v1, p0, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 13
     .line 14
-    iget-object v2, p1, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v2, p1, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 15
     .line 16
@@ -556,11 +556,11 @@
 
     .line 56
     :cond_5
-    iget-object v1, p0, Lbo3;->e:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v1, p0, Lbo3;->e:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 57
     .line 58
-    iget-object v2, p1, Lbo3;->e:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v2, p1, Lbo3;->e:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 59
     .line 60
@@ -599,11 +599,11 @@
     .locals 4
 
     .line 1
-    iget-object v0, p0, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->hashCode()I
 
     .line 4
     .line 5
@@ -693,7 +693,7 @@
     mul-int/2addr v0, v1
 
     .line 41
-    iget-object v3, p0, Lbo3;->e:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v3, p0, Lbo3;->e:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 42
     .line 43
@@ -774,7 +774,7 @@
     .line 13
     .line 14
     .line 15
-    iget-object v2, p0, Lbo3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v2, p0, Lbo3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 16
     .line 17
@@ -924,7 +924,7 @@
     .line 93
     .line 94
     .line 95
-    iget-object v2, p0, Lbo3;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v2, p0, Lbo3;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 96
     .line 97

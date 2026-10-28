@@ -31,7 +31,7 @@
     return-object p0
 .end method
 
-.method public static b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+.method public static b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
     .locals 12
 
     .line 1
@@ -123,7 +123,7 @@
     move-result-object p0
 
     .line 41
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 42
     .line 43
@@ -131,7 +131,7 @@
 
     .line 44
     .line 45
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 46
     .line 47
@@ -167,7 +167,7 @@
     const/4 v9, 0x0
 
     .line 59
-    invoke-direct/range {v0 .. v11}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v11}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;-><init>(Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 60
     .line 61
@@ -179,7 +179,7 @@
     return-object p0
 .end method
 
-.method public static c(Ldd1;Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;)V
+.method public static c(Ldd1;Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;)V
     .locals 1
 
     .line 1

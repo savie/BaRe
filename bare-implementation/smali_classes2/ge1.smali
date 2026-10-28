@@ -91,7 +91,7 @@
 
     .line 28
     .line 29
-    iget-object v6, v1, Lfe1;->x:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v6, v1, Lfe1;->x:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 30
     .line 31
@@ -286,7 +286,7 @@
     .line 116
     .line 117
     .line 118
-    iget-object v6, v1, Lxe1;->b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object v6, v1, Lxe1;->b:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 119
     .line 120
@@ -1379,7 +1379,7 @@
     move-object v4, v1
 
     .line 11
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v4, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 12
     .line 13
@@ -1452,7 +1452,7 @@
     move-object v5, v1
 
     .line 48
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v5, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 49
     .line 50
@@ -1629,7 +1629,7 @@
 
     .line 136
     .line 137
-    invoke-direct/range {v2 .. v11}, Lxe1;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lorg/swiftapps/swiftbackup/views/MCheckBox;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v11}, Lxe1;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/bareapps/barebackup/views/MCheckBox;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 138
     .line 139

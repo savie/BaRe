@@ -9,15 +9,15 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lh52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Lh52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lh52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object p0, p0, Lh52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Lh52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Lh52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Ljv1;)V
 
     .line 6
     .line 7
@@ -147,11 +147,11 @@
     .line 23
     .line 24
     .line 25
-    iget-object v1, v0, Lh52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object v1, v0, Lh52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 26
     .line 27
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 28
     .line 29
@@ -159,7 +159,7 @@
     move-result-object v4
 
     .line 31
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 32
     .line 33
@@ -227,7 +227,7 @@
     .line 64
     .line 65
     .line 66
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 67
     .line 68
@@ -235,7 +235,7 @@
     move-result-object v5
 
     .line 70
-    iget-object v5, v5, Lm62;->g:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iget-object v5, v5, Lm62;->g:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 71
     .line 72
@@ -243,11 +243,11 @@
 
     .line 73
     .line 74
-    sget-object v5, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v5, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 75
     .line 76
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 77
     .line 78
@@ -260,7 +260,7 @@
     .line 81
     .line 82
     .line 83
-    invoke-static {v6}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-static {v6}, Lcom/bareapps/barebackup/cloud/protocols/a;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 84
     .line 85
@@ -277,7 +277,7 @@
 
     .line 90
     .line 91
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 92
     .line 93
@@ -297,11 +297,11 @@
 
     .line 100
     .line 101
-    sget-object v5, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v5, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 102
     .line 103
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 104
     .line 105
@@ -339,7 +339,7 @@
 
     .line 122
     .line 123
-    new-instance v7, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    new-instance v7, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 124
     .line 125
@@ -434,7 +434,7 @@
 
     .line 167
     .line 168
-    invoke-direct/range {v7 .. v23}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;-><init>(Ljava/lang/String;Lfd1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lnc1;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;Ljava/lang/Boolean;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v7 .. v23}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;-><init>(Ljava/lang/String;Lfd1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lnc1;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;Ljava/lang/Boolean;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 169
     .line 170
@@ -465,7 +465,7 @@
 
     .line 181
     .line 182
-    check-cast v5, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    check-cast v5, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 183
     .line 184
@@ -473,7 +473,7 @@
 
     .line 185
     .line 186
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getCloudServiceId()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getCloudServiceId()Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 187
     .line 188
@@ -481,7 +481,7 @@
     move-result-object v6
 
     .line 190
-    invoke-static {v6}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v6}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 191
     .line 192
@@ -497,11 +497,11 @@
 
     .line 197
     :cond_6
-    iput-object v2, v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->O0:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iput-object v2, v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->O0:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 198
     .line 199
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 200
     .line 201
@@ -513,11 +513,11 @@
 
     .line 204
     .line 205
-    check-cast v5, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    check-cast v5, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 206
     .line 207
-    invoke-virtual {v2, v5}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {v2, v5}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 208
     .line 209

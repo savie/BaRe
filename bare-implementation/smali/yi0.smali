@@ -95,7 +95,7 @@
 
     .line 22
     .line 23
-    iget-object v0, p0, Luo8;->a:Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    iget-object v0, p0, Luo8;->a:Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 24
     .line 25
@@ -327,11 +327,11 @@
     move-result-object v1
 
     .line 136
-    check-cast v1, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    check-cast v1, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 137
     .line 138
-    invoke-static {v1}, Ltu0;->B(Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
+    invoke-static {v1}, Ltu0;->B(Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
 
     .line 139
     .line 140

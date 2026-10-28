@@ -847,7 +847,7 @@
 
     .line 269
     .line 270
-    invoke-direct/range {v10 .. v23}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
+    invoke-direct/range {v10 .. v23}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
 
     .line 271
     .line 272
@@ -891,7 +891,7 @@
     .line 290
     .line 291
     .line 292
-    sget-object v4, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->Companion:Lnm3;
+    sget-object v4, Lcom/bareapps/barebackup/folders/data/FolderItem;->Companion:Lnm3;
 
     .line 293
     .line 294
@@ -986,11 +986,11 @@
 
     .line 339
     .line 340
-    check-cast v10, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v10, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 341
     .line 342
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 343
     .line 344
@@ -1002,7 +1002,7 @@
 
     .line 347
     .line 348
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 349
     .line 350
@@ -1026,7 +1026,7 @@
 
     .line 359
     .line 360
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 361
     .line 362
@@ -1034,7 +1034,7 @@
     move-result-object v13
 
     .line 364
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 365
     .line 366
@@ -1042,7 +1042,7 @@
     move-result-object v14
 
     .line 368
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 369
     .line 370
@@ -1050,7 +1050,7 @@
     move-result-object v15
 
     .line 372
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 373
     .line 374
@@ -1099,7 +1099,7 @@
 
     .line 396
     .line 397
-    invoke-direct/range {v10 .. v23}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
+    invoke-direct/range {v10 .. v23}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
 
     .line 398
     .line 399
@@ -1593,7 +1593,7 @@
     move-object v11, v7
 
     .line 635
-    invoke-direct/range {v9 .. v22}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
+    invoke-direct/range {v9 .. v22}, Ls54;-><init>(Ljava/lang/String;Lu54;Ljava/lang/String;Ljava/lang/String;IILji;Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/lang/Integer;Lzc6;Ljava/util/List;II)V
 
     .line 636
     .line 637

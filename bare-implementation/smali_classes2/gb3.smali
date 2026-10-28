@@ -4,7 +4,7 @@
 
 
 # direct methods
-.method public static a(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;)V
+.method public static a(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;)V
     .locals 2
 
     .line 1

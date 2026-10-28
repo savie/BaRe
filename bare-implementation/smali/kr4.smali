@@ -54,7 +54,7 @@
     .locals 1
 
     .line 1
-    const-class p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    const-class p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 2
     .line 3
@@ -66,7 +66,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 8
     .line 9
@@ -74,7 +74,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {p1, p0}, Llr4;->l(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
+    invoke-virtual {p1, p0}, Llr4;->l(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;)V
 
     .line 12
     .line 13
@@ -87,7 +87,7 @@
 
     .line 17
     .line 18
-    invoke-direct {p1, p0, v0}, Ld76;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;Ljava/lang/String;)V
+    invoke-direct {p1, p0, v0}, Ld76;-><init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;Ljava/lang/String;)V
 
     .line 19
     .line 20

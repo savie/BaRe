@@ -9,15 +9,15 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Ld20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iput-object p1, p0, Ld20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Ld20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object p0, p0, Ld20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Ld20;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Ld20;-><init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;Ljv1;)V
 
     .line 6
     .line 7
@@ -142,11 +142,11 @@
     .line 20
     .line 21
     .line 22
-    iget-object p1, p0, Ld20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object p1, p0, Ld20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 23
     .line 24
-    iget-object v0, p1, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, p1, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 25
     .line 26
@@ -162,7 +162,7 @@
     move-result-object v0
 
     .line 32
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 33
     .line 34
@@ -274,7 +274,7 @@
 
     .line 90
     .line 91
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 92
     .line 93

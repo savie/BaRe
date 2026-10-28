@@ -75,7 +75,7 @@
 
     .line 20
     .line 21
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 22
     .line 23
@@ -88,11 +88,11 @@
 
     .line 27
     .line 28
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/k;
+    check-cast v0, Lcom/bareapps/barebackup/settings/k;
 
     .line 29
     .line 30
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/settings/k;->j(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/settings/k;->j(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)V
 
     .line 31
     .line 32
@@ -593,15 +593,15 @@
 
     .line 268
     .line 269
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 270
     .line 271
-    sget v2, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget v2, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 272
     .line 273
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->N()Lym3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->N()Lym3;
 
     .line 274
     .line 275
@@ -626,7 +626,7 @@
     .line 284
     .line 285
     .line 286
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->N()Lym3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->N()Lym3;
 
     .line 287
     .line 288
@@ -667,11 +667,11 @@
 
     .line 305
     .line 306
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 307
     .line 308
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->R:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->R:Lgv7;
 
     .line 309
     .line 310
@@ -851,7 +851,7 @@
 
     .line 403
     .line 404
-    iget-object v4, v0, Lml3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object v4, v0, Lml3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 405
     .line 406
@@ -922,11 +922,11 @@
     move-object v11, v6
 
     .line 437
-    check-cast v11, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v11, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 438
     .line 439
-    invoke-virtual {v11}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v11}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 440
     .line 441
@@ -946,11 +946,11 @@
     move-object v14, v13
 
     .line 448
-    check-cast v14, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v14, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 449
     .line 450
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 451
     .line 452
@@ -986,7 +986,7 @@
     .line 465
     .line 466
     :goto_5
-    check-cast v6, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v6, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 467
     .line 468
@@ -1230,7 +1230,7 @@
 
     .line 596
     .line 597
-    invoke-direct {v2, v6, v0, v10}, Lce1;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;Lml3;Llj3;)V
+    invoke-direct {v2, v6, v0, v10}, Lce1;-><init>(Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;Lml3;Llj3;)V
 
     .line 598
     .line 599
@@ -1342,7 +1342,7 @@
     .line 652
     .line 653
     .line 654
-    iget-object v10, v0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v10, v0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 655
     .line 656
@@ -1528,11 +1528,11 @@
 
     .line 750
     .line 751
-    iget-object v6, v5, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v6, v5, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 752
     .line 753
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getDateBackup()J
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getDateBackup()J
 
     .line 754
     .line 755
@@ -1540,7 +1540,7 @@
     move-result-wide v9
 
     .line 757
-    invoke-static {v9, v10}, Lorg/swiftapps/swiftbackup/common/Const;->h(J)Ljava/lang/String;
+    invoke-static {v9, v10}, Lcom/bareapps/barebackup/common/Const;->h(J)Ljava/lang/String;
 
     .line 758
     .line 759
@@ -1548,7 +1548,7 @@
     move-result-object v9
 
     .line 761
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupTag()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupTag()Ljava/lang/String;
 
     .line 762
     .line 763
@@ -1602,7 +1602,7 @@
 
     .line 785
     .line 786
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 787
     .line 788

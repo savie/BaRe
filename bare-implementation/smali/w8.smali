@@ -1080,15 +1080,15 @@
 
     .line 523
     :pswitch_1
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 524
     .line 525
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v1, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 526
     .line 527
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X()Lz44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X()Lz44;
 
     .line 528
     .line 529
@@ -1105,7 +1105,7 @@
     .line 534
     .line 535
     .line 536
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X()Lz44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X()Lz44;
 
     .line 537
     .line 538

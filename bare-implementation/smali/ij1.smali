@@ -1230,7 +1230,7 @@
 
     .line 2
     .line 3
-    const-string v1, "\r\nUser-Agent: SwiftBackupLocalDiscovery\r\nConnection: close\r\n\r\n"
+    const-string v1, "\r\nUser-Agent: BareBackupLocalDiscovery\r\nConnection: close\r\n\r\n"
 
     .line 4
     .line 5

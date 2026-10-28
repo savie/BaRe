@@ -167,7 +167,7 @@
 
     .line 63
     .line 64
-    const-class v8, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    const-class v8, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 65
     .line 66
@@ -191,7 +191,7 @@
 
     .line 75
     .line 76
-    sget p0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget p0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 77
     .line 78
@@ -255,7 +255,7 @@
 
     .line 108
     .line 109
-    sget p0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget p0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 110
     .line 111
@@ -388,7 +388,7 @@
 
     .line 174
     .line 175
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->O()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->O()V
 
     .line 176
     .line 177
@@ -433,11 +433,11 @@
 
     .line 197
     .line 198
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 199
     .line 200
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 201
     .line 202
@@ -449,7 +449,7 @@
 
     .line 205
     .line 206
-    sget p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 207
     .line 208
@@ -553,7 +553,7 @@
 
     .line 258
     :cond_b
-    const-class p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    const-class p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 259
     .line 260
@@ -633,7 +633,7 @@
 
     .line 297
     :cond_e
-    const-class p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    const-class p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 298
     .line 299
@@ -776,7 +776,7 @@
 
     .line 364
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 365
     .line 366
@@ -793,7 +793,7 @@
     .line 371
     .line 372
     .line 373
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 374
     .line 375
@@ -811,7 +811,7 @@
 
     .line 382
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 383
     .line 384
@@ -828,7 +828,7 @@
     .line 389
     .line 390
     .line 391
-    sget-object p2, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p2, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 392
     .line 393
@@ -837,7 +837,7 @@
     .line 394
     .line 395
     .line 396
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->Z(Ls54;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->Z(Ls54;)V
 
     .line 397
     .line 398
@@ -957,7 +957,7 @@
     .line 456
     .line 457
     .line 458
-    invoke-static {v0, p1, p0}, Lorg/swiftapps/swiftbackup/common/Const;->J(Lio1;ILbt3;)V
+    invoke-static {v0, p1, p0}, Lcom/bareapps/barebackup/common/Const;->J(Lio1;ILbt3;)V
 
     .line 459
     .line 460

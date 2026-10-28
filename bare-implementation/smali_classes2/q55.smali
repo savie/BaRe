@@ -13,13 +13,13 @@
 
 .field public final synthetic c:Lry5;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+.field public final synthetic d:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
 .field public final synthetic e:I
 
 
 # direct methods
-.method public constructor <init>(Lu55;Lry5;Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;ILjv1;)V
+.method public constructor <init>(Lu55;Lry5;Lcom/bareapps/barebackup/manage/ManageSpaceActivity;ILjv1;)V
     .locals 0
 
     .line 1
@@ -31,7 +31,7 @@
 
     .line 4
     .line 5
-    iput-object p3, p0, Lq55;->d:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iput-object p3, p0, Lq55;->d:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 6
     .line 7
@@ -60,7 +60,7 @@
 
     .line 2
     .line 3
-    iget-object v3, p0, Lq55;->d:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iget-object v3, p0, Lq55;->d:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 4
     .line 5
@@ -79,7 +79,7 @@
     move-object v5, p2
 
     .line 12
-    invoke-direct/range {v0 .. v5}, Lq55;-><init>(Lu55;Lry5;Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;ILjv1;)V
+    invoke-direct/range {v0 .. v5}, Lq55;-><init>(Lu55;Lry5;Lcom/bareapps/barebackup/manage/ManageSpaceActivity;ILjv1;)V
 
     .line 13
     .line 14
@@ -413,7 +413,7 @@
     .line 135
     :catch_0
     :cond_4
-    iget-object v10, v0, Lq55;->d:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iget-object v10, v0, Lq55;->d:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 136
     .line 137
@@ -426,7 +426,7 @@
     .line 140
     .line 141
     :cond_5
-    sget v5, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->O:I
+    sget v5, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->O:I
 
     .line 142
     .line 143
@@ -440,7 +440,7 @@
     .line 146
     .line 147
     .line 148
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 149
     .line 150
@@ -452,7 +452,7 @@
 
     .line 153
     .line 154
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 155
     .line 156
@@ -747,7 +747,7 @@
 
     .line 297
     .line 298
-    invoke-static {v10, v8, v7}, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->N(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lry5;Z)Lu55;
+    invoke-static {v10, v8, v7}, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->N(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lry5;Z)Lu55;
 
     .line 299
     .line 300
@@ -764,7 +764,7 @@
 
     .line 305
     .line 306
-    invoke-static {v10, v8, v3}, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->N(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lry5;Z)Lu55;
+    invoke-static {v10, v8, v3}, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->N(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lry5;Z)Lu55;
 
     .line 307
     .line 308
@@ -789,7 +789,7 @@
 
     .line 317
     .line 318
-    invoke-direct {v2, v10, v4, v1, v5}, Lp55;-><init>(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lu55;Llh6;I)V
+    invoke-direct {v2, v10, v4, v1, v5}, Lp55;-><init>(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lu55;Llh6;I)V
 
     .line 319
     .line 320

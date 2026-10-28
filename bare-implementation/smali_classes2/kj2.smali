@@ -83,7 +83,7 @@
     .line 19
     .line 20
     .line 21
-    iget-object v4, v0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v4, v0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 22
     .line 23
@@ -91,7 +91,7 @@
 
     .line 24
     .line 25
-    iget-object v8, v3, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v8, v3, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 26
     .line 27
@@ -101,7 +101,7 @@
     const/4 v7, 0x0
 
     .line 29
-    invoke-virtual/range {v4 .. v9}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v4 .. v9}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 30
     .line 31
@@ -123,7 +123,7 @@
     .line 38
     .line 39
     .line 40
-    iget-object v10, v0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v10, v0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 41
     .line 42
@@ -131,7 +131,7 @@
 
     .line 43
     .line 44
-    iget-object v14, v3, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v14, v3, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 45
     .line 46
@@ -165,7 +165,7 @@
     const/4 v13, 0x0
 
     .line 57
-    invoke-virtual/range {v10 .. v15}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v10 .. v15}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 58
     .line 59

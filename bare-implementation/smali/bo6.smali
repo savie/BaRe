@@ -158,7 +158,7 @@
 
     .line 60
     .line 61
-    const-class v0, Lorg/swiftapps/swiftbackup/database/MDatabase;
+    const-class v0, Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 62
     .line 63
@@ -178,7 +178,7 @@
 
     .line 70
     .line 71
-    const-string p1, "swiftbackup-db"
+    const-string p1, "barebackup-db"
 
     .line 72
     .line 73

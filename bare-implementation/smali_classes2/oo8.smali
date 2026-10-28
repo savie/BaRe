@@ -33,11 +33,11 @@
 
     .line 13
     .line 14
-    sput-object p1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sput-object p1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 15
     .line 16
-    const-class p1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    const-class p1, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 17
     .line 18

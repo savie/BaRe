@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+.field public a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
 .field public b:Lt34;
 
@@ -45,7 +45,7 @@
     const/4 v0, 0x0
 
     .line 12
-    invoke-static {p1, v0, p1, p0}, Lg67;->A(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
+    invoke-static {p1, v0, p1, p0}, Lg67;->A(Lcom/bareapps/barebackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
 
     .line 13
     .line 14

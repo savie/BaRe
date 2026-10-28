@@ -326,7 +326,7 @@
     .line 105
     .line 106
     .line 107
-    check-cast v5, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast v5, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 108
     .line 109
@@ -554,7 +554,7 @@
     move-result-object p0
 
     .line 225
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 226
     .line 227
@@ -744,7 +744,7 @@
     move-result-object p0
 
     .line 42
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 43
     .line 44
@@ -917,11 +917,11 @@
     .line 53
     .line 54
     :goto_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 55
     .line 56
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 57
     .line 58
@@ -1030,7 +1030,7 @@
     .line 31
     .line 32
     .line 33
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 34
     .line 35

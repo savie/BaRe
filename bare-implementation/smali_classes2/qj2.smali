@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 .field public final b:Lmk2;
 
@@ -30,7 +30,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Lej2;Lmk2;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Lej2;Lmk2;)V
     .locals 1
 
     .line 1
@@ -44,7 +44,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 8
     .line 9
@@ -129,11 +129,11 @@
 
     .line 49
     .line 50
-    iget-object p1, p2, Lej2;->n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p1, p2, Lej2;->n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 51
     .line 52
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->a0(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)Ltj2;
+    invoke-static {p1}, Lcom/bareapps/barebackup/detail/DetailActivity;->a0(Lcom/bareapps/barebackup/views/QuickRecyclerView;)Ltj2;
 
     .line 53
     .line 54
@@ -324,7 +324,7 @@
 
     .line 73
     .line 74
-    invoke-virtual {p1}, Liz4;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {p1}, Liz4;->getMetadata()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 75
     .line 76
@@ -336,7 +336,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
 
     .line 81
     .line 82
@@ -512,7 +512,7 @@
 
     .line 165
     .line 166
-    iget-object v2, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v2, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 167
     .line 168

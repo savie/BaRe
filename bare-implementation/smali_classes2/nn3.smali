@@ -10,11 +10,11 @@
 
 .field public final c:Z
 
-.field public final d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+.field public final d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
 
 # direct methods
-.method public constructor <init>(ZLjava/lang/String;ZLorg/swiftapps/swiftbackup/folders/data/FolderState;)V
+.method public constructor <init>(ZLjava/lang/String;ZLcom/bareapps/barebackup/folders/data/FolderState;)V
     .locals 0
 
     .line 1
@@ -35,7 +35,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lnn3;->d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iput-object p4, p0, Lnn3;->d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 11
     .line 12
@@ -128,11 +128,11 @@
 
     .line 36
     :cond_4
-    iget-object p0, p0, Lnn3;->d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object p0, p0, Lnn3;->d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 37
     .line 38
-    iget-object p1, p1, Lnn3;->d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object p1, p1, Lnn3;->d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 39
     .line 40
@@ -210,7 +210,7 @@
     move-result v0
 
     .line 22
-    iget-object p0, p0, Lnn3;->d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object p0, p0, Lnn3;->d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 23
     .line 24
@@ -225,7 +225,7 @@
 
     .line 28
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->hashCode()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->hashCode()I
 
     .line 29
     .line 30
@@ -311,7 +311,7 @@
     .line 36
     .line 37
     .line 38
-    iget-object p0, p0, Lnn3;->d:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object p0, p0, Lnn3;->d:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 39
     .line 40

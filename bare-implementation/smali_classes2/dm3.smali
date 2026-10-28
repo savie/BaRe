@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public e:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public e:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public final f:Lex6;
 
@@ -129,7 +129,7 @@
     return-void
 .end method
 
-.method public static final l(JLdm3;Lorg/swiftapps/swiftbackup/folders/data/FolderItem;)Z
+.method public static final l(JLdm3;Lcom/bareapps/barebackup/folders/data/FolderItem;)Z
     .locals 2
 
     .line 1
@@ -153,7 +153,7 @@
 
     .line 10
     .line 11
-    iget-object p0, p2, Ldm3;->e:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p2, Ldm3;->e:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 12
     .line 13
@@ -161,7 +161,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {p2}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p2}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 16
     .line 17
@@ -169,7 +169,7 @@
     move-result-object p0
 
     .line 19
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 20
     .line 21
@@ -177,7 +177,7 @@
     move-result-object p0
 
     .line 23
-    invoke-virtual {p3}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {p3}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 24
     .line 25
@@ -234,7 +234,7 @@
 
     .line 10
     .line 11
-    iget-object p1, p0, Ldm3;->e:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, p0, Ldm3;->e:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 12
     .line 13
@@ -242,7 +242,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {p0}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p0}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 16
     .line 17
@@ -250,7 +250,7 @@
     move-result-object p1
 
     .line 19
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 20
     .line 21
@@ -314,11 +314,11 @@
     return-void
 .end method
 
-.method public final k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.method public final k()Lcom/bareapps/barebackup/folders/data/FolderItem;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Ldm3;->e:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p0, Ldm3;->e:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
@@ -392,7 +392,7 @@
     .line 21
     .line 22
     .line 23
-    iget-object v0, p0, Ldm3;->e:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Ldm3;->e:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 24
     .line 25
@@ -400,7 +400,7 @@
 
     .line 26
     .line 27
-    invoke-virtual {p0}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p0}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 28
     .line 29
@@ -408,7 +408,7 @@
     move-result-object v0
 
     .line 31
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getId()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getId()Ljava/lang/String;
 
     .line 32
     .line 33
@@ -441,7 +441,7 @@
     .line 46
     .line 47
     .line 48
-    invoke-virtual {p0}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {p0}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 49
     .line 50

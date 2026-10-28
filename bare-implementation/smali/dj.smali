@@ -73,11 +73,11 @@
 
     .line 16
     .line 17
-    iget-object p0, p0, Lbs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object p0, p0, Lbs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 18
     .line 19
-    invoke-virtual {p0, v4}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->b0(Z)V
+    invoke-virtual {p0, v4}, Lcom/bareapps/barebackup/wifi/WifiActivity;->b0(Z)V
 
     .line 20
     .line 21
@@ -125,11 +125,11 @@
 
     .line 42
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast p0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 43
     .line 44
-    sget p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 45
     .line 46
@@ -176,7 +176,7 @@
     .line 65
     .line 66
     .line 67
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->Q:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/slog/SLogActivity;->Q:Lgv7;
 
     .line 68
     .line 69
@@ -202,7 +202,7 @@
     .line 79
     .line 80
     .line 81
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->O()Lcs6;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/slog/SLogActivity;->O()Lcs6;
 
     .line 82
     .line 83
@@ -254,7 +254,7 @@
 
     .line 104
     .line 105
-    invoke-direct {v1, v0, p0, p1, v5}, Lxr6;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/slog/SLogActivity;Ld7;Ljv1;)V
+    invoke-direct {v1, v0, p0, p1, v5}, Lxr6;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/slog/SLogActivity;Ld7;Ljv1;)V
 
     .line 106
     .line 107
@@ -282,15 +282,15 @@
 
     .line 118
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;
 
     .line 119
     .line 120
-    sget p1, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->R:I
 
     .line 121
     .line 122
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->U()Lxm6;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->U()Lxm6;
 
     .line 123
     .line 124
@@ -298,7 +298,7 @@
     move-result-object p1
 
     .line 126
-    iget-object p1, p1, Lxm6;->f:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object p1, p1, Lxm6;->f:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 127
     .line 128
@@ -314,7 +314,7 @@
 
     .line 133
     .line 134
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;->U()Lxm6;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;->U()Lxm6;
 
     .line 135
     .line 136
@@ -322,7 +322,7 @@
     move-result-object p0
 
     .line 138
-    iget-object p0, p0, Lxm6;->f:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object p0, p0, Lxm6;->f:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 139
     .line 140
@@ -336,15 +336,15 @@
 
     .line 144
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 145
     .line 146
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 147
     .line 148
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
 
     .line 149
     .line 150
@@ -374,11 +374,11 @@
 
     .line 163
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 164
     .line 165
-    sget p1, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 166
     .line 167
@@ -445,15 +445,15 @@
 
     .line 197
     :pswitch_6
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 198
     .line 199
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p1, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 200
     .line 201
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X()Lz44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X()Lz44;
 
     .line 202
     .line 203
@@ -522,11 +522,11 @@
 
     .line 234
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 235
     .line 236
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 237
     .line 238
@@ -535,7 +535,7 @@
     .line 239
     .line 240
     .line 241
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->X:Ljava/lang/String;
+    iget-object p1, p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->X:Ljava/lang/String;
 
     .line 242
     .line 243
@@ -651,15 +651,15 @@
 
     .line 295
     :pswitch_b
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 296
     .line 297
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 298
     .line 299
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
 
     .line 300
     .line 301
@@ -689,11 +689,11 @@
 
     .line 314
     :pswitch_c
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 315
     .line 316
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
+    iget-object p1, p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
 
     .line 317
     .line 318
@@ -713,7 +713,7 @@
 
     .line 325
     .line 326
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->Y()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->Y()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 327
     .line 328
@@ -744,15 +744,15 @@
 
     .line 340
     :pswitch_d
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 341
     .line 342
-    sget p1, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
+    sget p1, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
 
     .line 343
     .line 344
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 345
     .line 346

@@ -65,7 +65,7 @@
 
     .line 16
     .line 17
-    check-cast p0, Lorg/swiftapps/swiftbackup/common/Const;
+    check-cast p0, Lcom/bareapps/barebackup/common/Const;
 
     .line 18
     .line 19
@@ -100,11 +100,11 @@
 
     .line 32
     .line 33
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 34
     .line 35
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->S:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->S:Lgv7;
 
     .line 36
     .line 37
@@ -539,7 +539,7 @@
 
     .line 269
     .line 270
-    iget-object v4, p0, Lkl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object v4, p0, Lkl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 271
     .line 272
@@ -837,7 +837,7 @@
     .line 422
     .line 423
     .line 424
-    const-string v3, "SwiftBackup"
+    const-string v3, "BareBackup"
 
     .line 425
     .line 426

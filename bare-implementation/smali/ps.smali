@@ -65,7 +65,7 @@
     .line 11
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 14
     .line 15
@@ -73,11 +73,11 @@
 
     .line 16
     .line 17
-    check-cast p2, Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    check-cast p2, Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 18
     .line 19
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 20
     .line 21
@@ -95,7 +95,7 @@
 
     .line 28
     .line 29
-    invoke-direct {v0, p1, p2, v2}, Luy7;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Z)V
+    invoke-direct {v0, p1, p2, v2}, Luy7;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Z)V
 
     .line 30
     .line 31
@@ -137,7 +137,7 @@
 
     .line 50
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     .line 51
     .line 52
@@ -168,7 +168,7 @@
 
     .line 65
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 66
     .line 67
@@ -185,7 +185,7 @@
     .line 72
     .line 73
     .line 74
-    sget p2, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget p2, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 75
     .line 76
@@ -194,7 +194,7 @@
     .line 77
     .line 78
     .line 79
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->V()Lhf1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->V()Lhf1;
 
     .line 80
     .line 81
@@ -286,7 +286,7 @@
     .line 121
     .line 122
     .line 123
-    iget-object p2, p0, Ll20;->l:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object p2, p0, Ll20;->l:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 124
     .line 125
@@ -522,7 +522,7 @@
     .line 240
     .line 241
     .line 242
-    sget p2, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p2, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 243
     .line 244
@@ -539,7 +539,7 @@
 
     .line 250
     .line 251
-    const-class v0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    const-class v0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 252
     .line 253

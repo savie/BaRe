@@ -116,7 +116,7 @@
     .line 37
     .line 38
     .line 39
-    iget-object v1, p1, Ls54;->p:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v1, p1, Ls54;->p:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 40
     .line 41
@@ -124,7 +124,7 @@
 
     .line 42
     .line 43
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -171,7 +171,7 @@
 
     .line 64
     .line 65
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 66
     .line 67

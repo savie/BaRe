@@ -92,7 +92,7 @@
     move-result-object p0
 
     .line 22
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 23
     .line 24

@@ -74,11 +74,11 @@
     .line 13
     .line 14
     .line 15
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 18
     .line 19
@@ -268,7 +268,7 @@
 
     .line 104
     :pswitch_6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->l()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->l()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 105
     .line 106
@@ -501,7 +501,7 @@
 
     .line 212
     .line 213
-    const-string v2, "SwiftBackup_Entity"
+    const-string v2, "BareBackup_Entity"
 
     .line 214
     .line 215
@@ -526,7 +526,7 @@
 
     .line 225
     :pswitch_e
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/conversationsview/ConversationsActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/conversationsview/ConversationsActivity;->O:I
 
     .line 226
     .line 227

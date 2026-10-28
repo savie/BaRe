@@ -98,7 +98,7 @@
     move-result-object v0
 
     .line 38
-    const-class v1, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    const-class v1, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 39
     .line 40

@@ -68,14 +68,14 @@
 
     packed-switch v1, :pswitch_data_0
 
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     check-cast v8, Lao8;
 
-    sget-object v1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object v1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 1
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O()Lco8;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O()Lco8;
 
     move-result-object v0
 
@@ -134,12 +134,12 @@
     .line 13
     sget-object v1, Lc47;->a:Lc47;
 
-    invoke-virtual {v1}, Lc47;->c()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v1}, Lc47;->c()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     move-result-object v9
 
     .line 14
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppsQuickActionSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppsQuickActionSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -169,10 +169,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 17
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -197,7 +197,7 @@
 
     .line 19
     :goto_1
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppsLabelSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppsLabelSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -227,10 +227,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 22
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -255,7 +255,7 @@
 
     .line 24
     :goto_3
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppConfigSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppConfigSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -285,10 +285,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 27
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -313,7 +313,7 @@
 
     .line 29
     :goto_5
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getMessagesSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getMessagesSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -343,10 +343,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 32
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -371,7 +371,7 @@
 
     .line 34
     :goto_7
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getCallLogsSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getCallLogsSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -401,10 +401,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 37
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -429,7 +429,7 @@
 
     .line 39
     :goto_9
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getWallsSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getWallsSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -459,10 +459,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 42
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -487,7 +487,7 @@
 
     .line 44
     :goto_b
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getWifiSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getWifiSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -517,10 +517,10 @@
 
     move-object v4, v3
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 47
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -545,7 +545,7 @@
 
     .line 49
     :goto_d
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getFoldersSchedules()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getFoldersSchedules()Ljava/util/List;
 
     move-result-object v1
 
@@ -575,10 +575,10 @@
 
     move-object v3, v2
 
-    check-cast v3, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    check-cast v3, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 52
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->getItemId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->getItemId()Ljava/lang/String;
 
     move-result-object v3
 
@@ -611,17 +611,17 @@
     const/16 v22, 0x0
 
     .line 54
-    invoke-static/range {v9 .. v24}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-static/range {v9 .. v24}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     move-result-object v1
 
     .line 55
-    invoke-virtual {v1, v0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->withScheduleDeleted(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v1, v0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->withScheduleDeleted(Ljava/lang/String;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     move-result-object v0
 
     .line 56
-    invoke-static {v8, v0}, Lq47;->k(Lq47;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;)V
+    invoke-static {v8, v0}, Lq47;->k(Lq47;Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;)V
 
     return-object v6
 
@@ -664,14 +664,14 @@
 
     .line 61
     :pswitch_2
-    check-cast v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     check-cast v8, Ljava/util/ArrayList;
 
-    sget v1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget v1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 62
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
 
     move-result-object v0
 
@@ -681,12 +681,12 @@
 
     .line 63
     :pswitch_3
-    check-cast v0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast v0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     check-cast v8, Lff5;
 
     .line 64
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->b0()Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/f;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->b0()Lcom/bareapps/barebackup/messagescalls/backuprestore/f;
 
     move-result-object v0
 
@@ -771,7 +771,7 @@
     :pswitch_6
     check-cast v0, Lqp3;
 
-    check-cast v8, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v8, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 78
     iget-object v1, v0, Lqp3;->o:Lex6;
@@ -806,14 +806,14 @@
 
     .line 82
     :pswitch_8
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     check-cast v8, Luy7;
 
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 83
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     move-result-object v0
 
@@ -1032,18 +1032,18 @@
     :pswitch_a
     check-cast v0, Lx92;
 
-    check-cast v8, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast v8, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 109
-    invoke-virtual {v0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     move-result-object v0
 
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/notice/NoticeItem;->getMessage()Ljava/lang/String;
 
     move-result-object v1
 
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     move-result v0
 
@@ -1057,44 +1057,44 @@
     :pswitch_b
     move-object v12, v0
 
-    check-cast v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->s0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->s0:Lgv7;
 
-    iget-object v1, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->o0:Lgv7;
+    iget-object v1, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->o0:Lgv7;
 
-    iget-object v10, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->p0:Lgv7;
+    iget-object v10, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->p0:Lgv7;
 
-    iget-object v11, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->v0:Lgv7;
+    iget-object v11, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->v0:Lgv7;
 
-    iget-object v13, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->t0:Lgv7;
+    iget-object v13, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->t0:Lgv7;
 
-    iget-object v14, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->n0:Lgv7;
+    iget-object v14, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->n0:Lgv7;
 
-    iget-object v15, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->h0:Lgv7;
+    iget-object v15, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->h0:Lgv7;
 
-    iget-object v2, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0:Lgv7;
+    iget-object v2, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0:Lgv7;
 
-    iget-object v3, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0:Lgv7;
+    iget-object v3, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0:Lgv7;
 
     check-cast v8, Llh6;
 
     .line 111
     iget-object v8, v8, Llh6;->a:Ljava/lang/Object;
 
-    check-cast v8, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    check-cast v8, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
-    sget v18, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v18, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 112
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v5
 
     .line 113
     iget-object v5, v5, Lt52;->k:Landroid/widget/ImageView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v19
 
@@ -1105,13 +1105,13 @@
     invoke-virtual {v5, v7}, Landroid/widget/ImageView;->setImageResource(I)V
 
     .line 114
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v5
 
     iget-object v5, v5, Lt52;->a0:Landroid/widget/TextView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v7
 
@@ -1122,7 +1122,7 @@
     invoke-virtual {v5, v7}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     .line 115
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v5
 
@@ -1130,12 +1130,12 @@
 
     new-instance v7, Lw42;
 
-    invoke-direct {v7, v12, v9}, Lw42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v7, v12, v9}, Lw42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v5, v7}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 116
-    iget-object v5, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0:Lgv7;
+    iget-object v5, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0:Lgv7;
 
     invoke-virtual {v5}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -1144,7 +1144,7 @@
     check-cast v7, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 117
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v19
 
@@ -1189,7 +1189,7 @@
     if-eqz v0, :cond_25
 
     .line 120
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v0
 
@@ -1246,14 +1246,14 @@
     if-eqz v8, :cond_23
 
     .line 127
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     move-result-object v7
 
     if-nez v7, :cond_24
 
     :cond_23
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v7
 
@@ -1304,20 +1304,20 @@
     .line 133
     new-instance v3, Ll52;
 
-    invoke-direct {v3, v12}, Ll52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;)V
+    invoke-direct {v3, v12}, Ll52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;)V
 
     .line 134
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 135
     :cond_25
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
     iget-object v0, v0, Lt52;->x:Landroid/widget/LinearLayout;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1332,13 +1332,13 @@
     invoke-static {v0, v3}, Lsz8;->d0(Landroid/view/View;Z)V
 
     .line 136
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
     iget-object v0, v0, Lt52;->X:Landroid/widget/TextView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1351,13 +1351,13 @@
     invoke-static {v0, v3}, Lsz8;->d0(Landroid/view/View;Z)V
 
     .line 137
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
     iget-object v0, v0, Lt52;->U:Landroid/widget/TextView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1370,11 +1370,11 @@
     invoke-static {v0, v3}, Lsz8;->d0(Landroid/view/View;Z)V
 
     .line 138
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->h0()Lcom/google/android/material/textfield/TextInputLayout;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->h0()Lcom/google/android/material/textfield/TextInputLayout;
 
     move-result-object v0
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1385,7 +1385,7 @@
     invoke-virtual {v0, v3}, Lcom/google/android/material/textfield/TextInputLayout;->setHint(Ljava/lang/CharSequence;)V
 
     .line 139
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
@@ -1394,20 +1394,20 @@
     invoke-virtual {v0, v9}, Landroid/widget/TextView;->setSingleLine(Z)V
 
     .line 140
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
 
     .line 141
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
     if-eqz v8, :cond_26
 
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     move-result-object v3
 
@@ -1444,7 +1444,7 @@
     move-result-object v0
 
     .line 146
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v3
 
@@ -1459,7 +1459,7 @@
     invoke-virtual {v3, v4}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 149
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->i0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->i0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -1468,7 +1468,7 @@
     check-cast v0, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 150
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1479,27 +1479,27 @@
     invoke-virtual {v0, v3}, Lcom/google/android/material/textfield/TextInputLayout;->setHint(Ljava/lang/CharSequence;)V
 
     .line 151
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
     invoke-virtual {v0, v9}, Landroid/widget/TextView;->setSingleLine(Z)V
 
     .line 152
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
 
     .line 153
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
     if-eqz v8, :cond_27
 
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getPath()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getPath()Ljava/lang/String;
 
     move-result-object v3
 
@@ -1512,14 +1512,14 @@
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     .line 154
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
     .line 155
     new-instance v3, Ln52;
 
-    invoke-direct {v3, v12}, Ln52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;)V
+    invoke-direct {v3, v12}, Ln52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;)V
 
     .line 156
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
@@ -1532,7 +1532,7 @@
     check-cast v0, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 158
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -1565,10 +1565,10 @@
     if-eqz v0, :cond_2a
 
     .line 161
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->w0()V
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->w0()V
 
     .line 162
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
@@ -1577,20 +1577,20 @@
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->setSingleLine(Z)V
 
     .line 163
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
 
     .line 164
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
     if-eqz v8, :cond_29
 
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getRegion()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getRegion()Ljava/lang/String;
 
     move-result-object v3
 
@@ -1603,7 +1603,7 @@
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
     .line 165
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->f0()Lcom/google/android/material/textfield/TextInputEditText;
 
     move-result-object v0
 
@@ -1619,7 +1619,7 @@
 
     .line 168
     :cond_2a
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v0
 
@@ -1634,7 +1634,7 @@
 
     .line 169
     :goto_1c
-    iget-object v3, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->c0:Lgv7;
+    iget-object v3, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->c0:Lgv7;
 
     invoke-virtual {v3}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -1656,7 +1656,7 @@
     invoke-static {v3, v0}, Lsz8;->d0(Landroid/view/View;Z)V
 
     .line 173
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v0
 
@@ -1676,7 +1676,7 @@
     if-eqz v8, :cond_2d
 
     .line 176
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
 
     move-result-object v4
 
@@ -1695,7 +1695,7 @@
     if-eqz v8, :cond_2e
 
     .line 177
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     move-result-object v4
 
@@ -1711,10 +1711,10 @@
 
     .line 178
     :cond_2f
-    iput-object v4, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->H0:Lxq6;
+    iput-object v4, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->H0:Lxq6;
 
     .line 179
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v7
 
@@ -1725,7 +1725,7 @@
     invoke-virtual {v7, v9}, Landroid/widget/AutoCompleteTextView;->setAdapter(Landroid/widget/ListAdapter;)V
 
     .line 180
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1754,7 +1754,7 @@
     invoke-static {v0, v7, v9, v3}, Ly13;->D(Landroid/widget/ImageView;ILjava/lang/CharSequence;F)V
 
     .line 187
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1778,12 +1778,12 @@
 
     const/4 v7, 0x1
 
-    invoke-direct {v2, v12, v7}, Lw42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v2, v12, v7}, Lw42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v2}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 190
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->i0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1798,11 +1798,11 @@
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 193
-    invoke-virtual {v12, v4, v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->Z(Lxq6;Z)V
+    invoke-virtual {v12, v4, v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->Z(Lxq6;Z)V
 
     .line 194
     :goto_1f
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v0
 
@@ -1819,7 +1819,7 @@
 
     .line 195
     :goto_20
-    iget-object v2, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->f0:Lgv7;
+    iget-object v2, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->f0:Lgv7;
 
     invoke-virtual {v2}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -1851,7 +1851,7 @@
     if-eqz v8, :cond_32
 
     .line 200
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
 
     move-result-object v2
 
@@ -1870,7 +1870,7 @@
     if-eqz v8, :cond_33
 
     .line 201
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     move-result-object v2
 
@@ -1886,10 +1886,10 @@
 
     .line 202
     :cond_34
-    iput-object v2, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->J0:Loq8;
+    iput-object v2, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->J0:Loq8;
 
     .line 203
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v4
 
@@ -1900,7 +1900,7 @@
     invoke-virtual {v4, v7}, Landroid/widget/AutoCompleteTextView;->setAdapter(Landroid/widget/ListAdapter;)V
 
     .line 204
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1929,7 +1929,7 @@
     invoke-static {v0, v4, v7, v3}, Ly13;->D(Landroid/widget/ImageView;ILjava/lang/CharSequence;F)V
 
     .line 211
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1937,7 +1937,7 @@
 
     const/4 v7, 0x1
 
-    invoke-direct {v3, v12, v7}, Lz42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v3, v12, v7}, Lz42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v3}, Landroid/widget/AutoCompleteTextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
@@ -1951,12 +1951,12 @@
     .line 213
     new-instance v3, La52;
 
-    invoke-direct {v3, v12, v7}, La52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v3, v12, v7}, La52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v3}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 214
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
 
     move-result-object v0
 
@@ -1973,11 +1973,11 @@
     const/4 v9, 0x0
 
     .line 217
-    invoke-virtual {v12, v2, v0, v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->a0(Loq8;Loq8;Z)V
+    invoke-virtual {v12, v2, v0, v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->a0(Loq8;Loq8;Z)V
 
     .line 218
     :goto_23
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->v0()V
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->v0()V
 
     .line 219
     invoke-virtual {v14}, Lgv7;->getValue()Ljava/lang/Object;
@@ -2001,7 +2001,7 @@
     if-eqz v8, :cond_35
 
     .line 222
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getPort()Ljava/lang/Integer;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getPort()Ljava/lang/Integer;
 
     move-result-object v3
 
@@ -2041,7 +2041,7 @@
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 226
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->r0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->r0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2050,7 +2050,7 @@
     check-cast v0, Landroid/widget/TextView;
 
     .line 227
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -2068,7 +2068,7 @@
     check-cast v0, Landroid/widget/FrameLayout;
 
     .line 229
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -2101,15 +2101,15 @@
     if-eqz v0, :cond_38
 
     .line 232
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
-    iget-object v0, v0, Lt52;->y:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object v0, v0, Lt52;->y:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     if-eqz v8, :cond_37
 
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getEncryption()Ljava/lang/Boolean;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getEncryption()Ljava/lang/Boolean;
 
     move-result-object v1
 
@@ -2128,26 +2128,26 @@
     invoke-virtual {v0, v1}, Landroidx/appcompat/widget/SwitchCompat;->setChecked(Z)V
 
     .line 233
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
-    iget-object v0, v0, Lt52;->y:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object v0, v0, Lt52;->y:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/widget/CompoundButton;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
     .line 234
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
-    iget-object v0, v0, Lt52;->y:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object v0, v0, Lt52;->y:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     new-instance v3, Lx42;
 
-    invoke-direct {v3, v12}, Lx42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;)V
+    invoke-direct {v3, v12}, Lx42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;)V
 
     invoke-virtual {v0, v3}, Landroid/widget/CompoundButton;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
@@ -2160,14 +2160,14 @@
     if-eqz v8, :cond_39
 
     .line 235
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getAuthType()Lnc1;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getAuthType()Lnc1;
 
     move-result-object v0
 
     if-nez v0, :cond_3a
 
     :cond_39
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v0
 
@@ -2183,7 +2183,7 @@
 
     .line 236
     :cond_3a
-    invoke-virtual {v12, v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->n0(Lnc1;)V
+    invoke-virtual {v12, v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->n0(Lnc1;)V
 
     .line 237
     invoke-virtual/range {v19 .. v19}, Lgv7;->getValue()Ljava/lang/Object;
@@ -2193,7 +2193,7 @@
     check-cast v3, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 238
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v4
 
@@ -2234,7 +2234,7 @@
     if-eqz v3, :cond_3d
 
     .line 241
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -2333,7 +2333,7 @@
 
     .line 255
     :cond_3d
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->u0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->u0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2342,7 +2342,7 @@
     check-cast v0, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 256
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -2360,7 +2360,7 @@
     check-cast v0, Lcom/google/android/material/textfield/TextInputEditText;
 
     .line 258
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->b0(Lcom/google/android/material/textfield/TextInputEditText;)V
 
     .line 259
     invoke-virtual {v11}, Lgv7;->getValue()Ljava/lang/Object;
@@ -2372,7 +2372,7 @@
     if-eqz v8, :cond_3e
 
     .line 260
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getUsername()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getUsername()Ljava/lang/String;
 
     move-result-object v3
 
@@ -2402,7 +2402,7 @@
     invoke-virtual {v0, v3}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 264
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->w0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->w0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2411,7 +2411,7 @@
     check-cast v0, Lcom/google/android/material/textfield/TextInputLayout;
 
     .line 265
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v3
 
@@ -2427,7 +2427,7 @@
     invoke-virtual {v0, v7}, Lcom/google/android/material/textfield/TextInputLayout;->setEndIconMode(I)V
 
     .line 267
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->x0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->x0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2446,7 +2446,7 @@
     if-eqz v8, :cond_3f
 
     .line 270
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
 
     move-result-object v4
 
@@ -2469,13 +2469,13 @@
     invoke-virtual {v0, v4}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 273
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
     iget-object v0, v0, Lt52;->W:Landroid/widget/TextView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v4
 
@@ -2495,13 +2495,13 @@
     invoke-virtual {v0, v4}, Landroid/view/View;->setVisibility(I)V
 
     .line 275
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
     iget-object v0, v0, Lt52;->V:Landroid/widget/TextView;
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v4
 
@@ -2519,7 +2519,7 @@
     invoke-virtual {v0, v4}, Landroid/view/View;->setVisibility(I)V
 
     .line 277
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->B0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->B0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2552,7 +2552,7 @@
     invoke-virtual {v0, v4}, Lcom/google/android/material/textfield/TextInputLayout;->setEndIconTintList(Landroid/content/res/ColorStateList;)V
 
     .line 282
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->C0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->C0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2584,13 +2584,13 @@
     if-eqz v8, :cond_42
 
     .line 286
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getKey()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getKey()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;
 
     move-result-object v4
 
     if-eqz v4, :cond_42
 
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;->getKeyString()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;->getKeyString()Ljava/lang/String;
 
     move-result-object v4
 
@@ -2613,7 +2613,7 @@
     invoke-virtual {v0, v4}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 289
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->z0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->z0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2626,12 +2626,12 @@
 
     const/4 v9, 0x0
 
-    invoke-direct {v4, v12, v9}, Ly42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v4, v12, v9}, Ly42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v4}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 291
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->A0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->A0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2642,12 +2642,12 @@
     .line 292
     new-instance v4, Lz42;
 
-    invoke-direct {v4, v12, v9}, Lz42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v4, v12, v9}, Lz42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v4}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 293
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->D0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->D0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2670,7 +2670,7 @@
     invoke-virtual {v0, v7}, Lcom/google/android/material/textfield/TextInputLayout;->setEndIconMode(I)V
 
     .line 296
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->E0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->E0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2687,13 +2687,13 @@
     if-eqz v8, :cond_43
 
     .line 299
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getKey()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getKey()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;
 
     move-result-object v3
 
     if-eqz v3, :cond_43
 
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials$CloudPrivateKey;->getPassphrase()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials$CloudPrivateKey;->getPassphrase()Ljava/lang/String;
 
     move-result-object v1
 
@@ -2711,18 +2711,18 @@
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->addTextChangedListener(Landroid/text/TextWatcher;)V
 
     .line 302
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     move-result-object v1
 
-    invoke-virtual {v0, v1}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {v0, v1}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 303
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->G0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->G0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2740,7 +2740,7 @@
     invoke-virtual {v0, v1}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 305
-    iget-object v0, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->F0:Lgv7;
+    iget-object v0, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->F0:Lgv7;
 
     invoke-virtual {v0}, Lgv7;->getValue()Ljava/lang/Object;
 
@@ -2753,12 +2753,12 @@
 
     const/4 v9, 0x0
 
-    invoke-direct {v1, v12, v9}, La52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v1, v12, v9}, La52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v0, v1}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 307
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     move-result-object v0
 
@@ -2773,7 +2773,7 @@
     check-cast v3, Lcom/google/android/material/card/MaterialCardView;
 
     .line 308
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v4
 
@@ -2790,7 +2790,7 @@
     const/4 v9, 0x0
 
     .line 311
-    iput-boolean v9, v12, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->M0:Z
+    iput-boolean v9, v12, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->M0:Z
 
     const v4, 0x7f0801b2
 
@@ -2822,7 +2822,7 @@
     check-cast v1, Landroid/widget/TextView;
 
     .line 317
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     move-result-object v4
 
@@ -2861,12 +2861,12 @@
 
     const/4 v7, 0x1
 
-    invoke-direct {v0, v12, v7}, Ly42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v0, v12, v7}, Ly42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     invoke-virtual {v3, v0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     .line 321
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -2884,7 +2884,7 @@
 
     move-result v0
 
-    invoke-virtual {v12, v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->u0(Z)V
+    invoke-virtual {v12, v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->u0(Z)V
 
     const/4 v9, 0x0
 
@@ -2903,7 +2903,7 @@
 
     .line 326
     :goto_2f
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -2913,7 +2913,7 @@
     .line 328
     new-instance v1, Lu42;
 
-    invoke-direct {v1, v12, v9}, Lu42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v1, v12, v9}, Lu42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     new-instance v3, Ls30;
 
@@ -2922,7 +2922,7 @@
     invoke-virtual {v0, v12, v3}, Lix6;->e(Lfu4;Les5;)V
 
     .line 329
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -2943,7 +2943,7 @@
     invoke-virtual {v0, v12, v3}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 332
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -2964,7 +2964,7 @@
     invoke-virtual {v0, v12, v3}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 335
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -2983,7 +2983,7 @@
     invoke-virtual {v0, v12, v3}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 338
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3004,7 +3004,7 @@
     invoke-virtual {v0, v12, v3}, Lix6;->e(Lfu4;Les5;)V
 
     .line 341
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3021,7 +3021,7 @@
     const/4 v11, 0x1
 
     .line 344
-    const-class v13, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v13, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     const-string v14, "showSmbDataEncryptionRequiredDialog"
 
@@ -3039,7 +3039,7 @@
     invoke-virtual {v0, v9, v1}, Lix6;->e(Lfu4;Les5;)V
 
     .line 346
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3051,7 +3051,7 @@
 
     const/4 v3, 0x0
 
-    invoke-direct {v1, v9, v3}, Lv42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v1, v9, v3}, Lv42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     new-instance v3, Ls30;
 
@@ -3060,7 +3060,7 @@
     invoke-virtual {v0, v9, v3}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 349
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3079,7 +3079,7 @@
     invoke-virtual {v0, v9, v3}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 352
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3100,7 +3100,7 @@
     invoke-virtual {v0, v9, v3}, Lix6;->e(Lfu4;Les5;)V
 
     .line 355
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3117,11 +3117,11 @@
     const/4 v8, 0x1
 
     .line 358
-    const-class v10, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v10, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     const-string v11, "showHostKeyNotVerifiable"
 
-    const-string v12, "showHostKeyNotVerifiable(Lorg/swiftapps/swiftbackup/cloud/connect/CsVM$HostKeyNotVerifiableData;)V"
+    const-string v12, "showHostKeyNotVerifiable(Lcom/bareapps/barebackup/cloud/connect/CsVM$HostKeyNotVerifiableData;)V"
 
     invoke-direct/range {v7 .. v14}, Lzd1;-><init>(ILjava/lang/Object;Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;II)V
 
@@ -3133,7 +3133,7 @@
     invoke-virtual {v0, v9, v1}, Lix6;->e(Lfu4;Les5;)V
 
     .line 360
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3146,11 +3146,11 @@
     const/4 v14, 0x2
 
     .line 363
-    const-class v10, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v10, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     const-string v11, "showS3EndpointResolutionIssueDialog"
 
-    const-string v12, "showS3EndpointResolutionIssueDialog(Lorg/swiftapps/swiftbackup/cloud/connect/CsVM$S3EndpointResolutionIssueData;)V"
+    const-string v12, "showS3EndpointResolutionIssueDialog(Lcom/bareapps/barebackup/cloud/connect/CsVM$S3EndpointResolutionIssueData;)V"
 
     invoke-direct/range {v7 .. v14}, Lae1;-><init>(ILjava/lang/Object;Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;II)V
 
@@ -3162,7 +3162,7 @@
     invoke-virtual {v0, v9, v1}, Lix6;->e(Lfu4;Les5;)V
 
     .line 365
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3183,7 +3183,7 @@
     invoke-virtual {v0, v9, v3}, Lix6;->e(Lfu4;Les5;)V
 
     .line 368
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3194,7 +3194,7 @@
     new-instance v7, Lg70;
 
     .line 371
-    const-class v10, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v10, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     const-string v11, "showLocalServerDiscoveryCard"
 
@@ -3210,7 +3210,7 @@
     invoke-virtual {v0, v9, v1}, Lzy4;->e(Lfu4;Les5;)V
 
     .line 373
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     move-result-object v0
 
@@ -3223,7 +3223,7 @@
     const/4 v14, 0x0
 
     .line 376
-    const-class v10, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v10, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     const-string v11, "updateLocalServerDiscoveryScanLoading"
 

@@ -9,15 +9,15 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Laj2;->b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Laj2;->b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Laj2;->b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Laj2;->b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Laj2;-><init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Laj2;-><init>(Lcom/bareapps/barebackup/detail/DetailActivity;Ljv1;)V
 
     .line 6
     .line 7
@@ -146,11 +146,11 @@
     .line 22
     .line 23
     .line 24
-    iget-object p1, p0, Laj2;->b:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p1, p0, Laj2;->b:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 25
     .line 26
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 27
     .line 28

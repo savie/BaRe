@@ -56,7 +56,7 @@
 
 .field private mediaSize:J
 
-.field private metadata:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.field private metadata:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
 .field private sharedLibsSize:J
 
@@ -428,11 +428,11 @@
     return-wide v0
 .end method
 
-.method public final getMetadata()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public final getMetadata()Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Liz4;->metadata:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Liz4;->metadata:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2
     .line 3
@@ -1168,11 +1168,11 @@
     return-void
 .end method
 
-.method public final setMetadata(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+.method public final setMetadata(Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Liz4;->metadata:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iput-object p1, p0, Liz4;->metadata:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2
     .line 3

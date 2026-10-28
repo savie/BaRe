@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Ljo7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iput-object p1, p0, Ljo7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Ljo7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iget-object p0, p0, Ljo7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 4
     .line 5
@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->F(Lil0;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->F(Lil0;)V
 
     .line 9
     .line 10
@@ -61,11 +61,11 @@
 
     .line 12
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget p1, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 13
     .line 14
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->F(Lil0;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->F(Lil0;)V
 
     .line 15
     .line 16

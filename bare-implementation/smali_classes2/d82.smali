@@ -506,7 +506,7 @@
     .line 157
     .line 158
     .line 159
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->R()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->R()V
 
     .line 160
     .line 161

@@ -410,7 +410,7 @@
 
     .line 172
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 173
     .line 174
@@ -427,7 +427,7 @@
     .line 179
     .line 180
     .line 181
-    sget p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 182
     .line 183
@@ -436,7 +436,7 @@
     .line 184
     .line 185
     .line 186
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->S(Lvq4;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->S(Lvq4;)V
 
     .line 187
     .line 188
@@ -445,7 +445,7 @@
 
     .line 190
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 191
     .line 192
@@ -470,7 +470,7 @@
     .line 201
     .line 202
     .line 203
-    iget-object p2, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object p2, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 204
     .line 205
@@ -483,7 +483,7 @@
     .line 208
     .line 209
     .line 210
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0(Z)V
 
     .line 211
     .line 212

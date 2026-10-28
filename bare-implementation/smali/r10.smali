@@ -78,7 +78,7 @@
 
     .line 23
     .line 24
-    iget-object v6, v5, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v6, v5, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 25
     .line 26
@@ -90,7 +90,7 @@
     move-result v6
 
     .line 30
-    iget-object v7, v5, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v7, v5, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 31
     .line 32
@@ -118,11 +118,11 @@
 
     .line 43
     .line 44
-    sget-object v9, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v9, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 45
     .line 46
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 47
     .line 48

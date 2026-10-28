@@ -100,7 +100,7 @@
 
     .line 32
     .line 33
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 34
     .line 35
@@ -108,7 +108,7 @@
 
     .line 36
     .line 37
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 38
     .line 39
@@ -151,7 +151,7 @@
     .line 56
     .line 57
     :cond_1
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->U:Lt9;
+    iget-object p1, p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->U:Lt9;
 
     .line 58
     .line 59
@@ -159,7 +159,7 @@
 
     .line 60
     .line 61
-    const-class v1, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    const-class v1, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 62
     .line 63
@@ -337,11 +337,11 @@
 
     .line 149
     .line 150
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 151
     .line 152
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 153
     .line 154
@@ -399,7 +399,7 @@
 
     .line 183
     .line 184
-    invoke-static {v0, v1, v5}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v5}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 185
     .line 186
@@ -482,7 +482,7 @@
 
     .line 222
     :cond_4
-    invoke-static {v0, v1, v5}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v5}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 223
     .line 224
@@ -639,7 +639,7 @@
     .line 295
     :cond_b
     :goto_5
-    invoke-static {v0, v1, v5}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v5}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 296
     .line 297
@@ -722,7 +722,7 @@
 
     .line 332
     :goto_7
-    invoke-static {v0, v1, v6}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v6}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->s0(Landroid/text/SpannableStringBuilder;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 333
     .line 334
@@ -1025,11 +1025,11 @@
 
     .line 496
     .line 497
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 498
     .line 499
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 500
     .line 501
@@ -1217,7 +1217,7 @@
 
     .line 591
     .line 592
-    iput-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->X:Ljava/lang/String;
+    iput-object v0, p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->X:Ljava/lang/String;
 
     .line 593
     .line 594
@@ -1225,11 +1225,11 @@
 
     .line 595
     .line 596
-    iput-boolean p1, p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Y:Z
+    iput-boolean p1, p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Y:Z
 
     .line 597
     .line 598
-    invoke-virtual {p0, v0, p1}, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->X(Ljava/lang/String;Z)V
+    invoke-virtual {p0, v0, p1}, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->X(Ljava/lang/String;Z)V
 
     .line 599
     .line 600

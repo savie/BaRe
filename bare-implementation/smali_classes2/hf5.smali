@@ -53,11 +53,11 @@
 
     .line 4
     .line 5
-    iget-object v1, v0, Lif5;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v1, v0, Lif5;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 6
     .line 7
-    iget-boolean v1, v1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v1, v1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 8
     .line 9

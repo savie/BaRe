@@ -586,11 +586,11 @@
 
     .line 219
     .line 220
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;
 
     .line 221
     .line 222
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
 
     .line 223
     .line 224

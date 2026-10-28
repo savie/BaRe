@@ -285,7 +285,7 @@
     move-result-object p1
 
     .line 35
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 36
     .line 37
@@ -322,7 +322,7 @@
     move-result-object p0
 
     .line 54
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 55
     .line 56
@@ -386,7 +386,7 @@
     .line 84
     .line 85
     :cond_2
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
+    sget p1, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
 
     .line 86
     .line 87
@@ -402,7 +402,7 @@
 
     .line 92
     .line 93
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;
+    const-class v1, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;
 
     .line 94
     .line 95
@@ -453,7 +453,7 @@
     move-result-object p0
 
     .line 118
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 119
     .line 120
@@ -575,7 +575,7 @@
     .line 175
     .line 176
     :cond_6
-    sget p1, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
+    sget p1, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
 
     .line 177
     .line 178
@@ -591,7 +591,7 @@
 
     .line 183
     .line 184
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
+    const-class v1, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
 
     .line 185
     .line 186
@@ -1071,7 +1071,7 @@
 
     .line 417
     :cond_10
-    invoke-virtual {p0}, Lfs4;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, Lfs4;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 418
     .line 419
@@ -1155,7 +1155,7 @@
     move-result-object p0
 
     .line 459
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 460
     .line 461
@@ -1229,7 +1229,7 @@
     move-result-object p0
 
     .line 494
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 495
     .line 496
@@ -1389,7 +1389,7 @@
     .line 45
     .line 46
     .line 47
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 48
     .line 49
@@ -1401,7 +1401,7 @@
 
     .line 52
     .line 53
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 54
     .line 55
@@ -1491,15 +1491,15 @@
     move-result-object v4
 
     .line 94
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v4, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 95
     .line 96
-    sget-object v5, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v5, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 97
     .line 98
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 99
     .line 100
@@ -1520,11 +1520,11 @@
     move-result-object v0
 
     .line 109
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 110
     .line 111
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 112
     .line 113
@@ -1612,7 +1612,7 @@
     move-result-object v0
 
     .line 149
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 150
     .line 151
@@ -1673,7 +1673,7 @@
     move-result-object v0
 
     .line 176
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 177
     .line 178
@@ -1734,7 +1734,7 @@
     move-result-object v4
 
     .line 203
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v4, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 204
     .line 205
@@ -1836,7 +1836,7 @@
     move-result-object v1
 
     .line 248
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 249
     .line 250
@@ -1853,7 +1853,7 @@
     move-result-object v0
 
     .line 257
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 258
     .line 259
@@ -1947,7 +1947,7 @@
     return-void
 .end method
 
-.method public final q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+.method public final q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
     .locals 1
 
     .line 1
@@ -1959,7 +1959,7 @@
     move-result-object p0
 
     .line 5
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 6
     .line 7
@@ -1967,7 +1967,7 @@
 
     .line 8
     .line 9
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 10
     .line 11

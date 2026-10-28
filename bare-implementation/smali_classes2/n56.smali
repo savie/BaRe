@@ -411,7 +411,7 @@
     .line 173
     .line 174
     .line 175
-    iget-object p0, p1, Lm56;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p1, Lm56;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 176
     .line 177
@@ -514,7 +514,7 @@
     move-result-object v2
 
     .line 35
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v2, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 36
     .line 37

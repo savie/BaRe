@@ -82,7 +82,7 @@
     move-object v3, p0
 
     .line 15
-    check-cast v3, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v3, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 16
     .line 17
@@ -272,7 +272,7 @@
     .line 15
     .line 16
     .line 17
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 18
     .line 19
@@ -289,7 +289,7 @@
     .line 24
     .line 25
     .line 26
-    invoke-static {p0, p1}, Lns0;->j(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
+    invoke-static {p0, p1}, Lns0;->j(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
 
     .line 27
     .line 28

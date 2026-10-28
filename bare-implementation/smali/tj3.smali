@@ -56,7 +56,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 11
     .line 12
@@ -73,7 +73,7 @@
     .line 17
     .line 18
     .line 19
-    sget p2, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget p2, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 20
     .line 21
@@ -82,7 +82,7 @@
     .line 22
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->O()Lv37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->O()Lv37;
 
     .line 25
     .line 26
@@ -90,11 +90,11 @@
     move-result-object p0
 
     .line 28
-    iget-object p1, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p1, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 29
     .line 30
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 31
     .line 32
@@ -348,7 +348,7 @@
 
     .line 148
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    check-cast p0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 149
     .line 150
@@ -365,7 +365,7 @@
     .line 155
     .line 156
     .line 157
-    sget p2, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p2, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 158
     .line 159
@@ -374,7 +374,7 @@
     .line 160
     .line 161
     .line 162
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 163
     .line 164
@@ -403,7 +403,7 @@
     .line 175
     .line 176
     .line 177
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V(Lxa4;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/premium/PremiumActivity;->V(Lxa4;)V
 
     .line 178
     .line 179
@@ -440,7 +440,7 @@
     move-result-wide p1
 
     .line 195
-    invoke-static {v2, v3, p1, p2}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {v2, v3, p1, p2}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 196
     .line 197

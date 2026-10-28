@@ -153,11 +153,11 @@
 
     .line 44
     .line 45
-    iget-object p0, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p0, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 46
     .line 47
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 48
     .line 49
@@ -177,11 +177,11 @@
 
     .line 56
     .line 57
-    iget-object p1, p2, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p1, p2, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 58
     .line 59
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 60
     .line 61
@@ -356,11 +356,11 @@
 
     .line 128
     .line 129
-    iget-object p0, p1, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p1, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 130
     .line 131
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 132
     .line 133
@@ -392,11 +392,11 @@
 
     .line 146
     .line 147
-    iget-object p2, p2, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p2, p2, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 148
     .line 149
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 150
     .line 151
@@ -432,11 +432,11 @@
 
     .line 166
     :pswitch_5
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 167
     .line 168
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 169
     .line 170
@@ -444,11 +444,11 @@
     move-result-object p0
 
     .line 172
-    check-cast p2, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p2, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 173
     .line 174
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 175
     .line 176

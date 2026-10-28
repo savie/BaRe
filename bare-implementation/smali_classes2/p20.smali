@@ -1399,7 +1399,7 @@
     move-result-object v9
 
     .line 534
-    check-cast v9, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v9, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 535
     .line 536

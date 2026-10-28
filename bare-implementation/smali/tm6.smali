@@ -8,7 +8,7 @@
     .locals 1
 
     .line 1
-    check-cast p2, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast p2, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 2
     .line 3
@@ -21,7 +21,7 @@
 
     .line 7
     .line 8
-    const-class v0, Lorg/swiftapps/swiftbackup/settings/RestoreSpecialDataDetailsActivity;
+    const-class v0, Lcom/bareapps/barebackup/settings/RestoreSpecialDataDetailsActivity;
 
     .line 9
     .line 10
@@ -81,7 +81,7 @@
     move-result-object p0
 
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 14
     .line 15

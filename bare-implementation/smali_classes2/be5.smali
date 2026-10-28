@@ -54,7 +54,7 @@
     .line 10
     .line 11
     .line 12
-    iget-object p2, p1, Lae5;->B:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object p2, p1, Lae5;->B:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 13
     .line 14
@@ -78,7 +78,7 @@
 
     .line 23
     .line 24
-    iget-object v2, v1, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v2, v1, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 25
     .line 26
@@ -226,7 +226,7 @@
     move-result-wide v3
 
     .line 100
-    invoke-static {v3, v4}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v3, v4}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 101
     .line 102
@@ -261,7 +261,7 @@
     .line 117
     .line 118
     .line 119
-    iget-object v1, v1, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v1, v1, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 120
     .line 121
@@ -292,7 +292,7 @@
     .line 134
     .line 135
     .line 136
-    iget-object p0, p1, Lae5;->w:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p1, Lae5;->w:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 137
     .line 138

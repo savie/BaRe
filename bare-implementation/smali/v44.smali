@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/home/HomeActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;)V
     .locals 0
 
     .line 1
@@ -17,7 +17,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lv44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iput-object p1, p0, Lv44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 5
     .line 6
@@ -30,11 +30,11 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lv44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Lv44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 4
     .line 5
@@ -42,11 +42,11 @@
     move-result-object p1
 
     .line 7
-    iget-object p1, p1, Lw44;->f:Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+    iget-object p1, p1, Lw44;->f:Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
     .line 8
     .line 9
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;->a0:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/HomeActivity;->a0:Lgv7;
 
     .line 10
     .line 11

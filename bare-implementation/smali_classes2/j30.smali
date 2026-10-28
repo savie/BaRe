@@ -45,7 +45,7 @@
     move-result-object v3
 
     .line 16
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 17
     .line 18
@@ -61,7 +61,7 @@
 
     .line 23
     .line 24
-    invoke-direct {v1, v0, v3}, Ls20;-><init>(Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {v1, v0, v3}, Ls20;-><init>(Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 25
     .line 26

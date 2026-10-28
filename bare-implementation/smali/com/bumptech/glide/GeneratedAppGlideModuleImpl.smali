@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final e:Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;
+.field public final e:Lcom/bareapps/barebackup/common/MyAppGlideModule;
 
 
 # direct methods
@@ -22,16 +22,16 @@
     .line 5
     .line 6
     .line 7
-    new-instance p1, Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;
+    new-instance p1, Lcom/bareapps/barebackup/common/MyAppGlideModule;
 
     .line 8
     .line 9
-    invoke-direct {p1}, Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;-><init>()V
+    invoke-direct {p1}, Lcom/bareapps/barebackup/common/MyAppGlideModule;-><init>()V
 
     .line 10
     .line 11
     .line 12
-    iput-object p1, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;
+    iput-object p1, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lcom/bareapps/barebackup/common/MyAppGlideModule;
 
     .line 13
     .line 14
@@ -44,11 +44,11 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;
+    iget-object p0, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lcom/bareapps/barebackup/common/MyAppGlideModule;
 
     .line 2
     .line 3
-    invoke-virtual {p0, p1, p2, p3}, Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;->O(Landroid/content/Context;Lcom/bumptech/glide/a;Lmi6;)V
+    invoke-virtual {p0, p1, p2, p3}, Lcom/bareapps/barebackup/common/MyAppGlideModule;->O(Landroid/content/Context;Lcom/bumptech/glide/a;Lmi6;)V
 
     .line 4
     .line 5
@@ -65,7 +65,7 @@
     .line 2
     .line 3
     .line 4
-    iget-object p0, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lorg/swiftapps/swiftbackup/common/MyAppGlideModule;
+    iget-object p0, p0, Lcom/bumptech/glide/GeneratedAppGlideModuleImpl;->e:Lcom/bareapps/barebackup/common/MyAppGlideModule;
 
     .line 5
     .line 6

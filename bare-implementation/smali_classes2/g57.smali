@@ -8,7 +8,7 @@
 
 .field public final B:Landroid/view/View;
 
-.field public final C:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final C:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final D:Lkb2;
 
@@ -111,11 +111,11 @@
 
     .line 39
     .line 40
-    iget-object p1, p2, Lz27;->k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p1, p2, Lz27;->k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 41
     .line 42
-    iput-object p1, p0, Lg57;->C:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Lg57;->C:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 43
     .line 44
@@ -136,10 +136,10 @@
 
 
 # virtual methods
-.method public abstract r(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+.method public abstract r(Lcom/bareapps/barebackup/home/schedule/data/b;)V
 .end method
 
-.method public final s(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+.method public final s(Lcom/bareapps/barebackup/home/schedule/data/b;)V
     .locals 16
 
     .line 1
@@ -156,23 +156,23 @@
     .line 6
     .line 7
     .line 8
-    iget-object v3, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->n:Ljava/util/List;
+    iget-object v3, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->n:Ljava/util/List;
 
     .line 9
     .line 10
-    iget-boolean v8, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->k:Z
+    iget-boolean v8, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->k:Z
 
     .line 11
     .line 12
-    iget-object v9, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->f:Ljava/lang/CharSequence;
+    iget-object v9, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->f:Ljava/lang/CharSequence;
 
     .line 13
     .line 14
-    iget-object v2, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->b:Ljava/lang/String;
+    iget-object v2, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->b:Ljava/lang/String;
 
     .line 15
     .line 16
-    iget-boolean v10, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->d:Z
+    iget-boolean v10, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->d:Z
 
     .line 17
     .line 18
@@ -387,7 +387,7 @@
 
     .line 109
     .line 110
-    invoke-direct {v7, v14, v13, v1}, Lf57;-><init>(ZLj57;Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+    invoke-direct {v7, v14, v13, v1}, Lf57;-><init>(ZLj57;Lcom/bareapps/barebackup/home/schedule/data/b;)V
 
     .line 111
     .line 112
@@ -500,7 +500,7 @@
     .line 163
     .line 164
     .line 165
-    iget-object v5, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->a:Ljava/lang/String;
+    iget-object v5, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->a:Ljava/lang/String;
 
     .line 166
     .line 167
@@ -615,7 +615,7 @@
     .line 217
     .line 218
     .line 219
-    iget-object v14, v0, Lg57;->C:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v14, v0, Lg57;->C:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 220
     .line 221
@@ -628,7 +628,7 @@
 
     .line 225
     .line 226
-    new-instance v2, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v2, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 227
     .line 228
@@ -645,7 +645,7 @@
     .line 233
     .line 234
     .line 235
-    invoke-direct {v2, v4}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {v2, v4}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
 
     .line 236
     .line 237
@@ -664,11 +664,11 @@
 
     .line 245
     .line 246
-    iget-object v2, v13, Lj57;->l:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v2, v13, Lj57;->l:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 247
     .line 248
-    invoke-direct {v15, v2}, Lee5;-><init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+    invoke-direct {v15, v2}, Lee5;-><init>(Lcom/bareapps/barebackup/home/HomeActivity;)V
 
     .line 249
     .line 250
@@ -726,7 +726,7 @@
 
     .line 276
     .line 277
-    iget-object v3, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->c:Ljava/lang/String;
+    iget-object v3, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->c:Ljava/lang/String;
 
     .line 278
     .line 279

@@ -169,15 +169,15 @@
     .locals 11
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 2
     .line 3
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 4
     .line 5
-    sget-boolean v1, Lorg/swiftapps/swiftbackup/tasks/TaskService;->c:Z
+    sget-boolean v1, Lcom/bareapps/barebackup/tasks/TaskService;->c:Z
 
     .line 6
     .line 7
@@ -240,11 +240,11 @@
 
     .line 31
     .line 32
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 33
     .line 34
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 35
     .line 36
@@ -474,7 +474,7 @@
 
     .line 139
     .line 140
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 141
     .line 142
@@ -523,7 +523,7 @@
     return v2
 .end method
 
-.method public static c()Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;
+.method public static c()Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;
     .locals 11
 
     .line 1
@@ -892,11 +892,11 @@
 
     .line 169
     .line 170
-    new-instance v1, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;
+    new-instance v1, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;
 
     .line 171
     .line 172
-    invoke-direct {v1, v0, v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;-><init>(Ljava/lang/String;Z)V
+    invoke-direct {v1, v0, v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;-><init>(Ljava/lang/String;Z)V
 
     .line 173
     .line 174
@@ -905,7 +905,7 @@
 
     .line 176
     :cond_c
-    new-instance v0, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;
+    new-instance v0, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;
 
     .line 177
     .line 178
@@ -913,7 +913,7 @@
 
     .line 179
     .line 180
-    invoke-direct {v0, v1, v3}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;-><init>(Ljava/lang/String;Z)V
+    invoke-direct {v0, v1, v3}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;-><init>(Ljava/lang/String;Z)V
 
     .line 181
     .line 182
@@ -925,11 +925,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 2
     .line 3
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 4
     .line 5
@@ -1195,11 +1195,11 @@
 
     .line 96
     .line 97
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 98
     .line 99
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 100
     .line 101
@@ -1252,11 +1252,11 @@
 
     .line 124
     .line 125
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 126
     .line 127
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 128
     .line 129
@@ -1315,11 +1315,11 @@
 
     .line 155
     .line 156
-    sget p1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget p1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 157
     .line 158
-    const-class p1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    const-class p1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 159
     .line 160
@@ -1710,11 +1710,11 @@
 
     .line 140
     .line 141
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 142
     .line 143
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 144
     .line 145
@@ -1753,11 +1753,11 @@
     .line 162
     .line 163
     .line 164
-    sget-object v1, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v1, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 165
     .line 166
-    sget-object v1, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v1, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 167
     .line 168

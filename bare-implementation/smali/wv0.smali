@@ -49,7 +49,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;)V
     .locals 1
 
     const/4 v0, 0x0

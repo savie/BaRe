@@ -26,7 +26,7 @@
 
 
 # virtual methods
-.method public final r(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+.method public final r(Lcom/bareapps/barebackup/home/schedule/data/b;)V
     .locals 4
 
     .line 1
@@ -35,12 +35,12 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0, p1}, Lg57;->s(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+    invoke-virtual {p0, p1}, Lg57;->s(Lcom/bareapps/barebackup/home/schedule/data/b;)V
 
     .line 5
     .line 6
     .line 7
-    iget-boolean v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->d:Z
+    iget-boolean v0, p1, Lcom/bareapps/barebackup/home/schedule/data/b;->d:Z
 
     .line 8
     .line 9
@@ -56,11 +56,11 @@
 
     .line 14
     .line 15
-    iget-object v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object v0, p1, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 16
     .line 17
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 18
     .line 19
@@ -75,7 +75,7 @@
 
     .line 23
     :cond_0
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 24
     .line 25
@@ -87,7 +87,7 @@
 
     .line 28
     :cond_1
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 29
     .line 30
@@ -99,7 +99,7 @@
 
     .line 33
     :cond_2
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 34
     .line 35
@@ -107,11 +107,11 @@
 
     .line 36
     .line 37
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 38
     .line 39
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->isPermissionsGranted()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->isPermissionsGranted()Z
 
     .line 40
     .line 41
@@ -123,7 +123,7 @@
 
     .line 44
     :cond_3
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 45
     .line 46
@@ -131,11 +131,11 @@
 
     .line 47
     .line 48
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 49
     .line 50
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->isPermissionsGranted()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->isPermissionsGranted()Z
 
     .line 51
     .line 52
@@ -147,7 +147,7 @@
 
     .line 55
     :cond_4
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 56
     .line 57
@@ -159,7 +159,7 @@
 
     .line 60
     :cond_5
-    instance-of v2, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    instance-of v2, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 61
     .line 62
@@ -171,7 +171,7 @@
 
     .line 65
     :cond_6
-    instance-of v0, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    instance-of v0, v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 66
     .line 67

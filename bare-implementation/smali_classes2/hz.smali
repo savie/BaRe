@@ -12,19 +12,19 @@
 
 .field public final e:Lhk;
 
-.field public final f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+.field public final f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
 .field public final g:Z
 
 .field public final h:Lxp1;
 
-.field public final i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+.field public final i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
 .field public final j:Ljava/util/List;
 
 
 # direct methods
-.method public constructor <init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;ZLxp1;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
+.method public constructor <init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lcom/bareapps/barebackup/tasks/model/SyncOption;ZLxp1;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
     .locals 0
 
     .line 1
@@ -74,7 +74,7 @@
 
     .line 26
     .line 27
-    iput-object p5, p0, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iput-object p5, p0, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 28
     .line 29
@@ -86,7 +86,7 @@
 
     .line 32
     .line 33
-    iput-object p8, p0, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iput-object p8, p0, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 34
     .line 35
@@ -267,11 +267,11 @@
     move-object v2, v1
 
     .line 25
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v2, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 26
     .line 27
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
 
     .line 28
     .line 29
@@ -454,11 +454,11 @@
 
     .line 56
     :cond_5
-    iget-object v1, p0, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v1, p0, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 57
     .line 58
-    iget-object v2, p1, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v2, p1, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 59
     .line 60
@@ -502,11 +502,11 @@
 
     .line 77
     :cond_8
-    iget-object v1, p0, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v1, p0, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 78
     .line 79
-    iget-object v2, p1, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v2, p1, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 80
     .line 81
@@ -637,7 +637,7 @@
     mul-int/2addr v0, v1
 
     .line 35
-    iget-object v3, p0, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v3, p0, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 36
     .line 37
@@ -697,11 +697,11 @@
     mul-int/2addr v3, v1
 
     .line 61
-    iget-object v0, p0, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v0, p0, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 62
     .line 63
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->hashCode()I
 
     .line 64
     .line 65
@@ -791,11 +791,11 @@
 
     .line 13
     :goto_0
-    iget-object v2, p0, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v2, p0, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 14
     .line 15
-    invoke-static {v2}, Lorg/swiftapps/swiftbackup/settings/f;->a(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    invoke-static {v2}, Lcom/bareapps/barebackup/settings/f;->a(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     .line 16
     .line 17
@@ -888,7 +888,7 @@
     .line 64
     .line 65
     .line 66
-    iget-object v0, p0, Lhz;->f:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    iget-object v0, p0, Lhz;->f:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 67
     .line 68

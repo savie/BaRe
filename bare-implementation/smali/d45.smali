@@ -57,15 +57,15 @@
     return-void
 .end method
 
-.method public static a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+.method public static a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
     .locals 10
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getNon()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getNon()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 4
     .line 5
@@ -80,7 +80,7 @@
     const/4 v2, 0x0
 
     .line 10
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/common/V;->setA(Z)V
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/common/V;->setA(Z)V
 
     .line 11
     .line 12
@@ -112,7 +112,7 @@
 
     .line 24
     .line 25
-    new-instance v2, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    new-instance v2, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 26
     .line 27
@@ -199,7 +199,7 @@
     const/4 v5, 0x0
 
     .line 69
-    invoke-direct/range {v2 .. v9}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;-><init>(Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+    invoke-direct/range {v2 .. v9}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;-><init>(Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
 
     .line 70
     .line 71
@@ -263,7 +263,7 @@
 
     .line 22
     .line 23
-    check-cast v2, Lorg/swiftapps/swiftbackup/SwiftApp;
+    check-cast v2, Lcom/bareapps/barebackup/BareApp;
 
     .line 24
     .line 25
@@ -281,7 +281,7 @@
     .line 31
     .line 32
     .line 33
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 34
     .line 35
@@ -301,7 +301,7 @@
     move-result-object v4
 
     .line 43
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -314,7 +314,7 @@
     .line 48
     .line 49
     .line 50
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 51
     .line 52
@@ -327,11 +327,11 @@
     .line 55
     .line 56
     .line 57
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 58
     .line 59
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 60
     .line 61
@@ -553,7 +553,7 @@
     .line 159
     .line 160
     .line 161
-    iget-object v3, v2, Lorg/swiftapps/swiftbackup/SwiftApp;->c:Lgv7;
+    iget-object v3, v2, Lcom/bareapps/barebackup/BareApp;->c:Lgv7;
 
     .line 162
     .line 163
@@ -565,16 +565,16 @@
     move-result-object v3
 
     .line 167
-    check-cast v3, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    check-cast v3, Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 168
     .line 169
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->a()V
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->a()V
 
     .line 170
     .line 171
     .line 172
-    iget-object v2, v2, Lorg/swiftapps/swiftbackup/SwiftApp;->b:Lgv7;
+    iget-object v2, v2, Lcom/bareapps/barebackup/BareApp;->b:Lgv7;
 
     .line 173
     .line 174
@@ -629,7 +629,7 @@
     .locals 10
 
     .line 1
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 2
     .line 3
@@ -753,7 +753,7 @@
     .line 57
     .line 58
     :cond_1
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 59
     .line 60
@@ -768,7 +768,7 @@
 
     .line 64
     .line 65
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 66
     .line 67
@@ -813,11 +813,11 @@
     .line 84
     .line 85
     .line 86
-    sget-object v5, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v5, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 87
     .line 88
-    invoke-virtual {v5, v2}, Lorg/swiftapps/swiftbackup/common/V;->setNon(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+    invoke-virtual {v5, v2}, Lcom/bareapps/barebackup/common/V;->setNon(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
 
     .line 89
     .line 90
@@ -839,11 +839,11 @@
 
     .line 99
     .line 100
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 101
     .line 102
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 103
     .line 104
@@ -870,12 +870,12 @@
     .line 115
     .line 116
     :cond_3
-    invoke-virtual {v5, v3}, Lorg/swiftapps/swiftbackup/common/V;->setG(Z)V
+    invoke-virtual {v5, v3}, Lcom/bareapps/barebackup/common/V;->setG(Z)V
 
     .line 117
     .line 118
     .line 119
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 120
     .line 121

@@ -161,7 +161,7 @@
     move-result-object v12
 
     .line 64
-    invoke-virtual {v11}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v11}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 65
     .line 66
@@ -169,7 +169,7 @@
     move-result-object v11
 
     .line 68
-    invoke-virtual {v11}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v11}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 69
     .line 70

@@ -144,7 +144,7 @@
 
     .line 47
     .line 48
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 49
     .line 50
@@ -163,7 +163,7 @@
 
     .line 56
     .line 57
-    sget-object p1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object p1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 58
     .line 59
@@ -336,7 +336,7 @@
 
     .line 145
     .line 146
-    invoke-direct {p1, v0}, Lzn8;-><init>(Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;)V
+    invoke-direct {p1, v0}, Lzn8;-><init>(Lcom/bareapps/barebackup/walls/WallApplyActivity;)V
 
     .line 147
     .line 148
@@ -349,7 +349,7 @@
     move-result-object p0
 
     .line 153
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->N()Lno8;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->N()Lno8;
 
     .line 154
     .line 155
@@ -390,7 +390,7 @@
 
     .line 172
     .line 173
-    check-cast p1, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    check-cast p1, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 174
     .line 175
@@ -408,7 +408,7 @@
     .line 181
     .line 182
     .line 183
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
 
     .line 184
     .line 185
@@ -416,7 +416,7 @@
     move-result-object v2
 
     .line 187
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
 
     .line 188
     .line 189
@@ -936,7 +936,7 @@
 
     .line 442
     .line 443
-    check-cast v0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast v0, Lcom/bareapps/barebackup/intro/d;
 
     .line 444
     .line 445
@@ -957,11 +957,11 @@
     .line 452
     .line 453
     .line 454
-    sget-object p1, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object p1, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 455
     .line 456
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->cleanupAppTasksDir()Lbe8;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->cleanupAppTasksDir()Lbe8;
 
     .line 457
     .line 458
@@ -1030,7 +1030,7 @@
 
     .line 489
     .line 490
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 491
     .line 492
@@ -1046,11 +1046,11 @@
 
     .line 497
     .line 498
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object v1, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 499
     .line 500
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 501
     .line 502
@@ -1167,7 +1167,7 @@
 
     .line 556
     .line 557
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 558
     .line 559
@@ -1191,11 +1191,11 @@
 
     .line 568
     .line 569
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 570
     .line 571
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 572
     .line 573
@@ -1219,7 +1219,7 @@
 
     .line 581
     .line 582
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 583
     .line 584
@@ -1513,11 +1513,11 @@
 
     .line 724
     :cond_c
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 725
     .line 726
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 727
     .line 728

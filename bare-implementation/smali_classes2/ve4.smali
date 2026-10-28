@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/intro/IntroActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/intro/IntroActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/intro/IntroActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lve4;->b:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    iput-object p1, p0, Lve4;->b:Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lve4;->b:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    iget-object p0, p0, Lve4;->b:Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 6
     .line 7
@@ -56,7 +56,7 @@
     .line 8
     .line 9
     .line 10
-    sget v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 11
     .line 12
@@ -72,7 +72,7 @@
 
     .line 17
     .line 18
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->P()Lqi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->P()Lqi7;
 
     .line 19
     .line 20
@@ -96,7 +96,7 @@
     const/4 v0, 0x0
 
     .line 28
-    iput-object v0, p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->T:Lorg/swiftapps/swiftbackup/intro/IntroActivity$a;
+    iput-object v0, p0, Lcom/bareapps/barebackup/intro/IntroActivity;->T:Lcom/bareapps/barebackup/intro/IntroActivity$a;
 
     .line 29
     .line 30

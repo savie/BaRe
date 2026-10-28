@@ -202,11 +202,11 @@
     move-result-object p0
 
     .line 24
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppsQuickActions:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppsQuickActions:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 25
     .line 26
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 27
     .line 28
@@ -232,11 +232,11 @@
     move-result-object p0
 
     .line 39
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppsLabels:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppsLabels:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 40
     .line 41
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 42
     .line 43
@@ -262,11 +262,11 @@
     move-result-object p0
 
     .line 54
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppConfig:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppConfig:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 55
     .line 56
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 57
     .line 58
@@ -292,11 +292,11 @@
     move-result-object p0
 
     .line 69
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Messages:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Messages:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 70
     .line 71
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 72
     .line 73
@@ -322,11 +322,11 @@
     move-result-object p0
 
     .line 84
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->CallLogs:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->CallLogs:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 85
     .line 86
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 87
     .line 88
@@ -352,11 +352,11 @@
     move-result-object p0
 
     .line 99
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Folders:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Folders:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 100
     .line 101
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 102
     .line 103
@@ -382,11 +382,11 @@
     move-result-object p0
 
     .line 114
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Wallpapers:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Wallpapers:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 115
     .line 116
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 117
     .line 118
@@ -412,11 +412,11 @@
     move-result-object p0
 
     .line 129
-    sget-object p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Wifi:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Wifi:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 130
     .line 131
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 132
     .line 133
@@ -427,11 +427,11 @@
 
     .line 135
     :sswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 136
     .line 137
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 138
     .line 139
@@ -452,7 +452,7 @@
 
     .line 147
     .line 148
-    const-class p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    const-class p1, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 149
     .line 150
@@ -479,7 +479,7 @@
     .line 160
     .line 161
     :try_start_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 162
     .line 163
@@ -607,7 +607,7 @@
 
     .line 221
     .line 222
-    invoke-direct {p1, p0, v1}, Lu42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {p1, p0, v1}, Lu42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     .line 223
     .line 224
@@ -669,11 +669,11 @@
 
     .line 248
     :sswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 249
     .line 250
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 251
     .line 252

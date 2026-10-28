@@ -6,7 +6,7 @@
 # instance fields
 .field public final A:Landroid/widget/ImageView;
 
-.field public final B:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+.field public final B:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
 .field public final synthetic C:Lwi;
 
@@ -20,7 +20,7 @@
 
 .field public final y:Landroid/widget/ImageView;
 
-.field public final z:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final z:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
@@ -155,7 +155,7 @@
     move-result-object v4
 
     .line 68
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v4, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 69
     .line 70
@@ -176,7 +176,7 @@
     move-result-object v5
 
     .line 79
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast v5, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 80
     .line 81
@@ -250,7 +250,7 @@
 
     .line 116
     .line 117
-    iput-object v4, p0, Lsi;->z:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object v4, p0, Lsi;->z:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 118
     .line 119
@@ -258,7 +258,7 @@
 
     .line 120
     .line 121
-    iput-object v5, p0, Lsi;->B:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iput-object v5, p0, Lsi;->B:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 122
     .line 123
@@ -591,7 +591,7 @@
 
     .line 136
     :goto_3
-    iget-object v8, p0, Lsi;->z:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v8, p0, Lsi;->z:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 137
     .line 138
@@ -764,7 +764,7 @@
     .line 221
     :cond_a
     :goto_5
-    iget-object v1, p0, Lsi;->B:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iget-object v1, p0, Lsi;->B:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 222
     .line 223

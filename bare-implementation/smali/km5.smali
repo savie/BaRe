@@ -781,11 +781,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 6
     .line 7
@@ -1001,7 +1001,7 @@
 
     .line 108
     .line 109
-    invoke-virtual {v6}, Lji;->getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v6}, Lji;->getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 110
     .line 111
@@ -1013,7 +1013,7 @@
 
     .line 114
     .line 115
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 116
     .line 117
@@ -1579,11 +1579,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 6
     .line 7
@@ -1764,7 +1764,7 @@
 
     .line 90
     .line 91
-    invoke-virtual {v6}, Lji;->getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v6}, Lji;->getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 92
     .line 93
@@ -1776,7 +1776,7 @@
 
     .line 96
     .line 97
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 98
     .line 99
@@ -1796,7 +1796,7 @@
     move-result-object v9
 
     .line 107
-    check-cast v9, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v9, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 108
     .line 109
@@ -1936,7 +1936,7 @@
 
     .line 164
     .line 165
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 166
     .line 167
@@ -1969,7 +1969,7 @@
     move v10, v3
 
     .line 180
-    invoke-direct/range {v5 .. v12}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+    invoke-direct/range {v5 .. v12}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
 
     .line 181
     .line 182
@@ -2191,7 +2191,7 @@
     move v9, v4
 
     .line 275
-    invoke-direct/range {v5 .. v12}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+    invoke-direct/range {v5 .. v12}, Ljz;-><init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
 
     .line 276
     .line 277
@@ -2717,11 +2717,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 6
     .line 7
@@ -2971,7 +2971,7 @@
     move-result-object v11
 
     .line 122
-    sget-object v3, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object v3, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 123
     .line 124
@@ -2980,7 +2980,7 @@
     .line 125
     .line 126
     .line 127
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/b;->c()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/b;->c()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 128
     .line 129
@@ -3003,7 +3003,7 @@
 
     .line 137
     .line 138
-    invoke-direct/range {v4 .. v13}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;ZLxp1;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
+    invoke-direct/range {v4 .. v13}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lcom/bareapps/barebackup/tasks/model/SyncOption;ZLxp1;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
 
     .line 139
     .line 140
@@ -5129,7 +5129,7 @@
 
     .line 6
     .line 7
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    const-class v0, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 8
     .line 9
@@ -5141,7 +5141,7 @@
     move-result-object p1
 
     .line 13
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 14
     .line 15
@@ -5149,7 +5149,7 @@
 
     .line 16
     .line 17
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->hasBackups()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->hasBackups()Z
 
     .line 18
     .line 19
@@ -5169,7 +5169,7 @@
 
     .line 25
     .line 26
-    invoke-direct {v0, p1}, Lol3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;)V
+    invoke-direct {v0, p1}, Lol3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderMetadata;)V
 
     .line 27
     .line 28

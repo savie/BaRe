@@ -83,11 +83,11 @@
 
     .line 18
     .line 19
-    iget-object v6, p1, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v6, p1, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 20
     .line 21
-    iget-object v0, v6, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->S:Lgv7;
+    iget-object v0, v6, Lcom/bareapps/barebackup/detail/DetailActivity;->S:Lgv7;
 
     .line 22
     .line 23
@@ -106,11 +106,11 @@
 
     .line 29
     .line 30
-    iget-object p0, p0, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 31
     .line 32
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 33
     .line 34
@@ -166,7 +166,7 @@
     .line 58
     .line 59
     .line 60
-    iget-object v11, v6, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->a0:Lfu;
+    iget-object v11, v6, Lcom/bareapps/barebackup/detail/DetailActivity;->a0:Lfu;
 
     .line 61
     .line 62
@@ -189,7 +189,7 @@
 
     .line 72
     .line 73
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasApk()Z
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasApk()Z
 
     .line 74
     .line 75
@@ -230,7 +230,7 @@
     const/4 v12, 0x0
 
     .line 93
-    invoke-direct/range {v4 .. v12}, Lvi0;-><init>(Lxi0;Landroid/app/Activity;ZZLorg/swiftapps/swiftbackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
+    invoke-direct/range {v4 .. v12}, Lvi0;-><init>(Lxi0;Landroid/app/Activity;ZZLcom/bareapps/barebackup/model/app/CloudMetadata;Lcd;Lri0;Ljv1;)V
 
     .line 94
     .line 95
@@ -249,7 +249,7 @@
 
     .line 101
     .line 102
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 103
     .line 104
@@ -257,15 +257,15 @@
 
     .line 105
     .line 106
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 107
     .line 108
-    sget v4, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget v4, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 109
     .line 110
-    invoke-static {p1, v3}, Lsq1;->a(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)Z
+    invoke-static {p1, v3}, Lsq1;->a(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)Z
 
     .line 111
     .line 112
@@ -277,7 +277,7 @@
 
     .line 115
     .line 116
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
 
     .line 117
     .line 118
@@ -325,7 +325,7 @@
     monitor-exit v5
 
     .line 139
-    invoke-virtual {v4, p1, v0}, Lqq1;->l(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)V
+    invoke-virtual {v4, p1, v0}, Lqq1;->l(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)V
 
     .line 140
     .line 141
@@ -449,7 +449,7 @@
 
     .line 195
     .line 196
-    check-cast p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 197
     .line 198
@@ -461,7 +461,7 @@
 
     .line 201
     .line 202
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 203
     .line 204
@@ -482,7 +482,7 @@
     .line 211
     .line 212
     .line 213
-    invoke-static {p1, p0, v0, v2}, Lorg/swiftapps/swiftbackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
+    invoke-static {p1, p0, v0, v2}, Lcom/bareapps/barebackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
 
     .line 214
     .line 215
@@ -495,7 +495,7 @@
 
     .line 218
     .line 219
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;
 
     .line 220
     .line 221
@@ -511,7 +511,7 @@
 
     .line 226
     .line 227
-    iget-object v5, p1, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
+    iget-object v5, p1, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
 
     .line 228
     .line 229
@@ -650,7 +650,7 @@
     .line 298
     .line 299
     :cond_6
-    iget-object p0, p1, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
+    iget-object p0, p1, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
 
     .line 300
     .line 301
@@ -666,7 +666,7 @@
     move-result-object p0
 
     .line 307
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;->i0()Ln30;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;->i0()Ln30;
 
     .line 308
     .line 309
@@ -1091,7 +1091,7 @@
     .line 514
     .line 515
     :cond_13
-    iget-object p0, p1, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
+    iget-object p0, p1, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;->j0:Lf30;
 
     .line 516
     .line 517
@@ -1107,7 +1107,7 @@
     move-result-object p0
 
     .line 523
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/listconfig/AppsConfigRunActivity;->i0()Ln30;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/listconfig/AppsConfigRunActivity;->i0()Ln30;
 
     .line 524
     .line 525
@@ -1417,7 +1417,7 @@
 
     .line 674
     .line 675
-    iget-object v3, v3, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v3, v3, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 676
     .line 677

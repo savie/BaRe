@@ -84,7 +84,7 @@
 
     .line 17
     .line 18
-    iget-object p1, p0, Lso7;->b:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    iget-object p1, p0, Lso7;->b:Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 19
     .line 20

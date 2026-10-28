@@ -27,11 +27,11 @@
 
     .line 5
     .line 6
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 7
     .line 8
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 9
     .line 10
@@ -48,7 +48,7 @@
     .line 15
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->c()I
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->c()I
 
     .line 18
     .line 19
@@ -106,7 +106,7 @@
     .locals 12
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 2
     .line 3
@@ -126,7 +126,7 @@
 
     .line 10
     .line 11
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 12
     .line 13
@@ -143,7 +143,7 @@
     move-result-object v0
 
     .line 20
-    sget v2, Lorg/swiftapps/swiftbackup/tasks/NotificationTaskCancelReceiver;->a:I
+    sget v2, Lcom/bareapps/barebackup/tasks/NotificationTaskCancelReceiver;->a:I
 
     .line 21
     .line 22
@@ -151,7 +151,7 @@
 
     .line 23
     .line 24
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 25
     .line 26
@@ -159,7 +159,7 @@
     move-result-object v3
 
     .line 28
-    const-class v4, Lorg/swiftapps/swiftbackup/tasks/NotificationTaskCancelReceiver;
+    const-class v4, Lcom/bareapps/barebackup/tasks/NotificationTaskCancelReceiver;
 
     .line 29
     .line 30
@@ -168,7 +168,7 @@
     .line 31
     .line 32
     .line 33
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 34
     .line 35
@@ -431,7 +431,7 @@
     :catch_0
     :goto_0
     :try_start_2
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
 
     .line 14
     .line 15
@@ -478,11 +478,11 @@
 
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 5
     .line 6
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 7
     .line 8
@@ -552,11 +552,11 @@
 
     .line 37
     .line 38
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 39
     .line 40
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 41
     .line 42
@@ -573,7 +573,7 @@
     .line 47
     .line 48
     .line 49
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->c()I
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->c()I
 
     .line 50
     .line 51
@@ -606,7 +606,7 @@
     .line 64
     .line 65
     .line 66
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 67
     .line 68
@@ -677,7 +677,7 @@
 
     .line 100
     .line 101
-    sget v1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 102
     .line 103
@@ -718,7 +718,7 @@
     .line 119
     .line 120
     :try_start_1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
 
     .line 121
     .line 122
@@ -790,11 +790,11 @@
 
     .line 16
     .line 17
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 18
     .line 19
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 20
     .line 21
@@ -802,7 +802,7 @@
     move-result-object v1
 
     .line 23
-    const-class v2, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    const-class v2, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 24
     .line 25
@@ -852,7 +852,7 @@
     .line 47
     .line 48
     .line 49
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 50
     .line 51
@@ -955,7 +955,7 @@
 
     .line 97
     .line 98
-    invoke-static {}, Lhy7;->c()Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;
+    invoke-static {}, Lhy7;->c()Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;
 
     .line 99
     .line 100
@@ -963,7 +963,7 @@
     move-result-object v4
 
     .line 102
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;->hasErrors()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;->hasErrors()Z
 
     .line 103
     .line 104
@@ -979,7 +979,7 @@
 
     .line 109
     .line 110
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;->getMsg()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;->getMsg()Ljava/lang/String;
 
     .line 111
     .line 112
@@ -1022,7 +1022,7 @@
     .line 129
     .line 130
     :cond_3
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;->getMsg()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;->getMsg()Ljava/lang/String;
 
     .line 131
     .line 132
@@ -1077,11 +1077,11 @@
 
     .line 154
     .line 155
-    sget-object v9, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v9, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 156
     .line 157
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 158
     .line 159
@@ -1329,11 +1329,11 @@
     .line 272
     .line 273
     .line 274
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 275
     .line 276
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 277
     .line 278
@@ -1491,11 +1491,11 @@
 
     .line 344
     .line 345
-    sget-object v11, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v11, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 346
     .line 347
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 348
     .line 349
@@ -1582,7 +1582,7 @@
     .line 388
     :cond_f
     :goto_8
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 389
     .line 390
@@ -1678,7 +1678,7 @@
     .line 432
     :cond_13
     :goto_a
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 433
     .line 434
@@ -1704,7 +1704,7 @@
 
     .line 443
     .line 444
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;->hasErrors()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;->hasErrors()Z
 
     .line 445
     .line 446
@@ -1716,7 +1716,7 @@
 
     .line 449
     .line 450
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;->isOnlySafeErrors()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;->isOnlySafeErrors()Z
 
     .line 451
     .line 452
@@ -1752,7 +1752,7 @@
     .line 466
     .line 467
     :goto_c
-    sget-object v9, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v9, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 468
     .line 469
@@ -1777,7 +1777,7 @@
 
     .line 479
     :goto_d
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->c()I
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->c()I
 
     .line 480
     .line 481
@@ -1827,7 +1827,7 @@
 
     .line 504
     :cond_17
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 505
     .line 506
@@ -1885,13 +1885,13 @@
 
     .line 532
     .line 533
-    invoke-static {v10, v5}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->g(Lwo5;Z)V
+    invoke-static {v10, v5}, Lcom/bareapps/barebackup/common/NotificationHelper;->g(Lwo5;Z)V
 
     .line 534
     .line 535
     .line 536
     :cond_18
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
 
     .line 537
     .line 538
@@ -1942,7 +1942,7 @@
 
     .line 9
     .line 10
-    invoke-static {p1, p2}, Lorg/swiftapps/swiftbackup/common/Const;->q(II)I
+    invoke-static {p1, p2}, Lcom/bareapps/barebackup/common/Const;->q(II)I
 
     .line 11
     .line 12

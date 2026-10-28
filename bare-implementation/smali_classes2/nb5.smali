@@ -27,7 +27,7 @@
 
     .line 7
     .line 8
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 9
     .line 10
@@ -37,7 +37,7 @@
     const/4 v2, 0x3
 
     .line 12
-    invoke-direct {v0, v1, v1, v2, v1}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;-><init>(Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v0, v1, v1, v2, v1}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;-><init>(Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 13
     .line 14

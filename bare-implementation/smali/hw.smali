@@ -119,7 +119,7 @@
 
     .line 44
     :pswitch_0
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 45
     .line 46

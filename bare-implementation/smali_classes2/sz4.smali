@@ -48,11 +48,11 @@
 
     .line 19
     .line 20
-    check-cast p0, Lorg/swiftapps/swiftbackup/SwiftApp;
+    check-cast p0, Lcom/bareapps/barebackup/BareApp;
 
     .line 21
     .line 22
-    invoke-virtual {p0, p1, p2, p3}, Lorg/swiftapps/swiftbackup/SwiftApp;->isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z
+    invoke-virtual {p0, p1, p2, p3}, Lcom/bareapps/barebackup/BareApp;->isLocalNetworkTcpBlockedByPermission(Ljava/lang/String;II)Z
 
     .line 23
     .line 24

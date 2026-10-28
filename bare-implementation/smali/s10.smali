@@ -138,7 +138,7 @@
 
     .line 35
     .line 36
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 37
     .line 38
@@ -1046,7 +1046,7 @@
 
     .line 308
     :pswitch_1
-    check-cast v4, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast v4, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 309
     .line 310
@@ -1102,7 +1102,7 @@
 
     .line 335
     .line 336
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->V()Lhf1;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->V()Lhf1;
 
     .line 337
     .line 338
@@ -1445,7 +1445,7 @@
 
     .line 499
     .line 500
-    iget-object v5, v0, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v5, v0, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 501
     .line 502

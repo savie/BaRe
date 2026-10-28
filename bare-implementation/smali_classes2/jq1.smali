@@ -94,11 +94,11 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 11
     .line 12
@@ -106,7 +106,7 @@
     move-result-object p1
 
     .line 14
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->P()Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->P()Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 15
     .line 16
@@ -114,7 +114,7 @@
     move-result-object p0
 
     .line 18
-    invoke-virtual {p1, p0}, Ltb5;->k(Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;)V
+    invoke-virtual {p1, p0}, Ltb5;->k(Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;)V
 
     .line 19
     .line 20
@@ -123,11 +123,11 @@
 
     .line 22
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 25
     .line 26
@@ -135,7 +135,7 @@
     move-result-object p1
 
     .line 28
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 29
     .line 30
@@ -143,7 +143,7 @@
     move-result-object p0
 
     .line 32
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 33
     .line 34
@@ -152,11 +152,11 @@
 
     .line 36
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
 
     .line 39
     .line 40
@@ -164,7 +164,7 @@
     move-result-object v0
 
     .line 42
-    invoke-virtual {v0}, Lqq1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-virtual {v0}, Lqq1;->j()Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 43
     .line 44
@@ -248,7 +248,7 @@
     const/4 v6, 0x0
 
     .line 77
-    invoke-static/range {v1 .. v8}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-static/range {v1 .. v8}, Lcom/bareapps/barebackup/appconfigs/data/Config;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 78
     .line 79
@@ -256,7 +256,7 @@
     move-result-object p1
 
     .line 81
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V()Lqq1;
 
     .line 82
     .line 83
@@ -267,7 +267,7 @@
     const/4 v0, 0x0
 
     .line 86
-    invoke-virtual {p0, p1, v0}, Lqq1;->l(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)V
+    invoke-virtual {p0, p1, v0}, Lqq1;->l(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)V
 
     .line 87
     .line 88

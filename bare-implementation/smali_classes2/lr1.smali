@@ -444,11 +444,11 @@
     return-void
 .end method
 
-.method public static q(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
+.method public static q(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
     .locals 11
 
     .line 1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getBackupLimits()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getBackupLimits()Ljava/util/List;
 
     .line 2
     .line 3
@@ -495,11 +495,11 @@
     move-object v3, v2
 
     .line 23
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v3, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 24
     .line 25
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 26
     .line 27
@@ -523,7 +523,7 @@
 
     .line 35
     :goto_0
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v2, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 36
     .line 37
@@ -532,7 +532,7 @@
     .line 38
     .line 39
     :cond_2
-    new-instance v3, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v3, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 40
     .line 41
@@ -560,7 +560,7 @@
     const/4 v6, 0x0
 
     .line 51
-    invoke-direct/range {v3 .. v8}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v3 .. v8}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 52
     .line 53
@@ -605,11 +605,11 @@
     move-object v4, v3
 
     .line 72
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v4, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 73
     .line 74
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 75
     .line 76
@@ -633,7 +633,7 @@
 
     .line 84
     :goto_1
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v3, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 85
     .line 86
@@ -642,7 +642,7 @@
     .line 87
     .line 88
     :cond_6
-    new-instance v4, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v4, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 89
     .line 90
@@ -670,7 +670,7 @@
     const/4 v7, 0x0
 
     .line 100
-    invoke-direct/range {v4 .. v9}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v4 .. v9}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 101
     .line 102
@@ -715,11 +715,11 @@
     move-object v5, v4
 
     .line 121
-    check-cast v5, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v5, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 122
     .line 123
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 124
     .line 125
@@ -743,7 +743,7 @@
 
     .line 133
     :goto_2
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v4, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 134
     .line 135
@@ -752,7 +752,7 @@
     .line 136
     .line 137
     :cond_a
-    new-instance v5, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v5, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 138
     .line 139
@@ -780,7 +780,7 @@
     const/4 v8, 0x0
 
     .line 149
-    invoke-direct/range {v5 .. v10}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v5 .. v10}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 150
     .line 151
@@ -825,11 +825,11 @@
     move-object v5, v1
 
     .line 170
-    check-cast v5, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v5, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 171
     .line 172
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 173
     .line 174
@@ -849,7 +849,7 @@
 
     .line 181
     :cond_d
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 182
     .line 183
@@ -858,7 +858,7 @@
     .line 184
     .line 185
     :cond_e
-    new-instance v5, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v5, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 186
     .line 187
@@ -886,7 +886,7 @@
     const/4 v8, 0x0
 
     .line 197
-    invoke-direct/range {v5 .. v10}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v5 .. v10}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 198
     .line 199
@@ -895,7 +895,7 @@
 
     .line 201
     :cond_f
-    filled-new-array {v2, v3, v4, v0}, [Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    filled-new-array {v2, v3, v4, v0}, [Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 202
     .line 203
@@ -990,7 +990,7 @@
     move-result-object p1
 
     .line 35
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 36
     .line 37
@@ -1020,7 +1020,7 @@
     move-result-object v2
 
     .line 51
-    invoke-virtual {v2}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v2}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 52
     .line 53
@@ -1028,7 +1028,7 @@
     move-result-object v2
 
     .line 55
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
 
     .line 56
     .line 57
@@ -1159,7 +1159,7 @@
     move-result-object p1
 
     .line 120
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 121
     .line 122
@@ -1171,7 +1171,7 @@
     move-result-object v0
 
     .line 126
-    invoke-virtual {v0}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v0}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 127
     .line 128
@@ -1179,7 +1179,7 @@
     move-result-object v0
 
     .line 130
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getCompressionLevel()Lxp1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getCompressionLevel()Lxp1;
 
     .line 131
     .line 132
@@ -1235,7 +1235,7 @@
     move-result-object p1
 
     .line 158
-    invoke-virtual {p1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {p1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 159
     .line 160
@@ -1243,7 +1243,7 @@
     move-result-object p1
 
     .line 162
-    invoke-static {p1}, Llr1;->q(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
+    invoke-static {p1}, Llr1;->q(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
 
     .line 163
     .line 164
@@ -1294,7 +1294,7 @@
     move-result-object p1
 
     .line 187
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 188
     .line 189
@@ -1306,7 +1306,7 @@
     move-result-object v0
 
     .line 193
-    invoke-virtual {v0}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v0}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 194
     .line 195
@@ -1314,7 +1314,7 @@
     move-result-object v0
 
     .line 197
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getSyncOption()Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getSyncOption()Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 198
     .line 199
@@ -1331,7 +1331,7 @@
     .line 204
     .line 205
     .line 206
-    invoke-static {p1, v0, v1}, Llg7;->F(Lsa1;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;Lmt3;)V
+    invoke-static {p1, v0, v1}, Llg7;->F(Lsa1;Lcom/bareapps/barebackup/tasks/model/SyncOption;Lmt3;)V
 
     .line 207
     .line 208
@@ -1370,7 +1370,7 @@
     move-result-object p1
 
     .line 225
-    invoke-virtual {p1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {p1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 226
     .line 227
@@ -1421,7 +1421,7 @@
     move-result-object p1
 
     .line 250
-    invoke-virtual {p1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {p1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 251
     .line 252
@@ -1429,7 +1429,7 @@
     move-result-object p1
 
     .line 254
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getMultipleBackupStrategy()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getMultipleBackupStrategy()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 255
     .line 256
@@ -1483,7 +1483,7 @@
     move-result-object v0
 
     .line 280
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 281
     .line 282
@@ -1495,7 +1495,7 @@
     move-result-object v1
 
     .line 286
-    invoke-virtual {v1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 287
     .line 288
@@ -1503,7 +1503,7 @@
     move-result-object v1
 
     .line 290
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getRestorePermissionsMode()Lyu;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getRestorePermissionsMode()Lyu;
 
     .line 291
     .line 292
@@ -1562,7 +1562,7 @@
     move-result-object p1
 
     .line 319
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 320
     .line 321
@@ -1574,7 +1574,7 @@
     move-result-object v0
 
     .line 325
-    invoke-virtual {v0}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v0}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 326
     .line 327
@@ -1582,7 +1582,7 @@
     move-result-object v0
 
     .line 329
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
 
     .line 330
     .line 331
@@ -1770,7 +1770,7 @@
 
     .line 29
     .line 30
-    instance-of v2, v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    instance-of v2, v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 31
     .line 32
@@ -1778,7 +1778,7 @@
 
     .line 33
     .line 34
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 35
     .line 36
@@ -1920,7 +1920,7 @@
     move-result-object v0
 
     .line 11
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 12
     .line 13
@@ -1948,7 +1948,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
 
     .line 25
     .line 26
@@ -2010,7 +2010,7 @@
 
     .line 53
     .line 54
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
 
     .line 55
     .line 56
@@ -2062,7 +2062,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getLocations()Ljava/util/List;
 
     .line 81
     .line 82
@@ -2083,7 +2083,7 @@
     .line 89
     .line 90
     .line 91
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getSyncOption()Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getSyncOption()Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 92
     .line 93
@@ -2091,7 +2091,7 @@
     move-result-object v2
 
     .line 95
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->toDisplayString()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/tasks/model/SyncOption;->toDisplayString()Ljava/lang/String;
 
     .line 96
     .line 97
@@ -2120,7 +2120,7 @@
 
     .line 109
     .line 110
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getMultipleBackupStrategy()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getMultipleBackupStrategy()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 111
     .line 112
@@ -2128,7 +2128,7 @@
     move-result-object v2
 
     .line 114
-    invoke-static {v2}, Lorg/swiftapps/swiftbackup/settings/f;->a(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    invoke-static {v2}, Lcom/bareapps/barebackup/settings/f;->a(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     .line 115
     .line 116
@@ -2136,7 +2136,7 @@
     move-result-object v2
 
     .line 118
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->preferenceSummary()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->preferenceSummary()Ljava/lang/String;
 
     .line 119
     .line 120
@@ -2165,7 +2165,7 @@
 
     .line 132
     .line 133
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getCompressionLevel()Lxp1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getCompressionLevel()Lxp1;
 
     .line 134
     .line 135
@@ -2259,11 +2259,11 @@
     .line 177
     .line 178
     :goto_0
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 179
     .line 180
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 181
     .line 182
@@ -2305,7 +2305,7 @@
 
     .line 201
     .line 202
-    invoke-static {v0}, Llr1;->q(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
+    invoke-static {v0}, Llr1;->q(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)Ljava/util/List;
 
     .line 203
     .line 204
@@ -2355,11 +2355,11 @@
     move-object v5, v4
 
     .line 226
-    check-cast v5, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v5, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 227
     .line 228
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
 
     .line 229
     .line 230
@@ -2478,11 +2478,11 @@
     move-result-object v1
 
     .line 284
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 285
     .line 286
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getCacheBackup()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getCacheBackup()Z
 
     .line 287
     .line 288
@@ -2511,7 +2511,7 @@
 
     .line 300
     .line 301
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getRestorePermissionsMode()Lyu;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getRestorePermissionsMode()Lyu;
 
     .line 302
     .line 303
@@ -2548,7 +2548,7 @@
 
     .line 319
     .line 320
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getRestoreSpecialPermissions()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getRestoreSpecialPermissions()Z
 
     .line 321
     .line 322
@@ -2600,11 +2600,11 @@
     move-result-object p0
 
     .line 346
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 347
     .line 348
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getRestoreSsaid()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getRestoreSsaid()Z
 
     .line 349
     .line 350

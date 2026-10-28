@@ -756,7 +756,7 @@
 
     .line 2
     .line 3
-    invoke-static {}, Lb45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 4
     .line 5
@@ -764,7 +764,7 @@
     move-result-object v0
 
     .line 7
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 8
     .line 9
@@ -1253,11 +1253,11 @@
     .locals 7
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 4
     .line 5
@@ -1517,11 +1517,11 @@
 
     .line 126
     :cond_5
-    sget-object v3, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v3, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 127
     .line 128
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 129
     .line 130
@@ -1744,11 +1744,11 @@
 
     .line 1
     :try_start_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 4
     .line 5
@@ -1830,11 +1830,11 @@
     .locals 3
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 4
     .line 5
@@ -1905,7 +1905,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -1917,7 +1917,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -1976,7 +1976,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -1988,7 +1988,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -2098,11 +2098,11 @@
 
     .line 18
     :goto_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 19
     .line 20
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getZ()Landroid/content/SharedPreferences;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getZ()Landroid/content/SharedPreferences;
 
     .line 21
     .line 22

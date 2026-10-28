@@ -102,7 +102,7 @@
     .line 37
     .line 38
     .line 39
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 40
     .line 41
@@ -135,7 +135,7 @@
     .line 54
     .line 55
     .line 56
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 57
     .line 58

@@ -815,7 +815,7 @@
     move-result-object p1
 
     .line 42
-    iget-object v0, v0, Lwf1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v0, v0, Lwf1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 43
     .line 44

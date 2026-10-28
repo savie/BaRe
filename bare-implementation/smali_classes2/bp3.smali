@@ -6,7 +6,7 @@
 # instance fields
 .field public final A:Landroid/widget/TextView;
 
-.field public final B:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+.field public final B:Lcom/bareapps/barebackup/views/MCheckBox;
 
 .field public final C:Landroid/widget/ImageView;
 
@@ -16,7 +16,7 @@
 
 .field public final synthetic F:Lcp3;
 
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/view/View;
 
@@ -53,11 +53,11 @@
 
     .line 11
     .line 12
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v0, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 13
     .line 14
-    iput-object v0, p0, Lbp3;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object v0, p0, Lbp3;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 15
     .line 16
@@ -125,11 +125,11 @@
 
     .line 47
     .line 48
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v0, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 49
     .line 50
-    iput-object v0, p0, Lbp3;->B:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iput-object v0, p0, Lbp3;->B:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 51
     .line 52
@@ -211,7 +211,7 @@
 
     .line 8
     .line 9
-    iget-object v1, p0, Lbp3;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v1, p0, Lbp3;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 10
     .line 11
@@ -244,7 +244,7 @@
     .line 22
     .line 23
     .line 24
-    iget-object p0, p0, Lbp3;->B:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object p0, p0, Lbp3;->B:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 25
     .line 26

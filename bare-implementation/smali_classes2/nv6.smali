@@ -1160,11 +1160,11 @@
 
     .line 32
     .line 33
-    check-cast p2, Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    check-cast p2, Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 34
     .line 35
-    invoke-direct {p1, p2, p0, v0, v1}, Ljo6;-><init>(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;Lh80;[Ljava/lang/String;Lt34;)V
+    invoke-direct {p1, p2, p0, v0, v1}, Ljo6;-><init>(Lcom/bareapps/barebackup/database/MDatabase_Impl;Lh80;[Ljava/lang/String;Lt34;)V
 
     .line 36
     .line 37

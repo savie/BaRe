@@ -6791,7 +6791,7 @@
 
     .line 23
     .line 24
-    const-class v1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    const-class v1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 25
     .line 26

@@ -2023,15 +2023,15 @@
 
     .line 57
     .line 58
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 59
     .line 60
-    sget p1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget p1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 61
     .line 62
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 63
     .line 64
@@ -2222,15 +2222,15 @@
 
     .line 154
     .line 155
-    check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 156
     .line 157
-    sget v1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 158
     .line 159
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->o0()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 160
     .line 161

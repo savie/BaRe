@@ -6,7 +6,7 @@
 # instance fields
 .field public final a:Lji;
 
-.field public final b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final c:Lfo2;
 
@@ -30,7 +30,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lji;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;JJ)V
+.method public constructor <init>(Lji;Lcom/bareapps/barebackup/model/app/CloudMetadata;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;Lfo2;JJ)V
     .locals 0
 
     .line 1
@@ -53,7 +53,7 @@
 
     .line 11
     .line 12
-    iput-object p2, p0, Lhq;->b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p2, p0, Lhq;->b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 13
     .line 14
@@ -160,11 +160,11 @@
 
     .line 24
     :cond_2
-    iget-object v1, p0, Lhq;->b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v1, p0, Lhq;->b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 25
     .line 26
-    iget-object v3, p1, Lhq;->b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v3, p1, Lhq;->b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 27
     .line 28
@@ -442,11 +442,11 @@
     mul-int/2addr v0, v1
 
     .line 10
-    iget-object v2, p0, Lhq;->b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v2, p0, Lhq;->b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 11
     .line 12
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hashCode()I
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hashCode()I
 
     .line 13
     .line 14
@@ -765,7 +765,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object v1, p0, Lhq;->b:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v1, p0, Lhq;->b:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 19
     .line 20

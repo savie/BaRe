@@ -266,7 +266,7 @@
 
     .line 13
     .line 14
-    iget-object v0, p0, Lcs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v0, p0, Lcs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 15
     .line 16
@@ -488,11 +488,11 @@
 
     .line 124
     .line 125
-    iget-object v0, p0, Lj57;->l:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v0, p0, Lj57;->l:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 126
     .line 127
-    check-cast v3, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast v3, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 128
     .line 129
@@ -513,15 +513,15 @@
 
     .line 137
     .line 138
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 139
     .line 140
-    new-instance p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService$RunMode$SingleSchedule;
+    new-instance p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService$RunMode$SingleSchedule;
 
     .line 141
     .line 142
-    invoke-direct {p0, v3}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService$RunMode$SingleSchedule;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;)V
+    invoke-direct {p0, v3}, Lcom/bareapps/barebackup/home/schedule/ScheduleService$RunMode$SingleSchedule;-><init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;)V
 
     .line 143
     .line 144
@@ -554,7 +554,7 @@
     .line 159
     .line 160
     .line 161
-    invoke-static {v1, p0, p1}, Lorg/swiftapps/swiftbackup/home/schedule/a;->b(ZLorg/swiftapps/swiftbackup/home/schedule/ScheduleService$RunMode;Lmt3;)V
+    invoke-static {v1, p0, p1}, Lcom/bareapps/barebackup/home/schedule/a;->b(ZLcom/bareapps/barebackup/home/schedule/ScheduleService$RunMode;Lmt3;)V
 
     .line 162
     .line 163
@@ -573,7 +573,7 @@
 
     .line 170
     .line 171
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemType()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemType()Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 172
     .line 173
@@ -620,7 +620,7 @@
     .line 192
     .line 193
     :cond_4
-    sget p0, Lorg/swiftapps/swiftbackup/appsquickactions/AppsQuickActionsActivity;->S:I
+    sget p0, Lcom/bareapps/barebackup/appsquickactions/AppsQuickActionsActivity;->S:I
 
     .line 194
     .line 195
@@ -633,7 +633,7 @@
 
     .line 199
     .line 200
-    const-class p1, Lorg/swiftapps/swiftbackup/appsquickactions/AppsQuickActionsActivity;
+    const-class p1, Lcom/bareapps/barebackup/appsquickactions/AppsQuickActionsActivity;
 
     .line 201
     .line 202
@@ -651,7 +651,7 @@
 
     .line 209
     :cond_5
-    sget p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 210
     .line 211
@@ -664,7 +664,7 @@
 
     .line 215
     :cond_6
-    sget p0, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;->R:I
+    sget p0, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;->R:I
 
     .line 216
     .line 217
@@ -686,7 +686,7 @@
 
     .line 225
     .line 226
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 227
     .line 228
@@ -822,7 +822,7 @@
 
     .line 287
     .line 288
-    invoke-static {p1, p0, v0}, Lorg/swiftapps/swiftbackup/common/Const;->f(Ljava/lang/String;Ljava/lang/String;Lmt3;)V
+    invoke-static {p1, p0, v0}, Lcom/bareapps/barebackup/common/Const;->f(Ljava/lang/String;Ljava/lang/String;Lmt3;)V
 
     .line 289
     .line 290
@@ -858,7 +858,7 @@
     .line 305
     .line 306
     .line 307
-    invoke-static {v0, p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->J(Lio1;ILbt3;)V
+    invoke-static {v0, p0, p1}, Lcom/bareapps/barebackup/common/Const;->J(Lio1;ILbt3;)V
 
     .line 308
     .line 309

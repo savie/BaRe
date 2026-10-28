@@ -420,7 +420,7 @@
 
     .line 78
     .line 79
-    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 80
     .line 81
@@ -664,7 +664,7 @@
 
     .line 66
     .line 67
-    invoke-static {v4}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v4}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 68
     .line 69

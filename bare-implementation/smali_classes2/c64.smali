@@ -172,11 +172,11 @@
 
     .line 59
     .line 60
-    sget-object v2, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v2, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 61
     .line 62
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 63
     .line 64
@@ -223,11 +223,11 @@
 
     .line 86
     .line 87
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 88
     .line 89
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 90
     .line 91
@@ -506,11 +506,11 @@
 
     .line 2
     :try_start_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 3
     .line 4
-    invoke-virtual {v0, p1}, Lorg/swiftapps/swiftbackup/common/V;->setA(Z)V
+    invoke-virtual {v0, p1}, Lcom/bareapps/barebackup/common/V;->setA(Z)V
 
     .line 5
     .line 6
@@ -531,11 +531,11 @@
 
     .line 14
     .line 15
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 18
     .line 19
@@ -543,7 +543,7 @@
     move-result-object v0
 
     .line 21
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/SwiftApp;->c:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/BareApp;->c:Lgv7;
 
     .line 22
     .line 23
@@ -555,11 +555,11 @@
     move-result-object v0
 
     .line 27
-    check-cast v0, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    check-cast v0, Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 28
     .line 29
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->c()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->c()V
 
     .line 30
     .line 31
@@ -604,11 +604,11 @@
     .line 49
     .line 50
     .line 51
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 52
     .line 53
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 54
     .line 55
@@ -616,7 +616,7 @@
     move-result-object v0
 
     .line 57
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/SwiftApp;->c:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/BareApp;->c:Lgv7;
 
     .line 58
     .line 59
@@ -628,11 +628,11 @@
     move-result-object v0
 
     .line 63
-    check-cast v0, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    check-cast v0, Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 64
     .line 65
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->a()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->a()V
 
     .line 66
     .line 67
@@ -643,11 +643,11 @@
     .line 69
     .line 70
     .line 71
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 72
     .line 73
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 74
     .line 75
@@ -655,7 +655,7 @@
     move-result-object v0
 
     .line 77
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/SwiftApp;->a:Lex6;
+    iget-object v0, v0, Lcom/bareapps/barebackup/BareApp;->a:Lex6;
 
     .line 78
     .line 79

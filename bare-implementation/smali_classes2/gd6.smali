@@ -75,7 +75,7 @@
 
     .line 35
     .line 36
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v0, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 37
     .line 38

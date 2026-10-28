@@ -827,7 +827,7 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="schedules">Jadwal</string>
     <string name="search">Cari</string>
     <string name="search_hint_apps">Cari aplikasi</string>
-    <string name="search_swift_backup">Cari BΛR☰</string>
+    <string name="search_bare_backup">Cari BΛR☰</string>
     <string name="secondary_action">Tindakan sekunder</string>
     <string name="secondary_user_warning_msg">Sekunder/Kerja profil pengguna tidak didukung secara resmi karena beberapa masalah yang tidak dapat dihindari. Silakan beralih ke pengguna Utama di perangkat ini.</string>
     <string name="see_all">Lihat semua</string>
@@ -865,11 +865,11 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="share_apk">Bagikan APK</string>
     <string name="share_apks">Bagikan APKs</string>
     <string name="share_logs">Bagikan log</string>
-    <string name="share_swiftbackup">Bagikan BΛR☰</string>
-    <string name="share_swiftbackup_msg">Lihat manajer cadangan baru yang mengagumkan ini yang saya gunakan! Namanya BΛR☰ dan inilah tautannya: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Solusi pencadangan sederhana, cepat, dan cerdas untuk Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat Perangkat</string>
-    <string name="share_swiftlogger_text_only">Bagikan laporan teks saja</string>
+    <string name="share_barebackup">Bagikan BΛR☰</string>
+    <string name="share_barebackup_msg">Lihat manajer cadangan baru yang mengagumkan ini yang saya gunakan! Namanya BΛR☰ dan inilah tautannya: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Solusi pencadangan sederhana, cepat, dan cerdas untuk Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat Perangkat</string>
+    <string name="share_barelogger_text_only">Bagikan laporan teks saja</string>
     <string name="shared_libraries">Pustaka bersama</string>
     <string name="shortcuts">Pintasan</string>
     <string name="show_less">Tampilkan lebih sedikit</string>
@@ -911,9 +911,9 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="successful">Berhasil</string>
     <string name="sure_to_cancel_task">Anda yakin ingin membatalkan?</string>
     <string name="sure_to_proceed">"Anda yakin ingin melanjutkan? Klik 'Ya' untuk konfirmasi."</string>
-    <string name="swift_backup_is_busy">BΛR☰ sedang sibuk</string>
-    <string name="swift_labs_settings_summary">Fitur eksperimental yang tidak dijamin berfungsi. Fitur-fitur ini dapat menghilang kapan saja!</string>
-    <string name="swiftlogger_info">Log penting yang mungkin membantu dalam pelaporan bug</string>
+    <string name="barebackup_is_busy">BΛR☰ sedang sibuk</string>
+    <string name="bare_labs_settings_summary">Fitur eksperimental yang tidak dijamin berfungsi. Fitur-fitur ini dapat menghilang kapan saja!</string>
+    <string name="barelogger_info">Log penting yang mungkin membantu dalam pelaporan bug</string>
     <string name="swipe_actions">Tindakan geser</string>
     <string name="swipe_actions_description">Pilih hingga dua tindakan untuk setiap arah geser</string>
     <string name="sync_backups">Sinkronkan cadangan</string>

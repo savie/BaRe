@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final l:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+.field public final l:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
 .field public final m:Lh80;
 
@@ -22,7 +22,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;Lh80;[Ljava/lang/String;Lt34;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/database/MDatabase_Impl;Lh80;[Ljava/lang/String;Lt34;)V
     .locals 0
 
     .line 1
@@ -36,7 +36,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Ljo6;->l:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iput-object p1, p0, Ljo6;->l:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 8
     .line 9
@@ -158,7 +158,7 @@
 
     .line 6
     .line 7
-    iget-object v3, v0, Ljo6;->l:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object v3, v0, Ljo6;->l:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 8
     .line 9
@@ -728,7 +728,7 @@
 
     .line 260
     .line 261
-    invoke-static {v3, v10, v1, v5}, Lg67;->A(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
+    invoke-static {v3, v10, v1, v5}, Lg67;->A(Lcom/bareapps/barebackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
 
     .line 262
     .line 263
@@ -887,7 +887,7 @@
     .line 11
     .line 12
     .line 13
-    iget-object v0, p0, Ljo6;->l:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object v0, p0, Ljo6;->l:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 14
     .line 15

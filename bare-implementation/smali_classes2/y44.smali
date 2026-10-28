@@ -11,11 +11,11 @@
 
 .field public final synthetic b:Lzc6;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+.field public final synthetic c:Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
 
 # direct methods
-.method public constructor <init>(Lzc6;Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;Ljv1;)V
+.method public constructor <init>(Lzc6;Lcom/bareapps/barebackup/home/search/HomeSearchActivity;Ljv1;)V
     .locals 0
 
     .line 1
@@ -23,7 +23,7 @@
 
     .line 2
     .line 3
-    iput-object p2, p0, Ly44;->c:Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    iput-object p2, p0, Ly44;->c:Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Ly44;->c:Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    iget-object p0, p0, Ly44;->c:Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 6
     .line 7
-    invoke-direct {p1, v0, p0, p2}, Ly44;-><init>(Lzc6;Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;Ljv1;)V
+    invoke-direct {p1, v0, p0, p2}, Ly44;-><init>(Lzc6;Lcom/bareapps/barebackup/home/search/HomeSearchActivity;Ljv1;)V
 
     .line 8
     .line 9
@@ -191,7 +191,7 @@
     const/4 v7, 0x1
 
     .line 41
-    iget-object v3, p0, Ly44;->c:Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    iget-object v3, p0, Ly44;->c:Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 42
     .line 43

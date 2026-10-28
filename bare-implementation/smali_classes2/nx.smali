@@ -230,7 +230,7 @@
 
     .line 98
     :pswitch_3
-    check-cast p2, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast p2, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 99
     .line 100
@@ -250,7 +250,7 @@
     move-result-object p0
 
     .line 108
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 109
     .line 110

@@ -130,11 +130,11 @@
 
     .line 39
     .line 40
-    iget-object p1, p0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p1, p0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 41
     .line 42
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p1}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 43
     .line 44

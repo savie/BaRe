@@ -75,7 +75,7 @@
     return-void
 .end method
 
-.method public static A(Lorg/swiftapps/swiftbackup/home/HomeActivity;Z)V
+.method public static A(Lcom/bareapps/barebackup/home/HomeActivity;Z)V
     .locals 2
 
     .line 1
@@ -107,11 +107,11 @@
 
     .line 14
     .line 15
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 18
     .line 19
@@ -140,7 +140,7 @@
 
     .line 30
     .line 31
-    const-class v1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    const-class v1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 32
     .line 33
@@ -192,7 +192,7 @@
 
     .line 8
     .line 9
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    const-class v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 10
     .line 11
@@ -2912,7 +2912,7 @@
     return-object p0
 .end method
 
-.method public static i(Ldd1;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)Lki1;
+.method public static i(Ldd1;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)Lki1;
     .locals 4
 
     .line 1
@@ -2975,7 +2975,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -2995,7 +2995,7 @@
 
     .line 37
     .line 38
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     .line 39
     .line 40
@@ -3062,7 +3062,7 @@
 
     .line 69
     .line 70
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProviderPresetId()Ljava/lang/String;
 
     .line 71
     .line 72
@@ -3082,7 +3082,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     .line 81
     .line 82
@@ -3458,7 +3458,7 @@
     array-length v0, v0
 
     .line 90
-    const-string v1, "Unexpected SwiftTar extract stats length: "
+    const-string v1, "Unexpected BareTar extract stats length: "
 
     .line 91
     .line 92

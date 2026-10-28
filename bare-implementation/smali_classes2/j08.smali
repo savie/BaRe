@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lj08;->a:Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;
+    iput-object p1, p0, Lj08;->a:Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;
 
     .line 5
     .line 6
@@ -33,14 +33,14 @@
     .locals 0
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;->N:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;->N:I
 
     .line 2
     .line 3
     const/4 p1, 0x0
 
     .line 4
-    iget-object p0, p0, Lj08;->a:Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;
+    iget-object p0, p0, Lj08;->a:Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;
 
     .line 5
     .line 6

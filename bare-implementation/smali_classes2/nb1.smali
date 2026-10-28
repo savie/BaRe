@@ -94,11 +94,11 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;
 
     .line 9
     .line 10
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;->Y(Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;->Y(Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;)V
 
     .line 11
     .line 12
@@ -107,15 +107,15 @@
 
     .line 14
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 15
     .line 16
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 17
     .line 18
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->c0()Lnc1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->c0()Lnc1;
 
     .line 19
     .line 20
@@ -123,12 +123,12 @@
     move-result-object p1
 
     .line 22
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->n0(Lnc1;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->n0(Lnc1;)V
 
     .line 23
     .line 24
     .line 25
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 26
     .line 27
@@ -136,7 +136,7 @@
     move-result-object p1
 
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 30
     .line 31
@@ -144,7 +144,7 @@
     move-result-object p0
 
     .line 33
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 34
     .line 35

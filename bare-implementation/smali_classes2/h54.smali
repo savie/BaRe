@@ -20,7 +20,7 @@
 
     .line 4
     .line 5
-    const-string v5, "renderAppIcon(Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/model/app/App;)V"
+    const-string v5, "renderAppIcon(Landroid/widget/ImageView;Lcom/bareapps/barebackup/model/app/App;)V"
 
     .line 6
     .line 7
@@ -171,7 +171,7 @@
 
     .line 13
     :cond_0
-    iget-object p0, p0, Ls54;->p:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p0, Ls54;->p:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 14
     .line 15

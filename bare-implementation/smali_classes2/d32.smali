@@ -83,7 +83,7 @@
     .line 15
     .line 16
     .line 17
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 18
     .line 19
@@ -95,11 +95,11 @@
 
     .line 22
     .line 23
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 24
     .line 25
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
 
     .line 26
     .line 27
@@ -201,15 +201,15 @@
 
     .line 75
     .line 76
-    check-cast v5, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v5, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 77
     .line 78
-    check-cast v4, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v4, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 79
     .line 80
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 81
     .line 82
@@ -232,7 +232,7 @@
 
     .line 90
     .line 91
-    invoke-virtual {v0}, Lkj3;->h()Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    invoke-virtual {v0}, Lkj3;->h()Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 92
     .line 93
@@ -240,7 +240,7 @@
     move-result-object v5
 
     .line 95
-    invoke-virtual {v0}, Lkj3;->c()Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$BaseBackup;
+    invoke-virtual {v0}, Lkj3;->c()Lcom/bareapps/barebackup/folders/data/FolderBackup$BaseBackup;
 
     .line 96
     .line 97
@@ -248,7 +248,7 @@
     move-result-object v10
 
     .line 99
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->exists()Z
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->exists()Z
 
     .line 100
     .line 101
@@ -330,11 +330,11 @@
     move-object v13, v12
 
     .line 135
-    check-cast v13, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v13, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 136
     .line 137
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->exists()Z
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->exists()Z
 
     .line 138
     .line 139
@@ -359,7 +359,7 @@
 
     .line 148
     .line 149
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 150
     .line 151
@@ -437,11 +437,11 @@
     move-result-object v14
 
     .line 186
-    check-cast v14, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v14, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 187
     .line 188
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 189
     .line 190
@@ -478,7 +478,7 @@
 
     .line 205
     .line 206
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 207
     .line 208
@@ -490,7 +490,7 @@
 
     .line 211
     .line 212
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 213
     .line 214
@@ -524,7 +524,7 @@
 
     .line 227
     .line 228
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 229
     .line 230
@@ -592,7 +592,7 @@
 
     .line 259
     .line 260
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 261
     .line 262
@@ -625,7 +625,7 @@
 
     .line 274
     .line 275
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
 
     .line 276
     .line 277
@@ -633,7 +633,7 @@
     move-result-object v13
 
     .line 279
-    invoke-static {v13}, Ltm3;->b(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {v13}, Ltm3;->b(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 280
     .line 281
@@ -652,7 +652,7 @@
 
     .line 287
     .line 288
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/folders/data/Manifest;->baseOriginalSize()J
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/folders/data/Manifest;->baseOriginalSize()J
 
     .line 289
     .line 290
@@ -676,7 +676,7 @@
 
     .line 298
     :goto_6
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
 
     .line 299
     .line 300
@@ -700,7 +700,7 @@
     move-result-object v15
 
     .line 310
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
 
     .line 311
     .line 312
@@ -797,11 +797,11 @@
     move-result-object v13
 
     .line 358
-    check-cast v13, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v13, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 359
     .line 360
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
 
     .line 361
     .line 362
@@ -809,7 +809,7 @@
     move-result-object v13
 
     .line 364
-    invoke-static {v13}, Ltm3;->b(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {v13}, Ltm3;->b(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 365
     .line 366
@@ -821,7 +821,7 @@
 
     .line 369
     .line 370
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/folders/data/Manifest;->incrementalOriginalSize()J
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/folders/data/Manifest;->incrementalOriginalSize()J
 
     .line 371
     .line 372
@@ -898,11 +898,11 @@
     move-result-object v15
 
     .line 405
-    check-cast v15, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v15, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 406
     .line 407
-    invoke-virtual {v15}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
+    invoke-virtual {v15}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
 
     .line 408
     .line 409
@@ -962,11 +962,11 @@
     move-result-object v9
 
     .line 435
-    check-cast v9, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v9, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 436
     .line 437
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getManifestFile()Lq63;
 
     .line 438
     .line 439
@@ -1045,7 +1045,7 @@
 
     .line 474
     .line 475
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getBaseBackup()Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$BaseBackup;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getBaseBackup()Lcom/bareapps/barebackup/folders/data/FolderMetadata$BaseBackup;
 
     .line 476
     .line 477
@@ -1077,7 +1077,7 @@
 
     .line 489
     :goto_c
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getIncrementalBackups()Ljava/util/Map;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getIncrementalBackups()Ljava/util/Map;
 
     .line 490
     .line 491
@@ -1159,7 +1159,7 @@
     move-object v12, v11
 
     .line 525
-    check-cast v12, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast v12, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 526
     .line 527
@@ -1271,7 +1271,7 @@
     move-result-object v14
 
     .line 578
-    check-cast v14, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast v14, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 579
     .line 580
@@ -1304,7 +1304,7 @@
     move-result-object v11
 
     .line 594
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 595
     .line 596
@@ -1312,7 +1312,7 @@
     move-result-object v5
 
     .line 598
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 599
     .line 600
@@ -1397,7 +1397,7 @@
 
     .line 637
     .line 638
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$BaseBackup;->getOriginalSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$BaseBackup;->getOriginalSize()Ljava/lang/Long;
 
     .line 639
     .line 640
@@ -1405,7 +1405,7 @@
     move-result-object v13
 
     .line 642
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$BaseBackup;->getBackupSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$BaseBackup;->getBackupSize()Ljava/lang/Long;
 
     .line 643
     .line 644
@@ -1413,7 +1413,7 @@
     move-result-object v14
 
     .line 646
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$BaseBackup;->getManifestSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$BaseBackup;->getManifestSize()Ljava/lang/Long;
 
     .line 647
     .line 648
@@ -1497,11 +1497,11 @@
     move-result-object v13
 
     .line 687
-    check-cast v13, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast v13, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 688
     .line 689
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;->getOriginalSize()Ljava/lang/Long;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;->getOriginalSize()Ljava/lang/Long;
 
     .line 690
     .line 691
@@ -1558,11 +1558,11 @@
     move-result-object v8
 
     .line 716
-    check-cast v8, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast v8, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 717
     .line 718
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;->getBackupSize()Ljava/lang/Long;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;->getBackupSize()Ljava/lang/Long;
 
     .line 719
     .line 720
@@ -1623,11 +1623,11 @@
     move-result-object v8
 
     .line 747
-    check-cast v8, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast v8, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 748
     .line 749
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;->getManifestSize()Ljava/lang/Long;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;->getManifestSize()Ljava/lang/Long;
 
     .line 750
     .line 751

@@ -11,7 +11,7 @@
     .locals 4
 
     .line 1
-    check-cast p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    check-cast p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 2
     .line 3
@@ -51,7 +51,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {p0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 22
     .line 23
@@ -59,16 +59,16 @@
     move-result-object p1
 
     .line 25
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 26
     .line 27
-    invoke-virtual {p1, v2, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {p1, v2, v1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 28
     .line 29
     .line 30
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 31
     .line 32
@@ -76,7 +76,7 @@
     move-result-object p0
 
     .line 34
-    invoke-static {p0}, Lc47;->f(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+    invoke-static {p0}, Lc47;->f(Lcom/bareapps/barebackup/home/HomeActivity;)V
 
     .line 35
     .line 36
@@ -85,7 +85,7 @@
 
     .line 38
     :cond_0
-    invoke-virtual {p0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {p0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 39
     .line 40
@@ -93,11 +93,11 @@
     move-result-object v0
 
     .line 42
-    sget-object v3, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v3, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 43
     .line 44
-    invoke-virtual {v0, v2, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {v0, v2, v1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 45
     .line 46
@@ -110,7 +110,7 @@
     move-result-object p0
 
     .line 51
-    invoke-virtual {p0, p1}, Lq47;->j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+    invoke-virtual {p0, p1}, Lq47;->j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
 
     .line 52
     .line 53

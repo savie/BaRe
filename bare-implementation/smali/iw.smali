@@ -123,7 +123,7 @@
     add-long/2addr p0, v5
 
     .line 27
-    invoke-static {p0, p1, v3, v4}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {p0, p1, v3, v4}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 28
     .line 29
@@ -179,7 +179,7 @@
     add-long/2addr p0, v5
 
     .line 54
-    invoke-static {p0, p1, v3, v4}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {p0, p1, v3, v4}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 55
     .line 56

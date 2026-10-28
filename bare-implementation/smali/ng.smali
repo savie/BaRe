@@ -197,11 +197,11 @@
     .line 77
     :cond_3
     :goto_4
-    new-instance v0, Lorg/swiftapps/swiftbackup/apkreader/ApkManifestParser;
+    new-instance v0, Lcom/bareapps/barebackup/apkreader/ApkManifestParser;
 
     .line 78
     .line 79
-    invoke-direct {v0, p0}, Lorg/swiftapps/swiftbackup/apkreader/ApkManifestParser;-><init>(Lq63;)V
+    invoke-direct {v0, p0}, Lcom/bareapps/barebackup/apkreader/ApkManifestParser;-><init>(Lq63;)V
 
     .line 80
     .line 81

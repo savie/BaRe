@@ -186,11 +186,11 @@
 
     .line 2
     .line 3
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 4
     .line 5
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 6
     .line 7
@@ -278,7 +278,7 @@
     move-result-object v1
 
     .line 24
-    const-class v2, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
+    const-class v2, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
 
     .line 25
     .line 26
@@ -293,7 +293,7 @@
     move-result-object v1
 
     .line 31
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
 
     .line 32
     .line 33
@@ -301,7 +301,7 @@
 
     .line 34
     .line 35
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
 
     .line 36
     .line 37
@@ -333,7 +333,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
 
     .line 51
     .line 52
@@ -385,7 +385,7 @@
     .line 76
     .line 77
     .line 78
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;->getItems()Ljava/util/List;
 
     .line 79
     .line 80
@@ -466,11 +466,11 @@
     move-object v3, v1
 
     .line 117
-    check-cast v3, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    check-cast v3, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 118
     .line 119
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
 
     .line 120
     .line 121
@@ -478,7 +478,7 @@
     move-result-object v3
 
     .line 123
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 124
     .line 125
@@ -592,7 +592,7 @@
     .line 15
     .line 16
     .line 17
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 18
     .line 19
@@ -604,7 +604,7 @@
 
     .line 22
     .line 23
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 24
     .line 25
@@ -697,7 +697,7 @@
     .line 63
     .line 64
     .line 65
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 66
     .line 67
@@ -709,7 +709,7 @@
 
     .line 70
     .line 71
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 72
     .line 73
@@ -992,7 +992,7 @@
     move-result-object v4
 
     .line 207
-    const-class v5, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    const-class v5, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 208
     .line 209
@@ -1004,7 +1004,7 @@
     move-result-object v4
 
     .line 213
-    check-cast v4, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    check-cast v4, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 214
     .line 215
@@ -1091,11 +1091,11 @@
     move-result-object v1
 
     .line 255
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 256
     .line 257
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
 
     .line 258
     .line 259
@@ -1383,7 +1383,7 @@
     .line 48
     .line 49
     .line 50
-    new-instance v1, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;
+    new-instance v1, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;
 
     .line 51
     .line 52
@@ -1403,7 +1403,7 @@
     move-result-object v3
 
     .line 60
-    invoke-direct {v1, v2, v3}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 61
     .line 62
@@ -1441,7 +1441,7 @@
     .line 77
     .line 78
     .line 79
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 80
     .line 81
@@ -1453,7 +1453,7 @@
 
     .line 84
     .line 85
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 86
     .line 87
@@ -1508,7 +1508,7 @@
 
     .line 106
     .line 107
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;->getPackageId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;->getPackageId()Ljava/lang/String;
 
     .line 108
     .line 109
@@ -1550,7 +1550,7 @@
 
     .line 125
     .line 126
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
 
     .line 127
     .line 128
@@ -1581,7 +1581,7 @@
 
     .line 140
     .line 141
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/data/FavoriteApp;->getPackageName()Ljava/lang/String;
 
     .line 142
     .line 143
@@ -1612,7 +1612,7 @@
     .line 155
     .line 156
     .line 157
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->T()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->T()V
 
     .line 158
     .line 159
@@ -1648,11 +1648,11 @@
     move-result-object p1
 
     .line 175
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 176
     .line 177
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 178
     .line 179
@@ -1694,7 +1694,7 @@
     .line 197
     .line 198
     :cond_7
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 199
     .line 200

@@ -41,7 +41,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;Lfm7;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;Lfm7;)V
     .locals 1
 
     const/4 v0, 0x1

@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final l:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+.field public final l:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/blacklist/BlacklistActivity;)V
     .locals 1
 
     .line 1
@@ -20,7 +20,7 @@
     .line 3
     .line 4
     .line 5
-    iput-object p1, p0, Lbs0;->l:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iput-object p1, p0, Lbs0;->l:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 6
     .line 7
@@ -45,7 +45,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 8
     .line 9
@@ -58,7 +58,7 @@
 
     .line 13
     .line 14
-    iget-object v0, p2, Lbs0;->l:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iget-object v0, p2, Lbs0;->l:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 15
     .line 16
@@ -82,7 +82,7 @@
 
     .line 25
     .line 26
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
 
     .line 27
     .line 28
@@ -103,7 +103,7 @@
 
     .line 36
     .line 37
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListTypeDisplayString()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListTypeDisplayString()Ljava/lang/String;
 
     .line 38
     .line 39
@@ -124,7 +124,7 @@
 
     .line 47
     .line 48
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 49
     .line 50
@@ -132,7 +132,7 @@
     move-result-object v5
 
     .line 52
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 53
     .line 54
@@ -153,7 +153,7 @@
 
     .line 62
     .line 63
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 64
     .line 65
@@ -172,7 +172,7 @@
     .line 70
     .line 71
     .line 72
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 73
     .line 74
@@ -196,7 +196,7 @@
 
     .line 83
     .line 84
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 85
     .line 86
@@ -232,7 +232,7 @@
     .line 98
     .line 99
     .line 100
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 101
     .line 102
@@ -271,7 +271,7 @@
     .line 118
     .line 119
     .line 120
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->isInstalled()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->isInstalled()Z
 
     .line 121
     .line 122
@@ -306,7 +306,7 @@
     .line 133
     .line 134
     .line 135
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListType()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListType()I
 
     .line 136
     .line 137
@@ -385,7 +385,7 @@
 
     .line 171
     .line 172
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v2, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 173
     .line 174
@@ -415,7 +415,7 @@
 
     .line 187
     .line 188
-    invoke-direct {v2, p2, v0, p0, p1}, Lyr0;-><init>(Lbs0;Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Lzr0;)V
+    invoke-direct {v2, p2, v0, p0, p1}, Lyr0;-><init>(Lbs0;Lcom/bareapps/barebackup/blacklist/BlacklistActivity;Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Lzr0;)V
 
     .line 189
     .line 190

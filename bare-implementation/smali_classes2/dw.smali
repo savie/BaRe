@@ -653,7 +653,7 @@
 
     .line 272
     :pswitch_0
-    check-cast v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast v0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 273
     .line 274
@@ -661,7 +661,7 @@
 
     .line 275
     .line 276
-    iget-object v2, v9, Laf4;->b:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    iget-object v2, v9, Laf4;->b:Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 277
     .line 278
@@ -733,11 +733,11 @@
 
     .line 313
     .line 314
-    sget-object v8, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v8, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 315
     .line 316
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 317
     .line 318
@@ -769,7 +769,7 @@
 
     .line 330
     .line 331
-    iget-object v2, v2, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->S:Lwa;
+    iget-object v2, v2, Lcom/bareapps/barebackup/intro/IntroActivity;->S:Lwa;
 
     .line 332
     .line 333
@@ -856,7 +856,7 @@
     .line 370
     .line 371
     .line 372
-    iget-object v0, v2, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->S:Lwa;
+    iget-object v0, v2, Lcom/bareapps/barebackup/intro/IntroActivity;->S:Lwa;
 
     .line 373
     .line 374

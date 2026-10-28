@@ -268,7 +268,7 @@
     return-void
 .end method
 
-.method public static c()Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+.method public static c()Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
     .locals 4
 
     .line 1
@@ -319,7 +319,7 @@
 
     .line 23
     .line 24
-    const-class v1, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+    const-class v1, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
 
     .line 25
     .line 26
@@ -331,7 +331,7 @@
     move-result-object v0
 
     .line 30
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+    check-cast v0, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
 
     .line 31
     .line 32
@@ -598,11 +598,11 @@
     move-result-object p0
 
     .line 99
-    new-instance p2, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+    new-instance p2, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
 
     .line 100
     .line 101
-    invoke-direct {p2, p1, v2, p0}, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Integer;)V
+    invoke-direct {p2, p1, v2, p0}, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Integer;)V
 
     .line 102
     .line 103
@@ -1435,7 +1435,7 @@
 
     .line 337
     .line 338
-    invoke-virtual {v7}, Let8;->getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    invoke-virtual {v7}, Let8;->getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 339
     .line 340
@@ -1447,7 +1447,7 @@
 
     .line 343
     .line 344
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
 
     .line 345
     .line 346
@@ -1531,7 +1531,7 @@
 
     .line 380
     .line 381
-    invoke-virtual {v7}, Let8;->getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    invoke-virtual {v7}, Let8;->getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 382
     .line 383
@@ -1543,7 +1543,7 @@
 
     .line 386
     .line 387
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
 
     .line 388
     .line 389
@@ -1749,7 +1749,7 @@
 
     .line 482
     :cond_16
-    invoke-static {}, Lus8;->c()Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;
+    invoke-static {}, Lus8;->c()Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;
 
     .line 483
     .line 484
@@ -1761,7 +1761,7 @@
 
     .line 487
     .line 488
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/firebase/WifiCloudDetails;->getDriveId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/firebase/WifiCloudDetails;->getDriveId()Ljava/lang/String;
 
     .line 489
     .line 490

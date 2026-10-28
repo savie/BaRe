@@ -9,13 +9,13 @@
 # instance fields
 .field public final synthetic a:Lm01;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+.field public final synthetic b:Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
 .field public final synthetic c:Ll01;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lm01;Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;Ll01;)V
+.method public synthetic constructor <init>(Lm01;Lcom/bareapps/barebackup/model/provider/CallLogItem;Ll01;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lk01;->b:Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    iput-object p2, p0, Lk01;->b:Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 7
     .line 8
@@ -57,7 +57,7 @@
 
     .line 6
     .line 7
-    iget-object v1, p0, Lk01;->b:Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    iget-object v1, p0, Lk01;->b:Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 8
     .line 9
@@ -74,7 +74,7 @@
 
     .line 15
     .line 16
-    iget-object p0, p0, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p0, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 17
     .line 18

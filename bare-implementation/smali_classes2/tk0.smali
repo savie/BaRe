@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final e:Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+.field public final e:Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
 .field public final f:Ljava/lang/CharSequence;
 
@@ -20,7 +20,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;Ljava/lang/CharSequence;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/settings/SettingsDetailActivity;Ljava/lang/CharSequence;)V
     .locals 7
 
     .line 1
@@ -41,7 +41,7 @@
     .line 8
     .line 9
     .line 10
-    iput-object p1, p0, Ltk0;->e:Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    iput-object p1, p0, Ltk0;->e:Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 11
     .line 12
@@ -247,7 +247,7 @@
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->l()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->l()Ljava/lang/String;
 
     .line 4
     .line 5

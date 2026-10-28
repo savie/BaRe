@@ -15,7 +15,7 @@
 
 .field public final d:Lzx2;
 
-.field public final e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final f:Landroidx/constraintlayout/widget/ConstraintLayout;
 
@@ -23,7 +23,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lzx2;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lzx2;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -48,7 +48,7 @@
 
     .line 11
     .line 12
-    iput-object p5, p0, Lyr8;->e:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p5, p0, Lyr8;->e:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 13
     .line 14
@@ -177,7 +177,7 @@
     move-object v7, v1
 
     .line 57
-    check-cast v7, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v7, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 58
     .line 59
@@ -244,7 +244,7 @@
 
     .line 89
     .line 90
-    invoke-direct/range {v2 .. v9}, Lyr8;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lzx2;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v9}, Lyr8;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lzx2;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/TextView;)V
 
     .line 91
     .line 92

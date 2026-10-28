@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
 .field public final synthetic b:Lln3;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Lln3;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Lln3;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lel3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iput-object p1, p0, Lel3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 5
     .line 6
@@ -43,11 +43,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lel3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object p0, p0, Lel3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 4
     .line 5
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->T:Lln3;
+    iget-object v0, p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->T:Lln3;
 
     .line 6
     .line 7
@@ -58,7 +58,7 @@
     const/4 p1, 0x0
 
     .line 10
-    iput-object p1, p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->T:Lln3;
+    iput-object p1, p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->T:Lln3;
 
     .line 11
     .line 12

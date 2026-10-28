@@ -187,7 +187,7 @@
     .line 73
     .line 74
     :cond_5
-    invoke-virtual {p0}, Let8;->getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    invoke-virtual {p0}, Let8;->getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 75
     .line 76
@@ -199,7 +199,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->hasValidEnterpriseDetails()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->hasValidEnterpriseDetails()Z
 
     .line 81
     .line 82
@@ -211,7 +211,7 @@
 
     .line 85
     .line 86
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEnterpriseConfig()Landroid/net/wifi/WifiEnterpriseConfig;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEnterpriseConfig()Landroid/net/wifi/WifiEnterpriseConfig;
 
     .line 87
     .line 88
@@ -351,11 +351,11 @@
     .line 53
     .line 54
     .line 55
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 56
     .line 57
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 58
     .line 59

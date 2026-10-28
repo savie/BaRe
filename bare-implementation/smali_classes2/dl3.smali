@@ -7,15 +7,15 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
 .field public final synthetic b:Lkj3;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+.field public final synthetic c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ldl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iput-object p1, p0, Ldl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 5
     .line 6
@@ -32,7 +32,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Ldl3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iput-object p3, p0, Ldl3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 9
     .line 10
@@ -45,7 +45,7 @@
     .locals 6
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 2
     .line 3
@@ -62,7 +62,7 @@
     .line 8
     .line 9
     .line 10
-    iget-object v1, p0, Ldl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object v1, p0, Ldl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 11
     .line 12
@@ -70,7 +70,7 @@
 
     .line 13
     .line 14
-    iget-object p0, p0, Ldl3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object p0, p0, Ldl3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 15
     .line 16
@@ -118,11 +118,11 @@
 
     .line 36
     .line 37
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 40
     .line 41
@@ -134,7 +134,7 @@
 
     .line 44
     .line 45
-    sget p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 46
     .line 47
@@ -198,7 +198,7 @@
 
     .line 76
     .line 77
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {v1}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 78
     .line 79

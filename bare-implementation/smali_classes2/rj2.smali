@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+.field public final a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
 .field public final b:Lij2;
 
@@ -26,7 +26,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/detail/DetailActivity;Lij2;Lmk2;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/detail/DetailActivity;Lij2;Lmk2;)V
     .locals 0
 
     .line 1
@@ -40,7 +40,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lrj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iput-object p1, p0, Lrj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 8
     .line 9
@@ -100,11 +100,11 @@
 
     .line 36
     .line 37
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 38
     .line 39
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->a0(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)Ltj2;
+    invoke-static {p1}, Lcom/bareapps/barebackup/detail/DetailActivity;->a0(Lcom/bareapps/barebackup/views/QuickRecyclerView;)Ltj2;
 
     .line 40
     .line 41
@@ -522,7 +522,7 @@
     const/4 v1, 0x7
 
     .line 112
-    iget-object v4, p0, Lrj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v4, p0, Lrj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 113
     .line 114

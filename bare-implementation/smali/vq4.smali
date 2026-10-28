@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+.field public final a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
 .field public final b:Ljava/util/List;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;Ljava/util/List;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;Ljava/util/List;)V
     .locals 0
 
     .line 1
@@ -27,7 +27,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iput-object p1, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 8
     .line 9
@@ -44,11 +44,11 @@
     .locals 1
 
     .line 1
-    iget-object p0, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p0, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 4
     .line 5
@@ -60,7 +60,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 10
     .line 11
@@ -114,11 +114,11 @@
 
     .line 12
     .line 13
-    iget-object v1, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v1, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 14
     .line 15
-    iget-object v3, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v3, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 16
     .line 17
@@ -169,7 +169,7 @@
     .locals 2
 
     .line 1
-    iget-object v0, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v0, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 2
     .line 3
@@ -186,7 +186,7 @@
 
     .line 9
     .line 10
-    invoke-direct {v1, v0, p0}, Lvq4;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;Ljava/util/List;)V
+    invoke-direct {v1, v0, p0}, Lvq4;-><init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;Ljava/util/List;)V
 
     .line 11
     .line 12
@@ -198,11 +198,11 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p0, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getItemId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getItemId()Ljava/lang/String;
 
     .line 4
     .line 5
@@ -217,11 +217,11 @@
     .locals 1
 
     .line 1
-    iget-object v0, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v0, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->hashCode()I
 
     .line 4
     .line 5
@@ -280,7 +280,7 @@
     .line 6
     .line 7
     .line 8
-    iget-object v1, p0, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v1, p0, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 9
     .line 10

@@ -14,7 +14,7 @@
     .locals 10
 
     .line 1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->values()[Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    invoke-static {}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->values()[Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 2
     .line 3
@@ -33,7 +33,7 @@
 
     .line 9
     :try_start_0
-    sget-object v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppConfig:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppConfig:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 10
     .line 11
@@ -56,7 +56,7 @@
 
     .line 18
     :try_start_1
-    sget-object v3, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppsLabels:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v3, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppsLabels:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 19
     .line 20
@@ -79,7 +79,7 @@
 
     .line 27
     :try_start_2
-    sget-object v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->AppsQuickActions:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->AppsQuickActions:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 28
     .line 29
@@ -102,7 +102,7 @@
 
     .line 36
     :try_start_3
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Messages:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Messages:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 37
     .line 38
@@ -125,7 +125,7 @@
 
     .line 45
     :try_start_4
-    sget-object v6, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->CallLogs:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v6, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->CallLogs:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 46
     .line 47
@@ -148,7 +148,7 @@
 
     .line 54
     :try_start_5
-    sget-object v7, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Wallpapers:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v7, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Wallpapers:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 55
     .line 56
@@ -171,7 +171,7 @@
 
     .line 63
     :try_start_6
-    sget-object v8, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Wifi:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v8, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Wifi:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 64
     .line 65
@@ -195,7 +195,7 @@
     .line 72
     .line 73
     :try_start_7
-    sget-object v9, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;->Folders:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    sget-object v9, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;->Folders:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 74
     .line 75

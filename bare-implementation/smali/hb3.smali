@@ -2238,7 +2238,7 @@
     return-object p0
 .end method
 
-.method public static m(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
+.method public static m(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
     .locals 2
 
     .line 1
@@ -2252,7 +2252,7 @@
     .line 5
     .line 6
     .line 7
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 8
     .line 9
@@ -2281,7 +2281,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
 
     .line 21
     .line 22
@@ -2313,7 +2313,7 @@
 
     .line 34
     .line 35
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 36
     .line 37
@@ -2392,7 +2392,7 @@
     return-object p0
 .end method
 
-.method public static n(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Lww4;
+.method public static n(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Lww4;
     .locals 3
 
     .line 1
@@ -2409,7 +2409,7 @@
     move-result-object v0
 
     .line 8
-    invoke-static {p0, p1}, Lhb3;->m(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
+    invoke-static {p0, p1}, Lhb3;->m(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
 
     .line 9
     .line 10
@@ -2422,7 +2422,7 @@
     .line 13
     .line 14
     .line 15
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 16
     .line 17
@@ -2446,7 +2446,7 @@
 
     .line 26
     .line 27
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
 
     .line 28
     .line 29

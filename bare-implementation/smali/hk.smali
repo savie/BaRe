@@ -978,7 +978,7 @@
     return-object p0
 .end method
 
-.method public final u()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public final u()Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 1
 
     .line 1
@@ -1010,7 +1010,7 @@
     move-result-object p0
 
     .line 15
-    invoke-static {p0}, Lcu;->b(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {p0}, Lcu;->b(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 16
     .line 17

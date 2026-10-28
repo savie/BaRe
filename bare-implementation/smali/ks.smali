@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lks;->a:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iput-object p1, p0, Lks;->a:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 5
     .line 6

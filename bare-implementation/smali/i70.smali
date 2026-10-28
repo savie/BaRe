@@ -59,7 +59,7 @@
 
     .line 13
     .line 14
-    const-string v0, "swiftbackup-atomic-delete"
+    const-string v0, "barebackup-atomic-delete"
 
     .line 15
     .line 16

@@ -84,7 +84,7 @@
     move-object v0, p1
 
     .line 23
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 24
     .line 25
@@ -93,11 +93,11 @@
     .line 26
     .line 27
     .line 28
-    iget-object p1, v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->j:Ljava/util/Set;
+    iget-object p1, v0, Lcom/bareapps/barebackup/cloud/orphans/b;->j:Ljava/util/Set;
 
     .line 29
     .line 30
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 31
     .line 32
@@ -109,7 +109,7 @@
 
     .line 35
     .line 36
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->i:Ljava/util/List;
+    iget-object v1, v0, Lcom/bareapps/barebackup/cloud/orphans/b;->i:Ljava/util/List;
 
     .line 37
     .line 38
@@ -294,7 +294,7 @@
     const/4 v5, 0x0
 
     .line 124
-    invoke-static/range {v0 .. v7}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->a(Lorg/swiftapps/swiftbackup/cloud/orphans/b;Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    invoke-static/range {v0 .. v7}, Lcom/bareapps/barebackup/cloud/orphans/b;->a(Lcom/bareapps/barebackup/cloud/orphans/b;Lcom/bareapps/barebackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 125
     .line 126

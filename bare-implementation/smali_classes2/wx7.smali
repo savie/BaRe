@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lwx7;->b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Lwx7;->b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lwx7;->b:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object p0, p0, Lwx7;->b:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->N()Lay7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->N()Lay7;
 
     .line 11
     .line 12
@@ -76,7 +76,7 @@
 
     .line 18
     .line 19
-    iget-boolean v1, p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->a0:Z
+    iget-boolean v1, p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->a0:Z
 
     .line 20
     .line 21
@@ -87,7 +87,7 @@
     const/4 v1, 0x0
 
     .line 24
-    invoke-virtual {p0, v1}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->P(Z)V
+    invoke-virtual {p0, v1}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->P(Z)V
 
     .line 25
     .line 26
@@ -100,11 +100,11 @@
 
     .line 29
     .line 30
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 31
     .line 32
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 33
     .line 34

@@ -22,7 +22,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/orphans/a;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/orphans/a;)V
     .locals 0
 
     .line 1
@@ -112,7 +112,7 @@
 
     .line 33
     :pswitch_0
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 34
     .line 35
@@ -121,7 +121,7 @@
     .line 36
     .line 37
     .line 38
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 39
     .line 40
@@ -269,7 +269,7 @@
 
     .line 108
     .line 109
-    sget p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->S:I
+    sget p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->S:I
 
     .line 110
     .line 111
@@ -435,7 +435,7 @@
     move-object v0, p1
 
     .line 187
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 188
     .line 189
@@ -444,15 +444,15 @@
     .line 190
     .line 191
     .line 192
-    sget-object v1, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->ERROR:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v1, Lcom/bareapps/barebackup/cloud/orphans/a$a;->ERROR:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 193
     .line 194
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 195
     .line 196
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 197
     .line 198
@@ -491,7 +491,7 @@
     const/4 v5, 0x0
 
     .line 215
-    invoke-static/range {v0 .. v7}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->a(Lorg/swiftapps/swiftbackup/cloud/orphans/b;Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    invoke-static/range {v0 .. v7}, Lcom/bareapps/barebackup/cloud/orphans/b;->a(Lcom/bareapps/barebackup/cloud/orphans/b;Lcom/bareapps/barebackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 216
     .line 217
@@ -901,7 +901,7 @@
 
     .line 403
     :pswitch_b
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast p1, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 404
     .line 405
@@ -919,7 +919,7 @@
     .line 411
     .line 412
     .line 413
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getAppPart()Liu;
 
     .line 414
     .line 415
@@ -967,7 +967,7 @@
     .line 437
     .line 438
     .line 439
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
 
     .line 440
     .line 441
@@ -979,7 +979,7 @@
 
     .line 444
     .line 445
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
 
     .line 446
     .line 447
@@ -1003,7 +1003,7 @@
 
     .line 456
     .line 457
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
 
     .line 458
     .line 459
@@ -1029,7 +1029,7 @@
     .line 469
     .line 470
     :cond_b
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
 
     .line 471
     .line 472
@@ -1041,7 +1041,7 @@
 
     .line 475
     .line 476
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
 
     .line 477
     .line 478
@@ -1065,7 +1065,7 @@
 
     .line 487
     .line 488
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
 
     .line 489
     .line 490

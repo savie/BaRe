@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lnr4;->b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    iput-object p1, p0, Lnr4;->b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object v0, v0, Lnr4;->b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    iget-object v0, v0, Lnr4;->b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 6
     .line 7
@@ -56,11 +56,11 @@
     .line 8
     .line 9
     .line 10
-    sget v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
 
     .line 13
     .line 14
@@ -76,7 +76,7 @@
 
     .line 19
     :pswitch_0
-    sget v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 20
     .line 21
@@ -366,7 +366,7 @@
 
     .line 164
     .line 165
-    check-cast v16, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v16, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 166
     .line 167
@@ -535,7 +535,7 @@
 
     .line 251
     .line 252
-    invoke-direct/range {v4 .. v22}, Lrr4;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v4 .. v22}, Lrr4;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 253
     .line 254

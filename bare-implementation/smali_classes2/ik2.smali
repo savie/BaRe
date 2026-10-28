@@ -49,7 +49,7 @@
 
     .line 2
     .line 3
-    iget-object v1, v0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v1, v0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 4
     .line 5
@@ -181,7 +181,7 @@
     .line 67
     .line 68
     .line 69
-    invoke-virtual {v1, p0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateProtection(Z)V
+    invoke-virtual {v1, p0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateProtection(Z)V
 
     .line 70
     .line 71
@@ -198,7 +198,7 @@
     move-result-object v0
 
     .line 78
-    invoke-virtual {v3, v1, v0}, Lcu;->f(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;Lq63;)V
+    invoke-virtual {v3, v1, v0}, Lcu;->f(Lcom/bareapps/barebackup/model/app/LocalMetadata;Lq63;)V
 
     .line 79
     .line 80

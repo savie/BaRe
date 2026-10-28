@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:Z
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(ZLorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;)V
+.method public synthetic constructor <init>(ZLcom/bareapps/barebackup/settings/MultipleBackupsActivity;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lxi5;->b:Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    iput-object p2, p0, Lxi5;->b:Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 7
     .line 8
@@ -39,7 +39,7 @@
     .locals 2
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 2
     .line 3
@@ -55,11 +55,11 @@
 
     .line 8
     :cond_0
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 9
     .line 10
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 11
     .line 12
@@ -67,7 +67,7 @@
     move-result p1
 
     .line 14
-    iget-object p0, p0, Lxi5;->b:Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    iget-object p0, p0, Lxi5;->b:Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 15
     .line 16
@@ -75,7 +75,7 @@
 
     .line 17
     .line 18
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->N()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->N()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 19
     .line 20
@@ -87,7 +87,7 @@
 
     .line 23
     .line 24
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/settings/f;->a(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    invoke-static {p1}, Lcom/bareapps/barebackup/settings/f;->a(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     .line 25
     .line 26
@@ -99,7 +99,7 @@
 
     .line 29
     .line 30
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->isPremium()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->isPremium()Z
 
     .line 31
     .line 32
@@ -144,7 +144,7 @@
     .line 50
     .line 51
     .line 52
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->N()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->N()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 53
     .line 54
@@ -156,7 +156,7 @@
 
     .line 57
     .line 58
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    const-class v1, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 59
     .line 60

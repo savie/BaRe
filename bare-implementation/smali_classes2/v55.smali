@@ -29,11 +29,11 @@
     return-void
 .end method
 
-.method public static a(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+.method public static a(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
     .locals 4
 
     .line 1
-    invoke-static {p0}, Ltm3;->b(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {p0}, Ltm3;->b(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 2
     .line 3
@@ -100,7 +100,7 @@
     return-object p0
 .end method
 
-.method public static b(Lq63;Lorg/swiftapps/swiftbackup/folders/data/Manifest;)V
+.method public static b(Lq63;Lcom/bareapps/barebackup/folders/data/Manifest;)V
     .locals 6
 
     .line 1
@@ -115,7 +115,7 @@
     .line 6
     .line 7
     :try_start_0
-    invoke-static {p1}, Ltm3;->a(Lorg/swiftapps/swiftbackup/folders/data/Manifest;)Ljava/lang/String;
+    invoke-static {p1}, Ltm3;->a(Lcom/bareapps/barebackup/folders/data/Manifest;)Ljava/lang/String;
 
     .line 8
     .line 9

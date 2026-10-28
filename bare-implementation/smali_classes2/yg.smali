@@ -76,11 +76,11 @@
 
     .line 19
     :cond_0
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 20
     .line 21
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 22
     .line 23
@@ -96,7 +96,7 @@
 
     .line 28
     .line 29
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 30
     .line 31
@@ -112,11 +112,11 @@
 
     .line 36
     :cond_1
-    check-cast p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 37
     .line 38
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 39
     .line 40
@@ -128,7 +128,7 @@
 
     .line 43
     .line 44
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 45
     .line 46

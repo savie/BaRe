@@ -49,7 +49,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lc47;->c()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v0}, Lc47;->c()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 4
     .line 5
@@ -65,7 +65,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {v0, v1, v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->withScheduleMoved(Ljava/lang/String;I)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->withScheduleMoved(Ljava/lang/String;I)Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 12
     .line 13
@@ -77,7 +77,7 @@
 
     .line 16
     .line 17
-    invoke-static {p0, v0}, Lq47;->k(Lq47;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;)V
+    invoke-static {p0, v0}, Lq47;->k(Lq47;Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;)V
 
     .line 18
     .line 19

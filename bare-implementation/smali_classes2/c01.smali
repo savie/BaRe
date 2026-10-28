@@ -94,11 +94,11 @@
 
     .line 31
     :pswitch_0
-    check-cast p2, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast p2, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 32
     .line 33
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 34
     .line 35
@@ -114,11 +114,11 @@
     move-result-object p0
 
     .line 41
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 42
     .line 43
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 44
     .line 45
@@ -146,11 +146,11 @@
 
     .line 56
     :pswitch_1
-    check-cast p2, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    check-cast p2, Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 57
     .line 58
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getDate()J
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getDate()J
 
     .line 59
     .line 60
@@ -166,11 +166,11 @@
     move-result-object p0
 
     .line 66
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    check-cast p1, Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 67
     .line 68
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getDate()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getDate()J
 
     .line 69
     .line 70

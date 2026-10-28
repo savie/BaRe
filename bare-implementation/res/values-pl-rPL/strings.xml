@@ -827,7 +827,7 @@ Wymagany dostęp Root lub Shizuku"</string>
     <string name="schedules">Harmonogramy</string>
     <string name="search">Szukaj</string>
     <string name="search_hint_apps">Szukaj aplikacji</string>
-    <string name="search_swift_backup">Szukaj w BΛR☰</string>
+    <string name="search_bare_backup">Szukaj w BΛR☰</string>
     <string name="secondary_action">Akcja dodatkowa</string>
     <string name="secondary_user_warning_msg">Profile użytkowników drugi/praca nie są oficjalnie obsługiwane z powodu pewnych nieuniknionych problemów. Przełącz się na głównego użytkownika na tym urządzeniu.</string>
     <string name="see_all">Zobacz wszystko</string>
@@ -865,11 +865,11 @@ Wymagany dostęp Root lub Shizuku"</string>
     <string name="share_apk">Udostępnij APK</string>
     <string name="share_apks">Udostępnij APKs</string>
     <string name="share_logs">Udostępnij dziennik</string>
-    <string name="share_swiftbackup">Udostępnij BΛR☰</string>
-    <string name="share_swiftbackup_msg">Sprawdź nowy, niesamowity menedżer tworzenia kopii zapasowych, którego używam! Nazywa się BΛR☰, oto link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - proste, szybkie i inteligentne rozwiązanie do tworzenia kopii zapasowych dla Androida</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + logcat urządzenia</string>
-    <string name="share_swiftlogger_text_only">Udostępnij raport tylko tekstowy</string>
+    <string name="share_barebackup">Udostępnij BΛR☰</string>
+    <string name="share_barebackup_msg">Sprawdź nowy, niesamowity menedżer tworzenia kopii zapasowych, którego używam! Nazywa się BΛR☰, oto link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - proste, szybkie i inteligentne rozwiązanie do tworzenia kopii zapasowych dla Androida</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + logcat urządzenia</string>
+    <string name="share_barelogger_text_only">Udostępnij raport tylko tekstowy</string>
     <string name="shared_libraries">Wspólne biblioteki</string>
     <string name="shortcuts">Skróty</string>
     <string name="show_less">Pokaż mniej</string>
@@ -911,9 +911,9 @@ Wymagany dostęp Root lub Shizuku"</string>
     <string name="successful">Sukces</string>
     <string name="sure_to_cancel_task">Czy na pewno chcesz zrezygnować?</string>
     <string name="sure_to_proceed">Na pewno chcesz kontynuować? Wybierz Tak, aby potwierdzić.</string>
-    <string name="swift_backup_is_busy">BΛR☰ jest zajęty</string>
-    <string name="swift_labs_settings_summary">Funkcje eksperymentalne, które mogą nie działać. Te funkcje mogą zniknąć w każdej chwili!</string>
-    <string name="swiftlogger_info">Ważne dzienniki, które mogą pomóc w zgłaszaniu błędów</string>
+    <string name="barebackup_is_busy">BΛR☰ jest zajęty</string>
+    <string name="bare_labs_settings_summary">Funkcje eksperymentalne, które mogą nie działać. Te funkcje mogą zniknąć w każdej chwili!</string>
+    <string name="barelogger_info">Ważne dzienniki, które mogą pomóc w zgłaszaniu błędów</string>
     <string name="swipe_actions">Akcje przesunięcia</string>
     <string name="swipe_actions_description">Wybierz maksymalnie dwie akcje dla każdego kierunku przesunięcia</string>
     <string name="sync_backups">Synchronizacja kopii zapasowej</string>

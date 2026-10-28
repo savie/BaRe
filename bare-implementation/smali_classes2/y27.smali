@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+.field public final a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
 .field public final b:Lhj;
 
@@ -18,7 +18,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;Lhj;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;Lhj;)V
     .locals 7
 
     .line 1
@@ -27,7 +27,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p2, p0, Ly27;->a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    iput-object p2, p0, Ly27;->a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 5
     .line 6
@@ -85,7 +85,7 @@
     move-result-object v2
 
     .line 34
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v2, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 35
     .line 36
@@ -101,7 +101,7 @@
 
     .line 41
     .line 42
-    invoke-direct {p3, p1, v1, v2}, Lgh2;-><init>(Landroid/widget/LinearLayout;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {p3, p1, v1, v2}, Lgh2;-><init>(Landroid/widget/LinearLayout;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 43
     .line 44
@@ -132,14 +132,14 @@
     .line 57
     .line 58
     .line 59
-    sget p3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->c1:I
+    sget p3, Lcom/bareapps/barebackup/views/QuickRecyclerView;->c1:I
 
     .line 60
     .line 61
     const/4 p3, 0x1
 
     .line 62
-    invoke-virtual {v2, p3}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {v2, p3}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 63
     .line 64
@@ -181,7 +181,7 @@
     .line 82
     .line 83
     .line 84
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getBatteryPercentReq()I
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getBatteryPercentReq()I
 
     .line 85
     .line 86
@@ -189,7 +189,7 @@
     move-result p1
 
     .line 88
-    invoke-static {}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->getEntries()Ljx2;
+    invoke-static {}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->getEntries()Ljx2;
 
     .line 89
     .line 90
@@ -252,7 +252,7 @@
     move-result-object p2
 
     .line 120
-    check-cast p2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    check-cast p2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 121
     .line 122
@@ -260,7 +260,7 @@
 
     .line 123
     .line 124
-    sget-object v3, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    sget-object v3, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->MINIMUM_PERCENT:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 125
     .line 126
@@ -280,7 +280,7 @@
     .line 131
     .line 132
     :goto_1
-    invoke-direct {v1, p2, v3}, Lx27;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;I)V
+    invoke-direct {v1, p2, v3}, Lx27;-><init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;I)V
 
     .line 133
     .line 134
@@ -330,15 +330,15 @@
 
     .line 155
     .line 156
-    iget-object p3, p3, Lx27;->a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    iget-object p3, p3, Lx27;->a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 157
     .line 158
-    iget-object v1, p0, Ly27;->a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    iget-object v1, p0, Ly27;->a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 159
     .line 160
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getBatteryReqEnum()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getBatteryReqEnum()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 161
     .line 162
@@ -386,7 +386,7 @@
 
     .line 181
     .line 182
-    iget-object p2, v0, Lx27;->a:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    iget-object p2, v0, Lx27;->a:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 183
     .line 184

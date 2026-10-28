@@ -73,7 +73,7 @@
 
     .line 13
     .line 14
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 15
     .line 16
@@ -93,7 +93,7 @@
 
     .line 22
     .line 23
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 24
     .line 25
@@ -256,7 +256,7 @@
 
     .line 30
     :try_start_0
-    sget-object v5, Lorg/swiftapps/swiftbackup/common/Const;->a:Lorg/swiftapps/swiftbackup/common/Const;
+    sget-object v5, Lcom/bareapps/barebackup/common/Const;->a:Lcom/bareapps/barebackup/common/Const;
 
     .line 31
     .line 32
@@ -278,7 +278,7 @@
     const/4 v7, 0x1
 
     .line 40
-    invoke-virtual {v5, p0, v6, v7}, Lorg/swiftapps/swiftbackup/common/Const;->checkFileReadWriteAccess(Lzn7;ZZ)Z
+    invoke-virtual {v5, p0, v6, v7}, Lcom/bareapps/barebackup/common/Const;->checkFileReadWriteAccess(Lzn7;ZZ)Z
 
     .line 41
     .line 42
@@ -404,7 +404,7 @@
 
     .line 100
     .line 101
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast v2, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 102
     .line 103
@@ -412,7 +412,7 @@
 
     .line 104
     .line 105
-    invoke-direct {v0, p1, v2, p0, v3}, Lko7;-><init>(Lih6;Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;Lzn7;Llh6;)V
+    invoke-direct {v0, p1, v2, p0, v3}, Lko7;-><init>(Lih6;Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;Lzn7;Llh6;)V
 
     .line 106
     .line 107
@@ -431,7 +431,7 @@
     .line 113
     .line 114
     .line 115
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 116
     .line 117
@@ -455,7 +455,7 @@
     move-result-object p1
 
     .line 127
-    invoke-static {p0, p1}, Lns0;->j(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
+    invoke-static {p0, p1}, Lns0;->j(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
 
     .line 128
     .line 129

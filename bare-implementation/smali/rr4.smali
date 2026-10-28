@@ -37,7 +37,7 @@
 
 .field public final r:Lcom/google/android/material/progressindicator/CircularProgressIndicator;
 
-.field public final t:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final t:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final x:Landroidx/recyclerview/widget/RecyclerView;
 
@@ -45,7 +45,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/recyclerview/widget/RecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -98,7 +98,7 @@
 
     .line 25
     .line 26
-    iput-object p12, p0, Lrr4;->t:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p12, p0, Lrr4;->t:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 27
     .line 28

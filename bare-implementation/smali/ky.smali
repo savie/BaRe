@@ -13,7 +13,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-static/range {p0 .. p0}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static/range {p0 .. p0}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 5
     .line 6
@@ -629,7 +629,7 @@
 
     .line 278
     .line 279
-    invoke-static/range {v1 .. v7}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v1 .. v7}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 280
     .line 281

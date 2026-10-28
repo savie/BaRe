@@ -4,7 +4,7 @@
 
 
 # direct methods
-.method public static a(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)Lvq;
+.method public static a(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)Lvq;
     .locals 10
 
     .line 1
@@ -13,11 +13,11 @@
     .line 2
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 5
     .line 6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 7
     .line 8
@@ -61,7 +61,7 @@
     .line 28
     .line 29
     .line 30
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 31
     .line 32
@@ -141,7 +141,7 @@
 
     .line 65
     .line 66
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getConfigSettings()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getConfigSettings()Ljava/util/List;
 
     .line 67
     .line 68
@@ -191,11 +191,11 @@
     move-result-object v2
 
     .line 91
-    check-cast v2, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v2, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 92
     .line 93
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getApplyData()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getApplyData()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 94
     .line 95
@@ -207,7 +207,7 @@
 
     .line 98
     .line 99
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->getLabels()Ljava/util/Set;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->getLabels()Ljava/util/Set;
 
     .line 100
     .line 101

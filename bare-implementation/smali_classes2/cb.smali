@@ -79,11 +79,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 6
     .line 7
@@ -119,7 +119,7 @@
 
     .line 21
     .line 22
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->R()Lorg/swiftapps/swiftbackup/intro/d;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
 
     .line 23
     .line 24
@@ -127,7 +127,7 @@
     move-result-object p0
 
     .line 26
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/d;->o()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/d;->o()V
 
     .line 27
     .line 28
@@ -136,7 +136,7 @@
 
     .line 30
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->N()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->N()V
 
     .line 31
     .line 32
@@ -153,7 +153,7 @@
 
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->P()Lqi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->P()Lqi7;
 
     .line 40
     .line 41
@@ -214,7 +214,7 @@
     const/4 v0, 0x1
 
     .line 70
-    invoke-direct {p2, p0, v0}, Lbf4;-><init>(Lorg/swiftapps/swiftbackup/intro/IntroActivity;I)V
+    invoke-direct {p2, p0, v0}, Lbf4;-><init>(Lcom/bareapps/barebackup/intro/IntroActivity;I)V
 
     .line 71
     .line 72
@@ -245,7 +245,7 @@
 
     .line 4
     .line 5
-    check-cast p1, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast p1, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 6
     .line 7
@@ -261,7 +261,7 @@
     move-result-object p0
 
     .line 13
-    invoke-virtual {p0, p1}, Lmr1;->k(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+    invoke-virtual {p0, p1}, Lmr1;->k(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
 
     .line 14
     .line 15

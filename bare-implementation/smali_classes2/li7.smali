@@ -93,7 +93,7 @@
     move-result-object v1
 
     .line 17
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/MAppBarLayout;
+    check-cast v1, Lcom/bareapps/barebackup/views/MAppBarLayout;
 
     .line 18
     .line 19

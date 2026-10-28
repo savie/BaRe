@@ -13,7 +13,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Landroid/view/View;Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;)V
+.method public synthetic constructor <init>(Landroid/view/View;Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;)V
     .locals 0
 
     .line 10
@@ -74,7 +74,7 @@
 
     .line 9
     .line 10
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 11
     .line 12

@@ -122,11 +122,11 @@
 
     .line 29
     .line 30
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 31
     .line 32
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 33
     .line 34
@@ -142,7 +142,7 @@
     move-result v4
 
     .line 40
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 41
     .line 42
@@ -406,7 +406,7 @@
 
     .line 157
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 158
     .line 159
@@ -414,11 +414,11 @@
 
     .line 160
     .line 161
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 162
     .line 163
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;->T:I
 
     .line 164
     .line 165
@@ -431,7 +431,7 @@
 
     .line 169
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/LicensesActivity;
 
     .line 170
     .line 171
@@ -484,7 +484,7 @@
 
     .line 194
     .line 195
-    iget-object p0, p0, Lml3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object p0, p0, Lml3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 196
     .line 197
@@ -510,7 +510,7 @@
 
     .line 208
     .line 209
-    invoke-virtual {p0}, Lkj3;->c()Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$BaseBackup;
+    invoke-virtual {p0}, Lkj3;->c()Lcom/bareapps/barebackup/folders/data/FolderBackup$BaseBackup;
 
     .line 210
     .line 211
@@ -518,7 +518,7 @@
     move-result-object p0
 
     .line 213
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getBackupFile()Lq63;
 
     .line 214
     .line 215
@@ -543,7 +543,7 @@
 
     .line 224
     .line 225
-    iget-object p0, p0, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 226
     .line 227

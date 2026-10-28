@@ -213,7 +213,7 @@
     return-object v0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 2
 
     .line 1

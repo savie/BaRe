@@ -4,7 +4,7 @@
 
 
 # static fields
-.field public static final a:Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$Type;
+.field public static final a:Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$Type;
 
 
 # direct methods
@@ -12,18 +12,18 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$Type;->ZSTD:Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$Type;
+    sget-object v0, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$Type;->ZSTD:Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$Type;
 
     .line 2
     .line 3
-    sput-object v0, Lth5;->a:Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$Type;
+    sput-object v0, Lth5;->a:Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$Type;
 
     .line 4
     .line 5
     return-void
 .end method
 
-.method public static a(Lq63;Lq63;Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
+.method public static a(Lq63;Lq63;Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
     .locals 21
 
     .line 1
@@ -80,7 +80,7 @@
     .line 26
     .line 27
     .line 28
-    invoke-virtual/range {p2 .. p2}, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
+    invoke-virtual/range {p2 .. p2}, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
 
     .line 29
     .line 30
@@ -186,7 +186,7 @@
     .line 77
     .line 78
     .line 79
-    invoke-static {v3, v12, v5}, Lcom/swiftapps/sba/SbaZstdNative;->a(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lm27;)[J
+    invoke-static {v3, v12, v5}, Lcom/bareapps/sba/SbaZstdNative;->a(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lm27;)[J
 
     .line 80
     .line 81
@@ -332,7 +332,7 @@
 
     .line 150
     .line 151
-    invoke-static {v0, v1, v4, v3, v2}, Lth5;->a(Lq63;Lq63;Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
+    invoke-static {v0, v1, v4, v3, v2}, Lth5;->a(Lq63;Lq63;Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
 
     .line 152
     .line 153
@@ -1115,7 +1115,7 @@
 
     .line 165
     .line 166
-    const-class v5, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    const-class v5, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 167
     .line 168
@@ -1127,7 +1127,7 @@
     move-result-object v5
 
     .line 172
-    check-cast v5, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    check-cast v5, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 173
     .line 174
@@ -1173,7 +1173,7 @@
     .line 191
     .line 192
     .line 193
-    new-instance v12, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    new-instance v12, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 194
     .line 195
@@ -1196,7 +1196,7 @@
     const/4 v13, 0x0
 
     .line 204
-    invoke-direct/range {v12 .. v17}, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;-><init>(Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$Type;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v12 .. v17}, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;-><init>(Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$Type;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 205
     .line 206
@@ -1276,11 +1276,11 @@
     move-result-object v10
 
     .line 243
-    check-cast v10, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    check-cast v10, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 244
     .line 245
-    invoke-virtual {v10}, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
+    invoke-virtual {v10}, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
 
     .line 246
     .line 247
@@ -1356,7 +1356,7 @@
     move-result-object v5
 
     .line 281
-    check-cast v5, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    check-cast v5, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 282
     .line 283
@@ -1376,7 +1376,7 @@
 
     .line 290
     .line 291
-    invoke-static {v10, v13, v5, v12, v11}, Lth5;->a(Lq63;Lq63;Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
+    invoke-static {v10, v13, v5, v12, v11}, Lth5;->a(Lq63;Lq63;Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;ZLqw;)Lq63;
 
     .line 292
     .line 293
@@ -1393,7 +1393,7 @@
 
     .line 299
     .line 300
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
 
     .line 301
     .line 302
@@ -1626,7 +1626,7 @@
 
     .line 64
     .line 65
-    const-class v2, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    const-class v2, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 66
     .line 67
@@ -1638,7 +1638,7 @@
     move-result-object v1
 
     .line 71
-    check-cast v1, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    check-cast v1, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 72
     .line 73
@@ -1688,11 +1688,11 @@
     move-result-object v2
 
     .line 95
-    check-cast v2, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
+    check-cast v2, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;
 
     .line 96
     .line 97
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/compress/compressor/MultiCompressor$CompressedFileMetadata;->getDecompressedSize()J
 
     .line 98
     .line 99

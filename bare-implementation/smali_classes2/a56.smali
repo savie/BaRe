@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/premium/PremiumActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/premium/PremiumActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, La56;->a:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    iput-object p1, p0, La56;->a:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 5
     .line 6
@@ -33,11 +33,11 @@
     .locals 0
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 2
     .line 3
-    iget-object p0, p0, La56;->a:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    iget-object p0, p0, La56;->a:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 4
     .line 5

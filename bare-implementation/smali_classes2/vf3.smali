@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    check-cast p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 9
     .line 10
-    sget p1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget p1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 11
     .line 12
@@ -110,7 +110,7 @@
     move-result-object p0
 
     .line 36
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 37
     .line 38

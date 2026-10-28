@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lb57;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iput-object p1, p0, Lb57;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 4
     .line 5
@@ -46,7 +46,7 @@
     const/4 v1, 0x0
 
     .line 4
-    iget-object p0, p0, Lb57;->b:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p0, p0, Lb57;->b:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 5
     .line 6
@@ -67,7 +67,7 @@
     move-object v2, p0
 
     .line 15
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 16
     .line 17
@@ -151,7 +151,7 @@
     const/4 v8, 0x0
 
     .line 48
-    invoke-static/range {v2 .. v10}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    invoke-static/range {v2 .. v10}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 49
     .line 50
@@ -163,7 +163,7 @@
 
     .line 53
     :pswitch_0
-    check-cast p1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    check-cast p1, Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 54
     .line 55
@@ -175,11 +175,11 @@
     move-object v2, p0
 
     .line 59
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 60
     .line 61
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->getLocations()Ljava/util/List;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->getLocations()Ljava/util/List;
 
     .line 62
     .line 63
@@ -199,7 +199,7 @@
 
     .line 70
     .line 71
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 72
     .line 73
@@ -262,7 +262,7 @@
     const/4 v11, 0x0
 
     .line 95
-    invoke-static/range {v2 .. v13}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    invoke-static/range {v2 .. v13}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 96
     .line 97

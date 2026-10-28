@@ -16,11 +16,11 @@
 
     .line 4
     .line 5
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 6
     .line 7
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 8
     .line 9
@@ -28,7 +28,7 @@
     move-result-object v2
 
     .line 11
-    const-class v3, Lorg/swiftapps/swiftbackup/shortcuts/ShortcutsActivity;
+    const-class v3, Lcom/bareapps/barebackup/shortcuts/ShortcutsActivity;
 
     .line 12
     .line 13

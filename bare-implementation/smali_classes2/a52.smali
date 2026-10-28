@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, La52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, La52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, La52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object p0, p0, La52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->j0()Landroid/widget/AutoCompleteTextView;
 
     .line 11
     .line 12
@@ -73,11 +73,11 @@
 
     .line 18
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 19
     .line 20
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->F0:Lgv7;
+    iget-object p1, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->F0:Lgv7;
 
     .line 21
     .line 22
@@ -154,7 +154,7 @@
     .line 55
     .line 56
     :cond_1
-    invoke-virtual {p0, v1, v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->t0(ZZ)V
+    invoke-virtual {p0, v1, v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->t0(ZZ)V
 
     .line 57
     .line 58

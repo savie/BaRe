@@ -110,7 +110,7 @@
     .end array-data
 .end method
 
-.method public static final A(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
+.method public static final A(Lcom/bareapps/barebackup/database/MDatabase_Impl;ZLt34;Lkv1;)Ljava/lang/Object;
     .locals 7
 
     .line 1
@@ -236,7 +236,7 @@
 
     .line 56
     .line 57
-    iget-object p0, v0, Ly72;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object p0, v0, Ly72;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 58
     .line 59
@@ -333,7 +333,7 @@
 
     .line 104
     :cond_6
-    iput-object p0, v0, Ly72;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iput-object p0, v0, Ly72;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 105
     .line 106
@@ -489,7 +489,7 @@
     .line 173
     .line 174
     .line 175
-    iput-object v5, v0, Ly72;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iput-object v5, v0, Ly72;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 176
     .line 177
@@ -3557,7 +3557,7 @@
 
     .line 124
     .line 125
-    const-class v9, Lorg/swiftapps/swiftbackup/common/PackageInstallResultReceiver;
+    const-class v9, Lcom/bareapps/barebackup/common/PackageInstallResultReceiver;
 
     .line 126
     .line 127

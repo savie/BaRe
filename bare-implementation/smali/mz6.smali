@@ -6807,7 +6807,7 @@
 
     .line 262
     .line 263
-    const-string v7, "swifttar"
+    const-string v7, "baretar"
 
     .line 264
     .line 265

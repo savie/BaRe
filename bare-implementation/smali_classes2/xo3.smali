@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;)V
     .locals 0
 
     .line 1
@@ -17,7 +17,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lxo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iput-object p1, p0, Lxo3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 5
     .line 6
@@ -35,11 +35,11 @@
     .line 2
     .line 3
     .line 4
-    iget-object p0, p0, Lxo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object p0, p0, Lxo3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 5
     .line 6
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;)Lkp3;
+    invoke-static {p0}, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;)Lkp3;
 
     .line 7
     .line 8
@@ -75,15 +75,15 @@
     .locals 1
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 2
     .line 3
-    iget-object p0, p0, Lxo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object p0, p0, Lxo3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->V()Lyo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->V()Lyo3;
 
     .line 6
     .line 7

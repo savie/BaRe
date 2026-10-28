@@ -1399,7 +1399,7 @@
     return p0
 .end method
 
-.method public final h(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
+.method public final h(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
     .locals 2
 
     .line 1
@@ -1480,11 +1480,11 @@
     move-object v1, p0
 
     .line 37
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     .line 38
     .line 39
-    invoke-direct {v0, v1, p2, p1}, Ldx4;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;ZI)V
+    invoke-direct {v0, v1, p2, p1}, Ldx4;-><init>(Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;ZI)V
 
     .line 40
     .line 41
@@ -1889,7 +1889,7 @@
 
     .line 158
     .line 159
-    iget-object v2, v0, Ltr;->W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object v2, v0, Ltr;->W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 160
     .line 161
@@ -1927,11 +1927,11 @@
 
     .line 175
     .line 176
-    check-cast v5, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast v5, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     .line 177
     .line 178
-    invoke-virtual {v5, v2, v3}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
+    invoke-virtual {v5, v2, v3}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
     :try_end_0
     .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
 
@@ -1959,7 +1959,7 @@
 
     .line 190
     :cond_10
-    iget-object v2, v0, Ltr;->X:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object v2, v0, Ltr;->X:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 191
     .line 192

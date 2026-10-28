@@ -84,11 +84,11 @@
     .line 10
     .line 11
     .line 12
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 13
     .line 14
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 15
     .line 16
@@ -104,7 +104,7 @@
 
     .line 21
     .line 22
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->Y()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->Y()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 23
     .line 24
@@ -205,11 +205,11 @@
 
     .line 68
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 69
     .line 70
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->r0:Lkm5;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->r0:Lkm5;
 
     .line 71
     .line 72

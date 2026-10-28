@@ -82,11 +82,11 @@
     .line 14
     .line 15
     .line 16
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 17
     .line 18
-    check-cast v5, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    check-cast v5, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 19
     .line 20
@@ -94,11 +94,11 @@
 
     .line 21
     .line 22
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 23
     .line 24
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
 
     .line 25
     .line 26
@@ -106,7 +106,7 @@
     move-result-object v0
 
     .line 28
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->getLocations()Ljava/util/List;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->getLocations()Ljava/util/List;
 
     .line 29
     .line 30
@@ -114,7 +114,7 @@
     move-result-object v1
 
     .line 32
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->getSyncOption()Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->getSyncOption()Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 33
     .line 34
@@ -134,7 +134,7 @@
 
     .line 41
     .line 42
-    sget-object v12, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v12, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 43
     .line 44
@@ -216,7 +216,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {p0, v8, v6}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->g(Ljava/lang/String;Ljava/util/ArrayList;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;
+    invoke-virtual {p0, v8, v6}, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->g(Ljava/lang/String;Ljava/util/ArrayList;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;
 
     .line 81
     .line 82
@@ -228,7 +228,7 @@
 
     .line 85
     .line 86
-    invoke-virtual {p0, v0, v5}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->f(Ljava/lang/String;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;)Z
+    invoke-virtual {p0, v0, v5}, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->f(Ljava/lang/String;Lcom/bareapps/barebackup/tasks/model/SyncOption;)Z
 
     .line 87
     .line 88
@@ -240,7 +240,7 @@
 
     .line 91
     .line 92
-    sget-object v8, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v8, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 93
     .line 94
@@ -284,11 +284,11 @@
     .line 112
     .line 113
     .line 114
-    new-instance p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$SkippedUploadSyncOptionsError;
+    new-instance p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$SkippedUploadSyncOptionsError;
 
     .line 115
     .line 116
-    invoke-direct {p0, v13, v14, v3, v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$SkippedUploadSyncOptionsError;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {p0, v13, v14, v3, v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$SkippedUploadSyncOptionsError;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 117
     .line 118
@@ -305,7 +305,7 @@
 
     .line 124
     .line 125
-    sget-object v8, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v8, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 126
     .line 127
@@ -327,7 +327,7 @@
     .line 133
     .line 134
     .line 135
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lorg/swiftapps/swiftbackup/home/schedule/data/o;
+    sget-object v1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lcom/bareapps/barebackup/home/schedule/data/o;
 
     .line 136
     .line 137
@@ -336,7 +336,7 @@
     .line 138
     .line 139
     .line 140
-    invoke-static {v0, p0}, Lorg/swiftapps/swiftbackup/home/schedule/data/o;->d(Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;)V
+    invoke-static {v0, p0}, Lcom/bareapps/barebackup/home/schedule/data/o;->d(Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;)V
 
     .line 141
     .line 142
@@ -355,7 +355,7 @@
     .line 146
     .line 147
     .line 148
-    sget-object v8, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v8, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 149
     .line 150
@@ -405,7 +405,7 @@
 
     .line 168
     .line 169
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lorg/swiftapps/swiftbackup/home/schedule/data/o;
+    sget-object p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lcom/bareapps/barebackup/home/schedule/data/o;
 
     .line 170
     .line 171
@@ -414,7 +414,7 @@
     .line 172
     .line 173
     .line 174
-    invoke-static {v0, v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/o;->d(Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;)V
+    invoke-static {v0, v8}, Lcom/bareapps/barebackup/home/schedule/data/o;->d(Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;)V
 
     .line 175
     .line 176
@@ -427,17 +427,17 @@
 
     .line 179
     .line 180
-    new-instance v8, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$Started;
+    new-instance v8, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$Started;
 
     .line 181
     .line 182
-    invoke-direct {v8, v13, v14, v3, v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails$Started;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v8, v13, v14, v3, v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails$Started;-><init>(JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 183
     .line 184
     .line 185
     :cond_5
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lorg/swiftapps/swiftbackup/home/schedule/data/o;
+    sget-object p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;->Companion:Lcom/bareapps/barebackup/home/schedule/data/o;
 
     .line 186
     .line 187
@@ -446,7 +446,7 @@
     .line 188
     .line 189
     .line 190
-    invoke-static {v0, v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/o;->d(Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetails;)V
+    invoke-static {v0, v8}, Lcom/bareapps/barebackup/home/schedule/data/o;->d(Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleLastRunDetails;)V
 
     .line 191
     .line 192
@@ -639,7 +639,7 @@
 
     .line 281
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 282
     .line 283
@@ -651,7 +651,7 @@
 
     .line 286
     .line 287
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 288
     .line 289

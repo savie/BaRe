@@ -9,17 +9,17 @@
 # instance fields
 .field public final synthetic a:Lkj3;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+.field public final synthetic b:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
 .field public final synthetic c:Ldm3;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+.field public final synthetic d:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
 .field public final synthetic e:Ljava/lang/String;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;Ldm3;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;Ljava/lang/String;)V
+.method public synthetic constructor <init>(Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;Ldm3;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;Ljava/lang/String;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lcm3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iput-object p2, p0, Lcm3;->b:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 7
     .line 8
@@ -40,7 +40,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lcm3;->d:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iput-object p4, p0, Lcm3;->d:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 11
     .line 12
@@ -61,7 +61,7 @@
 
     .line 2
     .line 3
-    iget-object v3, p0, Lcm3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v3, p0, Lcm3;->b:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 4
     .line 5
@@ -102,7 +102,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {v6}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v6}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 22
     .line 23
@@ -110,7 +110,7 @@
     move-result-object v1
 
     .line 25
-    iget-object v4, p0, Lcm3;->d:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object v4, p0, Lcm3;->d:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 26
     .line 27
@@ -118,7 +118,7 @@
 
     .line 28
     .line 29
-    invoke-direct/range {v0 .. v5}, Ldo3;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;Ljava/lang/String;)V
+    invoke-direct/range {v0 .. v5}, Ldo3;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;Ljava/lang/String;)V
 
     .line 30
     .line 31
@@ -127,7 +127,7 @@
 
     .line 33
     .line 34
-    invoke-direct {p0, v4}, Lwy7;-><init>(Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+    invoke-direct {p0, v4}, Lwy7;-><init>(Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
 
     .line 35
     .line 36

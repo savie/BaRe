@@ -90,11 +90,11 @@
 
     .line 22
     .line 23
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 24
     .line 25
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 26
     .line 27
@@ -183,11 +183,11 @@
 
     .line 67
     :pswitch_0
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 68
     .line 69
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 70
     .line 71
@@ -207,7 +207,7 @@
 
     .line 78
     :pswitch_1
-    sget p0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget p0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 79
     .line 80
@@ -240,7 +240,7 @@
 
     .line 93
     :pswitch_3
-    sget p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 94
     .line 95
@@ -285,7 +285,7 @@
 
     .line 114
     :pswitch_5
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->e()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->e()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 115
     .line 116
@@ -352,7 +352,7 @@
 
     .line 144
     :pswitch_a
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 145
     .line 146
@@ -779,11 +779,11 @@
 
     .line 349
     :pswitch_15
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 350
     .line 351
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 352
     .line 353
@@ -913,11 +913,11 @@
 
     .line 408
     :pswitch_1a
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 409
     .line 410
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 411
     .line 412

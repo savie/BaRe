@@ -616,7 +616,7 @@
     .line 133
     .line 134
     .line 135
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 136
     .line 137
@@ -628,7 +628,7 @@
 
     .line 140
     .line 141
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 142
     .line 143
@@ -1440,14 +1440,14 @@
     return-object v0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 1
 
     .line 1
     const/4 v0, 0x0
 
     .line 2
-    invoke-virtual {p0, v0}, Lfu3;->w(I)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p0, v0}, Lfu3;->w(I)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 3
     .line 4
@@ -1685,7 +1685,7 @@
     const/4 p1, 0x1
 
     .line 109
-    invoke-virtual {p0, p1}, Ltb1;->a(Z)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p0, p1}, Ltb1;->a(Z)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 110
     .line 111
@@ -2169,7 +2169,7 @@
 
     .line 16
     .line 17
-    invoke-virtual {p0, v1}, Lfu3;->w(I)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p0, v1}, Lfu3;->w(I)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 18
     .line 19
@@ -3106,7 +3106,7 @@
     .line 8
     .line 9
     .line 10
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 11
     .line 12
@@ -3121,7 +3121,7 @@
 
     .line 16
     .line 17
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
 
     .line 18
     .line 19
@@ -4027,11 +4027,11 @@
 
     .line 2
     .line 3
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getG()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getG()Z
 
     .line 6
     .line 7
@@ -4061,11 +4061,11 @@
 
     .line 17
     .line 18
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 19
     .line 20
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 21
     .line 22
@@ -4166,11 +4166,11 @@
     .line 66
     .line 67
     :try_start_0
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 68
     .line 69
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 70
     .line 71
@@ -4251,11 +4251,11 @@
     .line 106
     :cond_3
     :try_start_1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 107
     .line 108
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 109
     .line 110
@@ -5507,11 +5507,11 @@
 
     .line 710
     .line 711
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 712
     .line 713
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 714
     .line 715
@@ -6360,7 +6360,7 @@
     return-object p2
 .end method
 
-.method public final w(I)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final w(I)Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 14
 
     .line 1
@@ -6377,11 +6377,11 @@
     .line 6
     .line 7
     .line 8
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 9
     .line 10
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 11
     .line 12
@@ -6917,7 +6917,7 @@
     add-int/2addr p1, v3
 
     .line 247
-    invoke-virtual {p0, p1}, Lfu3;->w(I)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p0, p1}, Lfu3;->w(I)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 248
     .line 249
@@ -7037,7 +7037,7 @@
     move-result-object p0
 
     .line 303
-    invoke-static {p0, v3}, Lorg/swiftapps/swiftbackup/common/Const;->g(Ljava/lang/String;Z)V
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/common/Const;->g(Ljava/lang/String;Z)V
 
     .line 304
     .line 305
@@ -7125,7 +7125,7 @@
     move-result-object p0
 
     .line 344
-    invoke-static {p0, v3}, Lorg/swiftapps/swiftbackup/common/Const;->g(Ljava/lang/String;Z)V
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/common/Const;->g(Ljava/lang/String;Z)V
 
     .line 345
     .line 346

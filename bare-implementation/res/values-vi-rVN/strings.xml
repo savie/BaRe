@@ -827,7 +827,7 @@ Cần quyền Root hoặc Shizuku"</string>
     <string name="schedules">Lịch Trình</string>
     <string name="search">Tìm kiếm</string>
     <string name="search_hint_apps">Tìm kiếm ứng dụng</string>
-    <string name="search_swift_backup">Tìm kiếm BΛR☰</string>
+    <string name="search_bare_backup">Tìm kiếm BΛR☰</string>
     <string name="secondary_action">Thao tác phụ</string>
     <string name="secondary_user_warning_msg">Người dùng thứ 2,3 .v.v không được hỗ trợ chính thức do một số vấn đề không thể tránh khỏi. Vui lòng chuyển sang Người dùng Chính trên thiết bị này.</string>
     <string name="see_all">Xem tất cả</string>
@@ -865,11 +865,11 @@ Cần quyền Root hoặc Shizuku"</string>
     <string name="share_apk">Chia sẻ APK</string>
     <string name="share_apks">Chia sẻ APKs</string>
     <string name="share_logs">Chia sẻ nhật ký</string>
-    <string name="share_swiftbackup">Chia sẻ BΛR☰</string>
-    <string name="share_swiftbackup_msg">Xem trình quản lý sao lưu tuyệt vời này tôi đang sử dụng này! Nó được gọi là BΛR☰ và đây là liên kết: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Giải pháp sao lưu đơn giản, nhanh chóng và thông minh cho Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat thiết bị</string>
-    <string name="share_swiftlogger_text_only">Chia sẻ báo cáo chỉ văn bản</string>
+    <string name="share_barebackup">Chia sẻ BΛR☰</string>
+    <string name="share_barebackup_msg">Xem trình quản lý sao lưu tuyệt vời này tôi đang sử dụng này! Nó được gọi là BΛR☰ và đây là liên kết: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Giải pháp sao lưu đơn giản, nhanh chóng và thông minh cho Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat thiết bị</string>
+    <string name="share_barelogger_text_only">Chia sẻ báo cáo chỉ văn bản</string>
     <string name="shared_libraries">Thư viện chia sẻ</string>
     <string name="shortcuts">Lối tắt</string>
     <string name="show_less">Ẩn bớt</string>
@@ -911,9 +911,9 @@ Cần quyền Root hoặc Shizuku"</string>
     <string name="successful">Thành công</string>
     <string name="sure_to_cancel_task">Bạn có chắc chắn muốn hủy bỏ?</string>
     <string name="sure_to_proceed">Bạn có chắc muốn tiếp tục? Nhấp vào Có để xác nhận.</string>
-    <string name="swift_backup_is_busy">BΛR☰ đang bận</string>
-    <string name="swift_labs_settings_summary">Các tính năng thử nghiệm không được đảm bảo để làm việc. Những tính năng này có thể biến mất bất cứ lúc nào!</string>
-    <string name="swiftlogger_info">Nhật ký quan trọng có thể giúp báo cáo lỗi</string>
+    <string name="barebackup_is_busy">BΛR☰ đang bận</string>
+    <string name="bare_labs_settings_summary">Các tính năng thử nghiệm không được đảm bảo để làm việc. Những tính năng này có thể biến mất bất cứ lúc nào!</string>
+    <string name="barelogger_info">Nhật ký quan trọng có thể giúp báo cáo lỗi</string>
     <string name="swipe_actions">Thao tác vuốt</string>
     <string name="swipe_actions_description">Chọn tối đa hai thao tác cho mỗi hướng vuốt</string>
     <string name="sync_backups">Đồng bộ sao lưu</string>

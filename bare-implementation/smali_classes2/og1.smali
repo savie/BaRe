@@ -500,7 +500,7 @@
     .line 46
     .line 47
     :cond_1
-    const-string v5, "Swift"
+    const-string v5, "BΛR☰"
 
     .line 48
     .line 49
@@ -2156,11 +2156,11 @@
 
     .line 56
     :goto_2
-    const-string v9, "Swift%20Backup"
+    const-string v9, "BΛR☰%20Backup"
 
     .line 57
     .line 58
-    const-string v10, "Swift Backup"
+    const-string v10, "BΛR☰"
 
     .line 59
     .line 60

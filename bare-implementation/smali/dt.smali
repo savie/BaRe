@@ -216,14 +216,14 @@
     .line 11
     .line 12
     .line 13
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 14
     .line 15
     const/4 v2, 0x0
 
     .line 16
-    invoke-virtual {v1, v2}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {v1, v2}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 17
     .line 18
@@ -241,7 +241,7 @@
     .line 24
     .line 25
     .line 26
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v0, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 27
     .line 28
@@ -386,7 +386,7 @@
 
     .line 33
     :cond_1
-    instance-of p1, p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    instance-of p1, p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 34
     .line 35
@@ -397,7 +397,7 @@
     move-object p1, p0
 
     .line 38
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 39
     .line 40
@@ -480,7 +480,7 @@
 
     .line 75
     .line 76
-    const-class v1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    const-class v1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 77
     .line 78

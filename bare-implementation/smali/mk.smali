@@ -2603,7 +2603,7 @@
     .line 1165
     .line 1166
     .line 1167
-    new-instance v0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 1168
     .line 1169
@@ -2684,7 +2684,7 @@
 
     .line 1204
     :goto_11
-    invoke-direct {v0, v1, v2, v8}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-direct {v0, v1, v2, v8}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 1205
     .line 1206
@@ -2921,7 +2921,7 @@
 
     .line 60
     :pswitch_11
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-array p0, p1, [Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 61
     .line 62

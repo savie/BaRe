@@ -26,7 +26,7 @@
 
 
 # virtual methods
-.method public final r(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+.method public final r(Lcom/bareapps/barebackup/home/schedule/data/b;)V
     .locals 3
 
     .line 1
@@ -35,7 +35,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0, p1}, Lg57;->s(Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+    invoke-virtual {p0, p1}, Lg57;->s(Lcom/bareapps/barebackup/home/schedule/data/b;)V
 
     .line 5
     .line 6

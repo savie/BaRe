@@ -20,7 +20,7 @@
 
 .field public final h:Lrf8;
 
-.field public final i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.field public final i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
 .field public final j:J
 
@@ -30,7 +30,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;JJ)V
+.method public constructor <init>(Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lrf8;Lcom/bareapps/barebackup/model/app/LocalMetadata;JJ)V
     .locals 0
 
     .line 1
@@ -76,7 +76,7 @@
 
     .line 22
     .line 23
-    iput-object p9, p0, Lmz;->i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iput-object p9, p0, Lmz;->i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 24
     .line 25
@@ -324,11 +324,11 @@
 
     .line 103
     :cond_9
-    iget-object v0, p0, Lmz;->i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, p0, Lmz;->i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 104
     .line 105
-    iget-object v1, p1, Lmz;->i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v1, p1, Lmz;->i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 106
     .line 107
@@ -660,11 +660,11 @@
     mul-int/2addr v1, v2
 
     .line 98
-    iget-object v0, p0, Lmz;->i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, p0, Lmz;->i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 99
     .line 100
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hashCode()I
 
     .line 101
     .line 102
@@ -885,7 +885,7 @@
     .line 88
     .line 89
     .line 90
-    iget-object v2, p0, Lmz;->i:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v2, p0, Lmz;->i:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 91
     .line 92

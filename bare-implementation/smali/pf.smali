@@ -90,11 +90,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 6
     .line 7
@@ -134,7 +134,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->Y()Loi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->Y()Loi7;
 
     .line 25
     .line 26
@@ -159,7 +159,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->U()Lme5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->U()Lme5;
 
     .line 38
     .line 39
@@ -201,7 +201,7 @@
     .line 57
     .line 58
     .line 59
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
 
     .line 60
     .line 61
@@ -240,7 +240,7 @@
     .line 78
     .line 79
     .line 80
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->Z()Lye5;
 
     .line 81
     .line 82
@@ -593,11 +593,11 @@
     move-object v4, v2
 
     .line 45
-    check-cast v4, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v4, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 46
     .line 47
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
 
     .line 48
     .line 49
@@ -629,7 +629,7 @@
     move-result-object v1
 
     .line 62
-    invoke-virtual {v1}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v1}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 63
     .line 64
@@ -697,7 +697,7 @@
 
     .line 91
     .line 92
-    invoke-static/range {v5 .. v23}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-static/range {v5 .. v23}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;ILjava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Integer;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 93
     .line 94
@@ -713,7 +713,7 @@
     move-result-object v0
 
     .line 100
-    invoke-virtual {v0, v1}, Lmr1;->k(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+    invoke-virtual {v0, v1}, Lmr1;->k(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
 
     .line 101
     .line 102
@@ -807,11 +807,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 6
     .line 7
@@ -832,7 +832,7 @@
 
     .line 15
     .line 16
-    const-class p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    const-class p1, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 17
     .line 18

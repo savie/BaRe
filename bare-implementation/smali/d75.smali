@@ -52,7 +52,7 @@
 
     .line 10
     .line 11
-    invoke-static {p0, p2}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p2}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 12
     .line 13

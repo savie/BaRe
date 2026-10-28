@@ -91,7 +91,7 @@
     move-result-object p0
 
     .line 25
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 26
     .line 27
@@ -133,7 +133,7 @@
     .line 43
     .line 44
     .line 45
-    iget-object v3, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v3, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 46
     .line 47
@@ -187,7 +187,7 @@
     const/4 v7, 0x0
 
     .line 68
-    invoke-virtual/range {v3 .. v8}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v3 .. v8}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 69
     .line 70
@@ -200,7 +200,7 @@
 
     .line 73
     .line 74
-    iget-object p0, p0, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 75
     .line 76

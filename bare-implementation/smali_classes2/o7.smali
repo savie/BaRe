@@ -36,7 +36,7 @@
 
     .line 6
     .line 7
-    const-string v5, "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;"
+    const-string v5, "getCtx()Lcom/bareapps/barebackup/home/HomeActivity;"
 
     .line 8
     .line 9
@@ -159,7 +159,7 @@
 
 
 # virtual methods
-.method public final i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.method public final i()Lcom/bareapps/barebackup/home/HomeActivity;
     .locals 0
 
     .line 1
@@ -176,7 +176,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 9
     .line 10
@@ -578,7 +578,7 @@
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lo7;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lo7;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 11
     .line 12
@@ -586,7 +586,7 @@
     move-result-object p0
 
     .line 14
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 15
     .line 16
@@ -658,7 +658,7 @@
 
     .line 18
     .line 19
-    invoke-virtual {p0}, Lo7;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lo7;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 20
     .line 21
@@ -749,11 +749,11 @@
     .line 66
     .line 67
     .line 68
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 69
     .line 70
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 71
     .line 72
@@ -761,7 +761,7 @@
     move-result-object p1
 
     .line 74
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/SwiftApp;->a:Lex6;
+    iget-object p1, p1, Lcom/bareapps/barebackup/BareApp;->a:Lex6;
 
     .line 75
     .line 76

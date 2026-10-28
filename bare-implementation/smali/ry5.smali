@@ -75,7 +75,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Ljava/lang/String;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Ljava/lang/String;)V
     .locals 3
 
     .line 1
@@ -104,7 +104,7 @@
 
     .line 13
     .line 14
-    invoke-static {p1}, Lqy5;->e(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Ljava/lang/String;
+    invoke-static {p1}, Lqy5;->e(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Ljava/lang/String;
 
     .line 15
     .line 16

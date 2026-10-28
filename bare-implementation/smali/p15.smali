@@ -17,7 +17,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -29,7 +29,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 13
     .line 14
@@ -50,7 +50,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 23
     .line 24
@@ -62,7 +62,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -224,7 +224,7 @@
     .line 106
     .line 107
     .line 108
-    invoke-static {v0, v2, v1}, Lorg/swiftapps/swiftbackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
+    invoke-static {v0, v2, v1}, Lcom/bareapps/barebackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
 
     .line 109
     .line 110

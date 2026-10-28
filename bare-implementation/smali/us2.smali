@@ -510,11 +510,11 @@
     .line 2
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 5
     .line 6
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 7
     .line 8
@@ -526,7 +526,7 @@
 
     .line 11
     .line 12
-    sget v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 13
     .line 14
@@ -543,7 +543,7 @@
 
     .line 19
     .line 20
-    const-class v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    const-class v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 21
     .line 22
@@ -584,7 +584,7 @@
     .locals 2
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 2
     .line 3
@@ -600,11 +600,11 @@
 
     .line 8
     :cond_0
-    sget-object p4, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p4, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 9
     .line 10
-    invoke-virtual {p4}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p4}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 11
     .line 12
@@ -616,7 +616,7 @@
 
     .line 15
     .line 16
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 17
     .line 18
@@ -658,7 +658,7 @@
 
     .line 35
     .line 36
-    const-class v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    const-class v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 37
     .line 38

@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, La37;->b:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iput-object p1, p0, La37;->b:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, La37;->b:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object p0, p0, La37;->b:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 6
     .line 7
@@ -56,18 +56,18 @@
     .line 8
     .line 9
     .line 10
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 11
     .line 12
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;->Apps:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;->Apps:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;
 
     .line 13
     .line 14
     const/4 v2, 0x1
 
     .line 15
-    invoke-virtual {p0, v0, v2}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->p(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;Z)V
+    invoke-virtual {p0, v0, v2}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->p(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;Z)V
 
     .line 16
     .line 17
@@ -76,7 +76,7 @@
 
     .line 19
     :pswitch_0
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->n:Landroid/widget/LinearLayout;
+    iget-object v0, p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->n:Landroid/widget/LinearLayout;
 
     .line 20
     .line 21
@@ -89,19 +89,19 @@
     .line 24
     .line 25
     .line 26
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;->Main:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;->Main:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;
 
     .line 27
     .line 28
     const/4 v3, 0x0
 
     .line 29
-    invoke-virtual {p0, v0, v3}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->p(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView$a;Z)V
+    invoke-virtual {p0, v0, v3}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->p(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView$a;Z)V
 
     .line 30
     .line 31
     .line 32
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->k:Landroid/view/View;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->k:Landroid/view/View;
 
     .line 33
     .line 34

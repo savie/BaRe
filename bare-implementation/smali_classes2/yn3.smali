@@ -4,7 +4,7 @@
 
 
 # direct methods
-.method public static a(Lorg/swiftapps/swiftbackup/folders/data/FolderState;Lorg/swiftapps/swiftbackup/folders/data/FolderState;)Lorg/swiftapps/swiftbackup/folders/data/Changes;
+.method public static a(Lcom/bareapps/barebackup/folders/data/FolderState;Lcom/bareapps/barebackup/folders/data/FolderState;)Lcom/bareapps/barebackup/folders/data/Changes;
     .locals 14
 
     .line 1
@@ -89,7 +89,7 @@
     .line 42
     .line 43
     .line 44
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 45
     .line 46
@@ -159,11 +159,11 @@
     move-result-object v1
 
     .line 78
-    check-cast v1, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;
+    check-cast v1, Lcom/bareapps/barebackup/folders/data/FileEntry;
 
     .line 79
     .line 80
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 81
     .line 82
@@ -179,7 +179,7 @@
     move-result-object v3
 
     .line 88
-    check-cast v3, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;
+    check-cast v3, Lcom/bareapps/barebackup/folders/data/FileEntry;
 
     .line 89
     .line 90
@@ -196,7 +196,7 @@
 
     .line 96
     :cond_1
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;->getSize()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FileEntry;->getSize()J
 
     .line 97
     .line 98
@@ -204,7 +204,7 @@
     move-result-wide v4
 
     .line 100
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;->getSize()J
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/folders/data/FileEntry;->getSize()J
 
     .line 101
     .line 102
@@ -220,7 +220,7 @@
 
     .line 107
     .line 108
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;->getMtime()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FileEntry;->getMtime()J
 
     .line 109
     .line 110
@@ -228,7 +228,7 @@
     move-result-wide v4
 
     .line 112
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;->getMtime()J
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/folders/data/FileEntry;->getMtime()J
 
     .line 113
     .line 114
@@ -254,7 +254,7 @@
 
     .line 124
     :cond_3
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 125
     .line 126
@@ -304,7 +304,7 @@
 
     .line 147
     .line 148
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 149
     .line 150
@@ -333,7 +333,7 @@
 
     .line 162
     :cond_5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
 
     .line 163
     .line 164
@@ -349,7 +349,7 @@
     move-result-object v0
 
     .line 170
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
 
     .line 171
     .line 172
@@ -373,7 +373,7 @@
     move-result-object v1
 
     .line 182
-    invoke-static {p0, v1}, Lyn3;->b(Lorg/swiftapps/swiftbackup/folders/data/FolderState;Ljava/util/Collection;)Ljava/util/List;
+    invoke-static {p0, v1}, Lyn3;->b(Lcom/bareapps/barebackup/folders/data/FolderState;Ljava/util/Collection;)Ljava/util/List;
 
     .line 183
     .line 184
@@ -399,11 +399,11 @@
     .line 194
     .line 195
     .line 196
-    new-instance v6, Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    new-instance v6, Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 197
     .line 198
-    invoke-direct/range {v6 .. v11}, Lorg/swiftapps/swiftbackup/folders/data/Changes;-><init>(Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
+    invoke-direct/range {v6 .. v11}, Lcom/bareapps/barebackup/folders/data/Changes;-><init>(Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
 
     .line 199
     .line 200
@@ -421,7 +421,7 @@
     const/4 v1, 0x0
 
     .line 206
-    invoke-static {v6, v1, p0, p1}, Lorg/swiftapps/swiftbackup/folders/data/Changes;->asString$default(Lorg/swiftapps/swiftbackup/folders/data/Changes;ZILjava/lang/Object;)Ljava/lang/String;
+    invoke-static {v6, v1, p0, p1}, Lcom/bareapps/barebackup/folders/data/Changes;->asString$default(Lcom/bareapps/barebackup/folders/data/Changes;ZILjava/lang/Object;)Ljava/lang/String;
 
     .line 207
     .line 208
@@ -447,7 +447,7 @@
     .line 216
     .line 217
     .line 218
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/Changes;->changesCount()I
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/Changes;->changesCount()I
 
     .line 219
     .line 220
@@ -455,7 +455,7 @@
     return-object v6
 .end method
 
-.method public static b(Lorg/swiftapps/swiftbackup/folders/data/FolderState;Ljava/util/Collection;)Ljava/util/List;
+.method public static b(Lcom/bareapps/barebackup/folders/data/FolderState;Ljava/util/Collection;)Ljava/util/List;
     .locals 3
 
     .line 1
@@ -498,7 +498,7 @@
     .line 19
     .line 20
     .line 21
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 22
     .line 23
@@ -556,7 +556,7 @@
 
     .line 49
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
 
     .line 50
     .line 51
@@ -740,7 +740,7 @@
 
 
 # virtual methods
-.method public final d(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+.method public final d(Lq63;)Lcom/bareapps/barebackup/folders/data/FolderState;
     .locals 19
 
     .line 1
@@ -1259,16 +1259,16 @@
     .line 258
     .line 259
     .line 260
-    new-instance v6, Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    new-instance v6, Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 261
     .line 262
-    invoke-direct {v6, v1, v2}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;-><init>(Ljava/util/Map;Ljava/util/List;)V
+    invoke-direct {v6, v1, v2}, Lcom/bareapps/barebackup/folders/data/FolderState;-><init>(Ljava/util/Map;Ljava/util/List;)V
 
     .line 263
     .line 264
     .line 265
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 266
     .line 267
@@ -1284,7 +1284,7 @@
     move-result v1
 
     .line 273
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/FolderState;->getDirectories()Ljava/util/List;
 
     .line 274
     .line 275

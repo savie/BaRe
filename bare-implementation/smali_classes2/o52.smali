@@ -80,7 +80,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 9
     .line 10
@@ -113,11 +113,11 @@
     .line 21
     .line 22
     :cond_1
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object v0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X()Lz44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X()Lz44;
 
     .line 25
     .line 26
@@ -146,7 +146,7 @@
     .line 37
     .line 38
     .line 39
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->P:Ll90;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->P:Ll90;
 
     .line 40
     .line 41
@@ -171,11 +171,11 @@
 
     .line 51
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 52
     .line 53
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 54
     .line 55
@@ -183,7 +183,7 @@
     move-result-object p1
 
     .line 57
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 58
     .line 59
@@ -191,7 +191,7 @@
     move-result-object p0
 
     .line 61
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 62
     .line 63

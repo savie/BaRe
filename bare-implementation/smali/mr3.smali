@@ -107,7 +107,7 @@
 
     .line 31
     .line 32
-    sget v0, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;->k:I
+    sget v0, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;->k:I
 
     .line 33
     .line 34

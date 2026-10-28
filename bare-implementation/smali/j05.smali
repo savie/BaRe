@@ -32,7 +32,7 @@
     .line 13
     .line 14
     .line 15
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 16
     .line 17
@@ -609,7 +609,7 @@
     return-void
 .end method
 
-.method public static d(Lorg/swiftapps/swiftbackup/SwiftApp;)V
+.method public static d(Lcom/bareapps/barebackup/BareApp;)V
     .locals 9
 
     .line 1
@@ -654,11 +654,11 @@
 
     .line 21
     :cond_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 22
     .line 23
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 24
     .line 25
@@ -730,7 +730,7 @@
     .line 56
     :goto_2
     :try_start_0
-    invoke-static {p0, v1}, Lkv4;->a(Lorg/swiftapps/swiftbackup/SwiftApp;Ljava/util/Locale;)V
+    invoke-static {p0, v1}, Lkv4;->a(Lcom/bareapps/barebackup/BareApp;Ljava/util/Locale;)V
 
     .line 57
     .line 58
@@ -887,11 +887,11 @@
 
     .line 8
     :cond_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 9
     .line 10
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 11
     .line 12

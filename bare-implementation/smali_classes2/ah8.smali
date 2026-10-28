@@ -243,11 +243,11 @@
     return-void
 .end method
 
-.method public static synthetic a(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+.method public static synthetic a(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
     .locals 0
 
     .line 1
-    invoke-static {p0, p1}, Lah8;->updateFields$lambda$1(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+    invoke-static {p0, p1}, Lah8;->updateFields$lambda$1(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
 
     .line 2
     .line 3
@@ -258,11 +258,11 @@
     return-object p0
 .end method
 
-.method public static final synthetic access$updateFields(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+.method public static final synthetic access$updateFields(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
     .locals 0
 
     .line 1
-    invoke-direct {p0, p1}, Lah8;->updateFields(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+    invoke-direct {p0, p1}, Lah8;->updateFields(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
 
     .line 2
     .line 3
@@ -285,11 +285,11 @@
     return-object p0
 .end method
 
-.method public static synthetic c(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+.method public static synthetic c(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
     .locals 0
 
     .line 1
-    invoke-static {p0, p1}, Lah8;->updateFields$lambda$1$0(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+    invoke-static {p0, p1}, Lah8;->updateFields$lambda$1$0(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
 
     .line 2
     .line 3
@@ -430,7 +430,7 @@
     return-object p0
 .end method
 
-.method private final updateFields(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+.method private final updateFields(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
     .locals 5
 
     .line 1
@@ -439,7 +439,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getProviderData()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getProviderData()Ljava/util/List;
 
     .line 5
     .line 6
@@ -522,7 +522,7 @@
 
     .line 41
     .line 42
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 43
     .line 44
@@ -551,7 +551,7 @@
     .line 55
     .line 56
     :cond_2
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
 
     .line 57
     .line 58
@@ -581,7 +581,7 @@
     .line 69
     .line 70
     :cond_4
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
 
     .line 71
     .line 72
@@ -643,7 +643,7 @@
     .line 98
     .line 99
     :cond_7
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
 
     .line 100
     .line 101
@@ -745,7 +745,7 @@
     return-void
 .end method
 
-.method private static final updateFields$lambda$1(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+.method private static final updateFields$lambda$1(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
     .locals 3
 
     .line 1
@@ -789,7 +789,7 @@
     return-object p0
 .end method
 
-.method private static final updateFields$lambda$1$0(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+.method private static final updateFields$lambda$1$0(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
     .locals 12
 
     .line 1
@@ -816,7 +816,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -864,7 +864,7 @@
 
     .line 33
     .line 34
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
 
     .line 35
     .line 36
@@ -1147,7 +1147,7 @@
     .line 156
     .line 157
     .line 158
-    invoke-virtual {p1, v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->updateProfile(Lhh8;)V
+    invoke-virtual {p1, v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->updateProfile(Lhh8;)V
 
     .line 159
     .line 160
@@ -1354,11 +1354,11 @@
 
     .line 10
     .line 11
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 12
     .line 13
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 14
     .line 15

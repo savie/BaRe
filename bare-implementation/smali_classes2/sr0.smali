@@ -11,11 +11,11 @@
 
 .field public final synthetic b:Ljava/util/Set;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+.field public final synthetic c:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Ljava/util/List;Ljava/util/Set;Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;)V
+.method public synthetic constructor <init>(Ljava/util/List;Ljava/util/Set;Lcom/bareapps/barebackup/blacklist/BlacklistActivity;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lsr0;->c:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iput-object p3, p0, Lsr0;->c:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 9
     .line 10
@@ -45,7 +45,7 @@
     .locals 8
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;->P:I
+    sget v0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;->P:I
 
     .line 2
     .line 3
@@ -85,7 +85,7 @@
 
     .line 20
     .line 21
-    sget-object p3, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->Companion:Lcs0;
+    sget-object p3, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->Companion:Lcs0;
 
     .line 22
     .line 23
@@ -99,7 +99,7 @@
     .line 27
     .line 28
     .line 29
-    new-instance v2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    new-instance v2, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 30
     .line 31
@@ -128,7 +128,7 @@
     const/4 v5, 0x0
 
     .line 42
-    invoke-direct/range {v2 .. v7}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;-><init>(Ljava/lang/String;Ljava/lang/String;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v2 .. v7}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;-><init>(Ljava/lang/String;Ljava/lang/String;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 43
     .line 44
@@ -141,7 +141,7 @@
     move-result p2
 
     .line 49
-    invoke-virtual {v2, p2}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->setInstalled(Z)V
+    invoke-virtual {v2, p2}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->setInstalled(Z)V
 
     .line 50
     .line 51
@@ -185,7 +185,7 @@
     move-result-object v2
 
     .line 70
-    check-cast v2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v2, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 71
     .line 72
@@ -194,7 +194,7 @@
     .line 73
     .line 74
     .line 75
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 76
     .line 77
@@ -240,7 +240,7 @@
     move-result p2
 
     .line 97
-    iget-object p0, p0, Lsr0;->c:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iget-object p0, p0, Lsr0;->c:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 98
     .line 99
@@ -273,7 +273,7 @@
     .line 112
     .line 113
     .line 114
-    iget-object v3, p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;->O:Landroid/widget/Toast;
+    iget-object v3, p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;->O:Landroid/widget/Toast;
 
     .line 115
     .line 116
@@ -295,7 +295,7 @@
     move-result-object p2
 
     .line 125
-    iput-object p2, p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;->O:Landroid/widget/Toast;
+    iput-object p2, p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;->O:Landroid/widget/Toast;
 
     .line 126
     .line 127
@@ -352,7 +352,7 @@
     move-result p2
 
     .line 152
-    invoke-static {p0, p2, p3, v1}, Lorg/swiftapps/swiftbackup/common/Const;->p(Landroid/content/Context;IIZ)Landroid/text/SpannableStringBuilder;
+    invoke-static {p0, p2, p3, v1}, Lcom/bareapps/barebackup/common/Const;->p(Landroid/content/Context;IIZ)Landroid/text/SpannableStringBuilder;
 
     .line 153
     .line 154

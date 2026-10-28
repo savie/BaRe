@@ -349,11 +349,11 @@
 
     .line 145
     :pswitch_1
-    sget p0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget p0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 146
     .line 147
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 148
     .line 149
@@ -374,7 +374,7 @@
 
     .line 157
     :pswitch_2
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 158
     .line 159
@@ -382,7 +382,7 @@
     move-result-object p0
 
     .line 161
-    const-class p1, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    const-class p1, Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 162
     .line 163
@@ -395,7 +395,7 @@
 
     .line 167
     :pswitch_3
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 168
     .line 169
@@ -403,7 +403,7 @@
     move-result-object p0
 
     .line 171
-    const-class p1, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    const-class p1, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 172
     .line 173
@@ -416,7 +416,7 @@
 
     .line 177
     :pswitch_4
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 178
     .line 179
@@ -424,7 +424,7 @@
     move-result-object p0
 
     .line 181
-    const-class p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    const-class p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 182
     .line 183
@@ -437,11 +437,11 @@
 
     .line 187
     :pswitch_5
-    sget p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 188
     .line 189
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 190
     .line 191
@@ -452,7 +452,7 @@
     const/4 p1, 0x0
 
     .line 194
-    invoke-static {p0, p1}, Lvm4;->A(Lorg/swiftapps/swiftbackup/home/HomeActivity;Z)V
+    invoke-static {p0, p1}, Lvm4;->A(Lcom/bareapps/barebackup/home/HomeActivity;Z)V
 
     .line 195
     .line 196
@@ -461,11 +461,11 @@
 
     .line 198
     :pswitch_6
-    sget p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 199
     .line 200
-    invoke-virtual {v2}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v2}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 201
     .line 202
@@ -550,7 +550,7 @@
 
     .line 236
     .line 237
-    iget-object v0, p0, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v0, p0, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 238
     .line 239
@@ -600,7 +600,7 @@
 
     .line 262
     .line 263
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->O()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->O()V
 
     .line 264
     .line 265
@@ -629,11 +629,11 @@
 
     .line 276
     .line 277
-    sget-object p2, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p2, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 278
     .line 279
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 280
     .line 281
@@ -645,7 +645,7 @@
 
     .line 284
     .line 285
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 286
     .line 287
@@ -671,7 +671,7 @@
 
     .line 297
     .line 298
-    sget p2, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
+    sget p2, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
 
     .line 299
     .line 300
@@ -697,11 +697,11 @@
 
     .line 311
     .line 312
-    sget-object p2, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p2, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 313
     .line 314
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 315
     .line 316
@@ -713,7 +713,7 @@
 
     .line 319
     .line 320
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 321
     .line 322
@@ -730,7 +730,7 @@
 
     .line 327
     .line 328
-    const-class v3, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    const-class v3, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 329
     .line 330

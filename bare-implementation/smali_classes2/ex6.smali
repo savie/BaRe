@@ -84,7 +84,7 @@
     .line 22
     :goto_0
     :try_start_0
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp;->b()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp;->b()Lcom/bareapps/barebackup/BareApp;
 
     .line 23
     .line 24
@@ -92,7 +92,7 @@
     move-result-object p1
 
     .line 26
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/SwiftApp;->a:Lex6;
+    iget-object p1, p1, Lcom/bareapps/barebackup/BareApp;->a:Lex6;
 
     .line 27
     .line 28

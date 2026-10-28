@@ -9,7 +9,7 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
 .field public final synthetic c:Lzn7;
 
@@ -17,11 +17,11 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lno7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iput-object p1, p0, Lno7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 2
     .line 3
@@ -62,11 +62,11 @@
 
     .line 6
     .line 7
-    iget-object p0, p0, Lno7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iget-object p0, p0, Lno7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 8
     .line 9
-    invoke-direct {p1, p0, v0, v1, p2}, Lno7;-><init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
+    invoke-direct {p1, p0, v0, v1, p2}, Lno7;-><init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
 
     .line 10
     .line 11
@@ -162,11 +162,11 @@
     .line 20
     .line 21
     .line 22
-    iget-object v4, p0, Lno7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iget-object v4, p0, Lno7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 23
     .line 24
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
 
     .line 25
     .line 26
@@ -240,7 +240,7 @@
     move-result-wide v5
 
     .line 62
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
 
     .line 63
     .line 64
@@ -261,7 +261,7 @@
 
     .line 72
     .line 73
-    invoke-direct/range {v2 .. v8}, Llo7;-><init>(Ljava/lang/Long;Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;JLjava/lang/String;Ljava/lang/String;)V
+    invoke-direct/range {v2 .. v8}, Llo7;-><init>(Ljava/lang/Long;Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;JLjava/lang/String;Ljava/lang/String;)V
 
     .line 74
     .line 75

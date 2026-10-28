@@ -38,7 +38,7 @@
 
 
 # virtual methods
-.method public final fromCloudBackups(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;)Lji;
+.method public final fromCloudBackups(Lcom/bareapps/barebackup/model/app/AppCloudBackups;)Lji;
     .locals 31
 
     .line 1
@@ -75,7 +75,7 @@
 
     .line 17
     .line 18
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 19
     .line 20
@@ -83,7 +83,7 @@
     move-result-object v0
 
     .line 22
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 23
     .line 24
@@ -95,7 +95,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getPackageName()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -143,7 +143,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getPackageName()Ljava/lang/String;
 
     .line 51
     .line 52
@@ -151,7 +151,7 @@
     move-result-object v2
 
     .line 54
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getName()Ljava/lang/String;
 
     .line 55
     .line 56
@@ -272,7 +272,7 @@
 
     .line 108
     .line 109
-    invoke-direct/range {v1 .. v30}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v1 .. v30}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 110
     .line 111
@@ -284,7 +284,7 @@
 
     .line 114
     :goto_1
-    invoke-virtual {v0, v1}, Lji;->setCloudBackups(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;)V
+    invoke-virtual {v0, v1}, Lji;->setCloudBackups(Lcom/bareapps/barebackup/model/app/AppCloudBackups;)V
 
     .line 115
     .line 116
@@ -386,7 +386,7 @@
 
     .line 33
     :cond_0
-    invoke-static/range {p1 .. p1}, Lcu;->b(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static/range {p1 .. p1}, Lcu;->b(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 34
     .line 35
@@ -402,7 +402,7 @@
 
     .line 40
     .line 41
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 42
     .line 43
@@ -410,7 +410,7 @@
     move-result-object v3
 
     .line 45
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getName()Ljava/lang/String;
 
     .line 46
     .line 47
@@ -418,7 +418,7 @@
     move-result-object v4
 
     .line 49
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionName()Ljava/lang/String;
 
     .line 50
     .line 51
@@ -426,7 +426,7 @@
     move-result-object v6
 
     .line 53
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getVersionCode()Ljava/lang/Long;
 
     .line 54
     .line 55
@@ -434,7 +434,7 @@
     move-result-object v7
 
     .line 57
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
 
     .line 58
     .line 59
@@ -530,7 +530,7 @@
 
     .line 100
     .line 101
-    invoke-direct/range {v2 .. v31}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v2 .. v31}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 102
     .line 103
@@ -659,7 +659,7 @@
 
     .line 157
     .line 158
-    invoke-static/range {v3 .. v32}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
+    invoke-static/range {v3 .. v32}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
 
     .line 159
     .line 160
@@ -817,7 +817,7 @@
 
     .line 57
     .line 58
-    invoke-direct/range {v1 .. v30}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v1 .. v30}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 59
     .line 60

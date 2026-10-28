@@ -157,11 +157,11 @@
 
     .line 53
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 54
     .line 55
-    check-cast v1, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v1, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 56
     .line 57
@@ -188,7 +188,7 @@
     const/4 v0, 0x0
 
     .line 68
-    invoke-static {p0, v1, p1, v0}, Lns0;->l(Lzm;Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lxi;)V
+    invoke-static {p0, v1, p1, v0}, Lns0;->l(Lzm;Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lxi;)V
 
     .line 69
     .line 70

@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 9
     .line 10
@@ -68,7 +68,7 @@
 
     .line 15
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;
 
     .line 16
     .line 17
@@ -84,7 +84,7 @@
 
     .line 22
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/password/PasswordStrategyActivity;
+    check-cast p0, Lcom/bareapps/barebackup/password/PasswordStrategyActivity;
 
     .line 23
     .line 24
@@ -100,7 +100,7 @@
 
     .line 29
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/PCloudSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/PCloudSignInActivity;
 
     .line 30
     .line 31
@@ -116,7 +116,7 @@
 
     .line 36
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 37
     .line 38
@@ -132,7 +132,7 @@
 
     .line 43
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;
 
     .line 44
     .line 45
@@ -148,7 +148,7 @@
 
     .line 50
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 51
     .line 52
@@ -164,7 +164,7 @@
 
     .line 57
     :pswitch_6
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 58
     .line 59
@@ -180,7 +180,7 @@
 
     .line 64
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    check-cast p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 65
     .line 66
@@ -208,7 +208,7 @@
 
     .line 76
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/appsquickactions/AppsQuickActionsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appsquickactions/AppsQuickActionsActivity;
 
     .line 77
     .line 78

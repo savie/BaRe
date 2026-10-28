@@ -64,7 +64,7 @@
     move-result-object v1
 
     .line 27
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v1, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 28
     .line 29
@@ -193,7 +193,7 @@
 
     .line 7
     .line 8
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast p1, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 9
     .line 10

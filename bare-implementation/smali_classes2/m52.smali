@@ -107,11 +107,11 @@
 
     .line 18
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 19
     .line 20
-    iget-boolean v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->L0:Z
+    iget-boolean v0, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->L0:Z
 
     .line 21
     .line 22
@@ -280,7 +280,7 @@
 
     .line 99
     .line 100
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->g0()Lcom/google/android/material/textfield/TextInputEditText;
 
     .line 101
     .line 102
@@ -311,7 +311,7 @@
     .line 115
     :cond_4
     :goto_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 116
     .line 117
@@ -319,7 +319,7 @@
     move-result-object p1
 
     .line 119
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 120
     .line 121
@@ -327,7 +327,7 @@
     move-result-object p0
 
     .line 123
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 124
     .line 125

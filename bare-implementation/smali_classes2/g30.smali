@@ -187,7 +187,7 @@
 
     .line 72
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 73
     .line 74
@@ -204,7 +204,7 @@
     .line 79
     .line 80
     .line 81
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 82
     .line 83
@@ -222,7 +222,7 @@
 
     .line 90
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 91
     .line 92
@@ -239,7 +239,7 @@
     .line 97
     .line 98
     .line 99
-    sget p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 100
     .line 101
@@ -248,7 +248,7 @@
     .line 102
     .line 103
     .line 104
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->S(Lvq4;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->S(Lvq4;)V
 
     .line 105
     .line 106
@@ -303,7 +303,7 @@
 
     .line 131
     .line 132
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 133
     .line 134

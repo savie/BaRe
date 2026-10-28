@@ -58,11 +58,11 @@
     move-result-object p0
 
     .line 9
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 10
     .line 11
-    invoke-virtual {p1, p0}, Lgt;->r(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;)V
+    invoke-virtual {p1, p0}, Lgt;->r(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;)V
 
     .line 12
     .line 13

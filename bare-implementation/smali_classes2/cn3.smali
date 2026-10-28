@@ -84,7 +84,7 @@
 
     .line 17
     .line 18
-    iget-object p1, p0, Lbp3;->B:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object p1, p0, Lbp3;->B:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 19
     .line 20

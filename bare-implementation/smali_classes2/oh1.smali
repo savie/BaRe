@@ -157,7 +157,7 @@
 
     .line 64
     .line 65
-    const-string v14, "mapConfiguration(Landroid/net/wifi/WifiConfiguration;)Lorg/swiftapps/swiftbackup/model/WifiItem;"
+    const-string v14, "mapConfiguration(Landroid/net/wifi/WifiConfiguration;)Lcom/bareapps/barebackup/model/WifiItem;"
 
     .line 66
     .line 67
@@ -241,11 +241,11 @@
 
     .line 107
     .line 108
-    check-cast v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    check-cast v0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 109
     .line 110
-    sget v2, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v2, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 111
     .line 112
@@ -278,7 +278,7 @@
 
     .line 126
     :cond_0
-    iget-object v3, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->S:Lwa;
+    iget-object v3, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->S:Lwa;
 
     .line 127
     .line 128
@@ -305,7 +305,7 @@
 
     .line 138
     .line 139
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 140
     .line 141
@@ -322,7 +322,7 @@
     .line 146
     .line 147
     .line 148
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 149
     .line 150
@@ -339,7 +339,7 @@
     .line 155
     .line 156
     .line 157
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
 
     .line 158
     .line 159
@@ -352,7 +352,7 @@
     .line 162
     .line 163
     .line 164
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 165
     .line 166
@@ -365,7 +365,7 @@
     .line 169
     .line 170
     .line 171
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
 
     .line 172
     .line 173
@@ -399,7 +399,7 @@
 
     .line 187
     .line 188
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 189
     .line 190
@@ -416,7 +416,7 @@
     .line 195
     .line 196
     .line 197
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 198
     .line 199
@@ -433,7 +433,7 @@
     .line 204
     .line 205
     .line 206
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
 
     .line 207
     .line 208
@@ -446,7 +446,7 @@
     .line 211
     .line 212
     .line 213
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 214
     .line 215
@@ -459,7 +459,7 @@
     .line 218
     .line 219
     .line 220
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
 
     .line 221
     .line 222
@@ -490,7 +490,7 @@
     .line 235
     .line 236
     .line 237
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->S(Ljava/lang/String;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/premium/PremiumActivity;->S(Ljava/lang/String;)V
 
     .line 238
     .line 239
@@ -508,7 +508,7 @@
 
     .line 245
     .line 246
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 247
     .line 248
@@ -525,7 +525,7 @@
     .line 253
     .line 254
     .line 255
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 256
     .line 257
@@ -542,7 +542,7 @@
     .line 262
     .line 263
     .line 264
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
 
     .line 265
     .line 266
@@ -555,7 +555,7 @@
     .line 269
     .line 270
     .line 271
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 272
     .line 273
@@ -568,7 +568,7 @@
     .line 276
     .line 277
     .line 278
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
 
     .line 279
     .line 280
@@ -643,7 +643,7 @@
     move-result-object v1
 
     .line 319
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->S(Ljava/lang/String;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/premium/PremiumActivity;->S(Ljava/lang/String;)V
 
     .line 320
     .line 321
@@ -661,7 +661,7 @@
 
     .line 327
     .line 328
-    iget-boolean v3, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->T:Z
+    iget-boolean v3, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->T:Z
 
     .line 329
     .line 330
@@ -688,11 +688,11 @@
 
     .line 340
     :cond_5
-    iput-boolean v7, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->T:Z
+    iput-boolean v7, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->T:Z
 
     .line 341
     .line 342
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
 
     .line 343
     .line 344
@@ -713,12 +713,12 @@
 
     .line 352
     .line 353
-    invoke-virtual {v0, v3}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->U(Z)V
+    invoke-virtual {v0, v3}, Lcom/bareapps/barebackup/premium/PremiumActivity;->U(Z)V
 
     .line 354
     .line 355
     .line 356
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 357
     .line 358
@@ -734,7 +734,7 @@
 
     .line 363
     .line 364
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 365
     .line 366
@@ -751,7 +751,7 @@
     .line 371
     .line 372
     .line 373
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 374
     .line 375
@@ -921,7 +921,7 @@
     move-result-object v4
 
     .line 456
-    iget-object v5, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->U:Ljava/lang/String;
+    iget-object v5, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->U:Ljava/lang/String;
 
     .line 457
     .line 458
@@ -969,7 +969,7 @@
 
     .line 476
     :goto_4
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 477
     .line 478
@@ -1081,7 +1081,7 @@
 
     .line 526
     .line 527
-    iget-boolean v6, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->T:Z
+    iget-boolean v6, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->T:Z
 
     .line 528
     .line 529
@@ -1139,7 +1139,7 @@
 
     .line 551
     :cond_11
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 552
     .line 553
@@ -1188,7 +1188,7 @@
     .line 573
     :cond_13
     :goto_7
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->Q()Lbb4;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->Q()Lbb4;
 
     .line 574
     .line 575
@@ -1201,11 +1201,11 @@
     .line 578
     .line 579
     .line 580
-    iput-object v9, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->U:Ljava/lang/String;
+    iput-object v9, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->U:Ljava/lang/String;
 
     .line 581
     .line 582
-    invoke-virtual {v0, v3}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->T(Z)V
+    invoke-virtual {v0, v3}, Lcom/bareapps/barebackup/premium/PremiumActivity;->T(Z)V
 
     .line 583
     .line 584
@@ -1222,7 +1222,7 @@
 
     .line 589
     .line 590
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 591
     .line 592
@@ -1239,7 +1239,7 @@
     .line 597
     .line 598
     .line 599
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 600
     .line 601
@@ -1256,7 +1256,7 @@
     .line 606
     .line 607
     .line 608
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->O()Landroid/widget/ProgressBar;
 
     .line 609
     .line 610
@@ -1269,7 +1269,7 @@
     .line 613
     .line 614
     .line 615
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->N()Lcom/google/android/material/button/MaterialButton;
 
     .line 616
     .line 617
@@ -1290,12 +1290,12 @@
 
     .line 625
     .line 626
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->U(Z)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/premium/PremiumActivity;->U(Z)V
 
     .line 627
     .line 628
     .line 629
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 630
     .line 631
@@ -1308,7 +1308,7 @@
     .line 634
     .line 635
     .line 636
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R:Lgv7;
+    iget-object v1, v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->R:Lgv7;
 
     .line 637
     .line 638
@@ -1328,11 +1328,11 @@
 
     .line 645
     .line 646
-    sget-object v3, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v3, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 647
     .line 648
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 649
     .line 650
@@ -1364,7 +1364,7 @@
 
     .line 663
     .line 664
-    const-string v2, "You are using Swift Backup on ROM without built-in Google apps.\n\nTo use premium on this ROM:\n\n1. Purchase Swift Backup\'s \'Lifetime\' plan using a supported ROM with working Google Play Store.\n\n2. Share the purchasing Google account email id with us at support@bareapps.com and we\'ll activate premium for that account within 24 hrs.\n\nIMPORTANT:\n- On any ROM without Google apps, you can only use premium if you sign-in in Swift Backup with the Google account with which you purchased the \'Lifetime\' plan.\n- Make sure you purchase the \'Lifetime\' plan using the Google account you want to use in Swift Backup."
+    const-string v2, "You are using BΛR☰ on ROM without built-in Google apps.\n\nTo use premium on this ROM:\n\n1. Purchase BΛR☰\'s \'Lifetime\' plan using a supported ROM with working Google Play Store.\n\n2. Share the purchasing Google account email id with us at support@bareapps.com and we\'ll activate premium for that account within 24 hrs.\n\nIMPORTANT:\n- On any ROM without Google apps, you can only use premium if you sign-in in BΛR☰ with the Google account with which you purchased the \'Lifetime\' plan.\n- Make sure you purchase the \'Lifetime\' plan using the Google account you want to use in BΛR☰."
 
     .line 665
     .line 666
@@ -1751,7 +1751,7 @@
 
     .line 846
     .line 847
-    check-cast v0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast v0, Lcom/bareapps/barebackup/intro/d;
 
     .line 848
     .line 849
@@ -2011,7 +2011,7 @@
     .line 981
     .line 982
     .line 983
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/intro/d;->n:Lex6;
+    iget-object v0, v0, Lcom/bareapps/barebackup/intro/d;->n:Lex6;
 
     .line 984
     .line 985
@@ -2327,11 +2327,11 @@
 
     .line 1125
     .line 1126
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 1127
     .line 1128
-    sget v6, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->N:I
+    sget v6, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->N:I
 
     .line 1129
     .line 1130
@@ -2393,12 +2393,12 @@
 
     .line 1158
     .line 1159
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->P()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->P()V
 
     .line 1160
     .line 1161
     .line 1162
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->M:Lwa;
+    iget-object v1, v0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->M:Lwa;
 
     .line 1163
     .line 1164
@@ -2482,7 +2482,7 @@
     .line 1203
     .line 1204
     .line 1205
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->O()Lec3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->O()Lec3;
 
     .line 1206
     .line 1207
@@ -2596,7 +2596,7 @@
     .line 1265
     .line 1266
     :cond_27
-    iput-object v1, v0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->M:Lwa;
+    iput-object v1, v0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->M:Lwa;
 
     .line 1267
     .line 1268
@@ -2671,7 +2671,7 @@
 
     .line 1303
     .line 1304
-    invoke-direct {v2, v0, v1}, Lwb3;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;Landroid/widget/Button;)V
+    invoke-direct {v2, v0, v1}, Lwb3;-><init>(Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;Landroid/widget/Button;)V
 
     .line 1305
     .line 1306
@@ -2774,7 +2774,7 @@
     .line 1355
     .line 1356
     .line 1357
-    const-string v3, "org.swiftapps.swiftbackup.cloud.connect.extra.CLOUD_CONSTANT"
+    const-string v3, "com.bareapps.barebackup.cloud.connect.extra.CLOUD_CONSTANT"
 
     .line 1358
     .line 1359
@@ -2865,7 +2865,7 @@
     .line 1403
     .line 1404
     .line 1405
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->O()Lec3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->O()Lec3;
 
     .line 1406
     .line 1407
@@ -2916,7 +2916,7 @@
     .line 1429
     :cond_2d
     :goto_10
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->P()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->P()V
 
     .line 1430
     .line 1431
@@ -2949,11 +2949,11 @@
 
     .line 1443
     .line 1444
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;
 
     .line 1445
     .line 1446
-    sget v5, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
+    sget v5, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
 
     .line 1447
     .line 1448

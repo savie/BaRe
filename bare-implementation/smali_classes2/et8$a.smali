@@ -38,7 +38,7 @@
 
 
 # virtual methods
-.method public final createForAndroidQ(Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)Let8;
+.method public final createForAndroidQ(Lcom/bareapps/barebackup/wifi/PasswordInfo;)Let8;
     .locals 11
 
     .line 1
@@ -51,7 +51,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getSsid()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getSsid()Ljava/lang/String;
 
     .line 7
     .line 8
@@ -59,7 +59,7 @@
     move-result-object v1
 
     .line 10
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
 
     .line 11
     .line 12
@@ -92,7 +92,7 @@
     move-object v8, p1
 
     .line 23
-    invoke-direct/range {v0 .. v10}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v10}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 24
     .line 25

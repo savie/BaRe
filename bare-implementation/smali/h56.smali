@@ -16,7 +16,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroid/view/View;Lorg/swiftapps/swiftbackup/premium/PremiumActivity;)V
+.method public constructor <init>(Landroid/view/View;Lcom/bareapps/barebackup/premium/PremiumActivity;)V
     .locals 3
 
     .line 1

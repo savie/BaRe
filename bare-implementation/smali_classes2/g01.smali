@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
 .field public final synthetic b:Z
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;Z)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;Z)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lg01;->a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    iput-object p1, p0, Lg01;->a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 5
     .line 6
@@ -39,11 +39,11 @@
     .locals 2
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->c0:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->c0:I
 
     .line 2
     .line 3
-    iget-object v0, p0, Lg01;->a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    iget-object v0, p0, Lg01;->a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 4
     .line 5
@@ -59,7 +59,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->X()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->X()Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
     .line 12
     .line 13

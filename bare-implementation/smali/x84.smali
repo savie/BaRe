@@ -43,7 +43,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -131,7 +131,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -232,7 +232,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -333,7 +333,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -434,7 +434,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -542,7 +542,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -650,7 +650,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -754,7 +754,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -857,7 +857,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v2, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11
@@ -971,7 +971,7 @@
 
     .line 9
     :try_start_0
-    const-string v1, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v1, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 10
     .line 11

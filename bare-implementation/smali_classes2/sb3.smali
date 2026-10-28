@@ -14,11 +14,11 @@
 
 .field public final c:Ldd1;
 
-.field public d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+.field public d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
-.field public e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+.field public e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
-.field public f:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+.field public f:Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
 .field public final g:Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
 
@@ -126,19 +126,19 @@
     const/4 v0, 0x0
 
     .line 2
-    iput-object v0, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iput-object v0, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 3
     .line 4
-    iput-object v0, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iput-object v0, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 5
     .line 6
-    iput-object v0, p0, Lsb3;->f:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    iput-object v0, p0, Lsb3;->f:Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 7
     .line 8
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
 
     .line 9
     .line 10
@@ -197,7 +197,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 5
     .line 6
@@ -205,7 +205,7 @@
     move-result-object v0
 
     .line 8
-    invoke-virtual {v0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {v0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 9
     .line 10
@@ -309,7 +309,7 @@
 
     .line 54
     .line 55
-    iget-object v1, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v1, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 56
     .line 57
@@ -317,7 +317,7 @@
 
     .line 58
     .line 59
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 60
     .line 61
@@ -383,7 +383,7 @@
     throw p0
 .end method
 
-.method public final d(Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+.method public final d(Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
     .locals 1
 
     .line 1
@@ -394,7 +394,7 @@
     const/4 v0, 0x1
 
     .line 4
-    invoke-virtual {p0, p1, v0}, Lsb3;->t(Ljava/lang/String;Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+    invoke-virtual {p0, p1, v0}, Lsb3;->t(Ljava/lang/String;Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 
     .line 5
     .line 6
@@ -456,7 +456,7 @@
     .line 22
     .line 23
     .line 24
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 25
     .line 26
@@ -464,7 +464,7 @@
     move-result-object v2
 
     .line 28
-    invoke-virtual {v2, v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {v2, v1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 29
     .line 30
@@ -481,7 +481,7 @@
 
     .line 36
     .line 37
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 38
     .line 39
@@ -489,7 +489,7 @@
     move-result-object v2
 
     .line 41
-    invoke-virtual {v2, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {v2, v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 42
     .line 43
@@ -501,7 +501,7 @@
 
     .line 46
     .line 47
-    iget-object v5, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v5, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 48
     .line 49
@@ -529,7 +529,7 @@
 
     .line 60
     .line 61
-    invoke-direct {v4, v5, v6, v7}, Ljc3;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;Lwa3;Lokhttp3/OkHttpClient;)V
+    invoke-direct {v4, v5, v6, v7}, Ljc3;-><init>(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;Lwa3;Lokhttp3/OkHttpClient;)V
 
     .line 62
     .line 63
@@ -549,7 +549,7 @@
     .line 71
     .line 72
     :try_start_0
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 73
     .line 74
@@ -557,7 +557,7 @@
     move-result-object v12
 
     .line 76
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 77
     .line 78
@@ -632,7 +632,7 @@
     .line 109
     .line 110
     :try_start_3
-    invoke-virtual {v12, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a(Lob3;)V
+    invoke-virtual {v12, v2}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a(Lob3;)V
     :try_end_3
     .catchall {:try_start_3 .. :try_end_3} :catchall_0
 
@@ -650,7 +650,7 @@
 
     .line 116
     :try_start_4
-    invoke-virtual {v13, v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a(Lob3;)V
+    invoke-virtual {v13, v3}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a(Lob3;)V
 
     .line 117
     .line 118
@@ -726,7 +726,7 @@
     .line 144
     .line 145
     .line 146
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 147
     .line 148
@@ -738,7 +738,7 @@
 
     .line 151
     .line 152
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->b(Ljava/lang/String;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->b(Ljava/lang/String;)V
 
     .line 153
     .line 154
@@ -805,7 +805,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 5
     .line 6
@@ -813,7 +813,7 @@
     move-result-object p0
 
     .line 8
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 9
     .line 10
@@ -1320,7 +1320,7 @@
 
     .line 127
     .line 128
-    invoke-virtual {v4}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {v4}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 129
     .line 130
@@ -1336,7 +1336,7 @@
 
     .line 135
     :try_start_0
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->d(Ljava/lang/String;)Ljava/util/ArrayList;
+    invoke-static {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->d(Ljava/lang/String;)Ljava/util/ArrayList;
 
     .line 136
     .line 137
@@ -1401,7 +1401,7 @@
     move-result-object v7
 
     .line 166
-    invoke-virtual {v5, v7}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {v5, v7}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 167
     .line 168
@@ -1445,7 +1445,7 @@
 
     .line 184
     .line 185
-    invoke-virtual {v5, v6}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->c(Ljava/lang/String;)Ljava/util/List;
+    invoke-virtual {v5, v6}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->c(Ljava/lang/String;)Ljava/util/List;
 
     .line 186
     .line 187
@@ -1587,11 +1587,11 @@
 
     .line 253
     .line 254
-    iget-object v6, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v6, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 255
     .line 256
-    invoke-static {v8, v6}, Lhb3;->m(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
+    invoke-static {v8, v6}, Lhb3;->m(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
 
     .line 257
     .line 258
@@ -1599,11 +1599,11 @@
     move-result-object v6
 
     .line 260
-    iget-object v7, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v7, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 261
     .line 262
-    invoke-static {v8, v7}, Lhb3;->n(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Lww4;
+    invoke-static {v8, v7}, Lhb3;->n(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Lww4;
 
     .line 263
     .line 264
@@ -1676,7 +1676,7 @@
 
     .line 296
     .line 297
-    iget-object v12, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->b:Lwa3;
+    iget-object v12, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->b:Lwa3;
 
     .line 298
     .line 299
@@ -1730,11 +1730,11 @@
     move-result-object v3
 
     .line 325
-    iget-object v11, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v11, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 326
     .line 327
-    invoke-virtual {v11}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {v11}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 328
     .line 329
@@ -1884,7 +1884,7 @@
     .line 400
     :cond_b
     :goto_8
-    iget-object v3, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->c:Lbt3;
+    iget-object v3, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->c:Lbt3;
 
     .line 401
     .line 402
@@ -1900,7 +1900,7 @@
 
     .line 407
     .line 408
-    iget-object v7, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e:Lbt3;
+    iget-object v7, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e:Lbt3;
 
     .line 409
     .line 410
@@ -1991,7 +1991,7 @@
     move-result-object v7
 
     .line 455
-    iget-object v11, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->b:Lwa3;
+    iget-object v11, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->b:Lwa3;
 
     .line 456
     .line 457
@@ -2016,11 +2016,11 @@
 
     .line 467
     .line 468
-    iget-object v14, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->g:Lka;
+    iget-object v14, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->g:Lka;
 
     .line 469
     .line 470
-    iget-object v15, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->d:Lbt3;
+    iget-object v15, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->d:Lbt3;
 
     .line 471
     .line 472
@@ -2099,11 +2099,11 @@
     move-result-object v6
 
     .line 511
-    iget-object v7, v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v7, v5, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 512
     .line 513
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 514
     .line 515
@@ -2164,7 +2164,7 @@
 
     .line 543
     .line 544
-    invoke-virtual {v5, v7}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->b(Ljava/lang/String;)V
+    invoke-virtual {v5, v7}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->b(Ljava/lang/String;)V
 
     .line 545
     .line 546
@@ -2293,7 +2293,7 @@
     .locals 1
 
     .line 1
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
 
     .line 2
     .line 3
@@ -2350,7 +2350,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 5
     .line 6
@@ -2362,7 +2362,7 @@
 
     .line 9
     :try_start_0
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 10
     .line 11
@@ -2384,7 +2384,7 @@
     .line 17
     :cond_0
     :try_start_1
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->a(Lob3;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->a(Lob3;)V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
@@ -2414,7 +2414,7 @@
     .locals 4
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
 
     .line 2
     .line 3
@@ -2506,7 +2506,7 @@
     move-result-object v0
 
     .line 41
-    const-class v3, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    const-class v3, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 42
     .line 43
@@ -2518,7 +2518,7 @@
     move-result-object v0
 
     .line 47
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
@@ -2559,20 +2559,20 @@
 
     .line 63
     :cond_2
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 64
     .line 65
     :goto_2
-    iput-object v0, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iput-object v0, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 66
     .line 67
-    iput-object v1, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iput-object v1, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 68
     .line 69
-    iput-object v1, p0, Lsb3;->f:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    iput-object v1, p0, Lsb3;->f:Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 70
     .line 71
@@ -2583,7 +2583,7 @@
 
     .line 73
     .line 74
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->isValid()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->isValid()Z
 
     .line 75
     .line 76
@@ -2625,7 +2625,7 @@
 
     .line 8
     .line 9
-    iget-object p0, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object p0, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 10
     .line 11
@@ -2636,7 +2636,7 @@
 
     .line 13
     .line 14
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 15
     .line 16
@@ -2766,7 +2766,7 @@
     .locals 2
 
     .line 1
-    iget-object p0, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iget-object p0, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 2
     .line 3
@@ -2777,7 +2777,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->isValid()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->isValid()Z
 
     .line 7
     .line 8
@@ -2814,7 +2814,7 @@
     .locals 1
 
     .line 1
-    iget-object v0, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v0, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 2
     .line 3
@@ -2822,7 +2822,7 @@
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getEmail()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getEmail()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -2843,7 +2843,7 @@
     .line 13
     :cond_1
     :goto_0
-    iget-object p0, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iget-object p0, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 14
     .line 15
@@ -2851,7 +2851,7 @@
 
     .line 16
     .line 17
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->getEmail()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->getEmail()Ljava/lang/String;
 
     .line 18
     .line 19
@@ -2887,7 +2887,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 5
     .line 6
@@ -2895,7 +2895,7 @@
     move-result-object p0
 
     .line 8
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 9
     .line 10
@@ -2929,7 +2929,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lsb3;->u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    invoke-virtual {p0}, Lsb3;->u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 5
     .line 6
@@ -2949,7 +2949,7 @@
 
     .line 13
     :try_start_0
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->e(Ljava/lang/String;)Lob3;
 
     .line 14
     .line 15
@@ -2977,7 +2977,7 @@
 
     .line 26
     .line 27
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;->c(Ljava/lang/String;)Ljava/util/List;
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;->c(Ljava/lang/String;)Ljava/util/List;
 
     .line 28
     .line 29
@@ -3418,7 +3418,7 @@
     throw p1
 .end method
 
-.method public final t(Ljava/lang/String;Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+.method public final t(Ljava/lang/String;Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
     .locals 10
 
     .line 1
@@ -3430,7 +3430,7 @@
 
     .line 3
     .line 4
-    iget-object v0, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iget-object v0, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 5
     .line 6
@@ -3438,7 +3438,7 @@
 
     .line 7
     .line 8
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
 
     .line 9
     .line 10
@@ -3459,7 +3459,7 @@
 
     .line 15
     :cond_0
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->restorableSession()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->restorableSession()Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 16
     .line 17
@@ -3499,7 +3499,7 @@
     .line 32
     .line 33
     .line 34
-    invoke-virtual {v4, v2}, Lai5;->z(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    invoke-virtual {v4, v2}, Lai5;->z(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 35
     .line 36
@@ -3533,7 +3533,7 @@
     .line 49
     .line 50
     .line 51
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->getEmail()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->getEmail()Ljava/lang/String;
 
     .line 52
     .line 53
@@ -3541,7 +3541,7 @@
     move-result-object v4
 
     .line 55
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->getPassword()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->getPassword()Ljava/lang/String;
 
     .line 56
     .line 57
@@ -3549,7 +3549,7 @@
     move-result-object v5
 
     .line 59
-    invoke-virtual {v2, v4, v5, p1}, Lai5;->t(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    invoke-virtual {v2, v4, v5, p1}, Lai5;->t(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 60
     .line 61
@@ -3558,11 +3558,11 @@
 
     .line 63
     :cond_2
-    iput-object v2, p0, Lsb3;->e:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iput-object v2, p0, Lsb3;->e:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 64
     .line 65
-    new-instance p1, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    new-instance p1, Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 66
     .line 67
@@ -3578,16 +3578,16 @@
 
     .line 72
     .line 73
-    invoke-direct {p1, v2, v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;Lwa3;)V
+    invoke-direct {p1, v2, v3}, Lcom/bareapps/barebackup/cloud/protocols/filen/c;-><init>(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;Lwa3;)V
 
     .line 74
     .line 75
     .line 76
-    iput-object p1, p0, Lsb3;->f:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    iput-object p1, p0, Lsb3;->f:Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 77
     .line 78
-    invoke-virtual {v0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->withSession(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    invoke-virtual {v0, v2}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->withSession(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 79
     .line 80
@@ -3599,7 +3599,7 @@
 
     .line 83
     .line 84
-    sget-object p2, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
+    sget-object p2, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;->Companion:Lgb3;
 
     .line 85
     .line 86
@@ -3608,21 +3608,21 @@
     .line 87
     .line 88
     .line 89
-    invoke-static {p1}, Lgb3;->a(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;)V
+    invoke-static {p1}, Lgb3;->a(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;)V
 
     .line 90
     .line 91
     .line 92
     :cond_3
-    iput-object p1, p0, Lsb3;->d:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenCredentials;
+    iput-object p1, p0, Lsb3;->d:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenCredentials;
 
     .line 93
     .line 94
-    new-instance p1, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
+    new-instance p1, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
 
     .line 95
     .line 96
-    invoke-direct {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
+    invoke-direct {p1}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;-><init>()V
     :try_end_1
     .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :catch_0
 
@@ -4358,11 +4358,11 @@
 
     .line 435
     .line 436
-    new-instance p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;
+    new-instance p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;
 
     .line 437
     .line 438
-    invoke-direct {p0, v5}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;-><init>(Ljava/lang/Exception;)V
+    invoke-direct {p0, v5}, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$TempConnectionError;-><init>(Ljava/lang/Exception;)V
 
     .line 439
     .line 440
@@ -4380,7 +4380,7 @@
 
     .line 446
     :cond_16
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
 
     .line 447
     .line 448
@@ -4392,7 +4392,7 @@
 
     .line 450
     .line 451
-    sget-object p0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
+    sget-object p0, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;->INSTANCE:Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$InvalidCredentials;
 
     .line 452
     .line 453
@@ -4418,11 +4418,11 @@
     .end sparse-switch
 .end method
 
-.method public final u()Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+.method public final u()Lcom/bareapps/barebackup/cloud/protocols/filen/c;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lsb3;->f:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/c;
+    iget-object p0, p0, Lsb3;->f:Lcom/bareapps/barebackup/cloud/protocols/filen/c;
 
     .line 2
     .line 3

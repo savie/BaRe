@@ -6,13 +6,13 @@
 # instance fields
 .field public final a:Lq63;
 
-.field public final b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+.field public final b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
 .field public final c:Ljava/util/ArrayList;
 
 
 # direct methods
-.method public constructor <init>(Lq63;Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;Ljava/util/ArrayList;)V
+.method public constructor <init>(Lq63;Lcom/bareapps/barebackup/folders/data/ManifestInfo;Ljava/util/ArrayList;)V
     .locals 0
 
     .line 1
@@ -25,7 +25,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lim6;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iput-object p2, p0, Lim6;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 7
     .line 8
@@ -90,15 +90,15 @@
 
     .line 22
     :cond_2
-    iget-object v0, p0, Lim6;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iget-object v0, p0, Lim6;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 23
     .line 24
-    iget-object v1, p1, Lim6;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iget-object v1, p1, Lim6;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 25
     .line 26
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/folders/data/ManifestInfo;->equals(Ljava/lang/Object;)Z
 
     .line 27
     .line 28
@@ -173,11 +173,11 @@
 
     .line 10
     .line 11
-    iget-object v1, p0, Lim6;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iget-object v1, p0, Lim6;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 12
     .line 13
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;->hashCode()I
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/ManifestInfo;->hashCode()I
 
     .line 14
     .line 15
@@ -245,7 +245,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object v1, p0, Lim6;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iget-object v1, p0, Lim6;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 19
     .line 20

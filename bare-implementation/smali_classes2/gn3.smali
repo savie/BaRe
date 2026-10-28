@@ -84,11 +84,11 @@
 
     .line 17
     .line 18
-    check-cast v2, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;
+    check-cast v2, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;
 
     .line 19
     .line 20
-    sget v0, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;->b:I
+    sget v0, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;->b:I
 
     .line 21
     .line 22
@@ -116,7 +116,7 @@
 
     .line 33
     .line 34
-    iget-object v5, v2, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;->a:Ljava/lang/String;
+    iget-object v5, v2, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;->a:Ljava/lang/String;
 
     .line 35
     .line 36
@@ -155,7 +155,7 @@
     .line 51
     .line 52
     :cond_0
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/common/Const;->x(Landroid/content/Context;)V
+    invoke-static {v3}, Lcom/bareapps/barebackup/common/Const;->x(Landroid/content/Context;)V
 
     .line 53
     .line 54
@@ -164,7 +164,7 @@
 
     .line 56
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast p0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 57
     .line 58
@@ -262,11 +262,11 @@
 
     .line 101
     .line 102
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 103
     .line 104
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 105
     .line 106
@@ -278,7 +278,7 @@
 
     .line 109
     .line 110
-    sget p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 111
     .line 112

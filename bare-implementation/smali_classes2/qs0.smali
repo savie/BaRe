@@ -114,11 +114,11 @@
 
     .line 39
     .line 40
-    iget-object p0, p1, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p1, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 41
     .line 42
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 43
     .line 44
@@ -130,11 +130,11 @@
 
     .line 47
     .line 48
-    iget-object p1, p2, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, p2, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 49
     .line 50
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 51
     .line 52

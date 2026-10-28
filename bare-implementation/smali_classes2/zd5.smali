@@ -74,7 +74,7 @@
 
     .line 15
     .line 16
-    iget-object p0, p0, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p0, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 17
     .line 18

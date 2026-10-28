@@ -9,15 +9,15 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lez3;->b:Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    iput-object p1, p0, Lez3;->b:Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lez3;->b:Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    iget-object p0, p0, Lez3;->b:Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Lez3;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Lez3;-><init>(Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;Ljv1;)V
 
     .line 6
     .line 7
@@ -107,7 +107,7 @@
     const/4 v2, 0x1
 
     .line 5
-    iget-object v3, p0, Lez3;->b:Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    iget-object v3, p0, Lez3;->b:Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 6
     .line 7
@@ -194,7 +194,7 @@
     .line 36
     .line 37
     :try_start_1
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->N(Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;)Lzv3;
+    invoke-static {v3}, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->N(Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;)Lzv3;
 
     .line 38
     .line 39
@@ -202,7 +202,7 @@
     move-result-object p1
 
     .line 41
-    iget-object v0, v3, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->L:Lgv7;
+    iget-object v0, v3, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->L:Lgv7;
 
     .line 42
     .line 43
@@ -261,7 +261,7 @@
 
     .line 66
     .line 67
-    invoke-static {v3, p0}, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->O(Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;Lao;)V
+    invoke-static {v3, p0}, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->O(Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;Lao;)V
     :try_end_2
     .catch Lyv3; {:try_start_2 .. :try_end_2} :catch_2
     .catch Lwv3; {:try_start_2 .. :try_end_2} :catch_1
@@ -305,7 +305,7 @@
     .line 84
     .line 85
     .line 86
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
 
     .line 87
     .line 88
@@ -361,7 +361,7 @@
     .line 111
     .line 112
     .line 113
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
 
     .line 114
     .line 115
@@ -417,7 +417,7 @@
     .line 138
     .line 139
     .line 140
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->P()Lgz3;
 
     .line 141
     .line 142

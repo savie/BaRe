@@ -1086,7 +1086,7 @@
     return-object p0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 15
 
     .line 1
@@ -1107,11 +1107,11 @@
     .line 8
     .line 9
     .line 10
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 11
     .line 12
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 13
     .line 14

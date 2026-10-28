@@ -6,7 +6,7 @@
 # instance fields
 .field public e:Z
 
-.field public f:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+.field public f:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
 .field public final g:Lgv7;
 
@@ -79,7 +79,7 @@
 
 
 # virtual methods
-.method public final j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+.method public final j()Lcom/bareapps/barebackup/appconfigs/data/Config;
     .locals 8
 
     .line 1
@@ -107,7 +107,7 @@
     move-result-object v0
 
     .line 13
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 14
     .line 15
@@ -115,7 +115,7 @@
 
     .line 16
     .line 17
-    iget-object p0, p0, Lqq1;->f:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    iget-object p0, p0, Lqq1;->f:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 18
     .line 19
@@ -123,7 +123,7 @@
 
     .line 20
     .line 21
-    new-instance v0, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    new-instance v0, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 22
     .line 23
@@ -149,7 +149,7 @@
     const/4 v5, 0x0
 
     .line 31
-    invoke-direct/range {v0 .. v7}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;-><init>(ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v7}, Lcom/bareapps/barebackup/appconfigs/data/Config;-><init>(ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 32
     .line 33
@@ -165,7 +165,7 @@
     return-object v0
 .end method
 
-.method public final k(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;I)V
+.method public final k(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;I)V
     .locals 9
 
     .line 1
@@ -174,7 +174,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lqq1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-virtual {p0}, Lqq1;->j()Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 5
     .line 6
@@ -182,7 +182,7 @@
     move-result-object v0
 
     .line 8
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
 
     .line 9
     .line 10
@@ -240,7 +240,7 @@
     .line 34
     .line 35
     .line 36
-    invoke-virtual {p0}, Lqq1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-virtual {p0}, Lqq1;->j()Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 37
     .line 38
@@ -267,7 +267,7 @@
     const/4 v6, 0x0
 
     .line 47
-    invoke-static/range {v1 .. v8}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-static/range {v1 .. v8}, Lcom/bareapps/barebackup/appconfigs/data/Config;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 48
     .line 49
@@ -278,7 +278,7 @@
     const/4 p2, 0x0
 
     .line 52
-    invoke-virtual {p0, p1, p2}, Lqq1;->l(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)V
+    invoke-virtual {p0, p1, p2}, Lqq1;->l(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)V
 
     .line 53
     .line 54
@@ -287,7 +287,7 @@
     return-void
 .end method
 
-.method public final l(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)V
+.method public final l(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)V
     .locals 9
 
     .line 1
@@ -296,7 +296,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lqq1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-virtual {p0}, Lqq1;->j()Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 5
     .line 6
@@ -304,7 +304,7 @@
     move-result-object v0
 
     .line 8
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getId()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getId()Ljava/lang/String;
 
     .line 9
     .line 10
@@ -334,7 +334,7 @@
     move-object v1, p1
 
     .line 20
-    invoke-static/range {v1 .. v8}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->copy$default(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    invoke-static/range {v1 .. v8}, Lcom/bareapps/barebackup/appconfigs/data/Config;->copy$default(Lcom/bareapps/barebackup/appconfigs/data/Config;ILjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/Long;ILjava/lang/Object;)Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 21
     .line 22
@@ -346,7 +346,7 @@
 
     .line 25
     .line 26
-    iput-object p1, p0, Lqq1;->f:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    iput-object p1, p0, Lqq1;->f:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 27
     .line 28
@@ -372,7 +372,7 @@
     .line 37
     .line 38
     .line 39
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->isNameValid()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->isNameValid()Z
 
     .line 40
     .line 41
@@ -387,11 +387,11 @@
 
     .line 45
     .line 46
-    sget-object p2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 47
     .line 48
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 49
     .line 50
@@ -441,7 +441,7 @@
 
     .line 70
     .line 71
-    invoke-static {p1}, Lbr1;->c(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;)Z
+    invoke-static {p1}, Lbr1;->c(Lcom/bareapps/barebackup/appconfigs/data/Config;)Z
 
     .line 72
     .line 73
@@ -453,7 +453,7 @@
 
     .line 76
     .line 77
-    iget-object v1, p0, Lqq1;->f:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    iget-object v1, p0, Lqq1;->f:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 78
     .line 79
@@ -461,7 +461,7 @@
 
     .line 80
     .line 81
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->get_name()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->get_name()Ljava/lang/String;
 
     .line 82
     .line 83
@@ -469,7 +469,7 @@
     move-result-object p1
 
     .line 85
-    iget-object v1, p0, Lqq1;->f:Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    iget-object v1, p0, Lqq1;->f:Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 86
     .line 87
@@ -478,7 +478,7 @@
     .line 88
     .line 89
     .line 90
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->get_name()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->get_name()Ljava/lang/String;
 
     .line 91
     .line 92
@@ -526,11 +526,11 @@
 
     .line 112
     :cond_4
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 113
     .line 114
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 115
     .line 116

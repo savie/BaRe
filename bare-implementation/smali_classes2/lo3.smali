@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
 .field public final synthetic b:Z
 
@@ -15,7 +15,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;ZLjava/util/ArrayList;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;ZLjava/util/ArrayList;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Llo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    iput-object p1, p0, Llo3;->a:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 5
     .line 6
@@ -45,11 +45,11 @@
     .locals 5
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 2
     .line 3
-    iget-object v0, p0, Llo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    iget-object v0, p0, Llo3;->a:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 4
     .line 5
@@ -77,7 +77,7 @@
 
     .line 15
     .line 16
-    sget-object v3, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->Companion:Ltn3;
+    sget-object v3, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->Companion:Ltn3;
 
     .line 17
     .line 18
@@ -86,11 +86,11 @@
     .line 19
     .line 20
     .line 21
-    sget-object v3, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v3, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 22
     .line 23
-    invoke-direct {v1, v3}, Lwy7;-><init>(Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+    invoke-direct {v1, v3}, Lwy7;-><init>(Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
 
     .line 24
     .line 25
@@ -103,7 +103,7 @@
 
     .line 29
     .line 30
-    invoke-direct {v3, v0, v4, v1}, Lbj0;-><init>(Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;Ljava/util/ArrayList;Lwy7;)V
+    invoke-direct {v3, v0, v4, v1}, Lbj0;-><init>(Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;Ljava/util/ArrayList;Lwy7;)V
 
     .line 31
     .line 32

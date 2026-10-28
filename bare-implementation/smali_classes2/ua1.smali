@@ -73,11 +73,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->Companion:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->Companion:Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;
 
     .line 2
     .line 3
-    invoke-virtual {v0, p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups$a;->fromSnapshot(Leb2;)Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v0, p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups$a;->fromSnapshot(Leb2;)Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 4
     .line 5
@@ -97,7 +97,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0, p0}, Lji$a;->fromCloudBackups(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;)Lji;
+    invoke-virtual {v0, p0}, Lji$a;->fromCloudBackups(Lcom/bareapps/barebackup/model/app/AppCloudBackups;)Lji;
 
     .line 13
     .line 14
@@ -889,7 +889,7 @@
 
     .line 139
     .line 140
-    invoke-static/range {v2 .. v31}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
+    invoke-static/range {v2 .. v31}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
 
     .line 141
     .line 142

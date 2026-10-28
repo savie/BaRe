@@ -611,7 +611,7 @@
     .line 234
     iget-object p1, p1, Ly8;->c:Ljava/lang/Object;
 
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast p1, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     iput-object p1, p0, Lkb2;->d:Ljava/lang/Object;
 
@@ -654,7 +654,7 @@
 
     .line 16
     .line 17
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast p1, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 18
     .line 19

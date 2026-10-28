@@ -270,7 +270,7 @@ Une fois la restauration terminée, vous serez invité à choisir à nouveau vot
     <string name="delete_active_tag_message">"Note : Tous vous fichiers de sauvegardes associés au tag '%s' seront définitivement supprimés !"</string>
     <string name="delete_all">Tout supprimer</string>
     <string name="delete_all_data">Supprimer toutes les données</string>
-    <string name="delete_all_data_summary">"Supprimer toutes les données utilisées par l'application sur cet appareil pour ce compte. Cela inclut les fichiers de sauvegarde et le cache. Cela réinitialisera également l'application à son état par défaut et effacera tous vos paramètres de sauvegarde Swift synchronisés."</string>
+    <string name="delete_all_data_summary">"Supprimer toutes les données utilisées par l'application sur cet appareil pour ce compte. Cela inclut les fichiers de sauvegarde et le cache. Cela réinitialisera également l'application à son état par défaut et effacera tous vos paramètres de sauvegarde BΛR☰ synchronisés."</string>
     <string name="delete_backup">Supprimer la sauvegarde</string>
     <string name="delete_backup_files">Supprimer les fichiers de sauvegarde</string>
     <string name="delete_backup_files_summary">"Supprimer tous les fichiers de sauvegardes présent sur l'appareil lié à ce compte :"</string>
@@ -827,7 +827,7 @@ L'accès Root ou l'application Shizuku est nécessaire"</string>
     <string name="schedules">Programmations</string>
     <string name="search">Recherche</string>
     <string name="search_hint_apps">Rechercher</string>
-    <string name="search_swift_backup">Rechercher dans BΛR☰</string>
+    <string name="search_bare_backup">Rechercher dans BΛR☰</string>
     <string name="secondary_action">Action secondaire</string>
     <string name="secondary_user_warning_msg">"Les profils utilisateurs Professionnels/Secondaires ne sont pas officiellement pris en charge car certains problèmes sont impossibles à contourner actuellement. Veuillez vous connecter avec le profil de l'utilisateur principal de l'appareil."</string>
     <string name="see_all">Tout voir</string>
@@ -865,11 +865,11 @@ L'accès Root ou l'application Shizuku est nécessaire"</string>
     <string name="share_apk">Partager l’APK</string>
     <string name="share_apks">Partager les APKs</string>
     <string name="share_logs">Partager les logs</string>
-    <string name="share_swiftbackup">Partager BΛR☰</string>
-    <string name="share_swiftbackup_msg">"Découvre ce nouveau gestionnaire de sauvegarde absolument incroyable que j'utilise ! Il s'appelle BΛR☰, voici le lien de téléchargement : https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Une solution de sauvegarde simple, rapide et intelligente pour Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">"BΛR☰ Logger + Logcat de l'appareil"</string>
-    <string name="share_swiftlogger_text_only">Partager le rapport en texte uniquement</string>
+    <string name="share_barebackup">Partager BΛR☰</string>
+    <string name="share_barebackup_msg">"Découvre ce nouveau gestionnaire de sauvegarde absolument incroyable que j'utilise ! Il s'appelle BΛR☰, voici le lien de téléchargement : https://play.google.com/store/apps/details?id=com.bareapps.barebackup"</string>
+    <string name="share_barebackup_subject">BΛR☰ - Une solution de sauvegarde simple, rapide et intelligente pour Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">"BΛR☰ Logger + Logcat de l'appareil"</string>
+    <string name="share_barelogger_text_only">Partager le rapport en texte uniquement</string>
     <string name="shared_libraries">Bibliothèques partagées</string>
     <string name="shortcuts">Raccourcis</string>
     <string name="show_less">Afficher moins</string>
@@ -911,9 +911,9 @@ L'accès Root ou l'application Shizuku est nécessaire"</string>
     <string name="successful">Réussi</string>
     <string name="sure_to_cancel_task">Voulez-vous vraiment annuler ?</string>
     <string name="sure_to_proceed">Voulez-vous vraiment continuer ? Cliquez sur Oui pour confirmer.</string>
-    <string name="swift_backup_is_busy">BΛR☰ est occupé</string>
-    <string name="swift_labs_settings_summary">Des fonctionnalités expérimentales qui ne sont pas garanties de fonctionner. Ces fonctionnalités peuvent disparaître à tout moment !</string>
-    <string name="swiftlogger_info">Des logs importants qui pourraient nous aider lors des rapports de bugs</string>
+    <string name="barebackup_is_busy">BΛR☰ est occupé</string>
+    <string name="bare_labs_settings_summary">Des fonctionnalités expérimentales qui ne sont pas garanties de fonctionner. Ces fonctionnalités peuvent disparaître à tout moment !</string>
+    <string name="barelogger_info">Des logs importants qui pourraient nous aider lors des rapports de bugs</string>
     <string name="swipe_actions">Actions de balayage</string>
     <string name="swipe_actions_description">Choisissez jusqu’à deux actions pour chaque direction de balayage</string>
     <string name="sync_backups">Synchroniser les sauvegardes</string>

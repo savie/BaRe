@@ -78,7 +78,7 @@
     .line 17
     .line 18
     :cond_0
-    invoke-virtual {p1}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p1}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 19
     .line 20
@@ -86,7 +86,7 @@
     move-result-object v0
 
     .line 22
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 23
     .line 24

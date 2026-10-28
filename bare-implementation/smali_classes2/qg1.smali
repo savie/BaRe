@@ -279,15 +279,15 @@
     .line 117
     .line 118
     .line 119
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 120
     .line 121
-    sget-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 122
     .line 123
-    sget-boolean v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->c:Z
+    sget-boolean v0, Lcom/bareapps/barebackup/tasks/TaskService;->c:Z
 
     .line 124
     .line 125

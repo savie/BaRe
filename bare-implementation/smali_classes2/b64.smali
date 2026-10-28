@@ -106,7 +106,7 @@
     .line 7
     .line 8
     .line 9
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 10
     .line 11
@@ -118,7 +118,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 16
     .line 17
@@ -171,7 +171,7 @@
     .line 39
     .line 40
     .line 41
-    invoke-virtual {p0, p1, v0}, Lah8$a;->fromDatabase(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+    invoke-virtual {p0, p1, v0}, Lah8$a;->fromDatabase(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
 
     .line 42
     .line 43

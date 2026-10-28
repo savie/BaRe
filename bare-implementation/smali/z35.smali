@@ -4,15 +4,15 @@
 
 
 # instance fields
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+.field public final synthetic d:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/database/MDatabase_Impl;)V
     .locals 2
 
     .line 1
-    iput-object p1, p0, Lz35;->d:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iput-object p1, p0, Lz35;->d:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 2
     .line 3
@@ -136,7 +136,7 @@
     .line 2
     .line 3
     .line 4
-    iget-object p0, p0, Lz35;->d:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object p0, p0, Lz35;->d:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 5
     .line 6
@@ -864,7 +864,7 @@
 
     .line 151
     .line 152
-    const-string v6, "SMessage(org.swiftapps.swiftbackup.model.logger.SMessage).\n Expected:\n"
+    const-string v6, "SMessage(com.bareapps.barebackup.model.logger.SMessage).\n Expected:\n"
 
     .line 153
     .line 154
@@ -1189,7 +1189,7 @@
 
     .line 315
     .line 316
-    const-string v4, "app_cached_data(org.swiftapps.swiftbackup.appslist.data.AppCachedDataItem).\n Expected:\n"
+    const-string v4, "app_cached_data(com.bareapps.barebackup.appslist.data.AppCachedDataItem).\n Expected:\n"
 
     .line 317
     .line 318

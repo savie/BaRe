@@ -213,7 +213,7 @@
 
     .line 80
     .line 81
-    check-cast p1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    check-cast p1, Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 82
     .line 83
@@ -230,7 +230,7 @@
     move-result-object p0
 
     .line 90
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 91
     .line 92
@@ -252,7 +252,7 @@
 
     .line 100
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 101
     .line 102
@@ -264,7 +264,7 @@
 
     .line 105
     .line 106
-    sget v0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 107
     .line 108
@@ -273,7 +273,7 @@
     .line 109
     .line 110
     .line 111
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->O()Lmg;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->O()Lmg;
 
     .line 112
     .line 113

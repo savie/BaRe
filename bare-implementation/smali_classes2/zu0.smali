@@ -110,7 +110,7 @@
 
     .line 18
     .line 19
-    const-string v4, "org.swiftapps.swiftbackup.box://oauth"
+    const-string v4, "com.bareapps.barebackup.box://oauth"
 
     .line 20
     .line 21
@@ -1022,11 +1022,11 @@
     move-result-object v1
 
     .line 11
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 12
     .line 13
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 14
     .line 15

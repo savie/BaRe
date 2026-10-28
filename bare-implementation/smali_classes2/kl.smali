@@ -115,11 +115,11 @@
 
     .line 22
     .line 23
-    iget-object v0, p0, Ltp3;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v0, p0, Ltp3;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 24
     .line 25
-    iget-boolean v5, v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v5, v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 26
     .line 27
@@ -311,11 +311,11 @@
 
     .line 119
     .line 120
-    iget-object v0, p0, Lb21;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v0, p0, Lb21;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 121
     .line 122
-    iget-boolean v0, v0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v0, v0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 123
     .line 124

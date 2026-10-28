@@ -11,13 +11,13 @@
 
 .field public final synthetic b:Ljava/util/List;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+.field public final synthetic c:Lcom/bareapps/barebackup/slog/SLogActivity;
 
 .field public final synthetic d:Ld7;
 
 
 # direct methods
-.method public constructor <init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/slog/SLogActivity;Ld7;Ljv1;)V
+.method public constructor <init>(Ljava/util/List;Lcom/bareapps/barebackup/slog/SLogActivity;Ld7;Ljv1;)V
     .locals 0
 
     .line 1
@@ -25,7 +25,7 @@
 
     .line 2
     .line 3
-    iput-object p2, p0, Lxr6;->c:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    iput-object p2, p0, Lxr6;->c:Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 4
     .line 5
@@ -54,7 +54,7 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lxr6;->c:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    iget-object v0, p0, Lxr6;->c:Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 4
     .line 5
@@ -66,7 +66,7 @@
 
     .line 8
     .line 9
-    invoke-direct {p1, p0, v0, v1, p2}, Lxr6;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/slog/SLogActivity;Ld7;Ljv1;)V
+    invoke-direct {p1, p0, v0, v1, p2}, Lxr6;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/slog/SLogActivity;Ld7;Ljv1;)V
 
     .line 10
     .line 11
@@ -162,7 +162,7 @@
     .line 20
     .line 21
     .line 22
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->n()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->n()Ljava/lang/String;
 
     .line 23
     .line 24
@@ -193,7 +193,7 @@
     const/4 v2, 0x2
 
     .line 37
-    iget-object v3, p0, Lxr6;->c:Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    iget-object v3, p0, Lxr6;->c:Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 38
     .line 39

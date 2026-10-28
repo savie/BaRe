@@ -841,7 +841,7 @@
     .locals 5
 
     .line 1
-    const-string v0, "SbaSwiftTarExtractStats(tarBytes="
+    const-string v0, "SbaBareTarExtractStats(tarBytes="
 
     .line 2
     .line 3

@@ -21,11 +21,11 @@
 
 .field public final synthetic k:I
 
-.field public final synthetic n:Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+.field public final synthetic n:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
 
 
 # direct methods
-.method public synthetic constructor <init>(J[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)V
+.method public synthetic constructor <init>(J[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)V
     .locals 0
 
     .line 1
@@ -62,7 +62,7 @@
 
     .line 17
     .line 18
-    iput-object p11, p0, Lvz6;->n:Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+    iput-object p11, p0, Lvz6;->n:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
 
     .line 19
     .line 20
@@ -127,11 +127,11 @@
 
     .line 26
     .line 27
-    iget-object v12, p0, Lvz6;->n:Lcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;
+    iget-object v12, p0, Lvz6;->n:Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;
 
     .line 28
     .line 29
-    invoke-static/range {v0 .. v12}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a(IJI[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[J
+    invoke-static/range {v0 .. v12}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a(IJI[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
 
     .line 30
     .line 31

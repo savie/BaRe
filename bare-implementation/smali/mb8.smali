@@ -8,7 +8,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+.field public final a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
 .field public final b:Ljava/util/LinkedHashMap;
 
@@ -63,7 +63,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;Ljava/util/LinkedHashMap;Ljava/util/LinkedHashMap;[Ljava/lang/String;ZLoh1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/database/MDatabase_Impl;Ljava/util/LinkedHashMap;Ljava/util/LinkedHashMap;[Ljava/lang/String;ZLoh1;)V
     .locals 2
 
     .line 1
@@ -72,7 +72,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lmb8;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iput-object p1, p0, Lmb8;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 5
     .line 6
@@ -681,7 +681,7 @@
     .locals 11
 
     .line 1
-    iget-object v0, p0, Lmb8;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object v0, p0, Lmb8;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 2
     .line 3
@@ -2040,7 +2040,7 @@
     .line 50
     .line 51
     .line 52
-    iget-object p1, p0, Lmb8;->a:Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;
+    iget-object p1, p0, Lmb8;->a:Lcom/bareapps/barebackup/database/MDatabase_Impl;
 
     .line 53
     .line 54

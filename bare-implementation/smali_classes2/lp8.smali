@@ -168,7 +168,7 @@
     move-result-object p1
 
     .line 65
-    new-instance v1, Lorg/swiftapps/swiftbackup/model/firebase/WallsCloudDetails;
+    new-instance v1, Lcom/bareapps/barebackup/model/firebase/WallsCloudDetails;
 
     .line 66
     .line 67
@@ -188,7 +188,7 @@
     move-result-object v2
 
     .line 75
-    invoke-direct {v1, v2}, Lorg/swiftapps/swiftbackup/model/firebase/WallsCloudDetails;-><init>(Ljava/lang/Integer;)V
+    invoke-direct {v1, v2}, Lcom/bareapps/barebackup/model/firebase/WallsCloudDetails;-><init>(Ljava/lang/Integer;)V
 
     .line 76
     .line 77

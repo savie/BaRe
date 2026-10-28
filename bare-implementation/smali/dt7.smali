@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->n()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->n()Ljava/lang/String;
 
     .line 5
     .line 6
@@ -71,7 +71,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 30
     .line 31
@@ -395,11 +395,11 @@
 
     .line 190
     .line 191
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 192
     .line 193
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 194
     .line 195

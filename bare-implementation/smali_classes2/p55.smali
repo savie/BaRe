@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
 .field public final synthetic b:Lu55;
 
@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lu55;Llh6;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lu55;Llh6;I)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lp55;->a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iput-object p1, p0, Lp55;->a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 5
     .line 6
@@ -51,7 +51,7 @@
     .locals 12
 
     .line 1
-    iget-object v0, p0, Lp55;->a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iget-object v0, p0, Lp55;->a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 2
     .line 3
@@ -114,7 +114,7 @@
     move-result-object p0
 
     .line 31
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 32
     .line 33
@@ -135,7 +135,7 @@
 
     .line 40
     .line 41
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->N:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->N:Lgv7;
 
     .line 42
     .line 43

@@ -65,7 +65,7 @@
 
     .line 9
     .line 10
-    sget-object v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
+    sget-object v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
 
     .line 11
     .line 12
@@ -359,11 +359,11 @@
 
     .line 15
     :cond_1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 16
     .line 17
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 18
     .line 19

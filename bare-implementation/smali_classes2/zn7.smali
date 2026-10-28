@@ -696,11 +696,11 @@
     .locals 7
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -1060,7 +1060,7 @@
     move-result-object p0
 
     .line 5
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 6
     .line 7
@@ -1068,7 +1068,7 @@
     move-result-object v0
 
     .line 9
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 10
     .line 11
@@ -1088,7 +1088,7 @@
 
     .line 18
     .line 19
-    invoke-virtual {p0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 20
     .line 21
@@ -1096,7 +1096,7 @@
     move-result-object p0
 
     .line 23
-    invoke-virtual {p0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {p0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 24
     .line 25
@@ -1402,11 +1402,11 @@
     .locals 11
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5

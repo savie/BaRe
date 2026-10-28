@@ -191,7 +191,7 @@
     move-object v8, v4
 
     .line 90
-    check-cast v8, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v8, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 91
     .line 92
@@ -234,7 +234,7 @@
 
     .line 110
     .line 111
-    invoke-direct/range {v4 .. v9}, Lqa8;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Landroid/widget/ImageView;Lra8;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/core/widget/NestedScrollView;)V
+    invoke-direct/range {v4 .. v9}, Lqa8;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Landroid/widget/ImageView;Lra8;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/core/widget/NestedScrollView;)V
 
     .line 112
     .line 113

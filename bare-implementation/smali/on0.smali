@@ -3402,14 +3402,14 @@
 
     .line 648
     .line 649
-    iget-object v4, v0, Lzi5;->b:Lorg/swiftapps/swiftbackup/settings/h;
+    iget-object v4, v0, Lzi5;->b:Lcom/bareapps/barebackup/settings/h;
 
     .line 650
     .line 651
     float-to-int v2, v2
 
     .line 652
-    iget-object v4, v4, Lorg/swiftapps/swiftbackup/settings/h;->a:Lcj5;
+    iget-object v4, v4, Lcom/bareapps/barebackup/settings/h;->a:Lcj5;
 
     .line 653
     .line 654
@@ -3840,14 +3840,14 @@
 
     .line 173
     .line 174
-    iget-object v0, v0, Lzi5;->b:Lorg/swiftapps/swiftbackup/settings/h;
+    iget-object v0, v0, Lzi5;->b:Lcom/bareapps/barebackup/settings/h;
 
     .line 175
     .line 176
     float-to-int v2, v2
 
     .line 177
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/settings/h;->a:Lcj5;
+    iget-object v0, v0, Lcom/bareapps/barebackup/settings/h;->a:Lcj5;
 
     .line 178
     .line 179

@@ -1256,16 +1256,16 @@
 
     .line 149
     :goto_3
-    new-instance v5, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
+    new-instance v5, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
 
     .line 150
     .line 151
-    invoke-direct/range {v5 .. v11}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;-><init>(Ljava/lang/String;Ljava/lang/String;JJ)V
+    invoke-direct/range {v5 .. v11}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;-><init>(Ljava/lang/String;Ljava/lang/String;JJ)V
 
     .line 152
     .line 153
     .line 154
-    invoke-static {v5}, Lgv0;->b(Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;)V
+    invoke-static {v5}, Lgv0;->b(Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;)V
 
     .line 155
     .line 156

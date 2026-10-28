@@ -4,12 +4,12 @@
 
 
 # direct methods
-.method public static a(Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderItem;)Lorg/swiftapps/swiftbackup/folders/data/BackupResult$Failure;
+.method public static a(Lkj3;Lcom/bareapps/barebackup/folders/data/FolderItem;)Lcom/bareapps/barebackup/folders/data/BackupResult$Failure;
     .locals 7
 
     .line 1
     :try_start_0
-    invoke-virtual {p0}, Lkj3;->h()Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    invoke-virtual {p0}, Lkj3;->h()Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 2
     .line 3
@@ -21,7 +21,7 @@
 
     .line 6
     .line 7
-    new-instance v1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    new-instance v1, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 8
     .line 9
@@ -40,7 +40,7 @@
     move-object v2, p1
 
     .line 14
-    invoke-direct/range {v1 .. v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;-><init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$BaseBackup;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v1 .. v6}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;-><init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Lcom/bareapps/barebackup/folders/data/FolderMetadata$BaseBackup;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 15
     .line 16
@@ -66,7 +66,7 @@
     .line 23
     :cond_0
     :goto_0
-    invoke-virtual {v0, p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->refreshLocalMetadataFile(Lkj3;)Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    invoke-virtual {v0, p0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->refreshLocalMetadataFile(Lkj3;)Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 24
     .line 25
@@ -144,7 +144,7 @@
     .line 57
     .line 58
     .line 59
-    new-instance p0, Lorg/swiftapps/swiftbackup/folders/data/BackupResult$Failure;
+    new-instance p0, Lcom/bareapps/barebackup/folders/data/BackupResult$Failure;
 
     .line 60
     .line 61
@@ -168,7 +168,7 @@
 
     .line 69
     :goto_2
-    invoke-direct {p0, v2}, Lorg/swiftapps/swiftbackup/folders/data/BackupResult$Failure;-><init>(Ljava/lang/String;)V
+    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/folders/data/BackupResult$Failure;-><init>(Ljava/lang/String;)V
 
     .line 70
     .line 71

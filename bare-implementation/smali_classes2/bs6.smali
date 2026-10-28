@@ -76,7 +76,7 @@
     move-result-wide p0
 
     .line 11
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 12
     .line 13

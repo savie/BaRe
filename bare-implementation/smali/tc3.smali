@@ -7,23 +7,23 @@
 
 
 # instance fields
-.field public final G:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final G:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final H:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final H:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final I:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final I:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final J:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final J:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final K:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final K:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final L:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final L:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final M:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final M:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final N:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final N:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final O:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final O:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final a:Landroidx/coordinatorlayout/widget/CoordinatorLayout;
 
@@ -51,11 +51,11 @@
 
 .field public final x:Landroid/widget/RelativeLayout;
 
-.field public final y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroid/widget/RelativeLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroid/widget/RelativeLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
     .locals 0
 
     .line 1
@@ -116,11 +116,11 @@
 
     .line 29
     .line 30
-    iput-object p14, p0, Ltc3;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p14, p0, Ltc3;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 31
     .line 32
-    iput-object p15, p0, Ltc3;->G:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p15, p0, Ltc3;->G:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 33
     .line 34
@@ -128,7 +128,7 @@
 
     .line 35
     .line 36
-    iput-object p1, p0, Ltc3;->H:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->H:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 37
     .line 38
@@ -136,7 +136,7 @@
 
     .line 39
     .line 40
-    iput-object p1, p0, Ltc3;->I:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->I:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 41
     .line 42
@@ -144,7 +144,7 @@
 
     .line 43
     .line 44
-    iput-object p1, p0, Ltc3;->J:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->J:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 45
     .line 46
@@ -152,7 +152,7 @@
 
     .line 47
     .line 48
-    iput-object p1, p0, Ltc3;->K:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->K:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 49
     .line 50
@@ -160,7 +160,7 @@
 
     .line 51
     .line 52
-    iput-object p1, p0, Ltc3;->L:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->L:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 53
     .line 54
@@ -168,7 +168,7 @@
 
     .line 55
     .line 56
-    iput-object p1, p0, Ltc3;->M:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->M:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 57
     .line 58
@@ -176,7 +176,7 @@
 
     .line 59
     .line 60
-    iput-object p1, p0, Ltc3;->N:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->N:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 61
     .line 62
@@ -184,7 +184,7 @@
 
     .line 63
     .line 64
-    iput-object p1, p0, Ltc3;->O:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Ltc3;->O:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 65
     .line 66

@@ -8,17 +8,17 @@
 
 .field public synthetic b:Ljava/lang/Object;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+.field public final synthetic c:Lcom/bareapps/barebackup/cloud/orphans/a;
 
 .field public d:I
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/orphans/a;Lkv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/orphans/a;Lkv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lyh1;->c:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    iput-object p1, p0, Lyh1;->c:Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 2
     .line 3
@@ -61,7 +61,7 @@
     const/4 v4, 0x0
 
     .line 12
-    iget-object v0, p0, Lyh1;->c:Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    iget-object v0, p0, Lyh1;->c:Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 13
     .line 14
@@ -72,7 +72,7 @@
     move-object v5, p0
 
     .line 17
-    invoke-static/range {v0 .. v5}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->l(Lorg/swiftapps/swiftbackup/cloud/orphans/a;JLjava/lang/String;Lbt3;Lkv1;)Ljava/lang/Object;
+    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/cloud/orphans/a;->l(Lcom/bareapps/barebackup/cloud/orphans/a;JLjava/lang/String;Lbt3;Lkv1;)Ljava/lang/Object;
 
     .line 18
     .line 19

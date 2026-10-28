@@ -50,11 +50,11 @@
 
     .line 9
     .line 10
-    iget-object v0, p0, Ljy8;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object v0, p0, Ljy8;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 11
     .line 12
-    invoke-static {v0}, Lzm5;->b(Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;)Z
+    invoke-static {v0}, Lzm5;->b(Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;)Z
 
     .line 13
     .line 14
@@ -62,7 +62,7 @@
     move-result v0
 
     .line 16
-    iget-object v1, p0, Ljy8;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object v1, p0, Ljy8;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 17
     .line 18
@@ -70,7 +70,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 21
     .line 22
@@ -90,11 +90,11 @@
 
     .line 29
     .line 30
-    iget-object p0, p0, Ljy8;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    iget-object p0, p0, Ljy8;->a:Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 31
     .line 32
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 33
     .line 34
@@ -106,7 +106,7 @@
 
     .line 37
     :cond_0
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getToken()Ljava/lang/String;
 
     .line 38
     .line 39
@@ -178,11 +178,11 @@
 
     .line 69
     .line 70
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;
 
     .line 71
     .line 72
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
 
     .line 73
     .line 74

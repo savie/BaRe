@@ -110,7 +110,7 @@
 
     .line 51
     :cond_1
-    invoke-static {v1}, Lxh8;->B(Ljava/util/List;)Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;
+    invoke-static {v1}, Lxh8;->B(Ljava/util/List;)Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;
 
     .line 52
     .line 53
@@ -118,7 +118,7 @@
     move-result-object v2
 
     .line 55
-    invoke-static {v1}, Lxh8;->A(Ljava/util/List;)Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;
+    invoke-static {v1}, Lxh8;->A(Ljava/util/List;)Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;
 
     .line 56
     .line 57
@@ -249,7 +249,7 @@
 
     .line 112
     :goto_3
-    invoke-static {v2, v1, v0}, Lgi;->e(Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
+    invoke-static {v2, v1, v0}, Lgi;->e(Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
 
     .line 113
     .line 114
@@ -262,7 +262,7 @@
 
     .line 118
     .line 119
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;->getPackageName()Ljava/lang/String;
 
     .line 120
     .line 121
@@ -302,7 +302,7 @@
 
     .line 136
     .line 137
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;->getPackageName()Ljava/lang/String;
 
     .line 138
     .line 139
@@ -367,7 +367,7 @@
     move-object v7, v0
 
     .line 166
-    invoke-static {v2, v1, v7}, Lgi;->e(Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
+    invoke-static {v2, v1, v7}, Lgi;->e(Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
 
     .line 167
     .line 168
@@ -380,7 +380,7 @@
 
     .line 172
     .line 173
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;->getInstallerPackage()Ljava/lang/String;
 
     .line 174
     .line 175
@@ -1547,7 +1547,7 @@
     return-object v0
 .end method
 
-.method public static e(Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
+.method public static e(Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;Ljava/lang/String;)V
     .locals 1
 
     .line 1
@@ -1555,7 +1555,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;->getPackageName()Ljava/lang/String;
 
     .line 4
     .line 5
@@ -1589,7 +1589,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;->getPackageName()Ljava/lang/String;
 
     .line 21
     .line 22

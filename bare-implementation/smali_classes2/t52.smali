@@ -79,11 +79,11 @@
 
 .field public final x:Landroid/widget/LinearLayout;
 
-.field public final y:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+.field public final y:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/view/View;Landroid/view/View;Landroid/widget/LinearLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lm86;Landroidx/core/widget/NestedScrollView;Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;Landroid/widget/FrameLayout;Lcom/google/android/material/textfield/TextInputLayout;Lu00;Ld62;Ldr;Lbp0;Lny1;Lcom/google/android/material/textfield/TextInputLayout;Lu94;Lcom/google/android/material/textfield/TextInputLayout;Le41;Ls02;Lcom/google/android/material/textfield/TextInputLayout;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;)V
+.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/view/View;Landroid/view/View;Landroid/widget/LinearLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lm86;Landroidx/core/widget/NestedScrollView;Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;Landroid/widget/FrameLayout;Lcom/google/android/material/textfield/TextInputLayout;Lu00;Ld62;Ldr;Lbp0;Lny1;Lcom/google/android/material/textfield/TextInputLayout;Lu94;Lcom/google/android/material/textfield/TextInputLayout;Le41;Ls02;Lcom/google/android/material/textfield/TextInputLayout;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;)V
     .locals 0
 
     .line 1
@@ -129,7 +129,7 @@
     iput-object p13, p0, Lt52;->x:Landroid/widget/LinearLayout;
 
     .line 15
-    iput-object p14, p0, Lt52;->y:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iput-object p14, p0, Lt52;->y:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 16
     iput-object p15, p0, Lt52;->G:Landroid/widget/FrameLayout;

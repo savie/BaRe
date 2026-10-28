@@ -14,7 +14,7 @@
 
 .field public final synthetic E:Ln56;
 
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/widget/ImageView;
 
@@ -51,11 +51,11 @@
 
     .line 11
     .line 12
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast p1, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 13
     .line 14
-    iput-object p1, p0, Lm56;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p1, p0, Lm56;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 15
     .line 16

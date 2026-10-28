@@ -7,15 +7,15 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+.field public final synthetic a:Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/model/StorageInfoLocal;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lu92;->a:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+    iput-object p1, p0, Lu92;->a:Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
     .line 2
     .line 3
@@ -40,11 +40,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lu92;->a:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+    iget-object p0, p0, Lu92;->a:Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Lu92;-><init>(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Lu92;-><init>(Lcom/bareapps/barebackup/model/StorageInfoLocal;Ljv1;)V
 
     .line 6
     .line 7
@@ -97,19 +97,19 @@
     .line 2
     .line 3
     .line 4
-    sget-object p1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;->Companion:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;
+    sget-object p1, Lcom/bareapps/barebackup/model/StorageInfoLocal;->Companion:Lcom/bareapps/barebackup/model/StorageInfoLocal$a;
 
     .line 5
     .line 6
-    iget-object p0, p0, Lu92;->a:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+    iget-object p0, p0, Lu92;->a:Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    check-cast p0, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 9
     .line 10
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;->setSavedStorageInfo(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;)V
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$a;->setSavedStorageInfo(Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;)V
 
     .line 11
     .line 12

@@ -161,11 +161,11 @@
     move-result-object v1
 
     .line 58
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 59
     .line 60
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 61
     .line 62

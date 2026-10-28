@@ -4,13 +4,13 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public final a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public b:Ljava/lang/String;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/data/FolderItem;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lgk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object p1, p0, Lgk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 8
     .line 9

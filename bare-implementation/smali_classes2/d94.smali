@@ -43,7 +43,7 @@
 
     .line 9
     :try_start_0
-    const-string v2, "org.swiftapps.rootservice.ISbaRootProgress"
+    const-string v2, "com.bareapps.rootservice.ISbaRootProgress"
 
     .line 10
     .line 11

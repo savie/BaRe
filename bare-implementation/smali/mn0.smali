@@ -839,7 +839,7 @@
 
     .line 363
     .line 364
-    sget-object v1, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v1, Lcom/bareapps/barebackup/folders/data/FolderItem;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 365
     .line 366

@@ -109,15 +109,15 @@
 
     .line 34
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
 
     .line 35
     .line 36
-    sget v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
 
     .line 37
     .line 38
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 39
     .line 40

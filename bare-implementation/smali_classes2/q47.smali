@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final e:Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+.field public final e:Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
 .field public final f:Lex6;
 
@@ -21,11 +21,11 @@
     .line 2
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 5
     .line 6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 7
     .line 8
@@ -33,7 +33,7 @@
     move-result-object v0
 
     .line 10
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/SwiftApp;->c:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/BareApp;->c:Lgv7;
 
     .line 11
     .line 12
@@ -45,11 +45,11 @@
     move-result-object v0
 
     .line 16
-    check-cast v0, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    check-cast v0, Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 17
     .line 18
-    iput-object v0, p0, Lq47;->e:Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    iput-object v0, p0, Lq47;->e:Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 19
     .line 20
@@ -205,7 +205,7 @@
     return-void
 .end method
 
-.method public static k(Lq47;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;)V
+.method public static k(Lq47;Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;)V
     .locals 2
 
     .line 1
@@ -221,7 +221,7 @@
     const/4 v1, 0x0
 
     .line 7
-    invoke-direct {v0, p1, p0, v1}, Lqj3;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;Lq47;Z)V
+    invoke-direct {v0, p1, p0, v1}, Lqj3;-><init>(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;Lq47;Z)V
 
     .line 8
     .line 9
@@ -236,7 +236,7 @@
 
 
 # virtual methods
-.method public final j(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V
+.method public final j(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V
     .locals 2
 
     .line 1

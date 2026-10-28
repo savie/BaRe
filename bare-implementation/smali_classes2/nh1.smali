@@ -136,7 +136,7 @@
     .line 52
     .line 53
     .line 54
-    invoke-virtual {v0}, Lm37;->l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    invoke-virtual {v0}, Lm37;->l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 55
     .line 56
@@ -162,7 +162,7 @@
     .line 66
     .line 67
     .line 68
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 69
     .line 70
@@ -170,12 +170,12 @@
     move-result-object v1
 
     .line 72
-    invoke-virtual {v1, v4, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {v1, v4, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 73
     .line 74
     .line 75
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 76
     .line 77
@@ -256,7 +256,7 @@
     .line 115
     .line 116
     .line 117
-    invoke-virtual {v0}, Lm37;->l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    invoke-virtual {v0}, Lm37;->l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 118
     .line 119
@@ -282,7 +282,7 @@
     .line 129
     .line 130
     .line 131
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 132
     .line 133
@@ -290,12 +290,12 @@
     move-result-object v1
 
     .line 135
-    invoke-virtual {v1, v4, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {v1, v4, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 136
     .line 137
     .line 138
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 139
     .line 140
@@ -346,7 +346,7 @@
 
     .line 163
     .line 164
-    iget-object v7, v1, Lm47;->c:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    iget-object v7, v1, Lm47;->c:Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 165
     .line 166
@@ -384,7 +384,7 @@
     .line 182
     .line 183
     .line 184
-    invoke-virtual {v0}, Lm37;->l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    invoke-virtual {v0}, Lm37;->l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 185
     .line 186
@@ -463,7 +463,7 @@
 
     .line 224
     .line 225
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 226
     .line 227
@@ -471,7 +471,7 @@
     move-result-object v10
 
     .line 229
-    invoke-virtual {v10, v4, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {v10, v4, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 230
     .line 231
@@ -497,7 +497,7 @@
     move-result v10
 
     .line 242
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 243
     .line 244
@@ -530,11 +530,11 @@
 
     .line 258
     :try_start_0
-    sget-object v12, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v12, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 259
     .line 260
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 261
     .line 262
@@ -662,7 +662,7 @@
     .line 315
     .line 316
     .line 317
-    invoke-virtual {v11, v6, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
+    invoke-virtual {v11, v6, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
 
     .line 318
     .line 319
@@ -672,7 +672,7 @@
     .line 321
     .line 322
     .line 323
-    invoke-virtual {v11, v6, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
+    invoke-virtual {v11, v6, v4}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
 
     .line 324
     .line 325
@@ -682,12 +682,12 @@
     .line 327
     .line 328
     .line 329
-    invoke-virtual {v11, v4, v12}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
+    invoke-virtual {v11, v4, v12}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->n(IZ)V
 
     .line 330
     .line 331
     .line 332
-    iget-object v4, v11, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->r:Ljava/util/LinkedHashMap;
+    iget-object v4, v11, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->r:Ljava/util/LinkedHashMap;
 
     .line 333
     .line 334
@@ -728,7 +728,7 @@
 
     .line 352
     .line 353
-    iget-object v5, v11, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->t:Ljava/util/LinkedHashMap;
+    iget-object v5, v11, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->t:Ljava/util/LinkedHashMap;
 
     .line 354
     .line 355
@@ -792,7 +792,7 @@
     .line 384
     :cond_7
     :goto_5
-    invoke-virtual {v0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {v0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 385
     .line 386
@@ -927,7 +927,7 @@
 
     .line 454
     .line 455
-    invoke-virtual {v0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 456
     .line 457
@@ -951,7 +951,7 @@
     move-result-object v6
 
     .line 467
-    iget-object v6, v6, Lq47;->e:Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    iget-object v6, v6, Lq47;->e:Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 468
     .line 469
@@ -960,7 +960,7 @@
     .line 470
     .line 471
     .line 472
-    invoke-static {}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->b()Ljava/util/Calendar;
+    invoke-static {}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->b()Ljava/util/Calendar;
 
     .line 473
     .line 474
@@ -1030,7 +1030,7 @@
 
     .line 507
     .line 508
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getBatteryReqEnum()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getBatteryReqEnum()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;
 
     .line 509
     .line 510
@@ -1038,7 +1038,7 @@
     move-result-object v5
 
     .line 512
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getBatteryPercentReq()I
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getBatteryPercentReq()I
 
     .line 513
     .line 514
@@ -1046,7 +1046,7 @@
     move-result v6
 
     .line 516
-    invoke-virtual {v5, v6}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData$a;->toDisplayString(I)Ljava/lang/String;
+    invoke-virtual {v5, v6}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData$a;->toDisplayString(I)Ljava/lang/String;
 
     .line 517
     .line 518
@@ -1167,7 +1167,7 @@
     .line 577
     .line 578
     .line 579
-    invoke-virtual {v0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 580
     .line 581
@@ -1395,7 +1395,7 @@
 
     .line 696
     .line 697
-    invoke-virtual {v0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 698
     .line 699
@@ -1566,15 +1566,15 @@
     move-result-object v4
 
     .line 782
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 783
     .line 784
-    iget-object v4, v4, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object v4, v4, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 785
     .line 786
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 787
     .line 788
@@ -1623,15 +1623,15 @@
     move-result-object v5
 
     .line 809
-    check-cast v5, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v5, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 810
     .line 811
-    iget-object v5, v5, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object v5, v5, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 812
     .line 813
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 814
     .line 815
@@ -1726,7 +1726,7 @@
 
     .line 852
     .line 853
-    invoke-virtual {v0}, Lm37;->n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    invoke-virtual {v0}, Lm37;->n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 854
     .line 855
@@ -1781,7 +1781,7 @@
 
     .line 877
     .line 878
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 879
     .line 880
@@ -1794,15 +1794,15 @@
 
     .line 884
     .line 885
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;
 
     .line 886
     .line 887
-    sget v4, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
+    sget v4, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
 
     .line 888
     .line 889
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 890
     .line 891
@@ -1810,7 +1810,7 @@
     move-result-object v4
 
     .line 893
-    iget-object v5, v0, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->R:Lgv7;
+    iget-object v5, v0, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->R:Lgv7;
 
     .line 894
     .line 895
@@ -1818,19 +1818,19 @@
 
     .line 896
     .line 897
-    iget-boolean v6, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->f:Z
+    iget-boolean v6, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->f:Z
 
     .line 898
     .line 899
-    iget-object v7, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->b:Ljava/lang/String;
+    iget-object v7, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->b:Ljava/lang/String;
 
     .line 900
     .line 901
-    iget-object v8, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->h:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    iget-object v8, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->h:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 902
     .line 903
-    iget-object v9, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->i:Ljava/util/List;
+    iget-object v9, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->i:Ljava/util/List;
 
     .line 904
     .line 905
@@ -1843,11 +1843,11 @@
 
     .line 909
     .line 910
-    iget-boolean v4, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d:Z
+    iget-boolean v4, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->d:Z
 
     .line 911
     .line 912
-    iget v10, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->c:I
+    iget v10, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->c:I
 
     .line 913
     .line 914
@@ -1855,7 +1855,7 @@
 
     .line 915
     .line 916
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 917
     .line 918
@@ -1880,7 +1880,7 @@
 
     .line 928
     :cond_11
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 929
     .line 930
@@ -1938,7 +1938,7 @@
     .line 958
     :cond_12
     :goto_d
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 959
     .line 960
@@ -1955,7 +1955,7 @@
     .line 965
     .line 966
     .line 967
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 968
     .line 969
@@ -1967,7 +1967,7 @@
 
     .line 972
     .line 973
-    iget-object v7, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->e:Ljava/lang/String;
+    iget-object v7, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->e:Ljava/lang/String;
 
     .line 974
     .line 975
@@ -1976,7 +1976,7 @@
     .line 976
     .line 977
     .line 978
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 979
     .line 980
@@ -1997,7 +1997,7 @@
     .line 987
     .line 988
     .line 989
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 990
     .line 991
@@ -2009,7 +2009,7 @@
 
     .line 994
     .line 995
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 996
     .line 997
@@ -2030,7 +2030,7 @@
     .line 1004
     .line 1005
     .line 1006
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1007
     .line 1008
@@ -2042,7 +2042,7 @@
 
     .line 1011
     .line 1012
-    iget-object v7, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->k:Ljava/lang/String;
+    iget-object v7, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->k:Ljava/lang/String;
 
     .line 1013
     .line 1014
@@ -2051,7 +2051,7 @@
     .line 1015
     .line 1016
     .line 1017
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1018
     .line 1019
@@ -2063,7 +2063,7 @@
 
     .line 1022
     .line 1023
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1024
     .line 1025
@@ -2076,7 +2076,7 @@
     .line 1028
     .line 1029
     .line 1030
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1031
     .line 1032
@@ -2088,7 +2088,7 @@
 
     .line 1035
     .line 1036
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1037
     .line 1038
@@ -2122,7 +2122,7 @@
     move-result-object v4
 
     .line 1054
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1055
     .line 1056
@@ -2139,7 +2139,7 @@
     .line 1061
     .line 1062
     :cond_13
-    sget-object v7, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->ERROR:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v7, Lcom/bareapps/barebackup/cloud/orphans/a$a;->ERROR:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 1063
     .line 1064
@@ -2189,7 +2189,7 @@
 
     .line 1087
     :cond_14
-    sget-object v7, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->RESULTS:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v7, Lcom/bareapps/barebackup/cloud/orphans/a$a;->RESULTS:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 1088
     .line 1089
@@ -2347,7 +2347,7 @@
     move-result v7
 
     .line 1166
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1167
     .line 1168
@@ -2364,7 +2364,7 @@
     .line 1173
     .line 1174
     .line 1175
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1176
     .line 1177
@@ -2382,7 +2382,7 @@
     .line 1183
     .line 1184
     :goto_f
-    sget-object v4, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->RESULTS:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v4, Lcom/bareapps/barebackup/cloud/orphans/a$a;->RESULTS:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 1185
     .line 1186
@@ -2401,7 +2401,7 @@
 
     .line 1191
     :goto_10
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1192
     .line 1193
@@ -2422,7 +2422,7 @@
 
     .line 1201
     .line 1202
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1203
     .line 1204
@@ -2434,7 +2434,7 @@
 
     .line 1207
     .line 1208
-    iget v7, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->l:I
+    iget v7, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->l:I
 
     .line 1209
     .line 1210
@@ -2446,7 +2446,7 @@
     move-result-object v7
 
     .line 1214
-    iget v11, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->m:I
+    iget v11, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->m:I
 
     .line 1215
     .line 1216
@@ -2565,7 +2565,7 @@
 
     .line 1273
     .line 1274
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1275
     .line 1276
@@ -2611,7 +2611,7 @@
 
     .line 1295
     .line 1296
-    iget-object v5, v1, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->j:Ljava/util/Set;
+    iget-object v5, v1, Lcom/bareapps/barebackup/cloud/orphans/b;->j:Ljava/util/Set;
 
     .line 1297
     .line 1298
@@ -2652,7 +2652,7 @@
     .line 1315
     .line 1316
     .line 1317
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
 
     .line 1318
     .line 1319
@@ -2726,7 +2726,7 @@
 
     .line 1350
     :cond_1c
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1351
     .line 1352
@@ -2738,7 +2738,7 @@
 
     .line 1355
     .line 1356
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
 
     .line 1357
     .line 1358
@@ -2836,7 +2836,7 @@
 
     .line 1405
     .line 1406
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->c()Ljava/util/ArrayList;
 
     .line 1407
     .line 1408
@@ -2875,7 +2875,7 @@
 
     .line 1423
     :goto_14
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1424
     .line 1425
@@ -2911,7 +2911,7 @@
     .line 1439
     .line 1440
     .line 1441
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1442
     .line 1443
@@ -2935,7 +2935,7 @@
 
     .line 1452
     .line 1453
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1454
     .line 1455
@@ -2963,7 +2963,7 @@
     .line 1463
     .line 1464
     .line 1465
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1466
     .line 1467
@@ -2996,7 +2996,7 @@
     .line 1480
     .line 1481
     .line 1482
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1483
     .line 1484
@@ -3040,7 +3040,7 @@
     .line 1500
     .line 1501
     .line 1502
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1503
     .line 1504
@@ -3084,7 +3084,7 @@
     .line 1520
     .line 1521
     .line 1522
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1523
     .line 1524
@@ -3100,7 +3100,7 @@
 
     .line 1529
     .line 1530
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 1531
     .line 1532
@@ -3128,7 +3128,7 @@
     .line 1540
     .line 1541
     .line 1542
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1543
     .line 1544
@@ -3140,7 +3140,7 @@
 
     .line 1547
     .line 1548
-    sget-object v4, Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;->IDLE:Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;
+    sget-object v4, Lcom/bareapps/barebackup/cloud/orphans/a$a;->IDLE:Lcom/bareapps/barebackup/cloud/orphans/a$a;
 
     .line 1549
     .line 1550
@@ -3168,7 +3168,7 @@
     .line 1560
     .line 1561
     .line 1562
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1563
     .line 1564
@@ -3180,7 +3180,7 @@
 
     .line 1567
     .line 1568
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->b()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/orphans/b;->b()Z
 
     .line 1569
     .line 1570
@@ -3193,7 +3193,7 @@
     .line 1573
     .line 1574
     .line 1575
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->U()Lph1;
 
     .line 1576
     .line 1577

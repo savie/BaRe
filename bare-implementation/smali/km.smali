@@ -9,11 +9,11 @@
 # instance fields
 .field public final a:Landroid/widget/LinearLayout;
 
-.field public final b:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final b:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+.method public constructor <init>(Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lkm;->b:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p2, p0, Lkm;->b:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 7
     .line 8

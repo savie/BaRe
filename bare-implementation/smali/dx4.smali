@@ -15,7 +15,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;ZI)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;ZI)V
     .locals 0
 
     .line 1

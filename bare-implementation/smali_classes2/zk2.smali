@@ -106,11 +106,11 @@
 
     .line 36
     .line 37
-    iget-object p0, p1, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p1, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSetupCreationTime()J
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSetupCreationTime()J
 
     .line 40
     .line 41
@@ -130,11 +130,11 @@
 
     .line 48
     .line 49
-    iget-object p1, p2, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, p2, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 50
     .line 51
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSetupCreationTime()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSetupCreationTime()J
 
     .line 52
     .line 53

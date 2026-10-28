@@ -357,11 +357,11 @@
     .line 96
     .line 97
     .line 98
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 99
     .line 100
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 101
     .line 102
@@ -1343,7 +1343,7 @@
     return-object p0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 10
 
     .line 1
@@ -1364,11 +1364,11 @@
     .line 8
     .line 9
     .line 10
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 11
     .line 12
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 13
     .line 14

@@ -76,11 +76,11 @@
     move-object v2, p0
 
     .line 17
-    check-cast v2, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;
+    check-cast v2, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;
 
     .line 18
     .line 19
-    const-string v5, "onRemoteDetails(Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;)V"
+    const-string v5, "onRemoteDetails(Lcom/bareapps/barebackup/contributor/ContributorRegistration;)V"
 
     .line 20
     .line 21
@@ -90,7 +90,7 @@
     const/4 v1, 0x1
 
     .line 23
-    const-class v3, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;
+    const-class v3, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;
 
     .line 24
     .line 25
@@ -156,7 +156,7 @@
 
     .line 20
     :pswitch_1
-    check-cast p1, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast p1, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 21
     .line 22
@@ -165,15 +165,15 @@
     .line 23
     .line 24
     .line 25
-    check-cast p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;
+    check-cast p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;
 
     .line 26
     .line 27
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->N:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->N:Lgv7;
 
     .line 28
     .line 29
-    iget-object v1, p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->M:Lgv7;
+    iget-object v1, p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->M:Lgv7;
 
     .line 30
     .line 31
@@ -207,7 +207,7 @@
     .line 45
     .line 46
     .line 47
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_status()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_status()Ljava/lang/String;
 
     .line 48
     .line 49
@@ -281,7 +281,7 @@
     move-result v3
 
     .line 83
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_status()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_status()Ljava/lang/String;
 
     .line 84
     .line 85
@@ -329,7 +329,7 @@
 
     .line 108
     .line 109
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->get_name()Ljava/lang/String;
 
     .line 110
     .line 111
@@ -342,7 +342,7 @@
     .line 114
     .line 115
     .line 116
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->getType()Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration$a;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->getType()Lcom/bareapps/barebackup/contributor/ContributorRegistration$a;
 
     .line 117
     .line 118
@@ -350,7 +350,7 @@
     move-result-object v2
 
     .line 120
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration$a;->toDisplayString()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/contributor/ContributorRegistration$a;->toDisplayString()Ljava/lang/String;
 
     .line 121
     .line 122
@@ -367,7 +367,7 @@
     .line 127
     .line 128
     .line 129
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->getLocales()Ljava/util/List;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->getLocales()Ljava/util/List;
 
     .line 130
     .line 131
@@ -395,7 +395,7 @@
 
     .line 142
     :cond_1
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->isTranslator()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->isTranslator()Z
 
     .line 143
     .line 144
@@ -737,7 +737,7 @@
     .line 313
     .line 314
     .line 315
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->O:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->O:Lgv7;
 
     .line 316
     .line 317
@@ -753,7 +753,7 @@
 
     .line 322
     .line 323
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->getIdTelegram()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->getIdTelegram()Ljava/lang/String;
 
     .line 324
     .line 325
@@ -766,7 +766,7 @@
     .line 328
     .line 329
     .line 330
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->N()Lov1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->N()Lov1;
 
     .line 331
     .line 332
@@ -778,7 +778,7 @@
 
     .line 335
     .line 336
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->isTranslator()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->isTranslator()Z
 
     .line 337
     .line 338
@@ -791,7 +791,7 @@
     .line 341
     .line 342
     .line 343
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->isTranslator()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->isTranslator()Z
 
     .line 344
     .line 345
@@ -803,7 +803,7 @@
 
     .line 348
     .line 349
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->P:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->P:Lgv7;
 
     .line 350
     .line 351
@@ -819,7 +819,7 @@
 
     .line 356
     .line 357
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->getIdCrowdin()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->getIdCrowdin()Ljava/lang/String;
 
     .line 358
     .line 359
@@ -833,7 +833,7 @@
     .line 363
     .line 364
     :cond_5
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;->Q:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;->Q:Lgv7;
 
     .line 365
     .line 366
@@ -849,7 +849,7 @@
 
     .line 371
     .line 372
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;->getIdPaypal()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/contributor/ContributorRegistration;->getIdPaypal()Ljava/lang/String;
 
     .line 373
     .line 374

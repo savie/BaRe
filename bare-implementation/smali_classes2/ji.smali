@@ -38,7 +38,7 @@
 
 .field private appId:Ljava/lang/String;
 
-.field private cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+.field private cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
 .field private dataDir:Ljava/lang/String;
 
@@ -72,7 +72,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;"
         }
     .end annotation
@@ -160,7 +160,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
+.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
     .locals 0
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -190,10 +190,10 @@
             "Ljava/util/List<",
             "Lgm;",
             ">;Z",
-            "Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;",
+            "Lcom/bareapps/barebackup/model/app/AppCloudBackups;",
             "Z",
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;",
             "Ljava/lang/String;",
             ")V"
@@ -297,7 +297,7 @@
     move-object/from16 p1, p24
 
     .line 30
-    iput-object p1, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iput-object p1, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     move/from16 p1, p25
 
@@ -332,7 +332,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+.method public constructor <init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
     .locals 30
 
     move/from16 v0, p28
@@ -706,7 +706,7 @@
 
     .line 5
     :goto_18
-    invoke-direct/range {v2 .. v29}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
+    invoke-direct/range {v2 .. v29}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
 
     return-void
 .end method
@@ -738,7 +738,7 @@
     return-object p0
 .end method
 
-.method public static synthetic copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
+.method public static synthetic copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
     .locals 17
 
     move-object/from16 v0, p0
@@ -1062,7 +1062,7 @@
 
     if-eqz v16, :cond_17
 
-    iget-object v1, v0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v1, v0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     goto :goto_17
 
@@ -1179,7 +1179,7 @@
     goto :goto_1a
 
     :goto_1b
-    invoke-virtual/range {p1 .. p28}, Lji;->copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)Lji;
+    invoke-virtual/range {p1 .. p28}, Lji;->copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)Lji;
 
     move-result-object v0
 
@@ -1509,11 +1509,11 @@
     .locals 3
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -1756,11 +1756,11 @@
     return p0
 .end method
 
-.method public final component24()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+.method public final component24()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 2
     .line 3
@@ -1784,7 +1784,7 @@
         value = {
             "()",
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;"
         }
     .end annotation
@@ -1893,7 +1893,7 @@
     return-object p0
 .end method
 
-.method public final copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)Lji;
+.method public final copy(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)Lji;
     .locals 28
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -1923,10 +1923,10 @@
             "Ljava/util/List<",
             "Lgm;",
             ">;Z",
-            "Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;",
+            "Lcom/bareapps/barebackup/model/app/AppCloudBackups;",
             "Z",
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;",
             "Ljava/lang/String;",
             ")",
@@ -1997,7 +1997,7 @@
 
     move-object/from16 v27, p27
 
-    invoke-direct/range {v0 .. v27}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
+    invoke-direct/range {v0 .. v27}, Lji;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;)V
 
     return-object v0
 .end method
@@ -2558,11 +2558,11 @@
 
     .line 246
     :cond_18
-    iget-object v1, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v1, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 247
     .line 248
-    iget-object v3, p1, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v3, p1, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 249
     .line 250
@@ -2660,11 +2660,11 @@
     return-object p0
 .end method
 
-.method public final getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+.method public final getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 2
     .line 3
@@ -2782,7 +2782,7 @@
 
     .line 47
     .line 48
-    invoke-static/range {v1 .. v30}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLorg/swiftapps/swiftbackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
+    invoke-static/range {v1 .. v30}, Lji;->copy$default(Lji;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;ZZZZLqx;Ljava/lang/String;Ljava/util/List;ZLcom/bareapps/barebackup/model/app/AppCloudBackups;ZLjava/util/Set;Ljava/lang/String;ILjava/lang/Object;)Lji;
 
     .line 49
     .line 50
@@ -3171,7 +3171,7 @@
         value = {
             "()",
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;"
         }
     .end annotation
@@ -3846,7 +3846,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 6
     .line 7
@@ -3854,7 +3854,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 10
     .line 11
@@ -3866,7 +3866,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 16
     .line 17
@@ -3878,7 +3878,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasBackups()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasBackups()Z
 
     .line 22
     .line 23
@@ -3944,7 +3944,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 6
     .line 7
@@ -3952,7 +3952,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 10
     .line 11
@@ -4013,11 +4013,11 @@
     move-result-object p1
 
     .line 37
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast p1, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 38
     .line 39
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 40
     .line 41
@@ -4025,7 +4025,7 @@
     move-result-object p1
 
     .line 43
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getNote()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getNote()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -4139,11 +4139,11 @@
 
     .line 90
     .line 91
-    iget-object p1, p1, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p1, p1, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 92
     .line 93
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getNote()Ljava/lang/String;
 
     .line 94
     .line 95
@@ -5161,7 +5161,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 6
     .line 7
@@ -5169,7 +5169,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 10
     .line 11
@@ -5251,7 +5251,7 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 6
     .line 7
@@ -5259,7 +5259,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getBackups()Ljava/util/List;
 
     .line 10
     .line 11
@@ -5320,11 +5320,11 @@
     move-result-object p1
 
     .line 37
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast p1, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 38
     .line 39
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 40
     .line 41
@@ -5332,7 +5332,7 @@
     move-result-object p1
 
     .line 43
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->isProtectedBackup()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->isProtectedBackup()Z
 
     .line 44
     .line 45
@@ -5414,11 +5414,11 @@
 
     .line 78
     .line 79
-    iget-object p1, p1, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p1, p1, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 80
     .line 81
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     .line 82
     .line 83
@@ -5445,7 +5445,7 @@
 
     .line 2
     .line 3
-    iget-object p1, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p1, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 4
     .line 5
@@ -5456,7 +5456,7 @@
 
     .line 7
     .line 8
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 9
     .line 10
@@ -5468,7 +5468,7 @@
 
     .line 13
     .line 14
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 15
     .line 16
@@ -5484,7 +5484,7 @@
 
     .line 21
     .line 22
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasRestorableBackup(Z)Z
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasRestorableBackup(Z)Z
 
     .line 23
     .line 24
@@ -6086,7 +6086,7 @@
     move-result v0
 
     .line 233
-    iget-object v2, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v2, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 234
     .line 235
@@ -6101,7 +6101,7 @@
 
     .line 239
     :cond_f
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->hashCode()I
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->hashCode()I
 
     .line 240
     .line 241
@@ -6237,7 +6237,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object p0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 4
     .line 5
@@ -6245,7 +6245,7 @@
 
     .line 6
     .line 7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 8
     .line 9
@@ -6257,7 +6257,7 @@
 
     .line 12
     .line 13
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 14
     .line 15
@@ -6269,7 +6269,7 @@
 
     .line 18
     .line 19
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getInstallerPackage()Ljava/lang/String;
 
     .line 20
     .line 21
@@ -6416,7 +6416,7 @@
 
     .line 20
     :goto_1
-    iget-object v3, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v3, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 21
     .line 22
@@ -6424,7 +6424,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 25
     .line 26
@@ -6436,7 +6436,7 @@
 
     .line 29
     .line 30
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 31
     .line 32
@@ -6448,7 +6448,7 @@
 
     .line 35
     .line 36
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->hasBackups()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->hasBackups()Z
 
     .line 37
     .line 38
@@ -6742,7 +6742,7 @@
 
     .line 63
     .line 64
-    invoke-virtual {v3}, Lhk;->u()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v3}, Lhk;->u()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 65
     .line 66
@@ -6765,7 +6765,7 @@
 
     .line 73
     .line 74
-    invoke-direct {v5, v3, v4}, Lgm;-><init>(Lhk;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+    invoke-direct {v5, v3, v4}, Lgm;-><init>(Lhk;Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
 
     .line 75
     .line 76
@@ -6873,11 +6873,11 @@
 
     .line 121
     .line 122
-    iget-object v0, v0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, v0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 123
     .line 124
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
 
     .line 125
     .line 126
@@ -7146,11 +7146,11 @@
     return-void
 .end method
 
-.method public final setCloudBackups(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;)V
+.method public final setCloudBackups(Lcom/bareapps/barebackup/model/app/AppCloudBackups;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iput-object p1, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 2
     .line 3
@@ -8186,7 +8186,7 @@
         value = {
             "(",
             "Ljava/util/Set<",
-            "Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;",
+            "Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;",
             ">;)V"
         }
     .end annotation
@@ -8501,7 +8501,7 @@
 
     .line 66
     .line 67
-    iget-object v15, v0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v15, v0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 68
     .line 69
@@ -9380,7 +9380,7 @@
     .line 237
     .line 238
     .line 239
-    iget-object v0, p0, Lji;->cloudBackups:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    iget-object v0, p0, Lji;->cloudBackups:Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 240
     .line 241
@@ -9402,7 +9402,7 @@
     .line 248
     .line 249
     .line 250
-    invoke-virtual {v0, p1, p2}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->writeToParcel(Landroid/os/Parcel;I)V
+    invoke-virtual {v0, p1, p2}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->writeToParcel(Landroid/os/Parcel;I)V
 
     .line 251
     .line 252
@@ -9481,11 +9481,11 @@
     move-result-object v1
 
     .line 290
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 291
     .line 292
-    invoke-virtual {v1, p1, p2}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->writeToParcel(Landroid/os/Parcel;I)V
+    invoke-virtual {v1, p1, p2}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->writeToParcel(Landroid/os/Parcel;I)V
 
     .line 293
     .line 294

@@ -64,7 +64,7 @@
 
     .line 13
     .line 14
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 15
     .line 16
@@ -72,7 +72,7 @@
     move-result-object p0
 
     .line 18
-    invoke-static {p0}, Lc47;->f(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+    invoke-static {p0}, Lc47;->f(Lcom/bareapps/barebackup/home/HomeActivity;)V
 
     .line 19
     .line 20
@@ -86,7 +86,7 @@
 
     .line 24
     .line 25
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 26
     .line 27
@@ -222,11 +222,11 @@
     .line 95
     :cond_1
     :try_start_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 96
     .line 97
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 98
     .line 99
@@ -463,7 +463,7 @@
 
     .line 212
     :pswitch_0
-    invoke-virtual {p0}, Lm37;->l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    invoke-virtual {p0}, Lm37;->l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 213
     .line 214

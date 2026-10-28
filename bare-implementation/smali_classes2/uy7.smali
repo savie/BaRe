@@ -6,13 +6,13 @@
 # instance fields
 .field public final f:Ljava/util/List;
 
-.field public final g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+.field public final g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
 .field public final h:Z
 
 
 # direct methods
-.method public constructor <init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;Z)V
+.method public constructor <init>(Ljava/util/List;Lcom/bareapps/barebackup/settings/FolderBackupStrategy;Z)V
     .locals 2
 
     .line 1
@@ -41,7 +41,7 @@
 
     .line 13
     .line 14
-    iput-object p2, p0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iput-object p2, p0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 15
     .line 16
@@ -86,7 +86,7 @@
     .locals 0
 
     .line 1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
@@ -158,11 +158,11 @@
 
     .line 22
     :cond_2
-    iget-object v0, p0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v0, p0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 23
     .line 24
-    iget-object v1, p1, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v1, p1, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 25
     .line 26
@@ -221,7 +221,7 @@
 
     .line 8
     .line 9
-    iget-object v1, p0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v1, p0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 10
     .line 11
@@ -293,7 +293,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object v1, p0, Luy7;->g:Lorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;
+    iget-object v1, p0, Luy7;->g:Lcom/bareapps/barebackup/settings/FolderBackupStrategy;
 
     .line 19
     .line 20

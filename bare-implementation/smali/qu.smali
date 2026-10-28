@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->l(Ljava/lang/String;)Ljava/util/List;
+    invoke-static {p0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->l(Ljava/lang/String;)Ljava/util/List;
 
     .line 9
     .line 10

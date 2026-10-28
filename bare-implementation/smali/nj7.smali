@@ -419,7 +419,7 @@
     move-result-wide v6
 
     .line 181
-    const-string v8, "/data/local/tmp/swiftbackup-install-"
+    const-string v8, "/data/local/tmp/barebackup-install-"
 
     .line 182
     .line 183
@@ -996,7 +996,7 @@
     .line 74
     .line 75
     .line 76
-    const-class p2, Lorg/swiftapps/swiftbackup/apptasks/install/InstallerSourceProxy;
+    const-class p2, Lcom/bareapps/barebackup/apptasks/install/InstallerSourceProxy;
 
     .line 77
     .line 78
@@ -1016,7 +1016,7 @@
     move-result-object p0
 
     .line 86
-    const-string p3, "swiftbackup_install_proxy"
+    const-string p3, "barebackup_install_proxy"
 
     .line 87
     .line 88

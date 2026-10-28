@@ -55,7 +55,7 @@
 
     .line 22
     :cond_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v1, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 23
     .line 24
@@ -68,7 +68,7 @@
 
     .line 28
     :goto_0
-    check-cast v1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    check-cast v1, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 29
     .line 30
@@ -103,7 +103,7 @@
     move-result-object p1
 
     .line 43
-    invoke-direct {p0, v0, v1, v2, p1}, Lso7;-><init>(Lzn7;Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;ZLjava/lang/String;)V
+    invoke-direct {p0, v0, v1, v2, p1}, Lso7;-><init>(Lzn7;Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;ZLjava/lang/String;)V
 
     .line 44
     .line 45

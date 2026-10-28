@@ -102,7 +102,7 @@
 
     .line 19
     .line 20
-    invoke-virtual {p0}, Lm37;->n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    invoke-virtual {p0}, Lm37;->n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 21
     .line 22
@@ -130,7 +130,7 @@
     move-result-object v0
 
     .line 34
-    invoke-virtual {p0}, Lm37;->n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    invoke-virtual {p0}, Lm37;->n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 35
     .line 36
@@ -157,7 +157,7 @@
     add-float/2addr v3, v1
 
     .line 47
-    invoke-virtual {p0}, Lm37;->n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    invoke-virtual {p0}, Lm37;->n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 48
     .line 49

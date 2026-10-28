@@ -389,7 +389,7 @@
 
     .line 183
     .line 184
-    check-cast v20, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v20, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 185
     .line 186
@@ -414,7 +414,7 @@
 
     .line 196
     .line 197
-    check-cast v21, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v21, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 198
     .line 199
@@ -439,7 +439,7 @@
 
     .line 209
     .line 210
-    check-cast v22, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v22, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 211
     .line 212
@@ -464,7 +464,7 @@
 
     .line 222
     .line 223
-    check-cast v23, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v23, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 224
     .line 225
@@ -489,7 +489,7 @@
 
     .line 235
     .line 236
-    check-cast v24, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v24, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 237
     .line 238
@@ -514,7 +514,7 @@
 
     .line 248
     .line 249
-    check-cast v25, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v25, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 250
     .line 251
@@ -556,7 +556,7 @@
 
     .line 270
     .line 271
-    check-cast v26, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v26, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 272
     .line 273
@@ -581,7 +581,7 @@
 
     .line 283
     .line 284
-    check-cast v27, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v27, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 285
     .line 286
@@ -606,7 +606,7 @@
 
     .line 296
     .line 297
-    check-cast v28, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v28, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 298
     .line 299
@@ -631,7 +631,7 @@
 
     .line 309
     .line 310
-    check-cast v29, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v29, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 311
     .line 312
@@ -902,7 +902,7 @@
 
     .line 450
     .line 451
-    invoke-direct/range {v6 .. v29}, Ltc3;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroid/widget/RelativeLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct/range {v6 .. v29}, Ltc3;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroidx/appcompat/widget/LinearLayoutCompat;Landroid/widget/RelativeLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 452
     .line 453
@@ -1009,7 +1009,7 @@
 
     .line 4
     .line 5
-    iget-object v0, v0, Ltc3;->N:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v0, v0, Ltc3;->N:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 6
     .line 7
@@ -1225,7 +1225,7 @@
     return-void
 .end method
 
-.method public final l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+.method public final l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
     .locals 5
 
     .line 1
@@ -1420,7 +1420,7 @@
     .line 52
     .line 53
     :goto_1
-    iget-object v10, v1, Ltc3;->L:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v10, v1, Ltc3;->L:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 54
     .line 55
@@ -1549,12 +1549,12 @@
     .line 113
     .line 114
     .line 115
-    invoke-virtual {v0, v10, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v10, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 116
     .line 117
     .line 118
-    iget-object v3, v1, Ltc3;->L:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v3, v1, Ltc3;->L:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 119
     .line 120
@@ -1625,7 +1625,7 @@
     .line 152
     .line 153
     :goto_5
-    iget-object v1, v1, Ltc3;->O:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->O:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 154
     .line 155
@@ -1738,7 +1738,7 @@
     .line 206
     .line 207
     .line 208
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 209
     .line 210
@@ -1956,7 +1956,7 @@
     .line 307
     :cond_d
     :goto_b
-    iget-object v1, v1, Ltc3;->G:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->G:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 308
     .line 309
@@ -2069,7 +2069,7 @@
     .line 360
     .line 361
     .line 362
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 363
     .line 364
@@ -2288,7 +2288,7 @@
     .line 462
     :cond_16
     :goto_11
-    iget-object v1, v1, Ltc3;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 463
     .line 464
@@ -2401,7 +2401,7 @@
     .line 515
     .line 516
     .line 517
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 518
     .line 519
@@ -2631,7 +2631,7 @@
     .line 622
     :cond_1f
     :goto_17
-    iget-object v1, v1, Ltc3;->K:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->K:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 623
     .line 624
@@ -2763,7 +2763,7 @@
     .line 682
     .line 683
     .line 684
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 685
     .line 686
@@ -2977,7 +2977,7 @@
     .line 781
     :cond_29
     :goto_1e
-    iget-object v1, v1, Ltc3;->H:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->H:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 782
     .line 783
@@ -3090,7 +3090,7 @@
     .line 834
     .line 835
     .line 836
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 837
     .line 838
@@ -3304,7 +3304,7 @@
     .line 933
     :cond_32
     :goto_24
-    iget-object v1, v1, Ltc3;->M:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->M:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 934
     .line 935
@@ -3417,7 +3417,7 @@
     .line 986
     .line 987
     .line 988
-    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v3}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 989
     .line 990
@@ -3628,7 +3628,7 @@
     .line 1084
     :cond_3b
     :goto_2a
-    iget-object v1, v7, Ltc3;->J:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v7, Ltc3;->J:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 1085
     .line 1086
@@ -3741,7 +3741,7 @@
     .line 1137
     .line 1138
     .line 1139
-    invoke-virtual {v0, v1, v2}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {v0, v1, v2}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 1140
     .line 1141
@@ -3823,7 +3823,7 @@
     .line 25
     .line 26
     :goto_0
-    iget-object v1, v1, Ltc3;->I:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, v1, Ltc3;->I:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 27
     .line 28
@@ -3936,7 +3936,7 @@
     .line 79
     .line 80
     .line 81
-    invoke-virtual {p0, v1, p1}, Lsc3;->l(Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
+    invoke-virtual {p0, v1, p1}, Lsc3;->l(Lcom/bareapps/barebackup/views/QuickRecyclerView;Ljava/util/ArrayList;)V
 
     .line 82
     .line 83
@@ -4051,11 +4051,11 @@
     move-result-object v3
 
     .line 41
-    check-cast v3, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v3, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 42
     .line 43
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -4132,11 +4132,11 @@
 
     .line 77
     .line 78
-    iget-object v2, v1, Ltc3;->N:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v2, v1, Ltc3;->N:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 79
     .line 80
-    new-instance v3, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v3, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 81
     .line 82
@@ -4147,7 +4147,7 @@
     const/4 v6, 0x0
 
     .line 85
-    invoke-direct {v3, v5, v6}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
+    invoke-direct {v3, v5, v6}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
 
     .line 86
     .line 87

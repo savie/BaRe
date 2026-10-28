@@ -172,7 +172,7 @@
     move-result-wide v0
 
     .line 53
-    invoke-static {v0, v1, v4, v5}, Lorg/swiftapps/swiftbackup/common/Const;->r(JJ)I
+    invoke-static {v0, v1, v4, v5}, Lcom/bareapps/barebackup/common/Const;->r(JJ)I
 
     .line 54
     .line 55
@@ -265,11 +265,11 @@
 
     .line 96
     .line 97
-    sget-object v11, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v11, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 98
     .line 99
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 100
     .line 101

@@ -9,7 +9,7 @@
 # instance fields
 .field public final synthetic a:Lih6;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
 .field public final synthetic c:Lzn7;
 
@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lih6;Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;Lzn7;Llh6;)V
+.method public synthetic constructor <init>(Lih6;Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;Lzn7;Llh6;)V
     .locals 0
 
     .line 1
@@ -30,7 +30,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lko7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iput-object p2, p0, Lko7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 7
     .line 8
@@ -62,7 +62,7 @@
     const/4 v1, 0x0
 
     .line 6
-    iget-object v2, p0, Lko7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iget-object v2, p0, Lko7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 7
     .line 8
@@ -70,7 +70,7 @@
 
     .line 9
     .line 10
-    sget v0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget v0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 11
     .line 12
@@ -87,16 +87,16 @@
     .line 17
     .line 18
     .line 19
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;->Companion:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/StorageInfoLocal;->Companion:Lcom/bareapps/barebackup/model/StorageInfoLocal$a;
 
     .line 20
     .line 21
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;->setSavedStorageInfo(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/model/StorageInfoLocal$a;->setSavedStorageInfo(Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;)V
 
     .line 22
     .line 23
     .line 24
-    iget-object v0, v2, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Z:Lgv7;
+    iget-object v0, v2, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Z:Lgv7;
 
     .line 25
     .line 26
@@ -120,7 +120,7 @@
 
     .line 35
     .line 36
-    invoke-direct {v3, v2, v0, p0, v1}, Lno7;-><init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
+    invoke-direct {v3, v2, v0, p0, v1}, Lno7;-><init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;Lzn7;Lzn7;Ljv1;)V
 
     .line 37
     .line 38

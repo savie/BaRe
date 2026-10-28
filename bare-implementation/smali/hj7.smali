@@ -170,7 +170,7 @@
     .line 45
     .line 46
     :cond_1
-    iget-object p2, p1, Lgj7;->v:Lorg/swiftapps/swiftbackup/views/LocaleTextView;
+    iget-object p2, p1, Lgj7;->v:Lcom/bareapps/barebackup/views/LocaleTextView;
 
     .line 47
     .line 48

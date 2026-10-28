@@ -12,7 +12,7 @@
 
 .field public final x:Landroid/widget/TextView;
 
-.field public final y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final synthetic z:Lee5;
 
@@ -104,11 +104,11 @@
 
     .line 42
     .line 43
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 44
     .line 45
-    iput-object p1, p0, Lz37;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p1, p0, Lz37;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 46
     .line 47

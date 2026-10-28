@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.field public final synthetic a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
 .field public final synthetic b:Landroid/animation/AnimatorSet;
 
@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/AnimatorSet;Ljava/util/List;Lbt3;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/AnimatorSet;Ljava/util/List;Lbt3;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ld37;->a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iput-object p1, p0, Ld37;->a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 5
     .line 6
@@ -58,11 +58,11 @@
     .locals 2
 
     .line 1
-    iget-object p1, p0, Ld37;->a:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object p1, p0, Ld37;->a:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 2
     .line 3
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->d:Ljava/util/ArrayList;
+    iget-object p1, p1, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->d:Ljava/util/ArrayList;
 
     .line 4
     .line 5

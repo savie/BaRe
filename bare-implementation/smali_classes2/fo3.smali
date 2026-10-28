@@ -8,13 +8,13 @@
 
 .field public final b:Ljava/util/List;
 
-.field public final c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+.field public final c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
 .field public final d:J
 
 
 # direct methods
-.method public constructor <init>(JLjava/util/ArrayList;Ljava/util/List;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;)V
+.method public constructor <init>(JLjava/util/ArrayList;Ljava/util/List;Lcom/bareapps/barebackup/folders/data/FolderMetadata;)V
     .locals 0
 
     .line 1
@@ -31,7 +31,7 @@
 
     .line 7
     .line 8
-    iput-object p5, p0, Lfo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iput-object p5, p0, Lfo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 9
     .line 10
@@ -120,15 +120,15 @@
 
     .line 33
     :cond_3
-    iget-object v0, p0, Lfo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v0, p0, Lfo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 34
     .line 35
-    iget-object v1, p1, Lfo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v1, p1, Lfo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 36
     .line 37
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->equals(Ljava/lang/Object;)Z
 
     .line 38
     .line 39
@@ -238,11 +238,11 @@
 
     .line 25
     .line 26
-    iget-object v0, p0, Lfo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v0, p0, Lfo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 27
     .line 28
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->hashCode()I
 
     .line 29
     .line 30
@@ -328,7 +328,7 @@
     .line 26
     .line 27
     .line 28
-    iget-object v1, p0, Lfo3;->c:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v1, p0, Lfo3;->c:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 29
     .line 30

@@ -591,11 +591,11 @@
     mul-long/2addr v7, v4
 
     .line 247
-    new-instance p1, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;
+    new-instance p1, Lcom/bareapps/barebackup/folders/data/FileEntry;
 
     .line 248
     .line 249
-    invoke-direct {p1, v9, v10, v7, v8}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;-><init>(JJ)V
+    invoke-direct {p1, v9, v10, v7, v8}, Lcom/bareapps/barebackup/folders/data/FileEntry;-><init>(JJ)V
 
     .line 250
     .line 251
@@ -626,7 +626,7 @@
 
     .line 264
     .line 265
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;
+    check-cast v0, Lcom/bareapps/barebackup/folders/data/FileEntry;
 
     .line 266
     .line 267
@@ -809,11 +809,11 @@
     move-result-object v1
 
     .line 353
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 354
     .line 355
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 356
     .line 357
@@ -887,7 +887,7 @@
 
     .line 388
     .line 389
-    sget-object v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
+    sget-object v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
 
     .line 390
     .line 391
@@ -1058,7 +1058,7 @@
     .line 467
     .line 468
     .line 469
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 470
     .line 471

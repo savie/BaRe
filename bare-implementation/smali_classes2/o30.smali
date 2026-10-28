@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 9
     .line 10
@@ -68,7 +68,7 @@
 
     .line 15
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 16
     .line 17
@@ -84,7 +84,7 @@
 
     .line 22
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/PCloudSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/PCloudSignInActivity;
 
     .line 23
     .line 24
@@ -116,7 +116,7 @@
 
     .line 36
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 37
     .line 38
@@ -132,7 +132,7 @@
 
     .line 43
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 44
     .line 45
@@ -148,7 +148,7 @@
 
     .line 50
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;
+    check-cast p0, Lcom/bareapps/barebackup/locale/LocaleActivity;
 
     .line 51
     .line 52
@@ -164,7 +164,7 @@
 
     .line 57
     :pswitch_6
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelEditActivity;
 
     .line 58
     .line 59
@@ -180,7 +180,7 @@
 
     .line 64
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 65
     .line 66
@@ -196,7 +196,7 @@
 
     .line 71
     :pswitch_8
-    check-cast p0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegActivity;
+    check-cast p0, Lcom/bareapps/barebackup/contributor/ContributorRegActivity;
 
     .line 72
     .line 73
@@ -212,7 +212,7 @@
 
     .line 78
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 79
     .line 80
@@ -228,7 +228,7 @@
 
     .line 85
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 86
     .line 87
@@ -244,7 +244,7 @@
 
     .line 92
     :pswitch_b
-    check-cast p0, Lorg/swiftapps/swiftbackup/appsquickactions/AppsQuickActionsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appsquickactions/AppsQuickActionsActivity;
 
     .line 93
     .line 94

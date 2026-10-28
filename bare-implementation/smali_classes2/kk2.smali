@@ -90,7 +90,7 @@
     .line 16
     .line 17
     .line 18
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 19
     .line 20
@@ -237,7 +237,7 @@
 
     .line 90
     :cond_3
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 91
     .line 92
@@ -250,7 +250,7 @@
     .line 95
     .line 96
     .line 97
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->V()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->V()V
 
     .line 98
     .line 99
@@ -271,11 +271,11 @@
 
     .line 106
     .line 107
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 108
     .line 109
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 110
     .line 111
@@ -287,7 +287,7 @@
 
     .line 114
     .line 115
-    sget v1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 116
     .line 117
@@ -296,7 +296,7 @@
     .line 118
     .line 119
     .line 120
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->V()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->V()V
 
     .line 121
     .line 122
@@ -305,7 +305,7 @@
 
     .line 124
     :cond_5
-    sget v1, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v1, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 125
     .line 126
@@ -314,7 +314,7 @@
     .line 127
     .line 128
     .line 129
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->V()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->V()V
 
     .line 130
     .line 131
@@ -352,11 +352,11 @@
     move-result-wide v7
 
     .line 146
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 147
     .line 148
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 149
     .line 150
@@ -581,7 +581,7 @@
 
     .line 253
     .line 254
-    invoke-static {v7, v8, v3, v4}, Lorg/swiftapps/swiftbackup/common/Const;->m(JJ)J
+    invoke-static {v7, v8, v3, v4}, Lcom/bareapps/barebackup/common/Const;->m(JJ)J
 
     .line 255
     .line 256

@@ -21,15 +21,15 @@
 
 .field public final k:Lcom/l4digital/fastscroll/FastScroller;
 
-.field public final n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final p:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final p:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final q:Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/drawerlayout/widget/DrawerLayout;Lx00;Landroidx/recyclerview/widget/RecyclerView;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Landroidx/constraintlayout/widget/ConstraintLayout;Lzx2;Lcom/l4digital/fastscroll/FastScroller;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;)V
+.method public constructor <init>(Landroidx/drawerlayout/widget/DrawerLayout;Lx00;Landroidx/recyclerview/widget/RecyclerView;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Landroidx/constraintlayout/widget/ConstraintLayout;Lzx2;Lcom/l4digital/fastscroll/FastScroller;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;)V
     .locals 0
 
     .line 1
@@ -66,11 +66,11 @@
 
     .line 17
     .line 18
-    iput-object p8, p0, Los;->n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p8, p0, Los;->n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 19
     .line 20
-    iput-object p9, p0, Los;->p:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p9, p0, Los;->p:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 21
     .line 22

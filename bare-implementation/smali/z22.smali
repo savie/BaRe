@@ -121,7 +121,7 @@
 
     .line 38
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 39
     .line 40
@@ -129,11 +129,11 @@
 
     .line 41
     .line 42
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 43
     .line 44
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->N()Lym3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->N()Lym3;
 
     .line 45
     .line 46

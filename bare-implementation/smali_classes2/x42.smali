@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lx42;->a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Lx42;->a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 5
     .line 6
@@ -33,7 +33,7 @@
     .locals 0
 
     .line 1
-    sget p2, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p2, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
     .line 4
     .line 5
     .line 6
-    iget-object p0, p0, Lx42;->a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object p0, p0, Lx42;->a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 7
     .line 8
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 9
     .line 10
@@ -54,7 +54,7 @@
     move-result-object p1
 
     .line 12
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 13
     .line 14
@@ -62,7 +62,7 @@
     move-result-object p0
 
     .line 16
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 17
     .line 18

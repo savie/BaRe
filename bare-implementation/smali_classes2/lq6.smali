@@ -320,7 +320,7 @@
     move-result-object v1
 
     .line 124
-    check-cast v1, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    check-cast v1, Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 125
     .line 126
@@ -333,7 +333,7 @@
 
     .line 130
     .line 131
-    invoke-virtual {v2, v1}, Let8$a;->createForAndroidQ(Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)Let8;
+    invoke-virtual {v2, v1}, Let8$a;->createForAndroidQ(Lcom/bareapps/barebackup/wifi/PasswordInfo;)Let8;
 
     .line 132
     .line 133
@@ -350,7 +350,7 @@
     .line 138
     .line 139
     .line 140
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntEapMethod()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntEapMethod()Ljava/lang/String;
 
     .line 141
     .line 142
@@ -375,7 +375,7 @@
     .line 151
     .line 152
     :cond_2
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntPhase2Method()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntPhase2Method()Ljava/lang/String;
 
     .line 153
     .line 154
@@ -400,7 +400,7 @@
     .line 163
     .line 164
     :cond_3
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntIdentity()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntIdentity()Ljava/lang/String;
 
     .line 165
     .line 166
@@ -425,7 +425,7 @@
     .line 175
     .line 176
     :cond_4
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntAnonIdentity()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntAnonIdentity()Ljava/lang/String;
 
     .line 177
     .line 178
@@ -450,7 +450,7 @@
     .line 187
     .line 188
     :cond_5
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
 
     .line 189
     .line 190
@@ -475,7 +475,7 @@
     .line 199
     .line 200
     :cond_6
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntCaCert()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntCaCert()Ljava/lang/String;
 
     .line 201
     .line 202
@@ -516,7 +516,7 @@
     .line 218
     :cond_8
     :goto_4
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
 
     .line 219
     .line 220

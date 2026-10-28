@@ -58,11 +58,11 @@
 
     .line 13
     .line 14
-    check-cast p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    check-cast p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 15
     .line 16
-    iget-boolean v0, p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v0, p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 17
     .line 18
@@ -75,7 +75,7 @@
     .line 21
     .line 22
     :cond_0
-    invoke-virtual {p0, v1, p1}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->Q(ZLgz7;)V
+    invoke-virtual {p0, v1, p1}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->Q(ZLgz7;)V
 
     .line 23
     .line 24
@@ -92,7 +92,7 @@
 
     .line 30
     .line 31
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->X:Lwa;
+    iget-object v0, p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->X:Lwa;
 
     .line 32
     .line 33
@@ -101,7 +101,7 @@
     .line 34
     .line 35
     .line 36
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->Y:Lwa;
+    iget-object v0, p0, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->Y:Lwa;
 
     .line 37
     .line 38
@@ -126,7 +126,7 @@
     const/4 v0, 0x0
 
     .line 48
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->O(Lorg/swiftapps/swiftbackup/tasks/TaskManager$ErrorSummary;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->O(Lcom/bareapps/barebackup/tasks/TaskManager$ErrorSummary;)V
 
     .line 49
     .line 50
@@ -239,7 +239,7 @@
     .line 102
     .line 103
     .line 104
-    const-string v2, "SwiftBackup"
+    const-string v2, "BareBackup"
 
     .line 105
     .line 106

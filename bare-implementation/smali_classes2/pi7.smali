@@ -17,7 +17,7 @@
 
 .field public final e:Lcom/google/android/material/progressindicator/CircularProgressIndicator;
 
-.field public final f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final k:Landroid/widget/RelativeLayout;
 
@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/RelativeLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/RelativeLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -56,7 +56,7 @@
 
     .line 13
     .line 14
-    iput-object p6, p0, Lpi7;->f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p6, p0, Lpi7;->f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 15
     .line 16

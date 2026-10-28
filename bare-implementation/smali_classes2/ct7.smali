@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:Ltn2;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
 
 # direct methods
-.method public constructor <init>(Ltn2;Lorg/swiftapps/swiftbackup/settings/SettingsActivity;Ljv1;)V
+.method public constructor <init>(Ltn2;Lcom/bareapps/barebackup/settings/SettingsActivity;Ljv1;)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p2, p0, Lct7;->b:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    iput-object p2, p0, Lct7;->b:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 4
     .line 5
@@ -50,11 +50,11 @@
 
     .line 4
     .line 5
-    iget-object p0, p0, Lct7;->b:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    iget-object p0, p0, Lct7;->b:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 6
     .line 7
-    invoke-direct {p1, v0, p0, p2}, Lct7;-><init>(Ltn2;Lorg/swiftapps/swiftbackup/settings/SettingsActivity;Ljv1;)V
+    invoke-direct {p1, v0, p0, p2}, Lct7;-><init>(Ltn2;Lcom/bareapps/barebackup/settings/SettingsActivity;Ljv1;)V
 
     .line 8
     .line 9
@@ -106,7 +106,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lct7;->b:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    iget-object p0, p0, Lct7;->b:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 4
     .line 5
@@ -124,7 +124,7 @@
 
     .line 11
     .line 12
-    const-string v3, "SwiftBackupSettingsHelper"
+    const-string v3, "BareBackupSettingsHelper"
 
     .line 13
     .line 14
@@ -458,7 +458,7 @@
     move-result-object p1
 
     .line 168
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/SwiftBackupSettingsHelper$SettingsData;
+    const-class v1, Lcom/bareapps/barebackup/settings/BareBackupSettingsHelper$SettingsData;
 
     .line 169
     .line 170
@@ -470,11 +470,11 @@
     move-result-object p1
 
     .line 174
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/SwiftBackupSettingsHelper$SettingsData;
+    check-cast p1, Lcom/bareapps/barebackup/settings/BareBackupSettingsHelper$SettingsData;
 
     .line 175
     .line 176
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/settings/SwiftBackupSettingsHelper$SettingsData;->restore()V
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/settings/BareBackupSettingsHelper$SettingsData;->restore()V
     :try_end_4
     .catch Ljava/lang/Exception; {:try_start_4 .. :try_end_4} :catch_0
     .catchall {:try_start_4 .. :try_end_4} :catchall_1
@@ -601,7 +601,7 @@
 
     .line 217
     .line 218
-    const-string v1, "SwiftBackupSettingsHelper"
+    const-string v1, "BareBackupSettingsHelper"
 
     .line 219
     .line 220

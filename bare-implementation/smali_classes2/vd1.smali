@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lvd1;->b:Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    iput-object p1, p0, Lvd1;->b:Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lvd1;->b:Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    iget-object p0, p0, Lvd1;->b:Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->W()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->W()V
 
     .line 11
     .line 12
@@ -69,7 +69,7 @@
 
     .line 16
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 17
     .line 18
@@ -81,7 +81,7 @@
     move-result-object v0
 
     .line 22
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->T:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->T:Lgv7;
 
     .line 23
     .line 24
@@ -105,7 +105,7 @@
     move-result p0
 
     .line 34
-    const-string v1, "org.swiftapps.swiftbackup.cloud.diagnostics.extra.FINISH_AFTER_AUTO_RUN"
+    const-string v1, "com.bareapps.barebackup.cloud.diagnostics.extra.FINISH_AFTER_AUTO_RUN"
 
     .line 35
     .line 36

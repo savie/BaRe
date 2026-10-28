@@ -55,11 +55,11 @@
     .line 7
     .line 8
     .line 9
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 10
     .line 11
-    sget p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 12
     .line 13
@@ -142,7 +142,7 @@
 
     .line 49
     .line 50
-    sget p1, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;->P:I
+    sget p1, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;->P:I
 
     .line 51
     .line 52

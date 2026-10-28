@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lcs;->b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iput-object p1, p0, Lcs;->b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lcs;->b:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object p0, p0, Lcs;->b:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->p0()Los;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->p0()Los;
 
     .line 11
     .line 12
@@ -72,7 +72,7 @@
 
     .line 17
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 18
     .line 19
@@ -265,7 +265,7 @@
     move-object v11, v1
 
     .line 114
-    check-cast v11, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v11, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 115
     .line 116
@@ -289,7 +289,7 @@
     move-object v12, v1
 
     .line 126
-    check-cast v12, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v12, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 127
     .line 128
@@ -332,7 +332,7 @@
 
     .line 146
     .line 147
-    invoke-direct/range {v3 .. v13}, Los;-><init>(Landroidx/drawerlayout/widget/DrawerLayout;Lx00;Landroidx/recyclerview/widget/RecyclerView;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Landroidx/constraintlayout/widget/ConstraintLayout;Lzx2;Lcom/l4digital/fastscroll/FastScroller;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;)V
+    invoke-direct/range {v3 .. v13}, Los;-><init>(Landroidx/drawerlayout/widget/DrawerLayout;Lx00;Landroidx/recyclerview/widget/RecyclerView;Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;Landroidx/constraintlayout/widget/ConstraintLayout;Lzx2;Lcom/l4digital/fastscroll/FastScroller;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;)V
 
     .line 148
     .line 149

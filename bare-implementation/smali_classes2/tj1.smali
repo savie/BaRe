@@ -120,11 +120,11 @@
 
     .line 39
     .line 40
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 41
     .line 42
-    iget-object p0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 43
     .line 44
@@ -165,11 +165,11 @@
 
     .line 61
     :cond_1
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 62
     .line 63
-    iget-object p0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 64
     .line 65
@@ -193,11 +193,11 @@
 
     .line 74
     .line 75
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 76
     .line 77
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 78
     .line 79
@@ -222,7 +222,7 @@
 
     .line 88
     .line 89
-    const-class v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    const-class v0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 90
     .line 91
@@ -281,15 +281,15 @@
 
     .line 118
     .line 119
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 120
     .line 121
-    iget-object p0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 122
     .line 123
-    invoke-static {p0, p2}, Lvm4;->A(Lorg/swiftapps/swiftbackup/home/HomeActivity;Z)V
+    invoke-static {p0, p2}, Lvm4;->A(Lcom/bareapps/barebackup/home/HomeActivity;Z)V
 
     .line 124
     .line 125
@@ -298,7 +298,7 @@
 
     .line 127
     :cond_4
-    iget-object p0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 128
     .line 129
@@ -332,11 +332,11 @@
 
     .line 144
     :cond_5
-    iget-object p1, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p1, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 145
     .line 146
-    invoke-static {p1}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p1}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 147
     .line 148
@@ -348,11 +348,11 @@
 
     .line 151
     .line 152
-    sget p1, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget p1, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 153
     .line 154
-    iget-object p0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 155
     .line 156

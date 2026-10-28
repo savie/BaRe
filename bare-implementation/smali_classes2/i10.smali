@@ -94,7 +94,7 @@
     .line 14
     .line 15
     .line 16
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 17
     .line 18
@@ -102,7 +102,7 @@
 
     .line 19
     .line 20
-    sget v1, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->W:I
+    sget v1, Lcom/bareapps/barebackup/walls/WallsDashActivity;->W:I
 
     .line 21
     .line 22
@@ -134,7 +134,7 @@
     move-result-object v1
 
     .line 36
-    iget-object v2, v0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->V:Lgv7;
+    iget-object v2, v0, Lcom/bareapps/barebackup/walls/WallsDashActivity;->V:Lgv7;
 
     .line 37
     .line 38
@@ -433,7 +433,7 @@
 
     .line 189
     .line 190
-    check-cast v5, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast v5, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 191
     .line 192
@@ -728,7 +728,7 @@
 
     .line 331
     .line 332
-    iget-object v0, v0, Lkl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object v0, v0, Lkl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 333
     .line 334
@@ -737,14 +737,14 @@
     .line 335
     .line 336
     .line 337
-    iget-object v2, v5, Lol3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v2, v5, Lol3;->a:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 338
     .line 339
     const/4 v4, 0x2
 
     .line 340
-    invoke-static {v0, v1, v3, v2, v4}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Landroid/view/View;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;I)V
+    invoke-static {v0, v1, v3, v2, v4}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Landroid/view/View;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;I)V
 
     .line 341
     .line 342
@@ -804,7 +804,7 @@
 
     .line 368
     .line 369
-    iget-object v0, v0, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v0, v0, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 370
     .line 371

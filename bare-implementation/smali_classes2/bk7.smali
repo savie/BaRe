@@ -4,15 +4,15 @@
 
 
 # instance fields
-.field public final synthetic q:Lorg/swiftapps/swiftbackup/views/SpeedyLinearLayoutManager;
+.field public final synthetic q:Lcom/bareapps/barebackup/views/SpeedyLinearLayoutManager;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/views/SpeedyLinearLayoutManager;Landroid/content/Context;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/views/SpeedyLinearLayoutManager;Landroid/content/Context;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lbk7;->q:Lorg/swiftapps/swiftbackup/views/SpeedyLinearLayoutManager;
+    iput-object p1, p0, Lbk7;->q:Lcom/bareapps/barebackup/views/SpeedyLinearLayoutManager;
 
     .line 2
     .line 3
@@ -35,11 +35,11 @@
     .line 2
     .line 3
     .line 4
-    iget-object p0, p0, Lbk7;->q:Lorg/swiftapps/swiftbackup/views/SpeedyLinearLayoutManager;
+    iget-object p0, p0, Lbk7;->q:Lcom/bareapps/barebackup/views/SpeedyLinearLayoutManager;
 
     .line 5
     .line 6
-    iget p0, p0, Lorg/swiftapps/swiftbackup/views/SpeedyLinearLayoutManager;->W:F
+    iget p0, p0, Lcom/bareapps/barebackup/views/SpeedyLinearLayoutManager;->W:F
 
     .line 7
     .line 8

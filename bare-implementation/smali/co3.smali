@@ -4,13 +4,13 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.field public final a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
 .field public final b:Ljava/util/List;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Ljava/util/List;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/data/FolderItem;Ljava/util/List;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object p1, p0, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 8
     .line 9
@@ -65,11 +65,11 @@
 
 
 # virtual methods
-.method public final a()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+.method public final a()Lcom/bareapps/barebackup/folders/data/FolderItem;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p0, p0, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
@@ -127,11 +127,11 @@
 
     .line 10
     .line 11
-    iget-object v0, p0, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 12
     .line 13
-    iget-object v1, p1, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v1, p1, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 14
     .line 15
@@ -190,11 +190,11 @@
     .locals 1
 
     .line 1
-    iget-object v0, p0, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v0, p0, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderItem;->hashCode()I
 
     .line 4
     .line 5
@@ -241,7 +241,7 @@
     .line 6
     .line 7
     .line 8
-    iget-object v1, p0, Lco3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v1, p0, Lco3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 9
     .line 10

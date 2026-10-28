@@ -109,7 +109,7 @@
     .line 31
     .line 32
     .line 33
-    invoke-static {p0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 34
     .line 35
@@ -156,7 +156,7 @@
 
     .line 55
     .line 56
-    iget-object p0, p0, Lml3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object p0, p0, Lml3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 57
     .line 58
@@ -170,7 +170,7 @@
     const/4 v1, 0x2
 
     .line 62
-    invoke-static {p0, p1, v0, v1}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->a0(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;I)V
+    invoke-static {p0, p1, v0, v1}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->a0(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;I)V
 
     .line 63
     .line 64

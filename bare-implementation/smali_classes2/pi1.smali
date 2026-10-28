@@ -1,5 +1,5 @@
 .class public final Lpi1;
-.super Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.super Lcom/bareapps/barebackup/cloud/model/CloudResult;
 .source "r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0"
 
 
@@ -19,7 +19,7 @@
     const/4 v1, 0x0
 
     .line 4
-    invoke-direct {v0, v1}, Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct {v0, v1}, Lcom/bareapps/barebackup/cloud/model/CloudResult;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 5
     .line 6

@@ -1924,9 +1924,9 @@
     if-eqz p7, :cond_c
 
     .line 21
-    sget-object v9, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v9, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     move-result v10
 
@@ -1994,7 +1994,7 @@
 
     .line 27
     :goto_5
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     move-result v9
 

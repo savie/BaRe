@@ -49,7 +49,7 @@
 
     .line 2
     :try_start_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v1, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 3
     .line 4
@@ -61,7 +61,7 @@
 
     .line 7
     .line 8
-    invoke-virtual {v1, v2, v3, v4}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v1, v2, v3, v4}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 9
     .line 10
@@ -359,7 +359,7 @@
 
     .line 150
     .line 151
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 152
     .line 153
@@ -376,7 +376,7 @@
     move-result-object v4
 
     .line 160
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 161
     .line 162

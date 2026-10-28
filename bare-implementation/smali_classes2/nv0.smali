@@ -55,15 +55,15 @@
     .line 7
     .line 8
     .line 9
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/OneDriveSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/OneDriveSignInActivity;
 
     .line 10
     .line 11
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/OneDriveSignInActivity;->L:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/OneDriveSignInActivity;->L:I
 
     .line 12
     .line 13
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/OneDriveSignInActivity;->N()Lvt5;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/OneDriveSignInActivity;->N()Lvt5;
 
     .line 14
     .line 15
@@ -83,11 +83,11 @@
 
     .line 22
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;
 
     .line 23
     .line 24
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/GmsSignInActivity;->N:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/GmsSignInActivity;->N:I
 
     .line 25
     .line 26
@@ -105,11 +105,11 @@
 
     .line 33
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/BoxSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/BoxSignInActivity;
 
     .line 34
     .line 35
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/BoxSignInActivity;->L:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/BoxSignInActivity;->L:I
 
     .line 36
     .line 37

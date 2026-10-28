@@ -4,15 +4,15 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+.field public final a:Lcom/bareapps/barebackup/folders/data/Changes;
 
-.field public final b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+.field public final b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
-.field public final c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+.field public final c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/data/Changes;Lorg/swiftapps/swiftbackup/folders/data/FolderState;Lorg/swiftapps/swiftbackup/folders/data/Manifest;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/data/Changes;Lcom/bareapps/barebackup/folders/data/FolderState;Lcom/bareapps/barebackup/folders/data/Manifest;)V
     .locals 0
 
     .line 1
@@ -21,15 +21,15 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lvj3;->a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    iput-object p1, p0, Lvj3;->a:Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 5
     .line 6
-    iput-object p2, p0, Lvj3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iput-object p2, p0, Lvj3;->b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 7
     .line 8
-    iput-object p3, p0, Lvj3;->c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    iput-object p3, p0, Lvj3;->c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 9
     .line 10
@@ -66,15 +66,15 @@
 
     .line 10
     .line 11
-    iget-object v0, p0, Lvj3;->a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    iget-object v0, p0, Lvj3;->a:Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 12
     .line 13
-    iget-object v1, p1, Lvj3;->a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    iget-object v1, p1, Lvj3;->a:Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 14
     .line 15
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/folders/data/Changes;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/folders/data/Changes;->equals(Ljava/lang/Object;)Z
 
     .line 16
     .line 17
@@ -90,15 +90,15 @@
 
     .line 22
     :cond_2
-    iget-object v0, p0, Lvj3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object v0, p0, Lvj3;->b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 23
     .line 24
-    iget-object v1, p1, Lvj3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object v1, p1, Lvj3;->b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 25
     .line 26
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/folders/data/FolderState;->equals(Ljava/lang/Object;)Z
 
     .line 27
     .line 28
@@ -114,15 +114,15 @@
 
     .line 33
     :cond_3
-    iget-object p0, p0, Lvj3;->c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    iget-object p0, p0, Lvj3;->c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 34
     .line 35
-    iget-object p1, p1, Lvj3;->c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    iget-object p1, p1, Lvj3;->c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 36
     .line 37
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/folders/data/Manifest;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/folders/data/Manifest;->equals(Ljava/lang/Object;)Z
 
     .line 38
     .line 39
@@ -153,11 +153,11 @@
     .locals 2
 
     .line 1
-    iget-object v0, p0, Lvj3;->a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    iget-object v0, p0, Lvj3;->a:Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/Changes;->hashCode()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/Changes;->hashCode()I
 
     .line 4
     .line 5
@@ -169,11 +169,11 @@
 
     .line 8
     .line 9
-    iget-object v1, p0, Lvj3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object v1, p0, Lvj3;->b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 10
     .line 11
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->hashCode()I
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderState;->hashCode()I
 
     .line 12
     .line 13
@@ -188,11 +188,11 @@
 
     .line 17
     .line 18
-    iget-object p0, p0, Lvj3;->c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    iget-object p0, p0, Lvj3;->c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 19
     .line 20
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/data/Manifest;->hashCode()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/data/Manifest;->hashCode()I
 
     .line 21
     .line 22
@@ -223,7 +223,7 @@
     .line 6
     .line 7
     .line 8
-    iget-object v1, p0, Lvj3;->a:Lorg/swiftapps/swiftbackup/folders/data/Changes;
+    iget-object v1, p0, Lvj3;->a:Lcom/bareapps/barebackup/folders/data/Changes;
 
     .line 9
     .line 10
@@ -241,7 +241,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object v1, p0, Lvj3;->b:Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    iget-object v1, p0, Lvj3;->b:Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 19
     .line 20
@@ -259,7 +259,7 @@
     .line 26
     .line 27
     .line 28
-    iget-object p0, p0, Lvj3;->c:Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    iget-object p0, p0, Lvj3;->c:Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 29
     .line 30

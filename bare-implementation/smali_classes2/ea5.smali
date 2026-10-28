@@ -66,7 +66,7 @@
 
     .line 18
     .line 19
-    const-string v7, "solve(Lorg/swiftapps/swiftbackup/cloud/protocols/mega/lite/MegaLiteHashcash$Challenge;)Ljava/lang/String;"
+    const-string v7, "solve(Lcom/bareapps/barebackup/cloud/protocols/mega/lite/MegaLiteHashcash$Challenge;)Ljava/lang/String;"
 
     .line 20
     .line 21

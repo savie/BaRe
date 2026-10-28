@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+.field public final a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
 .field public final b:Ljl3;
 
@@ -12,7 +12,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Ljl3;Ldm3;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Ljl3;Ldm3;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lkl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iput-object p1, p0, Lkl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 8
     .line 9

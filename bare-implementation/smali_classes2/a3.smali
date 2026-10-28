@@ -113,7 +113,7 @@
     .line 25
     .line 26
     :cond_0
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 27
     .line 28
@@ -121,7 +121,7 @@
     move-result-object p0
 
     .line 30
-    const-class p1, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+    const-class p1, Lcom/bareapps/barebackup/settings/LicensesActivity;
 
     .line 31
     .line 32
@@ -201,7 +201,7 @@
     .line 67
     .line 68
     :cond_2
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 69
     .line 70
@@ -213,7 +213,7 @@
 
     .line 73
     .line 74
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 75
     .line 76
@@ -329,11 +329,11 @@
 
     .line 125
     .line 126
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 127
     .line 128
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 129
     .line 130
@@ -407,7 +407,7 @@
     move-result-object p1
 
     .line 166
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 167
     .line 168
@@ -475,11 +475,11 @@
 
     .line 199
     .line 200
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 201
     .line 202
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 203
     .line 204
@@ -490,12 +490,12 @@
     xor-int/2addr v1, v0
 
     .line 207
-    invoke-virtual {p1, v1}, Lorg/swiftapps/swiftbackup/common/V;->setT(Z)V
+    invoke-virtual {p1, v1}, Lcom/bareapps/barebackup/common/V;->setT(Z)V
 
     .line 208
     .line 209
     .line 210
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 211
     .line 212
@@ -556,7 +556,7 @@
     .line 239
     .line 240
     :cond_a
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 241
     .line 242
@@ -576,7 +576,7 @@
     move-result-object v1
 
     .line 250
-    invoke-static {p0, v1, p1}, Lorg/swiftapps/swiftbackup/common/Const;->G(Lil0;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {p0, v1, p1}, Lcom/bareapps/barebackup/common/Const;->G(Lil0;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 251
     .line 252
@@ -605,7 +605,7 @@
 
     .line 263
     :cond_b
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 264
     .line 265
@@ -617,7 +617,7 @@
 
     .line 268
     .line 269
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 270
     .line 271
@@ -646,7 +646,7 @@
 
     .line 282
     :cond_c
-    invoke-virtual {p0}, La3;->q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    invoke-virtual {p0}, La3;->q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 283
     .line 284
@@ -654,7 +654,7 @@
     move-result-object p0
 
     .line 286
-    const-class p1, Lorg/swiftapps/swiftbackup/notice/NoticeListActivity;
+    const-class p1, Lcom/bareapps/barebackup/notice/NoticeListActivity;
 
     .line 287
     .line 288
@@ -774,7 +774,7 @@
     return-void
 .end method
 
-.method public final q()Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+.method public final q()Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
     .locals 0
 
     .line 1
@@ -791,7 +791,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 9
     .line 10

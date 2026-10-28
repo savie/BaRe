@@ -9,15 +9,15 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/contributor/a;
+.field public final synthetic b:Lcom/bareapps/barebackup/contributor/a;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/contributor/a;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/contributor/a;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lpv1;->b:Lorg/swiftapps/swiftbackup/contributor/a;
+    iput-object p1, p0, Lpv1;->b:Lcom/bareapps/barebackup/contributor/a;
 
     .line 2
     .line 3
@@ -42,11 +42,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lpv1;->b:Lorg/swiftapps/swiftbackup/contributor/a;
+    iget-object p0, p0, Lpv1;->b:Lcom/bareapps/barebackup/contributor/a;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Lpv1;-><init>(Lorg/swiftapps/swiftbackup/contributor/a;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Lpv1;-><init>(Lcom/bareapps/barebackup/contributor/a;Ljv1;)V
 
     .line 6
     .line 7
@@ -111,7 +111,7 @@
     const/4 v3, 0x0
 
     .line 7
-    iget-object v4, p0, Lpv1;->b:Lorg/swiftapps/swiftbackup/contributor/a;
+    iget-object v4, p0, Lpv1;->b:Lcom/bareapps/barebackup/contributor/a;
 
     .line 8
     .line 9
@@ -168,7 +168,7 @@
     move-result-wide v5
 
     .line 36
-    iget-object p1, v4, Lorg/swiftapps/swiftbackup/contributor/a;->e:Lzc2;
+    iget-object p1, v4, Lcom/bareapps/barebackup/contributor/a;->e:Lzc2;
 
     .line 37
     .line 38
@@ -196,7 +196,7 @@
 
     .line 49
     .line 50
-    const-class v0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    const-class v0, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 51
     .line 52
@@ -211,7 +211,7 @@
     move-object v3, p1
 
     .line 57
-    check-cast v3, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast v3, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 58
     .line 59
@@ -273,11 +273,11 @@
     .line 84
     .line 85
     .line 86
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 87
     .line 88
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 89
     .line 90
@@ -308,7 +308,7 @@
 
     .line 103
     :cond_3
-    iget-object p1, v4, Lorg/swiftapps/swiftbackup/contributor/a;->f:Lex6;
+    iget-object p1, v4, Lcom/bareapps/barebackup/contributor/a;->f:Lex6;
 
     .line 104
     .line 105
@@ -317,7 +317,7 @@
     .line 106
     .line 107
     .line 108
-    iput-object v3, v4, Lorg/swiftapps/swiftbackup/contributor/a;->g:Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    iput-object v3, v4, Lcom/bareapps/barebackup/contributor/a;->g:Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 109
     .line 110
@@ -325,7 +325,7 @@
 
     .line 111
     .line 112
-    invoke-static {v5, v6, v7, v8}, Lorg/swiftapps/swiftbackup/common/Const;->m(JJ)J
+    invoke-static {v5, v6, v7, v8}, Lcom/bareapps/barebackup/common/Const;->m(JJ)J
 
     .line 113
     .line 114

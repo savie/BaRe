@@ -51,7 +51,7 @@
     move-result-object v1
 
     .line 7
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    check-cast v1, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 8
     .line 9
@@ -71,7 +71,7 @@
 
     .line 16
     .line 17
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/common/Const;->A(Landroid/content/Context;)V
+    invoke-static {v1}, Lcom/bareapps/barebackup/common/Const;->A(Landroid/content/Context;)V
 
     .line 18
     .line 19

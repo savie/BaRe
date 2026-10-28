@@ -34,7 +34,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;Ljava/util/ArrayList;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/ScheduleService;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;Ljava/util/ArrayList;)V
     .locals 1
 
     .line 1
@@ -99,11 +99,11 @@
     .line 13
     .line 14
     .line 15
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 16
     .line 17
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 18
     .line 19
@@ -111,11 +111,11 @@
 
     .line 20
     .line 21
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 22
     .line 23
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
 
     .line 24
     .line 25
@@ -123,7 +123,7 @@
     move-result-object v0
 
     .line 27
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->getLocations()Ljava/util/List;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->getLocations()Ljava/util/List;
 
     .line 28
     .line 29
@@ -131,7 +131,7 @@
     move-result-object v1
 
     .line 31
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->getSyncOption()Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->getSyncOption()Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 32
     .line 33
@@ -139,7 +139,7 @@
     move-result-object v4
 
     .line 35
-    invoke-virtual {p0, v0, v1, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->c(Ljava/lang/String;Ljava/util/List;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;)Lxy7;
+    invoke-virtual {p0, v0, v1, v4}, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->c(Ljava/lang/String;Ljava/util/List;Lcom/bareapps/barebackup/tasks/model/SyncOption;)Lxy7;
 
     .line 36
     .line 37
@@ -193,7 +193,7 @@
 
     .line 59
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 60
     .line 61
@@ -527,7 +527,7 @@
 
     .line 222
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 223
     .line 224
@@ -539,7 +539,7 @@
 
     .line 227
     .line 228
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 229
     .line 230

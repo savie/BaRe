@@ -16,11 +16,11 @@
 
 .field public final g:Lhk;
 
-.field public final h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+.field public final h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
 
 # direct methods
-.method public constructor <init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+.method public constructor <init>(Lji;Ljava/util/List;Lyu;ZZLhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
     .locals 0
 
     .line 1
@@ -68,7 +68,7 @@
 
     .line 24
     .line 25
-    iput-object p7, p0, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iput-object p7, p0, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 26
     .line 27
@@ -92,7 +92,7 @@
 
     .line 36
     .line 37
-    invoke-virtual {p7}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {p7}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 38
     .line 39
@@ -157,7 +157,7 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 2
     .line 3
@@ -329,11 +329,11 @@
 
     .line 66
     :cond_7
-    iget-object p0, p0, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 67
     .line 68
-    iget-object p1, p1, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p1, p1, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 69
     .line 70
@@ -458,7 +458,7 @@
     const/4 v0, 0x0
 
     .line 45
-    iget-object p0, p0, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p0, p0, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 46
     .line 47
@@ -473,7 +473,7 @@
 
     .line 51
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->hashCode()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->hashCode()I
 
     .line 52
     .line 53
@@ -514,7 +514,7 @@
 
     .line 4
     .line 5
-    iget-object v1, p0, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v1, p0, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 6
     .line 7
@@ -522,7 +522,7 @@
 
     .line 8
     .line 9
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 10
     .line 11

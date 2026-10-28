@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/SwiftApp;
+.field public final synthetic a:Lcom/bareapps/barebackup/BareApp;
 
 .field public final synthetic b:Ljava/lang/Thread$UncaughtExceptionHandler;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/SwiftApp;Ljava/lang/Thread$UncaughtExceptionHandler;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/BareApp;Ljava/lang/Thread$UncaughtExceptionHandler;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lxs7;->a:Lorg/swiftapps/swiftbackup/SwiftApp;
+    iput-object p1, p0, Lxs7;->a:Lcom/bareapps/barebackup/BareApp;
 
     .line 5
     .line 6
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 6
     .line 7
@@ -94,12 +94,12 @@
     .line 26
     .line 27
     .line 28
-    invoke-static {v6}, Lorg/swiftapps/swiftbackup/common/Const;->U(Ljava/lang/String;)V
+    invoke-static {v6}, Lcom/bareapps/barebackup/common/Const;->U(Ljava/lang/String;)V
 
     .line 29
     .line 30
     .line 31
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->a:Lgv7;
+    sget-object v0, Lcom/bareapps/barebackup/common/NotificationHelper;->a:Lgv7;
 
     .line 32
     .line 33
@@ -142,7 +142,7 @@
 
     .line 49
     :try_start_0
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 50
     .line 51
@@ -310,7 +310,7 @@
 
     .line 118
     .line 119
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 120
     .line 121
@@ -327,7 +327,7 @@
     .line 126
     .line 127
     .line 128
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->c()I
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->c()I
 
     .line 129
     .line 130
@@ -474,7 +474,7 @@
     or-int/2addr v0, v12
 
     .line 201
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 202
     .line 203
@@ -495,7 +495,7 @@
     .line 210
     .line 211
     :cond_6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
+    invoke-static {}, Lcom/bareapps/barebackup/common/NotificationHelper;->d()Landroid/app/NotificationManager;
 
     .line 212
     .line 213
@@ -598,7 +598,7 @@
     .line 260
     .line 261
     .line 262
-    invoke-virtual {v12}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v12}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 263
     .line 264
@@ -606,7 +606,7 @@
     move-result-object v12
 
     .line 266
-    invoke-virtual {v12}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v12}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 267
     .line 268
@@ -747,7 +747,7 @@
 
     .line 331
     .line 332
-    const-string v13, "SwiftApp"
+    const-string v13, "BareApp"
 
     .line 333
     .line 334
@@ -763,7 +763,7 @@
 
     .line 339
     .line 340
-    iget-object v7, v1, Lxs7;->a:Lorg/swiftapps/swiftbackup/SwiftApp;
+    iget-object v7, v1, Lxs7;->a:Lcom/bareapps/barebackup/BareApp;
 
     .line 341
     .line 342
@@ -876,7 +876,7 @@
 
     .line 393
     .line 394
-    const-string v12, "SwiftApp"
+    const-string v12, "BareApp"
 
     .line 395
     .line 396
@@ -892,7 +892,7 @@
     .line 400
     .line 401
     .line 402
-    invoke-virtual {v7, v13}, Lorg/swiftapps/swiftbackup/SwiftApp;->c(Ljava/lang/String;)V
+    invoke-virtual {v7, v13}, Lcom/bareapps/barebackup/BareApp;->c(Ljava/lang/String;)V
 
     .line 403
     .line 404
@@ -1000,7 +1000,7 @@
 
     .line 451
     .line 452
-    instance-of v0, v2, Lorg/swiftapps/swiftbackup/common/IgnoredException;
+    instance-of v0, v2, Lcom/bareapps/barebackup/common/IgnoredException;
 
     .line 453
     .line 454
@@ -1266,7 +1266,7 @@
     move-result-object v0
 
     .line 578
-    invoke-virtual {v7, v0}, Lorg/swiftapps/swiftbackup/SwiftApp;->c(Ljava/lang/String;)V
+    invoke-virtual {v7, v0}, Lcom/bareapps/barebackup/BareApp;->c(Ljava/lang/String;)V
 
     .line 579
     .line 580

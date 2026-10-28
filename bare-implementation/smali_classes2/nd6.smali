@@ -278,15 +278,15 @@
     .line 66
     .line 67
     :cond_6
-    iget-object p3, p2, Lxc6;->c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p3, p2, Lxc6;->c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 68
     .line 69
-    sget p4, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->c1:I
+    sget p4, Lcom/bareapps/barebackup/views/QuickRecyclerView;->c1:I
 
     .line 70
     .line 71
-    invoke-virtual {p3, v2}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {p3, v2}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 72
     .line 73

@@ -72,7 +72,7 @@
 
 
 # virtual methods
-.method public final r(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;)V
+.method public final r(Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;)V
     .locals 6
 
     .line 1
@@ -85,7 +85,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {p1, v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getTextColor(Z)I
+    invoke-virtual {p1, v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getTextColor(Z)I
 
     .line 7
     .line 8
@@ -93,7 +93,7 @@
     move-result v0
 
     .line 10
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 11
     .line 12
@@ -191,7 +191,7 @@
     .line 54
     .line 55
     .line 56
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 57
     .line 58
@@ -207,7 +207,7 @@
 
     .line 63
     :cond_1
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getColorInt()I
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getColorInt()I
 
     .line 64
     .line 65
@@ -234,7 +234,7 @@
     .line 75
     .line 76
     .line 77
-    invoke-virtual {p1, v1, v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getRippleColor(Landroid/content/Context;I)I
+    invoke-virtual {p1, v1, v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getRippleColor(Landroid/content/Context;I)I
 
     .line 78
     .line 79
@@ -369,7 +369,7 @@
     .line 141
     .line 142
     .line 143
-    invoke-static {v0, v1, p0}, Lorg/swiftapps/swiftbackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
+    invoke-static {v0, v1, p0}, Lcom/bareapps/barebackup/common/Const;->w(Landroid/content/Context;II)Landroid/graphics/drawable/Drawable;
 
     .line 144
     .line 145
@@ -383,7 +383,7 @@
     .line 149
     .line 150
     :cond_5
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 151
     .line 152
@@ -399,7 +399,7 @@
 
     .line 157
     :cond_6
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 158
     .line 159

@@ -9,11 +9,11 @@
 # instance fields
 .field public final a:Lcom/google/android/material/listitem/ListItemLayout;
 
-.field public final b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+.field public final b:Lcom/bareapps/barebackup/views/MCheckBox;
 
 .field public final c:Landroid/widget/ImageView;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final e:Landroid/widget/ImageView;
 
@@ -25,7 +25,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lorg/swiftapps/swiftbackup/views/MCheckBox;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/bareapps/barebackup/views/MCheckBox;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -38,7 +38,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lmi7;->b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iput-object p2, p0, Lmi7;->b:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 7
     .line 8
@@ -46,7 +46,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lmi7;->d:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p4, p0, Lmi7;->d:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 11
     .line 12
@@ -89,7 +89,7 @@
     move-object v4, v1
 
     .line 9
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v4, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 10
     .line 11
@@ -165,7 +165,7 @@
     move-object v6, v1
 
     .line 47
-    check-cast v6, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v6, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 48
     .line 49
@@ -294,7 +294,7 @@
 
     .line 111
     .line 112
-    invoke-direct/range {v2 .. v10}, Lmi7;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lorg/swiftapps/swiftbackup/views/MCheckBox;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v10}, Lmi7;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/bareapps/barebackup/views/MCheckBox;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 113
     .line 114

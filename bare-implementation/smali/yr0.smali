@@ -9,15 +9,15 @@
 # instance fields
 .field public final synthetic a:Lbs0;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+.field public final synthetic c:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
 .field public final synthetic d:Lzr0;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lbs0;Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Lzr0;)V
+.method public synthetic constructor <init>(Lbs0;Lcom/bareapps/barebackup/blacklist/BlacklistActivity;Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Lzr0;)V
     .locals 0
 
     .line 1
@@ -30,11 +30,11 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lyr0;->b:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iput-object p2, p0, Lyr0;->b:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 7
     .line 8
-    iput-object p3, p0, Lyr0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    iput-object p3, p0, Lyr0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 9
     .line 10
@@ -75,7 +75,7 @@
 
     .line 12
     .line 13
-    iget-object v2, p0, Lyr0;->b:Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;
+    iget-object v2, p0, Lyr0;->b:Lcom/bareapps/barebackup/blacklist/BlacklistActivity;
 
     .line 14
     .line 15
@@ -98,7 +98,7 @@
 
     .line 25
     .line 26
-    iget-object v3, p0, Lyr0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    iget-object v3, p0, Lyr0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 27
     .line 28

@@ -67,11 +67,11 @@
     .line 28
     .line 29
     :catch_0
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 30
     .line 31
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 32
     .line 33
@@ -117,7 +117,7 @@
     move-result p0
 
     .line 53
-    invoke-virtual {p1, p0}, Lorg/swiftapps/swiftbackup/common/V;->setVp(Z)V
+    invoke-virtual {p1, p0}, Lcom/bareapps/barebackup/common/V;->setVp(Z)V
 
     .line 54
     .line 55

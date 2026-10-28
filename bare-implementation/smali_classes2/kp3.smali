@@ -132,7 +132,7 @@
 
 
 # virtual methods
-.method public final i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+.method public final i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
     .locals 0
 
     .line 1
@@ -149,7 +149,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 9
     .line 10
@@ -364,7 +364,7 @@
 
     .line 53
     .line 54
-    const-string v7, "onItemMenuClick(Landroid/view/View;Lorg/swiftapps/swiftbackup/folders/data/FolderDashItem;)V"
+    const-string v7, "onItemMenuClick(Landroid/view/View;Lcom/bareapps/barebackup/folders/data/FolderDashItem;)V"
 
     .line 55
     .line 56
@@ -663,7 +663,7 @@
     move-result-object p1
 
     .line 8
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 9
     .line 10
@@ -679,7 +679,7 @@
     move-result p2
 
     .line 16
-    invoke-static {p1, p2}, Lorg/swiftapps/swiftbackup/common/Const;->H(Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;Z)V
+    invoke-static {p1, p2}, Lcom/bareapps/barebackup/common/Const;->H(Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;Z)V
 
     .line 17
     .line 18
@@ -725,7 +725,7 @@
     .line 38
     .line 39
     .line 40
-    new-instance v0, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v0, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 41
     .line 42
@@ -742,7 +742,7 @@
     .line 47
     .line 48
     .line 49
-    invoke-direct {v0, v1}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {v0, v1}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
 
     .line 50
     .line 51
@@ -851,7 +851,7 @@
 
     .line 105
     .line 106
-    const-string v5, "onViewStatusUpdate(Lorg/swiftapps/swiftbackup/common/repos/RepositoryResult$Status;)V"
+    const-string v5, "onViewStatusUpdate(Lcom/bareapps/barebackup/common/repos/RepositoryResult$Status;)V"
 
     .line 107
     .line 108

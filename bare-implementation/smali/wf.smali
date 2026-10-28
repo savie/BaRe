@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 9
     .line 10
@@ -68,7 +68,7 @@
 
     .line 15
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 16
     .line 17
@@ -84,7 +84,7 @@
 
     .line 22
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 23
     .line 24
@@ -100,7 +100,7 @@
 
     .line 29
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 30
     .line 31
@@ -116,7 +116,7 @@
 
     .line 36
     :pswitch_3
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 37
     .line 38
@@ -132,7 +132,7 @@
 
     .line 43
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 44
     .line 45
@@ -148,7 +148,7 @@
 
     .line 50
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 51
     .line 52
@@ -164,7 +164,7 @@
 
     .line 57
     :pswitch_6
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 58
     .line 59
@@ -180,7 +180,7 @@
 
     .line 64
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 65
     .line 66
@@ -212,7 +212,7 @@
 
     .line 78
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;
 
     .line 79
     .line 80
@@ -228,7 +228,7 @@
 
     .line 85
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 86
     .line 87

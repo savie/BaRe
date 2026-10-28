@@ -80,7 +80,7 @@
     return-void
 .end method
 
-.method public static b(Liu;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+.method public static b(Liu;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
     .locals 13
 
     .line 1
@@ -174,7 +174,7 @@
     move-result-object v0
 
     .line 39
-    const-class v2, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    const-class v2, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 40
     .line 41
@@ -191,7 +191,7 @@
     .line 46
     .line 47
     .line 48
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
     :try_end_2
     .catch Ljava/lang/Exception; {:try_start_2 .. :try_end_2} :catch_1
 
@@ -236,7 +236,7 @@
     .line 66
     :cond_2
     :goto_1
-    new-instance v7, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    new-instance v7, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 67
     .line 68
@@ -260,7 +260,7 @@
     const/4 v10, 0x0
 
     .line 76
-    invoke-direct/range {v7 .. v12}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v7 .. v12}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;-><init>(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 77
     .line 78
@@ -276,7 +276,7 @@
 
     .line 2
     .line 3
-    invoke-static {v0}, Lok;->b(Liu;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    invoke-static {v0}, Lok;->b(Liu;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 4
     .line 5
@@ -288,7 +288,7 @@
 
     .line 8
     .line 9
-    invoke-static {v1}, Lok;->b(Liu;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    invoke-static {v1}, Lok;->b(Liu;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 10
     .line 11
@@ -300,7 +300,7 @@
 
     .line 14
     .line 15
-    invoke-static {v2}, Lok;->b(Liu;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    invoke-static {v2}, Lok;->b(Liu;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 16
     .line 17
@@ -312,7 +312,7 @@
 
     .line 20
     .line 21
-    invoke-static {v3}, Lok;->b(Liu;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    invoke-static {v3}, Lok;->b(Liu;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 22
     .line 23
@@ -320,7 +320,7 @@
     move-result-object v3
 
     .line 25
-    filled-new-array {v0, v1, v2, v3}, [Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    filled-new-array {v0, v1, v2, v3}, [Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 26
     .line 27
@@ -393,11 +393,11 @@
     move-object v3, v2
 
     .line 25
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v3, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 26
     .line 27
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
 
     .line 28
     .line 29
@@ -481,11 +481,11 @@
     move-object v1, v0
 
     .line 19
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    check-cast v1, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 20
     .line 21
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getLocalLimitMBs()Ljava/lang/Long;
 
     .line 22
     .line 23
@@ -528,7 +528,7 @@
 
     .line 40
     :goto_1
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getCloudLimitMBs()Ljava/lang/Long;
 
     .line 41
     .line 42
@@ -576,7 +576,7 @@
     move-object v3, v0
 
     .line 60
-    invoke-static/range {v1 .. v6}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->copy$default(Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;
+    invoke-static/range {v1 .. v6}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->copy$default(Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;
 
     .line 61
     .line 62
@@ -584,7 +584,7 @@
     move-result-object v0
 
     .line 64
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->getPart()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->getPart()Ljava/lang/String;
 
     .line 65
     .line 66
@@ -592,7 +592,7 @@
     move-result-object v1
 
     .line 68
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->isValid()Z
 
     .line 69
     .line 70
@@ -608,7 +608,7 @@
 
     .line 75
     .line 76
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitItem;->hasLimits()Z
 
     .line 77
     .line 78

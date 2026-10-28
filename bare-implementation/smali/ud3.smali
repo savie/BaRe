@@ -84,11 +84,11 @@
     move-result-object v3
 
     .line 24
-    check-cast v3, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v3, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 25
     .line 26
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getName()Ljava/lang/String;
 
     .line 27
     .line 28
@@ -294,11 +294,11 @@
 
     .line 119
     :cond_7
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 120
     .line 121
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 122
     .line 123
@@ -372,7 +372,7 @@
 
     .line 156
     :cond_8
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 157
     .line 158
@@ -484,7 +484,7 @@
     .line 209
     :cond_9
     :goto_6
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 210
     .line 211
@@ -869,7 +869,7 @@
 
     .line 40
     .line 41
-    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v2}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 42
     .line 43

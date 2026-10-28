@@ -87,11 +87,11 @@
     const/4 v2, 0x1
 
     .line 8
-    sget-object v3, Lorg/swiftapps/swiftbackup/common/Const;->a:Lorg/swiftapps/swiftbackup/common/Const;
+    sget-object v3, Lcom/bareapps/barebackup/common/Const;->a:Lcom/bareapps/barebackup/common/Const;
 
     .line 9
     .line 10
-    const-class v4, Lorg/swiftapps/swiftbackup/common/Const;
+    const-class v4, Lcom/bareapps/barebackup/common/Const;
 
     .line 11
     .line 12

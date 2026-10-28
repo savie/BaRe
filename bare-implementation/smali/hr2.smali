@@ -52,11 +52,11 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 9
     .line 10
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 11
     .line 12
@@ -90,7 +90,7 @@
     move-result p1
 
     .line 28
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->e(F)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->e(F)V
 
     .line 29
     .line 30

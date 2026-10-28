@@ -54,7 +54,7 @@
     .locals 1
 
     .line 1
-    const-class p0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    const-class p0, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 2
     .line 3
@@ -66,7 +66,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 8
     .line 9
@@ -74,7 +74,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {p1, p0}, Lbr1;->d(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;)V
+    invoke-virtual {p1, p0}, Lbr1;->d(Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;)V
 
     .line 12
     .line 13

@@ -139,7 +139,7 @@
     <id name="action_sms_settings" />
     <id name="action_sort" />
     <id name="action_storage_switch" />
-    <id name="action_swiftlogger" />
+    <id name="action_barelogger" />
     <id name="action_sync" />
     <id name="action_sync_sms_backup" />
     <id name="action_text" />
@@ -225,7 +225,7 @@
     <id name="btnClose" />
     <id name="btnInstall" />
     <id name="btnLaunch" />
-    <id name="btnOpenInSwiftBackup" />
+    <id name="btnOpenInBareBackup" />
     <id name="btn_action" />
     <id name="btn_actions" />
     <id name="btn_add_first_schedule" />
@@ -663,7 +663,7 @@
     <id name="ivImportedAppIconLoading" />
     <id name="ivMenu" />
     <id name="ivStatus" />
-    <id name="ivSwiftBackupLogo" />
+    <id name="ivBareBackupLogo" />
     <id name="iv_active_password_indicator" />
     <id name="iv_add" />
     <id name="iv_app_icon" />
@@ -1457,10 +1457,10 @@
     <id name="tv_subtitle2" />
     <id name="tv_subtitle3" />
     <id name="tv_summary" />
-    <id name="tv_swiftbackup" />
-    <id name="tv_swiftlogger" />
-    <id name="tv_swiftlogger_text_only" />
-    <id name="tv_swiftlogger_title" />
+    <id name="tv_barebackup" />
+    <id name="tv_barelogger" />
+    <id name="tv_barelogger_text_only" />
+    <id name="tv_barelogger_title" />
     <id name="tv_system_apps" />
     <id name="tv_task_chain_title" />
     <id name="tv_tests_subtitle" />

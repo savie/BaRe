@@ -375,7 +375,7 @@
 
     .line 14
     .line 15
-    const-string v14, "Main Swift Backup folder \'"
+    const-string v14, "Main BΛR☰ folder \'"
 
     .line 16
     .line 17
@@ -961,7 +961,7 @@
 
     .line 294
     .line 295
-    const-string v3, "\n                    User has manually deleted the Main Swift Backup folder \'"
+    const-string v3, "\n                    User has manually deleted the Main BΛR☰ folder \'"
 
     .line 296
     .line 297
@@ -975,7 +975,7 @@
     .line 301
     .line 302
     .line 303
-    const-string v0, "\' from Google Drive. ALL cloud backups are now invalid and should be deleted from Swift Backup.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open Swift Backup and go to \'Cloud sync\' section.\n                    2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in Swift Backup.\n                    "
+    const-string v0, "\' from Google Drive. ALL cloud backups are now invalid and should be deleted from BΛR☰.\n                    ----------------\n                    Steps to resolve\n                    ----------------\n                    1. Open BΛR☰ and go to \'Cloud sync\' section.\n                    2. Use \'Delete tag and associated backups\' button to delete backups. Do the same for all tags you may have.\n                    3. Disconnect then reconnect Google Drive in BΛR☰.\n                    "
 
     .line 304
     .line 305

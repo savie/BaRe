@@ -148,11 +148,11 @@
 
     .line 51
     .line 52
-    check-cast v5, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    check-cast v5, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 53
     .line 54
-    invoke-static {p0, v5}, Lah8;->c(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lbe8;
+    invoke-static {p0, v5}, Lah8;->c(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lbe8;
 
     .line 55
     .line 56
@@ -652,7 +652,7 @@
 
     .line 300
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 301
     .line 302
@@ -660,11 +660,11 @@
 
     .line 303
     .line 304
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 305
     .line 306
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     .line 307
     .line 308
@@ -881,11 +881,11 @@
 
     .line 411
     :pswitch_6
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;
 
     .line 412
     .line 413
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/DropboxSignInActivity;->L:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/cloud/connect/DropboxSignInActivity;->L:Lgv7;
 
     .line 414
     .line 415
@@ -1168,7 +1168,7 @@
 
     .line 544
     .line 545
-    iget-object v0, p0, Luj1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v0, p0, Luj1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 546
     .line 547
@@ -1193,7 +1193,7 @@
     .line 555
     .line 556
     .line 557
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/cloud/CloudBackupTag;->Companion:Lob1;
+    sget-object v1, Lcom/bareapps/barebackup/home/cloud/CloudBackupTag;->Companion:Lob1;
 
     .line 558
     .line 559
@@ -1278,7 +1278,7 @@
 
     .line 597
     :pswitch_e
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 598
     .line 599
@@ -1286,11 +1286,11 @@
 
     .line 600
     .line 601
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 602
     .line 603
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
 
     .line 604
     .line 605
@@ -1307,7 +1307,7 @@
 
     .line 611
     :pswitch_f
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 612
     .line 613
@@ -1315,7 +1315,7 @@
 
     .line 614
     .line 615
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/b;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lcom/bareapps/barebackup/messagescalls/backuprestore/b;
 
     .line 616
     .line 617
@@ -1362,7 +1362,7 @@
 
     .line 638
     :pswitch_11
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 639
     .line 640
@@ -1386,7 +1386,7 @@
 
     .line 649
     .line 650
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->O()Lmg;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->O()Lmg;
 
     .line 651
     .line 652
@@ -1437,11 +1437,11 @@
 
     .line 675
     :cond_12
-    sget v0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 676
     .line 677
-    invoke-virtual {p0, v5}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->R(Lzf;)V
+    invoke-virtual {p0, v5}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->R(Lzf;)V
 
     .line 678
     .line 679

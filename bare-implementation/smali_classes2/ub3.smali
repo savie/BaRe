@@ -73,14 +73,14 @@
 
     .line 18
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 19
     .line 20
     const/4 p1, 0x0
 
     .line 21
-    iput-object p1, p0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->M:Lwa;
+    iput-object p1, p0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->M:Lwa;
 
     .line 22
     .line 23

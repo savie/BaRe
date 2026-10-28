@@ -75,7 +75,7 @@
 
     .line 5
     .line 6
-    sget-object p1, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;->Companion:Lds0;
+    sget-object p1, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;->Companion:Lds0;
 
     .line 7
     .line 8
@@ -96,7 +96,7 @@
     .line 15
     .line 16
     .line 17
-    invoke-static {v0}, Lds0;->a(Ljava/util/List;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-static {v0}, Lds0;->a(Ljava/util/List;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 18
     .line 19
@@ -107,7 +107,7 @@
     const/4 v0, 0x1
 
     .line 22
-    invoke-virtual {p0, p1, v0}, Lgs0;->d(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;Z)V
+    invoke-virtual {p0, p1, v0}, Lgs0;->d(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;Z)V
 
     .line 23
     .line 24

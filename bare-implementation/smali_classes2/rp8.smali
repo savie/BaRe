@@ -11,11 +11,11 @@
 
 .field public final b:Lw00;
 
-.field public final c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lrp8;->c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p3, p0, Lrp8;->c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 9
     .line 10

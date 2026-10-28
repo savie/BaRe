@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lah8$a;->fromDatabase(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+    value = Lah8$a;->fromDatabase(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -18,7 +18,7 @@
 
 
 # instance fields
-.field final synthetic $firebaseUser:Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+.field final synthetic $firebaseUser:Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
 .field final synthetic $onCompletion:Lmt3;
     .annotation system Ldalvik/annotation/Signature;
@@ -30,19 +30,19 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
     .locals 0
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;",
+            "Lcom/bareapps/barebackup/anonymous/MFirebaseUser;",
             "Lmt3;",
             ")V"
         }
     .end annotation
 
     .line 1
-    iput-object p1, p0, Lah8$a$a;->$firebaseUser:Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    iput-object p1, p0, Lah8$a$a;->$firebaseUser:Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 2
     .line 3
@@ -103,11 +103,11 @@
 
     .line 21
     .line 22
-    iget-object p0, p0, Lah8$a$a;->$firebaseUser:Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    iget-object p0, p0, Lah8$a$a;->$firebaseUser:Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 23
     .line 24
-    invoke-static {v0, p0}, Lah8$a;->access$createNew(Lah8$a;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+    invoke-static {v0, p0}, Lah8$a;->access$createNew(Lah8$a;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
 
     .line 25
     .line 26
@@ -156,11 +156,11 @@
 
     .line 15
     .line 16
-    iget-object v0, p0, Lah8$a$a;->$firebaseUser:Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    iget-object v0, p0, Lah8$a$a;->$firebaseUser:Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 17
     .line 18
-    invoke-static {p1, v0}, Lah8$a;->access$createNew(Lah8$a;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+    invoke-static {p1, v0}, Lah8$a;->access$createNew(Lah8$a;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
 
     .line 19
     .line 20
@@ -172,11 +172,11 @@
 
     .line 23
     :cond_0
-    iget-object v0, p0, Lah8$a$a;->$firebaseUser:Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    iget-object v0, p0, Lah8$a$a;->$firebaseUser:Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 24
     .line 25
-    invoke-static {p1, v0}, Lah8;->access$updateFields(Lah8;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)V
+    invoke-static {p1, v0}, Lah8;->access$updateFields(Lah8;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
 
     .line 26
     .line 27

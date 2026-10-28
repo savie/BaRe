@@ -81,7 +81,7 @@
 
     .line 18
     .line 19
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 20
     .line 21
@@ -288,7 +288,7 @@
 
     .line 46
     :pswitch_0
-    check-cast v2, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast v2, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 47
     .line 48
@@ -330,7 +330,7 @@
     .line 64
     .line 65
     .line 66
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 67
     .line 68
@@ -338,7 +338,7 @@
     move-result-object p1
 
     .line 70
-    iget-object p1, p1, Ltb5;->g:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    iget-object p1, p1, Ltb5;->g:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 71
     .line 72
@@ -350,7 +350,7 @@
 
     .line 75
     .line 76
-    invoke-static {}, Lx95;->p()Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    invoke-static {}, Lx95;->p()Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 77
     .line 78
@@ -359,7 +359,7 @@
 
     .line 80
     :cond_5
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 81
     .line 82
@@ -367,7 +367,7 @@
     move-result-object v0
 
     .line 84
-    invoke-virtual {v0, p1}, Ltb5;->k(Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;)V
+    invoke-virtual {v0, p1}, Ltb5;->k(Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;)V
 
     .line 85
     .line 86

@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/home/HomeActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;)V
     .locals 0
 
     .line 1
@@ -17,7 +17,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lu44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iput-object p1, p0, Lu44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 5
     .line 6
@@ -30,11 +30,11 @@
     .locals 4
 
     .line 1
-    iget-object p0, p0, Lu44;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object p0, p0, Lu44;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 4
     .line 5
@@ -76,7 +76,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 22
     .line 23
@@ -84,11 +84,11 @@
     move-result-object p1
 
     .line 25
-    iget-object p1, p1, Lw44;->e:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object p1, p1, Lw44;->e:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 26
     .line 27
-    invoke-virtual {p1, v1, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
+    invoke-virtual {p1, v1, v1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->o(ZZ)V
 
     .line 28
     .line 29
@@ -106,7 +106,7 @@
 
     .line 35
     .line 36
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;->a0:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/HomeActivity;->a0:Lgv7;
 
     .line 37
     .line 38

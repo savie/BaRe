@@ -13,11 +13,11 @@
 
 .field public final synthetic c:Lhj;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+.field public final synthetic d:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(ILjava/util/ArrayList;Lhj;Lorg/swiftapps/swiftbackup/settings/SettingsActivity;)V
+.method public synthetic constructor <init>(ILjava/util/ArrayList;Lhj;Lcom/bareapps/barebackup/settings/SettingsActivity;)V
     .locals 0
 
     .line 1
@@ -38,7 +38,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lj28;->d:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    iput-object p4, p0, Lj28;->d:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 11
     .line 12
@@ -141,7 +141,7 @@
     .line 47
     .line 48
     .line 49
-    iget-object p0, p0, Lj28;->d:Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    iget-object p0, p0, Lj28;->d:Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 50
     .line 51

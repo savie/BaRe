@@ -11,17 +11,17 @@
 
 .field public final b:Lcom/google/android/material/button/MaterialButton;
 
-.field public final c:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+.field public final c:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
 .field public final d:Landroidx/appcompat/widget/LinearLayoutCompat;
 
-.field public final e:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+.field public final e:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
-.field public final f:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+.field public final f:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/appcompat/widget/LinearLayoutCompat;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;Landroidx/appcompat/widget/LinearLayoutCompat;Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;)V
+.method public constructor <init>(Landroidx/appcompat/widget/LinearLayoutCompat;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/intro/IntroPermissionCardView;Landroidx/appcompat/widget/LinearLayoutCompat;Lcom/bareapps/barebackup/intro/IntroPermissionCardView;Lcom/bareapps/barebackup/intro/IntroPermissionCardView;)V
     .locals 0
 
     .line 1
@@ -38,7 +38,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Ljf4;->c:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+    iput-object p3, p0, Ljf4;->c:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
     .line 9
     .line 10
@@ -46,11 +46,11 @@
 
     .line 11
     .line 12
-    iput-object p5, p0, Ljf4;->e:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+    iput-object p5, p0, Ljf4;->e:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
     .line 13
     .line 14
-    iput-object p6, p0, Ljf4;->f:Lorg/swiftapps/swiftbackup/intro/IntroPermissionCardView;
+    iput-object p6, p0, Ljf4;->f:Lcom/bareapps/barebackup/intro/IntroPermissionCardView;
 
     .line 15
     .line 16

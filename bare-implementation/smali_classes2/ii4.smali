@@ -66,7 +66,7 @@
 
     .line 11
     .line 12
-    check-cast v1, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast v1, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 13
     .line 14
@@ -83,7 +83,7 @@
     .line 19
     .line 20
     .line 21
-    sget p2, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget p2, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 22
     .line 23
@@ -113,7 +113,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Z()V
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Z()V
 
     .line 38
     .line 39

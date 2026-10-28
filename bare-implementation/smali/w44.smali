@@ -15,13 +15,13 @@
 
 .field public final d:Landroid/view/View;
 
-.field public final e:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.field public final e:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
-.field public final f:Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+.field public final f:Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
 
 # direct methods
-.method public constructor <init>(Landroid/view/View;Landroid/widget/FrameLayout;Lx44;Landroid/view/View;Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;)V
+.method public constructor <init>(Landroid/view/View;Landroid/widget/FrameLayout;Lx44;Landroid/view/View;Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Lcom/bareapps/barebackup/views/NoSwipeViewPager;)V
     .locals 0
 
     .line 1
@@ -46,11 +46,11 @@
 
     .line 11
     .line 12
-    iput-object p5, p0, Lw44;->e:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iput-object p5, p0, Lw44;->e:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 13
     .line 14
-    iput-object p6, p0, Lw44;->f:Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+    iput-object p6, p0, Lw44;->f:Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
     .line 15
     .line 16

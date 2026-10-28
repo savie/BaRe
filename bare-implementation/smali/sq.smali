@@ -11,13 +11,13 @@
 
 .field public final synthetic b:Lji;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+.field public final synthetic c:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
 .field public final synthetic d:I
 
 
 # direct methods
-.method public constructor <init>(Lji;Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;ILjv1;)V
+.method public constructor <init>(Lji;Lcom/bareapps/barebackup/appinfo/AppInfoActivity;ILjv1;)V
     .locals 0
 
     .line 1
@@ -25,7 +25,7 @@
 
     .line 2
     .line 3
-    iput-object p2, p0, Lsq;->c:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+    iput-object p2, p0, Lsq;->c:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
     .line 4
     .line 5
@@ -54,7 +54,7 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lsq;->c:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+    iget-object v0, p0, Lsq;->c:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
     .line 4
     .line 5
@@ -66,7 +66,7 @@
 
     .line 8
     .line 9
-    invoke-direct {p1, p0, v0, v1, p2}, Lsq;-><init>(Lji;Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;ILjv1;)V
+    invoke-direct {p1, p0, v0, v1, p2}, Lsq;-><init>(Lji;Lcom/bareapps/barebackup/appinfo/AppInfoActivity;ILjv1;)V
 
     .line 10
     .line 11
@@ -662,7 +662,7 @@
 
     .line 273
     .line 274
-    iget-object v1, p0, Lsq;->c:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+    iget-object v1, p0, Lsq;->c:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
     .line 275
     .line 276
@@ -670,7 +670,7 @@
 
     .line 277
     .line 278
-    invoke-direct {v0, v1, p1, v3}, Lrq;-><init>(Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;Ljava/util/ArrayList;I)V
+    invoke-direct {v0, v1, p1, v3}, Lrq;-><init>(Lcom/bareapps/barebackup/appinfo/AppInfoActivity;Ljava/util/ArrayList;I)V
 
     .line 279
     .line 280

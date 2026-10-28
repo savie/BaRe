@@ -9,13 +9,13 @@
 # instance fields
 .field public final synthetic a:Lbt3;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 .field public final synthetic c:Ljava/lang/String;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lbt3;Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Ljava/lang/String;)V
+.method public synthetic constructor <init>(Lbt3;Lcom/bareapps/barebackup/cloud/connect/CsActivity;Ljava/lang/String;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Le52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p2, p0, Le52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 7
     .line 8
@@ -45,7 +45,7 @@
     .locals 1
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 2
     .line 3
@@ -66,7 +66,7 @@
 
     .line 11
     :cond_0
-    iget-object p1, p0, Le52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object p1, p0, Le52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 12
     .line 13

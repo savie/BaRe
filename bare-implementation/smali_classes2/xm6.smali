@@ -17,13 +17,13 @@
 
 .field public final e:Landroidx/core/widget/NestedScrollView;
 
-.field public final f:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+.field public final f:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
 .field public final k:Landroid/widget/TextView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/card/MaterialCardView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/core/widget/NestedScrollView;Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/google/android/material/card/MaterialCardView;Landroidx/recyclerview/widget/RecyclerView;Landroidx/core/widget/NestedScrollView;Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -52,7 +52,7 @@
 
     .line 13
     .line 14
-    iput-object p6, p0, Lxm6;->f:Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    iput-object p6, p0, Lxm6;->f:Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 15
     .line 16

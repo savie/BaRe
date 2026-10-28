@@ -22,7 +22,7 @@
 
 .field public final i:Z
 
-.field public final j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final k:Lhk;
 
@@ -56,7 +56,7 @@
 
     .line 2
     .line 3
-    const-string v5, "extractWithFileCount(Lorg/swiftapps/filesystem/File;Ljava/lang/String;Lorg/swiftapps/swiftbackup/shell/RootHelper$ShellType;Lkotlin/jvm/functions/Function3;)V"
+    const-string v5, "extractWithFileCount(Lcom/bareapps/filesystem/File;Ljava/lang/String;Lcom/bareapps/barebackup/shell/RootHelper$ShellType;Lkotlin/jvm/functions/Function3;)V"
 
     .line 4
     .line 5
@@ -134,7 +134,7 @@
 
     .line 42
     .line 43
-    iget-object p2, p1, Ljz;->h:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p2, p1, Ljz;->h:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 44
     .line 45
@@ -174,7 +174,7 @@
 
     .line 58
     .line 59
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getMetadata()Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getMetadata()Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 60
     .line 61
@@ -215,7 +215,7 @@
 
     .line 75
     :goto_2
-    iput-object p2, p0, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p2, p0, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 76
     .line 77
@@ -521,7 +521,7 @@
 
     .line 8
     .line 9
-    iget-object v1, p0, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v1, p0, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 10
     .line 11
@@ -592,7 +592,7 @@
 
     .line 38
     .line 39
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExpSize()Ljava/lang/Long;
 
     .line 40
     .line 41
@@ -604,7 +604,7 @@
 
     .line 44
     :cond_3
-    invoke-virtual {p0}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {p0}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 45
     .line 46
@@ -616,7 +616,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExpBackupSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExpBackupSize()Ljava/lang/Long;
 
     .line 51
     .line 52
@@ -636,7 +636,7 @@
 
     .line 58
     .line 59
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaSize()Ljava/lang/Long;
 
     .line 60
     .line 61
@@ -648,7 +648,7 @@
 
     .line 64
     :cond_5
-    invoke-virtual {p0}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {p0}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 65
     .line 66
@@ -660,7 +660,7 @@
 
     .line 69
     .line 70
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaBackupSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaBackupSize()Ljava/lang/Long;
 
     .line 71
     .line 72
@@ -680,7 +680,7 @@
 
     .line 78
     .line 79
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataSize()Ljava/lang/Long;
 
     .line 80
     .line 81
@@ -692,7 +692,7 @@
 
     .line 84
     :cond_7
-    invoke-virtual {p0}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {p0}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 85
     .line 86
@@ -704,7 +704,7 @@
 
     .line 89
     .line 90
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataBackupSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataBackupSize()Ljava/lang/Long;
 
     .line 91
     .line 92
@@ -724,7 +724,7 @@
 
     .line 98
     .line 99
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataSize()Ljava/lang/Long;
 
     .line 100
     .line 101
@@ -736,7 +736,7 @@
 
     .line 104
     :cond_9
-    invoke-virtual {p0}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {p0}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 105
     .line 106
@@ -748,7 +748,7 @@
 
     .line 109
     .line 110
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataBackupSize()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataBackupSize()Ljava/lang/Long;
 
     .line 111
     .line 112
@@ -1495,11 +1495,11 @@
 
     .line 8
     .line 9
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 10
     .line 11
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 12
     .line 13
@@ -1670,7 +1670,7 @@
 
     .line 97
     .line 98
-    const-string v1, "Shizuku package shouldn\'t be restored when Swift Backup is actively using Shizuku! Skipping."
+    const-string v1, "Shizuku package shouldn\'t be restored when BΛR☰ is actively using Shizuku! Skipping."
 
     .line 99
     .line 100
@@ -1757,7 +1757,7 @@
 
     .line 140
     .line 141
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 142
     .line 143
@@ -1769,7 +1769,7 @@
 
     .line 146
     .line 147
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getSBVersionCodesRequired()Ljava/util/List;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getSBVersionCodesRequired()Ljava/util/List;
 
     .line 148
     .line 149
@@ -2135,7 +2135,7 @@
     move-result-wide v31
 
     .line 324
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 325
     .line 326
@@ -2147,7 +2147,7 @@
 
     .line 329
     .line 330
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getApkSizeMirrored()Ljava/lang/Long;
 
     .line 331
     .line 332
@@ -2476,7 +2476,7 @@
     .line 476
     .line 477
     .line 478
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 479
     .line 480
@@ -2511,7 +2511,7 @@
 
     .line 493
     .line 494
-    const-string v5, "APK downgrade restricted by Android System since Android Nougat 7.0, Swift Backup will attempt to downgrade using workarounds."
+    const-string v5, "APK downgrade restricted by Android System since Android Nougat 7.0, BΛR☰ will attempt to downgrade using workarounds."
 
     .line 495
     .line 496
@@ -3028,7 +3028,7 @@
     move-result-object v32
 
     .line 743
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 744
     .line 745
@@ -3040,7 +3040,7 @@
 
     .line 748
     .line 749
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataBackupDate()Ljava/lang/Long;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataBackupDate()Ljava/lang/Long;
 
     .line 750
     .line 751
@@ -3110,7 +3110,7 @@
     move-result-wide v35
 
     .line 781
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 782
     .line 783
@@ -3122,7 +3122,7 @@
 
     .line 786
     .line 787
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataSizeMirrored()Ljava/lang/Long;
 
     .line 788
     .line 789
@@ -3307,7 +3307,7 @@
     move-result-object v32
 
     .line 876
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 877
     .line 878
@@ -3319,7 +3319,7 @@
 
     .line 881
     .line 882
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataBackupDate()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataBackupDate()Ljava/lang/Long;
 
     .line 883
     .line 884
@@ -3389,7 +3389,7 @@
     move-result-wide v35
 
     .line 914
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 915
     .line 916
@@ -3401,7 +3401,7 @@
 
     .line 919
     .line 920
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataSizeMirrored()Ljava/lang/Long;
 
     .line 921
     .line 922
@@ -3583,7 +3583,7 @@
     move-result-object v32
 
     .line 1007
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1008
     .line 1009
@@ -3595,7 +3595,7 @@
 
     .line 1012
     .line 1013
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExpansionBackupDate()Ljava/lang/Long;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExpansionBackupDate()Ljava/lang/Long;
 
     .line 1014
     .line 1015
@@ -3665,7 +3665,7 @@
     move-result-wide v35
 
     .line 1045
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1046
     .line 1047
@@ -3677,7 +3677,7 @@
 
     .line 1050
     .line 1051
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExpSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExpSizeMirrored()Ljava/lang/Long;
 
     .line 1052
     .line 1053
@@ -3850,7 +3850,7 @@
     move-result-object v32
 
     .line 1135
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1136
     .line 1137
@@ -3862,7 +3862,7 @@
 
     .line 1140
     .line 1141
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaBackupDate()Ljava/lang/Long;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaBackupDate()Ljava/lang/Long;
 
     .line 1142
     .line 1143
@@ -3932,7 +3932,7 @@
     move-result-wide v35
 
     .line 1173
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1174
     .line 1175
@@ -3944,7 +3944,7 @@
 
     .line 1178
     .line 1179
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaSizeMirrored()Ljava/lang/Long;
 
     .line 1180
     .line 1181
@@ -4746,7 +4746,7 @@
     move-result v6
 
     .line 1556
-    iget-object v7, v1, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v7, v1, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 1557
     .line 1558
@@ -4879,7 +4879,7 @@
     .line 1621
     .line 1622
     .line 1623
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1624
     .line 1625
@@ -5102,7 +5102,7 @@
     mul-long/2addr v2, v4
 
     .line 1737
-    sget-object v0, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v0, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 1738
     .line 1739
@@ -5114,7 +5114,7 @@
     move-result-object v4
 
     .line 1743
-    invoke-virtual {v0, v4, v2, v3}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v0, v4, v2, v3}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 1744
     .line 1745
@@ -5200,7 +5200,7 @@
 
     .line 1782
     .line 1783
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getInstallerPackage()Ljava/lang/String;
 
     .line 1784
     .line 1785
@@ -5230,7 +5230,7 @@
 
     .line 1794
     :cond_44
-    invoke-virtual {v1}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v1}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1795
     .line 1796
@@ -5242,7 +5242,7 @@
 
     .line 1799
     .line 1800
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getInstallerPackage()Ljava/lang/String;
 
     .line 1801
     .line 1802
@@ -5636,11 +5636,11 @@
     .line 1989
     .line 1990
     .line 1991
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1992
     .line 1993
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 1994
     .line 1995
@@ -5738,7 +5738,7 @@
 
     .line 2042
     .line 2043
-    invoke-static {v11}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static {v11}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 2044
     .line 2045
@@ -6126,7 +6126,7 @@
 
     .line 2233
     .line 2234
-    invoke-virtual/range {v34 .. v34}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
+    invoke-virtual/range {v34 .. v34}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getApkSize()Ljava/lang/Long;
 
     .line 2235
     .line 2236
@@ -6145,7 +6145,7 @@
 
     .line 2241
     :cond_51
-    invoke-virtual {v6}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v6}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2242
     .line 2243
@@ -6157,7 +6157,7 @@
 
     .line 2246
     .line 2247
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getApkBackupSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getApkBackupSize()Ljava/lang/Long;
 
     .line 2248
     .line 2249
@@ -6269,7 +6269,7 @@
 
     .line 2302
     .line 2303
-    invoke-virtual/range {v34 .. v34}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSplitsSize()Ljava/lang/Long;
+    invoke-virtual/range {v34 .. v34}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSplitsSize()Ljava/lang/Long;
 
     .line 2304
     .line 2305
@@ -6288,7 +6288,7 @@
 
     .line 2310
     :cond_55
-    invoke-virtual {v6}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v6}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2311
     .line 2312
@@ -6300,7 +6300,7 @@
 
     .line 2315
     .line 2316
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getSplitsBackupSize()Ljava/lang/Long;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getSplitsBackupSize()Ljava/lang/Long;
 
     .line 2317
     .line 2318
@@ -6561,11 +6561,11 @@
 
     .line 2439
     .line 2440
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2441
     .line 2442
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 2443
     .line 2444
@@ -6898,11 +6898,11 @@
     move-result-object v0
 
     .line 2599
-    sget-object v1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2600
     .line 2601
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 2602
     .line 2603
@@ -8377,7 +8377,7 @@
 
     .line 3281
     .line 3282
-    invoke-virtual {v6}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v6}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 3283
     .line 3284
@@ -8413,7 +8413,7 @@
     move-result-object v1
 
     .line 3299
-    check-cast v1, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;
+    check-cast v1, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;
 
     .line 3300
     .line 3301
@@ -8421,7 +8421,7 @@
 
     .line 3302
     .line 3303
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getSsaid()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getSsaid()Ljava/lang/String;
 
     .line 3304
     .line 3305
@@ -8453,7 +8453,7 @@
 
     .line 3315
     .line 3316
-    invoke-virtual/range {v34 .. v34}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getSsaid()Ljava/lang/String;
+    invoke-virtual/range {v34 .. v34}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getSsaid()Ljava/lang/String;
 
     .line 3317
     .line 3318
@@ -8477,7 +8477,7 @@
 
     .line 3325
     .line 3326
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getSsaid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getSsaid()Ljava/lang/String;
 
     .line 3327
     .line 3328
@@ -8965,7 +8965,7 @@
     .line 3552
     .line 3553
     :cond_97
-    invoke-virtual {v6}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v6}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 3554
     .line 3555
@@ -8973,7 +8973,7 @@
     move-result-object v0
 
     .line 3557
-    invoke-virtual {v6, v0}, Lxw;->q(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+    invoke-virtual {v6, v0}, Lxw;->q(Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
 
     .line 3558
     .line 3559
@@ -9021,7 +9021,7 @@
 
     .line 3581
     .line 3582
-    invoke-static {v4, v5, v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->u(JJ)Ljava/lang/String;
+    invoke-static {v4, v5, v2, v3}, Lcom/bareapps/barebackup/common/Const;->u(JJ)Ljava/lang/String;
 
     .line 3583
     .line 3584
@@ -9085,7 +9085,7 @@
     return-object p0
 .end method
 
-.method public final f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public final f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 0
 
     .line 1
@@ -9101,7 +9101,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    check-cast p0, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 8
     .line 9
@@ -9410,7 +9410,7 @@
     .line 72
     .line 73
     .line 74
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 75
     .line 76
@@ -9781,7 +9781,7 @@
     .line 17
     .line 18
     .line 19
-    sget-object v4, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v4, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 20
     .line 21
@@ -9801,7 +9801,7 @@
 
     .line 28
     .line 29
-    invoke-virtual {v4, v5, v6, v7}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v4, v5, v6, v7}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 30
     .line 31
@@ -9843,7 +9843,7 @@
     const/4 v14, 0x0
 
     .line 49
-    invoke-static/range {v10 .. v16}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v10 .. v16}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 50
     .line 51
@@ -10895,7 +10895,7 @@
     .line 10
     .line 11
     .line 12
-    sget-object v0, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v0, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 13
     .line 14
@@ -10915,7 +10915,7 @@
 
     .line 21
     .line 22
-    invoke-virtual {v0, v1, v8, v9}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v0, v1, v8, v9}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 23
     .line 24
@@ -11076,7 +11076,7 @@
 
     .line 100
     .line 101
-    iget-object v2, v5, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v2, v5, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 102
     .line 103
@@ -11084,7 +11084,7 @@
 
     .line 104
     .line 105
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getDataPasswordHash()Ljava/lang/String;
 
     .line 106
     .line 107
@@ -11107,7 +11107,7 @@
 
     .line 113
     :cond_3
-    invoke-virtual {v5}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v5}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 114
     .line 115
@@ -11119,7 +11119,7 @@
 
     .line 118
     .line 119
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataPasswordHash()Ljava/lang/String;
 
     .line 120
     .line 121
@@ -11147,7 +11147,7 @@
     const/4 v14, 0x0
 
     .line 132
-    invoke-static/range {v10 .. v16}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v10 .. v16}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 133
     .line 134
@@ -11390,7 +11390,7 @@
     move-result-object v13
 
     .line 245
-    invoke-virtual {v0, v13, v1, v2}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v0, v13, v1, v2}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 246
     .line 247
@@ -12626,7 +12626,7 @@
     move-object v15, v2
 
     .line 80
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 81
     .line 82
@@ -13440,7 +13440,7 @@
     move-result-wide v3
 
     .line 459
-    sget-object v5, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v5, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 460
     .line 461
@@ -13456,7 +13456,7 @@
 
     .line 466
     .line 467
-    invoke-virtual {v5, v10, v11, v12}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v5, v10, v11, v12}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 468
     .line 469
@@ -13546,7 +13546,7 @@
 
     .line 508
     .line 509
-    invoke-static/range {v17 .. v23}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v17 .. v23}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 510
     .line 511
@@ -13788,7 +13788,7 @@
 
     .line 630
     .line 631
-    invoke-static/range {v17 .. v23}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v17 .. v23}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 632
     .line 633
@@ -14259,7 +14259,7 @@
     .line 82
     .line 83
     .line 84
-    sget-object v10, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v10, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 85
     .line 86
@@ -14580,7 +14580,7 @@
     .line 240
     .line 241
     .line 242
-    sget-object v3, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v3, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 243
     .line 244
@@ -14592,7 +14592,7 @@
     move-result-object v4
 
     .line 248
-    invoke-virtual {v3, v4, v11, v12}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v3, v4, v11, v12}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 249
     .line 250
@@ -14715,7 +14715,7 @@
 
     .line 308
     .line 309
-    iget-object v6, v9, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v6, v9, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 310
     .line 311
@@ -14723,7 +14723,7 @@
 
     .line 312
     .line 313
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getExtDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getExtDataPasswordHash()Ljava/lang/String;
 
     .line 314
     .line 315
@@ -14748,7 +14748,7 @@
 
     .line 323
     :cond_7
-    invoke-virtual {v9}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v9}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 324
     .line 325
@@ -14760,7 +14760,7 @@
 
     .line 328
     .line 329
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataPasswordHash()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataPasswordHash()Ljava/lang/String;
 
     .line 330
     .line 331
@@ -14801,7 +14801,7 @@
 
     .line 348
     .line 349
-    invoke-static/range {v18 .. v24}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v18 .. v24}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 350
     .line 351
@@ -15053,7 +15053,7 @@
     move-result-object v3
 
     .line 465
-    invoke-virtual {v0, v3, v1, v2}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v0, v3, v1, v2}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 466
     .line 467
@@ -15777,7 +15777,7 @@
     move-object v9, v5
 
     .line 815
-    sget-object v2, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v2, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 816
     .line 817
@@ -15793,7 +15793,7 @@
 
     .line 822
     .line 823
-    invoke-virtual {v2, v3, v4, v5}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v2, v3, v4, v5}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 824
     .line 825
@@ -15867,7 +15867,7 @@
 
     .line 858
     .line 859
-    invoke-static/range {v18 .. v24}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v18 .. v24}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 860
     .line 861
@@ -16096,11 +16096,11 @@
 
     .line 974
     .line 975
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 976
     .line 977
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 978
     .line 979
@@ -16552,7 +16552,7 @@
     .line 84
     .line 85
     .line 86
-    sget-object v11, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v11, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 87
     .line 88
@@ -16793,7 +16793,7 @@
     .line 205
     .line 206
     .line 207
-    sget-object v14, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v14, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 208
     .line 209
@@ -16805,7 +16805,7 @@
     move-result-object v2
 
     .line 213
-    invoke-virtual {v14, v2, v3, v4}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v14, v2, v3, v4}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 214
     .line 215
@@ -16973,7 +16973,7 @@
 
     .line 294
     .line 295
-    iget-object v3, v12, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v3, v12, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 296
     .line 297
@@ -16981,7 +16981,7 @@
 
     .line 298
     .line 299
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getMediaPasswordHash()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getMediaPasswordHash()Ljava/lang/String;
 
     .line 300
     .line 301
@@ -17006,7 +17006,7 @@
 
     .line 309
     :cond_6
-    invoke-virtual {v12}, Lxw;->f()Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-virtual {v12}, Lxw;->f()Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 310
     .line 311
@@ -17018,7 +17018,7 @@
 
     .line 314
     .line 315
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaPasswordHash()Ljava/lang/String;
 
     .line 316
     .line 317
@@ -17059,7 +17059,7 @@
 
     .line 334
     .line 335
-    invoke-static/range {v17 .. v23}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v17 .. v23}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 336
     .line 337
@@ -17289,7 +17289,7 @@
     move-result-object v3
 
     .line 442
-    invoke-virtual {v14, v3, v1, v2}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v14, v3, v1, v2}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 443
     .line 444
@@ -18086,11 +18086,11 @@
 
     .line 29
     .line 30
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 31
     .line 32
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 33
     .line 34
@@ -18281,7 +18281,7 @@
     move-result-object v0
 
     .line 7
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;
+    check-cast v0, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;
 
     .line 8
     .line 9
@@ -18292,7 +18292,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getNotificationPolicyXml()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getNotificationPolicyXml()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -18324,7 +18324,7 @@
     move-result-object v2
 
     .line 26
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getNotificationPolicyXml()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getNotificationPolicyXml()Ljava/lang/String;
 
     .line 27
     .line 28
@@ -18514,11 +18514,11 @@
     .line 113
     .line 114
     .line 115
-    const-class v0, Lorg/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyProxy;
+    const-class v0, Lcom/bareapps/barebackup/apptasks/notifications/NotificationPolicyProxy;
 
     .line 116
     .line 117
-    const-string v6, "swiftbackup_notification_policy_proxy"
+    const-string v6, "barebackup_notification_policy_proxy"
 
     .line 118
     .line 119
@@ -18891,7 +18891,7 @@
     return-void
 .end method
 
-.method public final q(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+.method public final q(Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
     .locals 28
 
     .line 1
@@ -18951,7 +18951,7 @@
     const/4 v6, 0x0
 
     .line 28
-    iget-object v7, v0, Lxw;->j:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v7, v0, Lxw;->j:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 29
     .line 30
@@ -18974,7 +18974,7 @@
     move-result-object v2
 
     .line 39
-    check-cast v2, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;
+    check-cast v2, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;
 
     .line 40
     .line 41
@@ -18982,7 +18982,7 @@
 
     .line 42
     .line 43
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getPermissionStatesCsv()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getPermissionStatesCsv()Ljava/lang/String;
 
     .line 44
     .line 45
@@ -19003,7 +19003,7 @@
 
     .line 52
     .line 53
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getPermissionStatesCsv()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getPermissionStatesCsv()Ljava/lang/String;
 
     .line 54
     .line 55
@@ -19026,7 +19026,7 @@
 
     .line 61
     .line 62
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPermissionStatesCsv()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPermissionStatesCsv()Ljava/lang/String;
 
     .line 63
     .line 64
@@ -20226,7 +20226,7 @@
 
     .line 634
     .line 635
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getPermissionIdsCsv()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getPermissionIdsCsv()Ljava/lang/String;
 
     .line 636
     .line 637
@@ -20249,7 +20249,7 @@
 
     .line 643
     .line 644
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPermissionIdsCsv()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPermissionIdsCsv()Ljava/lang/String;
 
     .line 645
     .line 646
@@ -21168,7 +21168,7 @@
     move-result-object v0
 
     .line 1078
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;
+    check-cast v0, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;
 
     .line 1079
     .line 1080
@@ -21176,7 +21176,7 @@
 
     .line 1081
     .line 1082
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getNtfAccessComponent()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getNtfAccessComponent()Ljava/lang/String;
 
     .line 1083
     .line 1084
@@ -21197,7 +21197,7 @@
 
     .line 1091
     .line 1092
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getNtfAccessComponent()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getNtfAccessComponent()Ljava/lang/String;
 
     .line 1093
     .line 1094
@@ -21220,7 +21220,7 @@
 
     .line 1100
     .line 1101
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getNtfAccessComponent()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getNtfAccessComponent()Ljava/lang/String;
 
     .line 1102
     .line 1103
@@ -21570,7 +21570,7 @@
     move-result-object v0
 
     .line 1265
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;
+    check-cast v0, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;
 
     .line 1266
     .line 1267
@@ -21578,7 +21578,7 @@
 
     .line 1268
     .line 1269
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->getAccessibilityComponent()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->getAccessibilityComponent()Ljava/lang/String;
 
     .line 1270
     .line 1271
@@ -21599,7 +21599,7 @@
 
     .line 1278
     .line 1279
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->getAccessibilityComponent()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->getAccessibilityComponent()Ljava/lang/String;
 
     .line 1280
     .line 1281
@@ -21622,7 +21622,7 @@
 
     .line 1287
     .line 1288
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getAccessibilityComponent()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getAccessibilityComponent()Ljava/lang/String;
 
     .line 1289
     .line 1290
@@ -23344,7 +23344,7 @@
     .line 79
     .line 80
     .line 81
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 82
     .line 83
@@ -23424,7 +23424,7 @@
     .line 123
     .line 124
     .line 125
-    sget-object v0, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->INSTANCE:Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;
+    sget-object v0, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->INSTANCE:Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;
 
     .line 126
     .line 127
@@ -23440,7 +23440,7 @@
     move-result-object v6
 
     .line 133
-    invoke-virtual {v0, v6, v10, v11}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v0, v6, v10, v11}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 134
     .line 135
@@ -24444,7 +24444,7 @@
 
     .line 615
     .line 616
-    invoke-static/range {v16 .. v22}, Lorg/swiftapps/swiftbackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
+    invoke-static/range {v16 .. v22}, Lcom/bareapps/barebackup/compress/Packer;->a(Lq63;Lq63;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lrt3;I)Lfw5;
 
     .line 617
     .line 618
@@ -24659,7 +24659,7 @@
     move-result-object v6
 
     .line 717
-    invoke-virtual {v12, v6, v4, v5}, Lorg/swiftapps/swiftbackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
+    invoke-virtual {v12, v6, v4, v5}, Lcom/bareapps/barebackup/apptasks/AppsWorkingDir;->getWorkingDir(Ljava/lang/String;J)Lq63;
 
     .line 718
     .line 719

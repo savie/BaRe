@@ -137,7 +137,7 @@
     .line 19
     .line 20
     :cond_2
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 21
     .line 22
@@ -609,7 +609,7 @@
 
     .line 24
     :cond_1
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 25
     .line 26
@@ -671,7 +671,7 @@
 
     .line 52
     .line 53
-    const-class p2, Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;
+    const-class p2, Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;
 
     .line 54
     .line 55
@@ -1222,7 +1222,7 @@
 
     .line 67
     .line 68
-    const-string v6, "onFirebaseBackendWaitState(Lorg/swiftapps/swiftbackup/common/FirebaseConnectionWatcher$BackendWaitState;)V"
+    const-string v6, "onFirebaseBackendWaitState(Lcom/bareapps/barebackup/common/FirebaseConnectionWatcher$BackendWaitState;)V"
 
     .line 69
     .line 70

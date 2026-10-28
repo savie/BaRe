@@ -55,9 +55,9 @@
     <permission android:name="com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
     <uses-permission android:name="com.bareapps.barebackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
     <uses-permission android:name="moe.shizuku.manager.permission.API_V23"/>
-    <application android:allowBackup="false" android:allowClearUserData="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enableOnBackInvokedCallback="true" android:extractNativeLibs="true" android:icon="@mipmap/ic_launcher" android:label="@string/swift_backup" android:largeHeap="true" android:localeConfig="@xml/locales_config" android:name="org.swiftapps.swiftbackup.SwiftApp" android:networkSecurityConfig="@xml/network_security_config" android:requestLegacyExternalStorage="true" android:supportsRtl="true" android:theme="@style/SwiftTheme">
+    <application android:allowBackup="false" android:allowClearUserData="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enableOnBackInvokedCallback="true" android:extractNativeLibs="true" android:icon="@mipmap/ic_launcher" android:label="@string/bare_backup" android:largeHeap="true" android:localeConfig="@xml/locales_config" android:name="com.bareapps.barebackup.BareApp" android:networkSecurityConfig="@xml/network_security_config" android:requestLegacyExternalStorage="true" android:supportsRtl="true" android:theme="@style/BareTheme">
         <meta-data android:name="android.max_aspect" android:value="2.1"/>
-        <activity android:exported="true" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.intro.IntroActivity" android:resizeableActivity="true" android:theme="@style/IntroTheme">
+        <activity android:exported="true" android:launchMode="singleTop" android:name="com.bareapps.barebackup.intro.IntroActivity" android:resizeableActivity="true" android:theme="@style/IntroTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -69,7 +69,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="org.swiftapps.swiftbackup"/>
+                <data android:scheme="com.bareapps.barebackup"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -81,23 +81,23 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="oauth" android:scheme="org.swiftapps.swiftbackup.box"/>
+                <data android:host="oauth" android:scheme="com.bareapps.barebackup.box"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="oauth" android:scheme="org.swiftapps.swiftbackup.yandex"/>
+                <data android:host="oauth" android:scheme="com.bareapps.barebackup.yandex"/>
             </intent-filter>
         </activity>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.home.search.HomeSearchActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:label="@string/quick_actions_apps" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:launchMode="singleTask" android:name="org.swiftapps.swiftbackup.detail.DetailActivity" android:parentActivityName="org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"/>
-        <activity android:exported="true" android:label="@string/import_apks" android:name="org.swiftapps.swiftbackup.apkshare.ApkImportActivity" android:theme="@style/SwiftTheme">
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.home.search.HomeSearchActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:label="@string/quick_actions_apps" android:launchMode="singleTop" android:name="com.bareapps.barebackup.appsquickactions.AppsQuickActionsActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.appslist.ui.list.AppListActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.appslist.ui.listbatch.AppsBatchActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.appslist.ui.listconfig.AppsConfigRunActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:launchMode="singleTask" android:name="com.bareapps.barebackup.detail.DetailActivity" android:parentActivityName="com.bareapps.barebackup.appslist.ui.list.AppListActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"/>
+        <activity android:exported="true" android:label="@string/import_apks" android:name="com.bareapps.barebackup.apkshare.ApkImportActivity" android:theme="@style/BareTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -120,61 +120,61 @@
                 <data android:mimeType="application/vnd.android.package-archive"/>
             </intent-filter>
         </activity>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appinfo.AppInfoActivity" android:parentActivityName="org.swiftapps.swiftbackup.detail.DetailActivity"/>
-        <activity android:label="@string/configs" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity"/>
-        <activity android:label="@string/edit_custom_settings" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity"/>
-        <activity android:label="@string/labels" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity"/>
-        <activity android:label="@string/select_folder_setups" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity"/>
-        <activity android:label="@string/settings" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.SettingsActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/blacklist_apps" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.blacklist.BlacklistActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
-        <activity android:label="@string/announcements_from_developer" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.notice.NoticeListActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.SettingsDetailActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
-        <activity android:label="@string/swipe_actions" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.AppSwipeActionsActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
-        <activity android:label="@string/cloud_diagnostics" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
-        <activity android:label="@string/cloud_orphan_cleaner" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
-        <activity android:label="@string/app_visibility_diagnostics" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.appvisibility.AppVisibilityDiagnosticsActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
-        <activity android:label="@string/language" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.locale.LocaleActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
-        <activity android:label="Translator details" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.contributor.ContributorRegActivity" android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:label="@string/manage_app_labels" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity"/>
-        <activity android:label="@string/manage_app_labels" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity"/>
-        <activity android:label="@string/manage_space" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.manage.ManageSpaceActivity"/>
-        <activity android:excludeFromRecents="true" android:exported="true" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.shortcuts.ShortcutsActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.premium.PremiumActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.NoGmsSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:label="@string/messages_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/messages_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity" android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity"/>
-        <activity android:label="@string/conversations" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity" android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity"/>
-        <activity android:label="@string/call_logs_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/call_logs_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity" android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity"/>
-        <activity android:label="@string/call_logs" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity" android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity"/>
-        <activity android:label="@string/folder_backups" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity" android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:label="@string/select_folder" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity" android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
-        <activity android:label="@string/manage_folder_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.folders.ui.FolderEditActivity" android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
-        <activity android:label="@string/folder_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity" android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
-        <activity android:label="@string/swiftlogger" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.slog.SLogActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/wifi_networks_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.wifi.WifiActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/wallpapers_backup" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.walls.WallsDashActivity" android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
-        <activity android:label="@string/manage" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.walls.WallsManageActivity" android:parentActivityName="org.swiftapps.swiftbackup.walls.WallsDashActivity"/>
-        <activity android:label="@string/set_wallpaper" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.walls.WallApplyActivity" android:screenOrientation="portrait" android:theme="@style/SwiftTheme.Translucent"/>
-        <activity android:label="" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.notice.NoticeViewActivity"/>
-        <activity android:label="@string/storage_for_local_backups" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity"/>
-        <activity android:label="@string/encryption_password_strategy" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.password.PasswordStrategyActivity"/>
-        <activity android:label="@string/set_user_password" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.password.UserPasswordActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:label="@string/multiple_backups_strategy" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.MultipleBackupsActivity"/>
-        <activity android:label="@string/restore_special_data_title" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.RestoreSpecialDataDetailsActivity"/>
-        <activity android:launchMode="singleTask" android:name="org.swiftapps.swiftbackup.tasks.ui.TaskActivity"/>
-        <activity android:label="@string/grant_permissions" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.tasks.PreconditionsActivity"/>
-        <activity android:label="@string/notices" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.LicensesActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.appinfo.AppInfoActivity" android:parentActivityName="com.bareapps.barebackup.detail.DetailActivity"/>
+        <activity android:label="@string/configs" android:launchMode="singleTop" android:name="com.bareapps.barebackup.appconfigs.list.ConfigListActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.appconfigs.edit.ConfigEditActivity"/>
+        <activity android:label="@string/edit_custom_settings" android:launchMode="singleTop" android:name="com.bareapps.barebackup.appconfigs.settings.ConfigSettingsActivity"/>
+        <activity android:label="@string/labels" android:launchMode="singleTop" android:name="com.bareapps.barebackup.home.schedule.ScheduleLabelsSelectActivity"/>
+        <activity android:label="@string/select_folder_setups" android:launchMode="singleTop" android:name="com.bareapps.barebackup.home.schedule.ui.ScheduleFolderSelectActivity"/>
+        <activity android:label="@string/settings" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.SettingsActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/blacklist_apps" android:launchMode="singleTop" android:name="com.bareapps.barebackup.blacklist.BlacklistActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsActivity"/>
+        <activity android:label="@string/announcements_from_developer" android:launchMode="singleTop" android:name="com.bareapps.barebackup.notice.NoticeListActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.SettingsDetailActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsActivity"/>
+        <activity android:label="@string/swipe_actions" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.AppSwipeActionsActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsDetailActivity"/>
+        <activity android:label="@string/cloud_diagnostics" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.diagnostics.CloudDiagnosticsActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsDetailActivity"/>
+        <activity android:label="@string/cloud_orphan_cleaner" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.orphans.CloudOrphanCleanerActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsDetailActivity"/>
+        <activity android:label="@string/app_visibility_diagnostics" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.appvisibility.AppVisibilityDiagnosticsActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsDetailActivity"/>
+        <activity android:label="@string/language" android:launchMode="singleTop" android:name="com.bareapps.barebackup.locale.LocaleActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsActivity"/>
+        <activity android:label="Translator details" android:launchMode="singleTop" android:name="com.bareapps.barebackup.contributor.ContributorRegActivity" android:parentActivityName="com.bareapps.barebackup.settings.SettingsActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:label="@string/manage_app_labels" android:launchMode="singleTop" android:name="com.bareapps.barebackup.appslist.ui.labels.LabelsActivity"/>
+        <activity android:label="@string/manage_app_labels" android:launchMode="singleTop" android:name="com.bareapps.barebackup.appslist.ui.labels.LabelEditActivity"/>
+        <activity android:label="@string/manage_space" android:launchMode="singleTop" android:name="com.bareapps.barebackup.manage.ManageSpaceActivity"/>
+        <activity android:excludeFromRecents="true" android:exported="true" android:launchMode="singleTop" android:name="com.bareapps.barebackup.shortcuts.ShortcutsActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.premium.PremiumActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.GmsSignInActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.NoGmsSignInActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:label="@string/messages_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/messages_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.backups.MessagesBackupsActivity" android:parentActivityName="com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity"/>
+        <activity android:label="@string/conversations" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.backuprestore.MessagesBackupRestoreActivity" android:parentActivityName="com.bareapps.barebackup.messagescalls.dash.MessagesDashActivity"/>
+        <activity android:label="@string/call_logs_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.dash.CallsDashActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/call_logs_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.backups.CallsBackupsActivity" android:parentActivityName="com.bareapps.barebackup.messagescalls.dash.CallsDashActivity"/>
+        <activity android:label="@string/call_logs" android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.backuprestore.CallsBackupRestoreActivity" android:parentActivityName="com.bareapps.barebackup.messagescalls.dash.CallsDashActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.conversationsview.ConversationsActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.messagescalls.conversationsview.ChatActivity"/>
+        <activity android:label="@string/folder_backups" android:launchMode="singleTop" android:name="com.bareapps.barebackup.folders.ui.FoldersDashActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.folders.ui.batch.FoldersBatchActivity" android:parentActivityName="com.bareapps.barebackup.folders.ui.FoldersDashActivity" android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:label="@string/select_folder" android:launchMode="singleTop" android:name="com.bareapps.barebackup.folders.ui.FolderPickerActivity" android:parentActivityName="com.bareapps.barebackup.folders.ui.FoldersDashActivity"/>
+        <activity android:label="@string/manage_folder_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.folders.ui.FolderEditActivity" android:parentActivityName="com.bareapps.barebackup.folders.ui.FoldersDashActivity"/>
+        <activity android:label="@string/folder_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.folders.ui.FolderDetailActivity" android:parentActivityName="com.bareapps.barebackup.folders.ui.FoldersDashActivity"/>
+        <activity android:label="@string/barelogger" android:launchMode="singleTop" android:name="com.bareapps.barebackup.slog.SLogActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/wifi_networks_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.wifi.WifiActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/wallpapers_backup" android:launchMode="singleTop" android:name="com.bareapps.barebackup.walls.WallsDashActivity" android:parentActivityName="com.bareapps.barebackup.home.HomeActivity"/>
+        <activity android:label="@string/manage" android:launchMode="singleTop" android:name="com.bareapps.barebackup.walls.WallsManageActivity" android:parentActivityName="com.bareapps.barebackup.walls.WallsDashActivity"/>
+        <activity android:label="@string/set_wallpaper" android:launchMode="singleTop" android:name="com.bareapps.barebackup.walls.WallApplyActivity" android:screenOrientation="portrait" android:theme="@style/BareTheme.Translucent"/>
+        <activity android:label="" android:launchMode="singleTop" android:name="com.bareapps.barebackup.notice.NoticeViewActivity"/>
+        <activity android:label="@string/storage_for_local_backups" android:launchMode="singleTop" android:name="com.bareapps.barebackup.home.storageswitch.StorageSwitchActivity"/>
+        <activity android:label="@string/encryption_password_strategy" android:launchMode="singleTop" android:name="com.bareapps.barebackup.password.PasswordStrategyActivity"/>
+        <activity android:label="@string/set_user_password" android:launchMode="singleTop" android:name="com.bareapps.barebackup.password.UserPasswordActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:label="@string/multiple_backups_strategy" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.MultipleBackupsActivity"/>
+        <activity android:label="@string/restore_special_data_title" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.RestoreSpecialDataDetailsActivity"/>
+        <activity android:launchMode="singleTask" android:name="com.bareapps.barebackup.tasks.ui.TaskActivity"/>
+        <activity android:label="@string/grant_permissions" android:launchMode="singleTop" android:name="com.bareapps.barebackup.tasks.PreconditionsActivity"/>
+        <activity android:label="@string/notices" android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.LicensesActivity"/>
         <activity android:configChanges="mcc|mnc|locale|keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|layoutDirection|fontScale" android:name="com.gun0912.tedpermission.TedPermissionActivity" android:screenOrientation="unspecified" android:theme="@style/Theme.Transparent.Permission"/>
-        <activity android:label="@string/select_a_cloud_service" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:exported="false" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
+        <activity android:label="@string/select_a_cloud_service" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.common.CloudConnectActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.settings.appbackuplimits.AppBackupLimitsActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:exported="false" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.DropboxSignInActivity"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.OneDriveSignInActivity" android:theme="@style/BareTheme.Transparent"/>
         <activity android:configChanges="keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize" android:exported="true" android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -183,48 +183,48 @@
                 <data android:host="com.bareapps.barebackup" android:path="/0LUVK+MClXv0+1KhMus7E2D3jD4=" android:scheme="msauth"/>
             </intent-filter>
         </activity>
-        <activity android:exported="false" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity"/>
-        <activity android:exported="false" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.YandexSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:exported="true" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity" android:theme="@style/SwiftTheme.Transparent"/>
-        <activity android:exported="true" android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity" android:theme="@style/SwiftTheme.Transparent">
+        <activity android:exported="false" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.BoxSignInActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.MegaSignInActivity"/>
+        <activity android:exported="false" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.YandexSignInActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:exported="true" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.PCloudSignInActivity" android:theme="@style/BareTheme.Transparent"/>
+        <activity android:exported="true" android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.TeraBoxSignInActivity" android:theme="@style/BareTheme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:host="teraboxOauth" android:scheme="org.swiftapps.swiftbackup.terabox"/>
+                <data android:host="teraboxOauth" android:scheme="com.bareapps.barebackup.terabox"/>
             </intent-filter>
         </activity>
-        <activity android:launchMode="singleTop" android:name="org.swiftapps.swiftbackup.cloud.connect.CsActivity" android:windowSoftInputMode="adjustResize"/>
-        <receiver android:name="org.swiftapps.swiftbackup.jobs.AlarmReceiver"/>
-        <receiver android:exported="true" android:name="org.swiftapps.swiftbackup.common.LocaleChangedReceiver">
+        <activity android:launchMode="singleTop" android:name="com.bareapps.barebackup.cloud.connect.CsActivity" android:windowSoftInputMode="adjustResize"/>
+        <receiver android:name="com.bareapps.barebackup.jobs.AlarmReceiver"/>
+        <receiver android:exported="true" android:name="com.bareapps.barebackup.common.LocaleChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>
-        <receiver android:enabled="false" android:exported="true" android:name="org.swiftapps.swiftbackup.jobs.BootReceiver">
+        <receiver android:enabled="false" android:exported="true" android:name="com.bareapps.barebackup.jobs.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service android:exported="false" android:foregroundServiceType="dataSync" android:name="org.swiftapps.swiftbackup.tasks.TaskService"/>
-        <service android:exported="false" android:foregroundServiceType="dataSync" android:name="org.swiftapps.swiftbackup.home.schedule.ScheduleService"/>
-        <receiver android:name="org.swiftapps.swiftbackup.tasks.NotificationTaskCancelReceiver"/>
-        <receiver android:exported="false" android:name="org.swiftapps.swiftbackup.common.PackageInstallResultReceiver"/>
-        <activity android:exported="false" android:name="org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity"/>
-        <receiver android:name="org.swiftapps.swiftbackup.detail.ShortcutPinnedReceiver"/>
-        <receiver android:exported="true" android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.SmsReceiver" android:permission="android.permission.BROADCAST_SMS">
+        <service android:exported="false" android:foregroundServiceType="dataSync" android:name="com.bareapps.barebackup.tasks.TaskService"/>
+        <service android:exported="false" android:foregroundServiceType="dataSync" android:name="com.bareapps.barebackup.home.schedule.ScheduleService"/>
+        <receiver android:name="com.bareapps.barebackup.tasks.NotificationTaskCancelReceiver"/>
+        <receiver android:exported="false" android:name="com.bareapps.barebackup.common.PackageInstallResultReceiver"/>
+        <activity android:exported="false" android:name="com.bareapps.barebackup.cloud.connect.FilenSignInActivity"/>
+        <receiver android:name="com.bareapps.barebackup.detail.ShortcutPinnedReceiver"/>
+        <receiver android:exported="true" android:name="com.bareapps.barebackup.messagescalls.defaulthandler.SmsReceiver" android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER"/>
             </intent-filter>
         </receiver>
-        <receiver android:exported="true" android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver" android:permission="android.permission.BROADCAST_WAP_PUSH">
+        <receiver android:exported="true" android:name="com.bareapps.barebackup.messagescalls.defaulthandler.MmsReceiver" android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER"/>
                 <data android:mimeType="application/vnd.wap.mms-message"/>
             </intent-filter>
         </receiver>
-        <activity android:exported="true" android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity">
+        <activity android:exported="true" android:name="com.bareapps.barebackup.messagescalls.defaulthandler.ComposeSmsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <action android:name="android.intent.action.SENDTO"/>
@@ -236,7 +236,7 @@
                 <data android:scheme="mmsto"/>
             </intent-filter>
         </activity>
-        <service android:exported="true" android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService" android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
+        <service android:exported="true" android:name="com.bareapps.barebackup.messagescalls.defaulthandler.HeadlessSmsSendService" android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
             <intent-filter>
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -311,7 +311,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="org.swiftapps.swiftbackup" android:scheme="pcloud-oauth"/>
+                <data android:host="com.bareapps.barebackup" android:scheme="pcloud-oauth"/>
             </intent-filter>
         </activity>
         <uses-library android:name="androidx.window.extensions" android:required="false"/>

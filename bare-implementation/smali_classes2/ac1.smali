@@ -92,7 +92,7 @@
     move-result v5
 
     .line 28
-    iget-object v6, v0, Lzb1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v6, v0, Lzb1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 29
     .line 30
@@ -772,7 +772,7 @@
 
     .line 357
     :goto_9
-    iget-object v8, v0, Lzb1;->B:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    iget-object v8, v0, Lzb1;->B:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 358
     .line 359
@@ -789,7 +789,7 @@
 
     .line 365
     .line 366
-    invoke-virtual {v8, v2}, Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
+    invoke-virtual {v8, v2}, Lcom/bareapps/barebackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
 
     .line 367
     .line 368
@@ -878,7 +878,7 @@
 
     .line 410
     :cond_10
-    invoke-virtual {v8, v9}, Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
+    invoke-virtual {v8, v9}, Lcom/bareapps/barebackup/views/ProviderChipGroup;->setChips(Ljava/util/List;)V
 
     .line 411
     .line 412
@@ -1093,7 +1093,7 @@
     move-object v5, v1
 
     .line 37
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v5, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 38
     .line 39
@@ -1141,7 +1141,7 @@
     move-object v7, v1
 
     .line 61
-    check-cast v7, Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    check-cast v7, Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 62
     .line 63
@@ -1249,7 +1249,7 @@
 
     .line 114
     .line 115
-    invoke-direct/range {v2 .. v11}, Lcc1;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;Lcom/google/android/flexbox/FlexboxLayout;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v11}, Lcc1;-><init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/ProviderChipGroup;Lcom/google/android/flexbox/FlexboxLayout;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 116
     .line 117

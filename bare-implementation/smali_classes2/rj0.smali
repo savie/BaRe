@@ -56,11 +56,11 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 11
     .line 12
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 13
     .line 14
@@ -73,7 +73,7 @@
     .line 17
     .line 18
     .line 19
-    sget p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 20
     .line 21
@@ -82,7 +82,7 @@
     .line 22
     .line 23
     .line 24
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->R()Lzr4;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->R()Lzr4;
 
     .line 25
     .line 26
@@ -90,7 +90,7 @@
     move-result-object p0
 
     .line 28
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -119,11 +119,11 @@
     .line 41
     .line 42
     :cond_0
-    sget-object p1, Llr4;->e:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;
+    sget-object p1, Llr4;->e:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;
 
     .line 43
     .line 44
-    invoke-virtual {p0, p1}, Lzr4;->k(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
+    invoke-virtual {p0, p1}, Lzr4;->k(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;)V
 
     .line 45
     .line 46
@@ -132,7 +132,7 @@
 
     .line 48
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 49
     .line 50
@@ -157,16 +157,16 @@
     .line 59
     .line 60
     .line 61
-    sget p2, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget p2, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 62
     .line 63
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->b0()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->b0()V
 
     .line 64
     .line 65
     .line 66
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Z(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Z(Z)V
 
     .line 67
     .line 68
@@ -175,7 +175,7 @@
 
     .line 70
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 71
     .line 72
@@ -192,7 +192,7 @@
     .line 77
     .line 78
     .line 79
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 80
     .line 81

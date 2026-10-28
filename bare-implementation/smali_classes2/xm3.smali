@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
 .field public final synthetic b:Ljava/util/List;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;Ljava/util/List;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;Ljava/util/List;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lxm3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    iput-object p1, p0, Lxm3;->a:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 5
     .line 6
@@ -39,15 +39,15 @@
     .locals 2
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 2
     .line 3
-    iget-object v0, p0, Lxm3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    iget-object v0, p0, Lxm3;->a:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->O()Lin3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->O()Lin3;
 
     .line 6
     .line 7

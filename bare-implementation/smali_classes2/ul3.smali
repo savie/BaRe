@@ -35,7 +35,7 @@
 
     .line 5
     .line 6
-    invoke-virtual {p1}, Lkj3;->c()Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$BaseBackup;
+    invoke-virtual {p1}, Lkj3;->c()Lcom/bareapps/barebackup/folders/data/FolderBackup$BaseBackup;
 
     .line 7
     .line 8
@@ -96,7 +96,7 @@
 
     .line 34
     .line 35
-    invoke-virtual {p1}, Lkj3;->c()Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$BaseBackup;
+    invoke-virtual {p1}, Lkj3;->c()Lcom/bareapps/barebackup/folders/data/FolderBackup$BaseBackup;
 
     .line 36
     .line 37
@@ -143,7 +143,7 @@
 
     .line 57
     .line 58
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 59
     .line 60
@@ -151,7 +151,7 @@
     move-result-wide v2
 
     .line 62
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 63
     .line 64
@@ -163,7 +163,7 @@
 
     .line 67
     .line 68
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
 
     .line 69
     .line 70
@@ -239,11 +239,11 @@
     move-result-object p1
 
     .line 105
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 106
     .line 107
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 108
     .line 109
@@ -251,7 +251,7 @@
     move-result-wide v6
 
     .line 111
-    invoke-static {v6, v7}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v6, v7}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 112
     .line 113
@@ -291,11 +291,11 @@
     move-result-object v1
 
     .line 130
-    check-cast v1, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;
+    check-cast v1, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;
 
     .line 131
     .line 132
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
 
     .line 133
     .line 134
@@ -351,11 +351,11 @@
     move-result-object p1
 
     .line 158
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;
 
     .line 159
     .line 160
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getDate()J
 
     .line 161
     .line 162
@@ -363,7 +363,7 @@
     move-result-wide v0
 
     .line 164
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 165
     .line 166
@@ -408,11 +408,11 @@
     move-result-object v1
 
     .line 186
-    check-cast v1, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;
+    check-cast v1, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;
 
     .line 187
     .line 188
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderBackup$FolderLocalSnapshot;->getSize()J
 
     .line 189
     .line 190

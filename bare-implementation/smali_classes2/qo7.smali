@@ -78,7 +78,7 @@
 
     .line 23
     .line 24
-    iget-object v5, v1, Lso7;->b:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    iget-object v5, v1, Lso7;->b:Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 25
     .line 26
@@ -662,7 +662,7 @@
 
     .line 316
     .line 317
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getUsedPercent()I
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getUsedPercent()I
 
     .line 318
     .line 319
@@ -729,7 +729,7 @@
 
     .line 349
     .line 350
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getUsageString()Ljava/lang/String;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getUsageString()Ljava/lang/String;
 
     .line 351
     .line 352
@@ -780,7 +780,7 @@
 
     .line 374
     .line 375
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getAppUsage()J
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getAppUsage()J
 
     .line 376
     .line 377
@@ -817,7 +817,7 @@
 
     .line 391
     .line 392
-    invoke-virtual/range {v16 .. v16}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getAppUsageString()Ljava/lang/String;
+    invoke-virtual/range {v16 .. v16}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getAppUsageString()Ljava/lang/String;
 
     .line 393
     .line 394

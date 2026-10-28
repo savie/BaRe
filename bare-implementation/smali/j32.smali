@@ -225,7 +225,7 @@
 
     .line 87
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 88
     .line 89
@@ -241,7 +241,7 @@
 
     .line 94
     .line 95
-    const-class v5, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    const-class v5, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 96
     .line 97
@@ -411,16 +411,16 @@
 
     .line 180
     .line 181
-    new-instance v0, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;
+    new-instance v0, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;
 
     .line 182
     .line 183
-    invoke-direct {v0}, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;-><init>()V
+    invoke-direct {v0}, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;-><init>()V
 
     .line 184
     .line 185
     .line 186
-    iput-object v0, p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Z:Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;
+    iput-object v0, p0, Lcom/bareapps/barebackup/detail/DetailActivity;->Z:Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;
 
     .line 187
     .line 188
@@ -433,7 +433,7 @@
     .line 191
     .line 192
     .line 193
-    invoke-static {v0, v2}, Lorg/swiftapps/swiftbackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
+    invoke-static {v0, v2}, Lcom/bareapps/barebackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
 
     .line 194
     .line 195
@@ -450,7 +450,7 @@
     move-result-object v2
 
     .line 202
-    const-class v3, Lorg/swiftapps/swiftbackup/detail/ShortcutPinnedReceiver;
+    const-class v3, Lcom/bareapps/barebackup/detail/ShortcutPinnedReceiver;
 
     .line 203
     .line 204

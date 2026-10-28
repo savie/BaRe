@@ -2301,7 +2301,7 @@
         <item name="colorTertiaryFixedDim">@color/md_theme_light_tertiaryFixedDim</item>
         <item name="dynamicColorThemeOverlay">@style/ThemeOverlay.Material3Expressive.DynamicColors.Light</item>
         <item name="elevationOverlayColor">?colorPrimary</item>
-        <item name="materialSwitchStyle">@style/Widget.SwiftBackup.MaterialSwitch</item>
+        <item name="materialSwitchStyle">@style/Widget.BareBackup.MaterialSwitch</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="textInputFilledDenseStyle">@style/M3TilFilledDense</item>
         <item name="textInputFilledExposedDropdownMenuStyle">@style/M3TilFilledDenseDropdown</item>
@@ -2375,7 +2375,7 @@
         <item name="colorTertiaryFixedDim">@color/md_theme_dark_tertiaryFixedDim</item>
         <item name="dynamicColorThemeOverlay">@style/ThemeOverlay.Material3Expressive.DynamicColors.Dark</item>
         <item name="elevationOverlayColor">?colorPrimary</item>
-        <item name="materialSwitchStyle">@style/Widget.SwiftBackup.MaterialSwitch</item>
+        <item name="materialSwitchStyle">@style/Widget.BareBackup.MaterialSwitch</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="textInputFilledDenseStyle">@style/M3TilFilledDense</item>
         <item name="textInputFilledExposedDropdownMenuStyle">@style/M3TilFilledDenseDropdown</item>
@@ -2534,13 +2534,13 @@
         <item name="strokeColor">@color/google_sign_in_button_stroke</item>
         <item name="strokeWidth">1.0dp</item>
     </style>
-    <style name="HomeTheme" parent="@style/SwiftTheme">
+    <style name="HomeTheme" parent="@style/BareTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
-    <style name="HomeThemeBlack" parent="@style/SwiftThemeBlack">
+    <style name="HomeThemeBlack" parent="@style/BareThemeBlack">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
-    <style name="HomeThemeDark" parent="@style/SwiftThemeDark">
+    <style name="HomeThemeDark" parent="@style/BareThemeDark">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
     <style name="IntroBenefitCard" parent="@style/CardStyleNormal">
@@ -2556,7 +2556,7 @@
         <item name="strokeWidth">0.0dp</item>
     </style>
     <style name="IntroTheme" parent="@style/IntroTheme.Base" />
-    <style name="IntroTheme.Base" parent="@style/SwiftTheme">
+    <style name="IntroTheme.Base" parent="@style/BareTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:windowAnimationStyle">@style/FadeActivityAnimations</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -3312,11 +3312,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4.0dp</item>
     </style>
-    <style name="ShapeAppearance.Swift.Circle" parent="">
+    <style name="ShapeAppearance.Bare.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50.0%</item>
     </style>
-    <style name="ShapeAppearance.Swift.Segmented.Single" parent="">
+    <style name="ShapeAppearance.Bare.Segmented.Single" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/card_corner_radius</item>
     </style>
@@ -3400,25 +3400,25 @@
     <style name="Subtitle.Large" parent="@style/Subtitle">
         <item name="android:textSize">@dimen/subtitle_large</item>
     </style>
-    <style name="SwiftCircularProgressIndicator">
+    <style name="BareCircularProgressIndicator">
         <item name="android:indeterminate">true</item>
         <item name="trackColor">@color/trans</item>
         <item name="trackCornerRadius">@dimen/progress_indicator_corner_radius</item>
     </style>
-    <style name="SwiftLinearProgressIndicator">
+    <style name="BareLinearProgressIndicator">
         <item name="trackCornerRadius">@dimen/progress_indicator_corner_radius</item>
     </style>
-    <style name="SwiftSegmentedListItemCardView" parent="@style/Widget.Material3.ListItemCardView.Segmented">
+    <style name="BareSegmentedListItemCardView" parent="@style/Widget.Material3.ListItemCardView.Segmented">
         <item name="cardBackgroundColor">@color/segmented_list_item_background</item>
     </style>
-    <style name="SwiftSegmentedPreferenceCard" parent="@style/Widget.Material3.CardView.Filled">
+    <style name="BareSegmentedPreferenceCard" parent="@style/Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">?segmentedListItemBackgroundColor</item>
         <item name="cardElevation">0.0dp</item>
         <item name="cardUseCompatPadding">false</item>
         <item name="rippleColor">?colorControlHighlight</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Swift.Segmented.Single</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Bare.Segmented.Single</item>
     </style>
-    <style name="SwiftTheme" parent="@style/BaseTheme">
+    <style name="BareTheme" parent="@style/BaseTheme">
         <item name="android:textAppearance">@style/Title.Large</item>
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="android:listDivider">@drawable/custom_divider</item>
@@ -3473,8 +3473,8 @@
         <item name="extendedFloatingActionButtonStyle">?extendedFloatingActionButtonPrimaryStyle</item>
         <item name="floatingActionButtonPrimaryStyle">@style/FloatingActionButtonPrimaryStyle</item>
         <item name="handleColor">#9e9e9e</item>
-        <item name="listItemCardViewStyle">@style/SwiftSegmentedListItemCardView</item>
-        <item name="mPopupTheme">@style/SwiftTheme.PopupOverlay</item>
+        <item name="listItemCardViewStyle">@style/BareSegmentedListItemCardView</item>
+        <item name="mPopupTheme">@style/BareTheme.PopupOverlay</item>
         <item name="materialAlertDialogTheme">@style/M3MaterialAlertDialogTheme</item>
         <item name="materialCardViewStyle">?cardStyle</item>
         <item name="popupBackgroundColor">@color/popupbg_lt</item>
@@ -3496,25 +3496,25 @@
         <item name="veryLightGreenTint">@color/grn10</item>
         <item name="veryLightRedTint">@color/red20</item>
     </style>
-    <style name="SwiftTheme.AppBarOverlay" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+    <style name="BareTheme.AppBarOverlay" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorAccent">@color/wht80</item>
     </style>
-    <style name="SwiftTheme.PopupOverlay" parent="@style/ThemeOverlay.MaterialComponents.Light">
+    <style name="BareTheme.PopupOverlay" parent="@style/ThemeOverlay.MaterialComponents.Light">
         <item name="android:colorBackground">?popupBackgroundColor</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
-    <style name="SwiftTheme.PopupOverlay.Dark" parent="@style/ThemeOverlay.MaterialComponents">
+    <style name="BareTheme.PopupOverlay.Dark" parent="@style/ThemeOverlay.MaterialComponents">
         <item name="android:colorBackground">?popupBackgroundColor</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
-    <style name="SwiftTheme.Translucent" parent="@style/SwiftTheme">
+    <style name="BareTheme.Translucent" parent="@style/BareTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:statusBarColor">@color/trans</item>
         <item name="android:navigationBarColor">@color/trans</item>
     </style>
-    <style name="SwiftTheme.Transparent" parent="@style/SwiftTheme">
+    <style name="BareTheme.Transparent" parent="@style/BareTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -3526,7 +3526,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="SwiftThemeBlack" parent="@style/SwiftThemeDark">
+    <style name="BareThemeBlack" parent="@style/BareThemeDark">
         <item name="android:windowBackground">@color/bg_blk</item>
         <item name="android:statusBarColor">@color/status_bar_blk</item>
         <item name="android:navigationBarColor">@color/navigation_bar_blk</item>
@@ -3545,8 +3545,8 @@
         <item name="dividerColor">@color/divider_blk</item>
         <item name="elevationOverlayEnabled">false</item>
         <item name="handleColor">#333</item>
-        <item name="listItemCardViewStyle">@style/SwiftSegmentedListItemCardView</item>
-        <item name="mPopupTheme">@style/SwiftTheme.PopupOverlay.Dark</item>
+        <item name="listItemCardViewStyle">@style/BareSegmentedListItemCardView</item>
+        <item name="mPopupTheme">@style/BareTheme.PopupOverlay.Dark</item>
         <item name="popupBackgroundColor">@color/popupbg_blk</item>
         <item name="segmentedListItemBackgroundColor">?cardBackgroundColor</item>
         <item name="segmentedListItemBottomMargin">3.0dp</item>
@@ -3558,7 +3558,7 @@
         <item name="veryLightDividerTint">@color/wht15</item>
         <item name="veryLightDividerTint2">@color/wht10</item>
     </style>
-    <style name="SwiftThemeDark" parent="@style/BaseThemeDark">
+    <style name="BareThemeDark" parent="@style/BaseThemeDark">
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="android:listDivider">@drawable/custom_divider</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
@@ -3612,8 +3612,8 @@
         <item name="extendedFloatingActionButtonPrimaryStyle">@style/ExtendedFloatingActionButtonPrimaryStyle</item>
         <item name="extendedFloatingActionButtonStyle">?extendedFloatingActionButtonPrimaryStyle</item>
         <item name="handleColor">#444</item>
-        <item name="listItemCardViewStyle">@style/SwiftSegmentedListItemCardView</item>
-        <item name="mPopupTheme">@style/SwiftTheme.PopupOverlay.Dark</item>
+        <item name="listItemCardViewStyle">@style/BareSegmentedListItemCardView</item>
+        <item name="mPopupTheme">@style/BareTheme.PopupOverlay.Dark</item>
         <item name="materialAlertDialogTheme">@style/M3MaterialAlertDialogTheme</item>
         <item name="materialCardViewStyle">?cardStyle</item>
         <item name="popupBackgroundColor">@color/popupbg_dk</item>
@@ -3632,7 +3632,7 @@
         <item name="veryLightGreenTint">@color/grn30</item>
         <item name="veryLightRedTint">@color/red40</item>
     </style>
-    <style name="SwiftThemeDark.Transparent" parent="@style/SwiftThemeDark">
+    <style name="BareThemeDark.Transparent" parent="@style/BareThemeDark">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -7150,14 +7150,14 @@
     <style name="Widget.Support.CoordinatorLayout" parent="@android:style/Widget">
         <item name="statusBarBackground">#000000</item>
     </style>
-    <style name="Widget.SwiftBackup.MaterialSwitch" parent="@style/Widget.Material3.CompoundButton.MaterialSwitch">
+    <style name="Widget.BareBackup.MaterialSwitch" parent="@style/Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="android:background">@null</item>
-        <item name="android:minWidth">@dimen/swiftbackup_expressive_switch_min_width</item>
-        <item name="thumbIcon">@drawable/swiftbackup_expressive_switch_thumb_icon</item>
+        <item name="android:minWidth">@dimen/barebackup_expressive_switch_min_width</item>
+        <item name="thumbIcon">@drawable/barebackup_expressive_switch_thumb_icon</item>
         <item name="thumbIconSize">16.0dp</item>
-        <item name="thumbIconTint">@color/swiftbackup_expressive_switch_thumb_icon_tint</item>
-        <item name="thumbTint">@color/swiftbackup_expressive_switch_thumb_tint</item>
-        <item name="trackTint">@color/swiftbackup_expressive_switch_track_tint</item>
+        <item name="thumbIconTint">@color/barebackup_expressive_switch_thumb_icon_tint</item>
+        <item name="thumbTint">@color/barebackup_expressive_switch_thumb_tint</item>
+        <item name="trackTint">@color/barebackup_expressive_switch_track_tint</item>
     </style>
     <style name="YubiKitPromptDialogButton" parent="@android:style/Widget.Button">
         <item name="android:textStyle">bold</item>

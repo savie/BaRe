@@ -822,7 +822,7 @@ BΛR☰ зберігатиме ваш пароль лише локально в 
     <string name="schedules">Розклади</string>
     <string name="search">Пошук</string>
     <string name="search_hint_apps">Пошук додатків</string>
-    <string name="search_swift_backup">Пошук BΛR☰</string>
+    <string name="search_bare_backup">Пошук BΛR☰</string>
     <string name="secondary_action">Додаткова дія</string>
     <string name="secondary_user_warning_msg">Додаткові/робочі профілі користувачів офіційно не підтримуються через деякі неминучі проблеми. Будь ласка, перемкніться на основного користувача на цьому пристрої.</string>
     <string name="see_all">Переглянути всі</string>
@@ -860,11 +860,11 @@ BΛR☰ зберігатиме ваш пароль лише локально в 
     <string name="share_apk">Поділитися APK</string>
     <string name="share_apks">Поділитися APK</string>
     <string name="share_logs">Поділитися журналами</string>
-    <string name="share_swiftbackup">Поділитися BΛR☰</string>
-    <string name="share_swiftbackup_msg">Спробуйте чудовий менеджер резервного копіювання, яким я користуюся! Він називається BΛR☰, ось посилання: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ – просте, швидке та розумне рішення для резервного копіювання для Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat пристрою</string>
-    <string name="share_swiftlogger_text_only">Поділіться лише текстовим звітом</string>
+    <string name="share_barebackup">Поділитися BΛR☰</string>
+    <string name="share_barebackup_msg">Спробуйте чудовий менеджер резервного копіювання, яким я користуюся! Він називається BΛR☰, ось посилання: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ – просте, швидке та розумне рішення для резервного копіювання для Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat пристрою</string>
+    <string name="share_barelogger_text_only">Поділіться лише текстовим звітом</string>
     <string name="shared_libraries">Спільні бібліотеки</string>
     <string name="shortcuts">Ярлики</string>
     <string name="show_less">Показувати менше</string>
@@ -906,9 +906,9 @@ BΛR☰ зберігатиме ваш пароль лише локально в 
     <string name="successful">Успішно</string>
     <string name="sure_to_cancel_task">Ви впевнені, що бажаєте скасувати?</string>
     <string name="sure_to_proceed">Ви впевнені, що бажаєте продовжити? Натисніть Так для підтвердження.</string>
-    <string name="swift_backup_is_busy">BΛR☰ зайнятий</string>
-    <string name="swift_labs_settings_summary">Експериментальні та відновлювальні інструменти</string>
-    <string name="swiftlogger_info">Журнали для звітів про помилки</string>
+    <string name="barebackup_is_busy">BΛR☰ зайнятий</string>
+    <string name="bare_labs_settings_summary">Експериментальні та відновлювальні інструменти</string>
+    <string name="barelogger_info">Журнали для звітів про помилки</string>
     <string name="swipe_actions">Дії жестів</string>
     <string name="swipe_actions_description">Виберіть до двох дій для кожного напрямку жесту</string>
     <string name="sync_backups">Синхронізувати резервні копії</string>

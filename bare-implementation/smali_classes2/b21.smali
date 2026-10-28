@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 .field public final b:Lcy7;
 
@@ -28,7 +28,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
     .locals 2
 
     .line 1
@@ -47,7 +47,7 @@
     .line 8
     .line 9
     .line 10
-    iput-object p1, p0, Lb21;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Lb21;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 11
     .line 12

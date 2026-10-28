@@ -45,7 +45,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 8
     .line 9
@@ -66,7 +66,7 @@
 
     .line 17
     .line 18
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 19
     .line 20
@@ -86,7 +86,7 @@
     const/4 v2, 0x0
 
     .line 28
-    invoke-static {p0, v2}, Lsq1;->a(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;Z)Z
+    invoke-static {p0, v2}, Lsq1;->a(Lcom/bareapps/barebackup/appconfigs/data/Config;Z)Z
 
     .line 29
     .line 30
@@ -111,7 +111,7 @@
     move-result-object v0
 
     .line 41
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getUpdateDate()J
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getUpdateDate()J
 
     .line 42
     .line 43
@@ -119,7 +119,7 @@
     move-result-wide v2
 
     .line 45
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 46
     .line 47
@@ -221,7 +221,7 @@
     .line 95
     .line 96
     .line 97
-    iget-object p1, p1, Lxq1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p1, p1, Lxq1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 98
     .line 99

@@ -36,7 +36,7 @@
 
 .field public K:Lji;
 
-.field public final L:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final L:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final M:Landroid/widget/ImageView;
 
@@ -48,19 +48,19 @@
 
 .field public final Q:Landroid/widget/TextView;
 
-.field public final R:Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;
+.field public final R:Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;
 
 .field public final S:Landroid/widget/ImageView;
 
-.field public final T:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+.field public final T:Lcom/bareapps/barebackup/views/MCheckBox;
 
 .field public final U:Landroid/widget/ImageView;
 
 .field public final V:Landroid/view/View;
 
-.field public final W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+.field public final W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
-.field public final X:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+.field public final X:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
 .field public final Y:Lcom/google/android/material/button/MaterialButton;
 
@@ -342,14 +342,14 @@
 
     move-object v14, v4
 
-    check-cast v14, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v14, Lcom/bareapps/barebackup/views/MCheckBox;
 
     if-eqz v14, :cond_4
 
     .line 22
     move-object v9, v1
 
-    check-cast v9, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast v9, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     const v3, 0x7f0a01a6
 
@@ -358,7 +358,7 @@
 
     move-result-object v4
 
-    check-cast v4, Lorg/swiftapps/swiftbackup/appslist/ui/AppItemContentLayout;
+    check-cast v4, Lcom/bareapps/barebackup/appslist/ui/AppItemContentLayout;
 
     if-eqz v4, :cond_4
 
@@ -384,7 +384,7 @@
 
     move-object/from16 v17, v4
 
-    check-cast v17, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v17, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     if-eqz v17, :cond_4
 
@@ -432,7 +432,7 @@
 
     move-object/from16 v21, v4
 
-    check-cast v21, Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    check-cast v21, Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     if-eqz v21, :cond_4
 
@@ -445,7 +445,7 @@
 
     move-object/from16 v22, v4
 
-    check-cast v22, Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    check-cast v22, Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     if-eqz v22, :cond_4
 
@@ -458,7 +458,7 @@
 
     move-object/from16 v23, v4
 
-    check-cast v23, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;
+    check-cast v23, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;
 
     if-eqz v23, :cond_4
 
@@ -519,7 +519,7 @@
 
     move-object v15, v9
 
-    invoke-direct/range {v8 .. v27}, Ldr;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/MCheckBox;Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/view/View;Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v8 .. v27}, Ldr;-><init>(Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/MCheckBox;Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/view/View;Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     move-object/from16 v4, v16
 
@@ -557,7 +557,7 @@
     iput-object v13, v0, Ltr;->J:Ldr;
 
     .line 38
-    iput-object v3, v0, Ltr;->L:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object v3, v0, Ltr;->L:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 39
     iput-object v4, v0, Ltr;->M:Landroid/widget/ImageView;
@@ -575,13 +575,13 @@
     iput-object v11, v0, Ltr;->Q:Landroid/widget/TextView;
 
     .line 44
-    iput-object v15, v0, Ltr;->R:Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;
+    iput-object v15, v0, Ltr;->R:Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;
 
     .line 45
     iput-object v5, v0, Ltr;->S:Landroid/widget/ImageView;
 
     .line 46
-    iput-object v14, v0, Ltr;->T:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iput-object v14, v0, Ltr;->T:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 47
     iput-object v6, v0, Ltr;->U:Landroid/widget/ImageView;
@@ -590,10 +590,10 @@
     iput-object v7, v0, Ltr;->V:Landroid/view/View;
 
     .line 49
-    iput-object v9, v0, Ltr;->W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iput-object v9, v0, Ltr;->W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 50
-    iput-object v8, v0, Ltr;->X:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iput-object v8, v0, Ltr;->X:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 51
     iput-object v12, v0, Ltr;->Y:Lcom/google/android/material/button/MaterialButton;
@@ -977,7 +977,7 @@
 
     .line 62
     .line 63
-    invoke-virtual {v5}, Lji;->getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v5}, Lji;->getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 64
     .line 65
@@ -989,7 +989,7 @@
 
     .line 68
     .line 69
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getLatestBackup()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getLatestBackup()Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 70
     .line 71
@@ -1001,7 +1001,7 @@
 
     .line 74
     .line 75
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getDateBackedUpOrUpdated()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getDateBackedUpOrUpdated()J
 
     .line 76
     .line 77
@@ -1151,7 +1151,7 @@
     move-result-wide v11
 
     .line 143
-    invoke-static {v11, v12}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v11, v12}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 144
     .line 145
@@ -1455,7 +1455,7 @@
     move-result-object v1
 
     .line 283
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 284
     .line 285
@@ -1484,7 +1484,7 @@
 
     .line 296
     .line 297
-    invoke-virtual {v5}, Lji;->getCloudBackups()Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;
+    invoke-virtual {v5}, Lji;->getCloudBackups()Lcom/bareapps/barebackup/model/app/AppCloudBackups;
 
     .line 298
     .line 299
@@ -1496,7 +1496,7 @@
 
     .line 302
     .line 303
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackups;->getTotalSize()J
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/app/AppCloudBackups;->getTotalSize()J
 
     .line 304
     .line 305
@@ -1832,7 +1832,7 @@
     move-result-object v1
 
     .line 460
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 461
     .line 462
@@ -1927,7 +1927,7 @@
     move-result-wide v2
 
     .line 502
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 503
     .line 504
@@ -2033,7 +2033,7 @@
     move-result-object v0
 
     .line 551
-    iget-object v1, p0, Ltr;->R:Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;
+    iget-object v1, p0, Ltr;->R:Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;
 
     .line 552
     .line 553
@@ -2167,7 +2167,7 @@
 
     .line 610
     .line 611
-    iget-object v6, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->t:Ljava/util/List;
+    iget-object v6, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->t:Ljava/util/List;
 
     .line 612
     .line 613
@@ -2183,7 +2183,7 @@
 
     .line 618
     .line 619
-    iget v6, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->x:F
+    iget v6, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->x:F
 
     .line 620
     .line 621
@@ -2195,7 +2195,7 @@
 
     .line 624
     .line 625
-    iget-boolean v6, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->y:Z
+    iget-boolean v6, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->y:Z
 
     .line 626
     .line 627
@@ -2207,22 +2207,22 @@
 
     .line 630
     :cond_1c
-    iput-object v0, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->t:Ljava/util/List;
+    iput-object v0, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->t:Ljava/util/List;
 
     .line 631
     .line 632
-    iput v2, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->x:F
+    iput v2, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->x:F
 
     .line 633
     .line 634
-    iput-boolean v3, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->y:Z
+    iput-boolean v3, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->y:Z
 
     .line 635
     .line 636
     const/4 v3, -0x1
 
     .line 637
-    iput v3, v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;->H:I
+    iput v3, v1, Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;->H:I
 
     .line 638
     .line 639
@@ -2340,7 +2340,7 @@
 
     .line 694
     .line 695
-    iget-object v0, p0, Ltr;->L:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v0, p0, Ltr;->L:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 696
     .line 697
@@ -2473,7 +2473,7 @@
 
     .line 761
     .line 762
-    iget-object v0, p0, Ltr;->L:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v0, p0, Ltr;->L:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 763
     .line 764
@@ -2644,7 +2644,7 @@
 
     .line 838
     .line 839
-    iget-object v1, p0, Ltr;->W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object v1, p0, Ltr;->W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 840
     .line 841
@@ -2663,7 +2663,7 @@
     move-object v0, p0
 
     .line 848
-    invoke-virtual/range {v0 .. v6}, Ltr;->v(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
+    invoke-virtual/range {v0 .. v6}, Ltr;->v(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
 
     .line 849
     .line 850
@@ -2671,7 +2671,7 @@
     move-result v10
 
     .line 852
-    iget-object v1, p0, Ltr;->X:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object v1, p0, Ltr;->X:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 853
     .line 854
@@ -2694,7 +2694,7 @@
     move-object v4, v9
 
     .line 863
-    invoke-virtual/range {v0 .. v6}, Ltr;->v(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
+    invoke-virtual/range {v0 .. v6}, Ltr;->v(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
 
     .line 864
     .line 865
@@ -2710,7 +2710,7 @@
 
     .line 870
     .line 871
-    check-cast v2, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v2, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 872
     .line 873
@@ -2745,15 +2745,15 @@
 
     .line 885
     .line 886
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     .line 887
     .line 888
-    iget-object p0, p0, Ltr;->W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object p0, p0, Ltr;->W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 889
     .line 890
-    invoke-virtual {v1, p0, v7}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
+    invoke-virtual {v1, p0, v7}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
     :try_end_2
     .catch Ljava/lang/IllegalArgumentException; {:try_start_2 .. :try_end_2} :catch_0
 
@@ -2803,7 +2803,7 @@
 
     .line 10
     .line 11
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v1, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 12
     .line 13
@@ -2820,7 +2820,7 @@
 
     .line 19
     .line 20
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v0, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 21
     .line 22
@@ -2848,7 +2848,7 @@
     .line 30
     .line 31
     .line 32
-    iget-object p0, p0, Ltr;->T:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object p0, p0, Ltr;->T:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 33
     .line 34
@@ -3295,7 +3295,7 @@
     return p0
 .end method
 
-.method public final v(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
+.method public final v(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lqy;Lji;Loy;)Z
     .locals 2
 
     .line 1

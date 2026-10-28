@@ -5276,7 +5276,7 @@
     throw p0
 .end method
 
-.method public t(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+.method public t(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
     .locals 19
 
     .line 1
@@ -6119,7 +6119,7 @@
     move v15, v5
 
     .line 389
-    new-instance v5, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    new-instance v5, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 390
     .line 391
@@ -6127,7 +6127,7 @@
 
     .line 392
     .line 393
-    invoke-direct/range {v5 .. v15}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;-><init>(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+    invoke-direct/range {v5 .. v15}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;-><init>(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
 
     .line 394
     .line 395
@@ -6454,7 +6454,7 @@
     return p0
 .end method
 
-.method public z(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+.method public z(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
     .locals 20
 
     .line 1
@@ -6467,7 +6467,7 @@
     .line 4
     .line 5
     :try_start_0
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->hasRestorableCryptoState()Z
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->hasRestorableCryptoState()Z
 
     .line 6
     .line 7
@@ -6479,7 +6479,7 @@
 
     .line 10
     .line 11
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getMetadataKeysHex()Ljava/util/List;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getMetadataKeysHex()Ljava/util/List;
 
     .line 12
     .line 13
@@ -6569,7 +6569,7 @@
     .line 52
     .line 53
     :cond_0
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 54
     .line 55
@@ -6599,7 +6599,7 @@
 
     .line 66
     .line 67
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
 
     .line 68
     .line 69
@@ -6623,7 +6623,7 @@
 
     .line 78
     :cond_1
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
 
     .line 79
     .line 80
@@ -6651,7 +6651,7 @@
 
     .line 91
     :cond_2
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyVersion()I
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyVersion()I
 
     .line 92
     .line 93
@@ -6670,7 +6670,7 @@
     .line 98
     .line 99
     :try_start_1
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 100
     .line 101
@@ -6770,7 +6770,7 @@
 
     .line 144
     .line 145
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getNameHmacKeyHex()Ljava/lang/String;
 
     .line 146
     .line 147
@@ -6786,7 +6786,7 @@
     move-result-object v1
 
     .line 153
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getLegacyNameHmacKeyHex()Ljava/lang/String;
 
     .line 154
     .line 155
@@ -6854,7 +6854,7 @@
     .line 182
     .line 183
     :try_start_2
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 184
     .line 185
@@ -6929,7 +6929,7 @@
     move-result-object v16
 
     .line 219
-    invoke-virtual/range {p1 .. p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
+    invoke-virtual/range {p1 .. p1}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getAuthVersion()I
 
     .line 220
     .line 221
@@ -6993,7 +6993,7 @@
 
     .line 246
     .line 247
-    invoke-static/range {v7 .. v19}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->copy$default(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/Object;)Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    invoke-static/range {v7 .. v19}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->copy$default(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/Object;)Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 248
     .line 249

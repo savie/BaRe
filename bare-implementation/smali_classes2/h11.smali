@@ -96,7 +96,7 @@
 
     .line 32
     .line 33
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;
 
     .line 34
     .line 35
@@ -131,7 +131,7 @@
 
     .line 50
     .line 51
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 52
     .line 53

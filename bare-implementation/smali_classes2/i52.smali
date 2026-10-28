@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 .field public final synthetic b:Lmt3;
 
@@ -19,7 +19,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Lmt3;ZLbt3;Ljava/lang/String;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Lmt3;ZLbt3;Ljava/lang/String;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Li52;->a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Li52;->a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 5
     .line 6
@@ -60,11 +60,11 @@
     const/4 v0, 0x0
 
     .line 2
-    iget-object v1, p0, Li52;->a:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object v1, p0, Li52;->a:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 3
     .line 4
-    iput-boolean v0, v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->N0:Z
+    iput-boolean v0, v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->N0:Z
 
     .line 5
     .line 6
@@ -162,7 +162,7 @@
 
     .line 50
     .line 51
-    invoke-direct {v4, v3, v1, p0}, Le52;-><init>(Lbt3;Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Ljava/lang/String;)V
+    invoke-direct {v4, v3, v1, p0}, Le52;-><init>(Lbt3;Lcom/bareapps/barebackup/cloud/connect/CsActivity;Ljava/lang/String;)V
 
     .line 52
     .line 53

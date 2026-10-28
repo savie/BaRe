@@ -97,11 +97,11 @@
     move-result-object p0
 
     .line 25
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 26
     .line 27
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getItemId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getItemId()Ljava/lang/String;
 
     .line 28
     .line 29
@@ -117,7 +117,7 @@
     move-result-object p0
 
     .line 35
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 36
     .line 37
@@ -177,7 +177,7 @@
     move-result-object p0
 
     .line 65
-    invoke-static {v2}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {v2}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 66
     .line 67

@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
 .field public final synthetic b:Z
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;Z)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;Z)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Li01;->a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    iput-object p1, p0, Li01;->a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 5
     .line 6
@@ -39,11 +39,11 @@
     .locals 3
 
     .line 1
-    iget-object p1, p0, Li01;->a:Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    iget-object p1, p0, Li01;->a:Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 2
     .line 3
-    iget-object v0, p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
+    iget-object v0, p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
 
     .line 4
     .line 5
@@ -78,7 +78,7 @@
 
     .line 19
     .line 20
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->L()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->L()V
 
     .line 21
     .line 22
@@ -95,7 +95,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/b;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lcom/bareapps/barebackup/messagescalls/backuprestore/b;
 
     .line 29
     .line 30
@@ -103,7 +103,7 @@
     move-result-object p0
 
     .line 32
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
+    iget-object p1, p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
 
     .line 33
     .line 34
@@ -131,7 +131,7 @@
 
     .line 45
     .line 46
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->L()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->L()V
 
     .line 47
     .line 48
@@ -175,7 +175,7 @@
 
     .line 67
     :cond_3
-    iget-object p0, p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0:Lgv7;
+    iget-object p0, p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0:Lgv7;
 
     .line 68
     .line 69
@@ -191,7 +191,7 @@
 
     .line 74
     .line 75
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->b0:Lrb;
+    iget-object p1, p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->b0:Lrb;
 
     .line 76
     .line 77

@@ -318,7 +318,7 @@
 
     .line 124
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 125
     .line 126
@@ -326,11 +326,11 @@
 
     .line 127
     .line 128
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->N:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->N:I
 
     .line 129
     .line 130
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->O()Lec3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->O()Lec3;
 
     .line 131
     .line 132

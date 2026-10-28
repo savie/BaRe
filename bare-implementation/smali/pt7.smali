@@ -11,7 +11,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/view/View;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/view/View;)V
     .locals 0
 
     .line 1
@@ -33,7 +33,7 @@
     .locals 6
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;->k:I
+    sget v0, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;->k:I
 
     .line 2
     .line 3

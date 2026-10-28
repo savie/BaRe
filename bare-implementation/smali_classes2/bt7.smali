@@ -110,7 +110,7 @@
 
     .line 9
     .line 10
-    const-string v2, "SwiftBackupSettingsHelper"
+    const-string v2, "BareBackupSettingsHelper"
 
     .line 11
     .line 12
@@ -205,7 +205,7 @@
     move-result-object p1
 
     .line 56
-    new-instance v0, Lorg/swiftapps/swiftbackup/settings/SwiftBackupSettingsHelper$SettingsData;
+    new-instance v0, Lcom/bareapps/barebackup/settings/BareBackupSettingsHelper$SettingsData;
 
     .line 57
     .line 58
@@ -224,7 +224,7 @@
     const/4 v3, 0x0
 
     .line 63
-    invoke-direct/range {v0 .. v5}, Lorg/swiftapps/swiftbackup/settings/SwiftBackupSettingsHelper$SettingsData;-><init>(Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v5}, Lcom/bareapps/barebackup/settings/BareBackupSettingsHelper$SettingsData;-><init>(Lcom/bareapps/barebackup/model/firebase/AppSettings;Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;Lcom/bareapps/barebackup/blacklist/data/BlacklistData;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 64
     .line 65
@@ -319,7 +319,7 @@
     const/4 v6, 0x0
 
     .line 98
-    const-string v1, "SwiftBackupSettingsHelper"
+    const-string v1, "BareBackupSettingsHelper"
 
     .line 99
     .line 100

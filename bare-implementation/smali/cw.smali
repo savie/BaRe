@@ -167,7 +167,7 @@
 
     .line 50
     .line 51
-    iget-object v2, p0, Lcs8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v2, p0, Lcs8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 52
     .line 53

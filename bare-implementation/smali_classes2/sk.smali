@@ -15,11 +15,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;
 
     .line 4
     .line 5
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lorg/swiftapps/swiftbackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;->N(Lcom/bareapps/barebackup/settings/appbackuplimits/AppBackupLimitsActivity;)V
 
     .line 6
     .line 7

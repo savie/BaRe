@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
 .field public final synthetic b:Landroid/widget/Button;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;Landroid/widget/Button;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;Landroid/widget/Button;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lwb3;->a:Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    iput-object p1, p0, Lwb3;->a:Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 5
     .line 6
@@ -39,11 +39,11 @@
     .locals 5
 
     .line 1
-    iget-object v0, p0, Lwb3;->a:Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    iget-object v0, p0, Lwb3;->a:Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->O()Lec3;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->O()Lec3;
 
     .line 4
     .line 5

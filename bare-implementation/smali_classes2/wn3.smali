@@ -6,7 +6,7 @@
 # instance fields
 .field public final a:Lq63;
 
-.field public final b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+.field public final b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
 .field public final c:Ljava/util/List;
 
@@ -22,7 +22,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lq63;Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;Ljava/util/List;)V
+.method public constructor <init>(Lq63;Lcom/bareapps/barebackup/folders/data/ManifestInfo;Ljava/util/List;)V
     .locals 10
 
     .line 1
@@ -35,7 +35,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lwn3;->b:Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;
+    iput-object p2, p0, Lwn3;->b:Lcom/bareapps/barebackup/folders/data/ManifestInfo;
 
     .line 7
     .line 8
@@ -125,7 +125,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/folders/data/ManifestInfo;->getManifest()Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/folders/data/ManifestInfo;->getManifest()Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 51
     .line 52
@@ -133,7 +133,7 @@
     move-result-object v4
 
     .line 54
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/folders/data/Manifest;->getCurrentState()Lorg/swiftapps/swiftbackup/folders/data/FolderState;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/folders/data/Manifest;->getCurrentState()Lcom/bareapps/barebackup/folders/data/FolderState;
 
     .line 55
     .line 56
@@ -141,7 +141,7 @@
     move-result-object v4
 
     .line 58
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/folders/data/FolderState;->getFiles()Ljava/util/Map;
 
     .line 59
     .line 60
@@ -157,7 +157,7 @@
     move-result-object p3
 
     .line 66
-    check-cast p3, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;
+    check-cast p3, Lcom/bareapps/barebackup/folders/data/FileEntry;
 
     .line 67
     .line 68
@@ -165,7 +165,7 @@
 
     .line 69
     .line 70
-    invoke-virtual {p3}, Lorg/swiftapps/swiftbackup/folders/data/FileEntry;->getSize()J
+    invoke-virtual {p3}, Lcom/bareapps/barebackup/folders/data/FileEntry;->getSize()J
 
     .line 71
     .line 72

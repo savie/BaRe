@@ -64,7 +64,7 @@
 
     .line 13
     .line 14
-    iget-object v0, v0, Las8;->a:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v0, v0, Las8;->a:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 15
     .line 16
@@ -91,7 +91,7 @@
     const/4 v1, 0x1
 
     .line 27
-    invoke-virtual {v0, p0, p2, v1, p1}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->c0(Ljava/util/ArrayList;IZLandroid/view/View;)V
+    invoke-virtual {v0, p0, p2, v1, p1}, Lcom/bareapps/barebackup/wifi/WifiActivity;->c0(Ljava/util/ArrayList;IZLandroid/view/View;)V
 
     .line 28
     .line 29

@@ -995,7 +995,7 @@
     return-void
 .end method
 
-.method public static F(Lsa1;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;Lmt3;)V
+.method public static F(Lsa1;Lcom/bareapps/barebackup/tasks/model/SyncOption;Lmt3;)V
     .locals 7
 
     .line 1
@@ -1009,7 +1009,7 @@
     .line 5
     .line 6
     .line 7
-    invoke-static {}, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->getEntries()Ljx2;
+    invoke-static {}, Lcom/bareapps/barebackup/tasks/model/SyncOption;->getEntries()Ljx2;
 
     .line 8
     .line 9
@@ -1075,11 +1075,11 @@
     move-result-object v2
 
     .line 40
-    check-cast v2, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    check-cast v2, Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 41
     .line 42
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->toDisplayString()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/tasks/model/SyncOption;->toDisplayString()Ljava/lang/String;
 
     .line 43
     .line 44
@@ -1273,7 +1273,7 @@
 
     .line 18
     .line 19
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    const-class v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 20
     .line 21

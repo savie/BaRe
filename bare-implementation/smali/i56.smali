@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final f:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+.field public final f:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/premium/PremiumActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/premium/PremiumActivity;)V
     .locals 0
 
     .line 1
@@ -17,7 +17,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Li56;->f:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    iput-object p1, p0, Li56;->f:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 5
     .line 6
@@ -964,11 +964,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Li56;->f:Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    iget-object p0, p0, Li56;->f:Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 4
     .line 5
-    invoke-direct {p2, p1, p0}, Lh56;-><init>(Landroid/view/View;Lorg/swiftapps/swiftbackup/premium/PremiumActivity;)V
+    invoke-direct {p2, p1, p0}, Lh56;-><init>(Landroid/view/View;Lcom/bareapps/barebackup/premium/PremiumActivity;)V
 
     .line 6
     .line 7

@@ -19,7 +19,7 @@
 
 .field public final f:Lkb2;
 
-.field public final k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final n:Landroid/view/View;
 
@@ -31,7 +31,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroid/widget/ImageView;Lkb2;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/view/View;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Landroid/widget/ImageView;Lkb2;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/view/View;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -64,7 +64,7 @@
 
     .line 15
     .line 16
-    iput-object p7, p0, Lz27;->k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p7, p0, Lz27;->k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 17
     .line 18

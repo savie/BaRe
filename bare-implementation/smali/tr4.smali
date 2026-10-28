@@ -169,11 +169,11 @@
     .line 2
     .line 3
     .line 4
-    iget-object v0, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v0, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 5
     .line 6
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->isBuiltInLabel()Z
 
     .line 7
     .line 8
@@ -193,7 +193,7 @@
 
     .line 15
     .line 16
-    invoke-virtual {v0, v4}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getTextColor(Z)I
+    invoke-virtual {v0, v4}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getTextColor(Z)I
 
     .line 17
     .line 18
@@ -239,7 +239,7 @@
 
     .line 35
     :cond_1
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getColorInt()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getColorInt()I
 
     .line 36
     .line 37
@@ -406,7 +406,7 @@
     .line 112
     .line 113
     .line 114
-    invoke-virtual {v0, v1, v4}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getRippleColor(Landroid/content/Context;I)I
+    invoke-virtual {v0, v1, v4}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getRippleColor(Landroid/content/Context;I)I
 
     .line 115
     .line 116

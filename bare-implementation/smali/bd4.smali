@@ -72,7 +72,7 @@
     const/4 v1, 0x1
 
     .line 14
-    const-string v2, "SwiftBackup"
+    const-string v2, "BareBackup"
 
     .line 15
     .line 16

@@ -70,7 +70,7 @@
 
     .line 20
     .line 21
-    invoke-static {p2}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static {p2}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 22
     .line 23

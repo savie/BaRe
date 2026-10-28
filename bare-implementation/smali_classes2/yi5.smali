@@ -103,11 +103,11 @@
 
     .line 32
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 33
     .line 34
-    sget v0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;->S:I
+    sget v0, Lcom/bareapps/barebackup/walls/WallsManageActivity;->S:I
 
     .line 35
     .line 36
@@ -165,7 +165,7 @@
     move-result-object v1
 
     .line 64
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 65
     .line 66
@@ -181,7 +181,7 @@
 
     .line 71
     .line 72
-    invoke-direct {v7, p0, v0, v1}, Lrp8;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {v7, p0, v0, v1}, Lrp8;-><init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Lw00;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 73
     .line 74
@@ -224,15 +224,15 @@
 
     .line 92
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 93
     .line 94
-    sget v0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget v0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 95
     .line 96
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Y:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Y:Lgv7;
 
     .line 97
     .line 98
@@ -256,11 +256,11 @@
 
     .line 107
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    check-cast p0, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 108
     .line 109
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;->a(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;)Lbe8;
+    invoke-static {p0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$a;->a(Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;)Lbe8;
 
     .line 110
     .line 111
@@ -301,7 +301,7 @@
 
     .line 128
     :pswitch_4
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;
+    check-cast p0, Lcom/bareapps/barebackup/model/firebase/AppSettings;
 
     .line 129
     .line 130
@@ -309,7 +309,7 @@
 
     .line 131
     .line 132
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getThemeModeId()Ljava/lang/Integer;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getThemeModeId()Ljava/lang/Integer;
 
     .line 133
     .line 134
@@ -372,7 +372,7 @@
     .line 163
     .line 164
     .line 165
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->getUseAmoledTheme()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->getUseAmoledTheme()Ljava/lang/Boolean;
 
     .line 166
     .line 167
@@ -418,7 +418,7 @@
     .line 186
     .line 187
     .line 188
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/firebase/AppSettings;->isDynamicColors()Ljava/lang/Boolean;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/firebase/AppSettings;->isDynamicColors()Ljava/lang/Boolean;
 
     .line 189
     .line 190
@@ -648,15 +648,15 @@
 
     .line 298
     :pswitch_7
-    check-cast p0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    check-cast p0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 299
     .line 300
-    sget v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 301
     .line 302
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->R()Lc56;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/premium/PremiumActivity;->R()Lc56;
 
     .line 303
     .line 304
@@ -672,11 +672,11 @@
 
     .line 309
     :pswitch_8
-    check-cast p0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 310
     .line 311
-    iput-boolean v4, p0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->O:Z
+    iput-boolean v4, p0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->O:Z
 
     .line 312
     .line 313
@@ -694,11 +694,11 @@
 
     .line 320
     :pswitch_9
-    check-cast p0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;
+    check-cast p0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;
 
     .line 321
     .line 322
-    sget v0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;->O:I
 
     .line 323
     .line 324
@@ -836,15 +836,15 @@
 
     .line 391
     :pswitch_a
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 392
     .line 393
-    sget v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->T:I
 
     .line 394
     .line 395
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->N()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->N()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 396
     .line 397
@@ -852,7 +852,7 @@
     move-result-object v0
 
     .line 399
-    iget-object v2, p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;->M:Lgv7;
+    iget-object v2, p0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;->M:Lgv7;
 
     .line 400
     .line 401
@@ -864,7 +864,7 @@
     move-result-object v2
 
     .line 405
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast v2, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 406
     .line 407

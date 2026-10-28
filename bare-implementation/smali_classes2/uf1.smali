@@ -73,7 +73,7 @@
 
     .line 14
     .line 15
-    check-cast v3, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast v3, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 16
     .line 17
@@ -152,7 +152,7 @@
 
     .line 55
     .line 56
-    iget-object p0, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 57
     .line 58
@@ -169,7 +169,7 @@
 
     .line 64
     .line 65
-    invoke-virtual {p0, p1, v0, v1, v2}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0(Landroid/view/View;Lq05;Liz4;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+    invoke-virtual {p0, p1, v0, v1, v2}, Lcom/bareapps/barebackup/detail/DetailActivity;->b0(Landroid/view/View;Lq05;Liz4;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
 
     .line 66
     .line 67
@@ -186,7 +186,7 @@
 
     .line 72
     .line 73
-    iget-object p0, p0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, p0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 74
     .line 75
@@ -199,11 +199,11 @@
 
     .line 79
     .line 80
-    iget-object v1, v3, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v1, v3, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 81
     .line 82
-    invoke-virtual {p0, p1, v0, v2, v1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0(Landroid/view/View;Lq05;Liz4;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;)V
+    invoke-virtual {p0, p1, v0, v2, v1}, Lcom/bareapps/barebackup/detail/DetailActivity;->b0(Landroid/view/View;Lq05;Liz4;Lcom/bareapps/barebackup/model/app/AppCloudBackup;)V
 
     .line 83
     .line 84
@@ -223,7 +223,7 @@
 
     .line 90
     .line 91
-    iget-object v9, p0, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v9, p0, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 92
     .line 93
@@ -289,7 +289,7 @@
 
     .line 121
     .line 122
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast p0, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 123
     .line 124
@@ -357,7 +357,7 @@
 
     .line 155
     .line 156
-    iget-object v2, p0, Lwf1;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v2, p0, Lwf1;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 157
     .line 158

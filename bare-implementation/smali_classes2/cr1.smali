@@ -87,7 +87,7 @@
     move-result-object v0
 
     .line 24
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    const-class v1, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 25
     .line 26
@@ -102,7 +102,7 @@
     move-object v1, p0
 
     .line 31
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 32
     .line 33
@@ -144,7 +144,7 @@
     move-result-object v0
 
     .line 49
-    const-class v1, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    const-class v1, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 50
     .line 51
@@ -159,7 +159,7 @@
     move-object v1, p0
 
     .line 56
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 57
     .line 58
@@ -190,7 +190,7 @@
 
     .line 69
     :pswitch_2
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->g(Ljava/lang/String;)Ljava/util/List;
+    invoke-static {p0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->g(Ljava/lang/String;)Ljava/util/List;
 
     .line 70
     .line 71

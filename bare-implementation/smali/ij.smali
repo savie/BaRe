@@ -59,7 +59,7 @@
     .line 9
     .line 10
     .line 11
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;
 
     .line 12
     .line 13
@@ -76,7 +76,7 @@
     .line 18
     .line 19
     .line 20
-    sget p2, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
+    sget p2, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->X:I
 
     .line 21
     .line 22
@@ -85,7 +85,7 @@
     .line 23
     .line 24
     .line 25
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleLabelsSelectActivity;->O()Lv37;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/ScheduleLabelsSelectActivity;->O()Lv37;
 
     .line 26
     .line 27
@@ -93,11 +93,11 @@
     move-result-object p0
 
     .line 29
-    iget-object p1, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p1, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 30
     .line 31
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 32
     .line 33
@@ -205,7 +205,7 @@
     .line 84
     .line 85
     :pswitch_1
-    sget p1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 86
     .line 87
@@ -223,7 +223,7 @@
 
     .line 94
     .line 95
-    const-class p2, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    const-class p2, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 96
     .line 97
@@ -349,7 +349,7 @@
 
     .line 156
     .line 157
-    invoke-static {v3}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v3}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 158
     .line 159
@@ -406,7 +406,7 @@
     .line 185
     .line 186
     :pswitch_4
-    sget p1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 187
     .line 188
@@ -420,11 +420,11 @@
     .line 192
     .line 193
     .line 194
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 195
     .line 196
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 197
     .line 198
@@ -436,7 +436,7 @@
 
     .line 201
     .line 202
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 203
     .line 204
@@ -480,7 +480,7 @@
 
     .line 223
     .line 224
-    const-class p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    const-class p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 225
     .line 226
@@ -584,7 +584,7 @@
     .line 277
     .line 278
     .line 279
-    invoke-static {v3, p2, p1}, Lorg/swiftapps/swiftbackup/common/Const;->J(Lio1;ILbt3;)V
+    invoke-static {v3, p2, p1}, Lcom/bareapps/barebackup/common/Const;->J(Lio1;ILbt3;)V
 
     .line 280
     .line 281
@@ -758,7 +758,7 @@
 
     .line 369
     :cond_4
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsActivity;->Z:I
 
     .line 370
     .line 371
@@ -860,7 +860,7 @@
 
     .line 419
     :cond_8
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/common/Const;->A(Landroid/content/Context;)V
+    invoke-static {v3}, Lcom/bareapps/barebackup/common/Const;->A(Landroid/content/Context;)V
 
     .line 420
     .line 421

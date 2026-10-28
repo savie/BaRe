@@ -94,7 +94,7 @@
 
     .line 24
     .line 25
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 26
     .line 27
@@ -102,7 +102,7 @@
     move-result-object p0
 
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->W()Lzo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->W()Lzo3;
 
     .line 30
     .line 31
@@ -110,7 +110,7 @@
     move-result-object p0
 
     .line 33
-    iget-object p1, v0, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, v0, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 34
     .line 35
@@ -118,7 +118,7 @@
 
     .line 36
     .line 37
-    invoke-virtual {p0, p1, p2}, Lkk3;->j(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Lto3;)V
+    invoke-virtual {p0, p1, p2}, Lkk3;->j(Lcom/bareapps/barebackup/folders/data/FolderItem;Lto3;)V
 
     .line 38
     .line 39
@@ -127,15 +127,15 @@
 
     .line 41
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast p0, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 42
     .line 43
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;
 
     .line 44
     .line 45
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;->h0:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;->h0:I
 
     .line 46
     .line 47
@@ -197,7 +197,7 @@
 
     .line 76
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 77
     .line 78
@@ -205,7 +205,7 @@
 
     .line 79
     .line 80
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 81
     .line 82
@@ -216,7 +216,7 @@
     const/4 p2, 0x1
 
     .line 85
-    invoke-virtual {p0, p1, p2}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->t0(ZZ)V
+    invoke-virtual {p0, p1, p2}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->t0(ZZ)V
 
     .line 86
     .line 87

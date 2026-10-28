@@ -179,7 +179,7 @@
 
     .line 46
     .line 47
-    invoke-virtual {v2}, Lc47;->c()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-virtual {v2}, Lc47;->c()Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 48
     .line 49
@@ -187,7 +187,7 @@
     move-result-object v8
 
     .line 51
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppsQuickActionSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppsQuickActionSchedules()Ljava/util/List;
 
     .line 52
     .line 53
@@ -248,11 +248,11 @@
     move-object v9, v5
 
     .line 81
-    check-cast v9, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    check-cast v9, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 82
     .line 83
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;->getItemId()Ljava/lang/String;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;->getItemId()Ljava/lang/String;
 
     .line 84
     .line 85
@@ -272,7 +272,7 @@
 
     .line 92
     .line 93
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;->isEnabled()Z
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;->isEnabled()Z
 
     .line 94
     .line 95
@@ -318,7 +318,7 @@
 
     .line 112
     .line 113
-    invoke-static/range {v9 .. v20}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    invoke-static/range {v9 .. v20}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 114
     .line 115
@@ -347,7 +347,7 @@
 
     .line 124
     :goto_1
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppsLabelSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppsLabelSchedules()Ljava/util/List;
 
     .line 125
     .line 126
@@ -408,11 +408,11 @@
     move-object v14, v5
 
     .line 154
-    check-cast v14, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    check-cast v14, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 155
     .line 156
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;->getItemId()Ljava/lang/String;
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;->getItemId()Ljava/lang/String;
 
     .line 157
     .line 158
@@ -432,7 +432,7 @@
 
     .line 165
     .line 166
-    invoke-virtual {v14}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;->isEnabled()Z
+    invoke-virtual {v14}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;->isEnabled()Z
 
     .line 167
     .line 168
@@ -479,7 +479,7 @@
 
     .line 188
     .line 189
-    invoke-static/range {v14 .. v24}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    invoke-static/range {v14 .. v24}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 190
     .line 191
@@ -508,7 +508,7 @@
 
     .line 200
     :goto_3
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getAppConfigSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getAppConfigSchedules()Ljava/util/List;
 
     .line 201
     .line 202
@@ -569,11 +569,11 @@
     move-object v15, v5
 
     .line 230
-    check-cast v15, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    check-cast v15, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 231
     .line 232
-    invoke-virtual {v15}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;->getItemId()Ljava/lang/String;
+    invoke-virtual {v15}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;->getItemId()Ljava/lang/String;
 
     .line 233
     .line 234
@@ -593,7 +593,7 @@
 
     .line 241
     .line 242
-    invoke-virtual {v15}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;->isEnabled()Z
+    invoke-virtual {v15}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;->isEnabled()Z
 
     .line 243
     .line 244
@@ -629,7 +629,7 @@
 
     .line 259
     .line 260
-    invoke-static/range {v15 .. v22}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    invoke-static/range {v15 .. v22}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 261
     .line 262
@@ -658,7 +658,7 @@
 
     .line 271
     :goto_5
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getMessagesSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getMessagesSchedules()Ljava/util/List;
 
     .line 272
     .line 273
@@ -720,11 +720,11 @@
 
     .line 301
     .line 302
-    check-cast v16, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v16, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 303
     .line 304
-    invoke-virtual/range {v16 .. v16}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
+    invoke-virtual/range {v16 .. v16}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
 
     .line 305
     .line 306
@@ -744,7 +744,7 @@
 
     .line 313
     .line 314
-    invoke-virtual/range {v16 .. v16}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->isEnabled()Z
+    invoke-virtual/range {v16 .. v16}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->isEnabled()Z
 
     .line 315
     .line 316
@@ -784,7 +784,7 @@
 
     .line 333
     .line 334
-    invoke-static/range {v16 .. v24}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    invoke-static/range {v16 .. v24}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 335
     .line 336
@@ -819,7 +819,7 @@
     .line 348
     .line 349
     :goto_7
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getCallLogsSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getCallLogsSchedules()Ljava/util/List;
 
     .line 350
     .line 351
@@ -881,11 +881,11 @@
 
     .line 379
     .line 380
-    check-cast v17, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    check-cast v17, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 381
     .line 382
-    invoke-virtual/range {v17 .. v17}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
+    invoke-virtual/range {v17 .. v17}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->getItemId()Ljava/lang/String;
 
     .line 383
     .line 384
@@ -905,7 +905,7 @@
 
     .line 391
     .line 392
-    invoke-virtual/range {v17 .. v17}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->isEnabled()Z
+    invoke-virtual/range {v17 .. v17}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->isEnabled()Z
 
     .line 393
     .line 394
@@ -945,7 +945,7 @@
 
     .line 411
     .line 412
-    invoke-static/range {v17 .. v25}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    invoke-static/range {v17 .. v25}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 413
     .line 414
@@ -980,7 +980,7 @@
     .line 426
     .line 427
     :goto_9
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getWallsSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getWallsSchedules()Ljava/util/List;
 
     .line 428
     .line 429
@@ -1042,11 +1042,11 @@
 
     .line 457
     .line 458
-    check-cast v18, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    check-cast v18, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 459
     .line 460
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->getItemId()Ljava/lang/String;
 
     .line 461
     .line 462
@@ -1066,7 +1066,7 @@
 
     .line 469
     .line 470
-    invoke-virtual/range {v18 .. v18}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->isEnabled()Z
+    invoke-virtual/range {v18 .. v18}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->isEnabled()Z
 
     .line 471
     .line 472
@@ -1106,7 +1106,7 @@
 
     .line 489
     .line 490
-    invoke-static/range {v18 .. v26}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    invoke-static/range {v18 .. v26}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 491
     .line 492
@@ -1141,7 +1141,7 @@
     .line 504
     .line 505
     :goto_b
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getWifiSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getWifiSchedules()Ljava/util/List;
 
     .line 506
     .line 507
@@ -1203,11 +1203,11 @@
 
     .line 535
     .line 536
-    check-cast v19, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    check-cast v19, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 537
     .line 538
-    invoke-virtual/range {v19 .. v19}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
+    invoke-virtual/range {v19 .. v19}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->getItemId()Ljava/lang/String;
 
     .line 539
     .line 540
@@ -1227,7 +1227,7 @@
 
     .line 547
     .line 548
-    invoke-virtual/range {v19 .. v19}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->isEnabled()Z
+    invoke-virtual/range {v19 .. v19}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->isEnabled()Z
 
     .line 549
     .line 550
@@ -1267,7 +1267,7 @@
 
     .line 567
     .line 568
-    invoke-static/range {v19 .. v27}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    invoke-static/range {v19 .. v27}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 569
     .line 570
@@ -1302,7 +1302,7 @@
     .line 582
     .line 583
     :goto_d
-    invoke-virtual {v8}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->getFoldersSchedules()Ljava/util/List;
+    invoke-virtual {v8}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->getFoldersSchedules()Ljava/util/List;
 
     .line 584
     .line 585
@@ -1364,11 +1364,11 @@
 
     .line 613
     .line 614
-    check-cast v20, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    check-cast v20, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 615
     .line 616
-    invoke-virtual/range {v20 .. v20}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->getItemId()Ljava/lang/String;
+    invoke-virtual/range {v20 .. v20}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->getItemId()Ljava/lang/String;
 
     .line 617
     .line 618
@@ -1388,7 +1388,7 @@
 
     .line 625
     .line 626
-    invoke-virtual/range {v20 .. v20}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->isEnabled()Z
+    invoke-virtual/range {v20 .. v20}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->isEnabled()Z
 
     .line 627
     .line 628
@@ -1440,7 +1440,7 @@
 
     .line 651
     .line 652
-    invoke-static/range {v20 .. v31}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    invoke-static/range {v20 .. v31}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;ZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 653
     .line 654
@@ -1499,7 +1499,7 @@
 
     .line 676
     .line 677
-    invoke-static/range {v8 .. v23}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;
+    invoke-static/range {v8 .. v23}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;IIILjava/lang/Integer;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;
 
     .line 678
     .line 679
@@ -1507,7 +1507,7 @@
     move-result-object v0
 
     .line 681
-    invoke-static {v1, v0}, Lq47;->k(Lq47;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleData;)V
+    invoke-static {v1, v0}, Lq47;->k(Lq47;Lcom/bareapps/barebackup/home/schedule/data/ScheduleData;)V
 
     .line 682
     .line 683
@@ -1524,7 +1524,7 @@
 
     .line 688
     .line 689
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 690
     .line 691
@@ -1532,15 +1532,15 @@
 
     .line 692
     .line 693
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 694
     .line 695
-    sget v4, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v4, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 696
     .line 697
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N()Lub5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N()Lub5;
 
     .line 698
     .line 699
@@ -1552,7 +1552,7 @@
 
     .line 702
     .line 703
-    iget-object v6, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->M:Ldd1;
+    iget-object v6, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->M:Ldd1;
 
     .line 704
     .line 705
@@ -1569,7 +1569,7 @@
     .line 710
     .line 711
     .line 712
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N()Lub5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N()Lub5;
 
     .line 713
     .line 714
@@ -1594,7 +1594,7 @@
     .line 723
     .line 724
     .line 725
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N()Lub5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N()Lub5;
 
     .line 726
     .line 727
@@ -1624,7 +1624,7 @@
     .line 739
     .line 740
     .line 741
-    iget-object v4, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->N:Lgv7;
+    iget-object v4, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->N:Lgv7;
 
     .line 742
     .line 743
@@ -1658,7 +1658,7 @@
     .line 757
     .line 758
     .line 759
-    iget-object v4, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O:Lgv7;
+    iget-object v4, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O:Lgv7;
 
     .line 760
     .line 761
@@ -1700,7 +1700,7 @@
 
     .line 780
     .line 781
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;->getEmail()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;->getEmail()Ljava/lang/String;
 
     .line 782
     .line 783
@@ -1734,7 +1734,7 @@
     .line 797
     .line 798
     .line 799
-    iget-object v3, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->P:Lgv7;
+    iget-object v3, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->P:Lgv7;
 
     .line 800
     .line 801
@@ -1773,7 +1773,7 @@
     .line 818
     .line 819
     .line 820
-    iget-object v3, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->Q:Lgv7;
+    iget-object v3, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->Q:Lgv7;
 
     .line 821
     .line 822
@@ -1827,7 +1827,7 @@
 
     .line 847
     .line 848
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;->getPassword()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;->getPassword()Ljava/lang/String;
 
     .line 849
     .line 850
@@ -1866,7 +1866,7 @@
     .line 867
     .line 868
     .line 869
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 870
     .line 871
@@ -1874,7 +1874,7 @@
     move-result-object v0
 
     .line 873
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->P()Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->P()Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 874
     .line 875
@@ -1882,12 +1882,12 @@
     move-result-object v2
 
     .line 877
-    invoke-virtual {v0, v2}, Ltb5;->k(Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;)V
+    invoke-virtual {v0, v2}, Ltb5;->k(Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;)V
 
     .line 878
     .line 879
     .line 880
-    iget-object v0, v1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->R:Lgv7;
+    iget-object v0, v1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->R:Lgv7;
 
     .line 881
     .line 882
@@ -1921,7 +1921,7 @@
     .line 896
     .line 897
     .line 898
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 899
     .line 900
@@ -1937,7 +1937,7 @@
 
     .line 905
     .line 906
-    invoke-direct {v2, v1, v7}, Lob5;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+    invoke-direct {v2, v1, v7}, Lob5;-><init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
 
     .line 907
     .line 908
@@ -1959,7 +1959,7 @@
     .line 916
     .line 917
     .line 918
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 919
     .line 920
@@ -1975,7 +1975,7 @@
 
     .line 925
     .line 926
-    invoke-direct {v2, v1, v7}, Lpb5;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+    invoke-direct {v2, v1, v7}, Lpb5;-><init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
 
     .line 927
     .line 928
@@ -1994,7 +1994,7 @@
     .line 935
     .line 936
     .line 937
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 938
     .line 939
@@ -2033,7 +2033,7 @@
     .line 956
     .line 957
     .line 958
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 959
     .line 960
@@ -2049,7 +2049,7 @@
 
     .line 965
     .line 966
-    invoke-direct {v2, v1, v5}, Lob5;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+    invoke-direct {v2, v1, v5}, Lob5;-><init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
 
     .line 967
     .line 968
@@ -2068,7 +2068,7 @@
     .line 975
     .line 976
     .line 977
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 978
     .line 979
@@ -2084,7 +2084,7 @@
 
     .line 984
     .line 985
-    invoke-direct {v2, v1, v5}, Lpb5;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+    invoke-direct {v2, v1, v5}, Lpb5;-><init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
 
     .line 986
     .line 987
@@ -2103,7 +2103,7 @@
     .line 994
     .line 995
     .line 996
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->O()Ltb5;
 
     .line 997
     .line 998
@@ -2654,11 +2654,11 @@
 
     .line 1238
     .line 1239
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1240
     .line 1241
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 1242
     .line 1243
@@ -2860,7 +2860,7 @@
 
     .line 1337
     .line 1338
-    iget-object v0, v1, Lqk3;->Q:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object v0, v1, Lqk3;->Q:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 1339
     .line 1340

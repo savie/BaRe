@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
 .field public final synthetic b:I
 
@@ -15,7 +15,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;ILjava/util/ArrayList;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;ILjava/util/ArrayList;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lro3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iput-object p1, p0, Lro3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 5
     .line 6
@@ -45,11 +45,11 @@
     .locals 12
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 2
     .line 3
-    iget-object v0, p0, Lro3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object v0, p0, Lro3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 4
     .line 5
@@ -185,7 +185,7 @@
 
     .line 72
     .line 73
-    const-class v1, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    const-class v1, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 74
     .line 75

@@ -548,7 +548,7 @@
     return-object v1
 .end method
 
-.method public static j(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
+.method public static j(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;)V
     .locals 14
 
     .line 1
@@ -569,7 +569,7 @@
     .line 8
     .line 9
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListType()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListType()I
 
     .line 11
     .line 12
@@ -611,7 +611,7 @@
 
     .line 27
     .line 28
-    sget-object v2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;->Companion:Lds0;
+    sget-object v2, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;->Companion:Lds0;
 
     .line 29
     .line 30
@@ -628,7 +628,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-static {p1}, Lds0;->a(Ljava/util/List;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-static {p1}, Lds0;->a(Ljava/util/List;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 38
     .line 39
@@ -636,7 +636,7 @@
     move-result-object p1
 
     .line 41
-    invoke-virtual {v0, p1, v1}, Lgs0;->d(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;Z)V
+    invoke-virtual {v0, p1, v1}, Lgs0;->d(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;Z)V
 
     .line 42
     .line 43
@@ -699,7 +699,7 @@
     return-void
 .end method
 
-.method public static l(Lzm;Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lxi;)V
+.method public static l(Lzm;Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lxi;)V
     .locals 13
 
     .line 1
@@ -826,7 +826,7 @@
 
     .line 61
     .line 62
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListType()I
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListType()I
 
     .line 63
     .line 64
@@ -869,11 +869,11 @@
     move-object v6, v4
 
     .line 82
-    check-cast v6, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v6, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 83
     .line 84
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 85
     .line 86
@@ -881,7 +881,7 @@
     move-result-object v6
 
     .line 88
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 89
     .line 90
@@ -909,7 +909,7 @@
 
     .line 100
     :goto_1
-    check-cast v4, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v4, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 101
     .line 102
@@ -917,7 +917,7 @@
 
     .line 103
     .line 104
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListType()I
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListType()I
 
     .line 105
     .line 106
@@ -988,7 +988,7 @@
     .line 136
     .line 137
     .line 138
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getName()Ljava/lang/String;
 
     .line 139
     .line 140
@@ -1040,7 +1040,7 @@
 
     .line 163
     .line 164
-    invoke-direct/range {v6 .. v11}, Lks0;-><init>(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;)V
+    invoke-direct/range {v6 .. v11}, Lks0;-><init>(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljh6;Ljava/util/ArrayList;Ljava/lang/Integer;Lbt3;)V
 
     .line 165
     .line 166
@@ -1077,7 +1077,7 @@
 
     .line 184
     .line 185
-    invoke-direct {p0, p1, p2, v11}, Lls0;-><init>(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lbt3;)V
+    invoke-direct {p0, p1, p2, v11}, Lls0;-><init>(Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;Ljava/util/ArrayList;Lbt3;)V
 
     .line 186
     .line 187

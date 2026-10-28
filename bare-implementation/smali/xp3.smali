@@ -291,7 +291,7 @@
     move-object v5, v1
 
     .line 53
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v5, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 54
     .line 55

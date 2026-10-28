@@ -2808,7 +2808,7 @@
     move-result-object v4
 
     .line 81
-    const-string v5, "swiftbackup_"
+    const-string v5, "barebackup_"
 
     .line 82
     .line 83

@@ -52,15 +52,15 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;
 
     .line 9
     .line 10
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->f0()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->f0()V
 
     .line 13
     .line 14
@@ -69,15 +69,15 @@
 
     .line 16
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;
 
     .line 17
     .line 18
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->N:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->N:I
 
     .line 19
     .line 20
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/FilenSignInActivity;->O()Lec3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/FilenSignInActivity;->O()Lec3;
 
     .line 21
     .line 22
@@ -157,7 +157,7 @@
 
     .line 57
     .line 58
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;->R:I
 
     .line 59
     .line 60

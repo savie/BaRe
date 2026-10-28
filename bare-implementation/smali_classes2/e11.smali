@@ -85,11 +85,11 @@
     .line 7
     .line 8
     .line 9
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 10
     .line 11
-    sget v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 12
     .line 13
@@ -126,7 +126,7 @@
 
     .line 28
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->R()Lorg/swiftapps/swiftbackup/intro/d;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
 
     .line 30
     .line 31
@@ -134,7 +134,7 @@
     move-result-object p0
 
     .line 33
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/d;->o()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/d;->o()V
 
     .line 34
     .line 35
@@ -143,7 +143,7 @@
 
     .line 37
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->N()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->N()V
 
     .line 38
     .line 39
@@ -160,7 +160,7 @@
 
     .line 45
     .line 46
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->P()Lqi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->P()Lqi7;
 
     .line 47
     .line 48
@@ -243,11 +243,11 @@
 
     .line 88
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 89
     .line 90
-    sget v0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget v0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 91
     .line 92
@@ -287,7 +287,7 @@
 
     .line 108
     .line 109
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Y()Loi7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Y()Loi7;
 
     .line 110
     .line 111
@@ -309,7 +309,7 @@
     .line 119
     .line 120
     .line 121
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->U()Lb11;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->U()Lb11;
 
     .line 122
     .line 123
@@ -344,7 +344,7 @@
     .line 138
     .line 139
     .line 140
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
 
     .line 141
     .line 142
@@ -382,7 +382,7 @@
     .line 158
     .line 159
     .line 160
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->Z()Ls11;
 
     .line 161
     .line 162

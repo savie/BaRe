@@ -204,7 +204,7 @@
     .line 86
     :cond_1
     :try_start_1
-    const-class v6, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    const-class v6, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 87
     .line 88
@@ -216,7 +216,7 @@
     move-result-object v5
 
     .line 92
-    check-cast v5, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast v5, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 93
     .line 94

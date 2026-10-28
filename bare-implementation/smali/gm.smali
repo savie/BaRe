@@ -21,7 +21,7 @@
 # instance fields
 .field public final a:Lhk;
 
-.field public final b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.field public final b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
 
 # direct methods
@@ -48,7 +48,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lhk;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+.method public constructor <init>(Lhk;Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
     .locals 0
 
     .line 1
@@ -71,7 +71,7 @@
 
     .line 11
     .line 12
-    iput-object p2, p0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iput-object p2, p0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 13
     .line 14
@@ -148,11 +148,11 @@
 
     .line 24
     :cond_2
-    iget-object p0, p0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 25
     .line 26
-    iget-object p1, p1, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p1, p1, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 27
     .line 28
@@ -195,11 +195,11 @@
 
     .line 8
     .line 9
-    iget-object p0, p0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 10
     .line 11
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->hashCode()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->hashCode()I
 
     .line 12
     .line 13
@@ -248,7 +248,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object p0, p0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 19
     .line 20
@@ -295,11 +295,11 @@
     .line 7
     .line 8
     .line 9
-    iget-object p0, p0, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 10
     .line 11
-    invoke-virtual {p0, p1, p2}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->writeToParcel(Landroid/os/Parcel;I)V
+    invoke-virtual {p0, p1, p2}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->writeToParcel(Landroid/os/Parcel;I)V
 
     .line 12
     .line 13

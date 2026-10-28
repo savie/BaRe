@@ -822,7 +822,7 @@ BΛR☰ をセットアップするときは、暗号化されたバックアッ
     <string name="schedules">スケジュール</string>
     <string name="search">検索</string>
     <string name="search_hint_apps">アプリを検索する</string>
-    <string name="search_swift_backup">BΛR☰ を検索</string>
+    <string name="search_bare_backup">BΛR☰ を検索</string>
     <string name="secondary_action">二次アクション</string>
     <string name="secondary_user_warning_msg">いくつかの避けられない問題のため、セカンダリ/仕事用ユーザー プロファイルは正式にサポートされていません。このデバイスのメイン ユーザーに切り替えてください。</string>
     <string name="see_all">全て見る</string>
@@ -860,11 +860,11 @@ BΛR☰ をセットアップするときは、暗号化されたバックアッ
     <string name="share_apk">APKを共有する</string>
     <string name="share_apks">APKを共有する</string>
     <string name="share_logs">ログを共有する</string>
-    <string name="share_swiftbackup">BΛR☰ を共有</string>
-    <string name="share_swiftbackup_msg">私が使っている便利なバックアップマネージャー、BΛR☰ をぜひお試しください: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Android 向けのシンプル、高速、スマートなバックアップ ソリューション</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + デバイス Logcat</string>
-    <string name="share_swiftlogger_text_only">テキストのみのレポートを共有する</string>
+    <string name="share_barebackup">BΛR☰ を共有</string>
+    <string name="share_barebackup_msg">私が使っている便利なバックアップマネージャー、BΛR☰ をぜひお試しください: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Android 向けのシンプル、高速、スマートなバックアップ ソリューション</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + デバイス Logcat</string>
+    <string name="share_barelogger_text_only">テキストのみのレポートを共有する</string>
     <string name="shared_libraries">共有ライブラリ</string>
     <string name="shortcuts">ショートカット</string>
     <string name="show_less">表示を少なくする</string>
@@ -906,9 +906,9 @@ BΛR☰ をセットアップするときは、暗号化されたバックアッ
     <string name="successful">成功しました</string>
     <string name="sure_to_cancel_task">本当にキャンセルしてもよろしいですか?</string>
     <string name="sure_to_proceed">続行してもよろしいですか? 「はい」をクリックして確認します。</string>
-    <string name="swift_backup_is_busy">BΛR☰ は処理中です</string>
-    <string name="swift_labs_settings_summary">実験および修復ツール</string>
-    <string name="swiftlogger_info">バグレポートのログ</string>
+    <string name="barebackup_is_busy">BΛR☰ は処理中です</string>
+    <string name="bare_labs_settings_summary">実験および修復ツール</string>
+    <string name="barelogger_info">バグレポートのログ</string>
     <string name="swipe_actions">スワイプアクション</string>
     <string name="swipe_actions_description">スワイプ方向ごとに最大 2 つのアクションを選択します</string>
     <string name="sync_backups">バックアップを同期する</string>

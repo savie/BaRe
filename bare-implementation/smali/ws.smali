@@ -84,11 +84,11 @@
 
     .line 29
     .line 30
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 31
     .line 32
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 33
     .line 34
@@ -290,7 +290,7 @@
     move-result-wide p0
 
     .line 47
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 48
     .line 49
@@ -477,7 +477,7 @@
     move-result-wide p0
 
     .line 137
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 138
     .line 139
@@ -522,7 +522,7 @@
     move-result-wide p0
 
     .line 159
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 160
     .line 161
@@ -566,7 +566,7 @@
     move-result-wide p0
 
     .line 180
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 181
     .line 182
@@ -1260,11 +1260,11 @@
 
     .line 140
     .line 141
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 142
     .line 143
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 144
     .line 145

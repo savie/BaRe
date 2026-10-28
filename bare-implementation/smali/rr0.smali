@@ -11,7 +11,7 @@
     .locals 0
 
     .line 1
-    sget p0, Lorg/swiftapps/swiftbackup/blacklist/BlacklistActivity;->P:I
+    sget p0, Lcom/bareapps/barebackup/blacklist/BlacklistActivity;->P:I
 
     .line 2
     .line 3

@@ -39,7 +39,7 @@
     .line 4
     .line 5
     .line 6
-    check-cast p2, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast p2, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 7
     .line 8
@@ -47,7 +47,7 @@
 
     .line 9
     .line 10
-    const-class v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupsActivity;
+    const-class v0, Lcom/bareapps/barebackup/settings/MultipleBackupsActivity;
 
     .line 11
     .line 12
@@ -337,7 +337,7 @@
     move-result-object p0
 
     .line 14
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 15
     .line 16

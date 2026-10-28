@@ -48,11 +48,11 @@
     return-void
 .end method
 
-.method public static final synthetic access$createNew(Lah8$a;Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+.method public static final synthetic access$createNew(Lah8$a;Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
     .locals 0
 
     .line 1
-    invoke-direct {p0, p1}, Lah8$a;->createNew(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+    invoke-direct {p0, p1}, Lah8$a;->createNew(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
 
     .line 2
     .line 3
@@ -63,7 +63,7 @@
     return-object p0
 .end method
 
-.method private final createNew(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+.method private final createNew(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
     .locals 10
 
     .line 1
@@ -71,7 +71,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 4
     .line 5
@@ -79,7 +79,7 @@
     move-result-object v1
 
     .line 7
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 8
     .line 9
@@ -95,7 +95,7 @@
     move-result-object v2
 
     .line 15
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getDisplayName()Ljava/lang/String;
 
     .line 16
     .line 17
@@ -103,7 +103,7 @@
     move-result-object v3
 
     .line 19
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getEmail()Ljava/lang/String;
 
     .line 20
     .line 21
@@ -111,7 +111,7 @@
     move-result-object v4
 
     .line 23
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getPhotoUrl()Ljava/lang/String;
 
     .line 24
     .line 25
@@ -207,14 +207,14 @@
     .line 41
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     move-result-object v0
 
     if-eqz v0, :cond_0
 
     .line 42
-    invoke-virtual {p0, v0, p1}, Lah8$a;->fromDatabase(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+    invoke-virtual {p0, v0, p1}, Lah8$a;->fromDatabase(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
 
     return-void
 
@@ -233,12 +233,12 @@
     throw p0
 .end method
 
-.method public final fromDatabase(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+.method public final fromDatabase(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
     .locals 1
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;",
+            "Lcom/bareapps/barebackup/anonymous/MFirebaseUser;",
             "Lmt3;",
             ")V"
         }
@@ -255,7 +255,7 @@
     .line 5
     .line 6
     .line 7
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 8
     .line 9
@@ -267,7 +267,7 @@
 
     .line 12
     .line 13
-    invoke-direct {p0, p1}, Lah8$a;->createNew(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;)Lah8;
+    invoke-direct {p0, p1}, Lah8$a;->createNew(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)Lah8;
 
     .line 14
     .line 15
@@ -308,7 +308,7 @@
 
     .line 32
     .line 33
-    invoke-direct {v0, p1, p2}, Lah8$a$a;-><init>(Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;Lmt3;)V
+    invoke-direct {v0, p1, p2}, Lah8$a$a;-><init>(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;Lmt3;)V
 
     .line 34
     .line 35

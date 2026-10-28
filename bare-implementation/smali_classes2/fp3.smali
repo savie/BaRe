@@ -66,11 +66,11 @@
 
     .line 11
     .line 12
-    check-cast v0, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    check-cast v0, Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 13
     .line 14
-    sget-object p1, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y:Let8;
+    sget-object p1, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y:Let8;
 
     .line 15
     .line 16
@@ -90,7 +90,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y()Liu8;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y()Liu8;
 
     .line 25
     .line 26
@@ -244,7 +244,7 @@
 
     .line 100
     .line 101
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 102
     .line 103
@@ -252,7 +252,7 @@
     move-result-object p0
 
     .line 105
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->W()Lzo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->W()Lzo3;
 
     .line 106
     .line 107
@@ -260,7 +260,7 @@
     move-result-object p0
 
     .line 109
-    iget-object p1, v0, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, v0, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 110
     .line 111
@@ -268,7 +268,7 @@
 
     .line 112
     .line 113
-    invoke-virtual {p0, p1, p2}, Lkk3;->j(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Lto3;)V
+    invoke-virtual {p0, p1, p2}, Lkk3;->j(Lcom/bareapps/barebackup/folders/data/FolderItem;Lto3;)V
 
     .line 114
     .line 115

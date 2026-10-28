@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 9
     .line 10

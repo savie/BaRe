@@ -170,7 +170,7 @@
     .line 53
     .line 54
     .line 55
-    sget-object p1, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object p1, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 56
     .line 57
@@ -187,7 +187,7 @@
     .line 62
     .line 63
     .line 64
-    invoke-static {p1, p2, p3}, Lcom/swiftapps/sba/SbaSwiftTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    invoke-static {p1, p2, p3}, Lcom/bareapps/sba/SbaBareTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 65
     .line 66
@@ -259,7 +259,7 @@
     .line 93
     .line 94
     .line 95
-    sget-object p1, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object p1, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 96
     .line 97
@@ -280,7 +280,7 @@
 
     .line 105
     .line 106
-    invoke-static {p1, p2, p3, v0, v1}, Lcom/swiftapps/sba/SbaSwiftTarNative;->e(Ljava/io/FileDescriptor;JJ)[Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    invoke-static {p1, p2, p3, v0, v1}, Lcom/bareapps/sba/SbaBareTarNative;->e(Ljava/io/FileDescriptor;JJ)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 107
     .line 108

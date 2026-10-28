@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public a:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+.field public a:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
 .field public b:Ljava/lang/String;
 
@@ -39,7 +39,7 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 2
     .line 3
@@ -126,7 +126,7 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->Companion:Lorg/swiftapps/swiftbackup/cloud/protocols/a;
+    sget-object v0, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->Companion:Lcom/bareapps/barebackup/cloud/protocols/a;
 
     .line 2
     .line 3
@@ -143,7 +143,7 @@
     .line 8
     .line 9
     .line 10
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/cloud/protocols/a;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-static {v1}, Lcom/bareapps/barebackup/cloud/protocols/a;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 11
     .line 12
@@ -159,7 +159,7 @@
 
     .line 17
     :cond_0
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getServer()Ljava/lang/String;
 
     .line 18
     .line 19
@@ -179,7 +179,7 @@
 
     .line 26
     .line 27
-    invoke-virtual {p0, v0}, Lmj1;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p0, v0}, Lmj1;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 28
     .line 29
@@ -219,7 +219,7 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lmj1;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iget-object p0, p0, Lmj1;->a:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 2
     .line 3
@@ -244,7 +244,7 @@
     .locals 0
 
     .line 1
-    invoke-virtual {p0}, Lmj1;->t()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lmj1;->t()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 2
     .line 3
@@ -252,7 +252,7 @@
     move-result-object p0
 
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->emailAddressValue()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->emailAddressValue()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -263,11 +263,11 @@
     return-object p0
 .end method
 
-.method public final t()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+.method public final t()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lmj1;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iget-object p0, p0, Lmj1;->a:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 2
     .line 3
@@ -294,7 +294,7 @@
     throw p0
 .end method
 
-.method public u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+.method public u(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
     .locals 3
 
     .line 1
@@ -303,7 +303,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lmj1;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    iput-object p1, p0, Lmj1;->a:Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 5
     .line 6
@@ -316,7 +316,7 @@
     const/4 v2, 0x1
 
     .line 9
-    invoke-static {p1, v1, v2, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getBaseUrl$default(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;ZILjava/lang/Object;)Ljava/lang/String;
+    invoke-static {p1, v1, v2, v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getBaseUrl$default(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;ZILjava/lang/Object;)Ljava/lang/String;
 
     .line 10
     .line 11

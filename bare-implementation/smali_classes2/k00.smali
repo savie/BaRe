@@ -612,7 +612,7 @@
     move-result-object v12
 
     .line 258
-    new-instance v5, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    new-instance v5, Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 259
     .line 260
@@ -630,7 +630,7 @@
 
     .line 265
     .line 266
-    invoke-direct/range {v5 .. v16}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v5 .. v16}, Lcom/bareapps/barebackup/wifi/PasswordInfo;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 267
     .line 268
@@ -771,7 +771,7 @@
 
     .line 337
     .line 338
-    invoke-direct/range {v5 .. v13}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;)V
+    invoke-direct/range {v5 .. v13}, Let8;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Ljava/util/BitSet;Lcom/bareapps/barebackup/wifi/PasswordInfo;)V
 
     .line 339
     .line 340
@@ -814,7 +814,7 @@
 
     .line 358
     .line 359
-    check-cast v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast v1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 360
     .line 361
@@ -827,11 +827,11 @@
 
     .line 365
     .line 366
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/k;
+    check-cast v0, Lcom/bareapps/barebackup/settings/k;
 
     .line 367
     .line 368
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/settings/k;->j(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/settings/k;->j(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)V
 
     .line 369
     .line 370
@@ -857,7 +857,7 @@
 
     .line 380
     .line 381
-    check-cast v0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast v0, Lcom/bareapps/barebackup/intro/d;
 
     .line 382
     .line 383
@@ -874,7 +874,7 @@
 
     .line 389
     .line 390
-    invoke-static {}, Lorg/swiftapps/swiftbackup/intro/d;->j()Z
+    invoke-static {}, Lcom/bareapps/barebackup/intro/d;->j()Z
 
     .line 391
     .line 392
@@ -915,7 +915,7 @@
 
     .line 408
     .line 409
-    check-cast v1, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v1, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 410
     .line 411
@@ -928,11 +928,11 @@
 
     .line 415
     .line 416
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 417
     .line 418
-    iput-object v1, v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->V:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iput-object v1, v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->V:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 419
     .line 420
@@ -948,7 +948,7 @@
 
     .line 425
     .line 426
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 427
     .line 428
@@ -1014,15 +1014,15 @@
 
     .line 458
     .line 459
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;
 
     .line 460
     .line 461
-    sget v6, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
+    sget v6, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->O:I
 
     .line 462
     .line 463
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 464
     .line 465
@@ -1082,7 +1082,7 @@
 
     .line 490
     .line 491
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 492
     .line 493
@@ -1099,7 +1099,7 @@
     .line 498
     .line 499
     .line 500
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 501
     .line 502
@@ -1137,7 +1137,7 @@
 
     .line 518
     .line 519
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 520
     .line 521
@@ -1154,7 +1154,7 @@
     .line 526
     .line 527
     .line 528
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 529
     .line 530
@@ -1176,7 +1176,7 @@
     .line 538
     .line 539
     .line 540
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 541
     .line 542
@@ -1193,7 +1193,7 @@
     .line 547
     .line 548
     .line 549
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 550
     .line 551
@@ -1210,7 +1210,7 @@
     .line 556
     .line 557
     .line 558
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 559
     .line 560
@@ -1227,7 +1227,7 @@
     .line 565
     .line 566
     .line 567
-    invoke-virtual {v0, v4, v2}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
+    invoke-virtual {v0, v4, v2}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
 
     .line 568
     .line 569
@@ -1245,7 +1245,7 @@
 
     .line 575
     .line 576
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 577
     .line 578
@@ -1262,7 +1262,7 @@
     .line 583
     .line 584
     .line 585
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 586
     .line 587
@@ -1308,7 +1308,7 @@
     .line 607
     .line 608
     .line 609
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 610
     .line 611
@@ -1325,7 +1325,7 @@
     .line 616
     .line 617
     .line 618
-    invoke-virtual {v0, v2, v4}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
+    invoke-virtual {v0, v2, v4}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
 
     .line 619
     .line 620
@@ -1470,7 +1470,7 @@
 
     .line 686
     :goto_12
-    iget-object v6, v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->M:Lgv7;
+    iget-object v6, v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->M:Lgv7;
 
     .line 687
     .line 688
@@ -1513,7 +1513,7 @@
     .line 705
     .line 706
     .line 707
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 708
     .line 709
@@ -1582,7 +1582,7 @@
     .line 740
     .line 741
     .line 742
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 743
     .line 744
@@ -1610,7 +1610,7 @@
     .line 754
     .line 755
     .line 756
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 757
     .line 758
@@ -1659,7 +1659,7 @@
     .line 779
     .line 780
     .line 781
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
+    iget-object v1, v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
 
     .line 782
     .line 783
@@ -1675,11 +1675,11 @@
     move-result v1
 
     .line 789
-    iput-object v3, v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
+    iput-object v3, v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
 
     .line 790
     .line 791
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 792
     .line 793
@@ -1717,7 +1717,7 @@
 
     .line 809
     .line 810
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 811
     .line 812
@@ -1734,7 +1734,7 @@
     .line 817
     .line 818
     .line 819
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 820
     .line 821
@@ -1751,7 +1751,7 @@
     .line 826
     .line 827
     .line 828
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 829
     .line 830
@@ -1768,7 +1768,7 @@
     .line 835
     .line 836
     .line 837
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 838
     .line 839
@@ -1785,7 +1785,7 @@
     .line 844
     .line 845
     .line 846
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 847
     .line 848
@@ -1823,12 +1823,12 @@
     .line 864
     .line 865
     .line 866
-    invoke-virtual {v0, v4, v4}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
+    invoke-virtual {v0, v4, v4}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->P(ZZ)V
 
     .line 867
     .line 868
     .line 869
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
+    iget-object v1, v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
 
     .line 870
     .line 871
@@ -1844,11 +1844,11 @@
     move-result v1
 
     .line 877
-    iput-object v3, v0, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
+    iput-object v3, v0, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N:Ljava/lang/Integer;
 
     .line 878
     .line 879
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/appvisibility/AppVisibilityDiagnosticsActivity;->N()Lm00;
 
     .line 880
     .line 881

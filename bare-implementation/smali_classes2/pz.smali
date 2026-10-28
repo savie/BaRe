@@ -13,7 +13,7 @@
 
 .field public final synthetic c:Lrf8;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final synthetic d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final synthetic e:Ljava/util/concurrent/ConcurrentHashMap;
 
@@ -25,7 +25,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
     .locals 0
 
     .line 1
@@ -46,7 +46,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lpz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p4, p0, Lpz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 11
     .line 12
@@ -218,11 +218,11 @@
     move-result-object v14
 
     .line 71
-    iget-object v9, p0, Lpz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object v9, p0, Lpz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 72
     .line 73
-    invoke-virtual/range {v9 .. v14}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateApkDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual/range {v9 .. v14}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateApkDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 74
     .line 75

@@ -82,7 +82,7 @@
     move-result p1
 
     .line 20
-    invoke-static {p1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->q(II)I
+    invoke-static {p1, v2}, Lcom/bareapps/barebackup/common/Const;->q(II)I
 
     .line 21
     .line 22
@@ -123,7 +123,7 @@
     move-result p1
 
     .line 40
-    invoke-static {p1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->q(II)I
+    invoke-static {p1, v2}, Lcom/bareapps/barebackup/common/Const;->q(II)I
 
     .line 41
     .line 42

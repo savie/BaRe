@@ -1695,7 +1695,7 @@
     .line 646
     .line 647
     .line 648
-    new-instance v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    new-instance v0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 649
     .line 650
@@ -1804,7 +1804,7 @@
 
     .line 697
     :goto_c
-    invoke-direct {v0, v2, v3, v5}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;-><init>(Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)V
+    invoke-direct {v0, v2, v3, v5}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;-><init>(Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;)V
 
     .line 698
     .line 699
@@ -2264,7 +2264,7 @@
     move-result-object v2
 
     .line 922
-    sget-object v3, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v3, Lcom/bareapps/barebackup/appconfigs/data/Config;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 923
     .line 924
@@ -2290,11 +2290,11 @@
     .line 934
     :cond_1f
     :goto_10
-    new-instance v0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    new-instance v0, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 935
     .line 936
-    invoke-direct {v0, v5}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;-><init>(Ljava/util/Map;)V
+    invoke-direct {v0, v5}, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;-><init>(Ljava/util/Map;)V
 
     .line 937
     .line 938
@@ -2395,7 +2395,7 @@
     move-result-object v9
 
     .line 984
-    sget-object v0, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v0, Lcom/bareapps/barebackup/appconfigs/data/Config;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 985
     .line 986
@@ -2410,7 +2410,7 @@
     move-object v10, v0
 
     .line 991
-    check-cast v10, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v10, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 992
     .line 993
@@ -2469,7 +2469,7 @@
     move-result v15
 
     .line 1018
-    invoke-direct/range {v8 .. v15}, Lk30;-><init>(Ljava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/Config;IIZII)V
+    invoke-direct/range {v8 .. v15}, Lk30;-><init>(Ljava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/Config;IIZII)V
 
     .line 1019
     .line 1020
@@ -2764,7 +2764,7 @@
 
     .line 48
     :pswitch_d
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    new-array p0, p1, [Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 49
     .line 50
@@ -2804,7 +2804,7 @@
 
     .line 63
     :pswitch_12
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    new-array p0, p1, [Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 64
     .line 65

@@ -115,7 +115,7 @@
 
     .line 7
     .line 8
-    invoke-virtual {p1, p0}, Ltb1;->a(Z)Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+    invoke-virtual {p1, p0}, Ltb1;->a(Z)Lcom/bareapps/barebackup/cloud/model/CloudResult;
 
     .line 9
     .line 10

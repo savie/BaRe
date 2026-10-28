@@ -10,7 +10,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+.field public final a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
 .field public final b:Lwa3;
 
@@ -116,7 +116,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;Lwa3;Lokhttp3/OkHttpClient;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;Lwa3;Lokhttp3/OkHttpClient;)V
     .locals 10
 
     .line 1
@@ -265,7 +265,7 @@
     .line 72
     .line 73
     .line 74
-    iput-object p1, p0, Ljc3;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iput-object p1, p0, Ljc3;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 75
     .line 76
@@ -392,7 +392,7 @@
 
     .line 138
     .line 139
-    invoke-direct {p2, p1}, Lka;-><init>(Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)V
+    invoke-direct {p2, p1}, Lka;-><init>(Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)V
 
     .line 140
     .line 141
@@ -1292,11 +1292,11 @@
 
     .line 297
     .line 298
-    iget-object v11, v1, Ljc3;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v11, v1, Ljc3;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 299
     .line 300
-    invoke-static {v2, v11}, Lhb3;->m(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
+    invoke-static {v2, v11}, Lhb3;->m(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
 
     .line 301
     .line 302
@@ -1482,11 +1482,11 @@
     move-result-object v37
 
     .line 396
-    iget-object v3, v1, Ljc3;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v3, v1, Ljc3;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 397
     .line 398
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 399
     .line 400
@@ -2678,11 +2678,11 @@
     .line 987
     .line 988
     .line 989
-    iget-object v9, v1, Ljc3;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v9, v1, Ljc3;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 990
     .line 991
-    invoke-static {v14, v9}, Lhb3;->m(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
+    invoke-static {v14, v9}, Lhb3;->m(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;)Ljava/lang/String;
 
     .line 992
     .line 993
@@ -2983,11 +2983,11 @@
 
     .line 1145
     .line 1146
-    iget-object v2, v1, Ljc3;->a:Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;
+    iget-object v2, v1, Ljc3;->a:Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;
 
     .line 1147
     .line 1148
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/cloud/protocols/filen/FilenSession;->getApiKey()Ljava/lang/String;
 
     .line 1149
     .line 1150

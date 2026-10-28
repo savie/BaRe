@@ -42,7 +42,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/V;->b()Landroid/content/SharedPreferences;
+    invoke-static {}, Lcom/bareapps/barebackup/common/V;->b()Landroid/content/SharedPreferences;
 
     .line 7
     .line 8
@@ -96,7 +96,7 @@
 
     .line 32
     :pswitch_1
-    invoke-static {}, Lorg/swiftapps/rootservice/ShellHelper;->getShShell()Lcom/topjohnwu/superuser/Shell;
+    invoke-static {}, Lcom/bareapps/rootservice/ShellHelper;->getShShell()Lcom/topjohnwu/superuser/Shell;
 
     .line 33
     .line 34
@@ -327,15 +327,15 @@
 
     .line 134
     :pswitch_6
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/NotificationHelper;->a:Lgv7;
+    sget-object p0, Lcom/bareapps/barebackup/common/NotificationHelper;->a:Lgv7;
 
     .line 135
     .line 136
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 137
     .line 138
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 139
     .line 140

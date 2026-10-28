@@ -148,7 +148,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast p0, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 4
     .line 5

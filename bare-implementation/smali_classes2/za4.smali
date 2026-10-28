@@ -76,7 +76,7 @@
 
     .line 13
     .line 14
-    check-cast v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v1, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 15
     .line 16
@@ -84,7 +84,7 @@
 
     .line 17
     .line 18
-    iget-object p1, v1, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p1, v1, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 19
     .line 20
@@ -92,7 +92,7 @@
 
     .line 21
     .line 22
-    iget-object v1, p0, Lj57;->l:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iget-object v1, p0, Lj57;->l:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 23
     .line 24
@@ -207,7 +207,7 @@
 
     .line 79
     .line 80
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->canRunManually()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->canRunManually()Z
 
     .line 81
     .line 82
@@ -220,7 +220,7 @@
     .line 85
     .line 86
     .line 87
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->canRunManually()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->canRunManually()Z
 
     .line 88
     .line 89
@@ -246,7 +246,7 @@
 
     .line 99
     .line 100
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemType()Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemType()Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;
 
     .line 101
     .line 102

@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
 .field public final synthetic b:Ljava/util/ArrayList;
 
@@ -15,7 +15,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;Ljava/util/ArrayList;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appinfo/AppInfoActivity;Ljava/util/ArrayList;I)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lrq;->a:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+    iput-object p1, p0, Lrq;->a:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
     .line 5
     .line 6
@@ -193,15 +193,15 @@
 
     .line 77
     :cond_0
-    sget v1, Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;->M:I
+    sget v1, Lcom/bareapps/barebackup/appinfo/AppInfoActivity;->M:I
 
     .line 78
     .line 79
-    iget-object p0, p0, Lrq;->a:Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;
+    iget-object p0, p0, Lrq;->a:Lcom/bareapps/barebackup/appinfo/AppInfoActivity;
 
     .line 80
     .line 81
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appinfo/AppInfoActivity;->K:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appinfo/AppInfoActivity;->K:Lgv7;
 
     .line 82
     .line 83

@@ -240,7 +240,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/SwiftApp;Ljava/util/Locale;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/BareApp;Ljava/util/Locale;)V
     .locals 1
 
     const/16 v0, 0xb

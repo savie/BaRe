@@ -170,11 +170,11 @@
 
     .line 67
     :pswitch_2
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 68
     .line 69
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;->getTimestamp()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;->getTimestamp()Ljava/lang/String;
 
     .line 70
     .line 71
@@ -182,11 +182,11 @@
     move-result-object p0
 
     .line 73
-    check-cast p2, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;
+    check-cast p2, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;
 
     .line 74
     .line 75
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata$IncrementalBackup;->getTimestamp()Ljava/lang/String;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/folders/data/FolderMetadata$IncrementalBackup;->getTimestamp()Ljava/lang/String;
 
     .line 76
     .line 77

@@ -20,7 +20,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "Ljava/util/List<",
-            "Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;",
+            "Lcom/bareapps/barebackup/model/provider/CallLogItem;",
             ">;"
         }
     .end annotation
@@ -57,7 +57,7 @@
         value = {
             "(",
             "Ljava/util/List<",
-            "Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;",
+            "Lcom/bareapps/barebackup/model/provider/CallLogItem;",
             ">;)V"
         }
     .end annotation
@@ -92,7 +92,7 @@
         value = {
             "()",
             "Ljava/util/List<",
-            "Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;",
+            "Lcom/bareapps/barebackup/model/provider/CallLogItem;",
             ">;"
         }
     .end annotation

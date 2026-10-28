@@ -222,7 +222,7 @@
     .locals 1
 
     .line 1
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 2
     .line 3
@@ -239,7 +239,7 @@
 
     .line 9
     :cond_0
-    instance-of v0, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    instance-of v0, p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 10
     .line 11
@@ -440,7 +440,7 @@
 
     .line 47
     :cond_0
-    instance-of v1, p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    instance-of v1, p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 48
     .line 49
@@ -452,7 +452,7 @@
 
     .line 52
     :cond_1
-    instance-of p0, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    instance-of p0, p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 53
     .line 54
@@ -520,7 +520,7 @@
 
     .line 81
     :cond_6
-    instance-of v1, p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    instance-of v1, p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 82
     .line 83
@@ -532,7 +532,7 @@
 
     .line 86
     :cond_7
-    instance-of p0, p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    instance-of p0, p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 87
     .line 88

@@ -1015,11 +1015,11 @@
     move-result-object v1
 
     .line 11
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 12
     .line 13
-    new-instance v2, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v2, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 14
     .line 15
@@ -1027,7 +1027,7 @@
 
     .line 16
     .line 17
-    invoke-direct {v2, v3, v0}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
+    invoke-direct {v2, v3, v0}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;I)V
 
     .line 18
     .line 19
@@ -1070,15 +1070,15 @@
     move-result-object v0
 
     .line 40
-    check-cast v0, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v0, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 41
     .line 42
-    new-instance v1, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;
+    new-instance v1, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;
 
     .line 43
     .line 44
-    invoke-direct {v1, v3}, Lorg/swiftapps/swiftbackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {v1, v3}, Lcom/bareapps/barebackup/views/PreCachingLinearLayoutManager;-><init>(Landroid/content/Context;)V
 
     .line 45
     .line 46

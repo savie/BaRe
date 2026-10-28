@@ -592,7 +592,7 @@
 
     .line 15
     :cond_0
-    sget-object p0, Lorg/swiftapps/rootservice/ShellHelper;->INSTANCE:Lorg/swiftapps/rootservice/ShellHelper;
+    sget-object p0, Lcom/bareapps/rootservice/ShellHelper;->INSTANCE:Lcom/bareapps/rootservice/ShellHelper;
 
     .line 16
     .line 17
@@ -624,7 +624,7 @@
     move-result-object v1
 
     .line 31
-    invoke-virtual {p0, v1}, Lorg/swiftapps/rootservice/ShellHelper;->su([Ljava/lang/String;)Lod7;
+    invoke-virtual {p0, v1}, Lcom/bareapps/rootservice/ShellHelper;->su([Ljava/lang/String;)Lod7;
 
     .line 32
     .line 33

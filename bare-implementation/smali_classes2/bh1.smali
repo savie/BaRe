@@ -4,13 +4,13 @@
 
 
 # instance fields
-.field public final j:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+.field public final j:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
 .field public final k:Ljava/util/Set;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/util/Set;)V
     .locals 0
 
     .line 1
@@ -24,7 +24,7 @@
     .line 5
     .line 6
     .line 7
-    iput-object p1, p0, Lbh1;->j:Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    iput-object p1, p0, Lbh1;->j:Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 8
     .line 9

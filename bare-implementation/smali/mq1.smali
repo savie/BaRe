@@ -11,11 +11,11 @@
 
 .field public final synthetic b:Lpq1;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+.field public final synthetic c:Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
 
 # direct methods
-.method public synthetic constructor <init>(ZLpq1;Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;)V
+.method public synthetic constructor <init>(ZLpq1;Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lmq1;->c:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    iput-object p3, p0, Lmq1;->c:Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 9
     .line 10
@@ -65,7 +65,7 @@
 
     .line 10
     .line 11
-    iget-object p0, p0, Lmq1;->c:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    iget-object p0, p0, Lmq1;->c:Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 12
     .line 13

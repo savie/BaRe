@@ -11,11 +11,11 @@
 
 .field public final synthetic b:Lj57;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+.field public final synthetic c:Lcom/bareapps/barebackup/home/schedule/data/b;
 
 
 # direct methods
-.method public synthetic constructor <init>(ZLj57;Lorg/swiftapps/swiftbackup/home/schedule/data/b;)V
+.method public synthetic constructor <init>(ZLj57;Lcom/bareapps/barebackup/home/schedule/data/b;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lf57;->c:Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    iput-object p3, p0, Lf57;->c:Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 9
     .line 10
@@ -65,15 +65,15 @@
 
     .line 10
     .line 11
-    iget-object p0, p0, Lf57;->c:Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    iget-object p0, p0, Lf57;->c:Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 12
     .line 13
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p0, p0, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 14
     .line 15
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 16
     .line 17

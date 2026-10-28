@@ -22,7 +22,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/locale/LocaleActivity;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/locale/LocaleActivity;)V
     .locals 0
 
     .line 1
@@ -69,7 +69,7 @@
     .line 11
     .line 12
     .line 13
-    sget p0, Lorg/swiftapps/swiftbackup/locale/LocaleActivity;->P:I
+    sget p0, Lcom/bareapps/barebackup/locale/LocaleActivity;->P:I
 
     .line 14
     .line 15

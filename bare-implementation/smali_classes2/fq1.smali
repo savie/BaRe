@@ -236,7 +236,7 @@
 
     .line 108
     .line 109
-    check-cast v5, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v5, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 110
     .line 111
@@ -274,7 +274,7 @@
     .line 125
     .line 126
     .line 127
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getApplyData()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getApplyData()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 128
     .line 129
@@ -286,7 +286,7 @@
 
     .line 132
     .line 133
-    invoke-virtual {v4, v1}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->isValid(Z)Z
+    invoke-virtual {v4, v1}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->isValid(Z)Z
 
     .line 134
     .line 135
@@ -298,7 +298,7 @@
 
     .line 138
     .line 139
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;->getLabelIds()Ljava/util/List;
 
     .line 140
     .line 141
@@ -380,7 +380,7 @@
 
     .line 176
     .line 177
-    sget-object v12, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
+    sget-object v12, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
 
     .line 178
     .line 179
@@ -456,7 +456,7 @@
 
     .line 213
     .line 214
-    sget-object v12, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
+    sget-object v12, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->Companion:Lhr4;
 
     .line 215
     .line 216

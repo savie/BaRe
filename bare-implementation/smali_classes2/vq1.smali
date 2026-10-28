@@ -75,7 +75,7 @@
     .line 11
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 14
     .line 15
@@ -87,11 +87,11 @@
 
     .line 18
     .line 19
-    sget p1, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget p1, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->Y()Lyo7;
 
     .line 22
     .line 23
@@ -148,7 +148,7 @@
 
     .line 49
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 50
     .line 51
@@ -156,15 +156,15 @@
 
     .line 52
     .line 53
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast v0, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 54
     .line 55
-    sget p1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 56
     .line 57
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 58
     .line 59
@@ -251,11 +251,11 @@
 
     .line 99
     .line 100
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;
 
     .line 101
     .line 102
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;->R:I
 
     .line 103
     .line 104
@@ -275,11 +275,11 @@
     move-result-object p0
 
     .line 112
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/list/a$b;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/list/a$b;
 
     .line 113
     .line 114
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;->P()Lorg/swiftapps/swiftbackup/appconfigs/list/a;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;->P()Lcom/bareapps/barebackup/appconfigs/list/a;
 
     .line 115
     .line 116
@@ -287,11 +287,11 @@
     move-result-object p1
 
     .line 118
-    sget-object p2, Lorg/swiftapps/swiftbackup/appconfigs/list/a$a;->Desc:Lorg/swiftapps/swiftbackup/appconfigs/list/a$a;
+    sget-object p2, Lcom/bareapps/barebackup/appconfigs/list/a$a;->Desc:Lcom/bareapps/barebackup/appconfigs/list/a$a;
 
     .line 119
     .line 120
-    invoke-virtual {p1, p0, p2}, Lorg/swiftapps/swiftbackup/appconfigs/list/a;->k(Lorg/swiftapps/swiftbackup/appconfigs/list/a$b;Lorg/swiftapps/swiftbackup/appconfigs/list/a$a;)V
+    invoke-virtual {p1, p0, p2}, Lcom/bareapps/barebackup/appconfigs/list/a;->k(Lcom/bareapps/barebackup/appconfigs/list/a$b;Lcom/bareapps/barebackup/appconfigs/list/a$a;)V
 
     .line 121
     .line 122

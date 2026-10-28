@@ -242,7 +242,7 @@
 
     .line 64
     .line 65
-    invoke-virtual {p1}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {p1}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 66
     .line 67
@@ -250,7 +250,7 @@
     move-result-object p1
 
     .line 69
-    instance-of p1, p1, Lorg/swiftapps/filesystem/File$FileType$JavaFile;
+    instance-of p1, p1, Lcom/bareapps/filesystem/File$FileType$JavaFile;
 
     .line 70
     .line 71

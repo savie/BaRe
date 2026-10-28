@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Ljo3;->b:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    iput-object p1, p0, Ljo3;->b:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 4
     .line 5
@@ -46,7 +46,7 @@
     const/4 v0, 0x0
 
     .line 4
-    iget-object p0, p0, Ljo3;->b:Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    iget-object p0, p0, Ljo3;->b:Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 5
     .line 6
@@ -55,7 +55,7 @@
     .line 7
     .line 8
     .line 9
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
+    iget-object p1, p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
 
     .line 10
     .line 11
@@ -124,7 +124,7 @@
     .line 44
     .line 45
     :cond_0
-    iget-object v1, p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->R:Llk3;
+    iget-object v1, p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->R:Llk3;
 
     .line 46
     .line 47
@@ -196,7 +196,7 @@
 
     .line 79
     .line 80
-    invoke-direct {p1, p0, v0, v5, v1}, Lrj3;-><init>(Lil0;ZLorg/swiftapps/swiftbackup/settings/FolderBackupStrategy;I)V
+    invoke-direct {p1, p0, v0, v5, v1}, Lrj3;-><init>(Lil0;ZLcom/bareapps/barebackup/settings/FolderBackupStrategy;I)V
 
     .line 81
     .line 82
@@ -268,7 +268,7 @@
     .line 115
     .line 116
     .line 117
-    invoke-static {p0, v0, v5, v2}, Lorg/swiftapps/swiftbackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
+    invoke-static {p0, v0, v5, v2}, Lcom/bareapps/barebackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
 
     .line 118
     .line 119
@@ -327,7 +327,7 @@
 
     .line 146
     .line 147
-    invoke-direct {v0, p0, p1}, Lko3;-><init>(Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;Z)V
+    invoke-direct {v0, p0, p1}, Lko3;-><init>(Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;Z)V
 
     .line 148
     .line 149
@@ -396,7 +396,7 @@
 
     .line 182
     .line 183
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->U()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->U()Lcom/google/android/material/floatingactionbutton/ExtendedFloatingActionButton;
 
     .line 184
     .line 185
@@ -409,7 +409,7 @@
     .line 188
     .line 189
     .line 190
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
 
     .line 191
     .line 192
@@ -467,7 +467,7 @@
 
     .line 218
     .line 219
-    iget-object v1, v1, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object v1, v1, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 220
     .line 221
@@ -537,11 +537,11 @@
 
     .line 251
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 252
     .line 253
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->W()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->W()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 254
     .line 255

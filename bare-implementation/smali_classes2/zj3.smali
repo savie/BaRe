@@ -6,11 +6,11 @@
 # instance fields
 .field public final a:Lkj3;
 
-.field public final b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+.field public final b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
 
 # direct methods
-.method public constructor <init>(Lkj3;Lorg/swiftapps/swiftbackup/folders/data/BackupResult;)V
+.method public constructor <init>(Lkj3;Lcom/bareapps/barebackup/folders/data/BackupResult;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
 
     .line 8
     .line 9
-    iput-object p2, p0, Lzj3;->b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+    iput-object p2, p0, Lzj3;->b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
     .line 10
     .line 11
@@ -84,11 +84,11 @@
 
     .line 19
     :cond_2
-    iget-object p0, p0, Lzj3;->b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+    iget-object p0, p0, Lzj3;->b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
     .line 20
     .line 21
-    iget-object p1, p1, Lzj3;->b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+    iget-object p1, p1, Lzj3;->b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
     .line 22
     .line 23
@@ -136,7 +136,7 @@
 
     .line 8
     .line 9
-    iget-object p0, p0, Lzj3;->b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+    iget-object p0, p0, Lzj3;->b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
     .line 10
     .line 11
@@ -189,7 +189,7 @@
     .line 16
     .line 17
     .line 18
-    iget-object p0, p0, Lzj3;->b:Lorg/swiftapps/swiftbackup/folders/data/BackupResult;
+    iget-object p0, p0, Lzj3;->b:Lcom/bareapps/barebackup/folders/data/BackupResult;
 
     .line 19
     .line 20

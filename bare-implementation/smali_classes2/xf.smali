@@ -59,7 +59,7 @@
     .line 11
     .line 12
     .line 13
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 14
     .line 15
@@ -72,11 +72,11 @@
 
     .line 19
     .line 20
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/k;
+    check-cast p0, Lcom/bareapps/barebackup/settings/k;
 
     .line 21
     .line 22
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/settings/k;->j(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/settings/k;->j(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)V
 
     .line 23
     .line 24
@@ -98,15 +98,15 @@
 
     .line 32
     .line 33
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 34
     .line 35
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 36
     .line 37
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->W()Lil3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->W()Lil3;
 
     .line 38
     .line 39
@@ -138,7 +138,7 @@
 
     .line 52
     .line 53
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     .line 54
     .line 55
@@ -146,7 +146,7 @@
     move-result-object v11
 
     .line 57
-    invoke-virtual {v11}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v11}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 58
     .line 59
@@ -154,7 +154,7 @@
     move-result-object v11
 
     .line 61
-    invoke-virtual {v11}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
+    invoke-virtual {v11}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getDisplayName()Ljava/lang/String;
 
     .line 62
     .line 63
@@ -171,7 +171,7 @@
 
     .line 69
     .line 70
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     .line 71
     .line 72
@@ -179,7 +179,7 @@
     move-result-object v11
 
     .line 74
-    invoke-virtual {v11}, Ldm3;->k()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v11}, Ldm3;->k()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 75
     .line 76
@@ -187,7 +187,7 @@
     move-result-object v11
 
     .line 78
-    invoke-virtual {v11}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
+    invoke-virtual {v11}, Lcom/bareapps/barebackup/folders/data/FolderItem;->getSourceFolder()Ljava/lang/String;
 
     .line 79
     .line 80
@@ -221,7 +221,7 @@
     .line 94
     .line 95
     .line 96
-    invoke-static {p0, v4}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Y(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Z)V
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Y(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Z)V
 
     .line 97
     .line 98
@@ -251,7 +251,7 @@
     .line 109
     .line 110
     .line 111
-    invoke-static {p0, v1}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Y(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Z)V
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Y(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Z)V
 
     .line 112
     .line 113
@@ -288,7 +288,7 @@
     .line 129
     .line 130
     .line 131
-    invoke-static {p0, v1}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Y(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Z)V
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Y(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Z)V
 
     .line 132
     .line 133
@@ -428,7 +428,7 @@
     .line 201
     .line 202
     .line 203
-    iget-object v6, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v6, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 204
     .line 205
@@ -630,7 +630,7 @@
     move-result-wide v7
 
     .line 308
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/common/Const;->h(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/common/Const;->h(J)Ljava/lang/String;
 
     .line 309
     .line 310
@@ -843,11 +843,11 @@
 
     .line 409
     .line 410
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;
 
     .line 411
     .line 412
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;->Q:I
 
     .line 413
     .line 414
@@ -860,7 +860,7 @@
 
     .line 418
     .line 419
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/cloud/connect/common/CloudConnectActivity;->P(Ldd1;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/cloud/connect/common/CloudConnectActivity;->P(Ldd1;)V
 
     .line 420
     .line 421
@@ -882,11 +882,11 @@
 
     .line 429
     .line 430
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;
 
     .line 431
     .line 432
-    sget v0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->Q:I
+    sget v0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->Q:I
 
     .line 433
     .line 434
@@ -914,7 +914,7 @@
 
     .line 445
     .line 446
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->S(Lbg;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->S(Lbg;)V
 
     .line 447
     .line 448
@@ -923,7 +923,7 @@
 
     .line 450
     :cond_8
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 451
     .line 452
@@ -940,7 +940,7 @@
     .line 457
     .line 458
     .line 459
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 460
     .line 461
@@ -957,7 +957,7 @@
     .line 466
     .line 467
     .line 468
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 469
     .line 470
@@ -974,17 +974,17 @@
     .line 475
     .line 476
     .line 477
-    invoke-virtual {p0, v4}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->P(Z)V
+    invoke-virtual {p0, v4}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->P(Z)V
 
     .line 478
     .line 479
     .line 480
     :goto_5
-    iput-object v2, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N:Lag;
+    iput-object v2, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N:Lag;
 
     .line 481
     .line 482
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 483
     .line 484
@@ -1001,7 +1001,7 @@
     .line 489
     .line 490
     .line 491
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 492
     .line 493
@@ -1018,7 +1018,7 @@
     .line 498
     .line 499
     .line 500
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 501
     .line 502
@@ -1035,12 +1035,12 @@
     .line 507
     .line 508
     .line 509
-    invoke-virtual {p0, v1, v1, v1, v1}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->U(ZZZZ)V
+    invoke-virtual {p0, v1, v1, v1, v1}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->U(ZZZZ)V
 
     .line 510
     .line 511
     .line 512
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 513
     .line 514
@@ -1081,7 +1081,7 @@
     .line 531
     .line 532
     .line 533
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 534
     .line 535
@@ -1119,7 +1119,7 @@
 
     .line 551
     .line 552
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->S(Lbg;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->S(Lbg;)V
 
     .line 553
     .line 554
@@ -1128,15 +1128,15 @@
 
     .line 556
     .line 557
-    iput-object p1, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->M:Lzf;
+    iput-object p1, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->M:Lzf;
 
     .line 558
     .line 559
-    iput-object v2, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N:Lag;
+    iput-object v2, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N:Lag;
 
     .line 560
     .line 561
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 562
     .line 563
@@ -1158,7 +1158,7 @@
     .line 571
     .line 572
     .line 573
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 574
     .line 575
@@ -1175,7 +1175,7 @@
     .line 580
     .line 581
     .line 582
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 583
     .line 584
@@ -1192,7 +1192,7 @@
     .line 589
     .line 590
     .line 591
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 592
     .line 593
@@ -1209,7 +1209,7 @@
     .line 598
     .line 599
     .line 600
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 601
     .line 602
@@ -1231,7 +1231,7 @@
     .line 610
     .line 611
     .line 612
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 613
     .line 614
@@ -1253,7 +1253,7 @@
     .line 622
     .line 623
     .line 624
-    invoke-virtual {p0, v4, v1, v1, v4}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->U(ZZZZ)V
+    invoke-virtual {p0, v4, v1, v1, v4}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->U(ZZZZ)V
 
     .line 625
     .line 626
@@ -1279,16 +1279,16 @@
 
     .line 636
     .line 637
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->T(Lbg;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->T(Lbg;)V
 
     .line 638
     .line 639
     .line 640
-    iput-object v2, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N:Lag;
+    iput-object v2, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N:Lag;
 
     .line 641
     .line 642
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 643
     .line 644
@@ -1305,7 +1305,7 @@
     .line 649
     .line 650
     .line 651
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 652
     .line 653
@@ -1322,7 +1322,7 @@
     .line 658
     .line 659
     .line 660
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 661
     .line 662
@@ -1339,12 +1339,12 @@
     .line 667
     .line 668
     .line 669
-    invoke-virtual {p0, v1, v1, v1, v4}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->U(ZZZZ)V
+    invoke-virtual {p0, v1, v1, v1, v4}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->U(ZZZZ)V
 
     .line 670
     .line 671
     .line 672
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 673
     .line 674
@@ -1369,7 +1369,7 @@
     .line 683
     .line 684
     .line 685
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 686
     .line 687
@@ -1411,12 +1411,12 @@
 
     .line 705
     .line 706
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->T(Lbg;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->T(Lbg;)V
 
     .line 707
     .line 708
     .line 709
-    iput-object v2, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->M:Lzf;
+    iput-object v2, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->M:Lzf;
 
     .line 710
     .line 711
@@ -1433,11 +1433,11 @@
     .line 716
     .line 717
     .line 718
-    iput-object v0, p0, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N:Lag;
+    iput-object v0, p0, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N:Lag;
 
     .line 719
     .line 720
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 721
     .line 722
@@ -1459,7 +1459,7 @@
     .line 730
     .line 731
     .line 732
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 733
     .line 734
@@ -1476,7 +1476,7 @@
     .line 739
     .line 740
     .line 741
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 742
     .line 743
@@ -1493,7 +1493,7 @@
     .line 748
     .line 749
     .line 750
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 751
     .line 752
@@ -1580,12 +1580,12 @@
     xor-int/2addr v3, v4
 
     .line 785
-    invoke-virtual {p0, v1, v0, v3, v4}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->U(ZZZZ)V
+    invoke-virtual {p0, v1, v0, v3, v4}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->U(ZZZZ)V
 
     .line 786
     .line 787
     .line 788
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 789
     .line 790
@@ -1631,7 +1631,7 @@
     .line 808
     .line 809
     .line 810
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 811
     .line 812
@@ -1653,7 +1653,7 @@
     .line 820
     .line 821
     .line 822
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/apkshare/ApkImportActivity;->N()Lyf;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/apkshare/ApkImportActivity;->N()Lyf;
 
     .line 823
     .line 824

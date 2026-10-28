@@ -118,18 +118,18 @@
 
     .line 33
     .line 34
-    check-cast p1, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast p1, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     .line 35
     .line 36
-    iget-object v2, p0, Ltr;->W:Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;
+    iget-object v2, p0, Ltr;->W:Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;
 
     .line 37
     .line 38
     const/4 v3, 0x1
 
     .line 39
-    invoke-virtual {p1, v2, v3}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
+    invoke-virtual {p1, v2, v3}, Lcom/google/android/material/listitem/ListItemLayout;->h(Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Z)V
     :try_end_0
     .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
 

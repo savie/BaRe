@@ -292,7 +292,7 @@
 
     .line 117
     .line 118
-    check-cast v16, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v16, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 119
     .line 120
@@ -396,7 +396,7 @@
 
     .line 169
     .line 170
-    invoke-direct/range {v10 .. v19}, Lpi7;-><init>(Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/RelativeLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v10 .. v19}, Lpi7;-><init>(Lcom/google/android/material/card/MaterialCardView;Lzx2;Landroid/widget/ImageView;Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/RelativeLayout;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 171
     .line 172
@@ -499,7 +499,7 @@
 
     .line 222
     .line 223
-    check-cast v25, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v25, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 224
     .line 225

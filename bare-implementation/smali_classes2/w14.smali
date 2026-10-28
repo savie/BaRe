@@ -14,7 +14,7 @@
     .locals 2
 
     .line 1
-    new-instance v0, Lorg/swiftapps/swiftbackup/common/a;
+    new-instance v0, Lcom/bareapps/barebackup/common/a;
 
     .line 2
     .line 3
@@ -612,11 +612,11 @@
 
     .line 24
     .line 25
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 26
     .line 27
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 28
     .line 29

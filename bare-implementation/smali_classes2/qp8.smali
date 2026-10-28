@@ -59,7 +59,7 @@
     .line 9
     .line 10
     .line 11
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;
 
     .line 12
     .line 13
@@ -67,7 +67,7 @@
 
     .line 14
     .line 15
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;->N:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;->N:I
 
     .line 16
     .line 17
@@ -137,7 +137,7 @@
 
     .line 52
     .line 53
-    invoke-direct {p1, p0}, Lj08;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/TeraBoxSignInActivity;)V
+    invoke-direct {p1, p0}, Lj08;-><init>(Lcom/bareapps/barebackup/cloud/connect/TeraBoxSignInActivity;)V
 
     .line 54
     .line 55
@@ -155,7 +155,7 @@
 
     .line 62
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;
 
     .line 63
     .line 64
@@ -163,7 +163,7 @@
 
     .line 65
     .line 66
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/walls/WallsManageActivity;->R:Lmo8;
+    iget-object p0, p0, Lcom/bareapps/barebackup/walls/WallsManageActivity;->R:Lmo8;
 
     .line 67
     .line 68

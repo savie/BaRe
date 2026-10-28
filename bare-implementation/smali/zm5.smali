@@ -434,11 +434,11 @@
 
     .line 14
     .line 15
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 18
     .line 19
@@ -511,7 +511,7 @@
     .line 50
     .line 51
     .line 52
-    const-class p1, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;
+    const-class p1, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;
 
     .line 53
     .line 54
@@ -3673,7 +3673,7 @@
     return-object v0
 .end method
 
-.method public static b(Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;)Z
+.method public static b(Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;)Z
     .locals 6
 
     .line 1
@@ -3685,7 +3685,7 @@
     move-result-wide v0
 
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;->getExpiresAtMillis()Ljava/lang/Long;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;->getExpiresAtMillis()Ljava/lang/Long;
 
     .line 6
     .line 7
@@ -8116,7 +8116,7 @@
     .end packed-switch
 .end method
 
-.method public static final u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+.method public static final u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
     .locals 2
 
     .line 1
@@ -8131,7 +8131,7 @@
 
     .line 5
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getVersion()I
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getVersion()I
 
     .line 6
     .line 7
@@ -8143,7 +8143,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 12
     .line 13
@@ -8163,7 +8163,7 @@
 
     .line 20
     .line 21
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;->getId()Ljava/lang/String;
 
     .line 22
     .line 23

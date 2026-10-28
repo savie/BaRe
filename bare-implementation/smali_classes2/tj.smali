@@ -54,7 +54,7 @@
 
     .line 4
     .line 5
-    check-cast v1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    check-cast v1, Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 6
     .line 7
@@ -74,7 +74,7 @@
 
     .line 14
     .line 15
-    sget v3, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget v3, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 16
     .line 17
@@ -104,7 +104,7 @@
 
     .line 28
     .line 29
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->Y()Lmk2;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/detail/DetailActivity;->Y()Lmk2;
 
     .line 30
     .line 31
@@ -165,7 +165,7 @@
     move-result-object v15
 
     .line 60
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->Companion:Lorg/swiftapps/swiftbackup/settings/b;
+    sget-object v1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->Companion:Lcom/bareapps/barebackup/settings/b;
 
     .line 61
     .line 62
@@ -174,7 +174,7 @@
     .line 63
     .line 64
     .line 65
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/b;->c()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/b;->c()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 66
     .line 67
@@ -192,7 +192,7 @@
     const/4 v13, 0x0
 
     .line 73
-    invoke-direct/range {v8 .. v17}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;ZLxp1;Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
+    invoke-direct/range {v8 .. v17}, Lhz;-><init>(Lji;Ljava/util/List;Ljava/util/List;Lhk;Lcom/bareapps/barebackup/tasks/model/SyncOption;ZLxp1;Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;Ljava/util/List;)V
 
     .line 74
     .line 75
@@ -240,11 +240,11 @@
 
     .line 96
     .line 97
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 98
     .line 99
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 100
     .line 101
@@ -338,11 +338,11 @@
 
     .line 146
     .line 147
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 148
     .line 149
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 150
     .line 151

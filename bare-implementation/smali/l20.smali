@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final l:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+.field public final l:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
 .field public final m:Z
 
@@ -23,7 +23,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;ZLandroid/widget/TextView;Lzs;Llm;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;ZLandroid/widget/TextView;Lzs;Llm;)V
     .locals 1
 
     .line 1
@@ -35,7 +35,7 @@
     .line 3
     .line 4
     .line 5
-    iput-object p1, p0, Ll20;->l:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iput-object p1, p0, Ll20;->l:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 6
     .line 7
@@ -55,11 +55,11 @@
 
     .line 14
     .line 15
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 16
     .line 17
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 18
     .line 19
@@ -103,11 +103,11 @@
 
     .line 38
     .line 39
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 40
     .line 41
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 42
     .line 43
@@ -251,7 +251,7 @@
     move-result-wide v0
 
     .line 54
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 55
     .line 56
@@ -402,7 +402,7 @@
     move-result-wide v0
 
     .line 126
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 127
     .line 128
@@ -434,7 +434,7 @@
     move-result-wide v0
 
     .line 141
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 142
     .line 143
@@ -466,7 +466,7 @@
     move-result-wide v0
 
     .line 156
-    invoke-static {v0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 157
     .line 158
@@ -760,7 +760,7 @@
     .line 26
     .line 27
     .line 28
-    iget-object v1, p0, Ll20;->l:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object v1, p0, Ll20;->l:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 29
     .line 30

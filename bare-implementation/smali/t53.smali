@@ -89,11 +89,11 @@
 
     .line 25
     .line 26
-    new-instance v0, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
+    new-instance v0, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;
 
     .line 27
     .line 28
-    invoke-direct {v0, p0}, Lorg/swiftapps/swiftbackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;-><init>(Ljava/util/List;)V
+    invoke-direct {v0, p0}, Lcom/bareapps/barebackup/appslist/data/FavoriteAppsRepo$FavoritesWrapper;-><init>(Ljava/util/List;)V
 
     .line 29
     .line 30

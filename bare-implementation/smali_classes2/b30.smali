@@ -162,7 +162,7 @@
 
     .line 62
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 63
     .line 64
@@ -179,7 +179,7 @@
     .line 69
     .line 70
     .line 71
-    sget p2, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->Q:I
+    sget p2, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->Q:I
 
     .line 72
     .line 73
@@ -188,7 +188,7 @@
     .line 74
     .line 75
     .line 76
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;->O()Lin3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;->O()Lin3;
 
     .line 77
     .line 78
@@ -222,7 +222,7 @@
 
     .line 93
     :pswitch_2
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;
 
     .line 94
     .line 95
@@ -239,7 +239,7 @@
     .line 100
     .line 101
     .line 102
-    sget p2, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
+    sget p2, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->S:I
 
     .line 103
     .line 104
@@ -248,7 +248,7 @@
     .line 105
     .line 106
     .line 107
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerActivity;->V()Lorg/swiftapps/swiftbackup/cloud/orphans/a;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/orphans/CloudOrphanCleanerActivity;->V()Lcom/bareapps/barebackup/cloud/orphans/a;
 
     .line 108
     .line 109
@@ -273,7 +273,7 @@
     .line 118
     .line 119
     .line 120
-    invoke-virtual {p0, p2}, Lorg/swiftapps/swiftbackup/cloud/orphans/a;->s(Lmt3;)Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    invoke-virtual {p0, p2}, Lcom/bareapps/barebackup/cloud/orphans/a;->s(Lmt3;)Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 121
     .line 122

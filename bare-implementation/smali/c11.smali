@@ -9,13 +9,13 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
 .field public final synthetic c:Ljava/util/ArrayList;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;Ljava/util/ArrayList;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;Ljava/util/ArrayList;I)V
     .locals 0
 
     .line 1
@@ -23,7 +23,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lc11;->b:Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    iput-object p1, p0, Lc11;->b:Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 4
     .line 5
@@ -56,7 +56,7 @@
 
     .line 5
     .line 6
-    iget-object p0, p0, Lc11;->b:Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    iget-object p0, p0, Lc11;->b:Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 7
     .line 8
@@ -65,11 +65,11 @@
     .line 9
     .line 10
     .line 11
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 12
     .line 13
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 14
     .line 15
@@ -118,7 +118,7 @@
     .line 35
     .line 36
     .line 37
-    invoke-static {p0, v1, p1, v0}, Lorg/swiftapps/swiftbackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
+    invoke-static {p0, v1, p1, v0}, Lcom/bareapps/barebackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
 
     .line 38
     .line 39
@@ -129,11 +129,11 @@
 
     .line 41
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 42
     .line 43
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;->T:I
 
     .line 44
     .line 45

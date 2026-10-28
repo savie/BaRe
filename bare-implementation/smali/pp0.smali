@@ -46,7 +46,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/widget/ImageView;Landroidx/recyclerview/widget/RecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/widget/ImageView;Landroidx/recyclerview/widget/RecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 139
@@ -849,7 +849,7 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast p0, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 4
     .line 5

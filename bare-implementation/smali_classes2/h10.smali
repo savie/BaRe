@@ -142,18 +142,18 @@
 
     .line 49
     .line 50
-    iget-object p0, p0, Lkl3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    iget-object p0, p0, Lkl3;->a:Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 51
     .line 52
     const/4 p1, 0x0
 
     .line 53
-    iget-object v1, v1, Lol3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    iget-object v1, v1, Lol3;->a:Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 54
     .line 55
-    invoke-static {p0, p1, v1, v0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->a0(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;I)V
+    invoke-static {p0, p1, v1, v0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->a0(Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;Lkj3;Lcom/bareapps/barebackup/folders/data/FolderMetadata;I)V
 
     .line 56
     .line 57
@@ -225,7 +225,7 @@
     move-result-object p1
 
     .line 89
-    iget-object v2, v1, Lgj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v2, v1, Lgj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 90
     .line 91
@@ -258,7 +258,7 @@
     .line 104
     .line 105
     .line 106
-    invoke-static {p1, v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->f(Ljava/lang/String;Ljava/lang/String;Lmt3;)V
+    invoke-static {p1, v2, v3}, Lcom/bareapps/barebackup/common/Const;->f(Ljava/lang/String;Ljava/lang/String;Lmt3;)V
 
     .line 107
     .line 108
@@ -275,7 +275,7 @@
 
     .line 113
     .line 114
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/conversationsview/ChatActivity;->O:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/conversationsview/ChatActivity;->O:I
 
     .line 115
     .line 116
@@ -300,7 +300,7 @@
 
     .line 126
     .line 127
-    const-class v0, Lorg/swiftapps/swiftbackup/messagescalls/conversationsview/ChatActivity;
+    const-class v0, Lcom/bareapps/barebackup/messagescalls/conversationsview/ChatActivity;
 
     .line 128
     .line 129

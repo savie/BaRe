@@ -89,11 +89,11 @@
 
     .line 27
     .line 28
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 29
     .line 30
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 31
     .line 32
@@ -280,7 +280,7 @@
     move-object v0, p1
 
     .line 119
-    check-cast v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    check-cast v0, Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 120
     .line 121
@@ -289,11 +289,11 @@
     .line 122
     .line 123
     .line 124
-    iget-object p0, v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->i:Ljava/util/List;
+    iget-object p0, v0, Lcom/bareapps/barebackup/cloud/orphans/b;->i:Ljava/util/List;
 
     .line 125
     .line 126
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->d()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/orphans/b;->d()Z
 
     .line 127
     .line 128
@@ -429,7 +429,7 @@
 
     .line 195
     :cond_3
-    iget-object p0, v0, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->j:Ljava/util/Set;
+    iget-object p0, v0, Lcom/bareapps/barebackup/cloud/orphans/b;->j:Ljava/util/Set;
 
     .line 196
     .line 197
@@ -545,7 +545,7 @@
     const/4 v5, 0x0
 
     .line 249
-    invoke-static/range {v0 .. v7}, Lorg/swiftapps/swiftbackup/cloud/orphans/b;->a(Lorg/swiftapps/swiftbackup/cloud/orphans/b;Lorg/swiftapps/swiftbackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lorg/swiftapps/swiftbackup/cloud/orphans/b;
+    invoke-static/range {v0 .. v7}, Lcom/bareapps/barebackup/cloud/orphans/b;->a(Lcom/bareapps/barebackup/cloud/orphans/b;Lcom/bareapps/barebackup/cloud/orphans/a$a;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;III)Lcom/bareapps/barebackup/cloud/orphans/b;
 
     .line 250
     .line 251

@@ -155,7 +155,7 @@
     .line 71
     .line 72
     .line 73
-    iget-object v0, p1, Lz6;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object v0, p1, Lz6;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 74
     .line 75

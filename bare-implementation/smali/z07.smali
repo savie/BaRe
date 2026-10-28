@@ -8376,11 +8376,11 @@
     .line 27
     :cond_1
     :goto_0
-    sget-object v4, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a:Lcom/swiftapps/sba/SbaLibaegisCryptoNative;
+    sget-object v4, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
 
     .line 28
     .line 29
-    invoke-virtual {v4}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
+    invoke-virtual {v4}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
 
     .line 30
     .line 31
@@ -8594,7 +8594,7 @@
     move-object v2, v3
 
     .line 131
-    sget-object v3, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v3, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 132
     .line 133
@@ -8702,7 +8702,7 @@
 
     .line 182
     .line 183
-    invoke-virtual/range {v3 .. v24}, Lcom/swiftapps/sba/SbaSwiftTarNative;->extractAegisArchiveEntryFused(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;
+    invoke-virtual/range {v3 .. v24}, Lcom/bareapps/sba/SbaBareTarNative;->extractAegisArchiveEntryFused(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;
 
     .line 184
     .line 185
@@ -8737,7 +8737,7 @@
 
     .line 198
     .line 199
-    sget-object v4, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v4, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 200
     .line 201
@@ -8818,7 +8818,7 @@
 
     .line 237
     .line 238
-    invoke-virtual/range {v3 .. v24}, Lcom/swiftapps/sba/SbaSwiftTarNative;->extractAegisArchiveEntry(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;
+    invoke-virtual/range {v3 .. v24}, Lcom/bareapps/sba/SbaBareTarNative;->extractAegisArchiveEntry(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;
 
     .line 239
     .line 240

@@ -7,11 +7,11 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;)V
     .locals 0
 
     .line 1
@@ -20,7 +20,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lwo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iput-object p1, p0, Lwo3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 5
     .line 6
@@ -54,7 +54,7 @@
     const/4 v1, 0x1
 
     .line 12
-    iget-object p0, p0, Lwo3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object p0, p0, Lwo3;->a:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 13
     .line 14
@@ -66,7 +66,7 @@
 
     .line 17
     .line 18
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;
+    const-class v0, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;
 
     .line 19
     .line 20
@@ -98,7 +98,7 @@
 
     .line 34
     .line 35
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;)Lkp3;
+    invoke-static {p0}, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;)Lkp3;
 
     .line 36
     .line 37
@@ -446,7 +446,7 @@
     .line 210
     :cond_4
     :goto_2
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->L()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->L()V
 
     .line 211
     .line 212
@@ -464,7 +464,7 @@
 
     .line 218
     .line 219
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;->R:I
 
     .line 220
     .line 221
@@ -508,7 +508,7 @@
 
     .line 241
     .line 242
-    sget p1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/settings/SettingsActivity;->Z:I
 
     .line 243
     .line 244

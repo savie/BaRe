@@ -65,7 +65,7 @@
     .line 9
     .line 10
     .line 11
-    check-cast p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast p0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 12
     .line 13
@@ -73,7 +73,7 @@
 
     .line 14
     .line 15
-    sget p1, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget p1, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 16
     .line 17
@@ -142,7 +142,7 @@
     .line 47
     .line 48
     .line 49
-    iget-object v1, p0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->Q:Lgv7;
+    iget-object v1, p0, Lcom/bareapps/barebackup/slog/SLogActivity;->Q:Lgv7;
 
     .line 50
     .line 51
@@ -173,7 +173,7 @@
     .line 64
     .line 65
     .line 66
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->O()Lcs6;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/slog/SLogActivity;->O()Lcs6;
 
     .line 67
     .line 68
@@ -225,7 +225,7 @@
 
     .line 89
     .line 90
-    invoke-direct {v2, v1, p0, p1, v0}, Lyr6;-><init>(Ljava/util/List;Lorg/swiftapps/swiftbackup/slog/SLogActivity;ZLjv1;)V
+    invoke-direct {v2, v1, p0, p1, v0}, Lyr6;-><init>(Ljava/util/List;Lcom/bareapps/barebackup/slog/SLogActivity;ZLjv1;)V
 
     .line 91
     .line 92
@@ -253,7 +253,7 @@
 
     .line 103
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;
 
     .line 104
     .line 105
@@ -261,11 +261,11 @@
 
     .line 106
     .line 107
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;->T:I
 
     .line 108
     .line 109
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 110
     .line 111
@@ -301,7 +301,7 @@
 
     .line 125
     .line 126
-    invoke-direct {p1, p0, v1}, Ll30;-><init>(Lorg/swiftapps/swiftbackup/messagescalls/dash/MessagesDashActivity;Ljava/util/ArrayList;)V
+    invoke-direct {p1, p0, v1}, Ll30;-><init>(Lcom/bareapps/barebackup/messagescalls/dash/MessagesDashActivity;Ljava/util/ArrayList;)V
 
     .line 127
     .line 128
@@ -311,7 +311,7 @@
     .line 130
     .line 131
     .line 132
-    invoke-static {p0, v1, p1, v0}, Lorg/swiftapps/swiftbackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
+    invoke-static {p0, v1, p1, v0}, Lcom/bareapps/barebackup/common/Const;->K(Lio1;ILbt3;Lbk;)V
 
     .line 133
     .line 134
@@ -322,15 +322,15 @@
 
     .line 136
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 137
     .line 138
-    check-cast v1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 139
     .line 140
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 141
     .line 142
@@ -362,7 +362,7 @@
 
     .line 154
     .line 155
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 156
     .line 157

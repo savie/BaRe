@@ -1371,7 +1371,7 @@
 
     .line 616
     .line 617
-    sget-object v1, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->CREATOR:Landroid/os/Parcelable$Creator;
+    sget-object v1, Lcom/bareapps/barebackup/model/app/LocalMetadata;->CREATOR:Landroid/os/Parcelable$Creator;
 
     .line 618
     .line 619
@@ -1383,11 +1383,11 @@
     move-result-object p1
 
     .line 623
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    check-cast p1, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 624
     .line 625
-    invoke-direct {p0, v0, p1}, Lgm;-><init>(Lhk;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+    invoke-direct {p0, v0, p1}, Lgm;-><init>(Lhk;Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
 
     .line 626
     .line 627

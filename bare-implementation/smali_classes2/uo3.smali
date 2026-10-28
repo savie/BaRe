@@ -6,15 +6,15 @@
 # instance fields
 .field public final g:Ljava/util/ArrayList;
 
-.field public final synthetic h:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+.field public final synthetic h:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;Lur3;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;Lur3;)V
     .locals 1
 
     .line 1
-    iput-object p1, p0, Luo3;->h:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iput-object p1, p0, Luo3;->h:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 2
     .line 3
@@ -163,7 +163,7 @@
 
     .line 12
     .line 13
-    iget-object p0, p0, Luo3;->h:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object p0, p0, Luo3;->h:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 14
     .line 15

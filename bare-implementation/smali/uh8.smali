@@ -16,7 +16,7 @@
 
 .field public static final enum GoogleDns:Luh8;
 
-.field public static final enum SwiftApps:Luh8;
+.field public static final enum BareApps:Luh8;
 
 
 # instance fields
@@ -46,7 +46,7 @@
 
     .line 8
     .line 9
-    sget-object v4, Luh8;->SwiftApps:Luh8;
+    sget-object v4, Luh8;->BareApps:Luh8;
 
     .line 10
     .line 11
@@ -180,7 +180,7 @@
 
     .line 57
     .line 58
-    const-string v3, "SwiftApps"
+    const-string v3, "BareApps"
 
     .line 59
     .line 60
@@ -189,7 +189,7 @@
     .line 61
     .line 62
     .line 63
-    sput-object v0, Luh8;->SwiftApps:Luh8;
+    sput-object v0, Luh8;->BareApps:Luh8;
 
     .line 64
     .line 65

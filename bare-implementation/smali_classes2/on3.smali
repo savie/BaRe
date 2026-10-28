@@ -12,7 +12,7 @@
     .locals 3
 
     .line 1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->values()[Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->values()[Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 2
     .line 3
@@ -28,7 +28,7 @@
     .line 7
     .line 8
     :try_start_0
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->MISSING_ONLY:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 9
     .line 10
@@ -51,7 +51,7 @@
     .line 17
     :catch_0
     :try_start_1
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->OVERWRITE:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->OVERWRITE:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 18
     .line 19
@@ -74,7 +74,7 @@
     .line 26
     :catch_1
     :try_start_2
-    sget-object v1, Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;->FULL_RESTORE:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    sget-object v1, Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;->FULL_RESTORE:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 27
     .line 28

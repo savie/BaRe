@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/settings/h;
+.field public final synthetic a:Lcom/bareapps/barebackup/settings/h;
 
 .field public final synthetic b:Lmt3;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lmt3;Lorg/swiftapps/swiftbackup/settings/h;)V
+.method public synthetic constructor <init>(Lmt3;Lcom/bareapps/barebackup/settings/h;)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p2, p0, Laj5;->a:Lorg/swiftapps/swiftbackup/settings/h;
+    iput-object p2, p0, Laj5;->a:Lcom/bareapps/barebackup/settings/h;
 
     .line 5
     .line 6
@@ -44,11 +44,11 @@
     .line 2
     .line 3
     .line 4
-    iget-object p1, p0, Laj5;->a:Lorg/swiftapps/swiftbackup/settings/h;
+    iget-object p1, p0, Laj5;->a:Lcom/bareapps/barebackup/settings/h;
 
     .line 5
     .line 6
-    iget-object p1, p1, Lorg/swiftapps/swiftbackup/settings/h;->a:Lcj5;
+    iget-object p1, p1, Lcom/bareapps/barebackup/settings/h;->a:Lcj5;
 
     .line 7
     .line 8
@@ -68,7 +68,7 @@
 
     .line 15
     .line 16
-    sget-object p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 17
     .line 18
@@ -92,7 +92,7 @@
 
     .line 26
     .line 27
-    sget-object p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->DataChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->DataChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 28
     .line 29
@@ -116,7 +116,7 @@
 
     .line 37
     .line 38
-    sget-object p1, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkOrDataChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object p1, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkOrDataChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 39
     .line 40

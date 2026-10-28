@@ -6,11 +6,11 @@
 # instance fields
 .field public final synthetic a:Lmt3;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/settings/h;
+.field public final synthetic b:Lcom/bareapps/barebackup/settings/h;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lmt3;Lorg/swiftapps/swiftbackup/settings/h;)V
+.method public synthetic constructor <init>(Lmt3;Lcom/bareapps/barebackup/settings/h;)V
     .locals 0
 
     .line 1
@@ -23,7 +23,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lzi5;->b:Lorg/swiftapps/swiftbackup/settings/h;
+    iput-object p2, p0, Lzi5;->b:Lcom/bareapps/barebackup/settings/h;
 
     .line 7
     .line 8

@@ -647,14 +647,14 @@
 
     .line 1
     :try_start_0
-    sget-object v0, Lcom/swiftapps/sba/SbaZstdNative;->a:Lcom/swiftapps/sba/SbaZstdNative;
+    sget-object v0, Lcom/bareapps/sba/SbaZstdNative;->a:Lcom/bareapps/sba/SbaZstdNative;
 
     .line 2
     .line 3
     const/4 v1, 0x3
 
     .line 4
-    invoke-virtual {v0, p0, v1}, Lcom/swiftapps/sba/SbaZstdNative;->compressZstdBytes([BI)[B
+    invoke-virtual {v0, p0, v1}, Lcom/bareapps/sba/SbaZstdNative;->compressZstdBytes([BI)[B
 
     .line 5
     .line 6

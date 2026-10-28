@@ -9,13 +9,13 @@
 # instance fields
 .field public final synthetic a:Ltb5;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
 .field public final synthetic c:Ljava/lang/String;
 
 
 # direct methods
-.method public constructor <init>(Ltb5;Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;Ljava/lang/String;Ljv1;)V
+.method public constructor <init>(Ltb5;Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;Ljava/lang/String;Ljv1;)V
     .locals 0
 
     .line 1
@@ -23,7 +23,7 @@
 
     .line 2
     .line 3
-    iput-object p2, p0, Lsb5;->b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    iput-object p2, p0, Lsb5;->b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 4
     .line 5
@@ -52,7 +52,7 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lsb5;->b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    iget-object v0, p0, Lsb5;->b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 4
     .line 5
@@ -64,7 +64,7 @@
 
     .line 8
     .line 9
-    invoke-direct {p1, p0, v0, v1, p2}, Lsb5;-><init>(Ltb5;Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;Ljava/lang/String;Ljv1;)V
+    invoke-direct {p1, p0, v0, v1, p2}, Lsb5;-><init>(Ltb5;Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;Ljava/lang/String;Ljv1;)V
 
     .line 10
     .line 11
@@ -135,11 +135,11 @@
     .line 12
     .line 13
     .line 14
-    iget-object v1, p0, Lsb5;->b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    iget-object v1, p0, Lsb5;->b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 15
     .line 16
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;->isValid()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;->isValid()Z
 
     .line 17
     .line 18
@@ -154,11 +154,11 @@
 
     .line 22
     .line 23
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 24
     .line 25
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 26
     .line 27
@@ -207,7 +207,7 @@
     .line 46
     .line 47
     .line 48
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 49
     .line 50
@@ -225,7 +225,7 @@
     .line 56
     .line 57
     .line 58
-    new-instance p0, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Failed;
+    new-instance p0, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Failed;
 
     .line 59
     .line 60
@@ -238,7 +238,7 @@
     .line 63
     .line 64
     .line 65
-    invoke-direct {p0, v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Failed;-><init>(Ljava/lang/Exception;)V
+    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Failed;-><init>(Ljava/lang/Exception;)V
 
     .line 66
     .line 67
@@ -273,7 +273,7 @@
     .line 81
     .line 82
     .line 83
-    sput-object v1, Lgt7;->b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    sput-object v1, Lgt7;->b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 84
     .line 85
@@ -328,7 +328,7 @@
 
     .line 110
     .line 111
-    invoke-virtual {v2, p0}, Lgt7;->e(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult;
+    invoke-virtual {v2, p0}, Lgt7;->e(Ljava/lang/String;)Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult;
 
     .line 112
     .line 113
@@ -384,7 +384,7 @@
     .line 137
     .line 138
     .line 139
-    instance-of v2, p0, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Failed;
+    instance-of v2, p0, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Failed;
 
     .line 140
     .line 141
@@ -395,11 +395,11 @@
     move-object v2, p0
 
     .line 144
-    check-cast v2, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Failed;
+    check-cast v2, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Failed;
 
     .line 145
     .line 146
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Failed;->getE()Ljava/lang/Exception;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Failed;->getE()Ljava/lang/Exception;
 
     .line 147
     .line 148
@@ -445,7 +445,7 @@
     .line 166
     .line 167
     .line 168
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 169
     .line 170
@@ -476,7 +476,7 @@
     .line 183
     :cond_2
     :goto_0
-    instance-of v2, p0, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$Success;
+    instance-of v2, p0, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$Success;
 
     .line 184
     .line 185
@@ -488,7 +488,7 @@
 
     .line 188
     .line 189
-    invoke-static {v1}, Lx95;->r(Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;)V
+    invoke-static {v1}, Lx95;->r(Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;)V
 
     .line 190
     .line 191
@@ -519,7 +519,7 @@
     .line 204
     .line 205
     .line 206
-    sput-object v1, Lgt7;->b:Lorg/swiftapps/swiftbackup/cloud/clients/MegaClient$Credentials;
+    sput-object v1, Lgt7;->b:Lcom/bareapps/barebackup/cloud/clients/MegaClient$Credentials;
 
     .line 207
     .line 208
@@ -662,7 +662,7 @@
 
     .line 272
     :goto_2
-    instance-of p0, p0, Lorg/swiftapps/swiftbackup/cloud/protocols/mega/MegaLoginResult$MultiFactorAuthRequired;
+    instance-of p0, p0, Lcom/bareapps/barebackup/cloud/protocols/mega/MegaLoginResult$MultiFactorAuthRequired;
 
     .line 273
     .line 274

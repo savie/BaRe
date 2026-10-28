@@ -172,7 +172,7 @@
     .line 36
     .line 37
     .line 38
-    sget-object p1, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 39
     .line 40
@@ -180,7 +180,7 @@
 
     .line 41
     .line 42
-    invoke-virtual {p1, v3, v4}, Lorg/swiftapps/swiftbackup/common/V;->setV(J)V
+    invoke-virtual {p1, v3, v4}, Lcom/bareapps/barebackup/common/V;->setV(J)V
 
     .line 43
     .line 44
@@ -345,7 +345,7 @@
 
     .line 120
     .line 121
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->E(Ljava/lang/String;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->E(Ljava/lang/String;)V
 
     .line 122
     .line 123
@@ -364,11 +364,11 @@
     .line 128
     .line 129
     .line 130
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 131
     .line 132
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 133
     .line 134

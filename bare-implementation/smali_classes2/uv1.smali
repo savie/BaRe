@@ -139,7 +139,7 @@
     move-result-wide v2
 
     .line 68
-    invoke-static {v2, v3}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 69
     .line 70
@@ -152,7 +152,7 @@
     .line 73
     .line 74
     .line 75
-    iget-object p2, p1, Ltv1;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p2, p1, Ltv1;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 76
     .line 77

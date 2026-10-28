@@ -1298,7 +1298,7 @@
     .line 567
     .line 568
     .line 569
-    new-instance p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;
+    new-instance p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;
 
     .line 570
     .line 571
@@ -1326,7 +1326,7 @@
     move-result-object p1
 
     .line 583
-    invoke-direct {p0, v0, v1, p1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+    invoke-direct {p0, v0, v1, p1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
 
     .line 584
     .line 585
@@ -1431,7 +1431,7 @@
     .line 630
     .line 631
     .line 632
-    new-instance v0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    new-instance v0, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 633
     .line 634
@@ -1467,7 +1467,7 @@
     move-result-wide v4
 
     .line 650
-    invoke-direct/range {v0 .. v5}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+    invoke-direct/range {v0 .. v5}, Lcom/bareapps/barebackup/folders/data/FolderItem;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
 
     .line 651
     .line 652
@@ -1872,7 +1872,7 @@
 
     .line 33
     :pswitch_8
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelledApp;
+    new-array p0, p1, [Lcom/bareapps/barebackup/appslist/ui/labels/LabelledApp;
 
     .line 34
     .line 35
@@ -1896,7 +1896,7 @@
 
     .line 42
     :pswitch_b
-    new-array p0, p1, [Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    new-array p0, p1, [Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 43
     .line 44

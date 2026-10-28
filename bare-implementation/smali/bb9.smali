@@ -2899,7 +2899,7 @@
 
     .line 5
     .line 6
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/SettingsActivity;
+    const-class v1, Lcom/bareapps/barebackup/settings/SettingsActivity;
 
     .line 7
     .line 8

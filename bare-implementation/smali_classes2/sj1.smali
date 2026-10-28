@@ -390,7 +390,7 @@
     .line 30
     .line 31
     :cond_0
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;->Z:I
 
     .line 32
     .line 33
@@ -406,7 +406,7 @@
 
     .line 38
     .line 39
-    const-class v0, Lorg/swiftapps/swiftbackup/cloud/diagnostics/CloudDiagnosticsActivity;
+    const-class v0, Lcom/bareapps/barebackup/cloud/diagnostics/CloudDiagnosticsActivity;
 
     .line 40
     .line 41
@@ -515,7 +515,7 @@
     move-result-object p1
 
     .line 92
-    check-cast p1, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p1, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 93
     .line 94
@@ -977,7 +977,7 @@
     move-result-object p0
 
     .line 323
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 324
     .line 325
@@ -1101,7 +1101,7 @@
     move-result-object p0
 
     .line 382
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 383
     .line 384
@@ -1211,7 +1211,7 @@
     move-result-object v0
 
     .line 36
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 37
     .line 38
@@ -1241,7 +1241,7 @@
     .line 49
     .line 50
     .line 51
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 52
     .line 53
@@ -1253,7 +1253,7 @@
 
     .line 56
     .line 57
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 58
     .line 59
@@ -1363,7 +1363,7 @@
     move-result-object v0
 
     .line 103
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 104
     .line 105
@@ -1443,7 +1443,7 @@
     move-result-object v0
 
     .line 144
-    check-cast v0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast v0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 145
     .line 146

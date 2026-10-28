@@ -203,7 +203,7 @@
 
     .line 72
     .line 73
-    check-cast v2, Lorg/swiftapps/swiftbackup/SwiftApp;
+    check-cast v2, Lcom/bareapps/barebackup/BareApp;
 
     .line 74
     .line 75

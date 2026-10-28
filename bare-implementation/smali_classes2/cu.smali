@@ -28,7 +28,7 @@
     return-void
 .end method
 
-.method public static a(Lcu;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)Ljava/lang/String;
+.method public static a(Lcu;Lcom/bareapps/barebackup/model/app/LocalMetadata;)Ljava/lang/String;
     .locals 6
 
     .line 1
@@ -41,7 +41,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -53,7 +53,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -168,7 +168,7 @@
     throw p0
 .end method
 
-.method public static b(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public static b(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 8
 
     .line 1
@@ -197,7 +197,7 @@
     .line 12
     :cond_0
     :try_start_0
-    invoke-static {p0}, Lcu;->c(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {p0}, Lcu;->c(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 13
     .line 14
@@ -246,7 +246,7 @@
 
     .line 33
     .line 34
-    const-class v2, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    const-class v2, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 35
     .line 36
@@ -258,7 +258,7 @@
     move-result-object p0
 
     .line 40
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    check-cast p0, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 41
     .line 42
@@ -341,7 +341,7 @@
     return-object v1
 .end method
 
-.method public static c(Lq63;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public static c(Lq63;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 3
 
     .line 1
@@ -360,7 +360,7 @@
     .line 7
     .line 8
     .line 9
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 10
     .line 11
@@ -372,7 +372,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 16
     .line 17
@@ -380,7 +380,7 @@
     move-result-object v0
 
     .line 19
-    invoke-static {p0, v0}, Lcu;->d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {p0, v0}, Lcu;->d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 20
     .line 21
@@ -439,7 +439,7 @@
     .line 42
     .line 43
     .line 44
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 45
     .line 46
@@ -451,7 +451,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 51
     .line 52
@@ -492,7 +492,7 @@
 
     .line 67
     .line 68
-    invoke-static {}, Lb45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 69
     .line 70
@@ -500,7 +500,7 @@
     move-result-object v1
 
     .line 72
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 73
     .line 74
@@ -508,7 +508,7 @@
     move-result-object v1
 
     .line 76
-    invoke-static {p0, v1}, Lcu;->d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {p0, v1}, Lcu;->d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 77
     .line 78
@@ -544,7 +544,7 @@
     throw v0
 .end method
 
-.method public static d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public static d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 17
 
     .line 1
@@ -922,7 +922,7 @@
     .line 186
     .line 187
     .line 188
-    invoke-static {v6, v0, v8, v1, v7}, Lcu;->e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {v6, v0, v8, v1, v7}, Lcu;->e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 189
     .line 190
@@ -938,7 +938,7 @@
 
     .line 194
     .line 195
-    const-string v1, "Metadata version incompatible with current version of Swift Backup: "
+    const-string v1, "Metadata version incompatible with current version of BΛR☰: "
 
     .line 196
     .line 197
@@ -1100,7 +1100,7 @@
     .line 270
     .line 271
     .line 272
-    invoke-static {v7, v0, v8, v1, v6}, Lcu;->e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    invoke-static {v7, v0, v8, v1, v6}, Lcu;->e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 273
     .line 274
@@ -1195,7 +1195,7 @@
     .line 318
     .line 319
     .line 320
-    new-instance v0, Lorg/swiftapps/swiftbackup/common/IgnoredException;
+    new-instance v0, Lcom/bareapps/barebackup/common/IgnoredException;
 
     .line 321
     .line 322
@@ -1208,7 +1208,7 @@
     .line 325
     .line 326
     .line 327
-    invoke-direct {v0, v1}, Lorg/swiftapps/swiftbackup/common/IgnoredException;-><init>(Ljava/lang/Throwable;)V
+    invoke-direct {v0, v1}, Lcom/bareapps/barebackup/common/IgnoredException;-><init>(Ljava/lang/Throwable;)V
 
     .line 328
     .line 329
@@ -1225,7 +1225,7 @@
     return-object v3
 .end method
 
-.method public static e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+.method public static e(Ljava/lang/String;Lq63;Lbt3;Ljava/lang/String;Ljava/lang/String;)Lcom/bareapps/barebackup/model/app/LocalMetadata;
     .locals 3
 
     .line 1
@@ -1273,7 +1273,7 @@
     move-result-object p0
 
     .line 23
-    const-class p3, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    const-class p3, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 24
     .line 25
@@ -1285,7 +1285,7 @@
     move-result-object p0
 
     .line 29
-    check-cast p0, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    check-cast p0, Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 30
     .line 31
@@ -1460,7 +1460,7 @@
 
 
 # virtual methods
-.method public final f(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;Lq63;)V
+.method public final f(Lcom/bareapps/barebackup/model/app/LocalMetadata;Lq63;)V
     .locals 6
 
     .line 1
@@ -1475,7 +1475,7 @@
     .line 6
     .line 7
     :try_start_0
-    invoke-static {p0, p1}, Lcu;->a(Lcu;Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcu;->a(Lcu;Lcom/bareapps/barebackup/model/app/LocalMetadata;)Ljava/lang/String;
 
     .line 8
     .line 9

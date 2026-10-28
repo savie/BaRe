@@ -1198,7 +1198,7 @@
     return-object v0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/cloud/model/CloudResult;
+.method public final n()Lcom/bareapps/barebackup/cloud/model/CloudResult;
     .locals 10
 
     .line 1
@@ -1215,11 +1215,11 @@
     .line 6
     .line 7
     .line 8
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 9
     .line 10
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 11
     .line 12
@@ -3476,7 +3476,7 @@
     .line 197
     .line 198
     .line 199
-    invoke-static {}, Lgv0;->a()Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$Data;
+    invoke-static {}, Lgv0;->a()Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$Data;
 
     .line 200
     .line 201
@@ -3488,7 +3488,7 @@
 
     .line 204
     .line 205
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$Data;->getItems()Ljava/util/List;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$Data;->getItems()Ljava/util/List;
 
     .line 206
     .line 207
@@ -3550,11 +3550,11 @@
     move-object v6, v5
 
     .line 233
-    check-cast v6, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
+    check-cast v6, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
 
     .line 234
     .line 235
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getName()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getName()Ljava/lang/String;
 
     .line 236
     .line 237
@@ -3627,7 +3627,7 @@
 
     .line 269
     .line 270
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getId()Ljava/lang/String;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getId()Ljava/lang/String;
 
     .line 271
     .line 272
@@ -3824,7 +3824,7 @@
     move-result-object v1
 
     .line 365
-    check-cast v1, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
+    check-cast v1, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;
 
     .line 366
     .line 367
@@ -3832,7 +3832,7 @@
 
     .line 368
     .line 369
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getName()Ljava/lang/String;
 
     .line 370
     .line 371
@@ -3840,7 +3840,7 @@
     move-result-object v4
 
     .line 373
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getId()Ljava/lang/String;
 
     .line 374
     .line 375
@@ -3853,7 +3853,7 @@
     .line 378
     .line 379
     .line 380
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getSize()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getSize()J
 
     .line 381
     .line 382
@@ -3865,7 +3865,7 @@
 
     .line 385
     .line 386
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getModifiedAtMillis()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getModifiedAtMillis()J
 
     .line 387
     .line 388
@@ -3877,7 +3877,7 @@
 
     .line 391
     .line 392
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getModifiedAtMillis()J
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/cloud/helpers/BoxRecentUploadCache$CachedBoxFile;->getModifiedAtMillis()J
 
     .line 393
     .line 394

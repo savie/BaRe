@@ -186,11 +186,11 @@
 
     .line 68
     .line 69
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 70
     .line 71
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 72
     .line 73
@@ -216,7 +216,7 @@
     .line 83
     .line 84
     :cond_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     .line 85
     .line 86
@@ -244,11 +244,11 @@
 
     .line 97
     .line 98
-    iput-boolean v3, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->M0:Z
+    iput-boolean v3, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->M0:Z
 
     .line 99
     .line 100
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 101
     .line 102
@@ -608,7 +608,7 @@
 
     .line 280
     .line 281
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     .line 282
     .line 283

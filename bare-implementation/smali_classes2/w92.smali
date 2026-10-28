@@ -60,7 +60,7 @@
     move-object v3, p0
 
     .line 11
-    check-cast v3, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;
+    check-cast v3, Lcom/bareapps/barebackup/notice/NoticeViewActivity;
 
     .line 12
     .line 13
@@ -74,7 +74,7 @@
     const/4 v2, 0x1
 
     .line 17
-    const-class v4, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;
+    const-class v4, Lcom/bareapps/barebackup/notice/NoticeViewActivity;
 
     .line 18
     .line 19
@@ -110,7 +110,7 @@
 
     .line 32
     .line 33
-    const-string v5, "onLocalStorageInfoUI(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;)V"
+    const-string v5, "onLocalStorageInfoUI(Lcom/bareapps/barebackup/model/StorageInfoLocal;)V"
 
     .line 34
     .line 35
@@ -169,11 +169,11 @@
     .line 11
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;
+    check-cast p0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;
 
     .line 14
     .line 15
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;->M:Lgv7;
+    iget-object v0, p0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;->M:Lgv7;
 
     .line 16
     .line 17
@@ -193,7 +193,7 @@
 
     .line 24
     .line 25
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/notice/NoticeViewActivity;->N:Lgv7;
+    iget-object p0, p0, Lcom/bareapps/barebackup/notice/NoticeViewActivity;->N:Lgv7;
 
     .line 26
     .line 27
@@ -231,7 +231,7 @@
 
     .line 43
     :pswitch_1
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+    check-cast p1, Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
     .line 44
     .line 45
@@ -300,7 +300,7 @@
 
     .line 77
     .line 78
-    invoke-virtual {p0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 79
     .line 80
@@ -361,7 +361,7 @@
 
     .line 108
     .line 109
-    check-cast v8, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast v8, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 110
     .line 111
@@ -385,7 +385,7 @@
     .line 119
     .line 120
     .line 121
-    invoke-virtual {v8, v9, v10}, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;->b(Landroid/view/View;Landroid/view/View$OnClickListener;)V
+    invoke-virtual {v8, v9, v10}, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;->b(Landroid/view/View;Landroid/view/View$OnClickListener;)V
 
     .line 122
     .line 123
@@ -607,7 +607,7 @@
     .line 235
     .line 236
     .line 237
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$c;->INSTANCE:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$c;
+    sget-object v0, Lcom/bareapps/barebackup/model/StorageInfoLocal$c;->INSTANCE:Lcom/bareapps/barebackup/model/StorageInfoLocal$c;
 
     .line 238
     .line 239
@@ -655,7 +655,7 @@
     .line 261
     .line 262
     :cond_0
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    instance-of v0, p1, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 263
     .line 264
@@ -697,11 +697,11 @@
     move-object v0, p1
 
     .line 284
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    check-cast v0, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 285
     .line 286
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getUsedPercent()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getUsedPercent()I
 
     .line 287
     .line 288
@@ -714,7 +714,7 @@
     .line 291
     .line 292
     .line 293
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getFreeMemoryString()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getFreeMemoryString()Ljava/lang/String;
 
     .line 294
     .line 295
@@ -722,7 +722,7 @@
     move-result-object v1
 
     .line 297
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getTotalMemoryString()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getTotalMemoryString()Ljava/lang/String;
 
     .line 298
     .line 299
@@ -800,7 +800,7 @@
     .line 337
     .line 338
     .line 339
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;->getUsedPercentExact()F
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;->getUsedPercentExact()F
 
     .line 340
     .line 341
@@ -808,7 +808,7 @@
     move-result v0
 
     .line 343
-    invoke-static {v5, v0}, Liz1;->j(Lorg/swiftapps/swiftbackup/home/HomeActivity;F)Ljava/lang/String;
+    invoke-static {v5, v0}, Liz1;->j(Lcom/bareapps/barebackup/home/HomeActivity;F)Ljava/lang/String;
 
     .line 344
     .line 345
@@ -825,7 +825,7 @@
 
     .line 351
     :cond_1
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$b;->INSTANCE:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$b;
+    sget-object v0, Lcom/bareapps/barebackup/model/StorageInfoLocal$b;->INSTANCE:Lcom/bareapps/barebackup/model/StorageInfoLocal$b;
 
     .line 352
     .line 353
@@ -892,7 +892,7 @@
     .line 386
     .line 387
     :goto_0
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    instance-of v0, p1, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 388
     .line 389
@@ -908,7 +908,7 @@
 
     .line 394
     .line 395
-    invoke-direct {v0, p1, v9}, Lu92;-><init>(Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;Ljv1;)V
+    invoke-direct {v0, p1, v9}, Lu92;-><init>(Lcom/bareapps/barebackup/model/StorageInfoLocal;Ljv1;)V
 
     .line 396
     .line 397

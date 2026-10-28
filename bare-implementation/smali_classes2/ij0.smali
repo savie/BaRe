@@ -605,7 +605,7 @@
     move-object v6, v1
 
     .line 35
-    check-cast v6, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v6, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 36
     .line 37
@@ -648,7 +648,7 @@
 
     .line 55
     .line 56
-    invoke-direct/range {v2 .. v7}, Lwv0;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v7}, Lwv0;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;)V
 
     .line 57
     .line 58

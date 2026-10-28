@@ -91,7 +91,7 @@
     move-result-object p0
 
     .line 25
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 26
     .line 27
@@ -149,11 +149,11 @@
 
     .line 51
     .line 52
-    iget-object v0, p0, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v0, p0, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 53
     .line 54
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->d(Lzm;)Z
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->d(Lzm;)Z
 
     .line 55
     .line 56
@@ -169,11 +169,11 @@
 
     .line 61
     .line 62
-    iget-object v0, v2, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v0, v2, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 63
     .line 64
-    invoke-virtual {p0, v0, p1}, Lmk2;->p(Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual {p0, v0, p1}, Lmk2;->p(Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 65
     .line 66

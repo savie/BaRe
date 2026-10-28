@@ -477,7 +477,7 @@
     return p0
 .end method
 
-.method public static final D(Lorg/swiftapps/swiftbackup/folders/data/FolderState;Ljava/util/Set;Ljava/util/Set;Ljava/util/Map;Lq63;Ljava/lang/String;)Z
+.method public static final D(Lcom/bareapps/barebackup/folders/data/FolderState;Ljava/util/Set;Ljava/util/Set;Ljava/util/Map;Lq63;Ljava/lang/String;)Z
     .locals 0
 
     .line 1
@@ -595,11 +595,11 @@
 
     .line 17
     .line 18
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 19
     .line 20
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 21
     .line 22
@@ -628,7 +628,7 @@
 
     .line 33
     .line 34
-    const-class v1, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    const-class v1, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 35
     .line 36
@@ -731,7 +731,7 @@
     goto :goto_0
 .end method
 
-.method public static G(Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
+.method public static G(Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
     .locals 13
 
     .line 1
@@ -739,7 +739,7 @@
 
     .line 2
     .line 3
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getEntryType()Lb27;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getEntryType()Lb27;
 
     .line 4
     .line 5
@@ -755,7 +755,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getName()Ljava/lang/String;
 
     .line 12
     .line 13
@@ -793,7 +793,7 @@
 
     .line 28
     :cond_0
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getName()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -802,7 +802,7 @@
 
     .line 32
     :goto_0
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getEntryType()Lb27;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getEntryType()Lb27;
 
     .line 33
     .line 34
@@ -904,7 +904,7 @@
     .line 74
     .line 75
     :goto_1
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getLinkName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getLinkName()Ljava/lang/String;
 
     .line 76
     .line 77
@@ -912,7 +912,7 @@
     move-result-object v3
 
     .line 79
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getMode()I
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getMode()I
 
     .line 80
     .line 81
@@ -920,7 +920,7 @@
     move-result v4
 
     .line 83
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getSize()J
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getSize()J
 
     .line 84
     .line 85
@@ -928,7 +928,7 @@
     move-result-wide v5
 
     .line 87
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getRealSize()J
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getRealSize()J
 
     .line 88
     .line 89
@@ -936,7 +936,7 @@
     move-result-wide v7
 
     .line 91
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getMtimeMs()J
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getMtimeMs()J
 
     .line 92
     .line 93
@@ -944,7 +944,7 @@
     move-result-wide v9
 
     .line 95
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getSparse()Z
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getSparse()Z
 
     .line 96
     .line 97
@@ -952,7 +952,7 @@
     move-result v11
 
     .line 99
-    invoke-virtual {p0}, Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;->getXattrNames()[Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;->getXattrNames()[Ljava/lang/String;
 
     .line 100
     .line 101
@@ -1659,7 +1659,7 @@
     return-object v0
 .end method
 
-.method public static final a(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)Lna1;
+.method public static final a(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)Lna1;
     .locals 5
 
     .line 1
@@ -1670,7 +1670,7 @@
 
     .line 3
     :try_start_0
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getBaseUrl(Z)Ljava/lang/String;
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getBaseUrl(Z)Ljava/lang/String;
 
     .line 4
     .line 5
@@ -1764,7 +1764,7 @@
 
     .line 48
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     .line 49
     .line 50
@@ -2716,7 +2716,7 @@
 
     .line 224
     :try_start_1
-    sget-object v5, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v5, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 225
     .line 226
@@ -2789,7 +2789,7 @@
 
     .line 259
     .line 260
-    invoke-static/range {p1 .. p7}, Lcom/swiftapps/sba/SbaSwiftTarNative;->a(JLjava/lang/String;I[Ljava/lang/String;Lvq;I)[J
+    invoke-static/range {p1 .. p7}, Lcom/bareapps/sba/SbaBareTarNative;->a(JLjava/lang/String;I[Ljava/lang/String;Lvq;I)[J
 
     .line 261
     .line 262
@@ -5862,7 +5862,7 @@
 
     .line 17
     :try_start_1
-    sget-object v3, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v3, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 18
     .line 19
@@ -5879,7 +5879,7 @@
     .line 24
     .line 25
     .line 26
-    invoke-static {v3, v0, v1}, Lcom/swiftapps/sba/SbaSwiftTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;
+    invoke-static {v3, v0, v1}, Lcom/bareapps/sba/SbaBareTarNative;->d(Ljava/io/FileDescriptor;J)[Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;
 
     .line 27
     .line 28
@@ -5914,7 +5914,7 @@
 
     .line 41
     .line 42
-    invoke-static {v5}, Lz85;->G(Lcom/swiftapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
+    invoke-static {v5}, Lz85;->G(Lcom/bareapps/sba/internal/tar/SbaTarEntryInfo;)Lz17;
 
     .line 43
     .line 44

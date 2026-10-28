@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.field public final a:Lcom/bareapps/barebackup/home/HomeActivity;
 
 .field public final b:Lca2;
 
@@ -14,7 +14,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Lca2;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;Lca2;)V
     .locals 1
 
     .line 1
@@ -23,7 +23,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Ly54;->a:Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    iput-object p1, p0, Ly54;->a:Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 5
     .line 6

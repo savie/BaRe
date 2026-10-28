@@ -104,7 +104,7 @@
 
     .line 30
     .line 31
-    sget-object p2, Lorg/swiftapps/swiftbackup/home/cloud/CloudBackupTag;->Companion:Lob1;
+    sget-object p2, Lcom/bareapps/barebackup/home/cloud/CloudBackupTag;->Companion:Lob1;
 
     .line 32
     .line 33

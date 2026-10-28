@@ -226,7 +226,7 @@
 
     .line 4
     .line 5
-    const-string v2, "ValidatedSwiftMegaSavedSession(sessionId="
+    const-string v2, "ValidatedBareMegaSavedSession(sessionId="
 
     .line 6
     .line 7

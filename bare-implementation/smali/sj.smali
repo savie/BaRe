@@ -17,9 +17,9 @@
 
 .field public final e:Landroid/widget/ImageView;
 
-.field public final f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final n:Landroid/widget/TextView;
 
@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroidx/core/widget/NestedScrollView;Lc00;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/core/widget/NestedScrollView;Lc00;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -56,11 +56,11 @@
 
     .line 13
     .line 14
-    iput-object p6, p0, Lsj;->f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p6, p0, Lsj;->f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 15
     .line 16
-    iput-object p7, p0, Lsj;->k:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p7, p0, Lsj;->k:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 17
     .line 18

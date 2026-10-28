@@ -16,7 +16,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;Ljava/util/List;Lox;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;Ljava/util/List;Lox;)V
     .locals 2
 
     .line 1

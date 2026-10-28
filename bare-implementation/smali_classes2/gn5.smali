@@ -14,11 +14,11 @@
     .locals 1
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 4
     .line 5
@@ -26,7 +26,7 @@
     move-result-object v0
 
     .line 7
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/SwiftApp;->getGoogleAuthAndroidClientId()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/BareApp;->getGoogleAuthAndroidClientId()Ljava/lang/String;
 
     .line 8
     .line 9
@@ -38,7 +38,7 @@
 
     .line 12
     .line 13
-    const-string v0, "org.swiftapps.swiftbackup:/oauth"
+    const-string v0, "com.bareapps.barebackup:/oauth"
 
     .line 14
     .line 15

@@ -305,7 +305,7 @@
 
     .line 33
     .line 34
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->P()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->P()V
 
     .line 35
     .line 36
@@ -512,7 +512,7 @@
     .line 135
     .line 136
     .line 137
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->T()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->T()V
 
     .line 138
     .line 139

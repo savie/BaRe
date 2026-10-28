@@ -178,7 +178,7 @@
 
     .line 57
     .line 58
-    sget-object v3, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v3, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 59
     .line 60
@@ -223,7 +223,7 @@
 
     .line 80
     .line 81
-    invoke-static/range {v15 .. v21}, Lcom/swiftapps/sba/SbaSwiftTarNative;->b(Ljava/io/FileDescriptor;JLjava/lang/String;I[Ljava/lang/String;Lvq;)[Ljava/lang/String;
+    invoke-static/range {v15 .. v21}, Lcom/bareapps/sba/SbaBareTarNative;->b(Ljava/io/FileDescriptor;JLjava/lang/String;I[Ljava/lang/String;Lvq;)[Ljava/lang/String;
 
     .line 82
     .line 83
@@ -262,7 +262,7 @@
 
     .line 97
     .line 98
-    sget-object v0, Lcom/swiftapps/sba/SbaSwiftTarNative;->a:Lcom/swiftapps/sba/SbaSwiftTarNative;
+    sget-object v0, Lcom/bareapps/sba/SbaBareTarNative;->a:Lcom/bareapps/sba/SbaBareTarNative;
 
     .line 99
     .line 100
@@ -315,7 +315,7 @@
 
     .line 124
     .line 125
-    invoke-static/range {v15 .. v23}, Lcom/swiftapps/sba/SbaSwiftTarNative;->c(Ljava/io/FileDescriptor;JJLjava/lang/String;I[Ljava/lang/String;Lvq;)[Ljava/lang/String;
+    invoke-static/range {v15 .. v23}, Lcom/bareapps/sba/SbaBareTarNative;->c(Ljava/io/FileDescriptor;JJLjava/lang/String;I[Ljava/lang/String;Lvq;)[Ljava/lang/String;
 
     .line 126
     .line 127

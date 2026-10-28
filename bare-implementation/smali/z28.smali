@@ -864,11 +864,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0()Ltt;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0()Ltt;
 
     .line 6
     .line 7
@@ -967,7 +967,7 @@
     .locals 1
 
     .line 1
-    const-class v0, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    const-class v0, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 2
     .line 3
@@ -979,7 +979,7 @@
     move-result-object p1
 
     .line 7
-    check-cast p1, Lorg/swiftapps/swiftbackup/contributor/ContributorRegistration;
+    check-cast p1, Lcom/bareapps/barebackup/contributor/ContributorRegistration;
 
     .line 8
     .line 9
@@ -1676,15 +1676,15 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 4
     .line 5
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 6
     .line 7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
 
     .line 8
     .line 9
@@ -1721,7 +1721,7 @@
 
     .line 25
     .line 26
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->n0()Lcom/ferfalk/simplesearchview/SimpleSearchView;
 
     .line 27
     .line 28

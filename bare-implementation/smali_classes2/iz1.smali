@@ -2394,7 +2394,7 @@
 
     .line 125
     .line 126
-    invoke-virtual {p0}, Let8;->getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    invoke-virtual {p0}, Let8;->getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 127
     .line 128
@@ -2406,7 +2406,7 @@
 
     .line 131
     .line 132
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getPsk()Ljava/lang/String;
 
     .line 133
     .line 134
@@ -3124,7 +3124,7 @@
     return-void
 .end method
 
-.method public static j(Lorg/swiftapps/swiftbackup/home/HomeActivity;F)Ljava/lang/String;
+.method public static j(Lcom/bareapps/barebackup/home/HomeActivity;F)Ljava/lang/String;
     .locals 2
 
     .line 1
@@ -3832,7 +3832,7 @@
     .locals 1
 
     .line 1
-    invoke-virtual {p0}, Let8;->getPasswordInfo()Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;
+    invoke-virtual {p0}, Let8;->getPasswordInfo()Lcom/bareapps/barebackup/wifi/PasswordInfo;
 
     .line 2
     .line 3
@@ -3848,7 +3848,7 @@
 
     .line 8
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntIdentity()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntIdentity()Ljava/lang/String;
 
     .line 9
     .line 10
@@ -3868,7 +3868,7 @@
 
     .line 17
     .line 18
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntAnonIdentity()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntAnonIdentity()Ljava/lang/String;
 
     .line 19
     .line 20
@@ -3889,7 +3889,7 @@
     .line 27
     .line 28
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/wifi/PasswordInfo;->getEntPassword()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -6841,7 +6841,7 @@
 
     .line 124
     :cond_3
-    sget-object p1, Lorg/swiftapps/rootservice/ShellHelper;->INSTANCE:Lorg/swiftapps/rootservice/ShellHelper;
+    sget-object p1, Lcom/bareapps/rootservice/ShellHelper;->INSTANCE:Lcom/bareapps/rootservice/ShellHelper;
 
     .line 125
     .line 126
@@ -6853,7 +6853,7 @@
     move-result-object p0
 
     .line 130
-    invoke-virtual {p1, p0}, Lorg/swiftapps/rootservice/ShellHelper;->su([Ljava/lang/String;)Lod7;
+    invoke-virtual {p1, p0}, Lcom/bareapps/rootservice/ShellHelper;->su([Ljava/lang/String;)Lod7;
 
     .line 131
     .line 132

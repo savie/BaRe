@@ -56,11 +56,11 @@
     .line 7
     .line 8
     .line 9
-    iget-object v0, p1, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, p1, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 10
     .line 11
-    invoke-virtual {p0, v0}, Liz4;->setMetadata(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;)V
+    invoke-virtual {p0, v0}, Liz4;->setMetadata(Lcom/bareapps/barebackup/model/app/LocalMetadata;)V
 
     .line 12
     .line 13
@@ -90,7 +90,7 @@
     .line 25
     .line 26
     .line 27
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackup()Ljava/lang/Long;
 
     .line 28
     .line 29
@@ -128,7 +128,7 @@
     .line 43
     .line 44
     .line 45
-    invoke-static {v1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v1, v2}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 46
     .line 47
@@ -141,7 +141,7 @@
     .line 50
     .line 51
     .line 52
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDateBackupUpdated()Ljava/lang/Long;
 
     .line 53
     .line 54
@@ -166,7 +166,7 @@
     move-result-wide v1
 
     .line 65
-    invoke-static {v1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v1, v2}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 66
     .line 67
@@ -428,7 +428,7 @@
     .line 194
     .line 195
     .line 196
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static {v1}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 197
     .line 198
@@ -457,7 +457,7 @@
 
     .line 210
     .line 211
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getDataEncryptionMethod()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getDataEncryptionMethod()Ljava/lang/String;
 
     .line 212
     .line 213
@@ -517,7 +517,7 @@
     .line 239
     .line 240
     .line 241
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static {v1}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 242
     .line 243
@@ -546,7 +546,7 @@
 
     .line 255
     .line 256
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getExtDataEncryptionMethod()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getExtDataEncryptionMethod()Ljava/lang/String;
 
     .line 257
     .line 258
@@ -606,7 +606,7 @@
     .line 284
     .line 285
     .line 286
-    invoke-static {v1}, Lorg/swiftapps/swiftbackup/compress/Packer;->c(Lq63;)Li40;
+    invoke-static {v1}, Lcom/bareapps/barebackup/compress/Packer;->c(Lq63;)Li40;
 
     .line 287
     .line 288
@@ -635,7 +635,7 @@
 
     .line 300
     .line 301
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getMediaEncryptionMethod()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getMediaEncryptionMethod()Ljava/lang/String;
 
     .line 302
     .line 303

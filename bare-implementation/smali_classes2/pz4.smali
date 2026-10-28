@@ -198,7 +198,7 @@
     .line 67
     .line 68
     .line 69
-    sget-object v6, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->Companion:Lum3;
+    sget-object v6, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->Companion:Lum3;
 
     .line 70
     .line 71
@@ -207,7 +207,7 @@
     .line 72
     .line 73
     .line 74
-    const-class v6, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    const-class v6, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 75
     .line 76
@@ -219,7 +219,7 @@
     move-result-object v6
 
     .line 80
-    check-cast v6, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v6, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 81
     .line 82
@@ -227,7 +227,7 @@
 
     .line 83
     .line 84
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->isValid()Z
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->isValid()Z
 
     .line 85
     .line 86
@@ -264,7 +264,7 @@
 
     .line 99
     :cond_5
-    sget-object v0, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->Companion:Lnm3;
+    sget-object v0, Lcom/bareapps/barebackup/folders/data/FolderItem;->Companion:Lnm3;
 
     .line 100
     .line 101
@@ -451,7 +451,7 @@
     move-result-object v0
 
     .line 34
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    check-cast v0, Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 35
     .line 36
@@ -463,7 +463,7 @@
 
     .line 39
     :cond_0
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;->getFolderItem()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/data/FolderMetadata;->getFolderItem()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 40
     .line 41
@@ -474,7 +474,7 @@
     const/4 v1, 0x0
 
     .line 44
-    invoke-static {v0, v1, v1}, Lorg/swiftapps/swiftbackup/folders/data/a;->a(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;ZZ)Lkj3;
+    invoke-static {v0, v1, v1}, Lcom/bareapps/barebackup/folders/data/a;->a(Lcom/bareapps/barebackup/folders/data/FolderItem;ZZ)Lkj3;
 
     .line 45
     .line 46
@@ -482,7 +482,7 @@
     move-result-object v0
 
     .line 48
-    invoke-virtual {v0}, Lkj3;->h()Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    invoke-virtual {v0}, Lkj3;->h()Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 49
     .line 50

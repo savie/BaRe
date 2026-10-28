@@ -184,7 +184,7 @@
     .line 71
     .line 72
     :cond_1
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->z()Z
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->z()Z
 
     .line 73
     .line 74

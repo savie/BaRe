@@ -12,7 +12,7 @@
 
 .field public static d:Lar1;
 
-.field public static e:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+.field public static e:Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
 .field public static final f:Lgv7;
 
@@ -114,11 +114,11 @@
     return-void
 .end method
 
-.method public static c(Lorg/swiftapps/swiftbackup/appconfigs/data/Config;)Z
+.method public static c(Lcom/bareapps/barebackup/appconfigs/data/Config;)Z
     .locals 4
 
     .line 1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->isNameValid()Z
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->isNameValid()Z
 
     .line 2
     .line 3
@@ -134,7 +134,7 @@
 
     .line 8
     :cond_0
-    sget-object v0, Lbr1;->e:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    sget-object v0, Lbr1;->e:Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 9
     .line 10
@@ -142,7 +142,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;->getValues()Ljava/util/Collection;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;->getValues()Ljava/util/Collection;
 
     .line 13
     .line 14
@@ -199,11 +199,11 @@
     move-result-object v1
 
     .line 39
-    check-cast v1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 40
     .line 41
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getId()Ljava/lang/String;
 
     .line 42
     .line 43
@@ -211,7 +211,7 @@
     move-result-object v2
 
     .line 45
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getId()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getId()Ljava/lang/String;
 
     .line 46
     .line 47
@@ -231,7 +231,7 @@
 
     .line 54
     .line 55
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 56
     .line 57
@@ -239,7 +239,7 @@
     move-result-object v2
 
     .line 59
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getName()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getName()Ljava/lang/String;
 
     .line 60
     .line 61
@@ -283,11 +283,11 @@
 
     .line 2
     :try_start_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 3
     .line 4
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 5
     .line 6
@@ -384,7 +384,7 @@
 
     .line 47
     .line 48
-    const-class v1, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    const-class v1, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 49
     .line 50
@@ -399,11 +399,11 @@
     move-result-object v0
 
     .line 55
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 56
     .line 57
-    invoke-virtual {p0, v0}, Lbr1;->d(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;)V
+    invoke-virtual {p0, v0}, Lbr1;->d(Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;)V
     :try_end_2
     .catch Ljava/lang/Exception; {:try_start_2 .. :try_end_2} :catch_0
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
@@ -567,7 +567,7 @@
 
     .line 35
     .line 36
-    const-class v2, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    const-class v2, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 37
     .line 38
@@ -579,11 +579,11 @@
     move-result-object v0
 
     .line 42
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 43
     .line 44
-    invoke-virtual {p0, v0}, Lbr1;->d(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;)V
+    invoke-virtual {p0, v0}, Lbr1;->d(Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;)V
 
     .line 45
     .line 46
@@ -654,7 +654,7 @@
     return v1
 .end method
 
-.method public final declared-synchronized d(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;)V
+.method public final declared-synchronized d(Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;)V
     .locals 1
 
     .line 1
@@ -662,7 +662,7 @@
 
     .line 2
     :try_start_0
-    sput-object p1, Lbr1;->e:Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigsData;
+    sput-object p1, Lbr1;->e:Lcom/bareapps/barebackup/appconfigs/data/ConfigsData;
 
     .line 3
     .line 4

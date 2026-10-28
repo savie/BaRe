@@ -134,7 +134,7 @@
     .end array-data
 .end method
 
-.method public static A(Ljava/util/List;)Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;
+.method public static A(Ljava/util/List;)Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;
     .locals 4
 
     .line 1
@@ -225,7 +225,7 @@
 
     .line 39
     .line 40
-    const-class p0, Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;
+    const-class p0, Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;
 
     .line 41
     .line 42
@@ -240,14 +240,14 @@
     move-result-object p0
 
     .line 47
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/SaiApksMetadata;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/SaiApksMetadata;
 
     .line 48
     .line 49
     return-object p0
 .end method
 
-.method public static B(Ljava/util/List;)Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;
+.method public static B(Ljava/util/List;)Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;
     .locals 4
 
     .line 1
@@ -298,7 +298,7 @@
     move-result-object v2
 
     .line 23
-    const-string v3, "meta.swiftbackup_v1.json"
+    const-string v3, "meta.barebackup_v1.json"
 
     .line 24
     .line 25
@@ -338,7 +338,7 @@
 
     .line 39
     .line 40
-    const-class p0, Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;
+    const-class p0, Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;
 
     .line 41
     .line 42
@@ -353,7 +353,7 @@
     move-result-object p0
 
     .line 47
-    check-cast p0, Lorg/swiftapps/swiftbackup/apkshare/ApkSharePackageMetadata;
+    check-cast p0, Lcom/bareapps/barebackup/apkshare/ApkSharePackageMetadata;
 
     .line 48
     .line 49
@@ -4379,14 +4379,14 @@
     return v2
 .end method
 
-.method public static final b(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)Lys3;
+.method public static final b(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)Lys3;
     .locals 9
 
     .line 1
     const/4 v0, 0x0
 
     .line 2
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getBaseUrl(Z)Ljava/lang/String;
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getBaseUrl(Z)Ljava/lang/String;
 
     .line 3
     .line 4
@@ -4402,7 +4402,7 @@
     move-result-object v1
 
     .line 10
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     .line 11
     .line 12
@@ -4489,7 +4489,7 @@
 
     .line 49
     :cond_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getProtocol()Lfd1;
 
     .line 50
     .line 51
@@ -4557,7 +4557,7 @@
 
     .line 79
     :goto_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getValidUsername()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getValidUsername()Ljava/lang/String;
 
     .line 80
     .line 81
@@ -4565,7 +4565,7 @@
     move-result-object v7
 
     .line 83
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;->getPassword()Ljava/lang/String;
 
     .line 84
     .line 85
@@ -6130,11 +6130,11 @@
     .line 18
     .line 19
     .line 20
-    sget-object v8, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a:Lcom/swiftapps/sba/SbaLibaegisCryptoNative;
+    sget-object v8, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
 
     .line 21
     .line 22
-    invoke-virtual {v8}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
+    invoke-virtual {v8}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
 
     .line 23
     .line 24
@@ -6235,12 +6235,12 @@
 
     .line 69
     .line 70
-    invoke-direct/range {v13 .. v24}, Lvz6;-><init>(J[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)V
+    invoke-direct/range {v13 .. v24}, Lvz6;-><init>(J[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)V
 
     .line 71
     .line 72
     .line 73
-    invoke-static {v0, v2, v13}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->c(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lqt3;)Ljava/lang/Object;
+    invoke-static {v0, v2, v13}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->c(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lqt3;)Ljava/lang/Object;
 
     .line 74
     .line 75
@@ -6350,12 +6350,12 @@
 
     .line 125
     .line 126
-    invoke-direct/range {v13 .. v24}, Lwz6;-><init>(J[B[B[BJJILcom/swiftapps/sba/internal/progress/SbaNativeProgressListener;)V
+    invoke-direct/range {v13 .. v24}, Lwz6;-><init>(J[B[B[BJJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)V
 
     .line 127
     .line 128
     .line 129
-    invoke-static {v0, v2, v13}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->c(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lqt3;)Ljava/lang/Object;
+    invoke-static {v0, v2, v13}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->c(Ljava/io/FileDescriptor;Ljava/io/FileDescriptor;Lqt3;)Ljava/lang/Object;
 
     .line 130
     .line 131
@@ -8572,7 +8572,7 @@
 
     .line 23
     .line 24
-    sget-object p0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 25
     .line 26
@@ -8623,7 +8623,7 @@
 
     .line 44
     :goto_1
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/common/V;->setVp(Z)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/common/V;->setVp(Z)V
 
     .line 45
     .line 46

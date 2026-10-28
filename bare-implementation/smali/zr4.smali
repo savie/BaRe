@@ -121,7 +121,7 @@
 
     .line 25
     .line 26
-    invoke-static {v1}, Llr4;->c(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    invoke-static {v1}, Llr4;->c(Ljava/lang/String;)Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 27
     .line 28
@@ -145,11 +145,11 @@
     return-object v0
 .end method
 
-.method public final k(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)V
+.method public final k(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;)V
     .locals 8
 
     .line 1
-    invoke-static {p1}, Lw13;->g(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsData;)Ljava/util/ArrayList;
+    invoke-static {p1}, Lw13;->g(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsData;)Ljava/util/ArrayList;
 
     .line 2
     .line 3
@@ -264,11 +264,11 @@
 
     .line 53
     .line 54
-    iget-object v3, v3, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v3, v3, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 55
     .line 56
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 57
     .line 58
@@ -381,11 +381,11 @@
 
     .line 108
     .line 109
-    iget-object v4, v4, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object v4, v4, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 110
     .line 111
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;->getId()Ljava/lang/String;
 
     .line 112
     .line 113

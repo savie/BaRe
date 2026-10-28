@@ -62,7 +62,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 11
     .line 12
@@ -73,7 +73,7 @@
 
     .line 14
     .line 15
-    sget-object p1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object p1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 16
     .line 17
@@ -102,7 +102,7 @@
 
     .line 27
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O()Lco8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O()Lco8;
 
     .line 28
     .line 29
@@ -139,7 +139,7 @@
 
     .line 45
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O()Lco8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O()Lco8;
 
     .line 46
     .line 47
@@ -176,7 +176,7 @@
 
     .line 63
     :cond_2
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O()Lco8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O()Lco8;
 
     .line 64
     .line 65
@@ -214,7 +214,7 @@
 
     .line 81
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 82
     .line 83
@@ -222,11 +222,11 @@
 
     .line 84
     .line 85
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 86
     .line 87
-    invoke-virtual {p0, v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->Y(Lvi1;)V
+    invoke-virtual {p0, v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->Y(Lvi1;)V
 
     .line 88
     .line 89

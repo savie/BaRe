@@ -183,11 +183,11 @@
 
     .line 66
     .line 67
-    check-cast v1, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v1, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 68
     .line 69
-    sget p1, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 70
     .line 71
@@ -216,7 +216,7 @@
 
     .line 83
     .line 84
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->N(Lil0;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->N(Lil0;)V
 
     .line 85
     .line 86
@@ -229,7 +229,7 @@
 
     .line 89
     .line 90
-    const-class v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    const-class v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 91
     .line 92

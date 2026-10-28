@@ -8945,7 +8945,7 @@
 
     .line 11
     .line 12
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/common/Const;->N(Lil0;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/common/Const;->N(Lil0;)V
 
     .line 13
     .line 14
@@ -8954,11 +8954,11 @@
 
     .line 16
     :cond_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 17
     .line 18
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 19
     .line 20
@@ -8970,7 +8970,7 @@
 
     .line 23
     .line 24
-    sget v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 25
     .line 26
@@ -8983,7 +8983,7 @@
 
     .line 30
     :cond_1
-    const-class v0, Lorg/swiftapps/swiftbackup/appconfigs/list/ConfigListActivity;
+    const-class v0, Lcom/bareapps/barebackup/appconfigs/list/ConfigListActivity;
 
     .line 31
     .line 32
@@ -9003,7 +9003,7 @@
 
     .line 2
     .line 3
-    const-class v1, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    const-class v1, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 4
     .line 5

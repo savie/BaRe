@@ -1178,7 +1178,7 @@
 
     .line 573
     :catchall_0
-    new-instance v0, Lorg/swiftapps/swiftbackup/common/IgnoredException;
+    new-instance v0, Lcom/bareapps/barebackup/common/IgnoredException;
 
     .line 574
     .line 575
@@ -1195,7 +1195,7 @@
     .line 580
     .line 581
     .line 582
-    invoke-direct {v0, v1}, Lorg/swiftapps/swiftbackup/common/IgnoredException;-><init>(Ljava/lang/Throwable;)V
+    invoke-direct {v0, v1}, Lcom/bareapps/barebackup/common/IgnoredException;-><init>(Ljava/lang/Throwable;)V
 
     .line 583
     .line 584
@@ -1707,11 +1707,11 @@
 
     .line 166
     :goto_6
-    sget-object v5, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v5, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 167
     .line 168
-    invoke-virtual {v5}, Lorg/swiftapps/swiftbackup/common/V;->getT()Z
+    invoke-virtual {v5}, Lcom/bareapps/barebackup/common/V;->getT()Z
 
     .line 169
     .line 170

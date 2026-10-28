@@ -115,11 +115,11 @@
 
     .line 22
     .line 23
-    iget-object v4, v0, Lyp8;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v4, v0, Lyp8;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 24
     .line 25
-    iget-boolean v4, v4, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v4, v4, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 26
     .line 27
@@ -221,11 +221,11 @@
 
     .line 73
     .line 74
-    iget-object v4, v0, Lyp8;->a:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object v4, v0, Lyp8;->a:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 75
     .line 76
-    iget-boolean v4, v4, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->L:Z
+    iget-boolean v4, v4, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->L:Z
 
     .line 77
     .line 78
@@ -459,7 +459,7 @@
 
     .line 181
     .line 182
-    check-cast p1, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    check-cast p1, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 183
     .line 184
@@ -477,7 +477,7 @@
     .line 190
     .line 191
     .line 192
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getApiDomain()Ljava/lang/String;
 
     .line 193
     .line 194
@@ -489,7 +489,7 @@
 
     .line 197
     .line 198
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getAccessToken()Ljava/lang/String;
 
     .line 199
     .line 200

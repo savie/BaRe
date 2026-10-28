@@ -9,13 +9,13 @@
 # instance fields
 .field public final synthetic a:Z
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
 .field public final synthetic c:Ljava/util/Set;
 
 
 # direct methods
-.method public synthetic constructor <init>(ZLorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;Ljava/util/Set;)V
+.method public synthetic constructor <init>(ZLcom/bareapps/barebackup/tasks/PreconditionsActivity;Ljava/util/Set;)V
     .locals 0
 
     .line 1
@@ -28,7 +28,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lo36;->b:Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    iput-object p2, p0, Lo36;->b:Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 7
     .line 8
@@ -45,7 +45,7 @@
     .locals 6
 
     .line 1
-    sget p1, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget p1, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 2
     .line 3
@@ -53,7 +53,7 @@
 
     .line 4
     .line 5
-    iget-object v0, p0, Lo36;->b:Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    iget-object v0, p0, Lo36;->b:Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 6
     .line 7

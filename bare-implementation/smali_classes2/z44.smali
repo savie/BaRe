@@ -43,19 +43,19 @@
 
 .field public final p:Lcom/google/android/material/card/MaterialCardView;
 
-.field public final q:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final q:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final r:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final r:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
-.field public final t:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final t:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final x:Landroidx/recyclerview/widget/RecyclerView;
 
-.field public final y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageButton;Landroid/widget/TextView;Lcom/google/android/material/button/MaterialButton;Landroid/widget/EditText;Lcom/google/android/material/card/MaterialCardView;Lzx2;Lcom/google/android/material/card/MaterialCardView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/FrameLayout;Landroid/widget/LinearLayout;Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/appbar/MaterialToolbar;Lcom/google/android/material/card/MaterialCardView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/card/MaterialCardView;Landroid/widget/ImageButton;Landroid/widget/TextView;Lcom/google/android/material/button/MaterialButton;Landroid/widget/EditText;Lcom/google/android/material/card/MaterialCardView;Lzx2;Lcom/google/android/material/card/MaterialCardView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/recyclerview/widget/RecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/FrameLayout;Landroid/widget/LinearLayout;Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/appbar/MaterialToolbar;Lcom/google/android/material/card/MaterialCardView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -89,19 +89,19 @@
     iput-object p9, p0, Lz44;->p:Lcom/google/android/material/card/MaterialCardView;
 
     .line 11
-    iput-object p10, p0, Lz44;->q:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p10, p0, Lz44;->q:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 12
-    iput-object p11, p0, Lz44;->r:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p11, p0, Lz44;->r:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 13
-    iput-object p12, p0, Lz44;->t:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p12, p0, Lz44;->t:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 14
     iput-object p13, p0, Lz44;->x:Landroidx/recyclerview/widget/RecyclerView;
 
     .line 15
-    iput-object p14, p0, Lz44;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p14, p0, Lz44;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 16
     iput-object p15, p0, Lz44;->G:Landroid/widget/FrameLayout;

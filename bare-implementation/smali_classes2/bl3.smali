@@ -125,7 +125,7 @@
 
     .line 37
     .line 38
-    invoke-virtual {v4}, Leo3;->a()Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    invoke-virtual {v4}, Leo3;->a()Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 39
     .line 40
@@ -190,7 +190,7 @@
     move-object v9, v0
 
     .line 67
-    check-cast v9, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    check-cast v9, Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 68
     .line 69
@@ -215,7 +215,7 @@
     .line 78
     .line 79
     :cond_1
-    invoke-virtual {v2, v9}, Lqp3;->p(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;)V
+    invoke-virtual {v2, v9}, Lqp3;->p(Lcom/bareapps/barebackup/folders/data/FolderItem;)V
 
     .line 80
     .line 81
@@ -324,11 +324,11 @@
 
     .line 134
     .line 135
-    sget-object v7, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v7, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 136
     .line 137
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 138
     .line 139
@@ -446,7 +446,7 @@
     .line 199
     .line 200
     :try_start_0
-    invoke-static {v9, v5}, Lal3;->b(Lorg/swiftapps/swiftbackup/folders/data/FolderItem;Z)V
+    invoke-static {v9, v5}, Lal3;->b(Lcom/bareapps/barebackup/folders/data/FolderItem;Z)V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
@@ -548,7 +548,7 @@
     .line 247
     .line 248
     :try_start_1
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/folders/data/FolderItem;->fetchCloudBackup()Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/folders/data/FolderItem;->fetchCloudBackup()Lcom/bareapps/barebackup/folders/data/FolderMetadata;
 
     .line 249
     .line 250
@@ -568,7 +568,7 @@
 
     .line 256
     :cond_4
-    invoke-static {v0}, Lal3;->a(Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;)V
+    invoke-static {v0}, Lal3;->a(Lcom/bareapps/barebackup/folders/data/FolderMetadata;)V
     :try_end_1
     .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :catch_1
 

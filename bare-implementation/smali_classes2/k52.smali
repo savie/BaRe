@@ -111,11 +111,11 @@
 
     .line 15
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 16
     .line 17
-    iget-boolean v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->I0:Z
+    iget-boolean v0, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->I0:Z
 
     .line 18
     .line 19
@@ -247,11 +247,11 @@
     .line 76
     .line 77
     :cond_4
-    iput-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->H0:Lxq6;
+    iput-object v0, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->H0:Lxq6;
 
     .line 78
     .line 79
-    iget-object p1, p0, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->e0:Lgv7;
+    iget-object p1, p0, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->e0:Lgv7;
 
     .line 80
     .line 81
@@ -287,12 +287,12 @@
     const/4 p1, 0x1
 
     .line 97
-    invoke-virtual {p0, v0, p1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->Z(Lxq6;Z)V
+    invoke-virtual {p0, v0, p1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->Z(Lxq6;Z)V
 
     .line 98
     .line 99
     .line 100
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 101
     .line 102
@@ -300,7 +300,7 @@
     move-result-object p1
 
     .line 104
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->m0()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->m0()Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;
 
     .line 105
     .line 106
@@ -308,7 +308,7 @@
     move-result-object p0
 
     .line 108
-    invoke-virtual {p1, p0}, Lm62;->l(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudCredentials;)V
+    invoke-virtual {p1, p0}, Lm62;->l(Lcom/bareapps/barebackup/cloud/protocols/CloudCredentials;)V
 
     .line 109
     .line 110

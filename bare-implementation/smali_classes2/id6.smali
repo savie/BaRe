@@ -10,7 +10,7 @@
 
 .field public final k:Ljd6;
 
-.field public final n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final p:Lgd6;
 
@@ -18,7 +18,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Ljava/util/Set;Leh2;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;Ljava/util/Set;Leh2;)V
     .locals 3
 
     .line 1
@@ -102,7 +102,7 @@
     move-result-object v1
 
     .line 43
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 44
     .line 45
@@ -139,7 +139,7 @@
 
     .line 61
     .line 62
-    invoke-direct {p2, p1, v0, v1}, Ljd6;-><init>(Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {p2, p1, v0, v1}, Ljd6;-><init>(Landroidx/core/widget/NestedScrollView;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 63
     .line 64
@@ -148,7 +148,7 @@
 
     .line 66
     .line 67
-    iput-object v1, p0, Lid6;->n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object v1, p0, Lid6;->n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 68
     .line 69
@@ -401,7 +401,7 @@
     const/4 v0, 0x0
 
     .line 2
-    iget-object v1, p0, Lid6;->n:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v1, p0, Lid6;->n:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 3
     .line 4

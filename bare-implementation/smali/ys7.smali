@@ -7,15 +7,15 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/SwiftApp;
+.field public final synthetic a:Lcom/bareapps/barebackup/BareApp;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/SwiftApp;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/BareApp;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lys7;->a:Lorg/swiftapps/swiftbackup/SwiftApp;
+    iput-object p1, p0, Lys7;->a:Lcom/bareapps/barebackup/BareApp;
 
     .line 2
     .line 3
@@ -40,11 +40,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lys7;->a:Lorg/swiftapps/swiftbackup/SwiftApp;
+    iget-object p0, p0, Lys7;->a:Lcom/bareapps/barebackup/BareApp;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Lys7;-><init>(Lorg/swiftapps/swiftbackup/SwiftApp;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Lys7;-><init>(Lcom/bareapps/barebackup/BareApp;Ljv1;)V
 
     .line 6
     .line 7
@@ -101,7 +101,7 @@
 
     .line 5
     .line 6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->l()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->l()Ljava/lang/String;
 
     .line 7
     .line 8
@@ -135,7 +135,7 @@
     move-result p1
 
     .line 22
-    iget-object p0, p0, Lys7;->a:Lorg/swiftapps/swiftbackup/SwiftApp;
+    iget-object p0, p0, Lys7;->a:Lcom/bareapps/barebackup/BareApp;
 
     .line 23
     .line 24
@@ -143,7 +143,7 @@
 
     .line 25
     .line 26
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/SwiftApp;->a(Lorg/swiftapps/swiftbackup/SwiftApp;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/BareApp;->a(Lcom/bareapps/barebackup/BareApp;)V
 
     .line 27
     .line 28
@@ -161,7 +161,7 @@
 
     .line 34
     .line 35
-    invoke-static {p0}, Lorg/swiftapps/swiftbackup/SwiftApp;->b(Lorg/swiftapps/swiftbackup/SwiftApp;)V
+    invoke-static {p0}, Lcom/bareapps/barebackup/BareApp;->b(Lcom/bareapps/barebackup/BareApp;)V
 
     .line 36
     .line 37

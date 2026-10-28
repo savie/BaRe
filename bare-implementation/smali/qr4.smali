@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lqr4;->b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    iput-object p1, p0, Lqr4;->b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Lqr4;->b:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    iget-object p0, p0, Lqr4;->b:Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 4
     .line 5
@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 9
     .line 10
@@ -96,11 +96,11 @@
 
     .line 27
     :pswitch_0
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 28
     .line 29
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Q()Lrr4;
 
     .line 30
     .line 31

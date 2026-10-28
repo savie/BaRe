@@ -78,7 +78,7 @@
     move-result-object p0
 
     .line 7
-    check-cast p0, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast p0, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 8
     .line 9
@@ -117,7 +117,7 @@
 
     .line 27
     .line 28
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getTitle()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/notice/NoticeItem;->getTitle()Ljava/lang/String;
 
     .line 29
     .line 30
@@ -138,7 +138,7 @@
 
     .line 38
     .line 39
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/notice/NoticeItem;->getSubtitle()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/notice/NoticeItem;->getSubtitle()Ljava/lang/String;
 
     .line 40
     .line 41

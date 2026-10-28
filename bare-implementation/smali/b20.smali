@@ -9,17 +9,17 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
 .field public final synthetic c:Z
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;ZLjv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;ZLjv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lb20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iput-object p1, p0, Lb20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 2
     .line 3
@@ -48,7 +48,7 @@
 
     .line 2
     .line 3
-    iget-object v0, p0, Lb20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object v0, p0, Lb20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 4
     .line 5
@@ -56,7 +56,7 @@
 
     .line 6
     .line 7
-    invoke-direct {p1, v0, p0, p2}, Lb20;-><init>(Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;ZLjv1;)V
+    invoke-direct {p1, v0, p0, p2}, Lb20;-><init>(Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;ZLjv1;)V
 
     .line 8
     .line 9
@@ -152,11 +152,11 @@
     .line 20
     .line 21
     .line 22
-    iget-object p1, p0, Lb20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object p1, p0, Lb20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 23
     .line 24
-    iget-object v0, p1, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, p1, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 25
     .line 26
@@ -290,11 +290,11 @@
 
     .line 85
     .line 86
-    iget-object v4, v4, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v4, v4, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 87
     .line 88
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     .line 89
     .line 90

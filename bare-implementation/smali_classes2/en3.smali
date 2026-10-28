@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final l:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+.field public final l:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;)V
     .locals 1
 
     .line 1
@@ -20,7 +20,7 @@
     .line 3
     .line 4
     .line 5
-    iput-object p1, p0, Len3;->l:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    iput-object p1, p0, Len3;->l:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 6
     .line 7
@@ -120,7 +120,7 @@
     .line 40
     .line 41
     .line 42
-    iget-object v3, v2, Len3;->l:Lorg/swiftapps/swiftbackup/folders/ui/FolderPickerActivity;
+    iget-object v3, v2, Len3;->l:Lcom/bareapps/barebackup/folders/ui/FolderPickerActivity;
 
     .line 43
     .line 44

@@ -435,7 +435,7 @@
 
     .line 189
     .line 190
-    iget-object v0, p0, Lqk3;->Q:Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    iget-object v0, p0, Lqk3;->Q:Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 191
     .line 192
@@ -490,7 +490,7 @@
 
     .line 218
     .line 219
-    const-class p2, Lorg/swiftapps/swiftbackup/folders/ui/FolderEditActivity;
+    const-class p2, Lcom/bareapps/barebackup/folders/ui/FolderEditActivity;
 
     .line 220
     .line 221
@@ -550,11 +550,11 @@
 
     .line 248
     .line 249
-    sget-object p2, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p2, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 250
     .line 251
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 252
     .line 253
@@ -566,7 +566,7 @@
 
     .line 256
     .line 257
-    sget p1, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget p1, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 258
     .line 259
@@ -584,7 +584,7 @@
 
     .line 266
     :cond_7
-    sget p2, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget p2, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 267
     .line 268
@@ -673,11 +673,11 @@
 
     .line 308
     .line 309
-    iget-object v3, v3, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object v3, v3, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 310
     .line 311
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 312
     .line 313
@@ -717,11 +717,11 @@
 
     .line 328
     .line 329
-    iget-object p0, v2, Lpj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object p0, v2, Lpj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 330
     .line 331
-    iget-object p1, p2, Lwj2;->a:Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    iget-object p1, p2, Lwj2;->a:Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 332
     .line 333

@@ -56,7 +56,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;
 
     .line 11
     .line 12
@@ -73,7 +73,7 @@
     .line 17
     .line 18
     .line 19
-    sget p2, Lorg/swiftapps/swiftbackup/messagescalls/backups/MessagesBackupsActivity;->T:I
+    sget p2, Lcom/bareapps/barebackup/messagescalls/backups/MessagesBackupsActivity;->T:I
 
     .line 20
     .line 21
@@ -149,7 +149,7 @@
     .line 56
     .line 57
     .line 58
-    invoke-virtual {p0}, Lkp3;->i()Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    invoke-virtual {p0}, Lkp3;->i()Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 59
     .line 60
@@ -157,7 +157,7 @@
     move-result-object p0
 
     .line 62
-    iget-object p1, p1, Lzk3;->a:Lorg/swiftapps/swiftbackup/folders/data/FolderItem;
+    iget-object p1, p1, Lzk3;->a:Lcom/bareapps/barebackup/folders/data/FolderItem;
 
     .line 63
     .line 64
@@ -170,7 +170,7 @@
 
     .line 68
     .line 69
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    const-class v0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 70
     .line 71

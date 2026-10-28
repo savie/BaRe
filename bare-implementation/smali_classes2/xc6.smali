@@ -11,7 +11,7 @@
 
 .field public final b:Landroid/widget/ImageView;
 
-.field public final c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final d:Landroid/widget/TextView;
 
@@ -19,7 +19,7 @@
 
 
 # direct methods
-.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -36,7 +36,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lxc6;->c:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p3, p0, Lxc6;->c:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 9
     .line 10
@@ -95,7 +95,7 @@
     move-object v5, v1
 
     .line 21
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v5, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 22
     .line 23
@@ -162,7 +162,7 @@
 
     .line 53
     .line 54
-    invoke-direct/range {v2 .. v7}, Lxc6;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v2 .. v7}, Lxc6;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 55
     .line 56

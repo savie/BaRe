@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+.field public final f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;)V
     .locals 1
 
     .line 1
@@ -25,7 +25,7 @@
     .line 6
     .line 7
     .line 8
-    iput-object p1, p0, Lwy7;->f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iput-object p1, p0, Lwy7;->f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 9
     .line 10
@@ -38,7 +38,7 @@
     .locals 0
 
     .line 1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
@@ -92,11 +92,11 @@
 
     .line 12
     .line 13
-    iget-object p0, p0, Lwy7;->f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object p0, p0, Lwy7;->f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 14
     .line 15
-    iget-object p1, p1, Lwy7;->f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object p1, p1, Lwy7;->f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 16
     .line 17
@@ -115,7 +115,7 @@
     .locals 0
 
     .line 1
-    iget-object p0, p0, Lwy7;->f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object p0, p0, Lwy7;->f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 2
     .line 3
@@ -147,7 +147,7 @@
     .line 6
     .line 7
     .line 8
-    iget-object p0, p0, Lwy7;->f:Lorg/swiftapps/swiftbackup/settings/FolderRestoreStrategy;
+    iget-object p0, p0, Lwy7;->f:Lcom/bareapps/barebackup/settings/FolderRestoreStrategy;
 
     .line 9
     .line 10

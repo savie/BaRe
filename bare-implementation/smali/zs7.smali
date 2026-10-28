@@ -124,7 +124,7 @@
     .line 28
     .line 29
     .line 30
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
 
     .line 31
     .line 32

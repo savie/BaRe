@@ -87,14 +87,14 @@
 
     .line 22
     .line 23
-    iget-object p0, p0, Lbp3;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p0, Lbp3;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 24
     .line 25
     const/4 v0, 0x7
 
     .line 26
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->j(I)Landroid/view/animation/AlphaAnimation;
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->j(I)Landroid/view/animation/AlphaAnimation;
 
     .line 27
     .line 28

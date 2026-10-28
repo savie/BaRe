@@ -62,7 +62,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    check-cast p0, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 11
     .line 12
@@ -86,7 +86,7 @@
     move-result p2
 
     .line 22
-    sget v0, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->O:I
 
     .line 23
     .line 24
@@ -132,12 +132,12 @@
 
     .line 43
     .line 44
-    invoke-direct {v3, p0, v1, p1, p2}, Lo55;-><init>(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lry5;Lu55;I)V
+    invoke-direct {v3, p0, v1, p1, p2}, Lo55;-><init>(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lry5;Lu55;I)V
 
     .line 45
     .line 46
     .line 47
-    invoke-static {p0, v2, v0, v3}, Lorg/swiftapps/swiftbackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
+    invoke-static {p0, v2, v0, v3}, Lcom/bareapps/barebackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
 
     .line 48
     .line 49

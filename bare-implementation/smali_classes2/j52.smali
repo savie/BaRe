@@ -9,7 +9,7 @@
 # instance fields
 .field public a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 .field public final synthetic c:Lmt3;
 
@@ -19,11 +19,11 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Lmt3;Lbt3;Ljava/lang/String;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Lmt3;Lbt3;Ljava/lang/String;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lj52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Lj52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 2
     .line 3
@@ -68,7 +68,7 @@
 
     .line 6
     .line 7
-    iget-object v1, p0, Lj52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object v1, p0, Lj52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 8
     .line 9
@@ -79,7 +79,7 @@
     move-object v5, p2
 
     .line 12
-    invoke-direct/range {v0 .. v5}, Lj52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Lmt3;Lbt3;Ljava/lang/String;Ljv1;)V
+    invoke-direct/range {v0 .. v5}, Lj52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Lmt3;Lbt3;Ljava/lang/String;Ljv1;)V
 
     .line 13
     .line 14
@@ -195,7 +195,7 @@
 
     .line 31
     .line 32
-    iget-object v3, p0, Lj52;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object v3, p0, Lj52;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 33
     .line 34
@@ -211,7 +211,7 @@
 
     .line 39
     .line 40
-    invoke-direct/range {v2 .. v7}, Li52;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;Lmt3;ZLbt3;Ljava/lang/String;)V
+    invoke-direct/range {v2 .. v7}, Li52;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;Lmt3;ZLbt3;Ljava/lang/String;)V
 
     .line 41
     .line 42

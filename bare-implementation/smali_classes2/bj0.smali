@@ -48,7 +48,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;Ljava/util/ArrayList;Lwy7;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;Ljava/util/ArrayList;Lwy7;)V
     .locals 1
 
     .line 14
@@ -67,7 +67,7 @@
     return-void
 .end method
 
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;Ljava/util/List;)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/home/schedule/ScheduleService;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;Ljava/util/List;)V
     .locals 1
 
     .line 15
@@ -120,19 +120,19 @@
     .line 13
     .line 14
     .line 15
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;
+    check-cast p0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;
 
     .line 16
     .line 17
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 18
     .line 19
-    sget-object v0, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
+    sget-object v0, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->p:Ljava/lang/String;
 
     .line 20
     .line 21
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getItemId()Ljava/lang/String;
 
     .line 22
     .line 23
@@ -140,7 +140,7 @@
     move-result-object v0
 
     .line 25
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getLocations()Ljava/util/List;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getLocations()Ljava/util/List;
 
     .line 26
     .line 27
@@ -148,7 +148,7 @@
     move-result-object v1
 
     .line 29
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getSyncOption()Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getSyncOption()Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 30
     .line 31
@@ -156,7 +156,7 @@
     move-result-object v4
 
     .line 33
-    invoke-virtual {p0, v0, v1, v4}, Lorg/swiftapps/swiftbackup/home/schedule/ScheduleService;->c(Ljava/lang/String;Ljava/util/List;Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;)Lxy7;
+    invoke-virtual {p0, v0, v1, v4}, Lcom/bareapps/barebackup/home/schedule/ScheduleService;->c(Ljava/lang/String;Ljava/util/List;Lcom/bareapps/barebackup/tasks/model/SyncOption;)Lxy7;
 
     .line 34
     .line 35
@@ -186,7 +186,7 @@
 
     .line 46
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 47
     .line 48
@@ -198,11 +198,11 @@
 
     .line 51
     .line 52
-    sget v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 53
     .line 54
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y()Lqo3;
 
     .line 55
     .line 56
@@ -552,7 +552,7 @@
 
     .line 225
     .line 226
-    check-cast p0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 227
     .line 228
@@ -585,7 +585,7 @@
 
     .line 242
     :cond_7
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->Y()Lpp8;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/walls/WallsDashActivity;->Y()Lpp8;
 
     .line 243
     .line 244

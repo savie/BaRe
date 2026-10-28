@@ -992,11 +992,11 @@
     .line 27
     .line 28
     :cond_0
-    iget-object p0, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 29
     .line 30
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->clearSharedLibsDetails()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->clearSharedLibsDetails()V
 
     .line 31
     .line 32
@@ -1064,11 +1064,11 @@
     .line 27
     .line 28
     :cond_0
-    iget-object p0, p0, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object p0, p0, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 29
     .line 30
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->clearSplitsDetails()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->clearSplitsDetails()V
 
     .line 31
     .line 32
@@ -1130,7 +1130,7 @@
 
     .line 4
     .line 5
-    iget-object v12, v11, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v12, v11, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 6
     .line 7
@@ -1718,7 +1718,7 @@
     move-object v7, v6
 
     .line 287
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 288
     .line 289
@@ -2008,7 +2008,7 @@
     move-result-object v6
 
     .line 437
-    invoke-virtual {v12, v4, v5, v0, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateApkDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {v12, v4, v5, v0, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateApkDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 438
     .line 439
@@ -2174,7 +2174,7 @@
     .line 517
     .line 518
     :cond_7
-    sget-object v4, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v4, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 519
     .line 520
@@ -2809,7 +2809,7 @@
     move-result-object v0
 
     .line 829
-    invoke-virtual {v12, v1, v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateSplitsDetails(Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {v12, v1, v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateSplitsDetails(Ljava/lang/Long;Ljava/lang/Long;)V
     :try_end_6
     .catchall {:try_start_6 .. :try_end_6} :catchall_1
 
@@ -3096,7 +3096,7 @@
     .line 951
     .line 952
     :cond_e
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 953
     .line 954
@@ -3801,7 +3801,7 @@
     move-result-object v0
 
     .line 1298
-    invoke-virtual {v12, v2, v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateSharedLibsDetails(Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {v12, v2, v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateSharedLibsDetails(Ljava/lang/Long;Ljava/lang/Long;)V
     :try_end_b
     .catchall {:try_start_b .. :try_end_b} :catchall_8
 
@@ -4134,7 +4134,7 @@
     .line 1454
     .line 1455
     .line 1456
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1457
     .line 1458
@@ -4422,7 +4422,7 @@
     .line 1597
     .line 1598
     :try_start_e
-    invoke-static {v15, v5, v4, v6}, Lorg/swiftapps/swiftbackup/apptasks/sba/a;->a(Lji;ZZLxp1;)Ljava/lang/String;
+    invoke-static {v15, v5, v4, v6}, Lcom/bareapps/barebackup/apptasks/sba/a;->a(Lji;ZZLxp1;)Ljava/lang/String;
 
     .line 1599
     .line 1600
@@ -4562,7 +4562,7 @@
     .line 1663
     .line 1664
     .line 1665
-    iget-object v0, v11, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, v11, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1666
     .line 1667
@@ -4674,7 +4674,7 @@
 
     .line 1717
     .line 1718
-    invoke-virtual/range {v42 .. v48}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateDataDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
+    invoke-virtual/range {v42 .. v48}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateDataDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
     :try_end_11
     .catchall {:try_start_11 .. :try_end_11} :catchall_c
 
@@ -5066,7 +5066,7 @@
     .line 1895
     .line 1896
     .line 1897
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 1898
     .line 1899
@@ -5246,7 +5246,7 @@
 
     .line 1988
     .line 1989
-    iget-object v0, v11, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, v11, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 1990
     .line 1991
@@ -5351,7 +5351,7 @@
 
     .line 2039
     .line 2040
-    invoke-virtual/range {v39 .. v45}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateExtDataDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
+    invoke-virtual/range {v39 .. v45}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateExtDataDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
 
     .line 2041
     .line 2042
@@ -5481,7 +5481,7 @@
     .line 2102
     .line 2103
     .line 2104
-    sget-object v3, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v3, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2105
     .line 2106
@@ -5642,7 +5642,7 @@
 
     .line 2186
     .line 2187
-    iget-object v0, v11, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, v11, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2188
     .line 2189
@@ -5722,7 +5722,7 @@
 
     .line 2226
     .line 2227
-    invoke-virtual/range {v39 .. v45}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateMediaDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
+    invoke-virtual/range {v39 .. v45}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateMediaDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;)V
 
     .line 2228
     .line 2229
@@ -5840,7 +5840,7 @@
     .line 2282
     .line 2283
     .line 2284
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2285
     .line 2286
@@ -6017,7 +6017,7 @@
     move-result-object v2
 
     .line 2375
-    invoke-virtual {v12, v0, v1, v2}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->updateExpansionDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {v12, v0, v1, v2}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->updateExpansionDetails(Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 2376
     .line 2377
@@ -6762,11 +6762,11 @@
 
     .line 121
     .line 122
-    sget-object v5, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v5, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 123
     .line 124
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 125
     .line 126
@@ -6995,7 +6995,7 @@
     .line 236
     .line 237
     .line 238
-    iget-object v13, v10, Lqk0;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    iget-object v13, v10, Lqk0;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     .line 239
     .line 240
@@ -7207,7 +7207,7 @@
     .line 337
     .line 338
     :cond_9
-    instance-of v0, v13, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$SingleBackup;
+    instance-of v0, v13, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$SingleBackup;
 
     .line 339
     .line 340
@@ -7238,7 +7238,7 @@
     .line 351
     .line 352
     :cond_a
-    instance-of v0, v13, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;
+    instance-of v0, v13, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;
 
     .line 353
     .line 354
@@ -7246,11 +7246,11 @@
 
     .line 355
     .line 356
-    check-cast v13, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;
+    check-cast v13, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;
 
     .line 357
     .line 358
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 359
     .line 360
@@ -7311,15 +7311,15 @@
     .line 385
     .line 386
     .line 387
-    sget-object v0, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object v0, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 388
     .line 389
-    sget-object v4, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkOrDataChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object v4, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->ApkOrDataChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 390
     .line 391
-    filled-new-array {v0, v4}, [Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    filled-new-array {v0, v4}, [Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 392
     .line 393
@@ -7335,7 +7335,7 @@
     move-result-object v0
 
     .line 399
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 400
     .line 401
@@ -7351,11 +7351,11 @@
     move-result v0
 
     .line 407
-    sget-object v5, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;->DataChanges:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    sget-object v5, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;->DataChanges:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 408
     .line 409
-    filled-new-array {v5, v4}, [Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    filled-new-array {v5, v4}, [Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 410
     .line 411
@@ -7371,7 +7371,7 @@
     move-result-object v4
 
     .line 417
-    invoke-virtual {v13}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$NewBackupCondition;
+    invoke-virtual {v13}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$ConditionalBackups;->getCondition()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$NewBackupCondition;
 
     .line 418
     .line 419
@@ -7722,7 +7722,7 @@
     move-object v9, v4
 
     .line 577
-    instance-of v0, v13, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation$DatedBackups;
+    instance-of v0, v13, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation$DatedBackups;
 
     .line 578
     .line 579
@@ -7810,7 +7810,7 @@
 
     .line 616
     .line 617
-    iget-object v13, v10, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v13, v10, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 618
     .line 619
@@ -8175,11 +8175,11 @@
 
     .line 794
     .line 795
-    iget-object v4, v10, Lok0;->t:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v4, v10, Lok0;->t:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 796
     .line 797
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 798
     .line 799
@@ -9971,12 +9971,12 @@
 
     .line 1649
     :goto_1f
-    invoke-virtual {v4, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setPermissionIdsCsv(Ljava/lang/String;)V
+    invoke-virtual {v4, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setPermissionIdsCsv(Ljava/lang/String;)V
 
     .line 1650
     .line 1651
     .line 1652
-    invoke-virtual {v4, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setPermissionStatesCsv(Ljava/lang/String;)V
+    invoke-virtual {v4, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setPermissionStatesCsv(Ljava/lang/String;)V
 
     .line 1653
     .line 1654
@@ -10058,7 +10058,7 @@
 
     .line 1690
     .line 1691
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 1692
     .line 1693
@@ -10128,7 +10128,7 @@
     .line 1725
     .line 1726
     .line 1727
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 1728
     .line 1729
@@ -10182,7 +10182,7 @@
 
     .line 1752
     .line 1753
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 1754
     .line 1755
@@ -10251,7 +10251,7 @@
     .line 1786
     .line 1787
     .line 1788
-    invoke-virtual {v4}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v4}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getPackageName()Ljava/lang/String;
 
     .line 1789
     .line 1790
@@ -10589,11 +10589,11 @@
 
     .line 1948
     :try_start_0
-    const-class v7, Lorg/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyProxy;
+    const-class v7, Lcom/bareapps/barebackup/apptasks/notifications/NotificationPolicyProxy;
 
     .line 1949
     .line 1950
-    const-string v8, "swiftbackup_notification_policy_proxy"
+    const-string v8, "barebackup_notification_policy_proxy"
 
     .line 1951
     .line 1952
@@ -11193,7 +11193,7 @@
     .line 2230
     .line 2231
     :goto_2d
-    sget-object v19, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload;->Companion:Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload$a;
+    sget-object v19, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload;->Companion:Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload$a;
 
     .line 2232
     .line 2233
@@ -11209,7 +11209,7 @@
     move-result-object v25
 
     .line 2239
-    invoke-virtual/range {v19 .. v25}, Lorg/swiftapps/swiftbackup/model/app/AppSpecialDataPayload$a;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lq63;)Z
+    invoke-virtual/range {v19 .. v25}, Lcom/bareapps/barebackup/model/app/AppSpecialDataPayload$a;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lq63;)Z
 
     .line 2240
     .line 2241
@@ -11217,17 +11217,17 @@
     const/4 v6, 0x0
 
     .line 2243
-    invoke-virtual {v4, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setNtfAccessComponent(Ljava/lang/String;)V
+    invoke-virtual {v4, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setNtfAccessComponent(Ljava/lang/String;)V
 
     .line 2244
     .line 2245
     .line 2246
-    invoke-virtual {v4, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setAccessibilityComponent(Ljava/lang/String;)V
+    invoke-virtual {v4, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setAccessibilityComponent(Ljava/lang/String;)V
 
     .line 2247
     .line 2248
     .line 2249
-    invoke-virtual {v4, v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setSsaid(Ljava/lang/String;)V
+    invoke-virtual {v4, v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setSsaid(Ljava/lang/String;)V
 
     .line 2250
     .line 2251
@@ -11260,7 +11260,7 @@
 
     .line 2265
     .line 2266
-    invoke-virtual {v2, v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
+    invoke-virtual {v2, v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->setDateBackupUpdated(Ljava/lang/Long;)V
 
     .line 2267
     .line 2268
@@ -11321,7 +11321,7 @@
     move-result-object v3
 
     .line 2295
-    invoke-virtual {v0, v2, v3}, Lcu;->f(Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;Lq63;)V
+    invoke-virtual {v0, v2, v3}, Lcu;->f(Lcom/bareapps/barebackup/model/app/LocalMetadata;Lq63;)V
 
     .line 2296
     .line 2297
@@ -11405,11 +11405,11 @@
     .line 2336
     .line 2337
     :cond_5c
-    iget-object v0, v11, Lhz;->i:Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    iget-object v0, v11, Lhz;->i:Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 2338
     .line 2339
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/settings/f;->a(Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;)Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;
+    invoke-static {v0}, Lcom/bareapps/barebackup/settings/f;->a(Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;)Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;
 
     .line 2340
     .line 2341
@@ -11485,11 +11485,11 @@
 
     .line 2375
     .line 2376
-    iget-object v6, v6, Lgm;->b:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v6, v6, Lgm;->b:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 2377
     .line 2378
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->isProtectedBackup()Z
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->isProtectedBackup()Z
 
     .line 2379
     .line 2380
@@ -11706,7 +11706,7 @@
     move-result v1
 
     .line 2485
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     .line 2486
     .line 2487
@@ -11718,7 +11718,7 @@
 
     .line 2490
     .line 2491
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     .line 2492
     .line 2493
@@ -11750,7 +11750,7 @@
 
     .line 2506
     :cond_62
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy$Representation;->getMaxNumOfBackups()I
 
     .line 2507
     .line 2508

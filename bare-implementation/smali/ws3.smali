@@ -81,7 +81,7 @@
 
     .line 2
     .line 3
-    invoke-static/range {p0 .. p5}, Lorg/swiftapps/filesystem/a;->a(Ljava/nio/channels/FileChannel;J[BII)V
+    invoke-static/range {p0 .. p5}, Lcom/bareapps/filesystem/a;->a(Ljava/nio/channels/FileChannel;J[BII)V
 
     .line 4
     .line 5

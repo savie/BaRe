@@ -266,11 +266,11 @@
 
     .line 105
     .line 106
-    sget-object v2, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v2, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 107
     .line 108
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 109
     .line 110
@@ -341,7 +341,7 @@
     .line 142
     .line 143
     :cond_6
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->T()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->T()V
 
     .line 144
     .line 145

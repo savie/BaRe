@@ -2380,11 +2380,11 @@
 
     .line 2
     .line 3
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;
 
     .line 4
     .line 5
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
+    iget-object v0, p0, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->T:Lm01;
 
     .line 6
     .line 7
@@ -2456,7 +2456,7 @@
 
     .line 40
     :cond_0
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/b;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/messagescalls/backuprestore/CallsBackupRestoreActivity;->a0()Lcom/bareapps/barebackup/messagescalls/backuprestore/b;
 
     .line 41
     .line 42

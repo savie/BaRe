@@ -12,7 +12,7 @@
 
 .field public final synthetic D:Ldd6;
 
-.field public final v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final w:Landroid/widget/ImageView;
 
@@ -183,7 +183,7 @@
     move-result-object v3
 
     .line 82
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    check-cast v3, Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 83
     .line 84
@@ -296,7 +296,7 @@
 
     .line 140
     .line 141
-    iput-object v3, p0, Lad6;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object v3, p0, Lad6;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 142
     .line 143
@@ -878,7 +878,7 @@
     .line 248
     :cond_c
     :goto_8
-    iget-object p0, p0, Lad6;->v:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iget-object p0, p0, Lad6;->v:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 249
     .line 250

@@ -102,11 +102,11 @@
     .line 2
     .line 3
     .line 4
-    sput-object p0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sput-object p0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 5
     .line 6
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->e:Lgv7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->e:Lgv7;
 
     .line 7
     .line 8

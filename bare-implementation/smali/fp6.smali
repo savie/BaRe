@@ -90,7 +90,7 @@
     .line 2
     .line 3
     .line 4
-    const-string v0, "org.swiftapps.rootservice.IRootAidlInterface"
+    const-string v0, "com.bareapps.rootservice.IRootAidlInterface"
 
     .line 5
     .line 6
@@ -1933,11 +1933,11 @@
 
     .line 2
     .line 3
-    sget-object v0, Lcom/swiftapps/sba/SbaRuntimeNative;->a:Lcom/swiftapps/sba/SbaRuntimeNative;
+    sget-object v0, Lcom/bareapps/sba/SbaRuntimeNative;->a:Lcom/bareapps/sba/SbaRuntimeNative;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lcom/swiftapps/sba/SbaRuntimeNative;->version()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/sba/SbaRuntimeNative;->version()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -1945,11 +1945,11 @@
     move-result-object v0
 
     .line 9
-    sget-object v1, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a:Lcom/swiftapps/sba/SbaLibaegisCryptoNative;
+    sget-object v1, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
 
     .line 10
     .line 11
-    invoke-virtual {v1}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
+    invoke-virtual {v1}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
 
     .line 12
     .line 13
@@ -2228,11 +2228,11 @@
 
     .line 2
     .line 3
-    sget-object v0, Lcom/swiftapps/sba/SbaRuntimeNative;->a:Lcom/swiftapps/sba/SbaRuntimeNative;
+    sget-object v0, Lcom/bareapps/sba/SbaRuntimeNative;->a:Lcom/bareapps/sba/SbaRuntimeNative;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lcom/swiftapps/sba/SbaRuntimeNative;->version()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/sba/SbaRuntimeNative;->version()Ljava/lang/String;
 
     .line 6
     .line 7
@@ -2240,11 +2240,11 @@
     move-result-object v0
 
     .line 9
-    sget-object v1, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->a:Lcom/swiftapps/sba/SbaLibaegisCryptoNative;
+    sget-object v1, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->a:Lcom/bareapps/sba/SbaLibaegisCryptoNative;
 
     .line 10
     .line 11
-    invoke-virtual {v1}, Lcom/swiftapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
+    invoke-virtual {v1}, Lcom/bareapps/sba/SbaLibaegisCryptoNative;->isAvailable()Z
 
     .line 12
     .line 13

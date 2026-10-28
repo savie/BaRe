@@ -348,7 +348,7 @@ Cuando la restauración se complete, se le pedirá que vuelva a establecer como 
 Compruebe si su dispositivo está rooteado y se ha concedido acceso root a la copia de seguridad de BΛR☰."</string>
     <string name="feature_requires_root_access_or_shizuku_message">"Esta función requiere acceso root o Shizuku para funcionar.
 
-Compruebe si su dispositivo está rooteado y si la copia de seguridad de Swift tiene acceso root o si el servicio Shizuku se está ejecutando."</string>
+Compruebe si su dispositivo está rooteado y si la copia de seguridad de BΛR☰ tiene acceso root o si el servicio Shizuku se está ejecutando."</string>
     <string name="filen_two_factor_authentication">Autenticación de dos factores de Filen</string>
     <string name="filen_two_factor_code_hint">Código 2FA o código de recuperación</string>
     <string name="files">Archivos</string>
@@ -827,7 +827,7 @@ Se necesita acceso root o Shizuku"</string>
     <string name="schedules">Calendario</string>
     <string name="search">Buscar</string>
     <string name="search_hint_apps">Buscar apps</string>
-    <string name="search_swift_backup">Buscar en BΛR☰</string>
+    <string name="search_bare_backup">Buscar en BΛR☰</string>
     <string name="secondary_action">Acción secundaria</string>
     <string name="secondary_user_warning_msg">Los perfiles de usuario secundarios o de trabajo no están soportados oficialmente debido a algunos problemas inevitables. Por favor, cambie al usuario principal en el dispositivo.</string>
     <string name="see_all">Ver todo</string>
@@ -865,11 +865,11 @@ Se necesita acceso root o Shizuku"</string>
     <string name="share_apk">Compartir APK</string>
     <string name="share_apks">Compartir APKs</string>
     <string name="share_logs">Compartir registros</string>
-    <string name="share_swiftbackup">Compartir BΛR☰</string>
-    <string name="share_swiftbackup_msg">¡Descubra este nuevo e impresionante gestor de copias de seguridad que estoy usando! Se llama BΛR☰ y aquí está el enlace: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Solución de copias de seguridad rápida, sencilla e inteligente para Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Logcat del dispositivo</string>
-    <string name="share_swiftlogger_text_only">Compartir informe solo de texto</string>
+    <string name="share_barebackup">Compartir BΛR☰</string>
+    <string name="share_barebackup_msg">¡Descubra este nuevo e impresionante gestor de copias de seguridad que estoy usando! Se llama BΛR☰ y aquí está el enlace: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Solución de copias de seguridad rápida, sencilla e inteligente para Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Logcat del dispositivo</string>
+    <string name="share_barelogger_text_only">Compartir informe solo de texto</string>
     <string name="shared_libraries">Bibliotecas compartidas</string>
     <string name="shortcuts">Accesos directos</string>
     <string name="show_less">Mostrar menos</string>
@@ -911,9 +911,9 @@ Se necesita acceso root o Shizuku"</string>
     <string name="successful">Completado</string>
     <string name="sure_to_cancel_task">¿Está seguro de que desea cancelar?</string>
     <string name="sure_to_proceed">"¿Está seguro de que quiere continuar? Presione 'Si' para confirmar."</string>
-    <string name="swift_backup_is_busy">BΛR☰ está ocupado</string>
-    <string name="swift_labs_settings_summary">Características experimentales de las que no está garantizado su funcionamiento. ¡Estas características pueden desaparecer en cualquier momento!</string>
-    <string name="swiftlogger_info">Registros importantes que podrían ayudar a informar de errores</string>
+    <string name="barebackup_is_busy">BΛR☰ está ocupado</string>
+    <string name="bare_labs_settings_summary">Características experimentales de las que no está garantizado su funcionamiento. ¡Estas características pueden desaparecer en cualquier momento!</string>
+    <string name="barelogger_info">Registros importantes que podrían ayudar a informar de errores</string>
     <string name="swipe_actions">Acciones de deslizamiento</string>
     <string name="swipe_actions_description">Elige hasta dos acciones para cada dirección de deslizamiento</string>
     <string name="sync_backups">Sincronizar copias de seguridad</string>

@@ -24,7 +24,7 @@
     .line 4
     .line 5
     .line 6
-    const-string p1, "org.swiftapps.rootservice.ISbaRootProgress"
+    const-string p1, "com.bareapps.rootservice.ISbaRootProgress"
 
     .line 7
     .line 8
@@ -51,7 +51,7 @@
 
     .line 5
     :cond_0
-    const-string v0, "org.swiftapps.rootservice.ISbaRootProgress"
+    const-string v0, "com.bareapps.rootservice.ISbaRootProgress"
 
     .line 6
     .line 7
@@ -511,7 +511,7 @@
 
     .line 2
     .line 3
-    const-string v1, "org.swiftapps.rootservice.ISbaRootProgress"
+    const-string v1, "com.bareapps.rootservice.ISbaRootProgress"
 
     .line 4
     .line 5

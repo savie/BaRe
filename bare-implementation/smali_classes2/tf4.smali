@@ -7,15 +7,15 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/intro/d;
+.field public final synthetic a:Lcom/bareapps/barebackup/intro/d;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/intro/d;Ljv1;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/intro/d;Ljv1;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Ltf4;->a:Lorg/swiftapps/swiftbackup/intro/d;
+    iput-object p1, p0, Ltf4;->a:Lcom/bareapps/barebackup/intro/d;
 
     .line 2
     .line 3
@@ -40,11 +40,11 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Ltf4;->a:Lorg/swiftapps/swiftbackup/intro/d;
+    iget-object p0, p0, Ltf4;->a:Lcom/bareapps/barebackup/intro/d;
 
     .line 4
     .line 5
-    invoke-direct {p1, p0, p2}, Ltf4;-><init>(Lorg/swiftapps/swiftbackup/intro/d;Ljv1;)V
+    invoke-direct {p1, p0, p2}, Ltf4;-><init>(Lcom/bareapps/barebackup/intro/d;Ljv1;)V
 
     .line 6
     .line 7
@@ -101,7 +101,7 @@
 
     .line 5
     .line 6
-    iget-object p0, p0, Ltf4;->a:Lorg/swiftapps/swiftbackup/intro/d;
+    iget-object p0, p0, Ltf4;->a:Lcom/bareapps/barebackup/intro/d;
 
     .line 7
     .line 8
@@ -137,11 +137,11 @@
     .line 22
     .line 23
     .line 24
-    sget-object p1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 25
     .line 26
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 27
     .line 28

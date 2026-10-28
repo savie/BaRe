@@ -275,7 +275,7 @@
 
     .line 114
     :pswitch_0
-    sget p0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->W:I
+    sget p0, Lcom/bareapps/barebackup/walls/WallsDashActivity;->W:I
 
     .line 115
     .line 116
@@ -292,11 +292,11 @@
 
     .line 122
     :pswitch_1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 123
     .line 124
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 125
     .line 126
@@ -545,11 +545,11 @@
 
     .line 247
     .line 248
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 249
     .line 250
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 251
     .line 252
@@ -1088,7 +1088,7 @@
 
     .line 501
     :pswitch_7
-    invoke-static {}, Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;->c()Lorg/swiftapps/swiftbackup/settings/MultipleBackupStrategy;
+    invoke-static {}, Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;->c()Lcom/bareapps/barebackup/settings/MultipleBackupStrategy;
 
     .line 502
     .line 503
@@ -1283,7 +1283,7 @@
 
     .line 589
     .line 590
-    invoke-static {}, Lb45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 591
     .line 592
@@ -1291,7 +1291,7 @@
     move-result-object p0
 
     .line 594
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 595
     .line 596
@@ -1343,7 +1343,7 @@
     .line 619
     .line 620
     .line 621
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 622
     .line 623
@@ -1355,7 +1355,7 @@
 
     .line 626
     .line 627
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 628
     .line 629
@@ -1406,11 +1406,11 @@
 
     .line 647
     :pswitch_10
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 648
     .line 649
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 650
     .line 651
@@ -1453,11 +1453,11 @@
 
     .line 670
     .line 671
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 672
     .line 673
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 674
     .line 675
@@ -1814,7 +1814,7 @@
 
     .line 845
     :pswitch_16
-    invoke-static {}, Ly35;->a()Lorg/swiftapps/swiftbackup/database/MDatabase;
+    invoke-static {}, Ly35;->a()Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 846
     .line 847
@@ -1822,7 +1822,7 @@
     move-result-object p0
 
     .line 849
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/database/MDatabase;->l()Lom;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/database/MDatabase;->l()Lom;
 
     .line 850
     .line 851

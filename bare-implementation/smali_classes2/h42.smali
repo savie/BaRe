@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lh42;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Lh42;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
@@ -47,7 +47,7 @@
 
     .line 4
     .line 5
-    iget-object v0, v0, Lh42;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object v0, v0, Lh42;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 6
     .line 7
@@ -56,11 +56,11 @@
     .line 8
     .line 9
     .line 10
-    sget v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     .line 13
     .line 14
@@ -76,11 +76,11 @@
 
     .line 19
     :pswitch_0
-    sget v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 20
     .line 21
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->k0()Lt52;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->k0()Lt52;
 
     .line 22
     .line 23
@@ -104,7 +104,7 @@
 
     .line 32
     :pswitch_1
-    sget v1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget v1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 33
     .line 34
@@ -618,7 +618,7 @@
 
     .line 295
     .line 296
-    check-cast v20, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast v20, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 297
     .line 298
@@ -1490,7 +1490,7 @@
 
     .line 747
     .line 748
-    invoke-direct/range {v6 .. v43}, Lt52;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/view/View;Landroid/view/View;Landroid/widget/LinearLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lm86;Landroidx/core/widget/NestedScrollView;Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;Landroid/widget/FrameLayout;Lcom/google/android/material/textfield/TextInputLayout;Lu00;Ld62;Ldr;Lbp0;Lny1;Lcom/google/android/material/textfield/TextInputLayout;Lu94;Lcom/google/android/material/textfield/TextInputLayout;Le41;Ls02;Lcom/google/android/material/textfield/TextInputLayout;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;)V
+    invoke-direct/range {v6 .. v43}, Lt52;-><init>(Landroidx/constraintlayout/widget/ConstraintLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Landroid/view/View;Landroid/view/View;Landroid/widget/LinearLayout;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/widget/ImageView;Lm86;Landroidx/core/widget/NestedScrollView;Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;Landroid/widget/FrameLayout;Lcom/google/android/material/textfield/TextInputLayout;Lu00;Ld62;Ldr;Lbp0;Lny1;Lcom/google/android/material/textfield/TextInputLayout;Lu94;Lcom/google/android/material/textfield/TextInputLayout;Le41;Ls02;Lcom/google/android/material/textfield/TextInputLayout;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/AutoCompleteTextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/AutoCompleteTextView;)V
 
     .line 749
     .line 750

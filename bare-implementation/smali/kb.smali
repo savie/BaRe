@@ -45,7 +45,7 @@
 
     .line 2
     .line 3
-    check-cast v0, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 4
     .line 5
@@ -57,7 +57,7 @@
 
     .line 8
     .line 9
-    sget v1, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget v1, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 10
     .line 11
@@ -85,7 +85,7 @@
 
     .line 21
     .line 22
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P()V
 
     .line 23
     .line 24

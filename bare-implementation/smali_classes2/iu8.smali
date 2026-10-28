@@ -210,7 +210,7 @@
 
     .line 100
     .line 101
-    invoke-static {v3}, Lorg/swiftapps/swiftbackup/common/Const;->S(Landroid/content/BroadcastReceiver;)V
+    invoke-static {v3}, Lcom/bareapps/barebackup/common/Const;->S(Landroid/content/BroadcastReceiver;)V
 
     .line 102
     .line 103
@@ -228,7 +228,7 @@
 
     .line 110
     .line 111
-    invoke-static {v3, v2}, Lorg/swiftapps/swiftbackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
+    invoke-static {v3, v2}, Lcom/bareapps/barebackup/common/Const;->C(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V
 
     .line 112
     .line 113
@@ -318,7 +318,7 @@
 
     .line 6
     .line 7
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->S(Landroid/content/BroadcastReceiver;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->S(Landroid/content/BroadcastReceiver;)V
 
     .line 8
     .line 9

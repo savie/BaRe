@@ -31,7 +31,7 @@
     return-object p0
 .end method
 
-.method public static b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+.method public static b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
     .locals 7
 
     .line 1
@@ -123,7 +123,7 @@
     move-result-object p0
 
     .line 41
-    check-cast p0, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    check-cast p0, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 42
     .line 43
@@ -131,7 +131,7 @@
 
     .line 44
     .line 45
-    new-instance v0, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;
+    new-instance v0, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;
 
     .line 46
     .line 47
@@ -154,7 +154,7 @@
     const/4 v4, 0x0
 
     .line 54
-    invoke-direct/range {v0 .. v6}, Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;-><init>(Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v0 .. v6}, Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;-><init>(Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;Ljava/lang/String;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 55
     .line 56
@@ -166,7 +166,7 @@
     return-object p0
 .end method
 
-.method public static c(Ldd1;Lorg/swiftapps/swiftbackup/cloud/protocols/TokenCredentials;)V
+.method public static c(Ldd1;Lcom/bareapps/barebackup/cloud/protocols/TokenCredentials;)V
     .locals 1
 
     .line 1

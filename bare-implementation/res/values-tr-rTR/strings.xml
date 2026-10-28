@@ -823,7 +823,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="schedules">Zamanlamalar</string>
     <string name="search">Ara</string>
     <string name="search_hint_apps">Uygulamaları ara</string>
-    <string name="search_swift_backup">"BΛR☰'ta ara"</string>
+    <string name="search_bare_backup">"BΛR☰'ta ara"</string>
     <string name="secondary_action">İkincil eylem</string>
     <string name="secondary_user_warning_msg">İkincil / İş kullanıcı profilleri, bazı kaçınılmaz sorunlar nedeniyle resmi olarak desteklenmemektedir. Lütfen ana kullanıcıya geçin.</string>
     <string name="see_all">Tümünü gör</string>
@@ -861,11 +861,11 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="share_apk">APK paylaş</string>
     <string name="share_apks">APKs paylaş</string>
     <string name="share_logs">Günlükleri paylaş</string>
-    <string name="share_swiftbackup">"BΛR☰'ı Paylaşın"</string>
-    <string name="share_swiftbackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı BΛR☰ ve işte link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">"BΛR☰ Logger + Cihaz Logcat'i"</string>
-    <string name="share_swiftlogger_text_only">Yalnızca metin raporunu paylaş</string>
+    <string name="share_barebackup">"BΛR☰'ı Paylaşın"</string>
+    <string name="share_barebackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı BΛR☰ ve işte link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
+    <string name="share_barelogger_archive_with_device_logcat">"BΛR☰ Logger + Cihaz Logcat'i"</string>
+    <string name="share_barelogger_text_only">Yalnızca metin raporunu paylaş</string>
     <string name="shared_libraries">Paylaşılan kütüphaneler</string>
     <string name="shortcuts">Kısayollar</string>
     <string name="show_less">Daha az göster</string>
@@ -907,9 +907,9 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="successful">Başarılı</string>
     <string name="sure_to_cancel_task">İptal etmek istediğinizden emin misiniz?</string>
     <string name="sure_to_proceed">Devam etmek istediğinizden emin misiniz? Onaylamak için \"Evet\"e tıklayın.</string>
-    <string name="swift_backup_is_busy">BΛR☰ meşgul</string>
-    <string name="swift_labs_settings_summary">Deneyesel özelliklerin çalışma garantisi yoktur. Bu özellikler her an kullanım dışı kalabilir!</string>
-    <string name="swiftlogger_info">Hata raporlamada yardımcı olabilecek önemli günlükler</string>
+    <string name="barebackup_is_busy">BΛR☰ meşgul</string>
+    <string name="bare_labs_settings_summary">Deneyesel özelliklerin çalışma garantisi yoktur. Bu özellikler her an kullanım dışı kalabilir!</string>
+    <string name="barelogger_info">Hata raporlamada yardımcı olabilecek önemli günlükler</string>
     <string name="swipe_actions">Kaydırma eylemleri</string>
     <string name="swipe_actions_description">Her kaydırma yönü için en fazla iki eylem seçin</string>
     <string name="sync_backups">Yedeklemeleri senkronize et</string>

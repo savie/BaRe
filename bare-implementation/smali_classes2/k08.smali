@@ -146,7 +146,7 @@
     .line 23
     .line 24
     :try_start_0
-    sget-object v7, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->Companion:Lm08;
+    sget-object v7, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->Companion:Lm08;
 
     .line 25
     .line 26
@@ -155,7 +155,7 @@
     .line 27
     .line 28
     .line 29
-    invoke-static {v5}, Lm08;->b(Ldd1;)Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    invoke-static {v5}, Lm08;->b(Ldd1;)Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 30
     .line 31
@@ -187,7 +187,7 @@
 
     .line 44
     .line 45
-    invoke-virtual {v8, v0}, Lh08;->e(Ljava/lang/String;)Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    invoke-virtual {v8, v0}, Lh08;->e(Ljava/lang/String;)Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 46
     .line 47
@@ -200,7 +200,7 @@
     .line 50
     .line 51
     .line 52
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getCloudServiceId()Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getCloudServiceId()Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 53
     .line 54
@@ -212,7 +212,7 @@
 
     .line 57
     .line 58
-    invoke-static {v0}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v0}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 59
     .line 60
@@ -240,7 +240,7 @@
 
     .line 69
     :cond_1
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getUk()Ljava/lang/String;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getUk()Ljava/lang/String;
 
     .line 70
     .line 71
@@ -264,7 +264,7 @@
     move-result-object v7
 
     .line 81
-    invoke-virtual {v12}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getUk()Ljava/lang/String;
+    invoke-virtual {v12}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->getUk()Ljava/lang/String;
 
     .line 82
     .line 83
@@ -372,7 +372,7 @@
 
     .line 131
     .line 132
-    invoke-static/range {v12 .. v23}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->copy$default(Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    invoke-static/range {v12 .. v23}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->copy$default(Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;ILjava/lang/Object;)Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 133
     .line 134
@@ -394,14 +394,14 @@
     .line 142
     .line 143
     .line 144
-    iput-object v0, v6, Li08;->c:Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    iput-object v0, v6, Li08;->c:Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 145
     .line 146
     const/4 v7, 0x0
 
     .line 147
-    invoke-virtual {v6, v7}, Li08;->d(Z)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult;
+    invoke-virtual {v6, v7}, Li08;->d(Z)Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult;
 
     .line 148
     .line 149
@@ -440,7 +440,7 @@
     .line 166
     .line 167
     .line 168
-    instance-of v3, v8, Lorg/swiftapps/swiftbackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
+    instance-of v3, v8, Lcom/bareapps/barebackup/cloud/protocols/CloudOperationsImpl$LoginResult$Success;
 
     .line 169
     .line 170
@@ -476,7 +476,7 @@
 
     .line 185
     :cond_3
-    invoke-static {v6, v11}, Leh1;->c(Ljh1;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;
+    invoke-static {v6, v11}, Leh1;->c(Ljh1;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;
 
     .line 186
     .line 187
@@ -524,7 +524,7 @@
 
     .line 208
     .line 209
-    invoke-static/range {v24 .. v35}, Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->copy$default(Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    invoke-static/range {v24 .. v35}, Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;->copy$default(Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;ILjava/lang/Object;)Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 210
     .line 211
@@ -536,7 +536,7 @@
 
     .line 214
     .line 215
-    invoke-static {v3}, Lzm5;->u(Lorg/swiftapps/swiftbackup/cloud/protocols/CloudServiceId;)Z
+    invoke-static {v3}, Lzm5;->u(Lcom/bareapps/barebackup/cloud/protocols/CloudServiceId;)Z
 
     .line 216
     .line 217
@@ -548,7 +548,7 @@
 
     .line 220
     .line 221
-    invoke-static {v5, v0}, Lm08;->c(Ldd1;Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;)V
+    invoke-static {v5, v0}, Lm08;->c(Ldd1;Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;)V
 
     .line 222
     .line 223
@@ -558,7 +558,7 @@
     .line 225
     .line 226
     .line 227
-    iput-object v0, v6, Li08;->c:Lorg/swiftapps/swiftbackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
+    iput-object v0, v6, Li08;->c:Lcom/bareapps/barebackup/cloud/protocols/terabox/TeraBoxTokenCredentials;
 
     .line 228
     .line 229

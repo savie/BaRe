@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
 .field public final synthetic b:I
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;I)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lhq1;->a:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    iput-object p1, p0, Lhq1;->a:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 5
     .line 6
@@ -39,15 +39,15 @@
     .locals 1
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->V:I
 
     .line 2
     .line 3
-    iget-object v0, p0, Lhq1;->a:Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    iget-object v0, p0, Lhq1;->a:Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 4
     .line 5
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->U()Lkq1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->U()Lkq1;
 
     .line 6
     .line 7

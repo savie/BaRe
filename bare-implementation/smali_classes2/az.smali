@@ -141,7 +141,7 @@
     move-result v6
 
     .line 42
-    invoke-static {v4, v6}, Lorg/swiftapps/swiftbackup/common/Const;->q(II)I
+    invoke-static {v4, v6}, Lcom/bareapps/barebackup/common/Const;->q(II)I
 
     .line 43
     .line 44

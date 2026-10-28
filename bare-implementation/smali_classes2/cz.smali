@@ -199,7 +199,7 @@
 
     .line 69
     :pswitch_2
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallsDashActivity;
 
     .line 70
     .line 71
@@ -211,7 +211,7 @@
 
     .line 74
     .line 75
-    sget v2, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->W:I
+    sget v2, Lcom/bareapps/barebackup/walls/WallsDashActivity;->W:I
 
     .line 76
     .line 77
@@ -220,7 +220,7 @@
     .line 78
     .line 79
     .line 80
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->X()Lro8;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/walls/WallsDashActivity;->X()Lro8;
 
     .line 81
     .line 82
@@ -377,7 +377,7 @@
     .line 156
     .line 157
     .line 158
-    iget-object v9, v0, Lorg/swiftapps/swiftbackup/walls/WallsDashActivity;->R:Lgv7;
+    iget-object v9, v0, Lcom/bareapps/barebackup/walls/WallsDashActivity;->R:Lgv7;
 
     .line 159
     .line 160
@@ -1235,7 +1235,7 @@
 
     .line 591
     :pswitch_4
-    check-cast v0, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;
+    check-cast v0, Lcom/bareapps/barebackup/walls/WallApplyActivity;
 
     .line 592
     .line 593
@@ -1247,11 +1247,11 @@
 
     .line 596
     .line 597
-    sget-object v1, Lorg/swiftapps/swiftbackup/walls/WallApplyActivity;->O:Lao8;
+    sget-object v1, Lcom/bareapps/barebackup/walls/WallApplyActivity;->O:Lao8;
 
     .line 598
     .line 599
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->x(Landroid/content/Context;)V
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->x(Landroid/content/Context;)V
 
     .line 600
     .line 601
@@ -1260,7 +1260,7 @@
 
     .line 603
     :pswitch_5
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 604
     .line 605
@@ -1268,7 +1268,7 @@
 
     .line 606
     .line 607
-    check-cast v1, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    check-cast v1, Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 608
     .line 609
@@ -1280,11 +1280,11 @@
     move-object v2, v0
 
     .line 613
-    check-cast v2, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    check-cast v2, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 614
     .line 615
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->getLocations()Ljava/util/List;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->getLocations()Ljava/util/List;
 
     .line 616
     .line 617
@@ -1304,7 +1304,7 @@
 
     .line 624
     .line 625
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;->WIFI:Lorg/swiftapps/swiftbackup/tasks/model/SyncOption;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/model/SyncOption;->WIFI:Lcom/bareapps/barebackup/tasks/model/SyncOption;
 
     .line 626
     .line 627
@@ -1358,7 +1358,7 @@
     const/4 v8, 0x0
 
     .line 646
-    invoke-static/range {v2 .. v10}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    invoke-static/range {v2 .. v10}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;->copy$default(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;Ljava/lang/String;Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 647
     .line 648
@@ -1724,7 +1724,7 @@
 
     .line 824
     .line 825
-    sget v2, Lorg/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
+    sget v2, Lcom/bareapps/barebackup/messagescalls/backuprestore/MessagesBackupRestoreActivity;->c0:I
 
     .line 826
     .line 827
@@ -1782,7 +1782,7 @@
 
     .line 854
     :pswitch_a
-    check-cast v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    check-cast v0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 855
     .line 856
@@ -1794,7 +1794,7 @@
 
     .line 859
     .line 860
-    sget v2, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v2, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 861
     .line 862
@@ -1869,7 +1869,7 @@
 
     .line 900
     :pswitch_b
-    check-cast v0, Lorg/swiftapps/swiftbackup/intro/d;
+    check-cast v0, Lcom/bareapps/barebackup/intro/d;
 
     .line 901
     .line 902
@@ -1965,11 +1965,11 @@
     .line 945
     .line 946
     .line 947
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 948
     .line 949
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 950
     .line 951
@@ -2034,7 +2034,7 @@
 
     .line 979
     .line 980
-    sget-object v1, Lorg/swiftapps/swiftbackup/intro/d$b;->SIGNED_IN:Lorg/swiftapps/swiftbackup/intro/d$b;
+    sget-object v1, Lcom/bareapps/barebackup/intro/d$b;->SIGNED_IN:Lcom/bareapps/barebackup/intro/d$b;
 
     .line 981
     .line 982
@@ -2042,12 +2042,12 @@
 
     .line 983
     :cond_15
-    sget-object v1, Lorg/swiftapps/swiftbackup/intro/d$b;->NOT_SIGNED_IN:Lorg/swiftapps/swiftbackup/intro/d$b;
+    sget-object v1, Lcom/bareapps/barebackup/intro/d$b;->NOT_SIGNED_IN:Lcom/bareapps/barebackup/intro/d$b;
 
     .line 984
     .line 985
     :goto_e
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/intro/d;->p(Lorg/swiftapps/swiftbackup/intro/d$b;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/intro/d;->p(Lcom/bareapps/barebackup/intro/d$b;)V
 
     .line 986
     .line 987
@@ -2056,7 +2056,7 @@
 
     .line 989
     :pswitch_c
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast v0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 990
     .line 991
@@ -2068,7 +2068,7 @@
 
     .line 994
     .line 995
-    sget-object v2, Lorg/swiftapps/swiftbackup/home/HomeActivity;->b0:Ljava/util/Map;
+    sget-object v2, Lcom/bareapps/barebackup/home/HomeActivity;->b0:Ljava/util/Map;
 
     .line 996
     .line 997
@@ -2158,7 +2158,7 @@
 
     .line 1040
     :pswitch_d
-    check-cast v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;
 
     .line 1041
     .line 1042
@@ -2170,7 +2170,7 @@
 
     .line 1045
     .line 1046
-    sget v2, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Y:I
+    sget v2, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Y:I
 
     .line 1047
     .line 1048
@@ -2229,7 +2229,7 @@
     .line 1075
     .line 1076
     .line 1077
-    iget-object v2, v0, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
+    iget-object v2, v0, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->V:Lcp3;
 
     .line 1078
     .line 1079
@@ -2249,7 +2249,7 @@
 
     .line 1086
     .line 1087
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->W()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->W()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 1088
     .line 1089
@@ -2263,7 +2263,7 @@
     .line 1093
     .line 1094
     :cond_16
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->b0()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->b0()V
 
     .line 1095
     .line 1096
@@ -2276,7 +2276,7 @@
     move-result v1
 
     .line 1101
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/folders/ui/batch/FoldersBatchActivity;->Z(Z)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/folders/ui/batch/FoldersBatchActivity;->Z(Z)V
 
     .line 1102
     .line 1103
@@ -2339,7 +2339,7 @@
 
     .line 1130
     .line 1131
-    invoke-virtual {v0}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v0}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 1132
     .line 1133
@@ -2347,7 +2347,7 @@
     move-result-object v0
 
     .line 1135
-    invoke-virtual {v0}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v0}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 1136
     .line 1137
@@ -2389,7 +2389,7 @@
     .line 1154
     .line 1155
     .line 1156
-    iget-object v0, v0, Lrj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v0, v0, Lrj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 1157
     .line 1158
@@ -2397,7 +2397,7 @@
 
     .line 1159
     .line 1160
-    invoke-virtual {v0, v1, v2}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->d0(Landroid/view/View;Liu;)V
+    invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/detail/DetailActivity;->d0(Landroid/view/View;Liu;)V
 
     .line 1161
     .line 1162
@@ -2490,7 +2490,7 @@
 
     .line 1201
     .line 1202
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 1203
     .line 1204
@@ -2498,7 +2498,7 @@
 
     .line 1205
     .line 1206
-    invoke-virtual {v0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 1207
     .line 1208
@@ -2550,7 +2550,7 @@
 
     .line 1233
     .line 1234
-    invoke-virtual {v0}, Lx92;->l()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {v0}, Lx92;->l()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 1235
     .line 1236
@@ -2598,7 +2598,7 @@
 
     .line 1259
     .line 1260
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 1261
     .line 1262
@@ -2724,7 +2724,7 @@
 
     .line 1324
     .line 1325
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 1326
     .line 1327
@@ -2757,7 +2757,7 @@
 
     .line 1341
     .line 1342
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 1343
     .line 1344
@@ -3350,7 +3350,7 @@
 
     .line 1624
     :pswitch_14
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;
 
     .line 1625
     .line 1626
@@ -3358,11 +3358,11 @@
 
     .line 1627
     .line 1628
-    check-cast v1, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v1, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 1629
     .line 1630
-    iget-object v1, v0, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->T:Lgv7;
+    iget-object v1, v0, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->T:Lgv7;
 
     .line 1631
     .line 1632
@@ -3378,7 +3378,7 @@
 
     .line 1637
     .line 1638
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
 
     .line 1639
     .line 1640
@@ -3386,7 +3386,7 @@
     move-result-object v2
 
     .line 1642
-    invoke-virtual {v2}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v2}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 1643
     .line 1644
@@ -3394,7 +3394,7 @@
     move-result-object v2
 
     .line 1646
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getApplyData()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getApplyData()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;
 
     .line 1647
     .line 1648
@@ -3402,7 +3402,7 @@
     move-result-object v2
 
     .line 1650
-    invoke-virtual {v1, v2}, Ltq1;->a(Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings$ApplyData;)V
+    invoke-virtual {v1, v2}, Ltq1;->a(Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings$ApplyData;)V
 
     .line 1651
     .line 1652
@@ -3416,7 +3416,7 @@
     .line 1656
     .line 1657
     .line 1658
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appconfigs/settings/ConfigSettingsActivity;->U()Lmr1;
 
     .line 1659
     .line 1660
@@ -3424,7 +3424,7 @@
     move-result-object v2
 
     .line 1662
-    invoke-virtual {v2}, Lmr1;->j()Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    invoke-virtual {v2}, Lmr1;->j()Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 1663
     .line 1664
@@ -3592,7 +3592,7 @@
 
     .line 1741
     .line 1742
-    check-cast v0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 1743
     .line 1744
@@ -3604,7 +3604,7 @@
 
     .line 1747
     .line 1748
-    sget v2, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
+    sget v2, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->s0:I
 
     .line 1749
     .line 1750
@@ -3641,7 +3641,7 @@
 
     .line 1766
     .line 1767
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->l0()Lr20;
 
     .line 1768
     .line 1769
@@ -3649,7 +3649,7 @@
     move-result-object v1
 
     .line 1771
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
+    iget-object v0, v0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->m0:Ll20;
 
     .line 1772
     .line 1773
@@ -3709,7 +3709,7 @@
 
     .line 1800
     :cond_2e
-    sget v2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 1801
     .line 1802

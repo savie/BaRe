@@ -33,7 +33,7 @@
 
     .line 12
     .line 13
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;
 
     .line 14
     .line 15

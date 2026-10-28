@@ -291,7 +291,7 @@
     .line 92
     :cond_1
     :goto_3
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;->Companion:Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/StorageInfoLocal;->Companion:Lcom/bareapps/barebackup/model/StorageInfoLocal$a;
 
     .line 93
     .line 94
@@ -312,7 +312,7 @@
 
     .line 101
     :goto_4
-    invoke-virtual {v0, v5, v6}, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$a;->create(Lq63;Z)Lorg/swiftapps/swiftbackup/model/StorageInfoLocal;
+    invoke-virtual {v0, v5, v6}, Lcom/bareapps/barebackup/model/StorageInfoLocal$a;->create(Lq63;Z)Lcom/bareapps/barebackup/model/StorageInfoLocal;
 
     .line 102
     .line 103
@@ -320,7 +320,7 @@
     move-result-object v0
 
     .line 105
-    instance-of v5, v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    instance-of v5, v0, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 106
     .line 107
@@ -328,7 +328,7 @@
 
     .line 108
     .line 109
-    check-cast v0, Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;
+    check-cast v0, Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;
 
     .line 110
     .line 111
@@ -360,7 +360,7 @@
     move-result-object v7
 
     .line 123
-    invoke-direct {v5, v4, v0, v6, v7}, Lso7;-><init>(Lzn7;Lorg/swiftapps/swiftbackup/model/StorageInfoLocal$Success;ZLjava/lang/String;)V
+    invoke-direct {v5, v4, v0, v6, v7}, Lso7;-><init>(Lzn7;Lcom/bareapps/barebackup/model/StorageInfoLocal$Success;ZLjava/lang/String;)V
 
     .line 124
     .line 125
@@ -689,7 +689,7 @@
     .line 278
     .line 279
     .line 280
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->P()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->P()V
 
     .line 281
     .line 282

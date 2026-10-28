@@ -235,7 +235,7 @@
     move-result-object v0
 
     .line 67
-    new-instance v3, Lorg/swiftapps/swiftbackup/home/cloud/CloudBackupTag;
+    new-instance v3, Lcom/bareapps/barebackup/home/cloud/CloudBackupTag;
 
     .line 68
     .line 69
@@ -262,7 +262,7 @@
     const/4 v7, 0x0
 
     .line 78
-    invoke-direct/range {v3 .. v10}, Lorg/swiftapps/swiftbackup/home/cloud/CloudBackupTag;-><init>(Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    invoke-direct/range {v3 .. v10}, Lcom/bareapps/barebackup/home/cloud/CloudBackupTag;-><init>(Ljava/util/List;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 
     .line 79
     .line 80
@@ -378,7 +378,7 @@
 
     .line 133
     .line 134
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->P()V
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->P()V
 
     .line 135
     .line 136

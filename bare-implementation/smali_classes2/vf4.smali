@@ -7,13 +7,13 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/intro/d;
+.field public final synthetic a:Lcom/bareapps/barebackup/intro/d;
 
 .field public final synthetic b:Z
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/intro/d;Z)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/intro/d;Z)V
     .locals 0
 
     .line 1
@@ -22,7 +22,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lvf4;->a:Lorg/swiftapps/swiftbackup/intro/d;
+    iput-object p1, p0, Lvf4;->a:Lcom/bareapps/barebackup/intro/d;
 
     .line 5
     .line 6
@@ -42,15 +42,15 @@
     const/4 v0, 0x0
 
     .line 2
-    iget-object v1, p0, Lvf4;->a:Lorg/swiftapps/swiftbackup/intro/d;
+    iget-object v1, p0, Lvf4;->a:Lcom/bareapps/barebackup/intro/d;
 
     .line 3
     .line 4
-    iput-object v0, v1, Lorg/swiftapps/swiftbackup/intro/d;->e:Lbl7;
+    iput-object v0, v1, Lcom/bareapps/barebackup/intro/d;->e:Lbl7;
 
     .line 5
     .line 6
-    iget-object v0, v1, Lorg/swiftapps/swiftbackup/intro/d;->k:Lex6;
+    iget-object v0, v1, Lcom/bareapps/barebackup/intro/d;->k:Lex6;
 
     .line 7
     .line 8
@@ -62,7 +62,7 @@
 
     .line 11
     .line 12
-    sget-object p0, Lorg/swiftapps/swiftbackup/intro/d$a;->SUCCESS:Lorg/swiftapps/swiftbackup/intro/d$a;
+    sget-object p0, Lcom/bareapps/barebackup/intro/d$a;->SUCCESS:Lcom/bareapps/barebackup/intro/d$a;
 
     .line 13
     .line 14
@@ -70,7 +70,7 @@
 
     .line 15
     :cond_0
-    sget-object p0, Lorg/swiftapps/swiftbackup/intro/d$a;->FAILED:Lorg/swiftapps/swiftbackup/intro/d$a;
+    sget-object p0, Lcom/bareapps/barebackup/intro/d$a;->FAILED:Lcom/bareapps/barebackup/intro/d$a;
 
     .line 16
     .line 17

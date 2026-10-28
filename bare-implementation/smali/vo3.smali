@@ -56,7 +56,7 @@
     .line 8
     .line 9
     .line 10
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 11
     .line 12
@@ -73,7 +73,7 @@
     .line 17
     .line 18
     .line 19
-    sget p2, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget p2, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 20
     .line 21
@@ -82,7 +82,7 @@
     .line 22
     .line 23
     .line 24
-    iget-object p1, p1, Lvq4;->a:Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelParams;
+    iget-object p1, p1, Lvq4;->a:Lcom/bareapps/barebackup/appslist/ui/labels/LabelParams;
 
     .line 25
     .line 26
@@ -91,11 +91,11 @@
     .line 27
     .line 28
     .line 29
-    sget-object p2, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object p2, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 30
     .line 31
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 32
     .line 33
@@ -136,7 +136,7 @@
 
     .line 50
     .line 51
-    const-class v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelEditActivity;
+    const-class v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelEditActivity;
 
     .line 52
     .line 53
@@ -164,7 +164,7 @@
 
     .line 65
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;
 
     .line 66
     .line 67
@@ -181,7 +181,7 @@
     .line 72
     .line 73
     .line 74
-    sget-object p2, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
+    sget-object p2, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->X:Landroid/view/animation/PathInterpolator;
 
     .line 75
     .line 76
@@ -190,7 +190,7 @@
     .line 77
     .line 78
     .line 79
-    invoke-virtual {p0, p1}, Lorg/swiftapps/swiftbackup/home/search/HomeSearchActivity;->Z(Ls54;)V
+    invoke-virtual {p0, p1}, Lcom/bareapps/barebackup/home/search/HomeSearchActivity;->Z(Ls54;)V
 
     .line 80
     .line 81
@@ -199,7 +199,7 @@
 
     .line 83
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;
 
     .line 84
     .line 85
@@ -282,7 +282,7 @@
     .line 126
     .line 127
     .line 128
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FoldersDashActivity;->U:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FoldersDashActivity;->U:I
 
     .line 129
     .line 130

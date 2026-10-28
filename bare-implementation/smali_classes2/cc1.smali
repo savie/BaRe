@@ -11,11 +11,11 @@
 
 .field public final b:Lcom/google/android/material/button/MaterialButton;
 
-.field public final c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final d:Landroid/widget/ImageView;
 
-.field public final e:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+.field public final e:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
 .field public final f:Lcom/google/android/flexbox/FlexboxLayout;
 
@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;Lcom/google/android/flexbox/FlexboxLayout;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/ProviderChipGroup;Lcom/google/android/flexbox/FlexboxLayout;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -44,7 +44,7 @@
 
     .line 7
     .line 8
-    iput-object p3, p0, Lcc1;->c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p3, p0, Lcc1;->c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 9
     .line 10
@@ -52,7 +52,7 @@
 
     .line 11
     .line 12
-    iput-object p5, p0, Lcc1;->e:Lorg/swiftapps/swiftbackup/views/ProviderChipGroup;
+    iput-object p5, p0, Lcc1;->e:Lcom/bareapps/barebackup/views/ProviderChipGroup;
 
     .line 13
     .line 14

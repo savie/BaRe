@@ -9,9 +9,9 @@
 # instance fields
 .field public final a:Lcom/google/android/material/listitem/ListItemLayout;
 
-.field public final b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+.field public final b:Lcom/bareapps/barebackup/views/MCheckBox;
 
-.field public final c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+.field public final c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
 .field public final d:Landroid/widget/ImageView;
 
@@ -27,7 +27,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lorg/swiftapps/swiftbackup/views/MCheckBox;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/google/android/material/listitem/ListItemLayout;Lcom/bareapps/barebackup/views/MCheckBox;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     .line 1
@@ -40,11 +40,11 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Lxe1;->b:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iput-object p2, p0, Lxe1;->b:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 7
     .line 8
-    iput-object p3, p0, Lxe1;->c:Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;
+    iput-object p3, p0, Lxe1;->c:Lcom/bareapps/barebackup/views/BareListItemCardView;
 
     .line 9
     .line 10

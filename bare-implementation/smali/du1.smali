@@ -355,7 +355,7 @@
     .line 77
     .line 78
     .line 79
-    invoke-static {}, Lorg/swiftapps/swiftbackup/common/Const;->n()Ljava/lang/String;
+    invoke-static {}, Lcom/bareapps/barebackup/common/Const;->n()Ljava/lang/String;
 
     .line 80
     .line 81
@@ -405,7 +405,7 @@
     .line 103
     .line 104
     .line 105
-    check-cast v2, Lorg/swiftapps/swiftbackup/settings/SettingsDetailActivity;
+    check-cast v2, Lcom/bareapps/barebackup/settings/SettingsDetailActivity;
 
     .line 106
     .line 107

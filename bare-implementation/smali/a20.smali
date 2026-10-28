@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:Z
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(ZLorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;)V
+.method public synthetic constructor <init>(ZLcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, La20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iput-object p2, p0, La20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 7
     .line 8
@@ -89,11 +89,11 @@
     .line 23
     .line 24
     .line 25
-    iget-object p0, p0, La20;->b:Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;
+    iget-object p0, p0, La20;->b:Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;
 
     .line 26
     .line 27
-    iget-object p0, p0, Lorg/swiftapps/swiftbackup/appslist/ui/listbatch/AppsBatchActivity;->r0:Lkm5;
+    iget-object p0, p0, Lcom/bareapps/barebackup/appslist/ui/listbatch/AppsBatchActivity;->r0:Lkm5;
 
     .line 28
     .line 29

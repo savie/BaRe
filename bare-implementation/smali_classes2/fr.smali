@@ -72,7 +72,7 @@
 
     .line 13
     .line 14
-    check-cast v3, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v3, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 15
     .line 16
@@ -80,11 +80,11 @@
 
     .line 17
     .line 18
-    iget-object p1, v3, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p1, v3, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 19
     .line 20
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsQuickActions;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsQuickActions;
 
     .line 21
     .line 22
@@ -99,7 +99,7 @@
 
     .line 26
     :cond_0
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppsLabels;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppsLabels;
 
     .line 27
     .line 28
@@ -111,7 +111,7 @@
 
     .line 31
     :cond_1
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$AppConfig;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$AppConfig;
 
     .line 32
     .line 33
@@ -123,7 +123,7 @@
 
     .line 36
     :cond_2
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Messages;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Messages;
 
     .line 37
     .line 38
@@ -138,7 +138,7 @@
 
     .line 42
     :cond_3
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$CallLogs;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$CallLogs;
 
     .line 43
     .line 44
@@ -153,7 +153,7 @@
 
     .line 48
     :cond_4
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Folders;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Folders;
 
     .line 49
     .line 50
@@ -165,7 +165,7 @@
 
     .line 53
     :cond_5
-    instance-of v0, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wallpapers;
+    instance-of v0, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wallpapers;
 
     .line 54
     .line 55
@@ -177,7 +177,7 @@
 
     .line 58
     :cond_6
-    instance-of p1, p1, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Wifi;
+    instance-of p1, p1, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Wifi;
 
     .line 59
     .line 60
@@ -191,7 +191,7 @@
     .line 63
     .line 64
     .line 65
-    sget p1, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;->P:I
+    sget p1, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;->P:I
 
     .line 66
     .line 67
@@ -207,7 +207,7 @@
 
     .line 72
     .line 73
-    const-class v2, Lorg/swiftapps/swiftbackup/tasks/PreconditionsActivity;
+    const-class v2, Lcom/bareapps/barebackup/tasks/PreconditionsActivity;
 
     .line 74
     .line 75
@@ -310,11 +310,11 @@
 
     .line 122
     .line 123
-    iget-object v6, p0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v6, p0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 124
     .line 125
-    iget-object p1, v6, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->S:Lgv7;
+    iget-object p1, v6, Lcom/bareapps/barebackup/detail/DetailActivity;->S:Lgv7;
 
     .line 126
     .line 127
@@ -397,7 +397,7 @@
     .line 164
     .line 165
     .line 166
-    iget-object v11, v6, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->a0:Lfu;
+    iget-object v11, v6, Lcom/bareapps/barebackup/detail/DetailActivity;->a0:Lfu;
 
     .line 167
     .line 168
@@ -535,7 +535,7 @@
 
     .line 232
     .line 233
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 234
     .line 235
@@ -572,7 +572,7 @@
     .line 250
     .line 251
     .line 252
-    invoke-static {p1, v0, v1, v2}, Lorg/swiftapps/swiftbackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
+    invoke-static {p1, v0, v1, v2}, Lcom/bareapps/barebackup/common/Const;->I(Lzm;Ljava/lang/String;Ljava/lang/String;Lbt3;)V
 
     .line 253
     .line 254
@@ -581,7 +581,7 @@
 
     .line 256
     :pswitch_5
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 257
     .line 258
@@ -589,11 +589,11 @@
 
     .line 259
     .line 260
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;->T:I
 
     .line 261
     .line 262
-    sget p1, Lorg/swiftapps/swiftbackup/messagescalls/backups/CallsBackupsActivity;->T:I
+    sget p1, Lcom/bareapps/barebackup/messagescalls/backups/CallsBackupsActivity;->T:I
 
     .line 263
     .line 264
@@ -647,7 +647,7 @@
 
     .line 287
     .line 288
-    iget-object v0, p0, Ltr;->T:Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    iget-object v0, p0, Ltr;->T:Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 289
     .line 290

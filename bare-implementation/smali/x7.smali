@@ -152,11 +152,11 @@
 
     .line 49
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 50
     .line 51
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 52
     .line 53
@@ -201,7 +201,7 @@
     move-result v0
 
     .line 74
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 75
     .line 76
@@ -246,7 +246,7 @@
     move-result v1
 
     .line 97
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 98
     .line 99
@@ -254,7 +254,7 @@
     move-result-object v2
 
     .line 101
-    iget-object v2, v2, Lw44;->f:Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+    iget-object v2, v2, Lw44;->f:Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
     .line 102
     .line 103
@@ -280,7 +280,7 @@
 
     .line 112
     :cond_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 113
     .line 114
@@ -308,7 +308,7 @@
     move-result v3
 
     .line 126
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 127
     .line 128
@@ -316,7 +316,7 @@
     move-result-object v4
 
     .line 130
-    iget-object v4, v4, Lw44;->f:Lorg/swiftapps/swiftbackup/views/NoSwipeViewPager;
+    iget-object v4, v4, Lw44;->f:Lcom/bareapps/barebackup/views/NoSwipeViewPager;
 
     .line 131
     .line 132
@@ -346,7 +346,7 @@
 
     .line 142
     :goto_1
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 143
     .line 144
@@ -439,7 +439,7 @@
 
     .line 187
     .line 188
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 189
     .line 190
@@ -455,7 +455,7 @@
 
     .line 195
     .line 196
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->h0()V
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->h0()V
 
     .line 197
     .line 198

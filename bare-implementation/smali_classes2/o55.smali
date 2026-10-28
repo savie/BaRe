@@ -7,7 +7,7 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
 .field public final synthetic b:Lry5;
 
@@ -17,7 +17,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;Lry5;Lu55;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/manage/ManageSpaceActivity;Lry5;Lu55;I)V
     .locals 0
 
     .line 1
@@ -26,7 +26,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lo55;->a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iput-object p1, p0, Lo55;->a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 5
     .line 6
@@ -51,7 +51,7 @@
     .locals 7
 
     .line 1
-    sget v0, Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;->O:I
+    sget v0, Lcom/bareapps/barebackup/manage/ManageSpaceActivity;->O:I
 
     .line 2
     .line 3
@@ -60,7 +60,7 @@
     .line 4
     .line 5
     .line 6
-    iget-object v4, p0, Lo55;->a:Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;
+    iget-object v4, p0, Lo55;->a:Lcom/bareapps/barebackup/manage/ManageSpaceActivity;
 
     .line 7
     .line 8
@@ -92,7 +92,7 @@
 
     .line 21
     .line 22
-    invoke-direct/range {v1 .. v6}, Lq55;-><init>(Lu55;Lry5;Lorg/swiftapps/swiftbackup/manage/ManageSpaceActivity;ILjv1;)V
+    invoke-direct/range {v1 .. v6}, Lq55;-><init>(Lu55;Lry5;Lcom/bareapps/barebackup/manage/ManageSpaceActivity;ILjv1;)V
 
     .line 23
     .line 24

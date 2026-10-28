@@ -461,7 +461,7 @@
     .locals 0
 
     .line 1
-    invoke-static {}, Ly35;->a()Lorg/swiftapps/swiftbackup/database/MDatabase;
+    invoke-static {}, Ly35;->a()Lcom/bareapps/barebackup/database/MDatabase;
 
     .line 2
     .line 3
@@ -469,7 +469,7 @@
     move-result-object p0
 
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/database/MDatabase;->m()Lkv6;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/database/MDatabase;->m()Lkv6;
 
     .line 6
     .line 7
@@ -626,11 +626,11 @@
     .line 45
     .line 46
     .line 47
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 48
     .line 49
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 50
     .line 51
@@ -1422,11 +1422,11 @@
 
     .line 105
     :goto_3
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 106
     .line 107
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 108
     .line 109

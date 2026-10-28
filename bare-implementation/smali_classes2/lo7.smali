@@ -9,7 +9,7 @@
 # instance fields
 .field public final synthetic a:Ljava/lang/Long;
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
 .field public final synthetic c:J
 
@@ -19,7 +19,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(Ljava/lang/Long;Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;JLjava/lang/String;Ljava/lang/String;)V
+.method public synthetic constructor <init>(Ljava/lang/Long;Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;JLjava/lang/String;Ljava/lang/String;)V
     .locals 0
 
     .line 1
@@ -32,7 +32,7 @@
 
     .line 5
     .line 6
-    iput-object p2, p0, Llo7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iput-object p2, p0, Llo7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 7
     .line 8
@@ -64,7 +64,7 @@
 
     .line 3
     .line 4
-    iget-object v2, p0, Llo7;->b:Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;
+    iget-object v2, p0, Llo7;->b:Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;
 
     .line 5
     .line 6
@@ -134,7 +134,7 @@
     const/4 v0, 0x1
 
     .line 42
-    invoke-direct {p0, v2, v0}, Ljo7;-><init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;I)V
+    invoke-direct {p0, v2, v0}, Ljo7;-><init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;I)V
 
     .line 43
     .line 44
@@ -185,7 +185,7 @@
 
     .line 67
     .line 68
-    sget v1, Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;->f0:I
+    sget v1, Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;->f0:I
 
     .line 69
     .line 70
@@ -239,7 +239,7 @@
 
     .line 95
     .line 96
-    invoke-virtual {v4}, Lq63;->n()Lorg/swiftapps/filesystem/File$FileType;
+    invoke-virtual {v4}, Lq63;->n()Lcom/bareapps/filesystem/File$FileType;
 
     .line 97
     .line 98
@@ -247,7 +247,7 @@
     move-result-object v4
 
     .line 100
-    invoke-virtual {v4}, Lorg/swiftapps/filesystem/File$FileType;->getFile()Ljava/io/File;
+    invoke-virtual {v4}, Lcom/bareapps/filesystem/File$FileType;->getFile()Ljava/io/File;
 
     .line 101
     .line 102
@@ -408,7 +408,7 @@
 
     .line 183
     .line 184
-    invoke-direct {p0, v2, v6}, Ljo7;-><init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;I)V
+    invoke-direct {p0, v2, v6}, Ljo7;-><init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;I)V
 
     .line 185
     .line 186
@@ -486,7 +486,7 @@
 
     .line 226
     .line 227
-    invoke-direct {p0, v2}, Lmo7;-><init>(Lorg/swiftapps/swiftbackup/home/storageswitch/StorageSwitchActivity;)V
+    invoke-direct {p0, v2}, Lmo7;-><init>(Lcom/bareapps/barebackup/home/storageswitch/StorageSwitchActivity;)V
 
     .line 228
     .line 229

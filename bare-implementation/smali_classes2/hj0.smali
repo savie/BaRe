@@ -79,7 +79,7 @@
 
     .line 29
     .line 30
-    check-cast p1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast p1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 31
     .line 32
@@ -127,7 +127,7 @@
 
     .line 55
     .line 56
-    new-instance p0, Lorg/swiftapps/swiftbackup/views/PreCachingGridLayoutManager;
+    new-instance p0, Lcom/bareapps/barebackup/views/PreCachingGridLayoutManager;
 
     .line 57
     .line 58
@@ -147,7 +147,7 @@
     const/4 v1, 0x2
 
     .line 66
-    invoke-direct {p0, v0, v1}, Lorg/swiftapps/swiftbackup/views/PreCachingGridLayoutManager;-><init>(Landroid/content/Context;I)V
+    invoke-direct {p0, v0, v1}, Lcom/bareapps/barebackup/views/PreCachingGridLayoutManager;-><init>(Landroid/content/Context;I)V
 
     .line 67
     .line 68

@@ -66,7 +66,7 @@
 
     .line 11
     .line 12
-    check-cast v0, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v0, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 13
     .line 14
@@ -78,11 +78,11 @@
 
     .line 17
     .line 18
-    iget-object p1, v0, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object p1, v0, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 19
     .line 20
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 21
     .line 22
@@ -104,7 +104,7 @@
 
     .line 29
     .line 30
-    check-cast v0, Lorg/swiftapps/swiftbackup/notice/NoticeItem;
+    check-cast v0, Lcom/bareapps/barebackup/notice/NoticeItem;
 
     .line 31
     .line 32
@@ -126,7 +126,7 @@
 
     .line 40
     :pswitch_1
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/LicensesActivity;
+    check-cast p0, Lcom/bareapps/barebackup/settings/LicensesActivity;
 
     .line 41
     .line 42
@@ -154,7 +154,7 @@
     move-result-object p1
 
     .line 54
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 55
     .line 56

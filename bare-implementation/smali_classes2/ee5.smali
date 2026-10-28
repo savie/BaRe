@@ -10,7 +10,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/home/HomeActivity;)V
     .locals 1
 
     .line 1
@@ -368,7 +368,7 @@
     .line 147
     .line 148
     :cond_6
-    iget-object v3, v2, Lz37;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v3, v2, Lz37;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 149
     .line 150
@@ -400,7 +400,7 @@
 
     .line 163
     .line 164
-    iput-boolean v4, v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->b1:Z
+    iput-boolean v4, v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;->b1:Z
 
     .line 165
     .line 166
@@ -408,7 +408,7 @@
 
     .line 167
     .line 168
-    iget-object v10, v2, Lz37;->y:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object v10, v2, Lz37;->y:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 169
     .line 170
@@ -860,7 +860,7 @@
     move-result-wide v7
 
     .line 390
-    invoke-static {v7, v8}, Lorg/swiftapps/swiftbackup/common/Const;->s(J)Ljava/lang/String;
+    invoke-static {v7, v8}, Lcom/bareapps/barebackup/common/Const;->s(J)Ljava/lang/String;
 
     .line 391
     .line 392

@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Ly42;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iput-object p1, p0, Ly42;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
@@ -43,7 +43,7 @@
 
     .line 2
     .line 3
-    iget-object p0, p0, Ly42;->b:Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;
+    iget-object p0, p0, Ly42;->b:Lcom/bareapps/barebackup/cloud/connect/CsActivity;
 
     .line 4
     .line 5
@@ -52,7 +52,7 @@
     .line 6
     .line 7
     .line 8
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 9
     .line 10
@@ -60,7 +60,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 13
     .line 14
@@ -72,11 +72,11 @@
 
     .line 17
     .line 18
-    sget-object v1, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v1, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 19
     .line 20
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 21
     .line 22
@@ -125,7 +125,7 @@
 
     .line 44
     .line 45
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->d0()Ldd1;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->d0()Ldd1;
 
     .line 46
     .line 47
@@ -235,7 +235,7 @@
     const/4 v1, 0x1
 
     .line 96
-    invoke-direct {v0, p0, v1}, Lv42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v0, p0, v1}, Lv42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     .line 97
     .line 98
@@ -247,12 +247,12 @@
     const/4 v2, 0x2
 
     .line 102
-    invoke-direct {v1, p0, v2}, Lq42;-><init>(Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;I)V
+    invoke-direct {v1, p0, v2}, Lq42;-><init>(Lcom/bareapps/barebackup/cloud/connect/CsActivity;I)V
 
     .line 103
     .line 104
     .line 105
-    invoke-virtual {p0, p1, v0, v1}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->o0(Ljava/lang/String;Lv42;Lbt3;)V
+    invoke-virtual {p0, p1, v0, v1}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->o0(Ljava/lang/String;Lv42;Lbt3;)V
 
     .line 106
     .line 107
@@ -261,7 +261,7 @@
 
     .line 109
     :cond_3
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->l0()Lm62;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->l0()Lm62;
 
     .line 110
     .line 111
@@ -279,7 +279,7 @@
 
     .line 117
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/CsActivity;->P0:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/CsActivity;->P0:I
 
     .line 118
     .line 119

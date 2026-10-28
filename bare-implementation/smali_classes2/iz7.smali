@@ -4,11 +4,11 @@
 
 
 # instance fields
-.field public final f:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+.field public final f:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;)V
     .locals 0
 
     .line 1
@@ -17,7 +17,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Liz7;->f:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iput-object p1, p0, Liz7;->f:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 5
     .line 6
@@ -58,7 +58,7 @@
 
     .line 14
     .line 15
-    iget-object p1, p1, Liz7;->f:Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;
+    iget-object p1, p1, Liz7;->f:Lcom/bareapps/barebackup/tasks/ui/TaskActivity;
 
     .line 16
     .line 17
@@ -101,7 +101,7 @@
 
     .line 35
     .line 36
-    invoke-direct {v1, p1, p2}, Lfz;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+    invoke-direct {v1, p1, p2}, Lfz;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
 
     .line 37
     .line 38
@@ -156,7 +156,7 @@
 
     .line 63
     .line 64
-    invoke-direct {p0, p1, p2}, Lif5;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+    invoke-direct {p0, p1, p2}, Lif5;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
 
     .line 65
     .line 66
@@ -212,7 +212,7 @@
 
     .line 92
     .line 93
-    invoke-direct {p0, p1, p2}, Lb21;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+    invoke-direct {p0, p1, p2}, Lb21;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
 
     .line 94
     .line 95
@@ -264,7 +264,7 @@
 
     .line 119
     .line 120
-    invoke-direct {p0, p1, p2, v3}, Lyp8;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;I)V
+    invoke-direct {p0, p1, p2, v3}, Lyp8;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;I)V
 
     .line 121
     .line 122
@@ -323,7 +323,7 @@
 
     .line 149
     .line 150
-    invoke-direct {p0, p1, p2, v4}, Lyp8;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;I)V
+    invoke-direct {p0, p1, p2, v4}, Lyp8;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;I)V
 
     .line 151
     .line 152
@@ -379,7 +379,7 @@
 
     .line 178
     .line 179
-    invoke-direct {v1, p1, p2}, Ltp3;-><init>(Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;Lcy7;)V
+    invoke-direct {v1, p1, p2}, Ltp3;-><init>(Lcom/bareapps/barebackup/tasks/ui/TaskActivity;Lcy7;)V
 
     .line 180
     .line 181
@@ -618,7 +618,7 @@
     move-object v11, v3
 
     .line 92
-    check-cast v11, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v11, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 93
     .line 94
@@ -833,7 +833,7 @@
 
     .line 200
     .line 201
-    invoke-direct/range {v4 .. v19}, Lcy7;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/view/View;Lcom/google/android/material/imageview/ShapeableImageView;Lcom/google/android/material/progressindicator/LinearProgressIndicator;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v4 .. v19}, Lcy7;-><init>(Lcom/google/android/material/card/MaterialCardView;Lcom/google/android/material/progressindicator/CircularProgressIndicator;Landroidx/constraintlayout/widget/ConstraintLayout;Landroid/view/View;Lcom/google/android/material/imageview/ShapeableImageView;Lcom/google/android/material/progressindicator/LinearProgressIndicator;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 202
     .line 203

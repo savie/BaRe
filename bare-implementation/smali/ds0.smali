@@ -4,7 +4,7 @@
 
 
 # direct methods
-.method public static a(Ljava/util/List;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+.method public static a(Ljava/util/List;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
     .locals 4
 
     .line 1
@@ -85,7 +85,7 @@
     move-object v2, v0
 
     .line 38
-    check-cast v2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v2, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 39
     .line 40
@@ -93,7 +93,7 @@
 
     .line 41
     .line 42
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 43
     .line 44
@@ -122,11 +122,11 @@
 
     .line 55
     :cond_2
-    new-instance p0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    new-instance p0, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 56
     .line 57
-    invoke-direct {p0, v1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;-><init>(Ljava/util/Map;)V
+    invoke-direct {p0, v1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;-><init>(Ljava/util/Map;)V
 
     .line 58
     .line 59

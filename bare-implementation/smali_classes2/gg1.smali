@@ -38,7 +38,7 @@
 
     .line 6
     .line 7
-    const-string v5, "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;"
+    const-string v5, "getCtx()Lcom/bareapps/barebackup/home/HomeActivity;"
 
     .line 8
     .line 9
@@ -142,7 +142,7 @@
 
 
 # virtual methods
-.method public final i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.method public final i()Lcom/bareapps/barebackup/home/HomeActivity;
     .locals 0
 
     .line 1
@@ -159,7 +159,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 9
     .line 10
@@ -922,7 +922,7 @@
     move-object v15, v8
 
     .line 105
-    check-cast v15, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v15, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 106
     .line 107
@@ -958,7 +958,7 @@
     move-object v10, v5
 
     .line 123
-    check-cast v10, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast v10, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 124
     .line 125
@@ -975,7 +975,7 @@
     move-result-object v8
 
     .line 132
-    check-cast v8, Lorg/swiftapps/swiftbackup/views/SwiftSegmentLinearLayout;
+    check-cast v8, Lcom/bareapps/barebackup/views/BareSegmentLinearLayout;
 
     .line 133
     .line 134
@@ -1145,7 +1145,7 @@
     move-object v9, v8
 
     .line 220
-    invoke-direct/range {v9 .. v18}, Ltf1;-><init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Landroid/widget/LinearLayout;Landroid/view/View;Landroidx/constraintlayout/widget/ConstraintLayout;Landroidx/recyclerview/widget/RecyclerView;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Lcom/google/android/material/button/MaterialButton;Lgm1;Landroid/widget/TextView;)V
+    invoke-direct/range {v9 .. v18}, Ltf1;-><init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Landroid/widget/LinearLayout;Landroid/view/View;Landroidx/constraintlayout/widget/ConstraintLayout;Landroidx/recyclerview/widget/RecyclerView;Lcom/bareapps/barebackup/views/QuickRecyclerView;Lcom/google/android/material/button/MaterialButton;Lgm1;Landroid/widget/TextView;)V
 
     .line 221
     .line 222
@@ -1225,7 +1225,7 @@
     move-result-object v9
 
     .line 262
-    check-cast v9, Lorg/swiftapps/swiftbackup/views/SwiftSegmentLinearLayout;
+    check-cast v9, Lcom/bareapps/barebackup/views/BareSegmentLinearLayout;
 
     .line 263
     .line 264
@@ -1380,14 +1380,14 @@
     move-object v11, v5
 
     .line 341
-    check-cast v11, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast v11, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 342
     .line 343
     move-object v10, v9
 
     .line 344
-    invoke-direct/range {v10 .. v16}, Lxf1;-><init>(Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
+    invoke-direct/range {v10 .. v16}, Lxf1;-><init>(Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;Lcom/google/android/material/button/MaterialButton;Landroid/widget/ImageView;Lca2;Landroid/widget/TextView;Landroid/widget/TextView;)V
 
     .line 345
     .line 346
@@ -1734,7 +1734,7 @@
 
     .line 9
     .line 10
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 11
     .line 12
@@ -1767,7 +1767,7 @@
     move-result v1
 
     .line 27
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 28
     .line 29
@@ -1906,7 +1906,7 @@
     move-result-object p1
 
     .line 16
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 17
     .line 18
@@ -1952,7 +1952,7 @@
 
     .line 38
     .line 39
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 40
     .line 41
@@ -1977,7 +1977,7 @@
 
     .line 51
     .line 52
-    invoke-direct {p1, p2, v0}, Lwf1;-><init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Lxf1;)V
+    invoke-direct {p1, p2, v0}, Lwf1;-><init>(Lcom/bareapps/barebackup/home/HomeActivity;Lxf1;)V
 
     .line 53
     .line 54
@@ -1990,7 +1990,7 @@
 
     .line 58
     .line 59
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 60
     .line 61
@@ -2023,7 +2023,7 @@
     move-result-object v1
 
     .line 76
-    invoke-direct {p1, p2, v0, v1}, Luj1;-><init>(Lorg/swiftapps/swiftbackup/home/HomeActivity;Ltf1;Lng1;)V
+    invoke-direct {p1, p2, v0, v1}, Luj1;-><init>(Lcom/bareapps/barebackup/home/HomeActivity;Ltf1;Lng1;)V
 
     .line 77
     .line 78
@@ -2191,7 +2191,7 @@
     .line 162
     .line 163
     .line 164
-    invoke-virtual {p0}, Lgg1;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lgg1;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 165
     .line 166
@@ -2199,7 +2199,7 @@
     move-result-object p1
 
     .line 168
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->a0()Lc64;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/home/HomeActivity;->a0()Lc64;
 
     .line 169
     .line 170

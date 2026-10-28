@@ -11,13 +11,13 @@
 
 .field public final synthetic b:Ljava/util/List;
 
-.field public final synthetic c:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.field public final synthetic c:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
 .field public final synthetic d:Lbt3;
 
 
 # direct methods
-.method public constructor <init>(Landroid/widget/LinearLayout;ZLjava/util/List;Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Lbt3;)V
+.method public constructor <init>(Landroid/widget/LinearLayout;ZLjava/util/List;Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Lbt3;)V
     .locals 0
 
     .line 1
@@ -34,7 +34,7 @@
 
     .line 7
     .line 8
-    iput-object p4, p0, Lc37;->c:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iput-object p4, p0, Lc37;->c:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 9
     .line 10
@@ -129,7 +129,7 @@
     move-result v6
 
     .line 38
-    iget-object v7, p0, Lc37;->c:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object v7, p0, Lc37;->c:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 39
     .line 40
@@ -167,7 +167,7 @@
     mul-long/2addr v9, v11
 
     .line 56
-    sget-object v5, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object v5, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 57
     .line 58
@@ -258,7 +258,7 @@
 
     .line 96
     .line 97
-    invoke-direct {v9, v6, v7}, Lt85;-><init>(Landroid/view/View;Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;)V
+    invoke-direct {v9, v6, v7}, Lt85;-><init>(Landroid/view/View;Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;)V
 
     .line 98
     .line 99
@@ -314,7 +314,7 @@
 
     .line 124
     .line 125
-    invoke-direct {v2, v7, v0, v1, p0}, Ld37;-><init>(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/AnimatorSet;Ljava/util/List;Lbt3;)V
+    invoke-direct {v2, v7, v0, v1, p0}, Ld37;-><init>(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;Landroid/animation/AnimatorSet;Ljava/util/List;Lbt3;)V
 
     .line 126
     .line 127
@@ -324,7 +324,7 @@
     .line 129
     .line 130
     .line 131
-    iget-object p0, v7, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->d:Ljava/util/ArrayList;
+    iget-object p0, v7, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->d:Ljava/util/ArrayList;
 
     .line 132
     .line 133

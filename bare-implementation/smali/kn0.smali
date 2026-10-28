@@ -45,7 +45,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;I)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;I)V
     .locals 1
 
     const/4 v0, 0x1
@@ -81,15 +81,15 @@
     .line 6
     .line 7
     .line 8
-    check-cast v1, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;
+    check-cast v1, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;
 
     .line 9
     .line 10
-    sget v0, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->Z:I
+    sget v0, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->Z:I
 
     .line 11
     .line 12
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/ui/labels/LabelsActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/ui/labels/LabelsActivity;->P()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 13
     .line 14
@@ -124,7 +124,7 @@
     const/4 v0, 0x6
 
     .line 29
-    invoke-static {v0}, Lorg/swiftapps/swiftbackup/common/Const;->j(I)Landroid/view/animation/AlphaAnimation;
+    invoke-static {v0}, Lcom/bareapps/barebackup/common/Const;->j(I)Landroid/view/animation/AlphaAnimation;
 
     .line 30
     .line 31

@@ -210,7 +210,7 @@
 
     .line 19
     .line 20
-    const-string v1, "SwiftBackupApkSaver"
+    const-string v1, "BareBackupApkSaver"
 
     .line 21
     .line 22

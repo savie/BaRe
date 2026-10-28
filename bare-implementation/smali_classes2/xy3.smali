@@ -98,7 +98,7 @@
     move-result-object v0
 
     .line 38
-    const-class v1, Lorg/swiftapps/swiftbackup/home/schedule/data/GlobalScheduleError;
+    const-class v1, Lcom/bareapps/barebackup/home/schedule/data/GlobalScheduleError;
 
     .line 39
     .line 40

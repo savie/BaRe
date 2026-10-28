@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final d:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+.field public final d:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
 .field public final e:Ljava/util/ArrayList;
 
@@ -16,7 +16,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/wifi/WifiActivity;Ljava/util/ArrayList;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/wifi/WifiActivity;Ljava/util/ArrayList;)V
     .locals 0
 
     .line 1
@@ -25,7 +25,7 @@
     .line 2
     .line 3
     .line 4
-    iput-object p1, p0, Lh71;->d:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iput-object p1, p0, Lh71;->d:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 5
     .line 6
@@ -114,7 +114,7 @@
 
     .line 20
     .line 21
-    iget-object v5, v4, Lh71;->d:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object v5, v4, Lh71;->d:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 22
     .line 23
@@ -362,7 +362,7 @@
     .locals 7
 
     .line 1
-    iget-object p2, p0, Lh71;->d:Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    iget-object p2, p0, Lh71;->d:Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 2
     .line 3

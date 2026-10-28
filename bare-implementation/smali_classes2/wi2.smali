@@ -64,15 +64,15 @@
 
     .line 13
     :pswitch_0
-    check-cast p0, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+    check-cast p0, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;
 
     .line 14
     .line 15
-    sget p1, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->Z:I
+    sget p1, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->Z:I
 
     .line 16
     .line 17
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->X()Ldm3;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/folders/ui/FolderDetailActivity;->X()Ldm3;
 
     .line 18
     .line 19
@@ -128,7 +128,7 @@
 
     .line 43
     .line 44
-    sget p1, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->b0:I
+    sget p1, Lcom/bareapps/barebackup/detail/DetailActivity;->b0:I
 
     .line 45
     .line 46

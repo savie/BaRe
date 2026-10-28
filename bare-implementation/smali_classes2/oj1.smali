@@ -90,7 +90,7 @@
     .line 25
     .line 26
     .line 27
-    check-cast p0, Lorg/swiftapps/swiftbackup/settings/MSwitchPreference;
+    check-cast p0, Lcom/bareapps/barebackup/settings/MSwitchPreference;
 
     .line 28
     .line 29

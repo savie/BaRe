@@ -62,11 +62,11 @@
     .line 8
     .line 9
     .line 10
-    check-cast p2, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;
+    check-cast p2, Lcom/bareapps/barebackup/wifi/WifiActivity;
 
     .line 11
     .line 12
-    sget-object p1, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y:Let8;
+    sget-object p1, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y:Let8;
 
     .line 13
     .line 14
@@ -74,7 +74,7 @@
 
     .line 15
     .line 16
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y()Liu8;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y()Liu8;
 
     .line 17
     .line 18
@@ -104,7 +104,7 @@
 
     .line 31
     :cond_0
-    invoke-virtual {p2}, Lorg/swiftapps/swiftbackup/wifi/WifiActivity;->Y()Liu8;
+    invoke-virtual {p2}, Lcom/bareapps/barebackup/wifi/WifiActivity;->Y()Liu8;
 
     .line 32
     .line 33

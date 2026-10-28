@@ -137,11 +137,11 @@
 
     .line 18
     .line 19
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 20
     .line 21
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 22
     .line 23
@@ -279,11 +279,11 @@
 
     .line 17
     .line 18
-    sget-object v8, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v8, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 19
     .line 20
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 21
     .line 22
@@ -805,7 +805,7 @@
 
     .line 269
     :cond_8
-    const-string v9, "swiftbackup.calls.v3"
+    const-string v9, "barebackup.calls.v3"
 
     .line 270
     .line 271
@@ -967,11 +967,11 @@
 
     .line 343
     .line 344
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 345
     .line 346
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 347
     .line 348
@@ -1030,11 +1030,11 @@
     move-result-object v8
 
     .line 376
-    check-cast v8, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    check-cast v8, Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 377
     .line 378
-    invoke-virtual {v1, v0, v8, v6}, Lz11;->r(Lxf5;Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;I)V
+    invoke-virtual {v1, v0, v8, v6}, Lz11;->r(Lxf5;Lcom/bareapps/barebackup/model/provider/CallLogItem;I)V
 
     .line 379
     .line 380
@@ -1271,7 +1271,7 @@
     .locals 0
 
     .line 1
-    sget-object p0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object p0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
@@ -1295,11 +1295,11 @@
     .locals 2
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5
@@ -1360,11 +1360,11 @@
     .locals 13
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->Companion:Lorg/swiftapps/swiftbackup/model/provider/CallLogItem$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/provider/CallLogItem;->Companion:Lcom/bareapps/barebackup/model/provider/CallLogItem$a;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem$a;->getRESTORE_CONTENT_URIS()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/provider/CallLogItem$a;->getRESTORE_CONTENT_URIS()Ljava/util/List;
 
     .line 4
     .line 5
@@ -1426,11 +1426,11 @@
     .line 30
     .line 31
     :try_start_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 32
     .line 33
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 34
     .line 35
@@ -1577,7 +1577,7 @@
     return-object v4
 .end method
 
-.method public final r(Lxf5;Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;I)V
+.method public final r(Lxf5;Lcom/bareapps/barebackup/model/provider/CallLogItem;I)V
     .locals 74
 
     .line 1
@@ -1634,11 +1634,11 @@
 
     .line 26
     :try_start_0
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 27
     .line 28
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 29
     .line 30
@@ -1654,11 +1654,11 @@
     move-result-object v14
 
     .line 36
-    sget-object v0, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->Companion:Lorg/swiftapps/swiftbackup/model/provider/CallLogItem$a;
+    sget-object v0, Lcom/bareapps/barebackup/model/provider/CallLogItem;->Companion:Lcom/bareapps/barebackup/model/provider/CallLogItem$a;
 
     .line 37
     .line 38
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem$a;->getCONTENT_URI()Landroid/net/Uri;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/provider/CallLogItem$a;->getCONTENT_URI()Landroid/net/Uri;
 
     .line 39
     .line 40
@@ -1682,7 +1682,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getDate()J
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getDate()J
 
     .line 51
     .line 52
@@ -1698,7 +1698,7 @@
     move-result-object v0
 
     .line 58
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getNumber()Ljava/lang/String;
 
     .line 59
     .line 60
@@ -1706,7 +1706,7 @@
     move-result-object v3
 
     .line 62
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getType()I
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getType()I
 
     .line 63
     .line 64
@@ -1919,7 +1919,7 @@
     .line 149
     .line 150
     .line 151
-    invoke-virtual {v9, v14, v0}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->withPhoneAccountForRestore(ILmt3;)Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    invoke-virtual {v9, v14, v0}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->withPhoneAccountForRestore(ILmt3;)Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 152
     .line 153
@@ -2032,7 +2032,7 @@
 
     .line 207
     .line 208
-    invoke-static/range {v42 .. v73}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->copy$default(Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;JIILjava/lang/String;ILjava/lang/String;JJJILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    invoke-static/range {v42 .. v73}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->copy$default(Lcom/bareapps/barebackup/model/provider/CallLogItem;JIILjava/lang/String;ILjava/lang/String;JJJILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 209
     .line 210
@@ -2131,7 +2131,7 @@
 
     .line 254
     :cond_6
-    invoke-virtual {v9}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->getId()J
+    invoke-virtual {v9}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->getId()J
 
     .line 255
     .line 256
@@ -2312,7 +2312,7 @@
 
     .line 341
     :try_start_6
-    invoke-static/range {v9 .. v40}, Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;->copy$default(Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;JIILjava/lang/String;ILjava/lang/String;JJJILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;
+    invoke-static/range {v9 .. v40}, Lcom/bareapps/barebackup/model/provider/CallLogItem;->copy$default(Lcom/bareapps/barebackup/model/provider/CallLogItem;JIILjava/lang/String;ILjava/lang/String;JJJILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/bareapps/barebackup/model/provider/CallLogItem;
 
     .line 342
     .line 343
@@ -2324,7 +2324,7 @@
 
     .line 346
     .line 347
-    invoke-virtual {v2, v8, v0, v1}, Lz11;->r(Lxf5;Lorg/swiftapps/swiftbackup/model/provider/CallLogItem;I)V
+    invoke-virtual {v2, v8, v0, v1}, Lz11;->r(Lxf5;Lcom/bareapps/barebackup/model/provider/CallLogItem;I)V
     :try_end_6
     .catch Ljava/lang/Exception; {:try_start_6 .. :try_end_6} :catch_2
 
@@ -2377,11 +2377,11 @@
     .locals 8
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 2
     .line 3
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->c()Landroid/content/Context;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->c()Landroid/content/Context;
 
     .line 4
     .line 5

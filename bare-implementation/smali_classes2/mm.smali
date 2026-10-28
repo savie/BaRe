@@ -126,7 +126,7 @@
 
     .line 39
     .line 40
-    check-cast v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;
+    check-cast v0, Lcom/bareapps/barebackup/slog/SLogActivity;
 
     .line 41
     .line 42
@@ -142,11 +142,11 @@
 
     .line 47
     .line 48
-    sget v2, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->R:I
+    sget v2, Lcom/bareapps/barebackup/slog/SLogActivity;->R:I
 
     .line 49
     .line 50
-    iget-object v2, v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->P:Lgv7;
+    iget-object v2, v0, Lcom/bareapps/barebackup/slog/SLogActivity;->P:Lgv7;
 
     .line 51
     .line 52
@@ -182,7 +182,7 @@
     .line 66
     .line 67
     .line 68
-    iget-object v2, v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->N:Lgv7;
+    iget-object v2, v0, Lcom/bareapps/barebackup/slog/SLogActivity;->N:Lgv7;
 
     .line 69
     .line 70
@@ -218,7 +218,7 @@
     .line 84
     .line 85
     .line 86
-    iget-object v2, v0, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->O:Lgv7;
+    iget-object v2, v0, Lcom/bareapps/barebackup/slog/SLogActivity;->O:Lgv7;
 
     .line 87
     .line 88
@@ -270,7 +270,7 @@
 
     .line 111
     .line 112
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/slog/SLogActivity;->N()Landroidx/recyclerview/widget/RecyclerView;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/slog/SLogActivity;->N()Landroidx/recyclerview/widget/RecyclerView;
 
     .line 113
     .line 114
@@ -323,7 +323,7 @@
     .line 135
     .line 136
     .line 137
-    iget-object v1, v0, Lqj2;->a:Lorg/swiftapps/swiftbackup/detail/DetailActivity;
+    iget-object v1, v0, Lqj2;->a:Lcom/bareapps/barebackup/detail/DetailActivity;
 
     .line 138
     .line 139
@@ -377,7 +377,7 @@
     const/4 v5, 0x0
 
     .line 160
-    invoke-virtual/range {v1 .. v6}, Lorg/swiftapps/swiftbackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;Ljava/lang/String;)V
+    invoke-virtual/range {v1 .. v6}, Lcom/bareapps/barebackup/detail/DetailActivity;->c0(Landroid/view/View;Liu;Lhk;Lcom/bareapps/barebackup/model/app/AppCloudBackup;Ljava/lang/String;)V
 
     .line 161
     .line 162
@@ -561,11 +561,11 @@
 
     .line 249
     .line 250
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 251
     .line 252
-    sget-object v0, Lorg/swiftapps/swiftbackup/tasks/TaskService;->b:Lgz7;
+    sget-object v0, Lcom/bareapps/barebackup/tasks/TaskService;->b:Lgz7;
 
     .line 253
     .line 254

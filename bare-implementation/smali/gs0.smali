@@ -8,7 +8,7 @@
 
 .field public static b:Z
 
-.field public static c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+.field public static c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
 .field public static final d:Lgv7;
 
@@ -73,7 +73,7 @@
     .line 5
     .line 6
     .line 7
-    sget-object v0, Lgs0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    sget-object v0, Lgs0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 8
     .line 9
@@ -81,7 +81,7 @@
 
     .line 10
     .line 11
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;->getItems()Ljava/util/List;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;->getItems()Ljava/util/List;
 
     .line 12
     .line 13
@@ -125,11 +125,11 @@
     move-object v2, v1
 
     .line 32
-    check-cast v2, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v2, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 33
     .line 34
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getPackageName()Ljava/lang/String;
 
     .line 35
     .line 36
@@ -157,7 +157,7 @@
 
     .line 46
     :goto_0
-    check-cast v1, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;
+    check-cast v1, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;
 
     .line 47
     .line 48
@@ -165,7 +165,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistApp;->getBlackListType()I
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/blacklist/data/BlacklistApp;->getBlackListType()I
 
     .line 51
     .line 52
@@ -200,7 +200,7 @@
 
 
 # virtual methods
-.method public final declared-synchronized a()Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+.method public final declared-synchronized a()Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
     .locals 7
 
     .line 1
@@ -275,11 +275,11 @@
     move-result-object v0
 
     .line 34
-    check-cast v0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    check-cast v0, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 35
     .line 36
-    invoke-static {v0}, Les0;->a(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-static {v0}, Les0;->a(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 37
     .line 38
@@ -287,12 +287,12 @@
     move-result-object v0
 
     .line 40
-    invoke-virtual {p0, v0}, Lgs0;->e(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;)V
+    invoke-virtual {p0, v0}, Lgs0;->e(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;)V
 
     .line 41
     .line 42
     .line 43
-    sget-object v0, Lgs0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    sget-object v0, Lgs0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
     :try_end_1
     .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :catch_0
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
@@ -418,7 +418,7 @@
     .line 15
     .line 16
     .line 17
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 18
     .line 19
@@ -430,7 +430,7 @@
 
     .line 22
     .line 23
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 24
     .line 25
@@ -522,7 +522,7 @@
     .line 62
     .line 63
     .line 64
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 65
     .line 66
@@ -534,7 +534,7 @@
 
     .line 69
     .line 70
-    invoke-virtual {v3}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v3}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 71
     .line 72
@@ -642,7 +642,7 @@
 
     .line 116
     .line 117
-    const-class v3, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    const-class v3, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 118
     .line 119
@@ -654,11 +654,11 @@
     move-result-object v0
 
     .line 123
-    check-cast v0, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    check-cast v0, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 124
     .line 125
-    invoke-virtual {p0, v0, v1}, Lgs0;->d(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;Z)V
+    invoke-virtual {p0, v0, v1}, Lgs0;->d(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;Z)V
 
     .line 126
     .line 127
@@ -728,7 +728,7 @@
     .line 157
     :cond_7
     :goto_2
-    invoke-virtual {p0}, Lgs0;->a()Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-virtual {p0}, Lgs0;->a()Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 158
     .line 159
@@ -736,11 +736,11 @@
     return v2
 .end method
 
-.method public final d(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;Z)V
+.method public final d(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;Z)V
     .locals 3
 
     .line 1
-    invoke-static {p1}, Les0;->a(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-static {p1}, Les0;->a(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 2
     .line 3
@@ -798,7 +798,7 @@
     .line 28
     .line 29
     .line 30
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 31
     .line 32
@@ -810,7 +810,7 @@
 
     .line 35
     .line 36
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 37
     .line 38
@@ -871,7 +871,7 @@
     .line 60
     .line 61
     :cond_2
-    invoke-virtual {p0, p1}, Lgs0;->e(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;)V
+    invoke-virtual {p0, p1}, Lgs0;->e(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;)V
 
     .line 62
     .line 63
@@ -879,7 +879,7 @@
     return-void
 .end method
 
-.method public final declared-synchronized e(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;)V
+.method public final declared-synchronized e(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;)V
     .locals 2
 
     .line 1
@@ -897,7 +897,7 @@
 
     .line 6
     :try_start_0
-    invoke-static {p1, v0, v1, v0}, Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;->copy$default(Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;Ljava/util/Map;ILjava/lang/Object;)Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    invoke-static {p1, v0, v1, v0}, Lcom/bareapps/barebackup/blacklist/data/BlacklistData;->copy$default(Lcom/bareapps/barebackup/blacklist/data/BlacklistData;Ljava/util/Map;ILjava/lang/Object;)Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 7
     .line 8
@@ -917,7 +917,7 @@
     .line 13
     :cond_0
     :goto_0
-    sput-object v0, Lgs0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    sput-object v0, Lgs0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 14
     .line 15
@@ -937,7 +937,7 @@
 
     .line 22
     .line 23
-    sget-object v0, Lgs0;->c:Lorg/swiftapps/swiftbackup/blacklist/data/BlacklistData;
+    sget-object v0, Lgs0;->c:Lcom/bareapps/barebackup/blacklist/data/BlacklistData;
 
     .line 24
     .line 25

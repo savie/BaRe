@@ -122,7 +122,7 @@
 
     .line 41
     :pswitch_0
-    const-class v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;
+    const-class v0, Lcom/bareapps/barebackup/premium/PremiumActivity;
 
     .line 42
     .line 43

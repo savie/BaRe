@@ -4,17 +4,17 @@
 
 
 # instance fields
-.field public final synthetic a:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+.field public final synthetic a:Lcom/bareapps/barebackup/intro/IntroActivity;
 
 .field public final synthetic b:Landroid/text/style/URLSpan;
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/intro/IntroActivity;Landroid/text/style/URLSpan;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/intro/IntroActivity;Landroid/text/style/URLSpan;)V
     .locals 0
 
     .line 1
-    iput-object p1, p0, Lhf4;->a:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    iput-object p1, p0, Lhf4;->a:Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 2
     .line 3
@@ -58,11 +58,11 @@
     .line 11
     .line 12
     .line 13
-    iget-object p0, p0, Lhf4;->a:Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    iget-object p0, p0, Lhf4;->a:Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 14
     .line 15
-    invoke-static {p0, p1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
 
     .line 16
     .line 17

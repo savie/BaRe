@@ -13,7 +13,7 @@
 
 .field public final synthetic c:Lrf8;
 
-.field public final synthetic d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+.field public final synthetic d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
 .field public final synthetic e:Ljava/util/concurrent/ConcurrentHashMap;
 
@@ -25,7 +25,7 @@
 
 
 # direct methods
-.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
+.method public synthetic constructor <init>(La00;Lgz;Lrf8;Lcom/bareapps/barebackup/model/app/CloudMetadata;Ljava/util/concurrent/ConcurrentHashMap;Lkh6;JLkh6;)V
     .locals 0
 
     .line 1
@@ -46,7 +46,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lqz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iput-object p4, p0, Lqz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 11
     .line 12
@@ -163,11 +163,11 @@
     move-result-object v2
 
     .line 44
-    iget-object v0, v0, La00;->f:Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;
+    iget-object v0, v0, La00;->f:Lcom/bareapps/barebackup/model/app/LocalMetadata;
 
     .line 45
     .line 46
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/model/app/LocalMetadata;->getSplitsSizeMirrored()Ljava/lang/Long;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/model/app/LocalMetadata;->getSplitsSizeMirrored()Ljava/lang/Long;
 
     .line 47
     .line 48
@@ -191,11 +191,11 @@
     move-result-object v0
 
     .line 58
-    iget-object p0, p0, Lqz;->d:Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;
+    iget-object p0, p0, Lqz;->d:Lcom/bareapps/barebackup/model/app/CloudMetadata;
 
     .line 59
     .line 60
-    invoke-virtual {p0, v1, v2, v0}, Lorg/swiftapps/swiftbackup/model/app/CloudMetadata;->updateSplitsDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
+    invoke-virtual {p0, v1, v2, v0}, Lcom/bareapps/barebackup/model/app/CloudMetadata;->updateSplitsDetails(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V
 
     .line 61
     .line 62

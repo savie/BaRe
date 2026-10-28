@@ -74,15 +74,15 @@
 
     .line 21
     .line 22
-    check-cast p0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;
+    check-cast p0, Lcom/bareapps/barebackup/intro/IntroActivity;
 
     .line 23
     .line 24
-    sget v0, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/intro/IntroActivity;->V:I
 
     .line 25
     .line 26
-    invoke-virtual {p0, p1, p2}, Lorg/swiftapps/swiftbackup/intro/IntroActivity;->U(ZZ)V
+    invoke-virtual {p0, p1, p2}, Lcom/bareapps/barebackup/intro/IntroActivity;->U(ZZ)V
 
     .line 27
     .line 28
@@ -113,7 +113,7 @@
 
     .line 41
     .line 42
-    check-cast p0, Lorg/swiftapps/swiftbackup/messagescalls/dash/CallsDashActivity;
+    check-cast p0, Lcom/bareapps/barebackup/messagescalls/dash/CallsDashActivity;
 
     .line 43
     .line 44

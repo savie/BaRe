@@ -13,13 +13,13 @@
 
 .field public final c:Lra8;
 
-.field public final d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.field public final d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
 .field public final e:Landroidx/core/widget/NestedScrollView;
 
 
 # direct methods
-.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Landroid/widget/ImageView;Lra8;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Landroidx/core/widget/NestedScrollView;)V
+.method public constructor <init>(Landroidx/coordinatorlayout/widget/CoordinatorLayout;Landroid/widget/ImageView;Lra8;Lcom/bareapps/barebackup/views/QuickRecyclerView;Landroidx/core/widget/NestedScrollView;)V
     .locals 0
 
     .line 1
@@ -40,7 +40,7 @@
 
     .line 9
     .line 10
-    iput-object p4, p0, Lqa8;->d:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iput-object p4, p0, Lqa8;->d:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 11
     .line 12

@@ -406,15 +406,15 @@
     .line 85
     .line 86
     .line 87
-    iget-object v1, v1, Lks;->a:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v1, v1, Lks;->a:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 88
     .line 89
-    sget v6, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v6, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 90
     .line 91
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->j0()Landroidx/drawerlayout/widget/DrawerLayout;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->j0()Landroidx/drawerlayout/widget/DrawerLayout;
 
     .line 92
     .line 93
@@ -571,15 +571,15 @@
     .line 167
     .line 168
     .line 169
-    iget-object v1, v1, Lks;->a:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object v1, v1, Lks;->a:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 170
     .line 171
-    sget v3, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->q0:I
+    sget v3, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->q0:I
 
     .line 172
     .line 173
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;->j0()Landroidx/drawerlayout/widget/DrawerLayout;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;->j0()Landroidx/drawerlayout/widget/DrawerLayout;
 
     .line 174
     .line 175

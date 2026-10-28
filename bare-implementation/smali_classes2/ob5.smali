@@ -9,11 +9,11 @@
 # instance fields
 .field public final synthetic a:I
 
-.field public final synthetic b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+.field public final synthetic b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
 
 # direct methods
-.method public synthetic constructor <init>(Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;I)V
+.method public synthetic constructor <init>(Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;I)V
     .locals 0
 
     .line 1
@@ -21,7 +21,7 @@
 
     .line 2
     .line 3
-    iput-object p1, p0, Lob5;->b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    iput-object p1, p0, Lob5;->b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 4
     .line 5
@@ -53,7 +53,7 @@
     const/4 v3, -0x1
 
     .line 7
-    iget-object p0, p0, Lob5;->b:Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;
+    iget-object p0, p0, Lob5;->b:Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;
 
     .line 8
     .line 9
@@ -78,7 +78,7 @@
 
     .line 19
     .line 20
-    iget-object v0, p0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->M:Ldd1;
+    iget-object v0, p0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->M:Ldd1;
 
     .line 21
     .line 22
@@ -96,7 +96,7 @@
     .line 28
     .line 29
     .line 30
-    const-string v4, "org.swiftapps.swiftbackup.cloud.connect.extra.CLOUD_CONSTANT"
+    const-string v4, "com.bareapps.barebackup.cloud.connect.extra.CLOUD_CONSTANT"
 
     .line 31
     .line 32
@@ -130,7 +130,7 @@
 
     .line 47
     :cond_0
-    sget v0, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget v0, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 48
     .line 49
@@ -154,7 +154,7 @@
 
     .line 58
     :pswitch_0
-    sget p1, Lorg/swiftapps/swiftbackup/cloud/connect/MegaSignInActivity;->S:I
+    sget p1, Lcom/bareapps/barebackup/cloud/connect/MegaSignInActivity;->S:I
 
     .line 59
     .line 60

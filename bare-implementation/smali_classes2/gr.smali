@@ -448,7 +448,7 @@
 
     .line 204
     .line 205
-    check-cast v4, Lorg/swiftapps/swiftbackup/home/schedule/data/b;
+    check-cast v4, Lcom/bareapps/barebackup/home/schedule/data/b;
 
     .line 206
     .line 207
@@ -460,11 +460,11 @@
 
     .line 210
     .line 211
-    iget-object v1, v4, Lorg/swiftapps/swiftbackup/home/schedule/data/b;->q:Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;
+    iget-object v1, v4, Lcom/bareapps/barebackup/home/schedule/data/b;->q:Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;
 
     .line 212
     .line 213
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem;->getItemId()Ljava/lang/String;
 
     .line 214
     .line 215
@@ -511,18 +511,18 @@
 
     .line 235
     :pswitch_3
-    check-cast v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;
+    check-cast v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;
 
     .line 236
     .line 237
     move-object v7, v4
 
     .line 238
-    check-cast v7, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;
+    check-cast v7, Lcom/bareapps/barebackup/appconfigs/data/Config;
 
     .line 239
     .line 240
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivity;->U:Lgv7;
+    iget-object v0, v0, Lcom/bareapps/barebackup/appconfigs/edit/ConfigEditActivity;->U:Lgv7;
 
     .line 241
     .line 242
@@ -565,7 +565,7 @@
     .line 261
     .line 262
     .line 263
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
 
     .line 264
     .line 265
@@ -623,11 +623,11 @@
     move-result-object v6
 
     .line 290
-    check-cast v6, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v6, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 291
     .line 292
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
 
     .line 293
     .line 294
@@ -748,7 +748,7 @@
     .line 348
     .line 349
     .line 350
-    invoke-direct/range {v5 .. v12}, Lk30;-><init>(Ljava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/Config;IIZII)V
+    invoke-direct/range {v5 .. v12}, Lk30;-><init>(Ljava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/Config;IIZII)V
 
     .line 351
     .line 352
@@ -758,7 +758,7 @@
     .line 354
     .line 355
     .line 356
-    invoke-virtual {v7}, Lorg/swiftapps/swiftbackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
+    invoke-virtual {v7}, Lcom/bareapps/barebackup/appconfigs/data/Config;->getValidSettings()Ljava/util/List;
 
     .line 357
     .line 358
@@ -816,11 +816,11 @@
     move-result-object v6
 
     .line 383
-    check-cast v6, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;
+    check-cast v6, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;
 
     .line 384
     .line 385
-    invoke-virtual {v6}, Lorg/swiftapps/swiftbackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
+    invoke-virtual {v6}, Lcom/bareapps/barebackup/appconfigs/data/ConfigSettings;->getAppParts()Ljava/util/List;
 
     .line 386
     .line 387
@@ -941,7 +941,7 @@
     .line 441
     .line 442
     .line 443
-    invoke-direct/range {v5 .. v12}, Lk30;-><init>(Ljava/lang/String;Lorg/swiftapps/swiftbackup/appconfigs/data/Config;IIZII)V
+    invoke-direct/range {v5 .. v12}, Lk30;-><init>(Ljava/lang/String;Lcom/bareapps/barebackup/appconfigs/data/Config;IIZII)V
 
     .line 444
     .line 445
@@ -959,11 +959,11 @@
     move-result-object v5
 
     .line 453
-    check-cast v5, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v5, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 454
     .line 455
-    invoke-virtual {v5, v2}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {v5, v2}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 456
     .line 457
@@ -976,7 +976,7 @@
     move-result-object v1
 
     .line 462
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 463
     .line 464

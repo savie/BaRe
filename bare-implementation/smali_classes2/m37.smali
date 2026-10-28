@@ -42,7 +42,7 @@
 
     .line 6
     .line 7
-    const-string v5, "getCtx()Lorg/swiftapps/swiftbackup/home/HomeActivity;"
+    const-string v5, "getCtx()Lcom/bareapps/barebackup/home/HomeActivity;"
 
     .line 8
     .line 9
@@ -249,7 +249,7 @@
 
 
 # virtual methods
-.method public final i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+.method public final i()Lcom/bareapps/barebackup/home/HomeActivity;
     .locals 0
 
     .line 1
@@ -266,7 +266,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p0, Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    check-cast p0, Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 9
     .line 10
@@ -321,7 +321,7 @@
     return-object p0
 .end method
 
-.method public final l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+.method public final l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
     .locals 0
 
     .line 1
@@ -346,18 +346,18 @@
 
     .line 11
     .line 12
-    check-cast p0, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast p0, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 13
     .line 14
     return-object p0
 .end method
 
-.method public final m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+.method public final m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
     .locals 0
 
     .line 1
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 2
     .line 3
@@ -365,7 +365,7 @@
     move-result-object p0
 
     .line 5
-    invoke-virtual {p0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {p0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 6
     .line 7
@@ -373,14 +373,14 @@
     move-result-object p0
 
     .line 9
-    iget-object p0, p0, Lw44;->e:Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    iget-object p0, p0, Lw44;->e:Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 10
     .line 11
     return-object p0
 .end method
 
-.method public final n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+.method public final n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
     .locals 0
 
     .line 1
@@ -397,7 +397,7 @@
 
     .line 7
     .line 8
-    iget-object p0, p0, Ln37;->f:Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    iget-object p0, p0, Ln37;->f:Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 9
     .line 10
@@ -717,7 +717,7 @@
     move-object v9, v4
 
     .line 81
-    check-cast v9, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v9, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 82
     .line 83
@@ -818,7 +818,7 @@
     move-result-object v13
 
     .line 134
-    check-cast v13, Lorg/swiftapps/swiftbackup/views/SwiftSegmentConstraintLayout;
+    check-cast v13, Lcom/bareapps/barebackup/views/BareSegmentConstraintLayout;
 
     .line 135
     .line 136
@@ -860,7 +860,7 @@
     move-result-object v13
 
     .line 156
-    check-cast v13, Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    check-cast v13, Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 157
     .line 158
@@ -960,7 +960,7 @@
 
     .line 207
     .line 208
-    check-cast v4, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast v4, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 209
     .line 210
@@ -1141,7 +1141,7 @@
     move-object v4, v0
 
     .line 299
-    invoke-direct/range {v3 .. v13}, Ln37;-><init>(Landroid/widget/FrameLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/card/MaterialCardView;Ley2;Lix0;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;Li75;Landroidx/core/widget/NestedScrollView;Lw00;Landroid/widget/TextView;)V
+    invoke-direct/range {v3 .. v13}, Ln37;-><init>(Landroid/widget/FrameLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/card/MaterialCardView;Ley2;Lix0;Lcom/bareapps/barebackup/views/QuickRecyclerView;Li75;Landroidx/core/widget/NestedScrollView;Lw00;Landroid/widget/TextView;)V
 
     .line 300
     .line 301
@@ -1527,7 +1527,7 @@
 
     .line 113
     .line 114
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 115
     .line 116
@@ -1535,7 +1535,7 @@
     move-result-object v0
 
     .line 118
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/home/HomeActivity;->Z()Lw44;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/home/HomeActivity;->Z()Lw44;
 
     .line 119
     .line 120
@@ -1585,7 +1585,7 @@
     .line 2
     .line 3
     .line 4
-    invoke-virtual {p0}, Lm37;->l()Lorg/swiftapps/swiftbackup/views/SwiftBackupMaterialSwitch;
+    invoke-virtual {p0}, Lm37;->l()Lcom/bareapps/barebackup/views/BareBackupMaterialSwitch;
 
     .line 5
     .line 6
@@ -1632,7 +1632,7 @@
 
     .line 28
     .line 29
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;
+    check-cast v1, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;
 
     .line 30
     .line 31
@@ -1657,7 +1657,7 @@
     .line 40
     .line 41
     .line 42
-    invoke-virtual {v1, v0, v4}, Lorg/swiftapps/swiftbackup/views/SwiftSegmentedCardGroup;->b(Landroid/view/View;Landroid/view/View$OnClickListener;)V
+    invoke-virtual {v1, v0, v4}, Lcom/bareapps/barebackup/views/BareSegmentedCardGroup;->b(Landroid/view/View;Landroid/view/View$OnClickListener;)V
 
     .line 43
     .line 44
@@ -1857,7 +1857,7 @@
 
     .line 149
     .line 150
-    sget-object v1, Lorg/swiftapps/swiftbackup/home/schedule/data/GlobalScheduleError;->Companion:Lyy3;
+    sget-object v1, Lcom/bareapps/barebackup/home/schedule/data/GlobalScheduleError;->Companion:Lyy3;
 
     .line 151
     .line 152
@@ -1898,7 +1898,7 @@
     move-result-object v1
 
     .line 171
-    check-cast v1, Lorg/swiftapps/swiftbackup/home/schedule/data/GlobalScheduleError;
+    check-cast v1, Lcom/bareapps/barebackup/home/schedule/data/GlobalScheduleError;
 
     .line 172
     .line 173
@@ -1909,7 +1909,7 @@
 
     .line 175
     .line 176
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/home/schedule/data/GlobalScheduleError;->isValid()Z
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/home/schedule/data/GlobalScheduleError;->isValid()Z
 
     .line 177
     .line 178
@@ -1953,7 +1953,7 @@
 
     .line 195
     .line 196
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/home/schedule/data/GlobalScheduleError;->toDisplayString()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/home/schedule/data/GlobalScheduleError;->toDisplayString()Ljava/lang/String;
 
     .line 197
     .line 198
@@ -1975,7 +1975,7 @@
     .line 204
     .line 205
     :cond_2
-    invoke-virtual {p0}, Lm37;->n()Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    invoke-virtual {p0}, Lm37;->n()Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 206
     .line 207
@@ -1983,11 +1983,11 @@
     move-result-object v0
 
     .line 209
-    sget v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->c1:I
+    sget v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;->c1:I
 
     .line 210
     .line 211
-    invoke-virtual {v0, v8}, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
+    invoke-virtual {v0, v8}, Lcom/bareapps/barebackup/views/QuickRecyclerView;->setLinearLayoutManager(I)V
 
     .line 212
     .line 213
@@ -2239,7 +2239,7 @@
     .line 346
     .line 347
     .line 348
-    invoke-virtual {p0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {p0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 349
     .line 350
@@ -2260,12 +2260,12 @@
     .line 357
     .line 358
     .line 359
-    invoke-virtual {v0, v1}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->setOnBeforeExpand(Lbt3;)V
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->setOnBeforeExpand(Lbt3;)V
 
     .line 360
     .line 361
     .line 362
-    invoke-virtual {p0}, Lm37;->m()Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;
+    invoke-virtual {p0}, Lm37;->m()Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;
 
     .line 363
     .line 364
@@ -2277,7 +2277,7 @@
 
     .line 367
     .line 368
-    const-string v5, "addNewScheduleFromFabMenu(Lorg/swiftapps/swiftbackup/home/schedule/data/ScheduleItem$Type;)V"
+    const-string v5, "addNewScheduleFromFabMenu(Lcom/bareapps/barebackup/home/schedule/data/ScheduleItem$Type;)V"
 
     .line 369
     .line 370
@@ -2303,7 +2303,7 @@
     .line 378
     .line 379
     .line 380
-    invoke-virtual {v7, v0}, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->setOnActionClick(Lmt3;)V
+    invoke-virtual {v7, v0}, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->setOnActionClick(Lmt3;)V
 
     .line 381
     .line 382
@@ -2339,11 +2339,11 @@
     .line 398
     .line 399
     .line 400
-    sget-object v0, Lorg/swiftapps/swiftbackup/SwiftApp;->d:Lorg/swiftapps/swiftbackup/SwiftApp$Companion;
+    sget-object v0, Lcom/bareapps/barebackup/BareApp;->d:Lcom/bareapps/barebackup/BareApp$Companion;
 
     .line 401
     .line 402
-    invoke-static {}, Lorg/swiftapps/swiftbackup/SwiftApp$Companion;->a()Lorg/swiftapps/swiftbackup/SwiftApp;
+    invoke-static {}, Lcom/bareapps/barebackup/BareApp$Companion;->a()Lcom/bareapps/barebackup/BareApp;
 
     .line 403
     .line 404
@@ -2351,7 +2351,7 @@
     move-result-object v0
 
     .line 406
-    iget-object v0, v0, Lorg/swiftapps/swiftbackup/SwiftApp;->a:Lex6;
+    iget-object v0, v0, Lcom/bareapps/barebackup/BareApp;->a:Lex6;
 
     .line 407
     .line 408
@@ -2431,7 +2431,7 @@
 
     .line 445
     .line 446
-    const-string v5, "onStateUpdate(Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleVM$State;)V"
+    const-string v5, "onStateUpdate(Lcom/bareapps/barebackup/home/schedule/ui/ScheduleVM$State;)V"
 
     .line 447
     .line 448
@@ -2484,11 +2484,11 @@
     .locals 3
 
     .line 1
-    sget-object v0, Lorg/swiftapps/swiftbackup/common/V;->INSTANCE:Lorg/swiftapps/swiftbackup/common/V;
+    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
     .line 2
     .line 3
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/common/V;->getA()Z
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/common/V;->getA()Z
 
     .line 4
     .line 5
@@ -2531,7 +2531,7 @@
 
     .line 23
     .line 24
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 25
     .line 26
@@ -2568,7 +2568,7 @@
     move-result-object v0
 
     .line 42
-    iget-object v0, v0, Lq47;->e:Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;
+    iget-object v0, v0, Lq47;->e:Lcom/bareapps/barebackup/jobs/AlarmReceiver;
 
     .line 43
     .line 44
@@ -2589,7 +2589,7 @@
 
     .line 52
     .line 53
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->a()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->a()V
 
     .line 54
     .line 55
@@ -2598,7 +2598,7 @@
 
     .line 57
     :cond_1
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/jobs/AlarmReceiver;->c()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/jobs/AlarmReceiver;->c()V
 
     .line 58
     .line 59
@@ -2607,11 +2607,11 @@
 
     .line 61
     :cond_2
-    sget v0, Lorg/swiftapps/swiftbackup/premium/PremiumActivity;->V:I
+    sget v0, Lcom/bareapps/barebackup/premium/PremiumActivity;->V:I
 
     .line 62
     .line 63
-    invoke-virtual {p0}, Lm37;->i()Lorg/swiftapps/swiftbackup/home/HomeActivity;
+    invoke-virtual {p0}, Lm37;->i()Lcom/bareapps/barebackup/home/HomeActivity;
 
     .line 64
     .line 65

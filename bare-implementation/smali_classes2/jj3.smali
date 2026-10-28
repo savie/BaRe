@@ -61,7 +61,7 @@
     .line 2
     .line 3
     .line 4
-    sget-object v0, Lorg/swiftapps/swiftbackup/folders/data/FolderBackup$IncrementalBackup;->Companion:Lij3;
+    sget-object v0, Lcom/bareapps/barebackup/folders/data/FolderBackup$IncrementalBackup;->Companion:Lij3;
 
     .line 5
     .line 6

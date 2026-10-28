@@ -439,7 +439,7 @@
     move-result-object v1
 
     .line 8
-    check-cast v1, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v1, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 9
     .line 10

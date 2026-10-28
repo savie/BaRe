@@ -204,7 +204,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lorg/swiftapps/swiftbackup/views/MCheckBox;Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;Landroid/widget/ImageView;Lorg/swiftapps/swiftbackup/views/SwiftListItemCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/view/View;Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lorg/swiftapps/swiftbackup/appslist/ui/AppSwipeActionRevealLayout;Lorg/swiftapps/swiftbackup/appslist/ui/AppRowLabelsView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/google/android/material/button/MaterialButton;Lcom/bareapps/barebackup/views/MCheckBox;Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;Landroid/widget/ImageView;Lcom/bareapps/barebackup/views/BareListItemCardView;Landroid/widget/ImageView;Landroid/widget/ImageView;Landroid/view/View;Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/bareapps/barebackup/appslist/ui/AppSwipeActionRevealLayout;Lcom/bareapps/barebackup/appslist/ui/AppRowLabelsView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;Landroid/widget/TextView;)V
     .locals 0
 
     const/4 p2, 0x0
@@ -2108,7 +2108,7 @@
 
     .line 17
     .line 18
-    check-cast p0, Lorg/swiftapps/swiftbackup/appslist/ui/AppListItemLayout;
+    check-cast p0, Lcom/bareapps/barebackup/appslist/ui/AppListItemLayout;
 
     .line 19
     .line 20

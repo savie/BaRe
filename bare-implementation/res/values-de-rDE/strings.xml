@@ -640,7 +640,7 @@ Für anonyme Benutzer (Benutzer, welche die App ohne Konto verwenden), ist die P
     <string name="password_strategy_standard_title">Standard</string>
     <string name="password_strategy_user_password_description">"Wie die Standard-Strategie, verwendet aber zusätzlich ein vom Benutzer eingegebenes Passwort, um das endgültige Verschlüsselungspasswort zu generieren. Wenn Sie Ihr Passwort verlieren, können die Sicherungen nicht entschlüsselt/wiederhergestellt werden. 
 BΛR☰ speichert Ihr Passwort nur lokal in einem verschlüsselten Formular in seinem privaten Datenverzeichnis. 
-Wenn Sie Swift-Backup einrichten, Sie müssen Ihr Passwort erneut eingeben, damit es Ihre verschlüsselten Sicherungen entschlüsseln und wiederherstellen kann."</string>
+Wenn Sie BΛR☰ einrichten, Sie müssen Ihr Passwort erneut eingeben, damit es Ihre verschlüsselten Sicherungen entschlüsseln und wiederherstellen kann."</string>
     <string name="password_strategy_user_password_title">Erweitert</string>
     <string name="passwords_matching_error">Die Passwörter stimmen nicht überein</string>
     <string name="path">Pfad</string>
@@ -830,7 +830,7 @@ Root-Zugriff oder Shizuku wird benötigt"</string>
     <string name="schedules">Zeitpläne</string>
     <string name="search">Suche</string>
     <string name="search_hint_apps">Apps durchsuchen</string>
-    <string name="search_swift_backup">BΛR☰ suchen</string>
+    <string name="search_bare_backup">BΛR☰ suchen</string>
     <string name="secondary_action">Sekundäre Aktion</string>
     <string name="secondary_user_warning_msg">Zweitprofile und Arbeitsprofile werden aufgrund von unumgehbaren Problemen nicht offiziell unterstützt. Bitte wechsle zum Hauptbenutzer auf diesem Gerät.</string>
     <string name="see_all">Alle anzeigen</string>
@@ -868,11 +868,11 @@ Root-Zugriff oder Shizuku wird benötigt"</string>
     <string name="share_apk">APK teilen</string>
     <string name="share_apks">APKs teilen</string>
     <string name="share_logs">Protokolle teilen</string>
-    <string name="share_swiftbackup">BΛR☰ teilen</string>
-    <string name="share_swiftbackup_msg">Schau dir diesen tollen neuen Backup-Manager an, den ich benutze! BΛR☰ - hier ist der Link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">BΛR☰ - Eine einfache, schnelle und intelligente Sicherungslösung für Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">BΛR☰ Logger + Geräte-Logcat</string>
-    <string name="share_swiftlogger_text_only">Nur-Text-Bericht teilen</string>
+    <string name="share_barebackup">BΛR☰ teilen</string>
+    <string name="share_barebackup_msg">Schau dir diesen tollen neuen Backup-Manager an, den ich benutze! BΛR☰ - hier ist der Link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">BΛR☰ - Eine einfache, schnelle und intelligente Sicherungslösung für Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BΛR☰ Logger + Geräte-Logcat</string>
+    <string name="share_barelogger_text_only">Nur-Text-Bericht teilen</string>
     <string name="shared_libraries">Gemeinsam genutzte Bibliotheken</string>
     <string name="shortcuts">Verknüpfungen</string>
     <string name="show_less">Weniger anzeigen</string>
@@ -914,9 +914,9 @@ Root-Zugriff oder Shizuku wird benötigt"</string>
     <string name="successful">Erfolgreich</string>
     <string name="sure_to_cancel_task">Bist du sicher, dass du abbrechen möchtest?</string>
     <string name="sure_to_proceed">"Bist du sicher, dass du fortfahren möchtest? Wähle 'JA' zur Bestätigung."</string>
-    <string name="swift_backup_is_busy">BΛR☰ ist beschäftigt</string>
-    <string name="swift_labs_settings_summary">Experimentelle Funktionen, deren Stabilität nicht garantiert ist. Diese Funktionen können jederzeit verschwinden!</string>
-    <string name="swiftlogger_info">Wichtige Protokolle, die bei der Meldung von Fehlern hilfreich sind</string>
+    <string name="barebackup_is_busy">BΛR☰ ist beschäftigt</string>
+    <string name="bare_labs_settings_summary">Experimentelle Funktionen, deren Stabilität nicht garantiert ist. Diese Funktionen können jederzeit verschwinden!</string>
+    <string name="barelogger_info">Wichtige Protokolle, die bei der Meldung von Fehlern hilfreich sind</string>
     <string name="swipe_actions">Wischaktionen</string>
     <string name="swipe_actions_description">Wähle bis zu zwei Aktionen für jede Wischrichtung</string>
     <string name="sync_backups">Synchronisiere Sicherungen</string>

@@ -4,7 +4,7 @@
 
 
 # instance fields
-.field public final Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+.field public final Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
 .field public final R:Lgv7;
 
@@ -12,7 +12,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;)V
     .locals 4
 
     .line 1
@@ -45,7 +45,7 @@
     move-result-object v3
 
     .line 16
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;
+    check-cast v3, Lcom/bareapps/barebackup/views/QuickRecyclerView;
 
     .line 17
     .line 18
@@ -61,7 +61,7 @@
 
     .line 23
     .line 24
-    invoke-direct {v1, v0, v3}, Lkm;-><init>(Landroid/widget/LinearLayout;Lorg/swiftapps/swiftbackup/views/QuickRecyclerView;)V
+    invoke-direct {v1, v0, v3}, Lkm;-><init>(Landroid/widget/LinearLayout;Lcom/bareapps/barebackup/views/QuickRecyclerView;)V
 
     .line 25
     .line 26
@@ -75,7 +75,7 @@
     .line 30
     .line 31
     .line 32
-    iput-object p1, p0, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iput-object p1, p0, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 33
     .line 34
@@ -200,7 +200,7 @@
     .line 11
     .line 12
     .line 13
-    iget-object p0, p0, Lt10;->Q:Lorg/swiftapps/swiftbackup/appslist/ui/list/AppListActivity;
+    iget-object p0, p0, Lt10;->Q:Lcom/bareapps/barebackup/appslist/ui/list/AppListActivity;
 
     .line 14
     .line 15

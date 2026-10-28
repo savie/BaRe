@@ -42,7 +42,7 @@
 
     .line 4
     .line 5
-    sget p1, Lorg/swiftapps/swiftbackup/tasks/ui/TaskActivity;->c0:I
+    sget p1, Lcom/bareapps/barebackup/tasks/ui/TaskActivity;->c0:I
 
     .line 6
     .line 7

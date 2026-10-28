@@ -11,7 +11,7 @@
     return-void
 .end method
 
-.method public static a(Lorg/swiftapps/swiftbackup/folders/data/Manifest;)Ljava/lang/String;
+.method public static a(Lcom/bareapps/barebackup/folders/data/Manifest;)Ljava/lang/String;
     .locals 6
 
     .line 1
@@ -24,7 +24,7 @@
     .line 4
     .line 5
     .line 6
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 7
     .line 8
@@ -36,7 +36,7 @@
 
     .line 11
     .line 12
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 13
     .line 14
@@ -192,7 +192,7 @@
     throw p0
 .end method
 
-.method public static b(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+.method public static b(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
     .locals 8
 
     .line 1
@@ -221,7 +221,7 @@
     .line 12
     :cond_0
     :try_start_0
-    invoke-static {p0}, Ltm3;->c(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {p0}, Ltm3;->c(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 13
     .line 14
@@ -286,7 +286,7 @@
     return-object v1
 .end method
 
-.method public static c(Lq63;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+.method public static c(Lq63;)Lcom/bareapps/barebackup/folders/data/Manifest;
     .locals 3
 
     .line 1
@@ -305,7 +305,7 @@
     .line 7
     .line 8
     .line 9
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 10
     .line 11
@@ -317,7 +317,7 @@
 
     .line 14
     .line 15
-    invoke-virtual {v0}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 16
     .line 17
@@ -325,7 +325,7 @@
     move-result-object v0
 
     .line 19
-    invoke-static {p0, v0}, Ltm3;->d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {p0, v0}, Ltm3;->d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 20
     .line 21
@@ -384,7 +384,7 @@
     .line 42
     .line 43
     .line 44
-    invoke-static {}, Ld45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 45
     .line 46
@@ -396,7 +396,7 @@
 
     .line 49
     .line 50
-    invoke-virtual {v2}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->isAnonymous()Z
+    invoke-virtual {v2}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
 
     .line 51
     .line 52
@@ -437,7 +437,7 @@
 
     .line 67
     .line 68
-    invoke-static {}, Lb45;->a()Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;
+    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
 
     .line 69
     .line 70
@@ -445,7 +445,7 @@
     move-result-object v1
 
     .line 72
-    invoke-virtual {v1}, Lorg/swiftapps/swiftbackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->getUid()Ljava/lang/String;
 
     .line 73
     .line 74
@@ -453,7 +453,7 @@
     move-result-object v1
 
     .line 76
-    invoke-static {p0, v1}, Ltm3;->d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    invoke-static {p0, v1}, Ltm3;->d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 77
     .line 78
@@ -484,7 +484,7 @@
     throw v0
 .end method
 
-.method public static d(Lq63;Ljava/lang/String;)Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+.method public static d(Lq63;Ljava/lang/String;)Lcom/bareapps/barebackup/folders/data/Manifest;
     .locals 8
 
     .line 1
@@ -674,11 +674,11 @@
     .line 91
     .line 92
     :try_start_0
-    sget-object v5, Lcom/swiftapps/sba/SbaZstdNative;->a:Lcom/swiftapps/sba/SbaZstdNative;
+    sget-object v5, Lcom/bareapps/sba/SbaZstdNative;->a:Lcom/bareapps/sba/SbaZstdNative;
 
     .line 93
     .line 94
-    invoke-virtual {v5, v4}, Lcom/swiftapps/sba/SbaZstdNative;->decompressZstdBytes([B)[B
+    invoke-virtual {v5, v4}, Lcom/bareapps/sba/SbaZstdNative;->decompressZstdBytes([B)[B
 
     .line 95
     .line 96
@@ -754,7 +754,7 @@
     move-result-object p1
 
     .line 132
-    const-class v0, Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    const-class v0, Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 133
     .line 134
@@ -766,7 +766,7 @@
     move-result-object p1
 
     .line 138
-    check-cast p1, Lorg/swiftapps/swiftbackup/folders/data/Manifest;
+    check-cast p1, Lcom/bareapps/barebackup/folders/data/Manifest;
 
     .line 139
     .line 140

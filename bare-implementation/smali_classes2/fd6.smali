@@ -39,7 +39,7 @@
     move-object v3, v0
 
     .line 14
-    check-cast v3, Lorg/swiftapps/swiftbackup/views/MCheckBox;
+    check-cast v3, Lcom/bareapps/barebackup/views/MCheckBox;
 
     .line 15
     .line 16

@@ -48,7 +48,7 @@
     .line 6
     .line 7
     .line 8
-    check-cast p1, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;
+    check-cast p1, Lcom/bareapps/barebackup/model/app/AppCloudBackup;
 
     .line 9
     .line 10
@@ -57,7 +57,7 @@
     .line 11
     .line 12
     .line 13
-    invoke-virtual {p1}, Lorg/swiftapps/swiftbackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
+    invoke-virtual {p1}, Lcom/bareapps/barebackup/model/app/AppCloudBackup;->getBackupId()Ljava/lang/String;
 
     .line 14
     .line 15
@@ -73,7 +73,7 @@
 
     .line 19
     .line 20
-    sget-object p0, Lorg/swiftapps/swiftbackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
+    sget-object p0, Lcom/bareapps/barebackup/home/schedule/ui/ScheduleFabMenuView;->K:Ljava/util/Map;
 
     .line 21
     .line 22

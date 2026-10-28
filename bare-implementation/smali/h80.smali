@@ -235,7 +235,7 @@
     return-void
 .end method
 
-.method public constructor <init>(Lorg/swiftapps/swiftbackup/database/MDatabase_Impl;)V
+.method public constructor <init>(Lcom/bareapps/barebackup/database/MDatabase_Impl;)V
     .locals 1
 
     const/16 v0, 0xa
