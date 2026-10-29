@@ -3,6 +3,7 @@
 #include <zstd.h>
 #include <argon2.h>
 #include <aegis.h>
+#include "sba1_format.h"
 
 #include <cstdint>
 #include <chrono>
@@ -17,6 +18,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <dirent.h>
+#include <fnmatch.h>
 #include <string>
 #include <vector>
 
@@ -1035,21 +1038,462 @@ jlongArray decryptAegisChunks(JNIEnv* env, jint input_fd, jlong stored_size, jin
     return nullptr; \
   }
 
+
+namespace {
+void putU16(std::vector<std::uint8_t>& out, std::uint16_t v) {
+  out.push_back(static_cast<std::uint8_t>(v >> 8)); out.push_back(static_cast<std::uint8_t>(v));
+}
+void putU32(std::vector<std::uint8_t>& out, std::uint32_t v) {
+  for (int i=3;i>=0;--i) out.push_back(static_cast<std::uint8_t>(v >> (i*8)));
+}
+void putU64(std::vector<std::uint8_t>& out, std::uint64_t v) {
+  for (int i=7;i>=0;--i) out.push_back(static_cast<std::uint8_t>(v >> (i*8)));
+}
+bool writeVectorFd(int fd, const std::vector<std::uint8_t>& v, std::string* error) {
+  return writeFullyFd(fd,v.data(),v.size(),error);
+}
+bool writeOctal(char* dst, std::size_t width, std::uint64_t value) {
+  if (width < 2) return false;
+  char tmp[32];
+  std::snprintf(tmp,sizeof(tmp),"%llo",static_cast<unsigned long long>(value));
+  const std::size_t n=std::strlen(tmp);
+  if (n > width-1) return false;
+  std::memset(dst,'0',width);
+  std::memcpy(dst+width-1-n,tmp,n);
+  dst[width-1]='\0';
+  return true;
+}
+bool setTarPath(std::uint8_t header[512], const std::string& path) {
+  if (path.size()<=100) { std::memcpy(header,path.data(),path.size()); return true; }
+  for (std::size_t slash=path.rfind('/'); slash!=std::string::npos; slash=slash==0?std::string::npos:path.rfind('/',slash-1)) {
+    const std::string prefix=path.substr(0,slash), base=path.substr(slash+1);
+    if (prefix.size()<=155 && base.size()<=100 && !base.empty()) {
+      std::memcpy(header,base.data(),base.size());
+      std::memcpy(header+345,prefix.data(),prefix.size());
+      return true;
+    }
+  }
+  return false;
+}
+struct TarStats { std::uint64_t entries=0, files=0, dirs=0, bytes=0; };
+bool tarHeader(FILE* out,const std::string& name,const struct stat& st,char type,
+               const std::string& link,std::uint64_t size,std::string* error) {
+  if (name.empty() || name.size()>255 || link.size()>100) {
+    if(error)*error="TAR path or link target exceeds supported USTAR limits: "+name;
+    return false;
+  }
+  std::uint8_t h[512]{};
+  if(!setTarPath(h,name)) { if(error)*error="TAR path cannot be represented in USTAR header: "+name; return false; }
+  if(!writeOctal(reinterpret_cast<char*>(h+100),8,static_cast<std::uint64_t>(st.st_mode&07777)) ||
+     !writeOctal(reinterpret_cast<char*>(h+108),8,static_cast<std::uint64_t>(st.st_uid)) ||
+     !writeOctal(reinterpret_cast<char*>(h+116),8,static_cast<std::uint64_t>(st.st_gid)) ||
+     !writeOctal(reinterpret_cast<char*>(h+124),12,size) ||
+     !writeOctal(reinterpret_cast<char*>(h+136),12,st.st_mtime<0?0:static_cast<std::uint64_t>(st.st_mtime))) {
+    if(error)*error="TAR numeric field overflow: "+name; return false;
+  }
+  std::memset(h+148,' ',8);
+  h[156]=static_cast<std::uint8_t>(type);
+  if(!link.empty())std::memcpy(h+157,link.data(),link.size());
+  std::memcpy(h+257,"ustar",5); h[262]=0; std::memcpy(h+263,"00",2);
+  std::uint64_t sum=0; for(std::uint8_t b:h)sum+=b;
+  char checksum[8]; std::snprintf(checksum,sizeof(checksum),"%06llo",static_cast<unsigned long long>(sum));
+  std::memcpy(h+148,checksum,6); h[154]=0; h[155]=' ';
+  if(std::fwrite(h,1,sizeof(h),out)!=sizeof(h)) { if(error)*error=std::string("TAR header write failed: ")+std::strerror(errno); return false; }
+  return true;
+}
+bool pathMatches(const std::string& path,const std::string& pattern) {
+  if(pattern.empty())return false;
+  if(fnmatch(pattern.c_str(),path.c_str(),FNM_PATHNAME)==0)return true;
+  if(path==pattern)return true;
+  return path.size()>pattern.size() && path.compare(0,pattern.size(),pattern)==0 &&
+         (pattern.back()=='/' || path[pattern.size()]=='/');
+}
+bool selectedPath(const std::string& path,const std::vector<std::string>& include,
+                  const std::vector<std::string>& exclude) {
+  for(const auto& p:exclude)if(pathMatches(path,p))return false;
+  if(include.empty())return true;
+  for(const auto& p:include)if(pathMatches(path,p))return true;
+  return false;
+}
+bool mayContainSelected(const std::string& path,const std::vector<std::string>& include) {
+  if(include.empty())return true;
+  for(const auto& p:include) {
+    if(path.empty() || p==path || (p.size()>path.size() && p.compare(0,path.size(),path)==0 &&
+       (path.empty() || path.back()=='/' || p[path.size()]=='/')))return true;
+    if(path.size()>p.size() && path.compare(0,p.size(),p)==0 && (p.back()=='/' || path[p.size()]=='/'))return true;
+  }
+  return false;
+}
+bool copyFileBytes(FILE* out,const std::string& path,std::uint64_t size,std::string* error) {
+  int fd=::open(path.c_str(),O_RDONLY|O_CLOEXEC|O_NOFOLLOW);
+  if(fd<0){if(error)*error=std::string("cannot open TAR source: ")+path+": "+std::strerror(errno);return false;}
+  std::uint8_t buf[64*1024]; std::uint64_t remain=size;
+  while(remain) {
+    const std::size_t want=static_cast<std::size_t>(std::min<std::uint64_t>(remain,sizeof(buf)));
+    ssize_t n; do{n=::read(fd,buf,want);}while(n<0&&errno==EINTR);
+    if(n<=0){::close(fd);if(error)*error="TAR source changed or became unreadable: "+path;return false;}
+    if(std::fwrite(buf,1,static_cast<std::size_t>(n),out)!=static_cast<std::size_t>(n)){::close(fd);if(error)*error="TAR output write failed";return false;}
+    remain-=static_cast<std::uint64_t>(n);
+  }
+  ::close(fd);
+  const std::size_t pad=static_cast<std::size_t>((512-(size%512))%512);
+  const std::uint8_t zeros[512]{};
+  if(pad&&std::fwrite(zeros,1,pad,out)!=pad){if(error)*error="TAR padding write failed";return false;}
+  return true;
+}
+bool tarWalk(FILE* out,const std::string& full,const std::string& filter_rel,
+             const std::string& tar_rel,const std::vector<std::string>& include,
+             const std::vector<std::string>& exclude,TarStats* stats,std::string* error) {
+  struct stat st{};
+  if(::lstat(full.c_str(),&st)!=0){if(error)*error=std::string("cannot stat TAR source ")+full+": "+std::strerror(errno);return false;}
+  const bool selected=selectedPath(filter_rel,include,exclude);
+  const bool traverse=S_ISDIR(st.st_mode)&&mayContainSelected(filter_rel,include);
+  if(S_ISDIR(st.st_mode)) {
+    if(selected && !tar_rel.empty()) {
+      std::string name=tar_rel; if(name.back()!='/')name.push_back('/');
+      if(!tarHeader(out,name,st,'5',"",0,error))return false;
+      ++stats->entries;++stats->dirs;
+    }
+    if(!traverse)return true;
+    DIR* dir=::opendir(full.c_str());
+    if(!dir){if(error)*error=std::string("cannot open TAR directory ")+full+": "+std::strerror(errno);return false;}
+    std::vector<std::string> names;
+    while(dirent* ent=::readdir(dir)) { std::string n=ent->d_name; if(n!="."&&n!="..")names.push_back(n); }
+    ::closedir(dir);
+    std::sort(names.begin(),names.end());
+    for(const auto& child:names) {
+      const std::string child_full=full+"/"+child;
+      const std::string child_filter=filter_rel.empty()?child:filter_rel+"/"+child;
+      const std::string child_tar=tar_rel.empty()?child:tar_rel+"/"+child;
+      if(!tarWalk(out,child_full,child_filter,child_tar,include,exclude,stats,error))return false;
+    }
+    return true;
+  }
+  if(!selected)return true;
+  if(S_ISREG(st.st_mode)) {
+    const std::uint64_t size=st.st_size<0?0:static_cast<std::uint64_t>(st.st_size);
+    if(!tarHeader(out,tar_rel,st,'0',"",size,error)||!copyFileBytes(out,full,size,error))return false;
+    ++stats->entries;++stats->files;
+    if(stats->bytes<=std::numeric_limits<std::uint64_t>::max()-size)stats->bytes+=size;
+    return true;
+  }
+  if(S_ISLNK(st.st_mode)) {
+    char target[4096]; const ssize_t n=::readlink(full.c_str(),target,sizeof(target)-1);
+    if(n<0){if(error)*error=std::string("cannot read symlink ")+full+": "+std::strerror(errno);return false;}
+    target[n]=0;
+    if(!tarHeader(out,tar_rel,st,'2',target,0,error))return false;
+    ++stats->entries;
+    return true;
+  }
+  if(error)*error="unsupported special file in TAR source: "+full;
+  return false;
+}
+bool readNestedStringArray(JNIEnv* env,jobjectArray outer,jsize index,std::vector<std::string>* out) {
+  if(!outer)return true;
+  jobject nested=env->GetObjectArrayElement(outer,index);
+  if(!nested)return !env->ExceptionCheck();
+  jobjectArray values=static_cast<jobjectArray>(nested);
+  const jsize n=env->GetArrayLength(values);
+  for(jsize i=0;i<n;++i) {
+    jstring value=static_cast<jstring>(env->GetObjectArrayElement(values,i));
+    if(!value){env->DeleteLocalRef(values);return false;}
+    const char* utf=env->GetStringUTFChars(value,nullptr);
+    if(!utf){env->DeleteLocalRef(value);env->DeleteLocalRef(values);return false;}
+    out->emplace_back(utf);
+    env->ReleaseStringUTFChars(value,utf);
+    env->DeleteLocalRef(value);
+  }
+  env->DeleteLocalRef(values);
+  return !env->ExceptionCheck();
+}
+bool compressFdToFd(int input_fd,int output_fd,int level,std::uint64_t* in_count,
+                    std::uint64_t* out_count,std::string* error) {
+  if(::lseek(input_fd,0,SEEK_SET)<0||::lseek(output_fd,0,SEEK_SET)<0){if(error)*error="cannot rewind compression streams";return false;}
+  ZSTD_CStream* stream=ZSTD_createCStream(); if(!stream){if(error)*error="cannot allocate Zstandard compression stream";return false;}
+  std::size_t zr=ZSTD_initCStream(stream,level);
+  if(ZSTD_isError(zr)){if(error)*error=ZSTD_getErrorName(zr);ZSTD_freeCStream(stream);return false;}
+  std::vector<std::uint8_t> input(64*1024),output(ZSTD_CStreamOutSize());
+  std::uint64_t read_total=0,written_total=0; bool failed=false;
+  while(true) {
+    ssize_t got; do{got=::read(input_fd,input.data(),input.size());}while(got<0&&errno==EINTR);
+    if(got<0){if(error)*error=std::string("compression input read failed: ")+std::strerror(errno);failed=true;break;}
+    read_total+=static_cast<std::uint64_t>(got);
+    ZSTD_inBuffer in{input.data(),static_cast<std::size_t>(got),0};
+    const ZSTD_EndDirective directive=got==0?ZSTD_e_end:ZSTD_e_continue;
+    std::size_t remaining=1;
+    do {
+      ZSTD_outBuffer out{output.data(),output.size(),0};
+      remaining=ZSTD_compressStream2(stream,&out,&in,directive);
+      if(ZSTD_isError(remaining)){if(error)*error=ZSTD_getErrorName(remaining);failed=true;break;}
+      if(out.pos&&!writeFullyFd(output_fd,output.data(),out.pos,error)){failed=true;break;}
+      written_total+=out.pos;
+    } while(!failed && (in.pos<in.size || (directive==ZSTD_e_end && remaining!=0)));
+    if(failed||got==0)break;
+  }
+  ZSTD_freeCStream(stream);
+  if(failed)return false;
+  *in_count=read_total;*out_count=written_total;return true;
+}
+bool getJavaDigest(JNIEnv* env,const std::vector<std::uint8_t>& input,std::vector<std::uint8_t>* output) {
+  jclass cls=env->FindClass("java/security/MessageDigest"); if(!cls)return false;
+  jmethodID get=env->GetStaticMethodID(cls,"getInstance","(Ljava/lang/String;)Ljava/security/MessageDigest;");
+  jmethodID digest=env->GetMethodID(cls,"digest","([B)[B");
+  jstring alg=env->NewStringUTF("SHA-256"); jobject md=get?env->CallStaticObjectMethod(cls,get,alg):nullptr;
+  jbyteArray data=env->NewByteArray(static_cast<jsize>(input.size()));
+  if(data&& !input.empty())env->SetByteArrayRegion(data,0,static_cast<jsize>(input.size()),reinterpret_cast<const jbyte*>(input.data()));
+  jbyteArray result=(md&&digest&&data&&!env->ExceptionCheck())?static_cast<jbyteArray>(env->CallObjectMethod(md,digest,data)):nullptr;
+  if(result) { jsize n=env->GetArrayLength(result); output->resize(static_cast<std::size_t>(n)); env->GetByteArrayRegion(result,0,n,reinterpret_cast<jbyte*>(output->data())); }
+  if(result)env->DeleteLocalRef(result);if(data)env->DeleteLocalRef(data);if(md)env->DeleteLocalRef(md);if(alg)env->DeleteLocalRef(alg);env->DeleteLocalRef(cls);
+  return !env->ExceptionCheck()&&!output->empty();
+}
+bool getJavaHmac(JNIEnv* env,const std::vector<std::uint8_t>& key,const std::vector<std::uint8_t>& input,std::vector<std::uint8_t>* output) {
+  jclass mac_cls=env->FindClass("javax/crypto/Mac"); jclass key_cls=env->FindClass("javax/crypto/spec/SecretKeySpec"); jclass java_key_cls=env->FindClass("java/security/Key");
+  if(!mac_cls||!key_cls||!java_key_cls)return false;
+  jmethodID get=env->GetStaticMethodID(mac_cls,"getInstance","(Ljava/lang/String;)Ljavax/crypto/Mac;");
+  jmethodID init=env->GetMethodID(mac_cls,"init","(Ljava/security/Key;)V");
+  jmethodID finish=env->GetMethodID(mac_cls,"doFinal","([B)[B");
+  jmethodID ctor=env->GetMethodID(key_cls,"<init>","([BLjava/lang/String;)V");
+  jstring alg=env->NewStringUTF("HmacSHA256");
+  jbyteArray key_bytes=env->NewByteArray(static_cast<jsize>(key.size()));
+  if(key_bytes&&!key.empty())env->SetByteArrayRegion(key_bytes,0,static_cast<jsize>(key.size()),reinterpret_cast<const jbyte*>(key.data()));
+  jstring key_alg=env->NewStringUTF("HmacSHA256");
+  jobject key_obj=(ctor&&key_bytes&&key_alg&&!env->ExceptionCheck())?env->NewObject(key_cls,ctor,key_bytes,key_alg):nullptr;
+  jobject mac=(get&&alg&&!env->ExceptionCheck())?env->CallStaticObjectMethod(mac_cls,get,alg):nullptr;
+  if(mac&&init&&key_obj&&!env->ExceptionCheck())env->CallVoidMethod(mac,init,key_obj);
+  jbyteArray data=env->NewByteArray(static_cast<jsize>(input.size()));
+  if(data&&!input.empty())env->SetByteArrayRegion(data,0,static_cast<jsize>(input.size()),reinterpret_cast<const jbyte*>(input.data()));
+  jbyteArray result=(mac&&finish&&data&&!env->ExceptionCheck())?static_cast<jbyteArray>(env->CallObjectMethod(mac,finish,data)):nullptr;
+  if(result){jsize n=env->GetArrayLength(result);output->resize(static_cast<std::size_t>(n));env->GetByteArrayRegion(result,0,n,reinterpret_cast<jbyte*>(output->data()));}
+  if(result)env->DeleteLocalRef(result);if(data)env->DeleteLocalRef(data);if(mac)env->DeleteLocalRef(mac);if(key_obj)env->DeleteLocalRef(key_obj);if(key_alg)env->DeleteLocalRef(key_alg);if(key_bytes)env->DeleteLocalRef(key_bytes);if(alg)env->DeleteLocalRef(alg);env->DeleteLocalRef(java_key_cls);env->DeleteLocalRef(key_cls);env->DeleteLocalRef(mac_cls);
+  return !env->ExceptionCheck()&&!output->empty();
+}
+}
+
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
-    JNIEnv* env, jobject /* self */, jint /* mode */, jstring /* output_path */,
-    jbyteArray /* metadata */, jobjectArray /* entry_bytes */,
-    jobjectArray /* entry_names */, jintArray /* entry_flags */,
-    jobjectArray /* entry_options */, jobjectArray /* entry_metadata */,
-    jint /* compression */, jint /* compression_level */, jint /* encryption */,
-    jint /* cipher */, jint /* chunk_size */, jint /* argon_iterations */,
-    jint /* argon_memory_kib */, jint /* argon_parallelism */,
-    jint /* argon_output_length */, jint /* flags */, jbyteArray /* key */,
-    jbyteArray /* salt */, jbyteArray /* nonce */, jbyteArray /* extra */,
-    jobject /* progress_listener */) {
-  throwJava(env, "java/lang/UnsupportedOperationException",
-      "SBA archive creation is not implemented in the C++ candidate yet");
-  return nullptr;
+    JNIEnv* env, jobject /* self */, jint mode, jstring output_path,
+    jbyteArray metadata_array, jobjectArray entry_name_bytes,
+    jobjectArray source_paths, jintArray source_flags,
+    jobjectArray include_paths, jobjectArray exclude_paths,
+    jint compression, jint compression_level, jint encryption_method,
+    jint kdf_method, jint kdf_iterations, jint kdf_memory_kib,
+    jint kdf_parallelism, jint chunk_size, jint extension_flags,
+    jint key_length, jbyteArray key_array, jbyteArray key_check_array,
+    jbyteArray salt_array, jbyteArray nonce_seed_array, jobject progress_listener) {
+  if ((mode!=1 && mode!=2) || output_path==nullptr || source_paths==nullptr ||
+      entry_name_bytes==nullptr || source_flags==nullptr ||
+      (compression!=0 && compression!=1) ||
+      (compression==0 && compression_level!=0) ||
+      (compression==1 && (compression_level<1 || compression_level>22)) ||
+      (encryption_method!=0 && encryption_method!=4 && encryption_method!=5) ||
+      (mode==1 && encryption_method!=0) || (mode==2 && encryption_method==0)) {
+    throwJava(env,"java/lang/IllegalArgumentException","invalid SBA archive creation settings"); return nullptr;
+  }
+  const jsize count=env->GetArrayLength(source_paths);
+  if(count<=0 || env->GetArrayLength(entry_name_bytes)!=count || env->GetArrayLength(source_flags)!=count ||
+     (include_paths && env->GetArrayLength(include_paths)!=count) ||
+     (exclude_paths && env->GetArrayLength(exclude_paths)!=count)) {
+    throwJava(env,"java/lang/IllegalArgumentException","SBA entry arrays have inconsistent lengths"); return nullptr;
+  }
+  std::vector<std::uint8_t> metadata,key,key_check,salt,nonce_seed;
+  WipeVectorOnExit wipe_key{key};
+  if(!copyInput(env,metadata_array,metadata))return nullptr;
+  if(metadata.size()>1048576){throwJava(env,"java/lang/IllegalArgumentException","SBA archive metadata exceeds 1 MiB");return nullptr;}
+  auto optionalBytes=[&](jbyteArray a,std::vector<std::uint8_t>* out)->bool{
+    if(a==nullptr){out->clear();return true;}return copyInput(env,a,*out);
+  };
+  if(!optionalBytes(key_array,&key)||!optionalBytes(key_check_array,&key_check)||
+     !optionalBytes(salt_array,&salt)||!optionalBytes(nonce_seed_array,&nonce_seed))return nullptr;
+  if(encryption_method!=0) {
+    if(mode!=2 || kdf_method!=1 || kdf_iterations<1 || kdf_iterations>100 ||
+       kdf_memory_kib<16384 || kdf_memory_kib>65536 || kdf_parallelism<1 || kdf_parallelism>8 ||
+       chunk_size<4096 || chunk_size>16777216 || key_length!=32 ||
+       key.size()!=32 || key_check.size()!=16 || salt.size()!=16 || nonce_seed.size()!=16) {
+      throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS key/KDF/header parameters");return nullptr;
+    }
+  } else if(kdf_method!=0||kdf_iterations!=0||kdf_memory_kib!=0||kdf_parallelism!=0||
+            chunk_size!=0||key_length!=0||!key.empty()||!key_check.empty()||!salt.empty()||!nonce_seed.empty()) {
+    throwJava(env,"java/lang/IllegalArgumentException","unexpected encryption parameters for unencrypted SBA archive");return nullptr;
+  }
+
+  const char* output_utf=env->GetStringUTFChars(output_path,nullptr);
+  if(!output_utf)return nullptr;
+  const std::string output_name(output_utf);
+  env->ReleaseStringUTFChars(output_path,output_utf);
+  const int out_fd=::open(output_name.c_str(),O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0600);
+  if(out_fd<0){throwJava(env,"java/io/IOException",std::string("cannot open SBA output: ")+std::strerror(errno));return nullptr;}
+
+  const auto started=std::chrono::steady_clock::now();
+  const std::size_t header_size=mode==1?96u:144u;
+  std::vector<std::uint8_t> header;
+  header.insert(header.end(),{'S','B','A','1'});putU16(header,static_cast<std::uint16_t>(mode));putU16(header,static_cast<std::uint16_t>(header_size));
+  putU32(header,(compression?1u:0u)|(encryption_method?2u:0u));
+  const auto now=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  putU64(header,static_cast<std::uint64_t>(now));
+  putU16(header,static_cast<std::uint16_t>(compression));putU16(header,static_cast<std::uint16_t>(compression_level));
+  putU16(header,static_cast<std::uint16_t>(encryption_method));putU16(header,static_cast<std::uint16_t>(kdf_method));
+  putU16(header,static_cast<std::uint16_t>(kdf_iterations));putU16(header,encryption_method?16:0);
+  putU16(header,encryption_method?16:0);putU16(header,encryption_method?16:0);
+  if(encryption_method){header.insert(header.end(),key_check.begin(),key_check.end());header.insert(header.end(),salt.begin(),salt.end());header.insert(header.end(),nonce_seed.begin(),nonce_seed.end());}
+  else header.insert(header.end(),48,0);
+  putU16(header,0);putU16(header,0);putU32(header,static_cast<std::uint32_t>(chunk_size));
+  if(mode==1)header.insert(header.end(),4,0);
+  else {
+    putU32(header,static_cast<std::uint32_t>(kdf_memory_kib));
+    putU16(header,static_cast<std::uint16_t>(kdf_parallelism));
+    putU16(header,static_cast<std::uint16_t>(extension_flags));
+    putU16(header,static_cast<std::uint16_t>(key_length));
+    putU16(header,1);
+    header.insert(header.end(),32,0);header.insert(header.end(),8,0);
+  }
+  if(header.size()!=header_size){::close(out_fd);throwJava(env,"java/lang/IllegalStateException","internal SBA header size mismatch");return nullptr;}
+  std::string io_error;
+  if(!writeVectorFd(out_fd,header,&io_error)){::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
+
+  struct IndexRecord {std::vector<std::uint8_t> name;std::uint64_t header_offset=0,payload_offset=0,stored=0,compressed=0,tar=0;std::uint32_t flags=0;TarStats stats;};
+  std::vector<IndexRecord> records;records.reserve(static_cast<std::size_t>(count));
+  std::uint64_t total_tar=0,total_compressed=0,total_stored=0,total_source=0;
+  for(jsize i=0;i<count;++i) {
+    jobject name_obj=env->GetObjectArrayElement(entry_name_bytes,i);
+    jobject path_obj=env->GetObjectArrayElement(source_paths,i);
+    if(!name_obj||!path_obj){if(name_obj)env->DeleteLocalRef(name_obj);if(path_obj)env->DeleteLocalRef(path_obj);::close(out_fd);throwJava(env,"java/lang/IllegalArgumentException","null SBA entry name or source path");return nullptr;}
+    std::vector<std::uint8_t> name_bytes;
+    if(!copyInput(env,static_cast<jbyteArray>(name_obj),name_bytes)){env->DeleteLocalRef(name_obj);env->DeleteLocalRef(path_obj);::close(out_fd);return nullptr;}
+    const char* path_utf=env->GetStringUTFChars(static_cast<jstring>(path_obj),nullptr);
+    if(!path_utf){env->DeleteLocalRef(name_obj);env->DeleteLocalRef(path_obj);::close(out_fd);return nullptr;}
+    const std::string path(path_utf);env->ReleaseStringUTFChars(static_cast<jstring>(path_obj),path_utf);
+    env->DeleteLocalRef(name_obj);env->DeleteLocalRef(path_obj);
+    if(name_bytes.empty()||name_bytes.size()>65535||std::find(name_bytes.begin(),name_bytes.end(),0)!=name_bytes.end()) {
+      ::close(out_fd);throwJava(env,"java/lang/IllegalArgumentException","invalid SBA entry name length or NUL byte");return nullptr;
+    }
+    jint flags_value=0;env->GetIntArrayRegion(source_flags,i,1,&flags_value);
+    if(env->ExceptionCheck()){::close(out_fd);return nullptr;}
+    std::vector<std::string> includes,excludes;
+    if(!readNestedStringArray(env,include_paths,i,&includes)||!readNestedStringArray(env,exclude_paths,i,&excludes)){::close(out_fd);return nullptr;}
+    std::FILE* tar_file=std::tmpfile();
+    if(!tar_file){::close(out_fd);throwJava(env,"java/io/IOException",std::string("cannot create TAR temporary: ")+std::strerror(errno));return nullptr;}
+    TarStats stats;
+    struct stat root_st{};
+    if(::lstat(path.c_str(),&root_st)!=0){std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException",std::string("cannot stat SBA source: ")+path+": "+std::strerror(errno));return nullptr;}
+    const std::size_t slash=path.find_last_of('/');
+    std::string root_name=slash==std::string::npos?path:path.substr(slash+1);
+    if(root_name.empty())root_name="root";
+    const bool include_root=(flags_value&8)!=0;
+    bool tar_ok=true;
+    if(S_ISDIR(root_st.st_mode)) {
+      if(include_root)tar_ok=tarWalk(tar_file,path,"",root_name,includes,excludes,&stats,&io_error);
+      else {
+        DIR* root_dir=::opendir(path.c_str());
+        if(!root_dir){tar_ok=false;io_error=std::string("cannot open SBA source directory: ")+std::strerror(errno);}
+        else {
+          std::vector<std::string> names;
+          while(dirent* ent=::readdir(root_dir)){std::string n=ent->d_name;if(n!="."&&n!="..")names.push_back(n);}
+          ::closedir(root_dir);std::sort(names.begin(),names.end());
+          for(const auto& child:names) {
+            const std::string full=path+"/"+child;
+            if(!tarWalk(tar_file,full,child,child,includes,excludes,&stats,&io_error)){tar_ok=false;break;}
+          }
+        }
+      }
+    } else {
+      tar_ok=tarWalk(tar_file,path,root_name,root_name,includes,excludes,&stats,&io_error);
+    }
+    if(!tar_ok){std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
+    const std::uint8_t zeros[1024]{};
+    if(std::fwrite(zeros,1,sizeof(zeros),tar_file)!=sizeof(zeros)||std::fflush(tar_file)!=0){std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException","failed to finalize SBA TAR payload");return nullptr;}
+    struct stat tar_st{};if(::fstat(::fileno(tar_file),&tar_st)!=0||tar_st.st_size<1024||tar_st.st_size%512!=0){std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException","invalid generated SBA TAR size");return nullptr;}
+    const std::uint64_t tar_size=static_cast<std::uint64_t>(tar_st.st_size);
+    std::FILE* compressed_file=tar_file;
+    if(compression) {
+      std::FILE* ztmp=std::tmpfile();
+      if(!ztmp){std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot create Zstandard temporary");return nullptr;}
+      std::uint64_t read_n=0,written_n=0;
+      if(!compressFdToFd(::fileno(tar_file),::fileno(ztmp),compression_level,&read_n,&written_n,&io_error)) {
+        std::fclose(ztmp);std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;
+      }
+      std::fclose(tar_file);compressed_file=ztmp;
+    } else if(::lseek(::fileno(tar_file),0,SEEK_SET)<0) {
+      std::fclose(tar_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot rewind SBA TAR temporary");return nullptr;
+    }
+    struct stat comp_st{};if(::fstat(::fileno(compressed_file),&comp_st)!=0||comp_st.st_size<0){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot determine SBA compressed size");return nullptr;}
+    const std::uint64_t comp_size=static_cast<std::uint64_t>(comp_st.st_size);
+    const std::uint64_t chunks=comp_size==0?0:1+(comp_size-1)/static_cast<std::uint64_t>(chunk_size>0?chunk_size:1);
+    const std::uint64_t stored_size=comp_size+(encryption_method?chunks*16:0);
+    off_t current=::lseek(out_fd,0,SEEK_CUR);
+    if(current<0){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot determine SBA output offset");return nullptr;}
+    IndexRecord rec;rec.name=std::move(name_bytes);rec.header_offset=static_cast<std::uint64_t>(current);
+    rec.payload_offset=rec.header_offset+24+rec.name.size();rec.stored=stored_size;rec.compressed=comp_size;rec.tar=tar_size;
+    rec.flags=static_cast<std::uint32_t>((compression?3:1)|(encryption_method?20:0));rec.stats=stats;
+    std::vector<std::uint8_t> eh;eh.insert(eh.end(),{'S','A','E','1'});putU16(eh,24);putU16(eh,0);putU32(eh,rec.flags);putU16(eh,static_cast<std::uint16_t>(rec.name.size()));putU32(eh,0);eh.insert(eh.end(),6,0);eh.insert(eh.end(),rec.name.begin(),rec.name.end());
+    if(!writeVectorFd(out_fd,eh,&io_error)){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
+    if(::lseek(::fileno(compressed_file),0,SEEK_SET)<0){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot rewind SBA payload");return nullptr;}
+    if(!encryption_method) {
+      std::uint8_t buf[64*1024];std::uint64_t left=comp_size;
+      while(left){std::size_t want=static_cast<std::size_t>(std::min<std::uint64_t>(left,sizeof(buf)));std::size_t got=0;
+        if(!readExact(::fileno(compressed_file),buf,want,&got)||got!=want||!writeFullyFd(out_fd,buf,want,&io_error)){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException",io_error.empty()?"short SBA payload read":io_error);return nullptr;}left-=want;}
+    } else {
+      std::vector<std::uint8_t> plain_buf(static_cast<std::size_t>(chunk_size)),cipher_buf(static_cast<std::size_t>(chunk_size));
+      std::uint8_t tag[16]{};std::uint64_t left=comp_size,chunk_index=0;
+      while(left){const std::size_t n=static_cast<std::size_t>(std::min<std::uint64_t>(left,static_cast<std::uint64_t>(chunk_size)));std::size_t got=0;
+        if(!readExact(::fileno(compressed_file),plain_buf.data(),n,&got)||got!=n){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException","short SBA plaintext read");return nullptr;}
+        int rc=-1;
+        if(encryption_method==5){std::uint8_t nonce[16]{};makeChunkNonce128(nonce_seed,static_cast<std::uint64_t>(i),chunk_index,nonce);
+          rc=aegis128x2_encrypt_detached(cipher_buf.data(),tag,sizeof(tag),plain_buf.data(),n,rec.name.data(),rec.name.size(),nonce,key.data());std::fill(nonce,nonce+sizeof(nonce),0);}
+        else {std::uint8_t nonce[32]{};makeChunkNonce256(nonce_seed,static_cast<std::uint64_t>(i),chunk_index,nonce);
+          rc=aegis256_encrypt_detached(cipher_buf.data(),tag,sizeof(tag),plain_buf.data(),n,rec.name.data(),rec.name.size(),nonce,key.data());std::fill(nonce,nonce+sizeof(nonce),0);}
+        if(rc!=0||!writeFullyFd(out_fd,cipher_buf.data(),n,&io_error)||!writeFullyFd(out_fd,tag,sizeof(tag),&io_error)){
+          std::fill(plain_buf.begin(),plain_buf.end(),0);std::fill(cipher_buf.begin(),cipher_buf.end(),0);std::fclose(compressed_file);::close(out_fd);
+          throwJava(env,"java/io/IOException",io_error.empty()?"SBA AEGIS encryption failed":io_error);return nullptr;}
+        left-=n;++chunk_index;
+        if(!notifyProgress(env,progress_listener,static_cast<jlong>(comp_size-left),static_cast<jlong>(comp_size))){std::fclose(compressed_file);::close(out_fd);return nullptr;}
+      }
+      std::fill(plain_buf.begin(),plain_buf.end(),0);std::fill(cipher_buf.begin(),cipher_buf.end(),0);std::fill(tag,tag+sizeof(tag),0);
+    }
+    std::fclose(compressed_file);
+    records.push_back(std::move(rec));
+    total_tar+=tar_size;total_compressed+=comp_size;total_stored+=stored_size;total_source+=stats.bytes;
+    if(!notifyProgress(env,progress_listener,static_cast<jlong>(i+1),count)){::close(out_fd);return nullptr;}
+  }
+
+  off_t index_off=::lseek(out_fd,0,SEEK_CUR);
+  if(index_off<0){::close(out_fd);throwJava(env,"java/io/IOException","cannot determine SBA index offset");return nullptr;}
+  std::vector<std::uint8_t> index;index.insert(index.end(),{'S','A','I','1'});putU16(index,16);putU16(index,static_cast<std::uint16_t>(mode));putU32(index,static_cast<std::uint32_t>(records.size()));putU32(index,static_cast<std::uint32_t>(metadata.size()));index.insert(index.end(),metadata.begin(),metadata.end());
+  for(const auto& rec:records) {
+    putU64(index,rec.header_offset);putU64(index,rec.payload_offset);putU64(index,rec.stored);putU64(index,rec.compressed);putU64(index,rec.tar);
+    putU32(index,rec.flags);putU16(index,static_cast<std::uint16_t>(rec.name.size()));putU32(index,0);putU16(index,0);index.insert(index.end(),32,0);
+    if(mode==2){putU64(index,rec.stats.entries);putU64(index,rec.stats.files);putU64(index,rec.stats.dirs);}
+    index.insert(index.end(),rec.name.begin(),rec.name.end());
+  }
+  if(index.size()>67108864){::close(out_fd);throwJava(env,"java/lang/IllegalArgumentException","SBA index exceeds 64 MiB");return nullptr;}
+  const std::uint32_t index_crc=sba1::crc32(index.data(),index.size());
+  if(!writeVectorFd(out_fd,index,&io_error)){::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
+  const std::uint64_t index_size=index.size();
+  std::vector<std::uint8_t> footer;footer.insert(footer.end(),{'S','A','F','1'});putU16(footer,32);putU16(footer,static_cast<std::uint16_t>(mode));putU64(footer,static_cast<std::uint64_t>(index_off));putU64(footer,index_size);putU32(footer,index_crc);putU32(footer,sba1::crc32(footer.data(),footer.size()));
+  if(!writeVectorFd(out_fd,footer,&io_error)){::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
+
+  if(mode==2&&encryption_method) {
+    std::vector<std::uint8_t> mac_key_input;
+    const std::string key_label="SBA2-index-mac-key-v1";
+    mac_key_input.insert(mac_key_input.end(),key_label.begin(),key_label.end());mac_key_input.insert(mac_key_input.end(),salt.begin(),salt.end());mac_key_input.insert(mac_key_input.end(),nonce_seed.begin(),nonce_seed.end());mac_key_input.insert(mac_key_input.end(),key.begin(),key.end());
+    std::vector<std::uint8_t> mac_key;
+    if(!getJavaDigest(env,mac_key_input,&mac_key)){::close(out_fd);return nullptr;}
+    std::fill(mac_key_input.begin(),mac_key_input.end(),0);
+    std::vector<std::uint8_t> mac_input;
+    const std::string mac_label="SBA2-index-metadata-mac-v1";mac_input.insert(mac_input.end(),mac_label.begin(),mac_label.end());
+    mac_input.insert(mac_input.end(),header.begin(),header.end());
+    putU64(mac_input,static_cast<std::uint64_t>(index_off));putU64(mac_input,index_size);putU32(mac_input,index_crc);mac_input.insert(mac_input.end(),index.begin(),index.end());
+    std::vector<std::uint8_t> mac;
+    if(!getJavaHmac(env,mac_key,mac_input,&mac)||mac.size()!=32){std::fill(mac_key.begin(),mac_key.end(),0);::close(out_fd);return nullptr;}
+    std::fill(mac_key.begin(),mac_key.end(),0);std::fill(mac_input.begin(),mac_input.end(),0);
+    std::copy(mac.begin(),mac.end(),header.begin()+104);std::fill(mac.begin(),mac.end(),0);
+    if(::lseek(out_fd,0,SEEK_SET)<0||!writeVectorFd(out_fd,header,&io_error)){::close(out_fd);throwJava(env,"java/io/IOException",io_error.empty()?"cannot finalize SBA header MAC":io_error);return nullptr;}
+  }
+  if(::fsync(out_fd)!=0){const std::string message=std::string("cannot sync SBA archive: ")+std::strerror(errno);::close(out_fd);throwJava(env,"java/io/IOException",message);return nullptr;}
+  struct stat output_st{};if(::fstat(out_fd,&output_st)!=0){::close(out_fd);throwJava(env,"java/io/IOException","cannot stat completed SBA archive");return nullptr;}
+  ::close(out_fd);
+  const auto elapsed=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-started).count();
+  jlong values[9]={static_cast<jlong>(total_source),static_cast<jlong>(total_tar),static_cast<jlong>(total_compressed),static_cast<jlong>(total_stored),static_cast<jlong>(records.size()),static_cast<jlong>(count),static_cast<jlong>(output_st.st_size),static_cast<jlong>(index_size),static_cast<jlong>(elapsed)};
+  jlongArray result=env->NewLongArray(9);if(!result)return nullptr;env->SetLongArrayRegion(result,0,9,values);return env->ExceptionCheck()?nullptr:result;
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
