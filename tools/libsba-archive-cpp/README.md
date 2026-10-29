@@ -19,6 +19,10 @@ This is the `tools/`-based build path modeled on `tools/native-jni-replacement/`
 Use GitHub Actions → **Build libsba_archive.so candidate from tools** → Run workflow. CI builds each ABI separately and publishes artifacts for 14 days. A successful compile is not evidence of compatibility with the original shared library.
 
 
+## JNI contract ledger
+
+See [`JNI_CONTRACT_LEDGER.md`](JNI_CONTRACT_LEDGER.md) for the descriptors recovered from checked-in Smali/JADX evidence, current candidate status, and unresolved legacy exports. Unknown legacy signatures remain fail-closed; the ledger is not a parity claim.
+
 ## Explicitly not guessed
 
 `SbaRuntimeNative.version()` returns `SwiftTar`, matching the original x86_64 binary's disassembly and referenced string. The workflow reports missing JNI exports against each original ABI as a compatibility-gap artifact.
