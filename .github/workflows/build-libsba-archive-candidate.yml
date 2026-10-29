@@ -86,6 +86,21 @@ jobs:
         run: |
           set -euo pipefail
           sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
+      - name: Inspect legacy-only JNI exports (temporary protocol recovery)
+        if: ${{ matrix.abi == 'x86_64' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          NDK_BIN="$ANDROID_HOME/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          ORIGINAL="bare-implementation/lib/x86_64/libsba_archive.so"
+          for symbol in \
+            Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
+            Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw \
+            Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw \
+            Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw; do
+            echo "===== ORIGINAL DISASSEMBLY: $symbol ====="
+            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" | head -n 75
+          done
       - name: Build candidate and stage into a disposable build copy only
         shell: bash
         env:
