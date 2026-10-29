@@ -1026,36 +1026,40 @@ jlongArray decryptAegisChunks(JNIEnv* env, jint input_fd, jlong stored_size, jin
   env->SetLongArrayRegion(result,0,2,values); return env->ExceptionCheck()?nullptr:result;
 }
 
-jlongArray encryptAegis256Chunks(JNIEnv* env,jint input_fd,jlong plain_size,jint output_fd,
+jlongArray encryptAegis256Chunks(JNIEnv* env,jint input_fd,jint output_fd,
                                  jbyteArray key_array,jbyteArray nonce_array,jbyteArray aad_array,
-                                 jlong entry_index,jlong stored_size,jint chunk_size,jobject progress_listener) {
-  if(input_fd<0||output_fd<0||plain_size<0||stored_size<0||entry_index<0||chunk_size<4096||chunk_size>16777216) {
+                                 jlong entry_index,jint chunk_size,jobject progress_listener) {
+  if(input_fd<0||output_fd<0||entry_index<0||chunk_size<4096||chunk_size>16777216) {
     throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS encryption parameters");return nullptr;
   }
   std::vector<std::uint8_t> key,nonce_seed,aad;WipeVectorOnExit wipe_key{key};
   if(!copyInput(env,key_array,key)||!copyInput(env,nonce_array,nonce_seed)||!copyInput(env,aad_array,aad))return nullptr;
   if(key.size()!=32||nonce_seed.size()!=16){throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS-256 key or nonce seed");return nullptr;}
-  const std::uint64_t plain=static_cast<std::uint64_t>(plain_size),chunk=static_cast<std::uint64_t>(chunk_size);
-  const std::uint64_t chunks=plain==0?0:1+((plain-1)/chunk);
-  if(chunks>std::numeric_limits<std::uint64_t>::max()/16||plain>std::numeric_limits<std::uint64_t>::max()-chunks*16||plain+chunks*16!=static_cast<std::uint64_t>(stored_size)){
-    throwJava(env,"java/io/IOException","SBA AEGIS expected stored/plain size mismatch");return nullptr;
-  }
   std::vector<std::uint8_t> plain_buffer(static_cast<std::size_t>(chunk_size)),cipher_buffer(static_cast<std::size_t>(chunk_size));
-  std::uint8_t tag[16]{};std::uint64_t remaining=plain,read_total=0,written_total=0,chunk_index=0;
-  while(remaining) {
-    const std::size_t n=static_cast<std::size_t>(std::min<std::uint64_t>(remaining,chunk));std::size_t got=0;
-    if(!readExact(input_fd,plain_buffer.data(),n,&got)||got!=n){throwJava(env,"java/io/EOFException","truncated SBA AEGIS plaintext chunk");return nullptr;}
-    read_total+=n;std::uint8_t nonce[32]{};makeChunkNonce256(nonce_seed,static_cast<std::uint64_t>(entry_index),chunk_index,nonce);
-    const int rc=aegis256_encrypt_detached(cipher_buffer.data(),tag,sizeof(tag),plain_buffer.data(),n,
+  std::uint8_t tag[16]{};std::uint64_t read_total=0,written_total=0,chunk_index=0;
+  bool eof=false;
+  while(!eof) {
+    std::size_t filled=0;
+    while(filled<plain_buffer.size()) {
+      ssize_t n;do{n=::read(input_fd,plain_buffer.data()+filled,plain_buffer.size()-filled);}while(n<0&&errno==EINTR);
+      if(n<0){std::fill(plain_buffer.begin(),plain_buffer.end(),0);std::fill(cipher_buffer.begin(),cipher_buffer.end(),0);throwJava(env,"java/io/IOException",std::string("SBA plaintext read failed: ")+std::strerror(errno));return nullptr;}
+      if(n==0){eof=true;break;}
+      filled+=static_cast<std::size_t>(n);
+    }
+    if(filled==0)break;
+    std::uint8_t nonce[32]{};makeChunkNonce256(nonce_seed,static_cast<std::uint64_t>(entry_index),chunk_index,nonce);
+    const int rc=aegis256_encrypt_detached(cipher_buffer.data(),tag,sizeof(tag),plain_buffer.data(),filled,
       aad.empty()?nullptr:aad.data(),aad.size(),nonce,key.data());
     std::fill(nonce,nonce+sizeof(nonce),0);
     std::string error;
-    if(rc!=0||!writeFullyFd(output_fd,cipher_buffer.data(),n,&error)||!writeFullyFd(output_fd,tag,sizeof(tag),&error)){
+    if(rc!=0||!writeFullyFd(output_fd,cipher_buffer.data(),filled,&error)||!writeFullyFd(output_fd,tag,sizeof(tag),&error)){
       std::fill(plain_buffer.begin(),plain_buffer.end(),0);std::fill(cipher_buffer.begin(),cipher_buffer.end(),0);
       throwJava(env,"java/io/IOException",error.empty()?"SBA AEGIS encryption failed":error);return nullptr;
     }
-    written_total+=n+sizeof(tag);remaining-=n;++chunk_index;
-    if(!notifyProgress(env,progress_listener,static_cast<jlong>(read_total),plain_size)){std::fill(plain_buffer.begin(),plain_buffer.end(),0);return nullptr;}
+    read_total+=filled;written_total+=filled+sizeof(tag);++chunk_index;
+    if(!notifyProgress(env,progress_listener,static_cast<jlong>(read_total),static_cast<jlong>(read_total))) {
+      std::fill(plain_buffer.begin(),plain_buffer.end(),0);std::fill(cipher_buffer.begin(),cipher_buffer.end(),0);return nullptr;
+    }
   }
   std::fill(plain_buffer.begin(),plain_buffer.end(),0);std::fill(cipher_buffer.begin(),cipher_buffer.end(),0);std::fill(tag,tag+sizeof(tag),0);
   jlong values[2]={static_cast<jlong>(read_total),static_cast<jlong>(written_total)};
@@ -1544,11 +1548,11 @@ Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env,jobject /* self */,jint input_fd,jlong plain_size,jint output_fd,
+    JNIEnv* env,jobject /* self */,jint input_fd,jint output_fd,
     jbyteArray key,jbyteArray nonce_seed,jbyteArray aad,jlong entry_index,
-    jlong stored_size,jint chunk_size,jobject progress_listener) {
-  return encryptAegis256Chunks(env,input_fd,plain_size,output_fd,key,nonce_seed,aad,
-                               entry_index,stored_size,chunk_size,progress_listener);
+    jint chunk_size,jobject progress_listener) {
+  return encryptAegis256Chunks(env,input_fd,output_fd,key,nonce_seed,aad,
+                               entry_index,chunk_size,progress_listener);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
