@@ -1064,18 +1064,6 @@ jlongArray encryptAegis256Chunks(JNIEnv* env,jint input_fd,jlong plain_size,jint
 
 }  // namespace
 
-// Export-parity phase: keep every original JNI entry point discoverable while
-// corresponding archive operations are implemented and tested incrementally.
-// Methods whose Java/Smali descriptors are recovered use exact JNI prototypes
-// even while fail-closed. Legacy-only exports with unknown descriptors remain
-// generic fail-closed stubs until primary evidence is recovered.
-#define SBA_UNIMPLEMENTED_LONG_ARRAY(symbol, description) \
-  extern "C" JNIEXPORT jlongArray JNICALL symbol(JNIEnv* env, jobject /* self */) { \
-    throwJava(env, "java/lang/UnsupportedOperationException", description " is not implemented in the C++ candidate yet"); \
-    return nullptr; \
-  }
-
-
 namespace {
 void putU16(std::vector<std::uint8_t>& out, std::uint16_t v) {
   out.push_back(static_cast<std::uint8_t>(v >> 8)); out.push_back(static_cast<std::uint8_t>(v));
@@ -2364,5 +2352,3 @@ Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw(
   jlongArray result=env->NewLongArray(2);if(!result)return nullptr;env->SetLongArrayRegion(result,0,2,values);return env->ExceptionCheck()?nullptr:result;
 }
 
-#undef SBA_UNIMPLEMENTED_LONG_ARRAY
-#undef SBA_UNIMPLEMENTED_OBJECT_ARRAY
