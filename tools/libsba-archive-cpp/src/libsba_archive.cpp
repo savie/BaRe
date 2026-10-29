@@ -1612,7 +1612,7 @@ jobjectArray extractAegisArchiveEntryImpl(
         env,self,temporary_fd,tar_size,destination,flags,options,progress_listener);
   } else {
     result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
-        env,self,temporary_fd,compressed_size,tar_size,destination,flags,options,progress_listener);
+        env,self,temporary_fd,0,compressed_size,destination,flags,options,progress_listener);
   }
   std::fclose(temporary);
   return result;
