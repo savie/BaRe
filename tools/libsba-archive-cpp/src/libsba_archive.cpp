@@ -1568,6 +1568,46 @@ extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(JNIEnv*, jobject, jint, jlong, jlong, jstring, jint, jobjectArray, jobject);
 
 namespace {
+bool decompressZstdToTemporary(int input_fd,std::uint64_t compressed_size,
+                               std::uint64_t expected_tar_size,FILE** output_file,
+                               std::string* error) {
+  *output_file=nullptr;
+  std::FILE* out=std::tmpfile();
+  if(!out){if(error)*error=std::string("cannot create decompressed TAR temporary: ")+std::strerror(errno);return false;}
+  ZSTD_DStream* stream=ZSTD_createDStream();
+  if(!stream){std::fclose(out);if(error)*error="cannot allocate Zstandard decompression stream";return false;}
+  std::size_t zr=ZSTD_initDStream(stream);
+  if(ZSTD_isError(zr)){if(error)*error=ZSTD_getErrorName(zr);ZSTD_freeDStream(stream);std::fclose(out);return false;}
+  std::vector<std::uint8_t> input(64*1024),output(ZSTD_DStreamOutSize());
+  std::uint64_t remaining=compressed_size,produced=0;
+  bool frame_finished=false,failed=false;
+  while(remaining&&!failed) {
+    const std::size_t want=static_cast<std::size_t>(std::min<std::uint64_t>(remaining,input.size()));
+    std::size_t got=0;
+    if(!readExact(input_fd,input.data(),want,&got)||got!=want){if(error)*error="truncated compressed SBA payload";failed=true;break;}
+    remaining-=got;
+    ZSTD_inBuffer in{input.data(),got,0};
+    while(in.pos<in.size) {
+      ZSTD_outBuffer out_buf{output.data(),output.size(),0};
+      zr=ZSTD_decompressStream(stream,&out_buf,&in);
+      if(ZSTD_isError(zr)){if(error)*error=ZSTD_getErrorName(zr);failed=true;break;}
+      if(out_buf.pos) {
+        if(produced>expected_tar_size-out_buf.pos){if(error)*error="decompressed SBA TAR exceeds indexed size";failed=true;break;}
+        if(std::fwrite(output.data(),1,out_buf.pos,out)!=out_buf.pos){if(error)*error="failed writing decompressed SBA TAR";failed=true;break;}
+        produced+=out_buf.pos;
+      }
+      if(zr==0)frame_finished=true;
+    }
+  }
+  if(!failed&&(!frame_finished||remaining!=0||produced!=expected_tar_size)) {
+    if(error)*error="decompressed SBA TAR size/frame mismatch";failed=true;
+  }
+  ZSTD_freeDStream(stream);
+  if(failed){std::fclose(out);return false;}
+  if(std::fflush(out)!=0||::lseek(::fileno(out),0,SEEK_SET)<0){if(error)*error="cannot rewind decompressed SBA TAR";std::fclose(out);return false;}
+  *output_file=out;return true;
+}
+
 jobjectArray extractAegisArchiveEntryImpl(
     JNIEnv* env, jobject self, jstring archive_path, jlong entry_offset,
     jlong stored_size, jlong compressed_size, jlong tar_size, jstring destination,
@@ -1606,15 +1646,31 @@ jobjectArray extractAegisArchiveEntryImpl(
     const std::string message=std::string("cannot rewind decrypted SBA payload: ")+std::strerror(errno);
     std::fclose(temporary); throwJava(env,"java/io/IOException",message); return nullptr;
   }
-  jobjectArray result=nullptr;
+  int tar_fd=temporary_fd;
+  std::FILE* decompressed_tar=nullptr;
   if (compression_method==0) {
-    result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
-        env,self,temporary_fd,tar_size,destination,flags,options,progress_listener);
+    struct stat payload_st{};
+    if(::fstat(temporary_fd,&payload_st)!=0||payload_st.st_size<0||
+       static_cast<std::uint64_t>(payload_st.st_size)!=static_cast<std::uint64_t>(tar_size)) {
+      std::fclose(temporary);
+      throwJava(env,"java/io/IOException","decrypted SBA TAR size does not match index");
+      return nullptr;
+    }
   } else {
-    result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
-        env,self,temporary_fd,0,compressed_size,destination,flags,options,progress_listener);
+    std::string error;
+    if(!decompressZstdToTemporary(temporary_fd,static_cast<std::uint64_t>(compressed_size),
+                                  static_cast<std::uint64_t>(tar_size),&decompressed_tar,&error)) {
+      std::fclose(temporary);
+      throwJava(env,"java/io/IOException",error);
+      return nullptr;
+    }
+    tar_fd=::fileno(decompressed_tar);
+    std::fclose(temporary);
   }
-  std::fclose(temporary);
+  jobjectArray result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+      env,self,tar_fd,tar_size,destination,flags,options,progress_listener);
+  if(decompressed_tar)std::fclose(decompressed_tar);
+  else std::fclose(temporary);
   return result;
 }
 }  // namespace
