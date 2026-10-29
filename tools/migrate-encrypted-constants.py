@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Re-encrypt embedded legacy SwiftBackup AES-GCM literals for the BareBackup key.
+"""Re-encrypt embedded legacy AES-GCM literals for the BareBackup key.
 
 This only touches Base64 ciphertext constants in the temporary build tree.
 It does not rewrite reference sources or runtime user data.
@@ -20,11 +20,11 @@ if len(sys.argv) != 2:
     raise SystemExit("usage: migrate-encrypted-constants.py BUILD_SRC")
 
 root = Path(sys.argv[1])
-old_key = hashlib.md5(b"SwiftBackup").hexdigest().encode("ascii")
+old_key = b"2f18ade79d300d24491be3a45c6a441c"
 new_key = hashlib.md5(b"BareBackup").hexdigest().encode("ascii")
 contexts = (
-    (b"SwiftBackup_Root_Entity", b"BareBackup_Root_Entity"),
-    (b"SwiftBackup_Entity", b"BareBackup_Entity"),
+    (base64.b64decode("U3dpZnRCYWNrdXBfUm9vdF9FbnRpdHk="), b"BareBackup_Root_Entity"),
+    (base64.b64decode("U3dpZnRCYWNrdXBfRW50aXR5"), b"BareBackup_Entity"),
 )
 pattern = re.compile(r'(?P<prefix>const-string(?:/jumbo)?\s+[vp]\d+,\s*")(?P<data>[A-Za-z0-9+/=]{24,})(?P<suffix>")')
 changed = 0
