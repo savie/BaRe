@@ -1592,7 +1592,7 @@ bool decompressZstdToTemporary(int input_fd,std::uint64_t compressed_size,
       zr=ZSTD_decompressStream(stream,&out_buf,&in);
       if(ZSTD_isError(zr)){if(error)*error=ZSTD_getErrorName(zr);failed=true;break;}
       if(out_buf.pos) {
-        if(produced>expected_tar_size-out_buf.pos){if(error)*error="decompressed SBA TAR exceeds indexed size";failed=true;break;}
+        if(produced>expected_tar_size||out_buf.pos>expected_tar_size-produced){if(error)*error="decompressed SBA TAR exceeds indexed size";failed=true;break;}
         if(std::fwrite(output.data(),1,out_buf.pos,out)!=out_buf.pos){if(error)*error="failed writing decompressed SBA TAR";failed=true;break;}
         produced+=out_buf.pos;
       }
