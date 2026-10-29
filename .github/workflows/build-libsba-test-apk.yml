@@ -18,7 +18,7 @@ permissions:
 
 # Keep only the newest candidate APK build for this branch active.
 concurrency:
-  group: libsba-test-apk-\${{ github.ref }}
+  group: libsba-test-apk-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
