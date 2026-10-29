@@ -106,11 +106,11 @@ jobs:
           done
           echo "===== AEGIS-256 DECRYPT INNER CALL WINDOWS ====="
           for addr in 72818 72980 72a4a 72a5f 72a6e 72aaf; do
-            line=$(grep -nE "^[[:space:]]*$addr:" /tmp/Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw.dis | sed -n '1p' | cut -d: -f1)
+            line=$(grep -nE "^[[:space:]]*0*$addr:" /tmp/Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw.dis | sed -n '1p' | cut -d: -f1)
             if [ -n "$line" ]; then start=$((line>18?line-18:1)); end=$((line+18)); sed -n "${start},${end}p" /tmp/Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw.dis; fi
           done
           echo "===== ZSTD FILE WRAPPER INNER CALL WINDOW ====="
-          line=$(grep -nE '5fba9:' /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis | sed -n '1p' | cut -d: -f1)
+          line=$(grep -nE '0*5fba9:' /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis | sed -n '1p' | cut -d: -f1)
           if [ -n "$line" ]; then start=$((line>25?line-25:1)); end=$((line+20)); sed -n "${start},${end}p" /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis; fi
           echo "===== ORIGINAL INTERNAL AEGIS SYMBOLS ====="
           "$NDK_BIN/llvm-nm" -C "$ORIGINAL" 2>/dev/null | grep -Ei 'aegis(128x2|256).*decrypt|aegis(128x2|256).*encrypt' | sed -n '1,30p' || true
