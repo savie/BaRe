@@ -1418,8 +1418,12 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
     const bool include_root=(flags_value&8)!=0;
     bool tar_ok=true;
     if(S_ISDIR(root_st.st_mode)) {
-      if(include_root)tar_ok=tarWalk(tar_file,path,"",root_name,includes,excludes,&stats,&io_error);
-      else {
+      if(include_root) {
+        std::string root_tar_name=root_name+"/";
+        tar_ok=tarHeader(tar_file,root_tar_name,root_st,'5',"",0,&io_error);
+        if(tar_ok){++stats.entries;++stats.dirs;}
+      }
+      if(tar_ok) {
         DIR* root_dir=::opendir(path.c_str());
         if(!root_dir){tar_ok=false;io_error=std::string("cannot open SBA source directory: ")+std::strerror(errno);}
         else {
@@ -1428,7 +1432,8 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
           ::closedir(root_dir);std::sort(names.begin(),names.end());
           for(const auto& child:names) {
             const std::string full=path+"/"+child;
-            if(!tarWalk(tar_file,full,child,child,includes,excludes,&stats,&io_error)){tar_ok=false;break;}
+            const std::string child_tar=include_root?root_name+"/"+child:child;
+            if(!tarWalk(tar_file,full,child,child_tar,includes,excludes,&stats,&io_error)){tar_ok=false;break;}
           }
         }
       }
@@ -1558,9 +1563,71 @@ Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw(
                                entry_index,stored_size,chunk_size,progress_listener);
 }
 
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw,
-    "legacy TAR creation with write statistics")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw(
+    JNIEnv* env,jobject /* self */,jstring source_path,jint output_fd,jint flags,
+    jobjectArray include_paths,jobjectArray exclude_paths,jobject progress_listener) {
+  if(source_path==nullptr||output_fd<0){throwJava(env,"java/lang/IllegalArgumentException","invalid TAR source path or output fd");return nullptr;}
+  auto readFlat=[&](jobjectArray array,std::vector<std::string>* out)->bool {
+    if(!array)return true;
+    const jsize n=env->GetArrayLength(array);
+    for(jsize i=0;i<n;++i) {
+      jstring value=static_cast<jstring>(env->GetObjectArrayElement(array,i));
+      if(!value)return false;
+      const char* utf=env->GetStringUTFChars(value,nullptr);
+      if(!utf){env->DeleteLocalRef(value);return false;}
+      out->emplace_back(utf);env->ReleaseStringUTFChars(value,utf);env->DeleteLocalRef(value);
+    }
+    return !env->ExceptionCheck();
+  };
+  std::vector<std::string> includes,excludes;
+  if(!readFlat(include_paths,&includes)||!readFlat(exclude_paths,&excludes))return nullptr;
+  const char* path_utf=env->GetStringUTFChars(source_path,nullptr);if(!path_utf)return nullptr;
+  const std::string path(path_utf);env->ReleaseStringUTFChars(source_path,path_utf);
+  struct stat root_st{};
+  if(::lstat(path.c_str(),&root_st)!=0){throwJava(env,"java/io/IOException",std::string("cannot stat TAR source: ")+path+": "+std::strerror(errno));return nullptr;}
+  const off_t start=::lseek(output_fd,0,SEEK_CUR);
+  if(start<0){throwJava(env,"java/io/IOException",std::string("TAR output fd must be seekable: ")+std::strerror(errno));return nullptr;}
+  const int dup_fd=::dup(output_fd);
+  if(dup_fd<0){throwJava(env,"java/io/IOException",std::string("cannot duplicate TAR output fd: ")+std::strerror(errno));return nullptr;}
+  std::FILE* out=::fdopen(dup_fd,"wb");
+  if(!out){::close(dup_fd);throwJava(env,"java/io/IOException",std::string("cannot wrap TAR output fd: ")+std::strerror(errno));return nullptr;}
+  TarStats stats;std::string error;bool ok=true;
+  const std::size_t slash=path.find_last_of('/');
+  std::string root_name=slash==std::string::npos?path:path.substr(slash+1);if(root_name.empty())root_name="root";
+  if(S_ISDIR(root_st.st_mode)) {
+    const bool include_root=(flags&8)!=0;
+    if(include_root) {
+      ok=tarHeader(out,root_name+"/",root_st,'5',"",0,&error);
+      if(ok){++stats.entries;++stats.dirs;}
+    }
+    if(ok) {
+      DIR* dir=::opendir(path.c_str());
+      if(!dir){ok=false;error=std::string("cannot open TAR source directory: ")+std::strerror(errno);}
+      else {
+        std::vector<std::string> names;
+        while(dirent* ent=::readdir(dir)){std::string n=ent->d_name;if(n!="."&&n!="..")names.push_back(n);}
+        ::closedir(dir);std::sort(names.begin(),names.end());
+        for(const auto& child:names) {
+          const std::string full=path+"/"+child;
+          const std::string tar_name=include_root?root_name+"/"+child:child;
+          if(!tarWalk(out,full,child,tar_name,includes,excludes,&stats,&error)){ok=false;break;}
+        }
+      }
+    }
+  } else {
+    ok=tarWalk(out,path,root_name,root_name,includes,excludes,&stats,&error);
+  }
+  const std::uint8_t zeros[1024]{};
+  if(ok&&(std::fwrite(zeros,1,sizeof(zeros),out)!=sizeof(zeros)||std::fflush(out)!=0)){ok=false;error="failed to finalize TAR output";}
+  const off_t end=::lseek(output_fd,0,SEEK_CUR);
+  std::fclose(out);
+  if(!ok){throwJava(env,"java/io/IOException",error);return nullptr;}
+  if(end<start){throwJava(env,"java/io/IOException","TAR output position moved backwards");return nullptr;}
+  if(!notifyProgress(env,progress_listener,static_cast<jlong>(stats.bytes),static_cast<jlong>(stats.bytes)))return nullptr;
+  jlong values[5]={static_cast<jlong>(end-start),static_cast<jlong>(stats.bytes),static_cast<jlong>(stats.entries),static_cast<jlong>(stats.files),static_cast<jlong>(stats.dirs)};
+  jlongArray result=env->NewLongArray(5);if(!result)return nullptr;env->SetLongArrayRegion(result,0,5,values);return env->ExceptionCheck()?nullptr:result;
+}
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(JNIEnv*, jobject, jint, jlong, jstring, jint, jobjectArray, jobject);
@@ -2277,13 +2344,25 @@ Java_com_swiftapps_sba_SbaZstdNative_compressZstdFdToFdRaw(
   return env->ExceptionCheck() ? nullptr : result;
 }
 
-// This legacy export is present in the original ELF symbol inventory, but no
-// matching declaration was found in the current or historical Java/Smali
-// wrappers inspected so far. Keep it fail-closed until its exact descriptor,
-// path/FD contract, and progress-listener type are recovered from evidence.
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw,
-    "legacy Zstandard file-to-fd compression")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw(
+    JNIEnv* env,jobject /* self */,jstring input_path,jint compression_level,
+    jint output_fd,jobject progress_listener) {
+  if(input_path==nullptr||output_fd<0||compression_level<1||compression_level>22) {
+    throwJava(env,"java/lang/IllegalArgumentException","invalid Zstandard file-to-fd arguments");return nullptr;
+  }
+  const char* path_utf=env->GetStringUTFChars(input_path,nullptr);if(!path_utf)return nullptr;
+  const std::string path(path_utf);env->ReleaseStringUTFChars(input_path,path_utf);
+  const int input_fd=::open(path.c_str(),O_RDONLY|O_CLOEXEC|O_NOFOLLOW);
+  if(input_fd<0){throwJava(env,"java/io/IOException",std::string("cannot open Zstandard input file: ")+path+": "+std::strerror(errno));return nullptr;}
+  std::uint64_t input_bytes=0,output_bytes=0;std::string error;
+  const bool ok=compressFdToFd(input_fd,output_fd,compression_level,&input_bytes,&output_bytes,&error);
+  ::close(input_fd);
+  if(!ok){throwJava(env,"java/io/IOException",error);return nullptr;}
+  if(!notifyProgress(env,progress_listener,static_cast<jlong>(input_bytes),static_cast<jlong>(input_bytes)))return nullptr;
+  jlong values[2]={static_cast<jlong>(input_bytes),static_cast<jlong>(output_bytes)};
+  jlongArray result=env->NewLongArray(2);if(!result)return nullptr;env->SetLongArrayRegion(result,0,2,values);return env->ExceptionCheck()?nullptr:result;
+}
 
 #undef SBA_UNIMPLEMENTED_LONG_ARRAY
 #undef SBA_UNIMPLEMENTED_OBJECT_ARRAY
