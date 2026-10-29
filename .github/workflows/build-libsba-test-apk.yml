@@ -2,11 +2,27 @@ name: Build libsba candidate test APK ZIP
 
 on:
   workflow_dispatch:
+    inputs:
+      use_sba_cpp_candidate:
+        description: "Build and stage the C++ libsba candidate in the disposable APK tree"
+        required: true
+        type: boolean
+        default: false
+      confirm_sba_runtime_compatibility:
+        description: "Confirm original-fixture and backup/restore compatibility tests passed"
+        required: true
+        type: boolean
+        default: false
   push:
+    branches:
+      - feat/libsba-tools-integration
     paths:
       - "tools/libsba-archive-cpp/**"
       - ".github/workflows/build-libsba-archive-candidate.yml"
       - ".github/workflows/build-libsba-test-apk.yml"
+      - ".github/workflows/namespace-barebackup.yml"
+      - "tools/prepare-barebackup-build.py"
+      - "tools/native-jni-replacement/**"
       - "bare-implementation/**"
 
 permissions:
@@ -23,22 +39,29 @@ jobs:
       matrix:
         abi: [arm64-v8a, armeabi-v7a, x86, x86_64]
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout BΛR☰ implementation
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
 
-      - uses: actions/setup-java@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      - uses: android-actions/setup-android@v3
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
         with:
           packages: platform-tools
 
-      - name: Install pinned NDK and CMake
+      - name: Install Android NDK
         shell: bash
         run: |
           set -euo pipefail
           sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> "$GITHUB_ENV"
 
       - name: Build candidate and verify original is untouched
         shell: bash
@@ -85,14 +108,20 @@ jobs:
     needs: build-candidate
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout BΛR☰ implementation
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
 
-      - uses: actions/setup-java@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      - uses: android-actions/setup-android@v3
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
         with:
           packages: platform-tools
 
@@ -129,11 +158,24 @@ jobs:
             --output apktool.jar
           java -jar apktool.jar --version
 
-      - name: Stage candidate libraries in disposable source copy
+      - name: Prepare build source and inject Firebase configuration
         shell: bash
         run: |
           set -euo pipefail
           cp -a bare-implementation build-src
+          mkdir -p build
+          if test -f app/google-services.json; then
+            cp app/google-services.json build/google-services.json
+            sha256sum build/google-services.json
+          fi
+          if test -f tools/prepare-barebackup-build.py; then
+            python3 tools/prepare-barebackup-build.py
+          fi
+
+      - name: Stage candidate libraries in disposable source copy
+        shell: bash
+        run: |
+          set -euo pipefail
           for abi in arm64-v8a armeabi-v7a x86 x86_64; do
             test -s "build/candidates/$abi/libsba_archive.so"
             install -m 0644 "build/candidates/$abi/libsba_archive.so" \
@@ -176,22 +218,48 @@ jobs:
                   print(f"{abi}: embedded candidate SHA-256 {embedded}")
           PY
 
-      - name: Sign test APK with a throwaway test key
+      - name: Prepare stable CI signing key
         shell: bash
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+        run: |
+          set -euo pipefail
+          test -n "$BARE_DEBUG_KEYSTORE_B64" || { echo "Missing BARE_DEBUG_KEYSTORE_B64 repository secret"; exit 1; }
+          mkdir -p "$RUNNER_TEMP"
+          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
+          test -s "$RUNNER_TEMP/bare-ci.keystore"
+          keytool -list -v -keystore "$RUNNER_TEMP/bare-ci.keystore" -alias androiddebugkey \
+            -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
+
+      - name: Align and sign APK with stable CI key
+        shell: bash
+        env:
+          CI_KEYSTORE: ${{ runner.temp }}/bare-ci.keystore
         run: |
           set -euo pipefail
           BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
-          keytool -genkeypair -noprompt \
-            -keystore "$RUNNER_TEMP/libsba-test.keystore" \
-            -storepass changeit -keypass changeit -alias libsba-test \
-            -keyalg RSA -keysize 2048 -validity 30 \
-            -dname "CN=BaRe libsba candidate test, OU=Experimental, O=BaRe, C=ID"
-
-          "$BUILD_TOOLS/zipalign" -f 4 \
-            build/libsba-candidate-unsigned.apk build/libsba-candidate-aligned.apk
-          "$BUILD_TOOLS/apksigner" sign \
-            --ks "$RUNNER_TEMP/libsba-test.keystore" \
-            --ks-key-alias libsba-test --ks-pass pass:changeit --key-pass pass:changeit \
+          test -x "$BUILD_TOOLS/zipalign"
+          test -x "$BUILD_TOOLS/apksigner"
+          "$BUILD_TOOLS/zipalign" -f 4 build/libsba-candidate-unsigned.apk build/libsba-candidate-aligned.apk
+          python3 - <<'PY'
+          import zipfile
+          p = "build/libsba-candidate-aligned.apk"
+          with zipfile.ZipFile(p) as z:
+              info = z.getinfo("resources.arsc")
+              assert info.compress_type == zipfile.ZIP_STORED, f"resources.arsc is compressed: method={info.compress_type}"
+              with open(p, "rb") as f:
+                  f.seek(info.header_offset)
+                  header = f.read(30)
+                  assert header[:4] == bytes((0x50, 0x4b, 0x03, 0x04))
+                  name_len = int.from_bytes(header[26:28], "little")
+                  extra_len = int.from_bytes(header[28:30], "little")
+                  data_offset = info.header_offset + 30 + name_len + extra_len
+                  assert data_offset % 4 == 0, f"resources.arsc data offset is not 4-byte aligned: {data_offset}"
+              print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
+          PY
+          "$BUILD_TOOLS/zipalign" -c -v 4 build/libsba-candidate-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks "$CI_KEYSTORE" --ks-key-alias androiddebugkey \
+            --ks-pass pass:android --key-pass pass:android \
             --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
             --out build/BaRe-libsba-candidate-test.apk build/libsba-candidate-aligned.apk
           "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-libsba-candidate-test.apk
@@ -210,7 +278,7 @@ jobs:
             echo "Workflow run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             echo "Native library: custom tools/libsba-archive-cpp candidate"
             echo "ABIs: arm64-v8a, armeabi-v7a, x86, x86_64"
-            echo "Signing: ephemeral CI test key; this APK cannot upgrade a release signed by another key"
+            echo "Signing: stable BARE_DEBUG_KEYSTORE_B64 CI key, matching namespace-barebackup.yml"
             echo "Compatibility: JNI export presence does not establish behavioral parity."
             echo "Known limitation: archive creation and AEGIS chunk operations remain incomplete."
           } > build/package/README-TEST.txt
