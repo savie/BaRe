@@ -1224,6 +1224,24 @@ bool tarWalk(FILE* out,const std::string& full,const std::string& filter_rel,
   if(error)*error="unsupported special file in TAR source: "+full;
   return false;
 }
+bool readFlatStringArray(JNIEnv* env,jobjectArray array,std::vector<std::string>* out) {
+  if(!array)return true;
+  const jsize n=env->GetArrayLength(array);
+  for(jsize i=0;i<n;++i) {
+    jstring value=static_cast<jstring>(env->GetObjectArrayElement(array,i));
+    if(!value)return false;
+    const char* utf=env->GetStringUTFChars(value,nullptr);
+    if(!utf){env->DeleteLocalRef(value);return false;}
+    out->emplace_back(utf);
+    env->ReleaseStringUTFChars(value,utf);
+    env->DeleteLocalRef(value);
+  }
+  return !env->ExceptionCheck();
+}
+bool copyOptionalInput(JNIEnv* env,jbyteArray input,std::vector<std::uint8_t>* out) {
+  if(input==nullptr){out->clear();return true;}
+  return copyInput(env,input,*out);
+}
 bool readNestedStringArray(JNIEnv* env,jobjectArray outer,jsize index,std::vector<std::string>* out) {
   if(!outer)return true;
   jobject nested=env->GetObjectArrayElement(outer,index);
@@ -1338,11 +1356,8 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
   WipeVectorOnExit wipe_nonce_seed{nonce_seed};
   if(!copyInput(env,metadata_array,metadata))return nullptr;
   if(metadata.size()>1048576){throwJava(env,"java/lang/IllegalArgumentException","SBA archive metadata exceeds 1 MiB");return nullptr;}
-  auto optionalBytes=[&](jbyteArray a,std::vector<std::uint8_t>* out)->bool{
-    if(a==nullptr){out->clear();return true;}return copyInput(env,a,*out);
-  };
-  if(!optionalBytes(key_array,&key)||!optionalBytes(key_check_array,&key_check)||
-     !optionalBytes(salt_array,&salt)||!optionalBytes(nonce_seed_array,&nonce_seed))return nullptr;
+  if(!copyOptionalInput(env,key_array,&key)||!copyOptionalInput(env,key_check_array,&key_check)||
+     !copyOptionalInput(env,salt_array,&salt)||!copyOptionalInput(env,nonce_seed_array,&nonce_seed))return nullptr;
   if(encryption_method!=0) {
     if(mode!=2 || kdf_method!=1 || kdf_iterations<1 || kdf_iterations>100 ||
        kdf_memory_kib<16384 || kdf_memory_kib>65536 || kdf_parallelism<1 || kdf_parallelism>8 ||
@@ -1569,20 +1584,8 @@ Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw(
     JNIEnv* env,jobject /* self */,jstring source_path,jint output_fd,jint flags,
     jobjectArray include_paths,jobjectArray exclude_paths,jobject progress_listener) {
   if(source_path==nullptr||output_fd<0){throwJava(env,"java/lang/IllegalArgumentException","invalid TAR source path or output fd");return nullptr;}
-  auto readFlat=[&](jobjectArray array,std::vector<std::string>* out)->bool {
-    if(!array)return true;
-    const jsize n=env->GetArrayLength(array);
-    for(jsize i=0;i<n;++i) {
-      jstring value=static_cast<jstring>(env->GetObjectArrayElement(array,i));
-      if(!value)return false;
-      const char* utf=env->GetStringUTFChars(value,nullptr);
-      if(!utf){env->DeleteLocalRef(value);return false;}
-      out->emplace_back(utf);env->ReleaseStringUTFChars(value,utf);env->DeleteLocalRef(value);
-    }
-    return !env->ExceptionCheck();
-  };
   std::vector<std::string> includes,excludes;
-  if(!readFlat(include_paths,&includes)||!readFlat(exclude_paths,&excludes))return nullptr;
+  if(!readFlatStringArray(env,include_paths,&includes)||!readFlatStringArray(env,exclude_paths,&excludes))return nullptr;
   const char* path_utf=env->GetStringUTFChars(source_path,nullptr);if(!path_utf)return nullptr;
   const std::string path(path_utf);env->ReleaseStringUTFChars(source_path,path_utf);
   struct stat root_st{};
