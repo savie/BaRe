@@ -145,31 +145,8 @@ print("Validated BΛR☰ manifest identity and injected Firebase configuration."
 smali_root = root / "smali"
 secondary = root / "smali_classes2"
 
-# The namespace migration must not change the authenticated-encryption context.
-# Existing metadata and encrypted entities were written with this exact AAD by
-# the original app. Patch only the temporary build tree, never bare-implementation/.
-crypto_context_path = secondary / "pu.smali"
-crypto_context = crypto_context_path.read_text()
-legacy_aad = 'const-string v2, "SwiftBackup_Entity"'
-renamed_aad = 'const-string v2, "BareBackup_Entity"'
-legacy_count = crypto_context.count(legacy_aad)
-renamed_count = crypto_context.count(renamed_aad)
-if renamed_count == 1 and legacy_count == 0:
-    crypto_context = crypto_context.replace(renamed_aad, legacy_aad, 1)
-    crypto_context_path.write_text(crypto_context)
-elif legacy_count == 1 and renamed_count == 0:
-    pass  # Already compatible; make the build patch idempotent.
-else:
-    raise SystemExit(
-        "Unexpected crypto associated-data marker in staged pu.smali; "
-        f"legacy={legacy_count}, renamed={renamed_count}. Refusing unsafe patch."
-    )
-assert legacy_aad in crypto_context and renamed_aad not in crypto_context, (
-    "Legacy crypto associated-data context was not preserved in staging"
-)
-print("Preserved legacy authenticated-encryption context for existing backup compatibility.")
-
-
+# Embedded encrypted constants are migrated to the BareBackup key/AAD by
+# tools/migrate-encrypted-constants.py during staging. Keep entity context Bare here.
 def method_body(path, signature):
     source = path.read_text()
     match = re.search(
