@@ -948,6 +948,82 @@ Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv* /* env */, jo
 }
 
 
+namespace {
+bool writeFullyFd(int fd, const std::uint8_t* data, std::size_t size, std::string* error) {
+  std::size_t offset = 0;
+  while (offset < size) {
+    ssize_t n;
+    do { n = ::write(fd, data + offset, size - offset); } while (n < 0 && errno == EINTR);
+    if (n <= 0) { if (error) *error = std::string("write failed: ") + std::strerror(errno); return false; }
+    offset += static_cast<std::size_t>(n);
+  }
+  return true;
+}
+void makeChunkNonce128(const std::vector<std::uint8_t>& seed, std::uint64_t entry, std::uint64_t chunk, std::uint8_t nonce[16]) {
+  std::memcpy(nonce, seed.data(), 16);
+  const std::uint64_t counter = ((entry & 0xffffffffULL) << 32) | (chunk & 0xffffffffULL);
+  for (int i = 0; i < 8; ++i) nonce[15-i] ^= static_cast<std::uint8_t>(counter >> (i*8));
+}
+void makeChunkNonce256(const std::vector<std::uint8_t>& seed, std::uint64_t entry, std::uint64_t chunk, std::uint8_t nonce[32]) {
+  std::memcpy(nonce, seed.data(), 16);
+  for (int i = 0; i < 8; ++i) {
+    nonce[23-i] = static_cast<std::uint8_t>(entry >> (i*8));
+    nonce[31-i] = static_cast<std::uint8_t>(chunk >> (i*8));
+  }
+}
+jlongArray decryptAegisChunks(JNIEnv* env, jint input_fd, jlong stored_size, jint output_fd,
+                              jbyteArray key_array, jbyteArray nonce_array, jbyteArray aad_array,
+                              jlong entry_index, jlong plain_size, jint chunk_size,
+                              jobject progress_listener, bool aegis128x2) {
+  if (input_fd < 0 || output_fd < 0 || stored_size < 0 || plain_size < 0 || entry_index < 0 ||
+      chunk_size < 4096 || chunk_size > 16777216) {
+    throwJava(env, "java/lang/IllegalArgumentException", "invalid SBA AEGIS chunk parameters"); return nullptr;
+  }
+  std::vector<std::uint8_t> key, nonce_seed, aad;
+  WipeVectorOnExit wipe_key{key};
+  if (!copyInput(env,key_array,key) || !copyInput(env,nonce_array,nonce_seed) || !copyInput(env,aad_array,aad)) return nullptr;
+  if (key.size() < (aegis128x2 ? 16u : 32u) || nonce_seed.size() != 16) {
+    throwJava(env, "java/lang/IllegalArgumentException", "invalid SBA AEGIS key or nonce-seed length"); return nullptr;
+  }
+  const std::uint64_t plain=static_cast<std::uint64_t>(plain_size), chunk=static_cast<std::uint64_t>(chunk_size);
+  const std::uint64_t chunks=plain==0?0:1+((plain-1)/chunk);
+  if (chunks>std::numeric_limits<std::uint64_t>::max()/16 || plain>std::numeric_limits<std::uint64_t>::max()-chunks*16 ||
+      plain+chunks*16!=static_cast<std::uint64_t>(stored_size)) {
+    throwJava(env,"java/io/IOException","SBA AEGIS stored/plain size mismatch"); return nullptr;
+  }
+  std::vector<std::uint8_t> cipher_buffer(static_cast<std::size_t>(chunk_size)), plain_buffer(static_cast<std::size_t>(chunk_size));
+  std::uint8_t tag[16]{};
+  std::uint64_t remaining=plain, consumed=0, produced=0, chunk_index=0;
+  while (remaining) {
+    const std::size_t n=static_cast<std::size_t>(std::min<std::uint64_t>(remaining,chunk));
+    std::size_t got=0;
+    if (!readExact(input_fd,cipher_buffer.data(),n,&got)||got!=n) { throwJava(env,"java/io/EOFException","truncated SBA AEGIS ciphertext chunk"); return nullptr; }
+    consumed+=n; got=0;
+    if (!readExact(input_fd,tag,sizeof(tag),&got)||got!=sizeof(tag)) { throwJava(env,"java/io/EOFException","truncated SBA AEGIS authentication tag"); return nullptr; }
+    consumed+=sizeof(tag);
+    int rc=-1;
+    if (aegis128x2) {
+      std::uint8_t nonce[16]{}; makeChunkNonce128(nonce_seed,static_cast<std::uint64_t>(entry_index),chunk_index,nonce);
+      rc=aegis128x2_decrypt_detached(plain_buffer.data(),cipher_buffer.data(),n,tag,sizeof(tag),aad.empty()?nullptr:aad.data(),aad.size(),nonce,key.data());
+      std::fill(nonce,nonce+sizeof(nonce),0);
+    } else {
+      std::uint8_t nonce[32]{}; makeChunkNonce256(nonce_seed,static_cast<std::uint64_t>(entry_index),chunk_index,nonce);
+      rc=aegis256_decrypt_detached(plain_buffer.data(),cipher_buffer.data(),n,tag,sizeof(tag),aad.empty()?nullptr:aad.data(),aad.size(),nonce,key.data());
+      std::fill(nonce,nonce+sizeof(nonce),0);
+    }
+    if (rc!=0) { std::fill(plain_buffer.begin(),plain_buffer.end(),0); throwJava(env,"java/io/IOException","SBA AEGIS authentication failed"); return nullptr; }
+    std::string error;
+    if (!writeFullyFd(output_fd,plain_buffer.data(),n,&error)) { std::fill(plain_buffer.begin(),plain_buffer.end(),0); throwJava(env,"java/io/IOException",error); return nullptr; }
+    produced+=n; remaining-=n; ++chunk_index;
+    if (!notifyProgress(env,progress_listener,static_cast<jlong>(produced),plain_size)) { std::fill(plain_buffer.begin(),plain_buffer.end(),0); return nullptr; }
+  }
+  std::fill(cipher_buffer.begin(),cipher_buffer.end(),0); std::fill(plain_buffer.begin(),plain_buffer.end(),0); std::fill(tag,tag+sizeof(tag),0);
+  jlong values[2]={static_cast<jlong>(consumed),static_cast<jlong>(produced)};
+  jlongArray result=env->NewLongArray(2); if (!result) return nullptr;
+  env->SetLongArrayRegion(result,0,2,values); return env->ExceptionCheck()?nullptr:result;
+}
+}  // namespace
+
 // Export-parity phase: keep every original JNI entry point discoverable while
 // corresponding archive operations are implemented and tested incrementally.
 // Methods whose Java/Smali descriptors are recovered use exact JNI prototypes
@@ -978,24 +1054,18 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
-    JNIEnv* env, jobject /* self */, jint /* input_fd */, jlong /* entry_offset */,
-    jint /* chunk_size */, jbyteArray /* key */, jbyteArray /* nonce */,
-    jbyteArray /* aad */, jlong /* plain_size */, jlong /* cipher_size */,
-    jint /* flags */, jobject /* progress_listener */) {
-  throwJava(env, "java/lang/UnsupportedOperationException",
-      "AEGIS-128X2 chunk decryption is not implemented in the C++ candidate yet");
-  return nullptr;
+    JNIEnv* env, jobject /* self */, jint input_fd, jlong stored_size, jint output_fd,
+    jbyteArray key, jbyteArray nonce_seed, jbyteArray aad, jlong entry_index,
+    jlong plain_size, jint chunk_size, jobject progress_listener) {
+  return decryptAegisChunks(env,input_fd,stored_size,output_fd,key,nonce_seed,aad,entry_index,plain_size,chunk_size,progress_listener,true);
 }
 
 extern "C" JNIEXPORT jlongArray JNICALL
 Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
-    JNIEnv* env, jobject /* self */, jint /* input_fd */, jlong /* entry_offset */,
-    jint /* chunk_size */, jbyteArray /* key */, jbyteArray /* nonce */,
-    jbyteArray /* aad */, jlong /* plain_size */, jlong /* cipher_size */,
-    jint /* flags */, jobject /* progress_listener */) {
-  throwJava(env, "java/lang/UnsupportedOperationException",
-      "AEGIS-256 chunk decryption is not implemented in the C++ candidate yet");
-  return nullptr;
+    JNIEnv* env, jobject /* self */, jint input_fd, jlong stored_size, jint output_fd,
+    jbyteArray key, jbyteArray nonce_seed, jbyteArray aad, jlong entry_index,
+    jlong plain_size, jint chunk_size, jobject progress_listener) {
+  return decryptAegisChunks(env,input_fd,stored_size,output_fd,key,nonce_seed,aad,entry_index,plain_size,chunk_size,progress_listener,false);
 }
 
 SBA_UNIMPLEMENTED_LONG_ARRAY(
