@@ -98,9 +98,14 @@ jobs:
             Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw \
             Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw \
             Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw; do
-            echo "===== ORIGINAL DISASSEMBLY: $symbol ====="
-            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" | sed -n '1,75p'
+            echo "===== ORIGINAL DISASSEMBLY: $symbol (prologue) ====="
+            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" > "/tmp/$symbol.dis"
+            sed -n '1,45p' "/tmp/$symbol.dis"
+            echo "===== CALLS / CRYPTO / FD OPS: $symbol ====="
+            grep -E 'callq|aegis|ZSTD|read@|write@|open@|close@|GetStringUTF|GetByteArray|GetIntArray|GetObjectArray' "/tmp/$symbol.dis" | tail -n 80 || true
           done
+          echo "===== ORIGINAL INTERNAL AEGIS SYMBOLS ====="
+          "$NDK_BIN/llvm-nm" -C "$ORIGINAL" 2>/dev/null | grep -Ei 'aegis(128x2|256).*decrypt|aegis(128x2|256).*encrypt' | head -n 30 || true
       - name: Build candidate and stage into a disposable build copy only
         shell: bash
         env:
