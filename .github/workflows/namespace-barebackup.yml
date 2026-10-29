@@ -71,6 +71,8 @@ jobs:
           sha256sum build/google-services.json
           sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 tools/prepare-barebackup-build.py
+          python3 -m pip install --break-system-packages cryptography
+          python3 tools/migrate-encrypted-constants.py build-src
           # Apply compatibility changes only to build-src; tracked source files stay unchanged.
           python3 tools/patch-sba-jni-compat.py build-src
           for smali in \
