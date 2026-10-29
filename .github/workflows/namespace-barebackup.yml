@@ -15,6 +15,7 @@ on:
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
       - "tools/prepare-barebackup-build.py"
+      - "tools/migrate-encrypted-constants.py"
       - "tools/sba-jni-compat/**"
       - "tools/patch-sba-jni-compat.py"
       - "tools/audit-sba-jni.py"
