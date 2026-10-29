@@ -16,6 +16,11 @@ permissions:
   contents: read
   actions: read
 
+# Keep only the newest candidate APK build for this branch active.
+concurrency:
+  group: libsba-test-apk-\${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-candidate:
     name: Build candidate (${{ matrix.abi }})
@@ -249,6 +254,7 @@ jobs:
             echo "Commit: $GITHUB_SHA"
             echo "Workflow run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             echo "Native library: custom tools/libsba-archive-cpp candidate"
+            echo "Startup library: rebuilt from tools/native-jni-replacement/native-lib.cpp"
             echo "ABIs: arm64-v8a, armeabi-v7a, x86, x86_64"
             echo "Signing: ephemeral CI test key; this APK cannot upgrade a release signed by another key"
             echo "Compatibility: JNI export presence does not establish behavioral parity."
