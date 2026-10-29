@@ -949,31 +949,54 @@ Java_com_swiftapps_sba_SbaLibaegisCryptoNative_isAvailable(JNIEnv* /* env */, jo
 
 
 // Export-parity phase: keep every original JNI entry point discoverable while
-// the corresponding archive operation is implemented and tested incrementally.
-// These fail closed rather than returning fabricated success metadata.
+// corresponding archive operations are implemented and tested incrementally.
+// Methods whose Java/Smali descriptors are recovered use exact JNI prototypes
+// even while fail-closed. Legacy-only exports with unknown descriptors remain
+// generic fail-closed stubs until primary evidence is recovered.
 #define SBA_UNIMPLEMENTED_LONG_ARRAY(symbol, description) \
   extern "C" JNIEXPORT jlongArray JNICALL symbol(JNIEnv* env, jobject /* self */) { \
     throwJava(env, "java/lang/UnsupportedOperationException", description " is not implemented in the C++ candidate yet"); \
     return nullptr; \
   }
 
-#define SBA_UNIMPLEMENTED_OBJECT_ARRAY(symbol, description) \
-  extern "C" JNIEXPORT jobjectArray JNICALL symbol(JNIEnv* env, jobject /* self */) { \
-    throwJava(env, "java/lang/UnsupportedOperationException", description " is not implemented in the C++ candidate yet"); \
-    return nullptr; \
-  }
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
+    JNIEnv* env, jobject /* self */, jint /* mode */, jstring /* output_path */,
+    jbyteArray /* metadata */, jobjectArray /* entry_bytes */,
+    jobjectArray /* entry_names */, jintArray /* entry_flags */,
+    jobjectArray /* entry_options */, jobjectArray /* entry_metadata */,
+    jint /* compression */, jint /* compression_level */, jint /* encryption */,
+    jint /* cipher */, jint /* chunk_size */, jint /* argon_iterations */,
+    jint /* argon_memory_kib */, jint /* argon_parallelism */,
+    jint /* argon_output_length */, jint /* flags */, jbyteArray /* key */,
+    jbyteArray /* salt */, jbyteArray /* nonce */, jbyteArray /* extra */,
+    jobject /* progress_listener */) {
+  throwJava(env, "java/lang/UnsupportedOperationException",
+      "SBA archive creation is not implemented in the C++ candidate yet");
+  return nullptr;
+}
 
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaArchiveNative_createArchive,
-    "SBA archive creation")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw(
+    JNIEnv* env, jobject /* self */, jint /* input_fd */, jlong /* entry_offset */,
+    jint /* chunk_size */, jbyteArray /* key */, jbyteArray /* nonce */,
+    jbyteArray /* aad */, jlong /* plain_size */, jlong /* cipher_size */,
+    jint /* flags */, jobject /* progress_listener */) {
+  throwJava(env, "java/lang/UnsupportedOperationException",
+      "AEGIS-128X2 chunk decryption is not implemented in the C++ candidate yet");
+  return nullptr;
+}
 
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw,
-    "AEGIS-128X2 chunk decryption")
-
-SBA_UNIMPLEMENTED_LONG_ARRAY(
-    Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw,
-    "AEGIS-256 chunk decryption")
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw(
+    JNIEnv* env, jobject /* self */, jint /* input_fd */, jlong /* entry_offset */,
+    jint /* chunk_size */, jbyteArray /* key */, jbyteArray /* nonce */,
+    jbyteArray /* aad */, jlong /* plain_size */, jlong /* cipher_size */,
+    jint /* flags */, jobject /* progress_listener */) {
+  throwJava(env, "java/lang/UnsupportedOperationException",
+      "AEGIS-256 chunk decryption is not implemented in the C++ candidate yet");
+  return nullptr;
+}
 
 SBA_UNIMPLEMENTED_LONG_ARRAY(
     Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw,
@@ -983,13 +1006,33 @@ SBA_UNIMPLEMENTED_LONG_ARRAY(
     Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw,
     "legacy TAR creation with write statistics")
 
-SBA_UNIMPLEMENTED_OBJECT_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry,
-    "AEGIS archive-entry extraction")
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry(
+    JNIEnv* env, jobject /* self */, jstring /* archive_path */,
+    jlong /* entry_offset */, jlong /* plain_size */, jlong /* cipher_size */,
+    jlong /* entry_size */, jstring /* destination */, jint /* flags */,
+    jobjectArray /* options */, jint /* chunk_size */, jint /* cipher */,
+    jbyteArray /* key */, jbyteArray /* nonce */, jbyteArray /* aad */,
+    jlong /* metadata_offset */, jint /* metadata_size */,
+    jobject /* progress_listener */) {
+  throwJava(env, "java/lang/UnsupportedOperationException",
+      "AEGIS archive-entry extraction is not implemented in the C++ candidate yet");
+  return nullptr;
+}
 
-SBA_UNIMPLEMENTED_OBJECT_ARRAY(
-    Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused,
-    "fused AEGIS archive-entry extraction")
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused(
+    JNIEnv* env, jobject /* self */, jstring /* archive_path */,
+    jlong /* entry_offset */, jlong /* plain_size */, jlong /* cipher_size */,
+    jlong /* entry_size */, jstring /* destination */, jint /* flags */,
+    jobjectArray /* options */, jint /* chunk_size */, jint /* cipher */,
+    jbyteArray /* key */, jbyteArray /* nonce */, jbyteArray /* aad */,
+    jlong /* metadata_offset */, jint /* metadata_size */,
+    jobject /* progress_listener */) {
+  throwJava(env, "java/lang/UnsupportedOperationException",
+      "fused AEGIS archive-entry extraction is not implemented in the C++ candidate yet");
+  return nullptr;
+}
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
