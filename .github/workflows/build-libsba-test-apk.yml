@@ -223,7 +223,9 @@ jobs:
           {
             echo "Project: BΛR☰ / BaRe"
             echo "Artifact type: experimental libsba candidate APK; not a production release"
-            echo "Known limitation: archive creation and AEGIS chunk operations remain incomplete."
+            echo "Implementation status: SBA archive writer and AEGIS chunk encryption/decryption paths are implemented in the C++ candidate."
+            echo "Validation status: archive-format compatibility and device round-trip tests are not yet complete."
+            echo "Legacy-only exports with unrecovered Java/Smali descriptors remain fail-closed."
             echo "CI run number: ${GITHUB_RUN_NUMBER}"
             echo "CI run attempt: ${GITHUB_RUN_ATTEMPT}"
             echo "Commit: ${GITHUB_SHA}"
