@@ -5,6 +5,9 @@ on:
   push:
     paths:
       - "tools/libsba-archive-cpp/**"
+      - "tools/native-jni-replacement/**"
+      - "tools/prepare-barebackup-build.py"
+      - "app/google-services.json"
       - ".github/workflows/build-libsba-archive-candidate.yml"
       - ".github/workflows/build-libsba-test-apk.yml"
       - "bare-implementation/**"
@@ -68,7 +71,36 @@ jobs:
           grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/JNI-SYMBOLS.txt"
 
           install -m 0644 "$CANDIDATE" "artifacts/$ABI/libsba_archive.so"
-          sha256sum "artifacts/$ABI/libsba_archive.so" > "artifacts/$ABI/SHA256SUMS.txt"
+
+          # Rebuild libnative-lib.so with the same source/toolchain contract as
+          # namespace-barebackup.yml, but keep this workflow completely standalone.
+          test -s tools/native-jni-replacement/native-lib.cpp
+          "$NDK_BIN/clang++" --target="$(case "$ABI" in
+            arm64-v8a) echo aarch64-linux-android24 ;;
+            armeabi-v7a) echo armv7a-linux-androideabi24 ;;
+            x86) echo i686-linux-android24 ;;
+            x86_64) echo x86_64-linux-android24 ;;
+            *) echo "Unsupported ABI: $ABI" >&2; exit 1 ;;
+          esac)" -fPIC -shared -std=c++17 -O2 \
+            -Wall -Wextra -Werror=return-type -static-libstdc++ \
+            tools/native-jni-replacement/native-lib.cpp \
+            -o "artifacts/$ABI/libnative-lib.so" \
+            -landroid -ldl -llog
+          "$NDK_BIN/llvm-readelf" -Ws "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
+          "$NDK_BIN/llvm-readelf" -d "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/NATIVE-DYNAMIC.txt"
+          if grep -q 'NEEDED.*libc++_shared\\.so' "artifacts/$ABI/NATIVE-DYNAMIC.txt"; then
+            echo "Unexpected libc++_shared.so dependency in reconstructed libnative-lib.so ($ABI)" >&2
+            exit 1
+          fi
+          if grep -q 'JNI_OnLoad' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"; then
+            echo "Unexpected JNI_OnLoad in reconstructed libnative-lib.so ($ABI)" >&2
+            exit 1
+          fi
+          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
+          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
+          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
+
+          sha256sum "artifacts/$ABI/libsba_archive.so" "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/SHA256SUMS.txt"
           sha256sum --check "build/original-$ABI.sha256"
 
       - name: Upload candidate library for APK assembly
@@ -134,10 +166,17 @@ jobs:
         run: |
           set -euo pipefail
           cp -a bare-implementation build-src
+          mkdir -p build
+          cp app/google-services.json build/google-services.json
+          python3 tools/prepare-barebackup-build.py
+
           for abi in arm64-v8a armeabi-v7a x86 x86_64; do
             test -s "build/candidates/$abi/libsba_archive.so"
+            test -s "build/candidates/$abi/libnative-lib.so"
             install -m 0644 "build/candidates/$abi/libsba_archive.so" \
               "build-src/lib/$abi/libsba_archive.so"
+            install -m 0644 "build/candidates/$abi/libnative-lib.so" \
+              "build-src/lib/$abi/libnative-lib.so"
           done
 
           # The repository's original libraries are never overwritten.
@@ -167,13 +206,14 @@ jobs:
           with zipfile.ZipFile(apk) as archive:
               names = set(archive.namelist())
               for abi in abis:
-                  entry = f"lib/{abi}/libsba_archive.so"
-                  assert entry in names, f"APK missing {entry}"
-                  embedded = hashlib.sha256(archive.read(entry)).hexdigest()
-                  with open(f"build/candidates/{abi}/libsba_archive.so", "rb") as f:
-                      candidate = hashlib.sha256(f.read()).hexdigest()
-                  assert embedded == candidate, f"Embedded candidate mismatch for {abi}"
-                  print(f"{abi}: embedded candidate SHA-256 {embedded}")
+                  for library in ("libsba_archive.so", "libnative-lib.so"):
+                      entry = f"lib/{abi}/{library}"
+                      assert entry in names, f"APK missing {entry}"
+                      embedded = hashlib.sha256(archive.read(entry)).hexdigest()
+                      with open(f"build/candidates/{abi}/{library}", "rb") as f:
+                          candidate = hashlib.sha256(f.read()).hexdigest()
+                      assert embedded == candidate, f"Embedded candidate mismatch for {abi}/{library}"
+                      print(f"{abi}/{library}: embedded SHA-256 {embedded}")
           PY
 
       - name: Sign test APK with a throwaway test key
