@@ -86,39 +86,6 @@ jobs:
         run: |
           set -euo pipefail
           sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
-      - name: Inspect legacy-only JNI exports (temporary protocol recovery)
-        if: ${{ matrix.abi == 'x86_64' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          NDK_BIN="$ANDROID_HOME/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin"
-          ORIGINAL="bare-implementation/lib/x86_64/libsba_archive.so"
-          for symbol in \
-            Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
-            Java_com_swiftapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw \
-            Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw \
-            Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw; do
-            echo "===== ORIGINAL DISASSEMBLY: $symbol (prologue) ====="
-            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" > "/tmp/$symbol.dis"
-            sed -n '1,45p' "/tmp/$symbol.dis"
-            echo "===== CALLS / CRYPTO / FD OPS: $symbol ====="
-            grep -E 'callq|aegis|ZSTD|read@|write@|open@|close@|GetStringUTF|GetByteArray|GetIntArray|GetObjectArray' "/tmp/$symbol.dis" | tail -n 80 || true
-          done
-          echo "===== AEGIS-256 DECRYPT INNER CALL WINDOWS ====="
-          for addr in 72818 72980 72a4a 72a5f 72a6e 72aaf; do
-            line=$(grep -nE "^[[:space:]]*0*$addr:" /tmp/Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw.dis | sed -n '1p' | cut -d: -f1)
-            if [ -n "$line" ]; then start=$((line>18?line-18:1)); end=$((line+18)); sed -n "${start},${end}p" /tmp/Java_com_swiftapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw.dis; fi
-          done
-          echo "===== ZSTD FILE WRAPPER INNER CALL WINDOW ====="
-          line=$(grep -nE '0*5fba9:' /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis | sed -n '1p' | cut -d: -f1)
-          if [ -n "$line" ]; then start=$((line>25?line-25:1)); end=$((line+20)); sed -n "${start},${end}p" /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis; fi
-          for range in "0x5a3e0 0x5a520" "0x398f0 0x39a30" "0x72160 0x72380"; do
-            set -- $range
-            echo "===== ORIGINAL HELPER DISASSEMBLY $1-$2 ====="
-            "$NDK_BIN/llvm-objdump" -d --start-address="$1" --stop-address="$2" "$ORIGINAL" | sed -n '1,180p'
-          done
-          echo "===== ORIGINAL INTERNAL AEGIS SYMBOLS ====="
-          "$NDK_BIN/llvm-nm" -C "$ORIGINAL" 2>/dev/null | grep -Ei 'aegis(128x2|256).*decrypt|aegis(128x2|256).*encrypt' | sed -n '1,30p' || true
       - name: Build candidate and stage into a disposable build copy only
         shell: bash
         env:
