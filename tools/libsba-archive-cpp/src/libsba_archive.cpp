@@ -1076,6 +1076,7 @@ bool setTarPath(std::uint8_t header[512], const std::string& path) {
   return false;
 }
 struct TarStats { std::uint64_t entries=0, files=0, dirs=0, bytes=0; };
+struct ArchiveIndexRecord { std::vector<std::uint8_t> name; std::uint64_t header_offset=0,payload_offset=0,stored=0,compressed=0,tar=0; std::uint32_t flags=0; TarStats stats; };
 bool tarHeader(FILE* out,const std::string& name,const struct stat& st,char type,
                const std::string& link,std::uint64_t size,std::string* error) {
   if (name.empty() || name.size()>255 || link.size()>100) {
@@ -1350,8 +1351,7 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
   std::string io_error;
   if(!writeVectorFd(out_fd,header,&io_error)){::close(out_fd);throwJava(env,"java/io/IOException",io_error);return nullptr;}
 
-  struct IndexRecord {std::vector<std::uint8_t> name;std::uint64_t header_offset=0,payload_offset=0,stored=0,compressed=0,tar=0;std::uint32_t flags=0;TarStats stats;};
-  std::vector<IndexRecord> records;records.reserve(static_cast<std::size_t>(count));
+  std::vector<ArchiveIndexRecord> records;records.reserve(static_cast<std::size_t>(count));
   std::uint64_t total_tar=0,total_compressed=0,total_stored=0,total_source=0;
   for(jsize i=0;i<count;++i) {
     jobject name_obj=env->GetObjectArrayElement(entry_name_bytes,i);
@@ -1421,7 +1421,7 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
     const std::uint64_t stored_size=comp_size+(encryption_method?chunks*16:0);
     off_t current=::lseek(out_fd,0,SEEK_CUR);
     if(current<0){std::fclose(compressed_file);::close(out_fd);throwJava(env,"java/io/IOException","cannot determine SBA output offset");return nullptr;}
-    IndexRecord rec;rec.name=std::move(name_bytes);rec.header_offset=static_cast<std::uint64_t>(current);
+    ArchiveIndexRecord rec;rec.name=std::move(name_bytes);rec.header_offset=static_cast<std::uint64_t>(current);
     rec.payload_offset=rec.header_offset+24+rec.name.size();rec.stored=stored_size;rec.compressed=comp_size;rec.tar=tar_size;
     rec.flags=static_cast<std::uint32_t>((compression?3:1)|(encryption_method?20:0));rec.stats=stats;
     std::vector<std::uint8_t> eh;eh.insert(eh.end(),{'S','A','E','1'});putU16(eh,24);putU16(eh,0);putU32(eh,rec.flags);putU16(eh,static_cast<std::uint16_t>(rec.name.size()));putU32(eh,0);eh.insert(eh.end(),6,0);eh.insert(eh.end(),rec.name.begin(),rec.name.end());
