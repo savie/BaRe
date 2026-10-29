@@ -21,7 +21,6 @@ on:
       - fix/optional-multithreaded-feature-fallback
       - fix/supabase-user-mutation-payload-writes
       - feat/firebase-only-backend
-      - feat/libsba-tools-integration
     paths:
       - "app/google-services.json"
       - "bare-implementation/**"
