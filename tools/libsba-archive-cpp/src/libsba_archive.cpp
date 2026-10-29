@@ -1077,31 +1077,85 @@ SBA_UNIMPLEMENTED_LONG_ARRAY(
     "legacy TAR creation with write statistics")
 
 extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(JNIEnv*, jobject, jint, jlong, jstring, jint, jobjectArray, jobject);
+extern "C" JNIEXPORT jobjectArray JNICALL
+Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(JNIEnv*, jobject, jint, jlong, jlong, jstring, jint, jobjectArray, jobject);
+
+namespace {
+jobjectArray extractAegisArchiveEntryImpl(
+    JNIEnv* env, jobject self, jstring archive_path, jlong entry_offset,
+    jlong stored_size, jlong compressed_size, jlong tar_size, jstring destination,
+    jint flags, jobjectArray options, jint compression_method, jint encryption_method,
+    jbyteArray key, jbyteArray nonce_seed, jbyteArray aad, jlong entry_index,
+    jint chunk_size, jobject progress_listener) {
+  if (archive_path == nullptr || destination == nullptr || entry_offset < 0 ||
+      stored_size < 0 || compressed_size < 0 || tar_size < 0 ||
+      (compression_method != 0 && compression_method != 1) ||
+      (encryption_method != 4 && encryption_method != 5)) {
+    throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS extraction arguments");
+    return nullptr;
+  }
+  const char* path_utf=env->GetStringUTFChars(archive_path,nullptr);
+  if (!path_utf) return nullptr;
+  const int archive_fd=::open(path_utf,O_RDONLY|O_CLOEXEC);
+  const std::string path(path_utf);
+  env->ReleaseStringUTFChars(archive_path,path_utf);
+  if (archive_fd<0) { throwJava(env,"java/io/IOException",std::string("cannot open SBA archive: ")+std::strerror(errno)); return nullptr; }
+  if (::lseek(archive_fd,static_cast<off_t>(entry_offset),SEEK_SET)<0) {
+    const std::string message=std::string("cannot seek SBA archive payload: ")+std::strerror(errno);
+    ::close(archive_fd); throwJava(env,"java/io/IOException",message); return nullptr;
+  }
+  std::FILE* temporary=std::tmpfile();
+  if (!temporary) {
+    const std::string message=std::string("cannot create SBA decrypt temporary: ")+std::strerror(errno);
+    ::close(archive_fd); throwJava(env,"java/io/IOException",message); return nullptr;
+  }
+  const int temporary_fd=::fileno(temporary);
+  jlongArray stats=decryptAegisChunks(env,archive_fd,stored_size,temporary_fd,key,nonce_seed,aad,
+                                      entry_index,compressed_size,chunk_size,progress_listener,
+                                      encryption_method==5);
+  ::close(archive_fd);
+  if (!stats || env->ExceptionCheck()) { std::fclose(temporary); return nullptr; }
+  if (::lseek(temporary_fd,0,SEEK_SET)<0) {
+    const std::string message=std::string("cannot rewind decrypted SBA payload: ")+std::strerror(errno);
+    std::fclose(temporary); throwJava(env,"java/io/IOException",message); return nullptr;
+  }
+  jobjectArray result=nullptr;
+  if (compression_method==0) {
+    result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarFromFdRaw(
+        env,self,temporary_fd,tar_size,destination,flags,options,progress_listener);
+  } else {
+    result=Java_com_swiftapps_sba_SbaSwiftTarNative_extractTarZstdFromFdRaw(
+        env,self,temporary_fd,compressed_size,tar_size,destination,flags,options,progress_listener);
+  }
+  std::fclose(temporary);
+  return result;
+}
+}  // namespace
+
+extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntry(
-    JNIEnv* env, jobject /* self */, jstring /* archive_path */,
-    jlong /* entry_offset */, jlong /* plain_size */, jlong /* cipher_size */,
-    jlong /* entry_size */, jstring /* destination */, jint /* flags */,
-    jobjectArray /* options */, jint /* chunk_size */, jint /* cipher */,
-    jbyteArray /* key */, jbyteArray /* nonce */, jbyteArray /* aad */,
-    jlong /* metadata_offset */, jint /* metadata_size */,
-    jobject /* progress_listener */) {
-  throwJava(env, "java/lang/UnsupportedOperationException",
-      "AEGIS archive-entry extraction is not implemented in the C++ candidate yet");
-  return nullptr;
+    JNIEnv* env, jobject self, jstring archive_path, jlong entry_offset,
+    jlong stored_size, jlong compressed_size, jlong tar_size, jstring destination,
+    jint flags, jobjectArray options, jint compression_method, jint encryption_method,
+    jbyteArray key, jbyteArray nonce_seed, jbyteArray aad, jlong entry_index,
+    jint chunk_size, jobject progress_listener) {
+  return extractAegisArchiveEntryImpl(env,self,archive_path,entry_offset,stored_size,compressed_size,
+      tar_size,destination,flags,options,compression_method,encryption_method,key,nonce_seed,aad,
+      entry_index,chunk_size,progress_listener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
 Java_com_swiftapps_sba_SbaSwiftTarNative_extractAegisArchiveEntryFused(
-    JNIEnv* env, jobject /* self */, jstring /* archive_path */,
-    jlong /* entry_offset */, jlong /* plain_size */, jlong /* cipher_size */,
-    jlong /* entry_size */, jstring /* destination */, jint /* flags */,
-    jobjectArray /* options */, jint /* chunk_size */, jint /* cipher */,
-    jbyteArray /* key */, jbyteArray /* nonce */, jbyteArray /* aad */,
-    jlong /* metadata_offset */, jint /* metadata_size */,
-    jobject /* progress_listener */) {
-  throwJava(env, "java/lang/UnsupportedOperationException",
-      "fused AEGIS archive-entry extraction is not implemented in the C++ candidate yet");
-  return nullptr;
+    JNIEnv* env, jobject self, jstring archive_path, jlong entry_offset,
+    jlong stored_size, jlong compressed_size, jlong tar_size, jstring destination,
+    jint flags, jobjectArray options, jint compression_method, jint encryption_method,
+    jbyteArray key, jbyteArray nonce_seed, jbyteArray aad, jlong entry_index,
+    jint chunk_size, jobject progress_listener) {
+  // The fused entry point currently shares the streaming path; behavior is identical.
+  return extractAegisArchiveEntryImpl(env,self,archive_path,entry_offset,stored_size,compressed_size,
+      tar_size,destination,flags,options,compression_method,encryption_method,key,nonce_seed,aad,
+      entry_index,chunk_size,progress_listener);
 }
 
 extern "C" JNIEXPORT jobjectArray JNICALL
