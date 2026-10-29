@@ -99,7 +99,7 @@ jobs:
             Java_com_swiftapps_sba_SbaSwiftTarNative_createTarToFdWithWriteStatsRaw \
             Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw; do
             echo "===== ORIGINAL DISASSEMBLY: $symbol ====="
-            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" | head -n 75
+            "$NDK_BIN/llvm-objdump" -d --disassemble-symbols="$symbol" "$ORIGINAL" | sed -n '1,75p'
           done
       - name: Build candidate and stage into a disposable build copy only
         shell: bash
