@@ -112,6 +112,11 @@ jobs:
           echo "===== ZSTD FILE WRAPPER INNER CALL WINDOW ====="
           line=$(grep -nE '0*5fba9:' /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis | sed -n '1p' | cut -d: -f1)
           if [ -n "$line" ]; then start=$((line>25?line-25:1)); end=$((line+20)); sed -n "${start},${end}p" /tmp/Java_com_swiftapps_sba_SbaZstdNative_compressZstdFileToFdRaw.dis; fi
+          for range in "0x5a3e0 0x5a520" "0x398f0 0x39a30" "0x72160 0x72380"; do
+            set -- $range
+            echo "===== ORIGINAL HELPER DISASSEMBLY $1-$2 ====="
+            "$NDK_BIN/llvm-objdump" -d --start-address="$1" --stop-address="$2" "$ORIGINAL" | sed -n '1,180p'
+          done
           echo "===== ORIGINAL INTERNAL AEGIS SYMBOLS ====="
           "$NDK_BIN/llvm-nm" -C "$ORIGINAL" 2>/dev/null | grep -Ei 'aegis(128x2|256).*decrypt|aegis(128x2|256).*encrypt' | sed -n '1,30p' || true
       - name: Build candidate and stage into a disposable build copy only
