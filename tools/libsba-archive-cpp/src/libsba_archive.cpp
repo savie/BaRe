@@ -984,6 +984,7 @@ jlongArray decryptAegisChunks(JNIEnv* env, jint input_fd, jlong stored_size, jin
   }
   std::vector<std::uint8_t> key, nonce_seed, aad;
   WipeVectorOnExit wipe_key{key};
+  WipeVectorOnExit wipe_nonce_seed{nonce_seed};
   if (!copyInput(env,key_array,key) || !copyInput(env,nonce_array,nonce_seed) || !copyInput(env,aad_array,aad)) return nullptr;
   if (key.size() < (aegis128x2 ? 16u : 32u) || nonce_seed.size() != 16) {
     throwJava(env, "java/lang/IllegalArgumentException", "invalid SBA AEGIS key or nonce-seed length"); return nullptr;
@@ -1032,10 +1033,15 @@ jlongArray encryptAegis256Chunks(JNIEnv* env,jint input_fd,jint output_fd,
   if(input_fd<0||output_fd<0||entry_index<0||chunk_size<4096||chunk_size>16777216) {
     throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS encryption parameters");return nullptr;
   }
-  std::vector<std::uint8_t> key,nonce_seed,aad;WipeVectorOnExit wipe_key{key};
+  std::vector<std::uint8_t> key,nonce_seed,aad;WipeVectorOnExit wipe_key{key};WipeVectorOnExit wipe_nonce_seed{nonce_seed};
   if(!copyInput(env,key_array,key)||!copyInput(env,nonce_array,nonce_seed)||!copyInput(env,aad_array,aad))return nullptr;
   if(key.size()!=32||nonce_seed.size()!=16){throwJava(env,"java/lang/IllegalArgumentException","invalid SBA AEGIS-256 key or nonce seed");return nullptr;}
   std::vector<std::uint8_t> plain_buffer(static_cast<std::size_t>(chunk_size)),cipher_buffer(static_cast<std::size_t>(chunk_size));
+  std::uint64_t progress_total=0;
+  struct stat input_st{};
+  const off_t input_offset=::lseek(input_fd,0,SEEK_CUR);
+  if(::fstat(input_fd,&input_st)==0&&S_ISREG(input_st.st_mode)&&input_st.st_size>=0&&input_offset>=0&&input_st.st_size>=input_offset)
+    progress_total=static_cast<std::uint64_t>(input_st.st_size-input_offset);
   std::uint8_t tag[16]{};std::uint64_t read_total=0,written_total=0,chunk_index=0;
   bool eof=false;
   while(!eof) {
@@ -1057,7 +1063,7 @@ jlongArray encryptAegis256Chunks(JNIEnv* env,jint input_fd,jint output_fd,
       throwJava(env,"java/io/IOException",error.empty()?"SBA AEGIS encryption failed":error);return nullptr;
     }
     read_total+=filled;written_total+=filled+sizeof(tag);++chunk_index;
-    if(!notifyProgress(env,progress_listener,static_cast<jlong>(read_total),static_cast<jlong>(read_total))) {
+    if(progress_total>0&&!notifyProgress(env,progress_listener,static_cast<jlong>(read_total),static_cast<jlong>(progress_total))) {
       std::fill(plain_buffer.begin(),plain_buffer.end(),0);std::fill(cipher_buffer.begin(),cipher_buffer.end(),0);return nullptr;
     }
   }
@@ -1327,6 +1333,9 @@ Java_com_swiftapps_sba_SbaArchiveNative_createArchive(
   }
   std::vector<std::uint8_t> metadata,key,key_check,salt,nonce_seed;
   WipeVectorOnExit wipe_key{key};
+  WipeVectorOnExit wipe_key_check{key_check};
+  WipeVectorOnExit wipe_salt{salt};
+  WipeVectorOnExit wipe_nonce_seed{nonce_seed};
   if(!copyInput(env,metadata_array,metadata))return nullptr;
   if(metadata.size()>1048576){throwJava(env,"java/lang/IllegalArgumentException","SBA archive metadata exceeds 1 MiB");return nullptr;}
   auto optionalBytes=[&](jbyteArray a,std::vector<std::uint8_t>* out)->bool{
