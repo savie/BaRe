@@ -1,279 +1,244 @@
-name: Build libsba candidate test APK ZIP
+name: Build libsba candidate APK
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - feat/libsba-tools-integration
     paths:
-      - "tools/libsba-archive-cpp/**"
-      - "tools/native-jni-replacement/**"
-      - "tools/prepare-barebackup-build.py"
       - "app/google-services.json"
-      - ".github/workflows/build-libsba-archive-candidate.yml"
-      - ".github/workflows/build-libsba-test-apk.yml"
       - "bare-implementation/**"
+      - ".github/workflows/build-libsba-test-apk.yml"
+      - "tools/native-jni-replacement/**"
+      - "tools/libsba-archive-cpp/**"
+      - "tools/prepare-barebackup-build.py"
 
 permissions:
   contents: read
-  actions: read
-
-# Keep only the newest candidate APK build for this branch active.
-concurrency:
-  group: libsba-test-apk-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  build-candidate:
-    name: Build candidate (${{ matrix.abi }})
+  build-namespace-apk:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        abi: [arm64-v8a, armeabi-v7a, x86, x86_64]
+    timeout-minutes: 35
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout BΛR☰ implementation
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
 
-      - uses: actions/setup-java@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      - uses: android-actions/setup-android@v3
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
         with:
           packages: platform-tools
 
-      - name: Install pinned NDK and CMake
+      - name: Install Android NDK
         shell: bash
         run: |
           set -euo pipefail
           sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
-
-      - name: Build candidate and verify original is untouched
-        shell: bash
-        env:
-          ABI: ${{ matrix.abi }}
-        run: |
-          set -euo pipefail
-          export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
-          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
-          ORIGINAL="bare-implementation/lib/$ABI/libsba_archive.so"
-          test -s "$ORIGINAL"
-          mkdir -p "artifacts/$ABI" "build/libsba-cpp"
-
-          sha256sum "$ORIGINAL" > "build/original-$ABI.sha256"
-          cmake -S tools/libsba-archive-cpp -B "build/libsba-cpp/$ABI" \
-            -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
-            -DANDROID_ABI="$ABI" \
-            -DANDROID_PLATFORM=android-24 \
-            -DCMAKE_BUILD_TYPE=Release
-          cmake --build "build/libsba-cpp/$ABI" --parallel 2
-
-          CANDIDATE="build/libsba-cpp/$ABI/libsba_archive.so"
-          test -s "$CANDIDATE"
-          "$NDK_BIN/llvm-readelf" -h "$CANDIDATE" > "artifacts/$ABI/ELF-HEADER.txt"
-          "$NDK_BIN/llvm-readelf" -Ws "$CANDIDATE" > "artifacts/$ABI/JNI-SYMBOLS.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaZstdNative_compressZstdBytes' "artifacts/$ABI/JNI-SYMBOLS.txt"
-          grep -q 'Java_com_swiftapps_sba_SbaNativeCrypto_deriveArgon2id' "artifacts/$ABI/JNI-SYMBOLS.txt"
-
-          install -m 0644 "$CANDIDATE" "artifacts/$ABI/libsba_archive.so"
-
-          # Rebuild libnative-lib.so with the same source/toolchain contract as
-          # namespace-barebackup.yml, but keep this workflow completely standalone.
-          test -s tools/native-jni-replacement/native-lib.cpp
-          "$NDK_BIN/clang++" --target="$(case "$ABI" in
-            arm64-v8a) echo aarch64-linux-android24 ;;
-            armeabi-v7a) echo armv7a-linux-androideabi24 ;;
-            x86) echo i686-linux-android24 ;;
-            x86_64) echo x86_64-linux-android24 ;;
-            *) echo "Unsupported ABI: $ABI" >&2; exit 1 ;;
-          esac)" -fPIC -shared -std=c++17 -O2 \
-            -Wall -Wextra -Werror=return-type -static-libstdc++ \
-            tools/native-jni-replacement/native-lib.cpp \
-            -o "artifacts/$ABI/libnative-lib.so" \
-            -landroid -ldl -llog
-          "$NDK_BIN/llvm-readelf" -Ws "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
-          "$NDK_BIN/llvm-readelf" -d "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/NATIVE-DYNAMIC.txt"
-          if grep -q 'NEEDED.*libc++_shared\\.so' "artifacts/$ABI/NATIVE-DYNAMIC.txt"; then
-            echo "Unexpected libc++_shared.so dependency in reconstructed libnative-lib.so ($ABI)" >&2
-            exit 1
-          fi
-          if grep -q 'JNI_OnLoad' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"; then
-            echo "Unexpected JNI_OnLoad in reconstructed libnative-lib.so ($ABI)" >&2
-            exit 1
-          fi
-          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
-          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
-          grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "artifacts/$ABI/NATIVE-JNI-SYMBOLS.txt"
-
-          sha256sum "artifacts/$ABI/libsba_archive.so" "artifacts/$ABI/libnative-lib.so" > "artifacts/$ABI/SHA256SUMS.txt"
-          sha256sum --check "build/original-$ABI.sha256"
-
-      - name: Upload candidate library for APK assembly
-        uses: actions/upload-artifact@v4
-        with:
-          name: libsba-apk-candidate-${{ matrix.abi }}
-          path: artifacts/${{ matrix.abi }}/
-          if-no-files-found: error
-          retention-days: 7
-
-  package-test-apk:
-    name: Assemble and package test APK
-    runs-on: ubuntu-latest
-    needs: build-candidate
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools
-
-      - name: Install Android build tools
-        shell: bash
-        run: |
-          set -euo pipefail
-          sdkmanager --install "build-tools;35.0.0"
-
-      - name: Download candidate libraries for all ABIs
-        uses: actions/download-artifact@v4
-        with:
-          name: libsba-apk-candidate-arm64-v8a
-          path: build/candidates/arm64-v8a
-      - uses: actions/download-artifact@v4
-        with:
-          name: libsba-apk-candidate-armeabi-v7a
-          path: build/candidates/armeabi-v7a
-      - uses: actions/download-artifact@v4
-        with:
-          name: libsba-apk-candidate-x86
-          path: build/candidates/x86
-      - uses: actions/download-artifact@v4
-        with:
-          name: libsba-apk-candidate-x86_64
-          path: build/candidates/x86_64
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> "$GITHUB_ENV"
 
       - name: Download Apktool
-        shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --retry 3 \
-            https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar \
-            --output apktool.jar
+          curl --fail --location --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o apktool.jar
           java -jar apktool.jar --version
+          sha256sum apktool.jar
 
-      - name: Stage candidate libraries in disposable source copy
+      - name: Prepare build source and inject Firebase configuration
         shell: bash
         run: |
           set -euo pipefail
           cp -a bare-implementation build-src
           mkdir -p build
           cp app/google-services.json build/google-services.json
+          sha256sum build/google-services.json
+          sha256sum tools/native-jni-replacement/native-lib.cpp
           python3 tools/prepare-barebackup-build.py
 
-          for abi in arm64-v8a armeabi-v7a x86 x86_64; do
-            test -s "build/candidates/$abi/libsba_archive.so"
-            test -s "build/candidates/$abi/libnative-lib.so"
-            install -m 0644 "build/candidates/$abi/libsba_archive.so" \
-              "build-src/lib/$abi/libsba_archive.so"
-            install -m 0644 "build/candidates/$abi/libnative-lib.so" \
-              "build-src/lib/$abi/libnative-lib.so"
+      - name: Replace native library with reconstructed JNI implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          test -x "$NDK_BIN/clang++"
+          test -f tools/native-jni-replacement/native-lib.cpp
+          mkdir -p build
+          while IFS=: read -r abi target; do
+            mkdir -p "build-src/lib/$abi"
+            "$NDK_BIN/clang++" --target="$target" -fPIC -shared -std=c++17 -O2 \
+              -Wall -Wextra -Werror=return-type -static-libstdc++ \
+              tools/native-jni-replacement/native-lib.cpp \
+              -o "build-src/lib/$abi/libnative-lib.so" \
+              -landroid -ldl -llog
+            "$NDK_BIN/llvm-readelf" -Ws "build-src/lib/$abi/libnative-lib.so" > "build/$abi-native-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "build-src/lib/$abi/libnative-lib.so" > "build/$abi-native-dynamic.txt"
+            if grep -q 'NEEDED.*libc++_shared\.so' "build/$abi-native-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in reconstructed $abi library" >&2
+              exit 1
+            fi
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthAndroidClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_getGoogleAuthWebClientId' "build/$abi-native-symbols.txt"
+            grep -q 'Java_org_swiftapps_swiftbackup_SwiftApp_isLocalNetworkTcpBlockedByPermission' "build/$abi-native-symbols.txt"
+            if grep -q 'JNI_OnLoad' "build/$abi-native-symbols.txt"; then
+              echo "Unexpected JNI_OnLoad found in reconstructed $abi library" >&2
+              exit 1
+            fi
+            echo "Validated reconstructed native library for $abi ($target)"
+          done <<'ABIS'
+          arm64-v8a:aarch64-linux-android24
+          armeabi-v7a:armv7a-linux-androideabi24
+          x86:i686-linux-android24
+          x86_64:x86_64-linux-android24
+          ABIS
+          sha256sum build-src/lib/*/libnative-lib.so
+          "$NDK_BIN/clang++" --version | head -n 1
+          "$NDK_BIN/llvm-readelf" --version | head -n 1
+
+      - name: Build libsba C++ candidate and stage it in disposable APK tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          ABIS="arm64-v8a armeabi-v7a x86 x86_64"
+
+          # Build and compare all ABIs before staging any replacement.
+          for abi in $ABIS; do
+            original="build-src/lib/$abi/libsba_archive.so"
+            test -s "$original"
+            cmake -S tools/libsba-archive-cpp -B "build/libsba-cpp/$abi" \
+              -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
+              -DANDROID_ABI="$abi" \
+              -DANDROID_PLATFORM=android-24 \
+              -DCMAKE_BUILD_TYPE=Release
+            cmake --build "build/libsba-cpp/$abi" --parallel 2
+            candidate="build/libsba-cpp/$abi/libsba_archive.so"
+            test -s "$candidate"
+
+            "$NDK_BIN/llvm-readelf" -Ws "$original" > "build/$abi-original-sba-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -Ws "$candidate" > "build/$abi-candidate-sba-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "$candidate" > "build/$abi-candidate-sba-dynamic.txt"
+            if grep -q 'NEEDED.*libc++_shared\.so' "build/$abi-candidate-sba-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in candidate $abi library" >&2
+              exit 1
+            fi
+            grep -oE 'Java_[[:alnum:]_]+' "build/$abi-original-sba-symbols.txt" | sort -u > "build/$abi-original-sba-exports.txt"
+            grep -oE 'Java_[[:alnum:]_]+' "build/$abi-candidate-sba-symbols.txt" | sort -u > "build/$abi-candidate-sba-exports.txt"
+            comm -23 "build/$abi-original-sba-exports.txt" "build/$abi-candidate-sba-exports.txt" > "build/$abi-missing-sba-exports.txt"
+            comm -13 "build/$abi-original-sba-exports.txt" "build/$abi-candidate-sba-exports.txt" > "build/$abi-extra-sba-exports.txt"
+            if test -s "build/$abi-missing-sba-exports.txt" || test -s "build/$abi-extra-sba-exports.txt"; then
+              echo "C++ libsba candidate does not match original JNI exports for $abi." >&2
+              echo "Missing exports:" >&2
+              cat "build/$abi-missing-sba-exports.txt" >&2
+              echo "Extra exports:" >&2
+              cat "build/$abi-extra-sba-exports.txt" >&2
+              exit 1
+            fi
           done
 
-          # The repository's original libraries are never overwritten.
+          # Only after all four ABI export gates pass, replace the disposable build copy.
+          # The checked-in bare-implementation libraries remain untouched.
+          for abi in $ABIS; do
+            install -m 0644 "build/libsba-cpp/$abi/libsba_archive.so" "build-src/lib/$abi/libsba_archive.so"
+          done
           sha256sum bare-implementation/lib/*/libsba_archive.so > build/original-sba-sha256.txt
           sha256sum --check build/original-sba-sha256.txt
-
-      - name: Rebuild APK with candidate libsba_archive.so
-        shell: bash
+      - name: Rebuild unsigned APK
         run: |
           set -euo pipefail
           mkdir -p build
-          java -jar apktool.jar b build-src --use-aapt2 --output build/libsba-candidate-unsigned.apk
-          test -s build/libsba-candidate-unsigned.apk
-          unzip -t build/libsba-candidate-unsigned.apk
-          ls -lh build/libsba-candidate-unsigned.apk
+          java -jar apktool.jar b build-src --use-aapt2 --output build/barebackup-unsigned.apk
+          unzip -t build/barebackup-unsigned.apk
+          sha256sum build/barebackup-unsigned.apk
+          ls -lh build/barebackup-unsigned.apk
 
-      - name: Verify candidate native libraries are embedded byte-for-byte
+      - name: Prepare stable CI signing key
         shell: bash
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
         run: |
           set -euo pipefail
+          test -n "$BARE_DEBUG_KEYSTORE_B64" || { echo "Missing BARE_DEBUG_KEYSTORE_B64 repository secret"; exit 1; }
+          mkdir -p "$RUNNER_TEMP"
+          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
+          test -s "$RUNNER_TEMP/bare-ci.keystore"
+          keytool -list -v -keystore "$RUNNER_TEMP/bare-ci.keystore" -alias androiddebugkey \
+            -storepass android -keypass android | grep -E 'SHA1:|SHA-1:'
+
+      - name: Align and sign APK with stable CI key
+        shell: bash
+        env:
+          CI_KEYSTORE: ${{ runner.temp }}/bare-ci.keystore
+        run: |
+          set -euo pipefail
+          BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)"
+          test -x "$BUILD_TOOLS/zipalign"
+          test -x "$BUILD_TOOLS/apksigner"
+          echo "Selected Android build-tools: $BUILD_TOOLS"
+          "$BUILD_TOOLS/zipalign" -h 2>&1 | head -n 2 || true
+          "$BUILD_TOOLS/apksigner" version
+          "$BUILD_TOOLS/zipalign" -f 4 build/barebackup-unsigned.apk build/barebackup-aligned.apk
           python3 - <<'PY'
-          import hashlib
           import zipfile
-
-          apk = "build/libsba-candidate-unsigned.apk"
-          abis = ("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
-          with zipfile.ZipFile(apk) as archive:
-              names = set(archive.namelist())
-              for abi in abis:
-                  for library in ("libsba_archive.so", "libnative-lib.so"):
-                      entry = f"lib/{abi}/{library}"
-                      assert entry in names, f"APK missing {entry}"
-                      embedded = hashlib.sha256(archive.read(entry)).hexdigest()
-                      with open(f"build/candidates/{abi}/{library}", "rb") as f:
-                          candidate = hashlib.sha256(f.read()).hexdigest()
-                      assert embedded == candidate, f"Embedded candidate mismatch for {abi}/{library}"
-                      print(f"{abi}/{library}: embedded SHA-256 {embedded}")
+          p = "build/barebackup-aligned.apk"
+          with zipfile.ZipFile(p) as z:
+              info = z.getinfo("resources.arsc")
+              assert info.compress_type == zipfile.ZIP_STORED, f"resources.arsc is compressed: method={info.compress_type}"
+              with open(p, "rb") as f:
+                  f.seek(info.header_offset)
+                  header = f.read(30)
+                  assert header[:4] == bytes((0x50, 0x4b, 0x03, 0x04))
+                  name_len = int.from_bytes(header[26:28], "little")
+                  extra_len = int.from_bytes(header[28:30], "little")
+                  data_offset = info.header_offset + 30 + name_len + extra_len
+                  assert data_offset % 4 == 0, f"resources.arsc data offset is not 4-byte aligned: {data_offset}"
+              print(f"resources.arsc is uncompressed and 4-byte aligned (offset {data_offset}).")
           PY
-
-      - name: Sign test APK with a throwaway test key
-        shell: bash
-        run: |
-          set -euo pipefail
-          BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
-          keytool -genkeypair -noprompt \
-            -keystore "$RUNNER_TEMP/libsba-test.keystore" \
-            -storepass changeit -keypass changeit -alias libsba-test \
-            -keyalg RSA -keysize 2048 -validity 30 \
-            -dname "CN=BaRe libsba candidate test, OU=Experimental, O=BaRe, C=ID"
-
-          "$BUILD_TOOLS/zipalign" -f 4 \
-            build/libsba-candidate-unsigned.apk build/libsba-candidate-aligned.apk
-          "$BUILD_TOOLS/apksigner" sign \
-            --ks "$RUNNER_TEMP/libsba-test.keystore" \
-            --ks-key-alias libsba-test --ks-pass pass:changeit --key-pass pass:changeit \
+          "$BUILD_TOOLS/zipalign" -c -v 4 build/barebackup-aligned.apk
+          sha256sum build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign --ks "$CI_KEYSTORE" --ks-key-alias androiddebugkey \
+            --ks-pass pass:android --key-pass pass:android \
             --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
-            --out build/BaRe-libsba-candidate-test.apk build/libsba-candidate-aligned.apk
-          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-libsba-candidate-test.apk
-          unzip -t build/BaRe-libsba-candidate-test.apk
+            --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
+          sha256sum build/BaRe-namespace-signed.apk
+          echo "Signing uses the stable BARE_DEBUG_KEYSTORE_B64 CI key shared with the rewrite rebuild workflow."
 
-      - name: Create ZIP containing APK and test metadata
+      - name: Package CI-labelled ZIP artifact
         shell: bash
         run: |
           set -euo pipefail
+          ARTIFACT_NAME="BaRe-libsba-CI-${GITHUB_RUN_NUMBER}-run-${GITHUB_RUN_ATTEMPT}"
           mkdir -p build/package
-          cp build/BaRe-libsba-candidate-test.apk build/package/
+          cp build/BaRe-namespace-signed.apk "build/package/${ARTIFACT_NAME}.apk"
+          sha256sum "build/package/${ARTIFACT_NAME}.apk" > build/package/SHA256SUMS.txt
           {
             echo "Project: BΛR☰ / BaRe"
-            echo "Artifact type: experimental candidate APK; not a production release"
-            echo "Commit: $GITHUB_SHA"
-            echo "Workflow run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-            echo "Native library: custom tools/libsba-archive-cpp candidate"
-            echo "Startup library: rebuilt from tools/native-jni-replacement/native-lib.cpp"
-            echo "ABIs: arm64-v8a, armeabi-v7a, x86, x86_64"
-            echo "Signing: ephemeral CI test key; this APK cannot upgrade a release signed by another key"
-            echo "Compatibility: JNI export presence does not establish behavioral parity."
+            echo "Artifact type: experimental libsba candidate APK; not a production release"
             echo "Known limitation: archive creation and AEGIS chunk operations remain incomplete."
-          } > build/package/README-TEST.txt
-          (
-            cd build/package
-            sha256sum BaRe-libsba-candidate-test.apk > SHA256SUMS.txt
-            zip -9 "../BaRe-libsba-candidate-test.zip" \
-              BaRe-libsba-candidate-test.apk README-TEST.txt SHA256SUMS.txt
-          )
-          unzip -t build/BaRe-libsba-candidate-test.zip
-          unzip -l build/BaRe-libsba-candidate-test.zip
-          sha256sum build/BaRe-libsba-candidate-test.zip
+            echo "CI run number: ${GITHUB_RUN_NUMBER}"
+            echo "CI run attempt: ${GITHUB_RUN_ATTEMPT}"
+            echo "Commit: ${GITHUB_SHA}"
+            echo "Workflow run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "APK: ${ARTIFACT_NAME}.apk"
+          } > build/package/BUILD-INFO.txt
+          (cd build/package && zip -9 "../${ARTIFACT_NAME}.zip" "${ARTIFACT_NAME}.apk" SHA256SUMS.txt BUILD-INFO.txt)
+          unzip -l "build/${ARTIFACT_NAME}.zip"
+          sha256sum "build/${ARTIFACT_NAME}.zip"
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "$GITHUB_ENV"
 
-      - name: Upload test APK ZIP
+      - name: Upload CI-labelled ZIP artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BaRe-libsba-candidate-test-APK-ZIP
-          path: build/BaRe-libsba-candidate-test.zip
+          name: ${{ env.ARTIFACT_NAME }}
+          path: build/${{ env.ARTIFACT_NAME }}.zip
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 14
