@@ -77,6 +77,19 @@ if(ANDROID)
   )
   target_link_libraries(sba_archive PRIVATE libzstd_static argon2_ref aegis log)
   target_compile_options(sba_archive PRIVATE -Wall -Wextra -Wpedantic -Werror=return-type)
+  # Release APKs do not need DWARF/debug sections. Keep the JNI export map intact;
+  # only remove non-runtime debug metadata from the final shared object.
+  target_compile_options(sba_archive PRIVATE
+    $<$<CONFIG:Release>:-g0>
+    $<$<CONFIG:RelWithDebInfo>:-g0>
+    -ffunction-sections
+    -fdata-sections
+  )
+  target_link_options(sba_archive PRIVATE
+    $<$<CONFIG:Release>:-Wl,--gc-sections>
+    $<$<CONFIG:RelWithDebInfo>:-Wl,--gc-sections>
+    -Wl,--strip-debug
+  )
   target_link_options(sba_archive PRIVATE "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/src/jni_exports.map")
   set_target_properties(sba_archive PROPERTIES
     OUTPUT_NAME "sba_archive"
