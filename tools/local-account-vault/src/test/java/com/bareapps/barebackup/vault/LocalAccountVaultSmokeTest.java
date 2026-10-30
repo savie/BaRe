@@ -10,10 +10,20 @@ public final class LocalAccountVaultSmokeTest {
         Path dir = Files.createTempDirectory("bare-vault-test");
         Path vault = dir.resolve("local-account-test.enc");
         String recovery = LocalAccountVault.generateRecoverySecret();
+        check(recovery.matches("(?i)[0-9a-f]{64}"), "recovery code must be a 256-bit hex value");
         String androidId = "test-android-id";
         String packageName = "com.bareapps.barebackup";
         byte[] payload = "{\"uid\":\"legacy-uid-123\",\"providerId\":\"anonymous\"}"
                 .getBytes(StandardCharsets.UTF_8);
+
+        boolean weakSecretRejected = false;
+        try {
+            LocalAccountVault.create(vault, "weak-secret-account", "weak-secret-uid",
+                    payload, "not-a-high-entropy-secret-000000000000", androidId, packageName, 100_000);
+        } catch (LocalAccountVault.VaultException expected) {
+            weakSecretRejected = true;
+        }
+        check(weakSecretRejected, "arbitrary low-entropy recovery strings must be rejected");
 
         LocalAccountVault.create(vault, "local-account-test", "legacy-uid-123",
                 payload, recovery, androidId, packageName, 100_000);
@@ -50,6 +60,15 @@ public final class LocalAccountVaultSmokeTest {
                 LocalAccountVault.inspect(vault, "other-device", packageName);
         check(otherDevice.state == LocalAccountVault.State.DEVICE_MISMATCH,
                 "different device must require transfer");
+
+        boolean invalidPathRejected = false;
+        try {
+            LocalAccountVault.transfer(dir.resolve("not-a-vault.txt"), recovery,
+                    "other-device", packageName, 100_000, true);
+        } catch (LocalAccountVault.VaultException expected) {
+            invalidPathRejected = true;
+        }
+        check(invalidPathRejected, "transfer must reject non-vault paths");
 
         boolean rejected = false;
         try {
