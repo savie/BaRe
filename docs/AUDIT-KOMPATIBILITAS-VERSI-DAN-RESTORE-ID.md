@@ -271,6 +271,60 @@ Ini adalah pernyataan kompatibilitas satu arah:
 
 Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan kompatibilitas setiap versi perantara.
 
+## 10. Versi visual, diagnostik, dan kanal rilis
+
+Audit string versi menemukan beberapa referensi selain `apktool.yml`. Ini bukan semuanya sumber versi Android.
+
+| Lokasi | Nilai saat audit | Peran yang teridentifikasi | Perlakuan saat implementasi |
+|---|---|---|---|
+| `bare-implementation/apktool.yml` | `versionName 5.1.0`, `versionCode 620` | Metadata APK untuk Apktool build | Wajib diubah ke target 1.4.6 / 146 |
+| `bare-implementation/smali_classes2/a3.smali` | `5.1.0 (620)` | Nilai statis preference versi pada halaman Settings/About | Sinkronkan dengan versi target |
+| `bare-implementation/res/raw/changelog.txt` | Heading `BΛR☰ v5.1.0 (620)` | Changelog yang ditampilkan kepada pengguna | Perlu heading/isi rilis 1.4.6 yang benar; jangan hanya mengganti heading tanpa meninjau isi changelog yang menggambarkan fitur 5.1.0 |
+| `bare-implementation/smali/ch8.smali` | `BareBackup / 5.1.0 (620)` | HTTP User-Agent | Sinkronkan identitas versi jika memang ingin request dikenali sebagai 1.4.6 |
+| `bare-implementation/smali/com/bareapps/barebackup/common/Const.smali` | `com.bareapps.barebackup v5.1.0 (620)` | Teks status/log diagnostik | Sinkronkan untuk mencegah log salah versi |
+| `reference/jadx/sources/defpackage/c41.java` | `5.1.0` | Menentukan apakah changelog diperlakukan sebagai versi stabil atau pre-release | Bukan sekadar label; tinjau logika kanal rilis |
+| `reference/jadx/sources/org/swiftapps/swiftbackup/home/HomeActivity.java` | `5.1.0` | Pemeriksaan suffix dev/alpha/beta/rc pada UI | Tinjau bersama kanal rilis |
+| `reference/jadx/sources/defpackage/qm.java` | `5.1.0` | Pemeriksaan kanal pre-release pada alur terkait update | Tinjau bersama kanal rilis |
+| `reference/jadx/sources/defpackage/lj.java` dan `x92.java` | `5.1.0` | Membandingkan dan menyimpan `KEY_LAST_SHOWN_VERSION` untuk penayangan changelog | Sinkronkan sebagai identitas rilis agar changelog tidak salah ditandai sudah/pernah dilihat |
+
+Temuan tambahan:
+- `apkFileName: 5.1.0 (620).apk` hanya nama file output yang tercatat dalam metadata Apktool; bukan sumber runtime version.
+- `version: 3.0.3` pada `apktool.yml` adalah versi Apktool.
+- `SB_VERSION_NAME_REQUIRED = "v5.0.0"` pada LocalMetadata dan nama requirement komponen CloudMetadata adalah label versi requirement backup, bukan versionName APK. Helper `nm6` hanya membandingkan nilai numerik requirement dengan versionCode terpasang.
+- Literal versi di kelas kanal rilis tidak boleh diubah secara membabi buta. Pastikan BΛR☰ memang akan diperlakukan sebagai stable release 1.4.6 dan tentukan apakah fitur update/changelog mengikuti skema versi baru atau mempertahankan skema rilis upstream.
+
+## 11. Interpretasi target minimum 100 vs requirement backup baru
+
+Ini pembedaan desain yang sangat penting.
+
+Target "APK 146 dapat restore backup lama mulai v1.0.0 (100)" adalah **batas penerimaan backup oleh APK 146**. Sementara field `*SBVersionCodeRequired` dan `minSBVersionCodeRequired` adalah **minimum versionCode aplikasi yang dibutuhkan untuk membaca backup tertentu**.
+
+Kedua arah kompatibilitas harus dijaga:
+
+1. Backup lama (misalnya requirement 100) → APK 146: gate lolos karena 100 tidak lebih besar dari 146; formatnya tetap harus didukung parser.
+2. Backup baru yang memakai format/kemampuan baru → APK 100: tidak boleh otomatis dianggap kompatibel.
+3. Backup baru yang dibuat APK 146 harus menulis requirement yang sesuai dengan versi minimum yang benar-benar dapat membaca format itu. Berdasarkan changelog 5.1.0 yang menyebut backup format baru tidak dapat dipulihkan oleh versi lama, requirement backup baru tidak boleh diturunkan ke 100 hanya demi memenuhi target restore backup lama.
+
+**Arah desain yang perlu divalidasi sebelum patch:** jika APK 146 berisi kode parser baru yang sama dengan basis 5.1.0, kemungkinan requirement backup baru yang aman adalah 146 (bukan 100), sementara gate pada APK 146 akan menerima backup historis yang requirement-nya <=146. Ini masih **inferensi desain**, belum persetujuan implementasi; harus dibuktikan melalui format archive, metadata, dan fixture nyata.
+
+Implikasi terhadap source:
+- LocalMetadata requirement komponen.
+- CloudMetadata requirement komponen.
+- CloudMetadata minimum global.
+Ketiganya perlu konsisten dengan requirement backup baru. Mengubah hanya `apktool.yml` tidak mengubah ketiganya.
+
+## 12. Ketersediaan fixture backup historis
+
+Spesifikasi parity yang diberikan menyebut fixture `backup_swift_com.bare.zip` berisi `com.bare.app`, `com.bare.dat`, dan `com.bare.xml`, tetapi juga menyatakan payload dan validitas restore belum divalidasi.
+
+Pada sesi audit ini, fixture tersebut **tidak muncul dalam daftar file percakapan/Project yang dapat diakses** dan tidak tersedia di `/mnt/data`. Karena itu:
+- belum ada inspeksi byte-level terhadap fixture tersebut;
+- belum dapat dipastikan archive type untuk setiap komponen;
+- belum dapat dipastikan apakah metadata menyimpan requirement 100, nilai lain, atau tidak menyimpan requirement;
+- belum dapat dilakukan restore test.
+
+Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang dapat di-fetch sebelum audit kompatibilitas historis dapat ditutup.
+
 ## 10. Matriks status saat ini
 
 | Area | Temuan | Status |
@@ -282,7 +336,7 @@ Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan komp
 | Local version gate | LocalMetadata → nm6.a() pada AppRestoreTask (xw.d) | Terbukti statis |
 | SBA parser | Menerima archive version 1 dan 2 | Terbukti statis |
 | Backup lama versi 100–579 | Changelog hanya memberi klaim umum backup lama; belum ada fixture lintas versi | Belum terbukti per versi |
-| Restore end-to-end | Belum diuji dengan perangkat dan fixture historis | Belum diuji |
+| Restore end-to-end | Belum diuji dengan perangkat; fixture historis belum tersedia pada sesi audit | Belum diuji |
 | Backup APK 146 ke APK 100 | Tidak dijamin; format baru dapat tidak kompatibel | Tidak boleh diasumsikan |
 
 ## 11. Risiko jika langsung mengganti angka 580 menjadi 100
@@ -301,24 +355,27 @@ Karena itu, belum ada rekomendasi untuk mengganti semua literal 580 secara massa
 Urutan kerja berikutnya:
 
 ### A. Selesaikan local restore
-- Telusuri pembacaan metadata lokal dari file backup.
-- Temukan semua pemakaian `getSBVersionCodesRequired()` milik LocalMetadata.
+- Version gate LocalMetadata → nm6.a() sudah ditemukan pada AppRestoreTask.
+- Selesaikan pemetaan metadata lokal yang dibaca oleh `xw.f()` dan lifecycle penyimpanannya.
 - Petakan restore tiap komponen: APK, splits, shared libraries, data, external data, media, expansion, dan special data jika relevan.
 - Identifikasi format kontainer tiap komponen dan fallback untuk metadata lama.
 
 ### B. Selesaikan cloud restore
+- CloudMetadata → nm6.a() sudah ditemukan pada AppDownloadTask.
 - Telusuri deserialisasi CloudMetadata untuk backup lama.
 - Audit fallback untuk field requirement yang hilang/null.
 - Pastikan gate global dan requirement komponen dipahami urutan evaluasinya.
 - Petakan ekstraksi setiap komponen setelah gate lolos.
 
 ### C. Pemetaan format lintas versi
+- Packer mengenali SBA sebagai tipe 6 dan memiliki jalur legacy terpisah; lengkapi pemetaan tiap tipe legacy dan komponen.
 - Identifikasi format yang digunakan backup sebelum SBA1/SBA2 atau sebelum perubahan 5.1.0.
 - Inspeksi fixture backup historis jika tersedia.
 - Buat matriks versi pembuat backup × versi parser × komponen.
 - Jangan menetapkan batas 100 sebelum ada bukti format dan parser yang sesuai.
 
 ### D. Validasi build dan runtime setelah patch disetujui
+- Audit/ubah semua referensi versi UI, User-Agent, diagnostik, dan kanal rilis secara terpisah dari metadata APK.
 - Verifikasi manifest APK final: `versionName 1.4.6`, `versionCode 146`.
 - Verifikasi seluruh requirement metadata yang dihasilkan untuk backup lokal dan cloud.
 - Uji restore fixture dari versi 100 dan versi perantara yang tersedia.
