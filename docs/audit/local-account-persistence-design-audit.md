@@ -170,3 +170,58 @@ Pemilik produk memilih kebijakan **Hybrid**: device-bound by default, reinstall 
 Desain teknis, model envelope encryption, audit dependency, batasan Android storage, migrasi, serta acceptance matrix dicatat di [local-account-hybrid-vault-technical-design.md](local-account-hybrid-vault-technical-design.md).
 
 Status gate yang sebelumnya menunggu keputusan device binding kini terselesaikan. Implementasi tetap ditahan karena repository yang diperiksa belum menyediakan source/build Gradle native yang dapat diverifikasi, dan recovery UX, jalur storage fallback, distribusi, serta matriks perangkat belum diputuskan.
+
+
+---
+
+## 13. Klarifikasi alur produk, Password Strategy, dan perpindahan ke Google
+
+Addendum ini memperbarui keputusan berdasarkan klarifikasi pemilik produk. Rincian teknis lengkap ada di [local-account-hybrid-vault-technical-design.md](local-account-hybrid-vault-technical-design.md), Bagian 15.
+
+### 13.1 Intro > Skip
+
+Tombol Skip for now yang sudah ada (intro_skip_sign_in_button.xml, ID btn_anonymous) menjadi pintu masuk ke Local Account Resolver. Skip berarti lanjut tanpa Google, bukan melewati autentikasi atau setup akun.
+
+- Vault valid: autentikasi dan buka akun yang sama.
+- Tidak ada vault/akun legacy: buat Local Account baru.
+- Vault rusak atau tidak dapat dibuka: recovery/error; jangan auto-create akun pengganti.
+- Perangkat berbeda: recovery credential + konfirmasi transfer.
+- Setelah akun baru dibuat, gunakan Password Strategy yang sudah ada jika strategi backup belum disetel.
+
+### 13.2 Gunakan Password Strategy yang sudah ada
+
+Artefak BΛR☰ yang ditemukan: PasswordStrategyActivity.smali, UserPasswordActivity.smali, password_strategy_activity.xml, dan password_strategy_item.xml. Activity menyimpan saved_password_mode dan saved_user_password serta mengenali STANDARD_PASSWORD dan USER_PASSWORD.
+
+- **Standard:** aplikasi menghasilkan password untuk encrypted backup.
+- **Advanced:** password yang dibuat pengguna ikut membentuk password akhir encrypted backup.
+
+UI dan mekanisme yang sudah ada diprioritaskan. Tetapi Password Strategy ini belum terbukti sebagai recovery credential Local Account. Recovery vault tetap terpisah sampai generator, key derivation, dan perlindungan SharedPreferences diaudit. Mengubah strategi backup tidak boleh mengganti LocalAccountId, UID lama, atau namespace backup.
+
+### 13.3 Local Account ke Google
+
+Target desain adalah **menghubungkan Google sebagai metode login tambahan ke BΛR☰ account yang sama**, bukan mengganti identitas data/backup.
+
+- Autentikasi Local Account dahulu.
+- Jalankan Google sign-in yang sudah ada.
+- Pastikan Google identity belum terhubung ke akun BΛR☰ lain.
+- Pertahankan LocalAccountId, LegacyUid, dan namespace backup.
+- Jangan menghapus vault setelah linking.
+- Konflik akun harus dihentikan untuk penyelesaian eksplisit; tidak boleh merge otomatis.
+- Google unlink mensyaratkan recovery lokal yang masih berfungsi.
+
+Feasibility linking dengan Firebase/backend saat ini belum terbukti. Pseudo-local UID tidak boleh diasumsikan sebagai Firebase anonymous account.
+
+### 13.4 Pengerjaan di tools, tetap selaras dengan decompile
+
+Analisis, patch generator, patch file, fixture, dan catatan verifikasi dikerjakan di tools/. Patch wajib menargetkan class/resource/package yang benar-benar ada di bare-implementation/. Folder bare-implementation dan reference menjadi baseline baca-saja sampai patch application diizinkan.
+
+Pemeriksaan recursive tree branch Working menemukan reference/apktool dan reference/jadx dengan artefak decompile yang cukup lengkap, termasuk Password Strategy. Namun tidak ditemukan build.gradle, settings.gradle, gradlew, Gradle wrapper, atau version catalog pada tracked tree. Jika Gradle ada di workspace lokal/untracked, lokasi tepatnya perlu diberikan saat build discovery.
+
+### 13.5 Status
+
+- Alur Skip dan target integrasi Password Strategy: ditentukan pada level desain.
+- Existing Password Strategy UI: ditemukan secara statis.
+- Perlindungan saved_user_password dan generator Standard: belum selesai diaudit.
+- Local-to-Google linking: desain target ada; feasibility backend belum diketahui.
+- Patch/implementasi: belum dimulai.
+- bare-implementation/: tidak diubah.
