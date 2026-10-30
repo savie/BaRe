@@ -27,9 +27,9 @@
 
 .field public static final Companion:Lcom/bareapps/barebackup/model/app/LocalMetadata$a;
 
-.field public static final SB_VERSION_CODE_REQUIRED:J = 0x244L
+.field public static final SB_VERSION_CODE_REQUIRED:J = 0x92L
 
-.field public static final SB_VERSION_NAME_REQUIRED:Ljava/lang/String; = "v5.0.0"
+.field public static final SB_VERSION_NAME_REQUIRED:Ljava/lang/String; = "v1.4.6"
 
 
 # instance fields
@@ -8892,7 +8892,7 @@
 
     .line 8
     .line 9
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 10
     .line 11
@@ -8908,7 +8908,7 @@
 
     .line 16
     .line 17
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 18
     .line 19
@@ -8949,7 +8949,7 @@
 
     .line 12
     .line 13
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 14
     .line 15
@@ -8965,7 +8965,7 @@
 
     .line 20
     .line 21
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 22
     .line 23
@@ -8994,7 +8994,7 @@
 
     .line 6
     .line 7
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 8
     .line 9
@@ -9010,7 +9010,7 @@
 
     .line 14
     .line 15
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 16
     .line 17
@@ -9051,7 +9051,7 @@
 
     .line 12
     .line 13
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 14
     .line 15
@@ -9067,7 +9067,7 @@
 
     .line 20
     .line 21
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 22
     .line 23
@@ -9108,7 +9108,7 @@
 
     .line 12
     .line 13
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 14
     .line 15
@@ -9124,7 +9124,7 @@
 
     .line 20
     .line 21
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 22
     .line 23
@@ -9282,7 +9282,7 @@
 
     .line 4
     .line 5
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 6
     .line 7
@@ -9298,7 +9298,7 @@
 
     .line 12
     .line 13
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 14
     .line 15
@@ -9323,7 +9323,7 @@
 
     .line 4
     .line 5
-    const-wide/16 p1, 0x244
+    const-wide/16 p1, 0x92
 
     .line 6
     .line 7
@@ -9339,7 +9339,7 @@
 
     .line 12
     .line 13
-    const-string p1, "v5.0.0"
+    const-string p1, "v1.4.6"
 
     .line 14
     .line 15

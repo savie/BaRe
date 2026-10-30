@@ -67,7 +67,7 @@
     move-result-object v0
 
     .line 31
-    const-string v1, "BareBackup / 5.1.0 (620); "
+    const-string v1, "BareBackup / 1.4.6 (146); "
 
     .line 32
     .line 33
