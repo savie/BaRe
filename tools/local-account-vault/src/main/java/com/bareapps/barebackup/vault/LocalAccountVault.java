@@ -126,6 +126,9 @@ public final class LocalAccountVault {
                 androidId, packageName, pbkdf2Iterations);
         withLock(vault, new LockedOperation<Void>() {
             @Override public Void run() throws Exception {
+                if (!vault.getFileName().toString().endsWith(".enc") || Files.exists(vault)) {
+                    throw new VaultException("Vault path must end in .enc and must not already exist.");
+                }
                 Path parent = vault.toAbsolutePath().normalize().getParent();
                 try (java.nio.file.DirectoryStream<Path> existing = Files.newDirectoryStream(parent, "*.enc")) {
                     if (existing.iterator().hasNext()) {
