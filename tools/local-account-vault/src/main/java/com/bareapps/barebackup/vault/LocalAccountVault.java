@@ -373,7 +373,7 @@ public final class LocalAccountVault {
         }
         char[] password = secret.toCharArray();
         PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, 256);
-        Arrays.fill(password, '\\0');
+        Arrays.fill(password, '\0');
         try {
             return SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).getEncoded();
         } finally {
