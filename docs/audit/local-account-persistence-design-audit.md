@@ -161,3 +161,12 @@ Fitur **persistent local account non-Google, satu account per device policy, dan
 Namun, requirement "selama ada kunci di folder" harus dipahami sebagai recovery berbasis file/key, bukan jaminan hardware-bound. Jika key disimpan berdampingan tanpa passphrase/wrapping, siapa pun yang memperoleh kedua file dapat berpotensi memulihkan account.
 
 **Status:** audit desain selesai secara statis; implementasi ditahan sampai kebijakan device binding/recovery dan lokasi source build resmi dipastikan. Tidak ada perubahan pada source aplikasi dalam audit ini.
+
+
+## 12. Keputusan desain lanjutan — Hybrid
+
+Pemilik produk memilih kebijakan **Hybrid**: device-bound by default, reinstall recovery, dan explicit cross-device transfer.
+
+Desain teknis, model envelope encryption, audit dependency, batasan Android storage, migrasi, serta acceptance matrix dicatat di [local-account-hybrid-vault-technical-design.md](local-account-hybrid-vault-technical-design.md).
+
+Status gate yang sebelumnya menunggu keputusan device binding kini terselesaikan. Implementasi tetap ditahan karena repository yang diperiksa belum menyediakan source/build Gradle native yang dapat diverifikasi, dan recovery UX, jalur storage fallback, distribusi, serta matriks perangkat belum diputuskan.
