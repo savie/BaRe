@@ -51,7 +51,7 @@ public final class LocalAccountVault {
 
     private LocalAccountVault() { }
 
-    public enum State { ABSENT, VALID, DEVICE_MISMATCH, CORRUPT }
+    public enum State { ABSENT, PRESENT_MATCHING_DEVICE, DEVICE_MISMATCH, CORRUPT }
 
     public static final class Inspection {
         public final State state;
@@ -158,7 +158,7 @@ public final class LocalAccountVault {
             if (!MessageDigest.isEqual(e.binding, expectedFingerprint)) {
                 return new Inspection(State.DEVICE_MISMATCH, e.localAccountId, e.legacyUid);
             }
-            return new Inspection(State.VALID, e.localAccountId, e.legacyUid);
+            return new Inspection(State.PRESENT_MATCHING_DEVICE, e.localAccountId, e.legacyUid);
         } catch (Exception ignored) {
             return new Inspection(State.CORRUPT, null, null);
         }
@@ -329,6 +329,7 @@ public final class LocalAccountVault {
     }
 
     private static Envelope read(Path path) throws Exception {
+        if (Files.isSymbolicLink(path)) throw new IOException("Symbolic-link vault paths are not accepted.");
         long size = Files.size(path);
         if (size <= 0 || size > MAX_ENVELOPE_BYTES) throw new IOException("Invalid vault size.");
         byte[] bytes = Files.readAllBytes(path);
