@@ -325,7 +325,7 @@ Pada sesi audit ini, fixture tersebut **tidak muncul dalam daftar file percakapa
 
 Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang dapat di-fetch sebelum audit kompatibilitas historis dapat ditutup.
 
-## 10. Matriks status saat ini
+## 13. Matriks status saat ini
 
 | Area | Temuan | Status |
 |---|---|---|
@@ -339,7 +339,7 @@ Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang
 | Restore end-to-end | Belum diuji dengan perangkat; fixture historis belum tersedia pada sesi audit | Belum diuji |
 | Backup APK 146 ke APK 100 | Tidak dijamin; format baru dapat tidak kompatibel | Tidak boleh diasumsikan |
 
-## 11. Risiko jika langsung mengganti angka 580 menjadi 100
+## 14. Risiko jika langsung mengganti angka 580 menjadi 100
 
 1. Jika hanya mengubah `apktool.yml`, metadata requirement di LocalMetadata dan CloudMetadata tetap 580.
 2. Jika hanya mengubah minimum global cloud, requirement komponen masih dapat menyebabkan penolakan.
@@ -350,7 +350,7 @@ Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang
 
 Karena itu, belum ada rekomendasi untuk mengganti semua literal 580 secara massal.
 
-## 12. Rencana audit lanjutan
+## 15. Rencana audit lanjutan
 
 Urutan kerja berikutnya:
 
@@ -383,7 +383,7 @@ Urutan kerja berikutnya:
 - Uji backup baru serta perilaku kompatibilitas arah sebaliknya.
 - Catat perangkat, Android version, sumber backup, komponen, hasil, dan log.
 
-## 13. Aturan kelanjutan lintas sesi
+## 16. Aturan kelanjutan lintas sesi
 
 Sebelum melanjutkan pekerjaan:
 
@@ -399,7 +399,7 @@ Sebelum melanjutkan pekerjaan:
 
 ---
 
-## 14. Referensi source yang diperiksa
+## 17. Referensi source yang diperiksa
 
 - `bare-implementation/apktool.yml`
 - `bare-implementation/AndroidManifest.xml`
