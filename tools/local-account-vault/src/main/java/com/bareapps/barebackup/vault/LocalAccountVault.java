@@ -18,7 +18,6 @@ import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -121,17 +120,20 @@ public final class LocalAccountVault {
     /** Create a vault only when no vault exists. The payload is UTF-8 JSON. */
     public static void create(Path vault, String localAccountId, String legacyUid,
                               byte[] payload, String recoverySecret,
-                              byte[] deviceFingerprint, int pbkdf2Iterations)
+                              String androidId, String packageName, int pbkdf2Iterations)
             throws VaultException {
         validateInputs(vault, localAccountId, legacyUid, payload, recoverySecret,
-                deviceFingerprint, pbkdf2Iterations);
+                androidId, packageName, pbkdf2Iterations);
         withLock(vault, new LockedOperation<Void>() {
             @Override public Void run() throws Exception {
-                if (Files.exists(vault)) {
-                    throw new VaultException("A vault already exists; refusing second enrollment or overwrite.");
+                Path parent = vault.toAbsolutePath().normalize().getParent();
+                try (java.nio.file.DirectoryStream<Path> existing = Files.newDirectoryStream(parent, "*.enc")) {
+                    if (existing.iterator().hasNext()) {
+                        throw new VaultException("An existing vault was found; refusing second enrollment or overwrite.");
+                    }
                 }
                 byte[] salt = randomBytes(SALT_BYTES);
-                byte[] binding = deviceFingerprint.clone();
+                byte[] binding = deviceFingerprint(androidId, packageName, salt);
                 byte[] dek = randomBytes(DEK_BYTES);
                 try {
                     byte[] envelope = seal(localAccountId, legacyUid, payload, recoverySecret,
@@ -146,13 +148,14 @@ public final class LocalAccountVault {
     }
 
     /** Inspect without creating, overwriting, or treating corruption as a new account. */
-    public static Inspection inspect(Path vault, byte[] expectedFingerprint) {
+    public static Inspection inspect(Path vault, String androidId, String packageName) {
         if (vault == null || !Files.exists(vault)) {
             return new Inspection(State.ABSENT, null, null);
         }
         try {
             Envelope e = read(vault);
-            if (!MessageDigest.isEqual(e.binding, expectedFingerprint == null ? new byte[0] : expectedFingerprint)) {
+            byte[] expectedFingerprint = deviceFingerprint(androidId, packageName, e.salt);
+            if (!MessageDigest.isEqual(e.binding, expectedFingerprint)) {
                 return new Inspection(State.DEVICE_MISMATCH, e.localAccountId, e.legacyUid);
             }
             return new Inspection(State.VALID, e.localAccountId, e.legacyUid);
@@ -162,14 +165,15 @@ public final class LocalAccountVault {
     }
 
     /** Unlock is intentionally restricted to the matching device-binding signal. */
-    public static VaultData unlock(Path vault, String recoverySecret, byte[] expectedFingerprint)
+    public static VaultData unlock(Path vault, String recoverySecret, String androidId, String packageName)
             throws VaultException {
-        if (vault == null || recoverySecret == null || expectedFingerprint == null) {
-            throw new VaultException("Vault, recovery secret, and device fingerprint are required.");
+        if (vault == null || recoverySecret == null || isBlank(androidId) || isBlank(packageName)) {
+            throw new VaultException("Vault, recovery secret, Android ID, and package name are required.");
         }
         return withLock(vault, new LockedOperation<VaultData>() {
             @Override public VaultData run() throws Exception {
                 Envelope e = read(vault);
+                byte[] expectedFingerprint = deviceFingerprint(androidId, packageName, e.salt);
                 if (!MessageDigest.isEqual(e.binding, expectedFingerprint)) {
                     throw new DeviceBindingMismatchException();
                 }
@@ -182,10 +186,10 @@ public final class LocalAccountVault {
      * Explicit cross-device transfer. The same IDs and payload are retained.
      * Caller must obtain an affirmative user confirmation before passing true.
      */
-    public static void transfer(Path vault, String recoverySecret, byte[] newFingerprint,
-                                int pbkdf2Iterations, boolean confirmed) throws VaultException {
+    public static void transfer(Path vault, String recoverySecret, String newAndroidId,
+                                String packageName, int pbkdf2Iterations, boolean confirmed) throws VaultException {
         if (!confirmed) throw new VaultException("Transfer was not confirmed by the user.");
-        if (vault == null || recoverySecret == null || newFingerprint == null || newFingerprint.length != 32) {
+        if (vault == null || recoverySecret == null || isBlank(newAndroidId) || isBlank(packageName)) {
             throw new VaultException("Transfer inputs are incomplete.");
         }
         validateIterations(pbkdf2Iterations);
@@ -194,6 +198,7 @@ public final class LocalAccountVault {
                 Envelope old = read(vault);
                 VaultData data = decrypt(old, recoverySecret);
                 byte[] newSalt = randomBytes(SALT_BYTES);
+                byte[] newFingerprint = deviceFingerprint(newAndroidId, packageName, newSalt);
                 byte[] dek = unwrapDek(old, recoverySecret);
                 try {
                     byte[] replacement = seal(data.localAccountId, data.legacyUid, data.payload,
@@ -265,8 +270,14 @@ public final class LocalAccountVault {
             byte[] wrapNonce = randomBytes(NONCE_BYTES);
             byte[] payloadCipher = crypt(Cipher.ENCRYPT_MODE, dek, payloadNonce,
                     payloadAad(accountId, uid, binding), payload);
-            byte[] wrappedDek = crypt(Cipher.ENCRYPT_MODE, derive(secret, salt, iterations), wrapNonce,
-                    wrapAad(accountId, uid, binding, salt, iterations), dek);
+            byte[] wrappingKey = derive(secret, salt, iterations);
+            byte[] wrappedDek;
+            try {
+                wrappedDek = crypt(Cipher.ENCRYPT_MODE, wrappingKey, wrapNonce,
+                        wrapAad(accountId, uid, binding, salt, iterations), dek);
+            } finally {
+                Arrays.fill(wrappingKey, (byte) 0);
+            }
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(bytes);
             out.writeInt(MAGIC);
@@ -303,13 +314,17 @@ public final class LocalAccountVault {
     }
 
     private static byte[] unwrapDek(Envelope e, String secret) throws VaultException {
+        byte[] wrappingKey = null;
         try {
-            return crypt(Cipher.DECRYPT_MODE, derive(secret, e.salt, e.iterations), e.wrapNonce,
+            wrappingKey = derive(secret, e.salt, e.iterations);
+            return crypt(Cipher.DECRYPT_MODE, wrappingKey, e.wrapNonce,
                     wrapAad(e.localAccountId, e.legacyUid, e.binding, e.salt, e.iterations), e.wrappedDek);
         } catch (AEADBadTagException badTag) {
             throw new VaultException("Recovery secret is incorrect or vault metadata was modified.", badTag);
         } catch (Exception ex) {
             throw new VaultException("Unable to unwrap vault key.", ex);
+        } finally {
+            if (wrappingKey != null) Arrays.fill(wrappingKey, (byte) 0);
         }
     }
 
@@ -372,9 +387,11 @@ public final class LocalAccountVault {
     }
 
     private static void validateInputs(Path vault, String accountId, String uid, byte[] payload,
-                                       String secret, byte[] binding, int iterations) throws VaultException {
+                                       String secret, String androidId, String packageName, int iterations)
+            throws VaultException {
         if (vault == null || isBlank(accountId) || isBlank(uid) || payload == null || payload.length == 0
-                || payload.length > MAX_PAYLOAD_BYTES || secret == null || binding == null || binding.length != 32) {
+                || payload.length > MAX_PAYLOAD_BYTES || secret == null || secret.length() < 32
+                || isBlank(androidId) || isBlank(packageName)) {
             throw new VaultException("Invalid vault creation input.");
         }
         validateIterations(iterations);
