@@ -205,6 +205,8 @@ Pembanding JADX:
 - `reference/jadx/sources/org/swiftapps/swiftbackup/compress/Packer.java`
 - `reference/jadx/sources/defpackage/mz6.java`
 - `reference/jadx/sources/defpackage/xw.java`
+- `reference/jadx/sources/defpackage/hk.java`
+- `reference/jadx/sources/defpackage/cu.java`
 
 Method `Packer.b(q63)` mendeteksi tipe archive. Temuan statis:
 - Tipe 6 ditetapkan ketika `mz6.m(file)` mengenali SBA dan metadata SBA dapat dibaca.
@@ -227,7 +229,39 @@ Ini bukti bahwa source memiliki jalur pemrosesan SBA baru dan jalur legacy yang 
 - Target restore versi 100 harus diuji terhadap setiap format historis yang ditemukan, bukan hanya SBA.
 
 
-## 8. Format archive SBA
+## 8. Format metadata lokal dan jalur legacy
+
+Pembanding JADX:
+- `reference/jadx/sources/defpackage/hk.java`
+- `reference/jadx/sources/defpackage/cu.java`
+- `reference/jadx/sources/org/swiftapps/swiftbackup/model/app/LocalMetadata.java`
+
+Temuan:
+
+1. `AppRestoreTask` memperoleh LocalMetadata melalui `xw.f()`.
+2. Lazy provider pada `lf` mengambil metadata dari `hk.u()`.
+3. `hk.u()` memeriksa file metadata lokal dan memanggil `cu.b(file)`.
+4. `cu.b()` mencoba membaca metadata versi baru; jika terjadi error, ia memiliki fallback parser legacy melalui `w14.a(file, LocalMetadata.class)`.
+5. `cu.d()` membaca konten metadata:
+   - Jika konten tidak diawali penanda `v`, parser menjalankan dekode karakter legacy lalu memproses payload lama.
+   - Jika konten diawali penanda versi, parser mengambil prefix sebelum `:::` dan saat ini hanya menerima `v1`.
+   - Prefix metadata versi lain akan menghasilkan error metadata version incompatible.
+6. Metadata versi baru memuat identitas akun dan payload serialisasi LocalMetadata; pembacaan memverifikasi identitas akun sebelum mengembalikan objek.
+
+Pemisahan versi yang wajib dipertahankan:
+
+| Penanda | Domain | Makna |
+|---|---|---|
+| `versionCode 146` | Aplikasi Android | Versi APK terpasang |
+| `v1` pada `cu` | Envelope metadata lokal | Versi format pembungkus/serialisasi metadata |
+| SBA header version 1/2 | Archive | Versi struktur kontainer SBA |
+| Archive type 1–6 dari Packer | Deteksi kontainer | Klasifikasi format yang dipakai extractor |
+
+**Penting:** `v1` pada metadata lokal bukan bukti bahwa backup dibuat oleh aplikasi v1.0.0. Demikian pula SBA header version 1 bukan versionCode aplikasi 100.
+
+Fallback metadata legacy juga tidak membuktikan semua payload archive legacy kompatibel. Itu hanya membuktikan parser metadata memiliki jalur pembacaan legacy.
+
+## 9. Format archive SBA
 
 Parser referensi:
 
@@ -255,7 +289,7 @@ Library native BΛR☰:
 - Mengubah minimum aplikasi ke 100 tidak membuat parser otomatis mampu membaca format archive yang tidak didukung.
 - Dukungan parser terhadap SBA1/SBA2 tidak dengan sendirinya membuktikan bahwa setiap bagian backup versi 100–620 menggunakan format tersebut atau dapat dipulihkan.
 
-## 9. Bukti kompatibilitas dari changelog
+## 10. Bukti kompatibilitas dari changelog
 
 File: `bare-implementation/res/raw/changelog.txt`
 
@@ -271,7 +305,7 @@ Ini adalah pernyataan kompatibilitas satu arah:
 
 Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan kompatibilitas setiap versi perantara.
 
-## 10. Versi visual, diagnostik, dan kanal rilis
+## 11. Versi visual, diagnostik, dan kanal rilis
 
 Audit string versi menemukan beberapa referensi selain `apktool.yml`. Ini bukan semuanya sumber versi Android.
 
@@ -293,7 +327,7 @@ Temuan tambahan:
 - `SB_VERSION_NAME_REQUIRED = "v5.0.0"` pada LocalMetadata dan nama requirement komponen CloudMetadata adalah label versi requirement backup, bukan versionName APK. Helper `nm6` hanya membandingkan nilai numerik requirement dengan versionCode terpasang.
 - Literal versi di kelas kanal rilis tidak boleh diubah secara membabi buta. Pastikan BΛR☰ memang akan diperlakukan sebagai stable release 1.4.6 dan tentukan apakah fitur update/changelog mengikuti skema versi baru atau mempertahankan skema rilis upstream.
 
-## 11. Interpretasi target minimum 100 vs requirement backup baru
+## 12. Interpretasi target minimum 100 vs requirement backup baru
 
 Ini pembedaan desain yang sangat penting.
 
@@ -313,7 +347,7 @@ Implikasi terhadap source:
 - CloudMetadata minimum global.
 Ketiganya perlu konsisten dengan requirement backup baru. Mengubah hanya `apktool.yml` tidak mengubah ketiganya.
 
-## 12. Ketersediaan fixture backup historis
+## 13. Ketersediaan fixture backup historis
 
 Spesifikasi parity yang diberikan menyebut fixture `backup_swift_com.bare.zip` berisi `com.bare.app`, `com.bare.dat`, dan `com.bare.xml`, tetapi juga menyatakan payload dan validitas restore belum divalidasi.
 
@@ -325,7 +359,7 @@ Pada sesi audit ini, fixture tersebut **tidak muncul dalam daftar file percakapa
 
 Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang dapat di-fetch sebelum audit kompatibilitas historis dapat ditutup.
 
-## 13. Matriks status saat ini
+## 14. Matriks status saat ini
 
 | Area | Temuan | Status |
 |---|---|---|
@@ -339,7 +373,7 @@ Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang
 | Restore end-to-end | Belum diuji dengan perangkat; fixture historis belum tersedia pada sesi audit | Belum diuji |
 | Backup APK 146 ke APK 100 | Tidak dijamin; format baru dapat tidak kompatibel | Tidak boleh diasumsikan |
 
-## 14. Risiko jika langsung mengganti angka 580 menjadi 100
+## 15. Risiko jika langsung mengganti angka 580 menjadi 100
 
 1. Jika hanya mengubah `apktool.yml`, metadata requirement di LocalMetadata dan CloudMetadata tetap 580.
 2. Jika hanya mengubah minimum global cloud, requirement komponen masih dapat menyebabkan penolakan.
@@ -350,7 +384,7 @@ Fixture perlu dilampirkan kembali atau disediakan melalui lokasi repository yang
 
 Karena itu, belum ada rekomendasi untuk mengganti semua literal 580 secara massal.
 
-## 15. Rencana audit lanjutan
+## 16. Rencana audit lanjutan
 
 Urutan kerja berikutnya:
 
@@ -383,7 +417,7 @@ Urutan kerja berikutnya:
 - Uji backup baru serta perilaku kompatibilitas arah sebaliknya.
 - Catat perangkat, Android version, sumber backup, komponen, hasil, dan log.
 
-## 16. Aturan kelanjutan lintas sesi
+## 17. Aturan kelanjutan lintas sesi
 
 Sebelum melanjutkan pekerjaan:
 
@@ -399,7 +433,7 @@ Sebelum melanjutkan pekerjaan:
 
 ---
 
-## 17. Referensi source yang diperiksa
+## 18. Referensi source yang diperiksa
 
 - `bare-implementation/apktool.yml`
 - `bare-implementation/AndroidManifest.xml`
