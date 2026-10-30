@@ -1,0 +1,24 @@
+{
+  global:
+    Java_com_bareapps_sba_SbaZstdNative_compressZstdBytes;
+    Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes;
+    Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw;
+    Java_com_bareapps_sba_SbaZstdNative_compressZstdFdToFdRaw;
+    Java_com_bareapps_sba_SbaZstdNative_compressZstdFileToFdRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesFromFdRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_createTarToFdWithWriteStatsRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw;
+    Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry;
+    Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused;
+    Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id;
+    Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable;
+    Java_com_bareapps_sba_SbaArchiveNative_createArchive;
+    Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw;
+    Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw;
+    Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw;
+    Java_com_bareapps_sba_SbaRuntimeNative_version;
+  local: *;
+};

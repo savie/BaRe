@@ -179,6 +179,12 @@
 
 
 # virtual methods
+.method public final native compressZstdFdToFdRaw(IIJLcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
+.end method
+
+.method public final native compressZstdFileToFdRaw(Ljava/lang/String;IILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
+.end method
+
 .method public final native compressZstdBytes([BI)[B
 .end method
 

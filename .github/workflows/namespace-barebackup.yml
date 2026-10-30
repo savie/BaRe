@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - Working
       - feature/namespace-barebackup
       - fix/supabase-appsettings-first-run-restore
       - feat/bare-own-onedrive-msal
@@ -15,6 +16,7 @@ on:
       - "bare-implementation/**"
       - ".github/workflows/namespace-barebackup.yml"
       - "tools/native-jni-replacement/**"
+      - "tools/libsba-archive/**"
       - "tools/prepare-barebackup-build.py"
       - "tools/migrate-encrypted-constants.py"
 
@@ -109,6 +111,129 @@ jobs:
           "$NDK_BIN/clang++" --version | head -n 1
           "$NDK_BIN/llvm-readelf" --version | head -n 1
 
+      - name: Test and build BaRe archive native library
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path("build-src/smali/com/bareapps/sba")
+          contracts = {
+              "SbaArchiveNative.smali": {"createArchive"},
+              "SbaBareTarNative.smali": {
+                  "createTarToFdWithWriteStatsRaw",
+                  "extractTarFromFdRaw",
+                  "extractTarFromFdWithStatsRaw",
+                  "extractTarZstdFromFdRaw",
+                  "listTarEntriesFromFdRaw",
+                  "listTarEntriesZstdFromFdRaw",
+                  "extractAegisArchiveEntry",
+                  "extractAegisArchiveEntryFused",
+              },
+              "SbaLibaegisCryptoNative.smali": {
+                  "decryptAegis128X2ChunkedEntryFdRaw",
+                  "decryptAegis256ChunkedEntryFdRaw",
+                  "encryptAegis256ChunkedEntryFdRaw",
+                  "isAvailable",
+              },
+              "SbaNativeCrypto.smali": {"deriveArgon2id"},
+              "SbaRuntimeNative.smali": {"version"},
+              "SbaZstdNative.smali": {
+                  "compressZstdBytes",
+                  "decompressZstdBytes",
+                  "decompressZstdFdToFdRaw",
+                  "compressZstdFdToFdRaw",
+                  "compressZstdFileToFdRaw",
+              },
+          }
+          total = 0
+          for filename, expected in contracts.items():
+              source = (root / filename).read_text()
+              actual = set(re.findall(r"(?m)^\.method[^\n]*\bnative\s+([A-Za-z0-9_$]+)\(", source))
+              if actual != expected:
+                  raise SystemExit(
+                      f"{filename}: native declaration mismatch; "
+                      f"missing={sorted(expected - actual)}, extra={sorted(actual - expected)}"
+                  )
+              total += len(actual)
+          if total != 20:
+              raise SystemExit(f"Expected exactly 20 callable JNI declarations, found {total}")
+
+          legacy = []
+          for path in Path("build-src").rglob("*"):
+              if path.is_file() and path.suffix.lower() in {
+                  ".smali", ".xml", ".json", ".txt", ".properties", ".java", ".kt"
+              }:
+                  try:
+                      if re.search(r"(?i)swift", path.read_text(errors="ignore")):
+                          legacy.append(str(path))
+                  except OSError:
+                      pass
+          if legacy:
+              raise SystemExit("Legacy Swift text remains in APK source: " + ", ".join(legacy[:20]))
+          print("Validated exactly 20 BaRe JNI declarations and no legacy Swift text in APK source.")
+          PY
+          cmake -S tools/libsba-archive -B build/libsba-tests -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+          cmake --build build/libsba-tests --parallel 2
+          ctest --test-dir build/libsba-tests --output-on-failure
+
+          NDK_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          for abi in arm64-v8a armeabi-v7a x86 x86_64; do
+            cmake -S tools/libsba-archive -B "build/libsba-$abi" \
+              -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" \
+              -DANDROID_ABI="$abi" -DANDROID_PLATFORM=android-24 \
+              -DCMAKE_BUILD_TYPE=Release -DANDROID_STL=c++_static -DBUILD_TESTING=OFF
+            cmake --build "build/libsba-$abi" --target sba_archive --parallel 2
+            mkdir -p "build-src/lib/$abi"
+            cp "build/libsba-$abi/libsba_archive.so" "build-src/lib/$abi/libsba_archive.so"
+            "$NDK_BIN/llvm-readelf" -Ws "build-src/lib/$abi/libsba_archive.so" > "build/$abi-libsba-symbols.txt"
+            "$NDK_BIN/llvm-readelf" -d "build-src/lib/$abi/libsba_archive.so" > "build/$abi-libsba-dynamic.txt"
+            for symbol in \
+              Java_com_bareapps_sba_SbaZstdNative_compressZstdBytes \
+              Java_com_bareapps_sba_SbaZstdNative_decompressZstdBytes \
+              Java_com_bareapps_sba_SbaZstdNative_decompressZstdFdToFdRaw \
+              Java_com_bareapps_sba_SbaZstdNative_compressZstdFdToFdRaw \
+              Java_com_bareapps_sba_SbaZstdNative_compressZstdFileToFdRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesFromFdRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_listTarEntriesZstdFromFdRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_createTarToFdWithWriteStatsRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_extractTarFromFdWithStatsRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_extractTarZstdFromFdRaw \
+              Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntry \
+              Java_com_bareapps_sba_SbaBareTarNative_extractAegisArchiveEntryFused \
+              Java_com_bareapps_sba_SbaNativeCrypto_deriveArgon2id \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_isAvailable \
+              Java_com_bareapps_sba_SbaArchiveNative_createArchive \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis128X2ChunkedEntryFdRaw \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_decryptAegis256ChunkedEntryFdRaw \
+              Java_com_bareapps_sba_SbaLibaegisCryptoNative_encryptAegis256ChunkedEntryFdRaw \
+              Java_com_bareapps_sba_SbaRuntimeNative_version ; do
+              grep -q "[[:space:]]$symbol$" "build/$abi-libsba-symbols.txt" || {
+                echo "Missing required SBA JNI export for $abi: $symbol" >&2
+                exit 1
+              }
+            done
+            actual_exports="$(grep -Eo 'Java_[A-Za-z0-9_]+' "build/$abi-libsba-symbols.txt" | sort -u | wc -l)"
+            if [ "$actual_exports" -ne 20 ]; then
+              echo "Expected exactly 20 exported JNI functions for $abi, found $actual_exports" >&2
+              exit 1
+            fi
+            if grep -Eqi 'Java_com_swiftapps_|com\.swiftapps\.sba|Swift' "build/$abi-libsba-symbols.txt" "build/$abi-libsba-dynamic.txt" ||
+               strings "build-src/lib/$abi/libsba_archive.so" | grep -Eqi 'Java_com_swiftapps_|com\.swiftapps\.sba|Swift'; then
+              echo "Legacy Java package namespace found in libsba_archive.so for $abi" >&2
+              exit 1
+            fi
+            if grep -q 'NEEDED.*libc++_shared\.so' "build/$abi-libsba-dynamic.txt"; then
+              echo "Unexpected libc++_shared.so dependency in libsba_archive.so for $abi" >&2
+              exit 1
+            fi
+            echo "Validated libsba_archive.so for $abi"
+          done
+          sha256sum build-src/lib/*/libsba_archive.so
+
       - name: Rebuild unsigned APK
         run: |
           set -euo pipefail
@@ -168,6 +293,43 @@ jobs:
             --out build/BaRe-namespace-signed.apk build/barebackup-aligned.apk
           "$BUILD_TOOLS/apksigner" verify --verbose --print-certs build/BaRe-namespace-signed.apk
           sha256sum build/BaRe-namespace-signed.apk
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import re
+          import subprocess
+          import zipfile
+
+          apk = Path("build/BaRe-namespace-signed.apk")
+          abis = ("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+          with zipfile.ZipFile(apk) as archive:
+              names = set(archive.namelist())
+              for abi in abis:
+                  entry = f"lib/{abi}/libsba_archive.so"
+                  if entry not in names:
+                      raise SystemExit(f"Missing {entry} from final APK")
+                  packaged = archive.read(entry)
+                  built = Path(f"build/libsba-{abi}/libsba_archive.so").read_bytes()
+                  if hashlib.sha256(packaged).digest() != hashlib.sha256(built).digest():
+                      raise SystemExit(f"Packaged {entry} differs from the ABI build output")
+                  output = subprocess.run(
+                      ["strings"], input=packaged, check=True, capture_output=True
+                  ).stdout
+                  if re.search(rb"(?i)swift", output):
+                      raise SystemExit(f"Legacy Swift string found in {entry}")
+              for entry in names:
+                  if re.search(r"(?i)swift", entry):
+                      raise SystemExit(f"Legacy Swift name found in APK entry: {entry}")
+                  if entry.endswith(".dex") and re.search(rb"(?i)swift", archive.read(entry)):
+                      raise SystemExit(f"Legacy Swift string found in APK DEX: {entry}")
+                  if entry.endswith(".so"):
+                      output = subprocess.run(
+                          ["strings"], input=archive.read(entry), check=True, capture_output=True
+                      ).stdout
+                      if re.search(rb"(?i)swift", output):
+                          raise SystemExit(f"Legacy Swift string found in APK native library: {entry}")
+          print("Verified all four libsba_archive.so binaries are packaged byte-for-byte in the signed APK; no Swift text in DEX/native archive.")
+          PY
           echo "Signing uses the stable BARE_DEBUG_KEYSTORE_B64 CI key shared with the rewrite rebuild workflow."
 
       - name: Package CI-labelled ZIP artifact

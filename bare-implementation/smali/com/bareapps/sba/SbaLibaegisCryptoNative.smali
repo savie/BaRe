@@ -292,5 +292,8 @@
 
 
 # virtual methods
+.method public final native encryptAegis256ChunkedEntryFdRaw(II[B[B[BJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
+.end method
+
 .method public final native isAvailable()Z
 .end method

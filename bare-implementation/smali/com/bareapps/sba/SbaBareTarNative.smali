@@ -421,6 +421,9 @@
 
 
 # virtual methods
+.method public final native createTarToFdWithWriteStatsRaw(Ljava/lang/String;II[Ljava/lang/String;[Ljava/lang/String;Lcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[J
+.end method
+
 .method public final native extractAegisArchiveEntry(Ljava/lang/String;JJJJLjava/lang/String;I[Ljava/lang/String;II[B[B[BJILcom/bareapps/sba/internal/progress/SbaNativeProgressListener;)[Ljava/lang/String;
 .end method
 
