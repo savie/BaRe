@@ -119,6 +119,7 @@ Temuan statis: CloudMetadata tidak sekadar menerima angka dari LocalMetadata; me
 File terkait:
 
 - `bare-implementation/smali/nm6.smali`
+- `bare-implementation/smali/xw.smali`
 - Pembanding JADX: `reference/jadx/sources/defpackage/nm6.java`
 - Pemanggil yang ditemukan: `bare-implementation/smali_classes2/c40.smali` / `reference/jadx/sources/defpackage/c40.java`
 
@@ -140,25 +141,93 @@ Pemanggil yang ditemukan berada pada jalur cloud AppDownloadTask, sebelum proses
 
 Hasil pencarian repository saat audit menemukan satu call site `nm6.a()` pada `c40.smali`. Ini mendukung kesimpulan bahwa gate tersebut digunakan pada jalur cloud app restore yang terinspeksi. Ini **tidak membuktikan** tidak ada pemeriksaan kompatibilitas lain pada jalur lain.
 
-## 6. Local restore: status bukti
+## 6. Local restore: version gate ditemukan
 
-Yang sudah diketahui:
+**Koreksi terhadap pembacaan awal:** local restore ternyata memakai gate `nm6.a()` juga. Kesimpulan sebelumnya yang menyatakan call site hanya ada pada cloud adalah tidak lengkap dan telah diganti berdasarkan inspeksi lanjutan.
 
-- LocalMetadata menyimpan requirement per komponen dan menyediakan `getSBVersionCodesRequired()`.
-- Pencarian call site `nm6.a()` hanya menemukan pemanggilan pada jalur cloud AppDownloadTask.
-- Belum ditemukan bukti bahwa local restore memanggil gate `nm6.a()`.
+File implementasi:
 
-Kesimpulan yang aman saat ini:
+- `bare-implementation/smali/xw.smali`
+- Pembanding JADX: `reference/jadx/sources/defpackage/xw.java`
+- Method: `xw.d(qv)` — AppRestoreTask.
+- Getter metadata lokal: `xw.f()`, yang mengembalikan `LocalMetadata`.
 
-> Belum terbukti bahwa local restore memakai gate yang sama dengan cloud restore. Jangan menyatakan local restore bebas version gate sebelum seluruh parser metadata lokal dan jalur pemulihan setiap komponen ditelusuri.
+Bukti alur smali pada `xw.smali`:
 
-Audit lanjutan perlu mencari:
-- Semua pemanggilan `LocalMetadata.getSBVersionCodesRequired()`.
-- Semua pembacaan field `*SBVersionCodeRequired` dan `SB_VERSION_CODE_REQUIRED` pada jalur local restore.
-- Validasi versi/format yang dilakukan parser atau extractor lokal.
-- Perlakuan terhadap field requirement yang null, hilang, atau berasal dari backup lama.
+1. Baca field `xw.i`, yang ditetapkan dari keberadaan `AppCloudBackup` pada constructor.
+2. Jika `xw.i == false` (jalur local), ambil `LocalMetadata` melalui `xw.f()`.
+3. Jika metadata tersedia, panggil `LocalMetadata.getSBVersionCodesRequired()`; jika tidak tersedia, kirim null.
+4. Buat callback `hj`, lalu panggil `nm6.a(list, callback)`.
+5. Jika hasil false, alur melompat ke label akhir dan tidak melanjutkan proses restore app tersebut.
+6. Jika true, lanjut ke pemeriksaan/restore APK dan bagian data yang dipilih.
 
-## 7. Format archive SBA
+Call site berada di sekitar baris smali 1752–1823 pada file yang diaudit.
+
+Dengan demikian, dua jalur gate yang terkonfirmasi adalah:
+
+| Jalur | Sumber requirement | Pemanggil gate | Lokasi |
+|---|---|---|---|
+| Local app restore | `LocalMetadata.getSBVersionCodesRequired()` | `nm6.a()` | `xw.smali`, method `d(qv)` |
+| Cloud app restore | `CloudMetadata.getSBVersionCodesRequired()` | `nm6.a()` | `c40.smali`, AppDownloadTask |
+
+Kedua jalur memakai helper pembanding versi yang sama, tetapi mengambil metadata dari model yang berbeda.
+
+### Cakupan pemeriksaan
+
+Getter LocalMetadata menyusun tujuh nilai requirement komponen:
+- APK
+- splits
+- shared libraries
+- data
+- external data
+- media
+- expansion
+
+Getter CloudMetadata menyusun delapan nilai:
+- minimum global
+- APK
+- splits
+- shared libraries
+- data
+- external data
+- media
+- expansion
+
+Helper `nm6.a()` memeriksa seluruh nilai positif dalam list yang diberikan. Ia tidak menerima daftar komponen yang dipilih sebagai argumen. Karena itu, secara statis sebuah requirement tinggi dari bagian backup yang tidak dipilih pun dapat menyebabkan seluruh task app restore ditolak. Perlu uji runtime untuk mengonfirmasi perilaku UI dan pemilihan komponen yang relevan.
+
+### Metadata hilang/null
+
+`nm6.a()` mengembalikan true jika list null/kosong atau tidak memiliki requirement positif. Ini berarti metadata lokal/cloud lama yang tidak menyimpan field requirement dapat lolos dari pemeriksaan versi ini. Itu hanya berarti gate tidak menolaknya; parser archive, password, integritas, dan extractor tetap dapat menolak atau gagal.
+
+## 7. Pemetaan tipe archive dan jalur format lama/baru
+
+Pembanding JADX:
+- `reference/jadx/sources/org/swiftapps/swiftbackup/compress/Packer.java`
+- `reference/jadx/sources/defpackage/mz6.java`
+- `reference/jadx/sources/defpackage/xw.java`
+
+Method `Packer.b(q63)` mendeteksi tipe archive. Temuan statis:
+- Tipe 6 ditetapkan ketika `mz6.m(file)` mengenali SBA dan metadata SBA dapat dibaca.
+- Tipe 6 mengambil daftar entry dan status enkripsi dari SBA metadata.
+- Jalur non-SBA mendeteksi format arsip lama, termasuk 7-Zip dan ZIP.
+- Pada format 7-Zip, kode mengklasifikasikan varian tertentu sebagai tipe 3 atau 5.
+- ZIP diklasifikasikan sebagai tipe 1 atau 2 berdasarkan karakteristik entry (termasuk apakah entry berupa TAR).
+
+Pada AppRestoreTask, kelas task tiap komponen memeriksa `i40.a`:
+- Jika tipe archive 6, jalur restore memakai helper SBA (misalnya `mz6.f()` / listing dan extraction SBA).
+- Untuk tipe selain 6, jalur legacy menggunakan `Packer.a()` dan extractor legacy.
+
+Ini bukti bahwa source memiliki jalur pemrosesan SBA baru dan jalur legacy yang berbeda. Namun, belum ada bukti bahwa setiap versi backup 100–579 menggunakan satu tipe tertentu; pemetaan versi pembuat backup ke tipe archive perlu fixture historis.
+
+### Implikasi
+
+- Parser SBA version 1/2 bukan satu-satunya parser restore aplikasi.
+- Backup lama dapat memakai ZIP, TAR, 7-Zip, atau kontainer legacy lainnya yang dideteksi oleh Packer.
+- Mengubah version gate tidak mengubah deteksi tipe archive maupun kemampuan extractor.
+- Target restore versi 100 harus diuji terhadap setiap format historis yang ditemukan, bukan hanya SBA.
+
+
+## 8. Format archive SBA
 
 Parser referensi:
 
@@ -186,7 +255,7 @@ Library native BΛR☰:
 - Mengubah minimum aplikasi ke 100 tidak membuat parser otomatis mampu membaca format archive yang tidak didukung.
 - Dukungan parser terhadap SBA1/SBA2 tidak dengan sendirinya membuktikan bahwa setiap bagian backup versi 100–620 menggunakan format tersebut atau dapat dipulihkan.
 
-## 8. Bukti kompatibilitas dari changelog
+## 9. Bukti kompatibilitas dari changelog
 
 File: `bare-implementation/res/raw/changelog.txt`
 
@@ -202,7 +271,7 @@ Ini adalah pernyataan kompatibilitas satu arah:
 
 Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan kompatibilitas setiap versi perantara.
 
-## 9. Matriks status saat ini
+## 10. Matriks status saat ini
 
 | Area | Temuan | Status |
 |---|---|---|
@@ -210,13 +279,13 @@ Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan komp
 | LocalMetadata | Requirement komponen ditetapkan 580 | Terbukti statis |
 | CloudMetadata | Requirement global dan per komponen ditetapkan 580 | Terbukti statis |
 | Cloud version gate | `nm6.a()` membandingkan requirement dengan installed versionCode | Terbukti statis |
-| Local version gate | Belum ditemukan gate yang sama; pencarian jalur lokal belum lengkap | Belum konklusif |
+| Local version gate | LocalMetadata → nm6.a() pada AppRestoreTask (xw.d) | Terbukti statis |
 | SBA parser | Menerima archive version 1 dan 2 | Terbukti statis |
 | Backup lama versi 100–579 | Changelog hanya memberi klaim umum backup lama; belum ada fixture lintas versi | Belum terbukti per versi |
 | Restore end-to-end | Belum diuji dengan perangkat dan fixture historis | Belum diuji |
 | Backup APK 146 ke APK 100 | Tidak dijamin; format baru dapat tidak kompatibel | Tidak boleh diasumsikan |
 
-## 10. Risiko jika langsung mengganti angka 580 menjadi 100
+## 11. Risiko jika langsung mengganti angka 580 menjadi 100
 
 1. Jika hanya mengubah `apktool.yml`, metadata requirement di LocalMetadata dan CloudMetadata tetap 580.
 2. Jika hanya mengubah minimum global cloud, requirement komponen masih dapat menyebabkan penolakan.
@@ -227,7 +296,7 @@ Changelog tidak menetapkan batas minimum spesifik 100 dan tidak membuktikan komp
 
 Karena itu, belum ada rekomendasi untuk mengganti semua literal 580 secara massal.
 
-## 11. Rencana audit lanjutan
+## 12. Rencana audit lanjutan
 
 Urutan kerja berikutnya:
 
@@ -257,7 +326,7 @@ Urutan kerja berikutnya:
 - Uji backup baru serta perilaku kompatibilitas arah sebaliknya.
 - Catat perangkat, Android version, sumber backup, komponen, hasil, dan log.
 
-## 12. Aturan kelanjutan lintas sesi
+## 13. Aturan kelanjutan lintas sesi
 
 Sebelum melanjutkan pekerjaan:
 
@@ -273,7 +342,7 @@ Sebelum melanjutkan pekerjaan:
 
 ---
 
-## 13. Referensi source yang diperiksa
+## 14. Referensi source yang diperiksa
 
 - `bare-implementation/apktool.yml`
 - `bare-implementation/AndroidManifest.xml`
@@ -284,6 +353,9 @@ Sebelum melanjutkan pekerjaan:
 - `bare-implementation/smali_classes2/com/bareapps/barebackup/model/app/LocalMetadata.smali`
 - `bare-implementation/smali_classes2/com/bareapps/barebackup/model/app/CloudMetadata.smali`
 - `reference/jadx/sources/defpackage/nm6.java`
+- `reference/jadx/sources/defpackage/xw.java`
+- `reference/jadx/sources/org/swiftapps/swiftbackup/compress/Packer.java`
+- `reference/jadx/sources/defpackage/mz6.java`
 - `reference/jadx/sources/defpackage/z07.java`
 - `reference/jadx/sources/defpackage/vl.java`
 - `reference/jadx/sources/defpackage/c40.java`
