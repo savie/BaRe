@@ -3,220 +3,169 @@
 **Tanggal audit:** 2026-10-30  
 **Repository:** `savie/BaRe`  
 **Branch:** `Working`  
-**Commit yang diaudit:** `f96b5ff72e702ad4e08014f5d0059a78c257fe83`  
-**Cakupan:** alur akun non-Google pada `bare-implementation`, pembentukan identitas, persistensi lokal, namespace penyimpanan lokal, dan titik pemakaian UID yang relevan.  
-**Di luar cakupan:** audit Google OAuth secara menyeluruh, provider cloud, backup/restore selain namespace akun, dan perubahan implementasi.
+**Commit yang diperiksa:** `f96b5ff72e702ad4e08014f5d0059a78c257fe83`  
+**Cakupan:** hanya alur akun lokal/pseudo-anonymous non-Google di `bare-implementation/`.  
+**Jenis audit:** analisis statis terhadap hasil decompile Smali; belum merupakan pengujian runtime.
 
-## 1. Kesimpulan utama
+## 1. Ringkasan hasil
 
-Jalur onboarding non-Google yang terlihat di source **bukan Firebase Anonymous Authentication**. Saat pengguna memilih “Signing in Anonymously”, aplikasi membuat objek akun lokal `MFirebaseUser` sendiri melalui `b45.a()`, kemudian menyimpannya melalui `V.setNon(...)` ke preferences aplikasi. Identitas pseudo-anonymous ini dibentuk dari hash kode sertifikat penandatangan aplikasi, bukan UUID dan bukan Firebase UID.
+Asumsi “tidak login Google berarti aplikasi membuat Firebase Anonymous User” **tidak cocok dengan jalur onboarding non-Google yang ditemukan**.
 
-Terdapat tiga identifier/konsep berbeda yang tidak boleh disatukan:
+Pada jalur onboarding yang bertuliskan **“Signing in Anonymously”**, aplikasi:
 
-| Identifier | Asal | Bentuk / pemakaian |
+1. Membuat objek `MFirebaseUser` sendiri melalui `b45.a()`.
+2. Menandai objek tersebut `isAnonymous = true`, dengan `providerId = "anonymous"`.
+3. Menyimpannya melalui `V.setNon(...)` ke SharedPreferences aplikasi.
+
+Tidak ditemukan pemanggilan `FirebaseAuth.signInAnonymously()` pada jalur ini maupun pemanggilan tersebut di source aplikasi yang dicari. Jadi istilah *anonymous* di sini merujuk pada **pseudo-account yang dibuat dan dikelola oleh aplikasi**, bukan bukti bahwa Firebase Authentication membuat user anonymous.
+
+Temuan paling penting tentang ID:
+
+- **Canonical UID:** 32 karakter heksadesimal, dibuat deterministik dari signing certificate APK. Bukan UUID dan bukan Firebase Auth UID yang dibuat oleh proses sign-in.
+- **Account storage key:** 16 karakter heksadesimal pertama dari hasil MD5 atas Canonical UID. Nilai inilah yang dipakai pada segmen path `accounts/{key}/`.
+- Angka “setengah dari 32 menjadi 16” yang diingat kemungkinan besar adalah **account storage key**, bukan Canonical UID.
+
+## 2. Alur pembuatan dan penyimpanan akun
+
+### 2.1 Onboarding non-Google
+
+Di [intro/d.smali](../../bare-implementation/smali_classes2/com/bareapps/barebackup/intro/d.smali), handler onboarding memanggil:
+
+```text
+b45.a()
+  -> menghasilkan MFirebaseUser
+V.setNon(MFirebaseUser)
+  -> menyimpan objek akun lokal
+```
+
+Jika proses tersebut melempar exception, handler mengosongkan nilai dengan `V.setNon(null)`. Pemanggilan ini adalah bukti langsung bahwa objek hasil builder lokal disimpan oleh aplikasi.
+
+### 2.2 Algoritme Canonical UID
+
+Di [b45.smali](../../bare-implementation/smali/b45.smali), method `a()` menyusun UID dengan urutan berikut:
+
+1. Mengambil signing certificate aplikasi melalui `BareApp.Companion.e()`. Implementasi pengambilan signature ada di [BareApp$Companion.smali](../../bare-implementation/smali/com/bareapps/barebackup/BareApp$Companion.smali); kode memilih signature pertama yang tersedia.
+2. Memanggil `Signature.hashCode()`, yang menghasilkan nilai bertipe integer.
+3. Mengubah integer itu ke string desimal melalui `String.valueOf(...)`.
+4. Memproses string tersebut dengan `sz8.E(...)`. Implementasi [sz8.smali](../../bare-implementation/smali/sz8.smali) menggunakan pola mixing MurmurHash3 x64 128-bit dan membentuk representasi heksadesimal 128-bit.
+5. Membalik urutan karakter hasil hash, kemudian menyatukannya kembali.
+6. Menggunakan string tersebut sebagai argumen `uid` pada constructor `MFirebaseUser`.
+
+Output hash disusun dari dua bagian 64-bit yang masing-masing dipad menjadi 16 karakter hex; hasilnya 32 karakter hex sebelum pembalikan. Jadi format UID tampak seperti 32 digit hex, tetapi **bukan UUID**.
+
+Objek yang dibuat juga diisi metadata berikut:
+
+| Field | Nilai |
+|---|---|
+| `isAnonymous` | `true` |
+| `providerId` | `anonymous` |
+| `email` | `anonymous@barebackup.app` |
+| `displayName` | `Anonymous user` |
+| `photoUrl` | `null` |
+| `providerData` | kosong |
+
+Field tersebut adalah isi objek model aplikasi. Email `anonymous@barebackup.app` bukan bukti adanya mailbox atau akun Firebase Auth dengan alamat tersebut.
+
+### 2.3 Persistensi lokal
+
+Di [common/V.smali](../../bare-implementation/smali/com/bareapps/barebackup/common/V.smali):
+
+- `getNon()` membaca preference key `456987168448`.
+- Nilai yang ditemukan di-deserialize menjadi objek `MFirebaseUser`.
+- `setNon(user)` men-serialize objek menjadi JSON dan menyimpannya ke key yang sama.
+- Jika diberikan `null`, nilai cache akun tersebut dikosongkan.
+
+Nama SharedPreferences yang diinisialisasi aplikasi adalah `<packageName>_preferences`. Dengan demikian, yang dipersistenkan oleh jalur ini adalah **objek akun pseudo-anonymous dalam preferences aplikasi**, bukan Firebase Auth session yang dibuat oleh `signInAnonymously()`.
+
+### 2.4 Resolver akun saat aplikasi membutuhkan user
+
+Di [d45.smali](../../bare-implementation/smali/d45.smali), `d45.a()` memprioritaskan sumber berikut:
+
+1. Memanggil `V.getNon()`. Jika cache berisi objek, objek lokal itu langsung dikembalikan.
+2. Jika cache kosong, membaca `FirebaseAuth.getInstance().currentUser` dan memetakan user Firebase yang sudah aktif ke `MFirebaseUser`.
+3. Jika kedua sumber tidak menghasilkan user, mengembalikan `null`.
+
+Artinya, Firebase Auth current user adalah **fallback resolver** saat cache lokal tidak ada. Ini tidak mengubah fakta bahwa onboarding anonymous yang ditelusuri membuat objek sendiri melalui `b45.a()`.
+
+## 3. Arti ID 32 karakter dan 16 karakter
+
+Dua nilai ini punya peran berbeda dan tidak boleh dipertukarkan.
+
+| Nilai | Cara pembentukan | Fungsi |
 |---|---|---|
-| **Pseudo-anonymous UID lokal** | Hash dari `Signature.hashCode()` yang diubah melalui helper string lalu dibalik urutannya | Dipasang pada objek `MFirebaseUser` lokal dengan `isAnonymous=true`; email tampilan `anonymous@barebackup.app` |
-| **Firebase Auth UID** | UID user yang aktif pada `FirebaseAuth` | UID penuh dipakai pada path Firebase `users/{uid}`; bukan hasil pemotongan 16 karakter |
-| **Local storage namespace** | `MD5(UTF-8(uid))`, lalu 16 karakter heksadesimal pertama | Membentuk direktori `accounts/{shortHash}/` untuk data lokal |
+| **Canonical UID (32 hex)** | `reverse(MurmurHash3_x64_128(String.valueOf(Signature.hashCode())))` | UID pada objek `MFirebaseUser` pseudo-anonymous |
+| **Account storage key (16 hex)** | `substring(0, 16, MD5(UTF-8(Canonical UID)))` | Komponen path `accounts/{key}/` |
 
-Dengan demikian, ingatan “16/32 angka” hampir pasti merujuk pada **16 karakter hex** untuk namespace lokal: MD5 menghasilkan 32 karakter hex; fungsi `qy5.e()` mengambil setengah string. Ini bukan Firebase account UID dan bukan UUID.
+Bukti pembentukan account storage key:
 
-## 2. Bukti dan alur onboarding non-Google
+- [g67.smali](../../bare-implementation/smali/g67.smali), method `w(String)`, menghitung MD5 atas input UTF-8 dan mengubah digest 16-byte menjadi 32 karakter hex lowercase.
+- [qy5.smali](../../bare-implementation/smali/qy5.smali), method `e(MFirebaseUser)`, mengambil UID, memanggil `g67.w(uid)`, lalu mengambil `substring(0, length / 2)`.
+- [ry5.smali](../../bare-implementation/smali/ry5.smali) memakai hasil tersebut untuk membentuk segmen `accounts/{key}/`.
 
-### 2.1 Pemilihan mode Anonymous pada onboarding
+Karena output MD5 direpresentasikan sebagai 32 karakter hex, pemotongan setengah menghasilkan **16 karakter hex** (`0–9` dan `a–f`), bukan selalu 16 angka desimal. Path `accounts/{key}/` dibangun di bawah root storage BΛR☰ yang dipilih; karena itu jangan menyebutnya sebagai Firebase UID atau selalu menganggapnya sebagai folder internal aplikasi.
 
-File bukti:
-- `bare-implementation/smali_classes2/com/bareapps/barebackup/intro/d.smali`
-- Padanan source dekompilasi: `reference/jadx/sources/org/swiftapps/swiftbackup/intro/d.java`
+## 4. Apakah objek ini benar-benar Firebase Anonymous User?
 
-Pada cabang yang menampilkan teks **“Signing in Anonymously”**, alur melakukan:
+Dari jalur yang diperiksa, **tidak ada bukti bahwa onboarding lokal membuat Firebase Authentication anonymous user**:
 
-1. Set status UI onboarding ke `RUNNING`.
-2. Memanggil `b45.a()` untuk membentuk objek `MFirebaseUser`.
-3. Memanggil `V.INSTANCE.setNon(user)` untuk menyimpan objek tersebut.
-4. Jika terjadi exception, memanggil `V.INSTANCE.setNon(null)`.
-5. Melanjutkan callback onboarding dan pemrosesan listener aplikasi.
+- Builder `b45.a()` hanya mengambil signing certificate, menghitung UID, dan membuat objek `MFirebaseUser`. Method tersebut tidak memanggil FirebaseAuth.
+- Handler onboarding menyimpan hasil builder ke `V.setNon(...)`.
+- Pencarian source aplikasi untuk `signInAnonymously` tidak menemukan pemanggilan aplikasi.
+- Pada [ah8$a.smali](../../bare-implementation/smali_classes2/ah8$a.smali), `fromDatabase(...)` mendeteksi `isAnonymous == true` dan langsung membuat model lokal. `updateInDatabase(...)` juga keluar lebih awal untuk model anonymous, tanpa menjalankan jalur tulis `userInfo` yang dipakai model non-anonymous.
 
-Di blok ini tidak terlihat pemanggilan Firebase Auth `signInAnonymously()`, `signInWithCredential(...)`, ataupun pembuatan Firebase account. Pesan UI “Signing in Anonymously” adalah label alur produk; implementasi yang terlihat adalah akun pseudo-anonymous yang dikelola aplikasi.
+Firebase SDK dan inisialisasi Firebase pada aplikasi tidak dengan sendirinya berarti Firebase Anonymous Authentication sedang dilakukan. Kesimpulan yang didukung source adalah: **jalur lokal membuat pseudo-account pada sisi aplikasi**.
 
-### 2.2 Pembentukan pseudo-anonymous UID
+## 5. Temuan risiko yang langsung terkait dengan desain ID
 
-File bukti:
-- `bare-implementation/smali/b45.smali`
-- `bare-implementation/smali/com/bareapps/barebackup/anonymous/MFirebaseUser.smali`
-- Padanan source untuk algoritme: `reference/jadx/sources/defpackage/b45.java`
+### 5.1 UID bukan identitas unik per perangkat atau per pemasangan
 
-Urutan pada `b45.a()`:
+Input utama UID adalah `Signature.hashCode()` dari signing certificate aplikasi, bukan Android ID, installation ID, UUID acak, atau nilai acak per user.
 
-1. Mengambil signing certificate aplikasi melalui `SwiftApp.Companion.e()`.
-2. Memilih signature pertama.
-3. Memanggil `signature.hashCode()`, lalu mengubah hasilnya menjadi string dengan `String.valueOf(...)`.
-4. Memproses string tersebut melalui helper `sz8.E(...)`.
-5. Mengubah hasil ke array karakter dan membalik urutan karakter.
-6. Menggabungkan karakter menjadi string; string ini diberikan sebagai `uid` untuk `MFirebaseUser`.
-7. Membentuk `MFirebaseUser` dengan:
-   - `isAnonymous = true`
-   - display name `Anonymous user`
-   - email konstanta aplikasi `anonymous@barebackup.app`
-   - `providerId = anonymous`
-   - provider data kosong dan photo URL null.
+Konsekuensinya, instalasi yang memakai signing certificate pertama yang sama akan menghasilkan input yang sama dan, secara deterministik, Canonical UID serta account storage key yang sama. Jika identitas ini dimaksudkan sebagai identitas pengguna/perangkat yang terisolasi, ini merupakan risiko collision lintas pengguna/perangkat dan dapat membuat namespace account bertabrakan.
 
-**Interpretasi:** pseudo-UID ini berasal dari atribut signing certificate aplikasi. Source yang diperiksa tidak menunjukkan pembuatan UUID acak untuk akun lokal. Karena UID diturunkan dari signature aplikasi, perubahan signing key/certificate berpotensi mengubah UID dan memutus kontinuitas namespace akun lokal. Perlu pengujian upgrade/signing-key sebelum menganggap identitas ini stabil lintas build/distribusi.
+### 5.2 Hash 128-bit tidak menambah entropy input
 
-### 2.3 Bentuk objek akun
+Walaupun helper menghasilkan string hash 128-bit, input sebelum hashing adalah nilai integer dari `Signature.hashCode()`. Hashing dan pembalikan karakter tidak mengubah sumber awal itu menjadi UUID acak atau identitas dengan entropy 128-bit. Nilai hash 32-bit yang sama akan menghasilkan UID sama.
 
-File bukti:
-- `bare-implementation/smali/com/bareapps/barebackup/anonymous/MFirebaseUser.smali`
+### 5.3 Signing certificate menjadi bagian dari kontinuitas identitas
 
-Objek `MFirebaseUser` menyimpan bidang:
-- `uid`
-- `email`
-- `isAnonymous`
-- `displayName`
-- `photoUrl`
-- `providerData`
-- `providerId`
+Perubahan signing certificate dapat mengubah `Signature.hashCode()`, sehingga Canonical UID dan account storage key berpotensi berubah. Karena itu, jangan mengganti signing key atau algoritme pembentukan UID sebelum dampaknya terhadap data lama diperiksa.
 
-Pada versi BΛR☰ di folder ini, konstanta email anonymous adalah `anonymous@barebackup.app`. Ini adalah metadata identitas aplikasi, bukan bukti adanya akun email sungguhan atau Firebase account.
+### 5.4 Account storage key bukan kredensial keamanan
 
-## 3. Persistensi akun lokal
+MD5 dan pemotongan menjadi 16 karakter dipakai untuk membentuk namespace path. Source yang diperiksa tidak menjadikannya bukti autentikasi atau otorisasi. Nilai ini tidak boleh diperlakukan sebagai token login maupun rahasia.
 
-File bukti:
-- `bare-implementation/smali/com/bareapps/barebackup/common/V.smali`
-- Padanan source dekompilasi: `reference/jadx/sources/org/swiftapps/swiftbackup/common/V.java`
+## 6. Siklus hidup yang terkonfirmasi
 
-`V.getNon()` membaca preference key `456987168448`. Nilai string di-deserialize menjadi `MFirebaseUser` melalui helper serialisasi `w14`.
+- **Pembuatan:** onboarding memanggil `b45.a()`.
+- **Penyimpanan:** hasilnya ditulis ke preference melalui `V.setNon()`.
+- **Pemulihan state:** resolver `d45.a()` mencoba cache lokal lebih dulu.
+- **Sign-out/clear:** jalur sign-out di `d45.smali` memanggil `V.setNon(null)`, sehingga cache pseudo-account dikosongkan.
+- **Profil user anonymous:** model dibuat lokal oleh `ah8$a.fromDatabase(...)`; jalur `updateInDatabase(...)` melewati write `userInfo` untuk model dengan `isAnonymous == true`.
 
-`V.setNon(user)`:
-1. Men-serialize objek melalui `w14.c().i(user)`.
-2. Menyimpan string hasil serialisasi pada preference key `456987168448`.
-3. Menggunakan `commit()` untuk menyelesaikan write secara sinkron.
+Perilaku persis setelah reinstall, perubahan signing key, atau dua instalasi aktif belum diuji pada perangkat; pernyataan tentang hasil lintas instalasi di atas merupakan konsekuensi deterministik dari algoritme statis.
 
-Preference yang dipakai merupakan encrypted/secure preferences melalui inisialisasi `V.getZ()`; implementasi mencoba encrypted preferences dan memiliki fallback ke secure preferences. Jadi akun pseudo-anonymous tidak disimpan sebagai Firebase Auth session; state objek user disimpan lokal oleh aplikasi.
+## 7. Hal yang belum diverifikasi
 
-`d45.a()` adalah resolver akun aktif yang diperiksa:
-1. Meminta `V.getNon()` terlebih dahulu.
-2. Bila ada, mengembalikan objek lokal tersebut dan memanggil `V.setA(false)`.
-3. Bila tidak ada, membaca current user dari `FirebaseAuth.getInstance().c()` dan memetakan UID serta metadata provider ke `MFirebaseUser`.
-4. Bila keduanya tidak ada, resolver mengembalikan null.
+Audit ini belum menjalankan APK pada perangkat. Karena itu, hal berikut masih memerlukan uji runtime:
 
-Ini mengonfirmasi bahwa aplikasi memiliki jalur akun lokal tersimpan yang diprioritaskan oleh resolver, terpisah dari current user Firebase.
+1. Mengonfirmasi UID aktual yang dihasilkan pada build rilis dan build pengembangan.
+2. Memastikan dua perangkat dengan APK dan signing certificate yang sama benar-benar memperoleh Canonical UID yang sama.
+3. Memastikan perilaku cache setelah force-stop, reboot, clear app data, dan reinstall.
+4. Mengonfirmasi bahwa perubahan signing certificate menghasilkan identitas baru dan mengetahui dampaknya terhadap data yang sudah ada.
 
-## 4. UID pendek untuk penyimpanan lokal
+## 8. Canonical source references
 
-File bukti:
-- `bare-implementation/smali/qy5.smali`
-- `bare-implementation/smali/ry5.smali`
-- Padanan source dekompilasi: `reference/jadx/sources/defpackage/qy5.java`, `reference/jadx/sources/defpackage/ry5.java`, `reference/jadx/sources/defpackage/g67.java`
+- [intro/d.smali](../../bare-implementation/smali_classes2/com/bareapps/barebackup/intro/d.smali) — onboarding non-Google yang menyimpan hasil builder.
+- [b45.smali](../../bare-implementation/smali/b45.smali) — pembuatan pseudo-anonymous `MFirebaseUser` dan Canonical UID.
+- [sz8.smali](../../bare-implementation/smali/sz8.smali) — helper hash 128-bit yang dipakai pembentuk UID.
+- [BareApp$Companion.smali](../../bare-implementation/smali/com/bareapps/barebackup/BareApp$Companion.smali) — pengambilan signing certificate aplikasi.
+- [MFirebaseUser.smali](../../bare-implementation/smali/com/bareapps/barebackup/anonymous/MFirebaseUser.smali) — model dan metadata user anonymous.
+- [common/V.smali](../../bare-implementation/smali/com/bareapps/barebackup/common/V.smali) — persistensi objek akun pada preferences.
+- [d45.smali](../../bare-implementation/smali/d45.smali) — resolver user dan pengosongan cache saat sign-out.
+- [g67.smali](../../bare-implementation/smali/g67.smali) — fungsi MD5 hex.
+- [qy5.smali](../../bare-implementation/smali/qy5.smali) — pemotongan MD5 menjadi account storage key.
+- [ry5.smali](../../bare-implementation/smali/ry5.smali) — pembentukan path `accounts/{key}/`.
+- [ah8$a.smali](../../bare-implementation/smali_classes2/ah8$a.smali) — perlakuan model anonymous pada alur profil user.
 
-Fungsi `g67.w(String)`:
-1. Mengubah input ke UTF-8.
-2. Menghitung digest dengan algoritme **MD5**.
-3. Mengonversi 16 byte digest menjadi karakter hex lowercase. Output normalnya 32 karakter.
-
-Fungsi `qy5.e(MFirebaseUser)`:
-1. Mengambil `mFirebaseUser.getUid()`.
-2. Memanggil `g67.w(uid)`.
-3. Mengembalikan `substring(0, length / 2)`.
-
-Karena panjang MD5 hex adalah 32 karakter, hasil namespace normalnya **16 karakter hex pertama**. Istilah “16 angka” tidak tepat secara teknis: karakter hex dapat berisi `0-9` dan `a-f`.
-
-`ry5` menyusun path:
-`{storageRoot}/accounts/{qy5.e(user)}/`
-
-Subfolder di bawahnya antara lain:
-- `backups/`
-- `cache/`
-- `backups/apps/local/` dan `backups/apps/cloud/`
-- `backups/sms/local/` dan `backups/sms/cloud/`
-- `backups/calls/local/` dan `backups/calls/cloud/`
-- `backups/wifi/local/` dan `backups/wifi/cloud/`
-- `backups/walls/`
-- `backups/folders/local/` dan `backups/folders/cloud/`
-
-Ini adalah namespace/partition direktori lokal, bukan pengganti UID otoritatif pada backend.
-
-## 5. Firebase UID penuh berbeda dari local namespace
-
-File bukti:
-- `reference/jadx/sources/defpackage/d45.java`
-- `reference/jadx/sources/defpackage/re3.java`
-- Migrasi backend yang terkait: `supabase/migrations/20261024020000_firebase_uid_text_and_sub_rls.sql`, `20261024040000_firebase_standard_token_rls.sql`
-
-`re3.j()` mengembalikan `d45.a().getUid()` tanpa pemotongan. `re3.k()` membangun reference `users/{uid}` berdasarkan UID penuh. Tidak ada `qy5.e()` yang diterapkan pada path tersebut.
-
-Migrasi Supabase di branch `Working` juga menyatakan bahwa Firebase UID adalah opaque string, **bukan UUID**, sehingga `user_id` memakai tipe `text`. Kebijakan RLS mengikat `user_id` dengan JWT subject `sub`; migrasi token memeriksa issuer dan audience proyek Firebase sebelum mengizinkan operasi row. Dengan kata lain:
-- Firebase UID adalah identitas penuh untuk ownership data backend.
-- Potongan MD5 16 karakter hanya untuk local storage folder namespace.
-- PostgreSQL role `anon` pada migrasi bukan sinonim dari Firebase Anonymous User. Ia adalah role database yang menerima Firebase ID token standar melalui PostgREST, sedangkan RLS tetap memvalidasi `iss`, `aud`, dan `sub`.
-
-Catatan scope: migrasi berada di luar folder `bare-implementation`; dipakai hanya untuk memvalidasi kontrak ownership backend yang berkaitan langsung dengan UID.
-
-## 6. Sign-out dan siklus hidup pseudo-account
-
-File bukti:
-- `reference/jadx/sources/defpackage/d45.java`
-- `bare-implementation/smali/d45.smali`
-- `bare-implementation/smali/iq0.smali`
-
-Pada sign-out:
-- Firebase Auth sign-out dipanggil.
-- `V.setNon(null)` menghapus cached pseudo-account lokal.
-- Perilaku pembersihan data aplikasi dibedakan berdasarkan apakah user sebelum sign-out dianggap anonymous atau bukan. Cabang pembersihan data eksplisit terlihat ketika user bukan anonymous.
-- Kemudian state dan proses listener diperbarui.
-
-Jangan menyimpulkan bahwa semua data lokal otomatis dihapus saat keluar dari akun pseudo-anonymous. Potongan yang diperiksa justru menunjukkan kondisi pembersihan data khusus bagi user non-anonymous. Perlu audit terpisah untuk kebijakan penghapusan data penuh jika itu menjadi requirement.
-
-## 7. Hal yang terkonfirmasi dan yang belum
-
-| Pernyataan | Status | Dasar |
-|---|---|---|
-| Pilihan “Signing in Anonymously” membuat akun lokal melalui `b45.a()` | **Terkonfirmasi statis** | Intro flow pada `intro/d` |
-| UID pseudo-anonymous bersumber dari signing certificate hash | **Terkonfirmasi statis** | `b45.a()` |
-| Pseudo-account disimpan di preferences melalui `V.setNon` | **Terkonfirmasi statis** | `V` dan intro flow |
-| Preferences akun menggunakan mekanisme encrypted/secure preferences | **Terkonfirmasi statis** | `V.getZ()` |
-| Local folder namespace = 16 karakter pertama MD5 hex dari UID | **Terkonfirmasi statis** | `g67.w`, `qy5.e`, `ry5` |
-| Firebase RTDB `users/{uid}` menggunakan UID penuh | **Terkonfirmasi statis** | `re3.j()` dan `re3.k()` |
-| Firebase Anonymous Auth dibuat oleh tombol non-Google di jalur ini | **Tidak didukung bukti; jalur yang ditemukan tidak melakukannya** | Intro flow menyimpan hasil `b45.a()` ke `V.setNon()` |
-| Identitas pseudo-account tetap sama setelah reinstall atau perubahan signing key | **Belum diverifikasi runtime** | Belum ada uji install/uninstall/upgrade/signing |
-| Persistensi pseudo-account bertahan setelah proses mati/reboot | **Belum diverifikasi runtime** | Bukti hanya menunjukkan kode preferences |
-| Bentuk panjang/kolisi UID lintas instalasi berbeda | **Belum diuji** | Belum ada pengujian sampel dan analisis distribusi |
-| Data backend benar-benar berhasil diakses dengan kredensial produksi | **Belum diverifikasi runtime** | Migrasi menunjukkan kontrak kebijakan, bukan hasil transaksi |
-
-## 8. Catatan risiko teknis
-
-1. **Kontinuitas identitas bergantung pada signing certificate.** Jika sertifikat berubah, pseudo-UID berpotensi berubah dan menghasilkan direktori `accounts/{hash}` baru. Perlu uji jalur upgrade dan aturan signing key yang tetap.
-2. **MD5 dipakai sebagai namespace, bukan security primitive.** Pemotongan ke 16 karakter menurunkan ruang key menjadi 64 bit. Ini cukup sebagai temuan mekanisme kode, tetapi tidak boleh dipakai sebagai bukti autentikasi, otorisasi, atau proteksi data.
-3. **Namespace lokal bukan backend ownership key.** Jangan menulis nilai `qy5.e()` ke `user_id` atau JWT subject. Backend harus memakai UID/subject yang ditetapkan provider auth.
-4. **Istilah anonymous berpotensi membingungkan.** UI menyebut “Signing in Anonymously”, tetapi source yang ditemukan membuat pseudo-account lokal. Dokumentasi dan telemetry sebaiknya membedakan `app_pseudo_anonymous` dengan `firebase_anonymous_auth`.
-5. **Hash sertifikat bukan UUID.** Jangan mengasumsikan hasil `Signature.hashCode()` memiliki sifat UUID, acak, atau global-unique.
-6. **Penghapusan data belum tuntas dibuktikan.** Sign-out menghapus cache user pseudo-anonymous, tetapi bukti yang ditinjau tidak menunjukkan seluruh folder `accounts/` dihapus.
-
-## 9. Rekomendasi verifikasi lanjutan — tetap dalam scope akun lokal
-
-Lakukan pengujian perangkat/runtime yang terisolasi sebelum mengubah desain:
-- Fresh install → pilih Anonymous → catat UID pseudo-anonymous dan path namespace.
-- Force-stop/reboot → pastikan objek akun terbaca kembali dari secure preferences.
-- Update APK dengan signing certificate sama → pastikan UID/path tetap.
-- Uji build yang ditandatangani certificate berbeda di perangkat uji terpisah → catat apakah pseudo-UID/path berubah.
-- Sign-out lalu launch ulang → verifikasi apakah cached account dibentuk kembali dan data akun mana yang tetap ada.
-- Uji dua instalasi dengan signing certificate sama pada perangkat berbeda untuk memahami apakah pseudo-UID identik; jangan menganggap identitas ini per-device tanpa bukti.
-- Konfirmasi semua jalur yang menulis ke backend memakai UID Firebase/JWT `sub` yang valid dan bukan local MD5 short key.
-
-Jangan mengganti algoritme ID atau melakukan migrasi sampai kompatibilitas data lama, signing-key history, dan penggunaan namespace oleh seluruh jalur backup/cache diperiksa.
-
-## 10. Canonical source references
-
-- `bare-implementation/smali_classes2/com/bareapps/barebackup/intro/d.smali` — onboarding non-Google / Anonymous selection.
-- `bare-implementation/smali/b45.smali` — pembentukan pseudo-anonymous user.
-- `bare-implementation/smali/com/bareapps/barebackup/anonymous/MFirebaseUser.smali` — model user dan metadata anonymous.
-- `bare-implementation/smali/com/bareapps/barebackup/common/V.smali` — persistensi cached user.
-- `bare-implementation/smali/d45.smali` — resolusi user dan sign-out.
-- `bare-implementation/smali/qy5.smali` — MD5 short namespace.
-- `bare-implementation/smali/ry5.smali` — pembentukan path storage berdasarkan short namespace.
-- `reference/jadx/sources/defpackage/g67.java` — implementasi MD5 hex.
-- `reference/jadx/sources/defpackage/re3.java` — path Firebase menggunakan UID penuh.
-- `supabase/migrations/20261024020000_firebase_uid_text_and_sub_rls.sql` — Firebase UID sebagai opaque text.
-- `supabase/migrations/20261024040000_firebase_standard_token_rls.sql` — validasi issuer, audience, dan subject.
-
-**Batas audit:** seluruh temuan di atas adalah analisis statis atas source/dekompilasi pada commit yang dicatat. Tidak ada klaim bahwa flow telah diuji pada perangkat, session Firebase telah dibuat saat runtime, atau data backend telah berhasil ditulis/dibaca.
+**Batas audit:** hasil di atas adalah pembacaan statis file `bare-implementation` pada commit yang dicatat. Audit tidak mengubah source aplikasi dan tidak mengklaim telah menguji session atau perilaku Firebase pada runtime.
