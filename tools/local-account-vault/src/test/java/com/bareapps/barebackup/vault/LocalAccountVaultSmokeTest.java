@@ -23,6 +23,23 @@ public final class LocalAccountVaultSmokeTest {
         check(sameDevice.state == LocalAccountVault.State.PRESENT_MATCHING_DEVICE, "new vault should be valid");
         check("legacy-uid-123".equals(sameDevice.legacyUid), "legacy UID must be retained");
 
+        boolean duplicateRejected = false;
+        try {
+            LocalAccountVault.create(vault, "second-account", "second-uid", payload,
+                    recovery, androidId, packageName, 100_000);
+        } catch (LocalAccountVault.VaultException expected) {
+            duplicateRejected = true;
+        }
+        check(duplicateRejected, "second enrollment must not overwrite the existing vault");
+
+        boolean wrongSecretRejected = false;
+        try {
+            LocalAccountVault.unlock(vault, "0".repeat(64), androidId, packageName);
+        } catch (LocalAccountVault.VaultException expected) {
+            wrongSecretRejected = true;
+        }
+        check(wrongSecretRejected, "wrong recovery secret must fail authentication");
+
         LocalAccountVault.VaultData restored =
                 LocalAccountVault.unlock(vault, recovery, androidId, packageName);
         check("local-account-test".equals(restored.localAccountId), "LocalAccountId must survive");
