@@ -38,4 +38,4 @@ The payload is opaque UTF-8 JSON bytes so the integration layer can serialize th
 
 ## Local verification
 
-No CI is configured or added. Run `./tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. This script has not been run in the current repository environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
+No CI is configured or added. Run `sh tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. This script has not been run in the current repository environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
