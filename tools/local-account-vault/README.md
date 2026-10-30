@@ -29,13 +29,13 @@ The Android integration adapter still needs to:
 ## API outline
 
 - `generateRecoverySecret()`: creates a 256-bit hex recovery secret. Display it once; do not persist it.
-- `create(...)`: creates and verifies one vault; refuses to overwrite an existing vault.
-- `unlock(...)`: ordinary same-binding unlock.
-- `transfer(..., confirmed)`: decrypts an existing vault, then atomically rebinds it to the new fingerprint while preserving IDs.
-- `inspect(...)`: reports absent/valid/binding mismatch/corrupt without silently creating an account.
+- `create(...)`: creates and verifies one vault; derives its binding fingerprint internally from app-scoped Android ID, package identity, and the per-vault salt; refuses a second `*.enc` enrollment.
+- `unlock(...)`: ordinary same-binding unlock; caller supplies Android ID and package identity, not a caller-forgeable fingerprint.
+- `transfer(..., confirmed)`: decrypts an existing vault, then atomically rebinds it to the new device context while preserving IDs. The `confirmed` flag must only be true after explicit user confirmation.
+- `inspect(...)`: reports absent/structurally present on this device/device mismatch/corrupt without silently creating an account. A matching fingerprint is not proof that ciphertext authenticates; `unlock(...)` performs authenticated decryption.
 
 The payload is opaque UTF-8 JSON bytes so the integration layer can serialize the existing MFirebaseUser model without changing its schema.
 
 ## Local verification
 
-No CI is configured. The Java source is dependency-free and targets Java 8 language/runtime APIs. It should be compiled and exercised by the integration owner on the chosen JDK/Android toolchain before application wiring. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
+No CI is configured or added. Run `./tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. This script has not been run in the current repository environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
