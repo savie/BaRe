@@ -14,7 +14,7 @@ This directory contains the first executable implementation slice for the Hybrid
 
 ## Deliberate boundaries
 
-This is a pure-Java engine intended for integration into the authoritative Android source when that source/build project is supplied. The tracked repository currently contains a decompiled/reference snapshot, not a verifiable Gradle source project. Therefore this PR does **not** pretend to wire the engine into decompiled smali, alter `bare-implementation/`, or claim an APK build/runtime pass.
+This is a pure-Java engine slice. Repository inspection confirms Gradle settings and `app/build.gradle` metadata exist, but `app/` currently has no `src/` tree, Android manifest, or CMake source. The actual APK workflow copies `bare-implementation/` into `build-src/` and rebuilds it from smali with Apktool. Consequently the Java engine is **not yet packaged into or called by the APK**. This PR does not claim app wiring, APK compilation, or device-runtime verification.
 
 The Android integration adapter still needs to:
 1. Resolve the exact shared-storage location and check the actual runtime grant before calling this engine.
@@ -28,7 +28,7 @@ The Android integration adapter still needs to:
 
 ## API outline
 
-- `generateRecoverySecret()`: creates a 256-bit hex recovery secret. Display it once; do not persist it.
+- `generateRecoverySecret()`: creates a 256-bit random value encoded as exactly 64 hexadecimal characters. The engine rejects other formats. Display it once; do not persist it.
 - `create(...)`: creates and verifies one vault; derives its binding fingerprint internally from app-scoped Android ID, package identity, and the per-vault salt; refuses a second `*.enc` enrollment.
 - `unlock(...)`: ordinary same-binding unlock; caller supplies Android ID and package identity, not a caller-forgeable fingerprint.
 - `transfer(..., confirmed)`: decrypts an existing vault, then atomically rebinds it to the new device context while preserving IDs. The `confirmed` flag must only be true after explicit user confirmation.
