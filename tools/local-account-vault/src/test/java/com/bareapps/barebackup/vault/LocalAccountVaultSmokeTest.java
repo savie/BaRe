@@ -20,7 +20,7 @@ public final class LocalAccountVaultSmokeTest {
 
         LocalAccountVault.Inspection sameDevice =
                 LocalAccountVault.inspect(vault, androidId, packageName);
-        check(sameDevice.state == LocalAccountVault.State.VALID, "new vault should be valid");
+        check(sameDevice.state == LocalAccountVault.State.PRESENT_MATCHING_DEVICE, "new vault should be valid");
         check("legacy-uid-123".equals(sameDevice.legacyUid), "legacy UID must be retained");
 
         LocalAccountVault.VaultData restored =
@@ -52,8 +52,8 @@ public final class LocalAccountVaultSmokeTest {
         damaged[damaged.length - 1] ^= 0x01;
         Files.write(vault, damaged);
         check(LocalAccountVault.inspect(vault, "other-device", packageName).state
-                        == LocalAccountVault.State.VALID,
-                "structurally valid tampering is classified by authenticated unlock");
+                        == LocalAccountVault.State.PRESENT_MATCHING_DEVICE,
+                "inspection reports structure and binding only; authentication happens at unlock");
         boolean tamperRejected = false;
         try {
             LocalAccountVault.unlock(vault, recovery, "other-device", packageName);
