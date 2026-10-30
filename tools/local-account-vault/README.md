@@ -38,4 +38,6 @@ The payload is opaque UTF-8 JSON bytes so the integration layer can serialize th
 
 ## Local verification
 
-No CI is configured or added. Run `sh tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. This script has not been run in the current repository environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
+No CI is configured or added. Run `sh tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. The repository's current `app/build.gradle` declares `minSdk 26`, which is the API baseline for the `java.nio.file` APIs used here; this configuration fact is not an Android runtime pass.
+
+Validation performed for this PR revision: source-level structural checks passed and the verification script passed `sh -n` syntax validation. The Java compile and smoke-test command has **not** been executed against the checked-out PR source in this environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.
