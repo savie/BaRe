@@ -299,3 +299,135 @@ The selected Hybrid policy resolves the product mode. Remaining engineering gate
 - bare-implementation/: **unchanged**.
 
 The next valid step is to resolve the implementation gates and locate the authoritative source/build project. Do not start application integration against decompiled smali.
+
+
+---
+
+# 15. Product-flow and existing-code integration addendum (2026-10-30)
+
+This addendum refines the Hybrid design based on the owner's clarification. It supersedes earlier wording where inconsistent.
+
+## 15.1 Intro Skip means Local Account
+
+The existing Intro button (intro_skip_sign_in_button.xml, ID btn_anonymous, text skip_for_now) is the entry point to Local Account resolution. Skip means "continue without Google", not "bypass account resolution or security".
+
+- Existing valid vault: authenticate/unlock and continue with the same account.
+- No vault and no migratable legacy local account: create a new Local Account.
+- Existing but unreadable/tampered vault: recovery/error state; never silently create a replacement account.
+- Different device binding: require recovery proof and explicit transfer confirmation.
+- After new account creation, route through the existing Password Strategy screen if the backup-encryption strategy is not configured.
+
+Static target artifacts include bare-implementation/smali_classes2/com/bareapps/barebackup/intro/IntroActivity.smali and bare-implementation/res/layout/intro_skip_sign_in_button.xml. The click listener and full Intro state transitions must be traced before selecting a patch point.
+
+## 15.2 Reuse the existing Password Strategy
+
+A fresh repository inspection found these existing BΛR☰ artifacts:
+
+| Artifact | Static evidence | Design use |
+|---|---|---|
+| password/PasswordStrategyActivity.smali | Persists saved_password_mode and saved_user_password; handles STANDARD_PASSWORD and USER_PASSWORD | Reuse existing strategy selection and state semantics |
+| password/UserPasswordActivity.smali | Existing user-password activity | Reuse the existing user-defined password flow |
+| res/layout/password_strategy_activity.xml | Existing strategy screen | Reuse UI |
+| res/layout/password_strategy_item.xml | Existing strategy card and set-password control | Reuse UI |
+| reference/jadx/sources/org/swiftapps/swiftbackup/password/PasswordStrategyActivity.java | Reference implementation of selection handling | Behavioral reference only |
+
+The corresponding strings describe:
+- **Standard:** app-generated passwords for encrypted backups, described as account/feature-dependent in the reference.
+- **Advanced:** user-entered password contributes to the final encrypted-backup password; losing it can prevent backup decryption/restoration.
+
+**Critical distinction:** the existing Password Strategy is a backup-encryption feature. It is not yet proven to be a stable Local Account vault recovery credential. Standard's per-feature generated backup passwords must not be assumed to be one portable recovery code. Reuse the existing screen and implementation for backup encryption, but keep vault recovery independently defined and testable until the generator and data flow are audited.
+
+The existing activity writes saved_user_password to SharedPreferences. Whether V.getZ() is encrypted/protected storage is unknown. A string description saying a password is encrypted is not proof that this BΛR☰ preference path is encrypted at rest. Audit the preference implementation before reusing it for vault recovery.
+
+If Advanced is later allowed to protect the vault too, derive separate purpose-specific keys with separate salts/context labels. Never reuse one derived key directly for both vault encryption and backup payload encryption.
+
+## 15.3 First-time Local Account flow
+
+When Skip is pressed and no vault or migratable legacy account exists:
+
+1. Check shared-storage access and existing account files.
+2. Create a provisional LocalAccountId and random VaultDEK in memory.
+3. If no valid backup Password Strategy exists, open the existing PasswordStrategyActivity.
+4. Apply Standard or Advanced to the existing encrypted-backup behavior.
+5. Provision the vault's separate recovery wrapper. Recommended default remains a generated high-entropy recovery code, displayed once with save/confirmation.
+6. Do not publish a completed vault until required metadata, wrapped DEK, recovery setup, and selected account state are valid.
+7. Commit atomically, then continue Intro completion.
+
+A future option to create a Local Account without configuring backup encryption must be represented as an explicit pending state, not a partially valid vault.
+
+## 15.4 Changing Password Strategy
+
+Changing Standard/Advanced in Account > Settings > Encryption Password Strategy affects encrypted-backup behavior only. It must not silently rotate vault recovery, LocalAccountId, LegacyUid, or the existing qy5.e() namespace. Vault recovery rotation is a separate authenticated operation with atomic write and reopen/verify.
+
+## 15.5 Local Account to Google: link provider, preserve account
+
+Preferred behavior is to **link Google as an additional authentication method for the existing BΛR☰ account**, not replace the account's stable data identity with a new Firebase UID.
+
+Target flow:
+1. Unlock/authenticate the Local Account.
+2. User selects Connect Google from Account settings.
+3. Run the existing Google sign-in flow and validate the Google/Firebase identity.
+4. Check whether that Google identity is already linked to another BΛR☰ account.
+5. If unclaimed, link it to the current BΛR☰ account.
+6. Preserve LocalAccountId and LegacyUid as stable data/backup identity; keep accounts/{16-hex-key}/ unchanged.
+7. Keep local vault/recovery available unless the user explicitly disables it after confirming another recovery route.
+8. Allow Google as the preferred sign-in route after successful linking.
+
+Conflict/rollback:
+- If Google belongs to another BΛR☰ account, stop; no automatic merge, overwrite, or namespace migration.
+- If linking fails or is interrupted, keep the Local Account and vault unchanged.
+- Do not delete the local vault after linking.
+- Google unlink requires a working local recovery method to avoid orphaning the account.
+
+The existing model uses MFirebaseUser and Firebase Auth, but static evidence does not prove that the pseudo-local identity is a Firebase anonymous user or that the current backend supports linking it safely. A BΛR☰ identity mapping/backend contract or explicit Firebase account migration may be required. This is a discovery gate, not an assumed API call.
+
+## 15.6 Resolver/provider selection
+
+The earlier simplistic "Google always wins" rule is replaced with explicit user intent:
+- Skip explicitly selects the Local Account route.
+- Google sign-in explicitly selects the Google route.
+- A pre-existing active Google session must not hijack an explicit Skip action.
+- A stale local SharedPreferences model must not hijack an explicitly selected valid Google account.
+- If local vault and Google session coexist, resolve their account-link relationship; do not choose by arbitrary precedence.
+- On restart, restore the last selected provider only after validating its state.
+
+## 15.7 Patch workspace and build evidence
+
+The owner clarified that engineering/patch-generation work belongs under tools/, but must match the existing decompiled BΛR☰ implementation.
+
+- bare-implementation/ is the target patch baseline and remains unchanged during design/discovery unless patch application is explicitly authorized.
+- reference/apktool/ and reference/jadx/ are read-only reference evidence.
+- tools/local-account-vault/ is the proposed workspace for audit scripts, patch-generation scripts, patch files, fixtures, and verification records.
+- Every generated patch must target actual classes/resources/package paths in bare-implementation/, record source blob SHAs and before/after hashes, and be reproducible.
+- Do not create an unrelated native app or claim an un-applied patch is integrated.
+
+**Build inventory correction:** a fresh recursive tree scan of branch Working (HEAD f9ffe4d12bf4eb70e66a63ce8345d2c1ebab1c3d) found reference/apktool/ and reference/jadx/ with extensive decompilation artifacts, including Password Strategy source/resources. It did not find build.gradle, settings.gradle, gradlew, Gradle wrapper, or a version catalog anywhere in tracked files; app/ contained only app/google-services.json. Gradle files may exist in the user's local/untracked workspace, but their presence in tracked reference/ is not supported by this branch snapshot. Request their exact location during build discovery.
+
+## 15.8 Additional acceptance criteria
+
+| ID | Scenario | Expected result |
+|---|---|---|
+| HV-19 | Intro > Skip, no vault/legacy account | Enters first-time Local Account enrollment; does not bypass account setup |
+| HV-20 | Intro > Skip, valid vault | Authenticates and restores same LocalAccountId/LegacyUid/namespace |
+| HV-21 | Vault exists but is invalid/unavailable | Recovery/error; no auto-create |
+| HV-22 | First enrollment without configured Password Strategy | Opens existing PasswordStrategyActivity |
+| HV-23 | Standard selected | Existing backup password generation remains compatible; vault recovery is separate |
+| HV-24 | Advanced selected | Existing user-password flow reused; vault recovery remains separately defined |
+| HV-25 | Password Strategy changed later | Does not change account identity, vault recovery, or backup namespace |
+| HV-26 | Local Account linked to Google | Same BΛR☰ account and backup namespace; Google is an additional login route |
+| HV-27 | Google identity already belongs to another account | Conflict; no automatic merge/overwrite |
+| HV-28 | Google linking fails | Existing Local Account and vault remain usable |
+| HV-29 | Google unlink | Local recovery is verified before unlink |
+| HV-30 | Patch generated under tools/ | Targets verified decompiled paths; bare-implementation remains unchanged until authorized application |
+
+None of HV-19 through HV-30 is claimed passed.
+
+## 15.9 Updated gates and status
+
+- Trace Standard password generation and anonymous/local behavior.
+- Audit V.getZ() and protection of saved_user_password.
+- Trace complete Intro Skip click path and Account Settings navigation.
+- Inspect Firebase/Auth/backend ownership and safe Google-link feasibility.
+- Obtain exact Gradle/build file location if outside tracked Working tree.
+- Product flow and target integration are specified; patch and implementation have not started.
+- bare-implementation/ remains unchanged.
