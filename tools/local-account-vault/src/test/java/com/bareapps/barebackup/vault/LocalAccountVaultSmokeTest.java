@@ -34,7 +34,7 @@ public final class LocalAccountVaultSmokeTest {
 
         boolean wrongSecretRejected = false;
         try {
-            LocalAccountVault.unlock(vault, "0".repeat(64), androidId, packageName);
+            LocalAccountVault.unlock(vault, "0000000000000000000000000000000000000000000000000000000000000000", androidId, packageName);
         } catch (LocalAccountVault.VaultException expected) {
             wrongSecretRejected = true;
         }
