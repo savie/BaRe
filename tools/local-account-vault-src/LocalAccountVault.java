@@ -383,7 +383,6 @@ public final class LocalAccountVault {
                 .show();
         dialogOpen = true;
         dialogActivity = activity;
-        dialogActivity = activity;
     }
 
     private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
