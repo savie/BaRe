@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.util.TypedValue;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
@@ -19,6 +22,7 @@ import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1113,62 +1117,221 @@ public final class LocalAccountVault {
     }
 
     private static DialogBuilder themedDialogBuilder(Activity activity) {
-        Object delegate;
-        try {
-            Class<?> type = Class.forName("com.google.android.material.dialog.MaterialAlertDialogBuilder");
-            Constructor<?> constructor = type.getConstructor(Context.class);
-            delegate = constructor.newInstance(activity);
-        } catch (Throwable unavailable) {
-            delegate = new AlertDialog.Builder(activity);
-        }
-        return new DialogBuilder(delegate);
+        return new DialogBuilder(activity);
     }
 
+    /**
+     * BΛR☰-native dialog surface. It deliberately builds the content instead
+     * of delegating the visible layout to the platform AlertDialog template.
+     * Colors are resolved from the currently applied BareTheme/BareThemeDark.
+     */
     private static final class DialogBuilder {
-        private final Object delegate;
+        private final Activity activity;
+        private CharSequence title;
+        private CharSequence message;
+        private View customView;
+        private CharSequence positiveLabel;
+        private DialogInterface.OnClickListener positiveListener;
+        private CharSequence negativeLabel;
+        private DialogInterface.OnClickListener negativeListener;
+        private boolean cancelable = true;
 
-        DialogBuilder(Object delegate) {
-            this.delegate = delegate;
-        }
-
-        private DialogBuilder call(String name, Class<?>[] parameterTypes, Object... arguments) {
-            try {
-                Method method = delegate.getClass().getMethod(name, parameterTypes);
-                method.invoke(delegate, arguments);
-                return this;
-            } catch (Throwable error) {
-                throw new IllegalStateException("Unable to configure account dialog", error);
-            }
+        DialogBuilder(Activity activity) {
+            this.activity = activity;
         }
 
         DialogBuilder setTitle(CharSequence value) {
-            return call("setTitle", new Class<?>[]{CharSequence.class}, value);
+            title = value;
+            return this;
         }
 
         DialogBuilder setMessage(CharSequence value) {
-            return call("setMessage", new Class<?>[]{CharSequence.class}, value);
+            message = value;
+            return this;
         }
 
         DialogBuilder setView(View value) {
-            return call("setView", new Class<?>[]{View.class}, value);
+            customView = value;
+            return this;
         }
 
         DialogBuilder setPositiveButton(CharSequence label, DialogInterface.OnClickListener listener) {
-            return call("setPositiveButton",
-                    new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class}, label, listener);
+            positiveLabel = label;
+            positiveListener = listener;
+            return this;
         }
 
         DialogBuilder setNegativeButton(CharSequence label, DialogInterface.OnClickListener listener) {
-            return call("setNegativeButton",
-                    new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class}, label, listener);
+            negativeLabel = label;
+            negativeListener = listener;
+            return this;
         }
 
-        DialogBuilder setCancelable(boolean cancelable) {
-            return call("setCancelable", new Class<?>[]{boolean.class}, cancelable);
+        DialogBuilder setCancelable(boolean value) {
+            cancelable = value;
+            return this;
         }
 
         void show() {
-            call("show", new Class<?>[0]);
+            final AlertDialog dialog = new AlertDialog.Builder(activity).create();
+            final int surface = themeColor("dialogBackground", android.R.attr.colorBackgroundFloating, Color.rgb(34, 34, 34));
+            final int primary = themeColor("colorPrimary", android.R.attr.colorAccent, Color.rgb(236, 64, 122));
+            final int text = themeColor(null, android.R.attr.textColorPrimary, Color.WHITE);
+            final int secondary = themeColor(null, android.R.attr.textColorSecondary, 0xffbdbdbd);
+            final int panel = themeColor("colorBackgroundActivated", android.R.attr.colorBackground, 0xff292929);
+            final int densityPad = dp(24);
+
+            LinearLayout content = new LinearLayout(activity);
+            content.setOrientation(LinearLayout.VERTICAL);
+            content.setPadding(densityPad, dp(24), densityPad, dp(16));
+            content.setBackground(roundRect(surface, dp(22), 0x00000000, 0));
+
+            if (title != null && title.length() > 0) {
+                TextView heading = new TextView(activity);
+                heading.setText(title);
+                heading.setTextColor(text);
+                heading.setTextSize(20f);
+                heading.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+                heading.setIncludeFontPadding(true);
+                content.addView(heading, new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+
+            if (message != null && message.length() > 0) {
+                TextView body = new TextView(activity);
+                body.setText(message);
+                body.setTextColor(secondary);
+                body.setTextSize(15f);
+                body.setLineSpacing(dp(3), 1.0f);
+                LinearLayout.LayoutParams bodyParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                bodyParams.topMargin = dp(10);
+                content.addView(body, bodyParams);
+            }
+
+            if (customView != null) {
+                if (customView instanceof EditText) {
+                    EditText field = (EditText) customView;
+                    field.setTextColor(text);
+                    field.setHintTextColor(secondary);
+                    field.setTextSize(16f);
+                    field.setPadding(dp(14), dp(13), dp(14), dp(13));
+                    field.setBackground(roundRect(panel, dp(12), primary, dp(1)));
+                    field.setSelectAllOnFocus(false);
+                } else if (customView instanceof TextView) {
+                    TextView panelText = (TextView) customView;
+                    panelText.setTextColor(text);
+                    panelText.setBackground(roundRect(panel, dp(14), 0x00000000, 0));
+                }
+                LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                viewParams.topMargin = dp(18);
+                content.addView(customView, viewParams);
+            }
+
+            if (positiveLabel != null || negativeLabel != null) {
+                LinearLayout actions = new LinearLayout(activity);
+                actions.setOrientation(LinearLayout.HORIZONTAL);
+                actions.setGravity(Gravity.CENTER_VERTICAL);
+                actions.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+                LinearLayout.LayoutParams actionsParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                actionsParams.topMargin = dp(22);
+                content.addView(actions, actionsParams);
+
+                if (negativeLabel != null) {
+                    TextView secondaryAction = actionText(negativeLabel, primary, false);
+                    LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, dp(48));
+                    buttonParams.rightMargin = dp(8);
+                    actions.addView(secondaryAction, buttonParams);
+                    secondaryAction.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        if (negativeListener != null) negativeListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
+                    });
+                }
+
+                if (positiveLabel != null) {
+                    TextView primaryAction = actionText(positiveLabel, Color.WHITE, true);
+                    actions.addView(primaryAction, new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, dp(48)));
+                    primaryAction.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        if (positiveListener != null) positiveListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    });
+                }
+            }
+
+            dialog.setView(content, 0, 0, 0, 0);
+            dialog.setCancelable(cancelable);
+            dialog.setCanceledOnTouchOutside(cancelable);
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override public void onDismiss(DialogInterface ignored) {
+                    // Dialog lifecycle gates are cleared by the existing action handlers.
+                }
+            });
+            dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                int screenWidth = activity.getResources().getDisplayMetrics().widthPixels;
+                int maxWidth = dp(480);
+                int width = Math.min(screenWidth - dp(40), maxWidth);
+                dialog.getWindow().setLayout(Math.max(dp(280), width), -2);
+            }
+        }
+
+        private TextView actionText(CharSequence label, int color, boolean filled) {
+            TextView action = new TextView(activity);
+            action.setText(label);
+            action.setTextColor(color);
+            action.setTextSize(14f);
+            action.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+            action.setGravity(Gravity.CENTER);
+            action.setSingleLine(true);
+            action.setPadding(dp(16), 0, dp(16), 0);
+            action.setMinWidth(dp(76));
+            action.setBackground(roundRect(filled ? themeColor("colorPrimary", android.R.attr.colorAccent,
+                    Color.rgb(236, 64, 122)) : Color.TRANSPARENT, dp(24),
+                    filled ? Color.TRANSPARENT : color, filled ? 0 : dp(1)));
+            action.setClickable(true);
+            action.setFocusable(true);
+            return action;
+        }
+
+        private int dp(float value) {
+            return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
+        }
+
+        private GradientDrawable roundRect(int fill, int radius, int stroke, int strokeWidth) {
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(fill);
+            drawable.setCornerRadius(radius);
+            if (strokeWidth > 0) drawable.setStroke(strokeWidth, stroke);
+            return drawable;
+        }
+
+        private int themeColor(String attrName, int platformAttr, int fallback) {
+            TypedValue value = new TypedValue();
+            if (attrName != null) {
+                int id = activity.getResources().getIdentifier(attrName, "attr", activity.getPackageName());
+                if (id != 0 && activity.getTheme().resolveAttribute(id, value, true)) {
+                    if (value.resourceId != 0) {
+                        try { return activity.getResources().getColor(value.resourceId); } catch (Throwable ignored) {}
+                    }
+                    if (value.type >= TypedValue.TYPE_FIRST_COLOR_INT && value.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+                        return value.data;
+                    }
+                }
+            }
+            if (activity.getTheme().resolveAttribute(platformAttr, value, true)) {
+                if (value.resourceId != 0) {
+                    try { return activity.getResources().getColor(value.resourceId); } catch (Throwable ignored) {}
+                }
+                if (value.type >= TypedValue.TYPE_FIRST_COLOR_INT && value.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+                    return value.data;
+                }
+            }
+            return fallback;
         }
     }
 
