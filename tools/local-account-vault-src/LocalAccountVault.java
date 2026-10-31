@@ -327,7 +327,7 @@ public final class LocalAccountVault {
         if (activity == null || activity.isFinishing()) return;
         final EditText input = new EditText(activity);
         input.setSingleLine(true);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setHint("Recovery code");
         new AlertDialog.Builder(activity)
                 .setTitle("Recover Local Account")
@@ -384,6 +384,7 @@ public final class LocalAccountVault {
         Restored verified = restoreWithDeviceKey(readEnvelope(vaultFile, id), id);
         if (verified == null || !restored.uid.equals(verified.uid)) throw new SecurityException("Recovered vault verification failed");
         activate(restored.user);
+        toast(activity, "Local Account restored. Vault location: /storage/emulated/0/BΛR☰/accounts");
     }
 
     private static void beginEnrollment(Activity activity, Object user) throws Exception {
@@ -403,7 +404,7 @@ public final class LocalAccountVault {
         codeView.setPadding(pad, pad, pad, pad);
         new AlertDialog.Builder(activity)
                 .setTitle("Save your Local Account recovery code")
-                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. It is not your backup Password Strategy password.")
+                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. The recovery artifact will be saved under /storage/emulated/0/BΛR☰/accounts. It is not your backup Password Strategy password.")
                 .setView(codeView)
                 .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
@@ -494,6 +495,7 @@ public final class LocalAccountVault {
                 decode(persistedRecovery.getString("payloadCiphertext")), aad(enrollment.id, "payload")), enrollment.id);
         activate(enrollment.user);
         pendingEnrollment = null;
+        toast(activity, "Local Account vault saved to /storage/emulated/0/BΛR☰/accounts");
     }
 
     private static JSONObject makeVaultEnvelope(String id, String uid, String alias,
