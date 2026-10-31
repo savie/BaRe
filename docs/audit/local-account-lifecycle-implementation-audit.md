@@ -706,4 +706,4 @@ The generic Google sign-out path remains unchanged.
 6. Test Google Config/Label fetch and mutation unchanged.
 7. If permission errors persist, capture the exception stack/source from `br1.a()` / `lr4.a()` separately from `cf3.a()`; do not relax Firebase authorization as a workaround.
 
-**Status:** runtime defect confirmed; implementation root cause is a high-confidence hypothesis, not yet runtime-proven. No resolution claim until device acceptance tests pass.
+**Status:** runtime defect confirmed. Feature implementation commit `ba8e3aba7a30c9061fb6e60802353273b84dba22` now makes the committed active Local session marker authoritative for `isCurrentUserLocal()`, which gates both repository cache routing and cloud mutation bypass. CI run `41198083623` is pending. This does not yet resolve the runtime finding: device acceptance tests must confirm that both logs disappear and Config/Label CRUD works. If either error remains, isolate local cache file permission failure versus Firebase helper rejection using the exact exception origin.
