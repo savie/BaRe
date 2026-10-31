@@ -482,3 +482,54 @@ Do not overload `V.getA()`, `V.getG()`, `V.getNon()`, or backup Password Strateg
 - Intro > Skip with neither vault nor recovery artifact begins enrollment.
 - Corrupt/multiple vaults never trigger silent account creation.
 - Google sign-in, Google sign-out, Firebase Auth, cloud Config/Label, and cloud sync retain existing behavior.
+
+
+---
+
+# 17. Owner decision: Direct Filesystem Access (2026-10-31)
+
+The owner selected **Direct Filesystem Access (option B)** over SAF. This supersedes the earlier open choice in Section 15.7. The required Local Account root remains:
+
+`/storage/emulated/0/BΛR☰/accounts/`
+
+## 17.1 Existing permission path to reuse
+
+Static inspection of the current `Working` Smali/manifest confirms:
+- `AndroidManifest.xml` already declares `android.permission.MANAGE_EXTERNAL_STORAGE`.
+- `dz5.h(String)` checks `Environment.isExternalStorageManager()` for this special access on supported Android versions.
+- `dz5.o(...)` creates an intent for `android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION`.
+- Intro permission state is initialized from `dz5.n()` in `com/bareapps/barebackup/intro/d.smali`.
+
+Therefore, Local Account must reuse the existing Intro permission/grant flow (including its existing continuation after the user returns from Settings). Do not introduce SAF, a second permission wizard, or an assumption that manifest declaration means access is granted.
+
+## 17.2 Filesystem gate
+
+Before any vault scan/read/write:
+1. On API 30+, require `Environment.isExternalStorageManager()` to be true.
+2. On older supported API levels, check the relevant legacy permission using the existing permission helper.
+3. Check external storage state is mounted and writable.
+4. Check directory/file creation, read, write, flush, and rename results; handle exceptions.
+5. If any gate fails, surface a visible storage setup/error state. Never silently fall back to private app storage or SharedPreferences as the vault.
+
+The all-files access permission is special app access. Its manifest declaration is not a grant. Distribution-policy eligibility is a separate release concern and is not guaranteed by this engineering decision.
+
+## 17.3 Storage contract
+
+- Canonical root: `/storage/emulated/0/BΛR☰/accounts/`.
+- One account directory per stable `LocalAccountId`.
+- Vault files remain encrypted at rest. No plaintext identity secrets, recovery credentials, or vault payloads.
+- Use temporary files and verified atomic rename/commit for updates.
+- Keep device-bound key material separate from portable recovery material.
+- SAF is not an automatic fallback because the owner requires a deterministic literal path discoverable at next launch.
+- Permission grant only authorizes storage access; it must not itself create an account or overwrite an existing candidate.
+
+## 17.4 Resolver and lifecycle implications
+
+Intro > Skip continues through the existing permission-grant state. Once permission is verified, run the Local Account resolver against the canonical root:
+- one valid vault: activate the same identity/namespace;
+- no vault + matching recovery artifact: request recovery credential;
+- neither exists: enroll a new Local Account;
+- corrupt/multiple candidates: recovery/conflict state;
+- storage unavailable: visible error, no enrollment and no private-storage fallback.
+
+Local Sign Out remains limited to deactivating the Local session marker and exiting the app. It must preserve the vault and must not touch Firebase Auth, Google sign-out, Shizuku/package clear, or global preference clear.
