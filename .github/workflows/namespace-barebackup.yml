@@ -1,16 +1,11 @@
 name: Build BΛR☰ Namespace APK
 
-concurrency:
-  group: local-account-vault-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
   push:
     branches:
       - Working
       - feature/namespace-barebackup
-      - feat/local-account-lifecycle-vault
       - fix/supabase-appsettings-first-run-restore
       - feat/bare-own-onedrive-msal
       - fix/optional-multithreaded-feature-fallback
@@ -24,10 +19,9 @@ on:
       - "tools/libsba-archive/**"
       - "tools/prepare-barebackup-build.py"
       - "tools/migrate-encrypted-constants.py"
-      - "tools/local-account-vault-src/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-namespace-apk:
@@ -49,7 +43,7 @@ jobs:
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v3
         with:
-          packages: platform-tools platforms;android-35 build-tools;35.0.0
+          packages: platform-tools
 
       - name: Install Android NDK
         shell: bash
@@ -64,41 +58,6 @@ jobs:
           curl --fail --location --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o apktool.jar
           java -jar apktool.jar --version
           sha256sum apktool.jar
-
-      - name: Generate Local Account vault Smali from audited helper source
-        shell: bash
-        run: |
-          set -euo pipefail
-          SDK_PLATFORM="$ANDROID_HOME/platforms/android-35/android.jar"
-          BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
-          test -f "$SDK_PLATFORM"
-          test -x "$BUILD_TOOLS/d8"
-          echo "Regenerating LocalAccountVault Smali from current audited source"
-          echo "Including Local Sign Out scheduled-work preservation"
-          mkdir -p build/local-account-classes build/local-account-dex build/helper-apk
-          javac -source 8 -target 8 -classpath "$SDK_PLATFORM" -d build/local-account-classes tools/local-account-vault-src/LocalAccountVault.java
-          "$BUILD_TOOLS/d8" --min-api 23 --lib "$SDK_PLATFORM" --output build/local-account-dex $(find build/local-account-classes -name '*.class' -print)
-          cat > build/helper-apk/AndroidManifest.xml <<'EOF'
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.bareapps.barebackup.localaccount">
-            <uses-sdk android:minSdkVersion="23" />
-            <application android:hasCode="true" />
-          </manifest>
-          EOF
-          cp build/local-account-dex/classes.dex build/helper-apk/classes.dex
-          (cd build/helper-apk && zip -q -r ../local-account-helper.apk AndroidManifest.xml classes.dex)
-          java -jar apktool.jar d -f --no-res build/local-account-helper.apk -o build/local-account-helper-decoded
-          test -d build/local-account-helper-decoded/smali/com/bareapps/barebackup/localaccount
-          mkdir -p bare-implementation/smali_classes3/com/bareapps/barebackup/localaccount
-          cp -a build/local-account-helper-decoded/smali/com/bareapps/barebackup/localaccount/. bare-implementation/smali_classes3/com/bareapps/barebackup/localaccount/
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bare-implementation/smali_classes3/com/bareapps/barebackup/localaccount
-          if ! git diff --cached --quiet; then
-            git commit -m "build(local-account): generate vault helper smali [skip ci]"
-            git fetch origin "${GITHUB_REF_NAME}"
-            git rebase "origin/${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
 
       - name: Prepare build source and inject Firebase configuration
         shell: bash
