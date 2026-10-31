@@ -40,7 +40,7 @@
         }
     .end annotation
 
-    .line 377
+    .line 380
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$id:Ljava/lang/String;
@@ -63,10 +63,10 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 6
 
-    .line 379
+    .line 382
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 381
+    .line 384
     :try_start_0
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
@@ -92,21 +92,21 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 385
+    .line 388
     goto :goto_0
 
-    .line 382
+    .line 385
     :catchall_0
     move-exception p1
 
-    .line 383
+    .line 386
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
     const-string p2, "Recovery code is invalid or the recovery artifact is damaged."
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 384
+    .line 387
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$id:Ljava/lang/String;
@@ -119,7 +119,7 @@
 
     invoke-static {p1, p2, v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
 
-    .line 386
+    .line 389
     :goto_0
     return-void
 .end method

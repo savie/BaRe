@@ -26,18 +26,18 @@
 .method constructor <init>(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V
     .locals 0
 
-    .line 924
+    .line 954
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 925
+    .line 955
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->user:Ljava/lang/Object;
 
-    .line 926
+    .line 956
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->id:Ljava/lang/String;
 
-    .line 927
+    .line 957
     iput-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->uid:Ljava/lang/String;
 
-    .line 928
+    .line 958
     return-void
 .end method

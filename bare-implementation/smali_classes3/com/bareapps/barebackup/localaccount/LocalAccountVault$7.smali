@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    value = Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showSignOutFailure(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -21,7 +21,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 889
+    .line 898
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -32,12 +32,9 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 891
+    .line 900
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 892
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100()V
-
-    .line 893
+    .line 901
     return-void
 .end method
