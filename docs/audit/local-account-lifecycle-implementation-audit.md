@@ -122,7 +122,7 @@ Resolver d45.a() menjalankan urutan:
 
 ### 4.1 ConfigRepo — local cache path terblokir
 
-br1.a() membaca encrypted local store melalui q63/w14 lalu memublikasikan ConfigsData melalui br1.d(). Method ini memang memiliki guard V.getA(), tetapi pada snapshot kode Working yang sekarang, implementasi V.getA() di `common/V.smali` mengembalikan konstanta `true` (kebijakan fitur Premium-free) dan tidak membaca nilai yang ditulis oleh setA(). Karena itu, early-return br1.a() **tidak aktif** pada snapshot ini. Klaim audit sebelumnya bahwa resolver mengatur V.setA(false) lalu memblokir cache Config adalah tidak berlaku untuk kode aktual ini.
+br1.a() membaca local JSON file cache melalui q63/w14 lalu memublikasikan ConfigsData melalui br1.d(). File cache yang dipakai jalur ini tidak dienkripsi at rest. Method ini memang memiliki guard V.getA(), tetapi pada snapshot kode Working yang sekarang, implementasi V.getA() di `common/V.smali` mengembalikan konstanta `true` (kebijakan fitur Premium-free) dan tidak membaca nilai yang ditulis oleh setA(). Karena itu, early-return br1.a() **tidak aktif** pada snapshot ini. Klaim audit sebelumnya bahwa resolver mengatur V.setA(false) lalu memblokir cache Config adalah tidak berlaku untuk kode aktual ini.
 
 br1.b():
 
@@ -134,7 +134,7 @@ br1.b():
 
 ### 4.2 LabelRepo — read cache ada, cloud fetch ditolak, local save ter-gate
 
-lr4.a() membaca LabelsData dari encrypted local store dan tidak memiliki early-return V.getA() pada method yang diperiksa.
+lr4.a() membaca LabelsData dari local JSON file cache (plaintext at rest) dan tidak memiliki early-return V.getA() pada method yang diperiksa.
 
 lr4.b():
 
@@ -504,9 +504,9 @@ Addendum ini menggunakan source tree pada commit parent `1ff3e35b5945ca788c871a6
 ### 13.1 Koreksi V.getA dan Label/Config
 
 - `bare-implementation/smali/com/bareapps/barebackup/common/V.smali`: `getA()` mengembalikan konstanta `true`; `setA(boolean)` tetap menulis preference. Maka nilai yang disetel resolver tidak dibaca kembali oleh getter ini.
-- `br1.a()`: cache Config dibaca dari encrypted local store jika dipanggil off-main-thread. Guard getA tidak efektif pada snapshot sekarang.
+- `br1.a()`: cache Config dibaca dari local JSON file cache (plaintext at rest) jika dipanggil off-main-thread. Guard getA tidak efektif pada snapshot sekarang.
 - `br1.b()`: offline memanggil cache; online langsung memanggil `cf3.a(configPath, true)`. Error helper dikembalikan sebagai kegagalan tanpa cache fallback.
-- `lr4.a()`: cache Label dibaca dari encrypted local store.
+- `lr4.a()`: cache Label dibaca dari local JSON file cache (plaintext at rest).
 - `lr4.b()`: offline memakai cache; online memanggil `cf3.a(labelsPath, true)`.
 - `gr4.invoke()`: guard getA tidak memblokir pada snapshot sekarang; callback meneruskan mutation LabelsData dan persistence callback lokal.
 
@@ -623,24 +623,24 @@ Risiko platform: `MANAGE_EXTERNAL_STORAGE` merupakan special app access, bukan r
 
 ### 13.9 Audit CRUD Config/Label: local persistence versus direct cloud writes (2026-10-31)
 
-A source-level correction is required: Config/Label mutation already has local encrypted-file persistence, but the same mutation callback also issues direct Firebase Realtime Database writes outside `cf3`.
+A source-level correction is required: Config/Label mutation already has local JSON-file persistence (plaintext at rest), but the same mutation callback also issues direct Firebase Realtime Database writes outside `cf3`.
 
 **Config:**
 - `ah` case 17 validates/publishes `ConfigsData`, then schedules `bh` case 14.
-- `bh` case 14 writes `ConfigsData` through `w14.g(..., br1.g, false)` to the existing local encrypted cache.
+- `bh` case 14 writes `ConfigsData` through `w14.g(..., br1.g, false)` to the existing local JSON cache (plaintext at rest).
 - The same `ah` case 17 then calls `br1.c.i(configsDataValidate)` directly on the `configs` Firebase reference.
 - `br1.b()` online fetch calls `cf3.a(c, true)`, which rejects the pseudo-local anonymous model; its offline branch uses local cache `br1.a()`.
 
 **Labels:**
 - `gr4` updates the in-memory `LabelsData` and schedules `bk` case 27.
-- `bk` case 27 schedules `d76` case 28, which writes `LabelsData` through `w14.g(..., lr4.g, false)` to the existing local encrypted cache.
+- `bk` case 27 schedules `d76` case 28, which writes `LabelsData` through `w14.g(..., lr4.g, false)` to the existing local JSON cache (plaintext at rest).
 - The same `bk` case 27 then calls `re3.k().d("labelsData").i(labelsDataCopy)` directly on the Firebase user reference.
 - `lr4.b()` online fetch calls `cf3.a(labelsRef, true)` and is rejected for pseudo-local; its offline branch reads local cache through `lr4.a()`.
 
 **Required narrow changes:**
 1. Preserve the local `w14.g(...)` writes for both repositories.
 2. Skip only the direct `br1.c.i(...)` and `re3...labelsData.i(...)` calls when the resolved user is the pseudo-local model.
-3. Route online Local Config/Label fetch to the existing local encrypted cache before invoking `cf3`.
+3. Route online Local Config/Label fetch to the existing local JSON cache before invoking `cf3`.
 4. Keep all existing Firebase read/write behavior for non-anonymous Google/Firebase users unchanged.
 5. Do not relax `cf3` guards or Firebase rules.
 
