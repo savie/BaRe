@@ -2,6 +2,7 @@ package com.bareapps.barebackup.localaccount;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -1179,7 +1180,7 @@ public final class LocalAccountVault {
 
         void show() {
             styleCustomView();
-            AlertDialog dialog;
+            Dialog dialog;
             try {
                 dialog = showMaterialDialog();
             } catch (Throwable materialUnavailable) {
@@ -1191,7 +1192,7 @@ public final class LocalAccountVault {
             }
         }
 
-        private AlertDialog showMaterialDialog() throws Exception {
+        private Dialog showMaterialDialog() throws Exception {
             Class<?> builderClass = Class.forName(
                     "com.google.android.material.dialog.MaterialAlertDialogBuilder");
             Constructor<?> constructor = builderClass.getConstructor(Context.class);
@@ -1212,7 +1213,7 @@ public final class LocalAccountVault {
                         new Object[]{negativeLabel, negativeListener});
             }
             invokeBuilder(builder, "setCancelable", new Class<?>[]{boolean.class}, new Object[]{cancelable});
-            return (AlertDialog) builderClass.getMethod("show").invoke(builder);
+            return (Dialog) builderClass.getMethod("show").invoke(builder);
         }
 
         private void invokeBuilder(Object builder, String method, Class<?>[] types, Object[] values)
@@ -1220,7 +1221,7 @@ public final class LocalAccountVault {
             builder.getClass().getMethod(method, types).invoke(builder, values);
         }
 
-        private AlertDialog showPlatformDialog() {
+        private Dialog showPlatformDialog() {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (title != null) builder.setTitle(title);
             if (message != null) builder.setMessage(message);
