@@ -599,3 +599,41 @@ Therefore:
 8. Complete device/runtime acceptance tests before declaring behavior verified.
 
 No application code, build, or runtime test is claimed complete by this section.
+
+
+## 18.7 Exact Intro and permission integration point
+
+Static call path:
+`IntroActivity` Skip button -> `of` case 6 -> `a14` Local/Google chooser -> callback `IntroActivity.U(true,...)` -> `intro/d.m(true)`.
+
+Current `d.m(true)` immediately persists `b45.a()` with `V.setNon()` before the user necessarily grants the storage special access. The existing All Files Access settings launch is request code `0x2639` (9785) in `dz5.r()`; `IntroActivity.onActivityResult(9785,...)` refreshes state through `d.o()`.
+
+Required integration:
+- Preserve the current Intro/permission presentation while Local selection is pending.
+- Do not commit a new Local identity before scanning `/storage/emulated/0/BΛR☰/accounts/`.
+- Keep provisional Local selection in memory while waiting for the permission return.
+- On actual grant, scan and classify vault/recovery/legacy candidates, then activate, recover, migrate, or enroll.
+- On denied/unavailable permission, remain in a visible setup/error state and do not enroll.
+
+## 18.8 Exact user-facing Local Sign Out integration point
+
+Static call path:
+`account_fragment.xml` -> `profile_card_user.xml#btn_sign_out` -> `o7.onViewCreated()` -> `g7` case 0 -> existing confirmation `Const.K(..., kn3(homeActivity, 9), ...)` -> `kn3` case 9 -> `hz3.c(homeActivity, 3005)` -> Google/No-GMS credential sign-out -> `d45.c()`.
+
+The narrow safe patch point is the confirmed callback `kn3` case 9:
+- If `d45.a()` resolves the pseudo-local anonymous model, call a dedicated Local Sign Out handler.
+- Otherwise execute the existing `hz3.c(..., 3005)` Google path unchanged.
+- Local handler persists an inactive-session / Intro-required marker, clears only the active Local cache, resets the first-run entry flags as needed without global clear, then closes the current task/process.
+- `d45.a()` must honor Intro-required marker before returning cached local identity or Firebase current user.
+- Explicit Google choice clears the Intro-required marker and continues existing Google sign-in.
+- Explicit Skip leaves it set until vault resolution succeeds.
+
+This avoids altering shared `d45.c()` call sites used by Google sign-out and migration.
+
+## 18.9 Recovery credential UX and device-key continuity
+
+- The device Keystore wrapper supports silent activation only while the matching per-vault Keystore alias remains available.
+- A normal sign-out/relaunch on the same installation can use that wrapper without prompting.
+- Android app uninstall/data-clear may remove app-scoped Keystore keys. An external vault file alone cannot guarantee silent decryption after that event.
+- If the key is missing, recovery must use the user-held recovery secret and the recovery-wrapped DEK. Never derive the vault key from public identifiers such as APK signing hash or ANDROID_ID.
+- This qualifies the phrase “same-device automatic activation”: it is guaranteed only when the matching device key is still present. After reinstall/key loss, the documented recovery flow applies.
