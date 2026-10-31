@@ -352,7 +352,7 @@ public final class LocalAccountVault {
                 .show();
     }
 
-    private static void recoverFromCode(Activity activity, String id, File vaultFile,
+    private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
                                         File recoveryFile, JSONObject source, String suppliedCode) throws Exception {
         String normalized = suppliedCode == null ? "" : suppliedCode.replaceAll("\\s", "");
         byte[] recoveryBytes = decode(normalized);
@@ -452,7 +452,7 @@ public final class LocalAccountVault {
                 .show();
     }
 
-    private static void commitEnrollment(Activity activity, Enrollment enrollment) throws Exception {
+    private static synchronized void commitEnrollment(Activity activity, Enrollment enrollment) throws Exception {
         File root = rootDirectory();
         if (!root.exists() && !root.mkdirs()) throw new IllegalStateException("Cannot create vault directory");
         if (!root.isDirectory() || !root.canRead() || !root.canWrite()) throw new IllegalStateException("Vault directory unavailable");
