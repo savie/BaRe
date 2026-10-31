@@ -496,6 +496,19 @@
 .method public final b()Z
     .locals 8
 
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isCurrentUserLocal()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_local_config_cloud_fetch
+
+    invoke-virtual {p0}, Lbr1;->a()V
+
+    const/4 v0, 0x1
+
+    return v0
+
+    :cond_local_config_cloud_fetch
     .line 1
     const-string v0, "ConfigRepo"
 
