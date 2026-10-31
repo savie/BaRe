@@ -32,8 +32,6 @@
 .method public run()V
     .locals 0
 
-    .line 1058
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1700()V
-
+    .line 1060
     return-void
 .end method
