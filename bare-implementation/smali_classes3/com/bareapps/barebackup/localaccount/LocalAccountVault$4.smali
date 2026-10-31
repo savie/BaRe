@@ -40,7 +40,7 @@
         }
     .end annotation
 
-    .line 435
+    .line 437
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$id:Ljava/lang/String;
@@ -63,10 +63,10 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 6
 
-    .line 437
+    .line 439
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 439
+    .line 441
     :try_start_0
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
@@ -92,14 +92,14 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 444
+    .line 446
     goto :goto_0
 
-    .line 440
+    .line 442
     :catchall_0
     move-exception p1
 
-    .line 441
+    .line 443
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$input:Landroid/widget/EditText;
 
     invoke-virtual {p1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
@@ -110,14 +110,14 @@
 
     move-result-object v5
 
-    .line 442
+    .line 444
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "That code didn't work. Check it and try again."
+    const-string p2, "That code didn\'t work. Check it and try again."
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 443
+    .line 445
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
     iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$id:Ljava/lang/String;
@@ -130,7 +130,7 @@
 
     invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
 
-    .line 445
+    .line 447
     :goto_0
     return-void
 .end method
