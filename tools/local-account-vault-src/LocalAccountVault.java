@@ -328,7 +328,7 @@ public final class LocalAccountVault {
             if (pendingEnrollment == null) beginEnrollment(activity, user);
             else showRecoveryCode(activity, pendingEnrollment);
         } catch (Throwable error) {
-            showError(activity, "Local Account storage error",
+            showError(activity, "We can’t check your Local Account files",
                     "BΛR☰ couldn’t safely check your account files. No new account was created.");
         }
     }
@@ -553,8 +553,8 @@ public final class LocalAccountVault {
         Restored restored = parsePayload(payload, id);
         if (!source.getString("legacyUid").equals(restored.uid)) throw new SecurityException("Legacy UID mismatch");
         if (!matchesLegacyCache(restored.user)) {
-            showError(activity, "Local Account identity conflict",
-                    "The recovery artifact does not match the existing Local Account cache. No data was changed.");
+            showError(activity, "This recovery code belongs to a different account",
+                    "The recovery file doesn’t match the account saved on this device. Nothing has been changed.");
             return;
         }
 
@@ -579,7 +579,7 @@ public final class LocalAccountVault {
             throw new SecurityException("Recovered vault verification failed");
         }
         activate(activity, restored.user);
-        toast(activity, "Local Account restored. Vault location: /storage/emulated/0/BΛR☰/accounts");
+        toast(activity, "Welcome back. Your Local Account is ready.");
     }
 
     private static void beginEnrollment(Activity activity, Object user) throws Exception {
@@ -788,7 +788,7 @@ public final class LocalAccountVault {
                 activity.finish();
             } catch (Throwable navigationError) {
                 android.util.Log.e("LocalAccountVault", "Home navigation failed after local activation", navigationError);
-                toast(activity, "Local Account is active, but Home could not be opened. Please reopen the app.");
+                toast(activity, "Your Local Account is ready. Close and reopen BΛR☰ to continue.");
             }
         }
     }
