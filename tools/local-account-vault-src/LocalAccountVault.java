@@ -1127,9 +1127,8 @@ public final class LocalAccountVault {
     }
 
     /**
-     * BΛR☰-native dialog surface. It deliberately builds the content instead
-     * of delegating the visible layout to the platform AlertDialog template.
-     * Colors are resolved from the currently applied BareTheme/BareThemeDark.
+     * Uses the app's Material 3 alert-dialog theme without introducing a
+     * compile-time Material dependency into the audited helper.
      */
     private static final class DialogBuilder {
         private final Activity activity;
@@ -1179,133 +1178,83 @@ public final class LocalAccountVault {
         }
 
         void show() {
-            final AlertDialog dialog = new AlertDialog.Builder(activity).create();
-            final int surface = themeColor("dialogBackground", android.R.attr.colorBackgroundFloating, Color.rgb(34, 34, 34));
-            final int primary = themeColor("colorPrimary", android.R.attr.colorAccent, Color.rgb(236, 64, 122));
-            final int text = themeColor(null, android.R.attr.textColorPrimary, Color.WHITE);
-            final int secondary = themeColor(null, android.R.attr.textColorSecondary, 0xffbdbdbd);
-            final int panel = themeColor("cardBackgroundColor", android.R.attr.colorBackground, 0xff292929);
-            final int densityPad = dp(24);
-
-            LinearLayout content = new LinearLayout(activity);
-            content.setOrientation(LinearLayout.VERTICAL);
-            content.setPadding(densityPad, dp(24), densityPad, dp(16));
-            content.setBackground(roundRect(surface, dp(22), 0x00000000, 0));
-
-            if (title != null && title.length() > 0) {
-                TextView heading = new TextView(activity);
-                heading.setText(title);
-                heading.setTextColor(text);
-                heading.setTextSize(20f);
-                heading.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-                heading.setIncludeFontPadding(true);
-                content.addView(heading, new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            styleCustomView();
+            AlertDialog dialog;
+            try {
+                dialog = showMaterialDialog();
+            } catch (Throwable materialUnavailable) {
+                dialog = showPlatformDialog();
             }
-
-            if (message != null && message.length() > 0) {
-                TextView body = new TextView(activity);
-                body.setText(message);
-                body.setTextColor(secondary);
-                body.setTextSize(15f);
-                body.setLineSpacing(dp(3), 1.0f);
-                LinearLayout.LayoutParams bodyParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                bodyParams.topMargin = dp(10);
-                content.addView(body, bodyParams);
-            }
-
-            if (customView != null) {
-                if (customView instanceof EditText) {
-                    EditText field = (EditText) customView;
-                    field.setTextColor(text);
-                    field.setHintTextColor(secondary);
-                    field.setTextSize(16f);
-                    field.setPadding(dp(14), dp(13), dp(14), dp(13));
-                    field.setBackground(roundRect(panel, dp(12), primary, dp(1)));
-                    field.setSelectAllOnFocus(false);
-                } else if (customView instanceof TextView) {
-                    TextView panelText = (TextView) customView;
-                    panelText.setTextColor(text);
-                    panelText.setBackground(roundRect(panel, dp(14), 0x00000000, 0));
-                }
-                LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                viewParams.topMargin = dp(18);
-                content.addView(customView, viewParams);
-            }
-
-            if (positiveLabel != null || negativeLabel != null) {
-                LinearLayout actions = new LinearLayout(activity);
-                actions.setOrientation(LinearLayout.HORIZONTAL);
-                actions.setGravity(Gravity.CENTER_VERTICAL);
-                actions.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-                LinearLayout.LayoutParams actionsParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                actionsParams.topMargin = dp(22);
-                content.addView(actions, actionsParams);
-
-                if (negativeLabel != null) {
-                    TextView secondaryAction = actionText(negativeLabel, primary, false);
-                    LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, dp(48));
-                    buttonParams.rightMargin = dp(8);
-                    actions.addView(secondaryAction, buttonParams);
-                    secondaryAction.setOnClickListener(new View.OnClickListener() {
-                        @Override public void onClick(View view) {
-                            dialog.dismiss();
-                            if (negativeListener != null) negativeListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
-                        }
-                    });
-                }
-
-                if (positiveLabel != null) {
-                    TextView primaryAction = actionText(positiveLabel, Color.WHITE, true);
-                    actions.addView(primaryAction, new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, dp(48)));
-                    primaryAction.setOnClickListener(new View.OnClickListener() {
-                        @Override public void onClick(View view) {
-                            dialog.dismiss();
-                            if (positiveListener != null) positiveListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
-                        }
-                    });
-                }
-            }
-
-            dialog.setView(content, 0, 0, 0, 0);
-            dialog.setCancelable(cancelable);
-            dialog.setCanceledOnTouchOutside(cancelable);
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override public void onDismiss(DialogInterface ignored) {
-                    // Dialog lifecycle gates are cleared by the existing action handlers.
-                }
-            });
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                int screenWidth = activity.getResources().getDisplayMetrics().widthPixels;
-                int maxWidth = dp(480);
-                int width = Math.min(screenWidth - dp(40), maxWidth);
-                dialog.getWindow().setLayout(Math.max(dp(280), width), -2);
+            if (dialog != null) {
+                dialog.setCancelable(cancelable);
+                dialog.setCanceledOnTouchOutside(cancelable);
             }
         }
 
-        private TextView actionText(CharSequence label, int color, boolean filled) {
-            TextView action = new TextView(activity);
-            action.setText(label);
-            action.setTextColor(color);
-            action.setTextSize(14f);
-            action.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            action.setGravity(Gravity.CENTER);
-            action.setSingleLine(true);
-            action.setPadding(dp(16), 0, dp(16), 0);
-            action.setMinWidth(dp(76));
-            action.setBackground(roundRect(filled ? themeColor("colorPrimary", android.R.attr.colorAccent,
-                    Color.rgb(236, 64, 122)) : Color.TRANSPARENT, dp(24),
-                    filled ? Color.TRANSPARENT : color, filled ? 0 : dp(1)));
-            action.setClickable(true);
-            action.setFocusable(true);
-            return action;
+        private AlertDialog showMaterialDialog() throws Exception {
+            Class<?> builderClass = Class.forName(
+                    "com.google.android.material.dialog.MaterialAlertDialogBuilder");
+            Constructor<?> constructor = builderClass.getConstructor(Context.class);
+            Object builder = constructor.newInstance(activity);
+            invokeBuilder(builder, "setTitle", new Class<?>[]{CharSequence.class}, new Object[]{title});
+            invokeBuilder(builder, "setMessage", new Class<?>[]{CharSequence.class}, new Object[]{message});
+            if (customView != null) {
+                invokeBuilder(builder, "setView", new Class<?>[]{View.class}, new Object[]{customView});
+            }
+            if (positiveLabel != null) {
+                invokeBuilder(builder, "setPositiveButton",
+                        new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class},
+                        new Object[]{positiveLabel, positiveListener});
+            }
+            if (negativeLabel != null) {
+                invokeBuilder(builder, "setNegativeButton",
+                        new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class},
+                        new Object[]{negativeLabel, negativeListener});
+            }
+            invokeBuilder(builder, "setCancelable", new Class<?>[]{boolean.class}, new Object[]{cancelable});
+            return (AlertDialog) builderClass.getMethod("show").invoke(builder);
+        }
+
+        private void invokeBuilder(Object builder, String method, Class<?>[] types, Object[] values)
+                throws Exception {
+            builder.getClass().getMethod(method, types).invoke(builder, values);
+        }
+
+        private AlertDialog showPlatformDialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            if (title != null) builder.setTitle(title);
+            if (message != null) builder.setMessage(message);
+            if (customView != null) builder.setView(customView);
+            if (positiveLabel != null) builder.setPositiveButton(positiveLabel, positiveListener);
+            if (negativeLabel != null) builder.setNegativeButton(negativeLabel, negativeListener);
+            builder.setCancelable(cancelable);
+            return builder.show();
+        }
+
+        private void styleCustomView() {
+            if (customView instanceof EditText) {
+                EditText field = (EditText) customView;
+                int primary = themeColor("colorPrimary", android.R.attr.colorAccent, 0xffec407a);
+                int panel = themeColor("cardBackgroundColor", android.R.attr.colorBackground, 0xff292929);
+                int text = themeColor("colorOnSurface", android.R.attr.textColorPrimary, Color.WHITE);
+                int secondary = themeColor(null, android.R.attr.textColorHint, 0xffbdbdbd);
+                field.setTextColor(text);
+                field.setHintTextColor(secondary);
+                field.setTextSize(16f);
+                field.setPadding(dp(16), dp(14), dp(16), dp(14));
+                field.setBackground(roundRect(panel, dp(12), primary, dp(1)));
+                field.setSelectAllOnFocus(false);
+                field.setMinHeight(dp(52));
+            } else if (customView instanceof TextView) {
+                TextView code = (TextView) customView;
+                int panel = themeColor("cardBackgroundColor", android.R.attr.colorBackground, 0xff292929);
+                int text = themeColor("colorOnSurface", android.R.attr.textColorPrimary, Color.WHITE);
+                code.setTextColor(text);
+                code.setTextSize(17f);
+                code.setGravity(Gravity.CENTER);
+                code.setPadding(dp(18), dp(18), dp(18), dp(18));
+                code.setBackground(roundRect(panel, dp(14), 0x00000000, 0));
+            }
         }
 
         private int dp(float value) {
