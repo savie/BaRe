@@ -431,9 +431,13 @@ public final class LocalAccountVault {
         if (activity == null || activity.isFinishing()) return;
         final EditText input = new EditText(activity);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setTypeface(Typeface.create("monospace", Typeface.NORMAL));
+        input.setTextSize(15f);
+        input.setLetterSpacing(0.035f);
         input.setHint(uiString(activity, "local_account_recovery_code_hint"));
         input.setSingleLine(false);
         input.setMaxLines(2);
+        input.setSelectAllOnFocus(false);
         if (previousCode != null) input.setText(previousCode);
         themedDialogBuilder(activity)
                 .setTitle(uiString(activity, "local_account_restore_title"))
@@ -630,9 +634,11 @@ public final class LocalAccountVault {
             codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
         }
         codeView.setGravity(Gravity.CENTER);
-        codeView.setTextSize(16f);
-        int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
-        codeView.setPadding(pad, pad, pad, pad);
+        codeView.setTextSize(15f);
+        codeView.setLetterSpacing(0.045f);
+        codeView.setLineSpacing(dp(activity, 4), 1.08f);
+        codeView.setPadding(dp(activity, 20), dp(activity, 18), dp(activity, 20), dp(activity, 18));
+        if (Build.VERSION.SDK_INT >= 23) codeView.setBreakStrategy(android.text.Layout.BREAK_STRATEGY_SIMPLE);
         themedDialogBuilder(activity)
                 .setTitle(uiString(activity, "local_account_save_recovery_title"))
                 .setMessage(uiString(activity, "local_account_save_recovery_message"))
@@ -1123,6 +1129,10 @@ public final class LocalAccountVault {
         }
     }
 
+    private static int dp(Activity activity, float value) {
+        return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
     private static DialogBuilder themedDialogBuilder(Activity activity) {
         return new DialogBuilder(activity);
     }
@@ -1259,7 +1269,7 @@ public final class LocalAccountVault {
         }
 
         private int dp(float value) {
-            return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
+            return dp(activity, value);
         }
 
         private GradientDrawable roundRect(int fill, int radius, int stroke, int strokeWidth) {
