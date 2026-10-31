@@ -60,6 +60,34 @@
 .method public static a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
     .locals 10
 
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->getPendingUser()Ljava/lang/Object;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_local_pending_none
+
+    check-cast v1, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
+
+    return-object v1
+
+    :cond_local_pending_none
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isIntroPending()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_local_intro_clear
+
+    const/4 v1, 0x0
+
+    return-object v1
+
+    :cond_local_intro_clear
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isLocalSessionInactive()Z
+
+    move-result v1
+
+    if-nez v1, :cond_0
+
     .line 1
     sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
 
