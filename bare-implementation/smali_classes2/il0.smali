@@ -1089,13 +1089,6 @@
     .line 59
     if-eqz v0, :cond_1
 
-    # A restored Local Account is a valid local identity without Firebase sign-in.
-    invoke-virtual {v0}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
-
-    move-result v1
-
-    if-eqz v1, :cond_1
-
     .line 60
     .line 61
     goto :goto_0
