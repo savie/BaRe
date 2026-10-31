@@ -5196,6 +5196,8 @@
     invoke-virtual {p1}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
 
     .line 534
+    const/4 v1, 0x1
+
     sput-boolean v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
     .line 535
