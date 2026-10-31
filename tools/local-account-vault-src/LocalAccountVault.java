@@ -444,16 +444,112 @@ public final class LocalAccountVault {
                         }
                     }
                 })
-                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Create new Local Account", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        String attemptedCode = input.getText().toString();
                         clearDialogGate();
-                        cancelPendingSelection();
+                        showNewAccountConfirmation(activity, id, vaultFile, recoveryFile, attemptedCode);
                     }
                 })
                 .setCancelable(false)
                 .show();
         dialogOpen = true;
         dialogActivity = activity;
+    }
+
+    private static void showNewAccountConfirmation(final Activity activity, final String id,
+                                                   final File vaultFile, final File recoveryFile,
+                                                   final String previousCode) {
+        if (activity == null || activity.isFinishing()) return;
+        new AlertDialog.Builder(activity)
+                .setTitle("Create a new Local Account?")
+                .setMessage("The existing account cannot be recovered without its Recovery Code. BΛR☰ will move its .vault and .recovery files into /storage/emulated/0/BΛR☰/accounts/recovery-archive, then create a completely new LocalAccountId. The old account will not be overwritten, but its encrypted data will remain inaccessible unless you recover it later.")
+                .setPositiveButton("Archive & create new", new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        clearDialogGate();
+                        try {
+                            Object previousCache = cachedLocalUser();
+                            Object freshUser = newLocalUser();
+                            File archive = archiveExistingArtifacts(id, vaultFile, recoveryFile);
+                            try {
+                                setCachedLocalUser(null);
+                                if (!writeMarkers(false, true)) {
+                                    throw new IllegalStateException("Could not save the new Local Account setup state");
+                                }
+                                pendingUser = freshUser;
+                                pendingEnrollment = null;
+                                localSelectionPending = true;
+                                resolutionComplete = false;
+                                toast(activity, "Previous account files archived. Creating a new Local Account.");
+                                resolve(activity);
+                            } catch (Throwable setupError) {
+                                try { setCachedLocalUser(previousCache); } catch (Throwable ignored) {}
+                                restoreArchivedArtifacts(archive, vaultFile, recoveryFile);
+                                throw setupError;
+                            }
+                        } catch (Throwable error) {
+                            showError(activity, "Could not create a new Local Account",
+                                    "The existing account files were not intentionally deleted. Check storage access and try again. If files were archived, they remain under recovery-archive.");
+                        }
+                    }
+                })
+                .setNegativeButton("Back to recovery", new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        clearDialogGate();
+                        showRecoveryPrompt(activity, id, vaultFile, recoveryFile,
+                                recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : readEnvelope(vaultFile, id),
+                                previousCode);
+                    }
+                })
+                .setCancelable(false)
+                .show();
+        dialogOpen = true;
+        dialogActivity = activity;
+    }
+
+    private static File archiveExistingArtifacts(String id, File vaultFile, File recoveryFile) throws Exception {
+        File root = rootDirectory();
+        File archiveRoot = new File(root, "recovery-archive");
+        if (!archiveRoot.exists() && !archiveRoot.mkdirs()) {
+            throw new IllegalStateException("Cannot create recovery archive directory");
+        }
+        if (!archiveRoot.isDirectory() || !archiveRoot.canWrite()) {
+            throw new IllegalStateException("Recovery archive directory is unavailable");
+        }
+        File archive = new File(archiveRoot, id + "-" + UUID.randomUUID().toString());
+        if (!archive.mkdir()) throw new IllegalStateException("Cannot create account archive");
+        boolean movedVault = false;
+        boolean movedRecovery = false;
+        try {
+            if (vaultFile.exists()) {
+                if (!vaultFile.isFile() || !vaultFile.renameTo(new File(archive, vaultFile.getName()))) {
+                    throw new IllegalStateException("Cannot archive existing vault");
+                }
+                movedVault = true;
+            }
+            if (recoveryFile.exists()) {
+                if (!recoveryFile.isFile() || !recoveryFile.renameTo(new File(archive, recoveryFile.getName()))) {
+                    throw new IllegalStateException("Cannot archive existing recovery artifact");
+                }
+                movedRecovery = true;
+            }
+            if (!movedVault && !movedRecovery) throw new IllegalStateException("No existing account artifacts to archive");
+            return archive;
+        } catch (Throwable error) {
+            if (movedVault) new File(archive, vaultFile.getName()).renameTo(vaultFile);
+            if (movedRecovery) new File(archive, recoveryFile.getName()).renameTo(recoveryFile);
+            archive.delete();
+            throw error;
+        }
+    }
+
+    private static void restoreArchivedArtifacts(File archive, File vaultFile, File recoveryFile) {
+        if (archive == null || !archive.isDirectory()) return;
+        File archivedVault = new File(archive, vaultFile.getName());
+        File archivedRecovery = new File(archive, recoveryFile.getName());
+        if (archivedVault.exists() && !vaultFile.exists()) archivedVault.renameTo(vaultFile);
+        if (archivedRecovery.exists() && !recoveryFile.exists()) archivedRecovery.renameTo(recoveryFile);
+        archive.delete();
     }
 
     private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
