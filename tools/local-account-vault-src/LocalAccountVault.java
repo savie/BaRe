@@ -140,8 +140,7 @@ public final class LocalAccountVault {
 
     public static void signOut(Activity activity) {
         if (!writeSignOutMarkers()) {
-            showError(activity, "Could not sign out safely",
-                    "The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.");
+            showSignOutFailure(activity);
             return;
         }
         pendingUser = null;
@@ -878,6 +877,33 @@ public final class LocalAccountVault {
 
     private static void toast(Activity activity, String message) {
         try { Toast.makeText(activity, message, Toast.LENGTH_LONG).show(); } catch (Throwable ignored) {}
+    }
+
+    private static void showSignOutFailure(final Activity activity) {
+        if (activity == null || activity.isFinishing()) return;
+        try {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Could not sign out safely")
+                    .setMessage("The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.")
+                    .setPositiveButton("Retry sign out", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            clearDialogGate();
+                            signOut(activity);
+                        }
+                    })
+                    .setNegativeButton("Keep account active", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            clearDialogGate();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+            dialogOpen = true;
+            dialogActivity = activity;
+        } catch (Throwable ignored) {
+            clearDialogGate();
+            toast(activity, "Could not save the Local Account session marker. The account remains active.");
+        }
     }
 
     private static void showError(final Activity activity, String title, String message) {
