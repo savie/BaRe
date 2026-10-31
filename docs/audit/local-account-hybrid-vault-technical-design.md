@@ -683,3 +683,16 @@ A deeper trace of `w14` and `q63` corrects the earlier shorthand “encrypted lo
 - The separate encrypted writer is `w14.f()` through `y32`; it is not the writer used by the audited Config/Label cache paths.
 
 Therefore the existing Config/Label cache is local file persistence but **not encrypted at rest** in the inspected implementation. Preserve its current format/path in this Local Account lifecycle patch for compatibility; do not call it encrypted and do not silently change it without a separate data migration. The new identity vault itself still requires authenticated encryption.
+
+
+## 18.14 Local Sign Out must not invoke the generic no-user observer
+
+The existing `d45.b()` no-user path can call `AlarmReceiver.a()`. That method disables `KEY_SCHEDULE_ENABLED`, cancels the scheduled AlarmManager PendingIntent, and changes BootReceiver component state. This is broader than Local Sign Out and can interrupt pending local work.
+
+Therefore the Local-only sign-out handler must **not** call `d45.b()` or the generic `onUserSignedOut` restart observer. It must atomically persist:
+- `local_account_session_active=false`;
+- `local_signout_pending_intro=true`;
+- `KEY_FIRST_START=true`;
+- `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=false`.
+
+Then close the application process. These first-run flags make the next cold launch enter Intro while the existing no-user startup logic skips its alarm-cancellation branch. Do not change `KEY_SCHEDULE_ENABLED`, AlarmManager, BootReceiver, Firebase Auth, Shizuku, package data, or global preferences. Google sign-out remains unchanged.
