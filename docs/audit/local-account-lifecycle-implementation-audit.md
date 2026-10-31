@@ -547,3 +547,25 @@ Workflow `.github/workflows/namespace-barebackup.yml` sudah membangun APK dengan
 8. Local sign-out tidak boleh menjalankan FirebaseAuth.signOut, package clear/Shizuku, atau SharedPreferences.Editor.clear. Hanya nonaktifkan active-session marker dan tutup aplikasi. Google sign-out tetap pada jalur existing.
 
 Acceptance tests tambahan: (a) sign-out menutup aplikasi dan mempertahankan vault; (b) relaunch membuka Intro; (c) Intro > Skip dengan satu vault valid memulihkan LocalAccountId yang sama; (d) Skip tanpa vault tetapi dengan recovery artifact meminta credential; (e) Skip tanpa vault/recovery memulai enrollment; (f) corrupt/multiple vault tidak membuat akun baru.
+
+
+### 13.6 Keputusan storage Local Account: Direct Filesystem Access (2026-10-31)
+
+Pemilik proyek memilih opsi B, yaitu Direct Filesystem Access. Keputusan ini menggantikan opsi SAF sebagai default desain Local Account.
+
+Bukti pada snapshot `Working`:
+- `AndroidManifest.xml` sudah mendeklarasikan `MANAGE_EXTERNAL_STORAGE`, selain permission storage legacy.
+- `dz5.h(String)` memeriksa `Environment.isExternalStorageManager()` untuk `MANAGE_EXTERNAL_STORAGE` pada platform yang relevan.
+- `dz5.o(...)` membangun intent `android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION` untuk membawa pengguna ke halaman grant permission aplikasi.
+- `intro/d.smali` menginisialisasi state permission melalui `dz5.n()`; jalur Local/Skip berada di rangkaian intro permission yang sudah ada. Pemeriksaan runtime tetap wajib dilakukan sebelum operasi filesystem.
+
+Kontrak implementasi:
+1. Gunakan path literal `/storage/emulated/0/BΛR☰/accounts/` untuk vault Local Account.
+2. Reuse permission onboarding dan settings intent yang sudah ada; jangan membuat flow SAF atau permission prompt kedua.
+3. Sebelum membaca/menulis, cek grant aktual dengan `Environment.isExternalStorageManager()` pada API 30+, serta cek storage mounted/writable dan hasil operasi file.
+4. Pada API lebih lama, gunakan permission legacy yang memang relevan dan cek hasil aktualnya.
+5. Jika permission/path/storage tidak tersedia, tampilkan error/setup state yang jelas. Jangan fallback diam-diam ke `filesDir`, `getExternalFilesDir()`, atau SharedPreferences sebagai vault.
+6. Direktori vault harus dibuat hanya setelah resolver memastikan tidak ada vault valid/recovery yang perlu dipulihkan; permission grant sendiri tidak boleh membuat identitas akun.
+7. SAF tidak menjadi fallback otomatis karena kontrak produk mengharuskan path filesystem yang tetap dan dapat ditemukan pada relaunch.
+
+Risiko platform: `MANAGE_EXTERNAL_STORAGE` merupakan special app access, bukan runtime permission biasa. Deklarasi manifest bukan bukti grant. Kelayakan distribusi/policy untuk all-files access tetap perlu ditinjau terpisah; keputusan teknis ini tidak mengklaim persetujuan Google Play.
