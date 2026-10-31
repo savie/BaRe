@@ -5078,7 +5078,9 @@
 
     const-string v1, "monospace"
 
-    invoke-static {v1, v1}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+    const/4 v2, 0x1
+
+    invoke-static {v1, v2}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
 
     move-result-object v1
 
