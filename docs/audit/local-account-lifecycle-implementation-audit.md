@@ -569,3 +569,26 @@ Kontrak implementasi:
 7. SAF tidak menjadi fallback otomatis karena kontrak produk mengharuskan path filesystem yang tetap dan dapat ditemukan pada relaunch.
 
 Risiko platform: `MANAGE_EXTERNAL_STORAGE` merupakan special app access, bukan runtime permission biasa. Deklarasi manifest bukan bukti grant. Kelayakan distribusi/policy untuk all-files access tetap perlu ditinjau terpisah; keputusan teknis ini tidak mengklaim persetujuan Google Play.
+
+
+### 13.7 Audit lanjutan: crypto primitive, namespace, dan batas call-site sign-out (2026-10-31)
+
+**Crypto primitive yang benar-benar ada di target:**
+- `us2.B()` membuka AndroidKeyStore, membuat alias tetap `_androidx_security_master_key_` bila belum ada, menggunakan AES-256/GCM/NoPadding, lalu melakukan self-test encrypt/decrypt.
+- `ty3.e([B,[B)` dan `ty3.c([B,[B)` menyediakan AES-GCM encrypt/decrypt dengan AAD melalui key yang diberikan.
+- Helper tersebut dipakai oleh jalur AndroidX encrypted preferences. Ini membuktikan primitive Keystore/AES-GCM ada pada APK, bukan bahwa Local Account vault sudah ada.
+- Alias `_androidx_security_master_key_` adalah alias bersama untuk encrypted-preferences infrastructure. Jangan memakai ulang alias/key yang sama untuk vault; vault memerlukan key purpose separation dan recovery wrapping tersendiri.
+
+**Namespace backup yang harus dipertahankan:**
+- `ry5(MFirebaseUser, storageRoot)` membangun `{storageRoot}/accounts/{qy5.e(user)}/` lalu subfolder backup.
+- `qy5.e(user)` menggunakan turunan MD5 UID 16-hex sebagai direktori namespace legacy. Nilai ini adalah identifier/path compatibility, bukan key kriptografi.
+- Migrasi ke vault harus mempertahankan `MFirebaseUser.uid` persis agar backup namespace lama tidak berubah. `LocalAccountId` baru adalah identitas domain terpisah dan tidak boleh menggantikan UID tanpa migrasi data eksplisit.
+
+**Batas call-site sign-out:**
+- `d45.c()` bukan endpoint yang hanya dipanggil oleh satu tombol Local Sign Out. Call-site statis yang ditemukan mencakup `Const.Q()`, Google credential sign-out (`fz3`), no-GMS sign-out activity, dan Local-to-Google migration callback (`rc1`).
+- `rc1` menulis `is_migrating_to_google_sign_in=true` sebelum memanggil `d45.c()`. Jalur ini tidak boleh tertangkap oleh Local Sign Out branch.
+- Google sign-out call-sites harus tetap menjalankan jalur existing. Jangan menambahkan early return generik ke `d45.c()` berdasarkan `isAnonymous` saja tanpa membedakan intent/caller.
+- `d45.c()` saat ini memanggil FirebaseAuth sign-out, mengosongkan `V.setNon(null)`, mengubah `V.setG(false)`, dan menjalankan `getZ().edit().clear()`. Cabang Local Sign Out yang baru harus dipanggil hanya dari action Local Sign Out yang telah diidentifikasi, menyimpan marker sesi secara sempit, lalu exit; jangan menyentuh Google/Firebase atau preference global.
+- `Const.E()` adalah restart helper: ia membuat restart task ke launch activity lalu `System.exit(0)`. Itu bukan perilaku "close app tanpa auto-restart" yang diminta untuk Local Sign Out.
+
+**Status:** crypto primitives tersedia tetapi vault envelope/recovery belum terimplementasi. Call-site UI eksplisit Local Sign Out belum teridentifikasi dengan cukup bukti; ini harus ditelusuri sebelum wiring. Tidak ada perubahan kode pada audit ini.
