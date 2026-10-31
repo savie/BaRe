@@ -3,7 +3,8 @@
 **Tanggal audit:** 2026-10-31  
 **Repository:** savie/BaRe  
 **Branch:** Working  
-**Baseline commit:** fecd922498ff2c77191ff5b55046e86f1d2b3f83  
+**Baseline kode saat addendum:** 1ff3e35b5945ca788c871a62466ed00bbef1da57  
+**Commit dokumen Working sebelum addendum:** 096ca53fefc259879b2fdc6e902a723fa28c525a  
 **Scope implementasi:** bare-implementation/ (APKTool/Smali decompilation)  
 **Jenis audit:** analisis statis; tidak mengubah implementasi  
 **Status verifikasi:** source-level findings; runtime/build/device belum diverifikasi
@@ -111,7 +112,7 @@ Resolver d45.a() menjalankan urutan:
 3. Jika tidak ada, baca Firebase Auth current user dan map ke MFirebaseUser.
 4. Jika keduanya kosong, return null.
 
-**Konsekuensi penting:** saat Local Account aktif, resolver sendiri menetapkan V.getA() = false. Flag ini kemudian dipakai oleh beberapa repository/handler. Walaupun arti bisnis lengkap flag tersebut perlu ditelusuri lebih lanjut, pada jalur yang diperiksa ia bertindak sebagai gate yang memblokir sejumlah operasi Local Account.
+**Klarifikasi snapshot terkini:** resolver memang memanggil V.setA(false) untuk cached local model, tetapi `V.getA()` saat ini di-override untuk selalu mengembalikan `true` (fitur Premium-free). Jadi setter dan getter tidak konsisten; nilai false tidak menjadi gate efektif pada Config/Label di snapshot ini. Jangan menganggap V.getA() sebagai account type atau cloud authorization.
 
 **Persistence gap:** model Local Account yang terlihat di sini hanya disimpan di SharedPreferences. Ini tidak membuktikan adanya persistent vault yang survive uninstall/reinstall. Lihat juga local-account-persistence-design-audit.md dan local-account-hybrid-vault-technical-design.md.
 
@@ -121,22 +122,15 @@ Resolver d45.a() menjalankan urutan:
 
 ### 4.1 ConfigRepo — local cache path terblokir
 
-br1.a() melakukan urutan:
-
-1. Memanggil V.getA().
-2. Jika false, langsung return.
-3. Jika true, memastikan method berjalan bukan di main thread.
-4. Membaca ConfigsData dari encrypted local store q63/w14.
-5. Mempublikasikan hasil melalui br1.d().
-
-Karena d45.a() menetapkan flag false ketika Local Account ditemukan, ConfigRepo tidak mencapai pembacaan cache lokal pada mode Local.
+br1.a() membaca encrypted local store melalui q63/w14 lalu memublikasikan ConfigsData melalui br1.d(). Method ini memang memiliki guard V.getA(), tetapi pada snapshot kode Working yang sekarang, implementasi V.getA() di `common/V.smali` mengembalikan konstanta `true` (kebijakan fitur Premium-free) dan tidak membaca nilai yang ditulis oleh setA(). Karena itu, early-return br1.a() **tidak aktif** pada snapshot ini. Klaim audit sebelumnya bahwa resolver mengatur V.setA(false) lalu memblokir cache Config adalah tidak berlaku untuk kode aktual ini.
 
 br1.b():
 
-- Jika offline, memanggil br1.a(); tetapi jalur ini tetap terhenti oleh flag.
-- Jika online, memanggil cf3.a(configsPath, true); helper menolak pseudo-anonymous user sebelum remote read dilakukan.
+- Jika offline, memanggil br1.a() dan membaca cache lokal.
+- Jika online, memanggil cf3.a(configsPath, true).
+- Untuk pseudo-Local Account (`MFirebaseUser.isAnonymous() == true`), Firebase helper menolak operasi remote sebelum request Firebase dijalankan. Method mengembalikan false dan tidak menjalankan cache fallback setelah kegagalan tersebut.
 
-**Result:** pada Local Account, baik online path maupun offline fallback yang diperiksa tidak memberikan jalur Config yang sehat. Ini adalah bug implementasi lokal yang terpisah dari Firebase Rules.
+**Result terkini:** pembacaan Config lokal tersedia pada jalur offline/cache. Namun saat online, Local Account masih diarahkan ke Firebase helper dan gagal tanpa fallback ke cache lokal. Perbaikannya harus merutekan Local Account ke cache lokal sebelum cloud helper, tanpa mengubah jalur authenticated Google.
 
 ### 4.2 LabelRepo — read cache ada, cloud fetch ditolak, local save ter-gate
 
@@ -148,13 +142,9 @@ lr4.b():
 - Jika online, memanggil cf3.a(labelsPath, true).
 - Jika hasil helper gagal, error message dipublikasikan dengan tag LabelRepo.
 
-Callback penyimpanan label di gr4.smali:
+Callback penyimpanan label di gr4.smali memang memeriksa V.getA(), tetapi getter aktual saat ini selalu mengembalikan `true`. Karena itu, callback tidak keluar pada Local Account karena nilai setA(false); jalur tersebut melanjutkan update LabelsData dan menyimpan data melalui callback lokal `d76`/`w14`.
 
-- Memeriksa V.getA().
-- Jika false, keluar tanpa menjalankan update model label.
-- Jika true, memperbarui map label dan meneruskan update ke jalur penyimpanan/projection.
-
-**Result:** local Label cache read tersedia, tetapi online fetch tetap melewati cloud helper dan local label mutation dapat menjadi no-op pada Local Account. Dengan demikian, adanya cache read tidak sama dengan local CRUD yang lengkap.
+**Result terkini:** Label local cache read dan mutation path tersedia secara statis. Yang masih salah adalah online fetch Local Account tetap memanggil Firebase helper dan gagal alih-alih membaca local source. Jangan menghapus guard Firebase atau mengubah Google cloud path; tambahkan pemilihan sumber lokal pada repository sebelum helper remote.
 
 ### 4.3 Firebase helper — penolakan anonymous terjadi di client boundary
 
@@ -291,10 +281,10 @@ Jangan menjalankan global preference clear atau pm clear sebagai konsekuensi def
 |---|---|---|---|---|
 | LC-01 | P0 | Local account state removed during ordinary sign-out | d45.c() → V.setNon(null) | Separate session clear from account identity/vault |
 | LC-02 | P0 | Whole SharedPreferences store cleared during sign-out | d45.c() → Editor.clear() | Clear only explicit session keys |
-| LC-03 | P1 | Config local cache read blocked for Local Account | d45.a() sets V.setA(false); br1.a() returns early | Remove account/cloud gate from local cache read |
-| LC-04 | P1 | Config online read rejected for pseudo-anonymous user | br1.b() → cf3.a(..., true) | Local source first; cloud sync separate |
-| LC-05 | P1 | Label online read rejected for pseudo-anonymous user | lr4.b() → cf3.a(..., true) | Local source first; cloud sync separate |
-| LC-06 | P1 | Label mutation can silently no-op in Local mode | gr4 checks V.getA() and returns | Local CRUD must not depend on cloud/feature flag |
+| LC-03 | CLOSED BY CURRENT SNAPSHOT | Config cache read gate is inert because V.getA() returns constant true | common/V.smali getA(); br1.a() | Do not patch this gate; do not use V.getA() for account routing |
+| LC-04 | P1 | Config online read rejected for pseudo-anonymous user without cache fallback | br1.b() → cf3.a(..., true) | Route Local Account to local cache before Firebase helper |
+| LC-05 | P1 | Label online read rejected for pseudo-anonymous user | lr4.b() → cf3.a(..., true) | Route Local Account to local cache before Firebase helper |
+| LC-06 | NOT REPRODUCED IN CURRENT SNAPSHOT | Label mutation guard is bypassed by V.getA() constant true | gr4.invoke() + common/V.smali getA() | Preserve local mutation path; verify runtime persistence |
 | LC-07 | P1 | Non-anonymous sign-out can invoke package data clear via Shizuku | d45.c() → g00.c() | Remove from normal sign-out or require separate destructive workflow |
 | LC-08 | P2 | Local pseudo UID is signing-certificate-derived | b45.a() | Use random stable LocalAccountId + vault/recovery identity |
 | LC-09 | P2 | Local Account persistence currently shown in SharedPreferences | V.getNon()/setNon() | Integrate validated persistent vault and idempotent migration |
@@ -365,7 +355,7 @@ Do not use MFirebaseUser.isAnonymous or V.getA() as the global authorization dec
 
 ### Phase E — Reconcile source/build boundary
 
-Do not claim an application fix by editing obfuscated Smali only. Locate or restore the authoritative native Android source/build project, then implement the same contracts there. If a Smali patch is required as a temporary experiment, generate it reproducibly under tools/, record before/after hashes, and verify the rebuilt APK on devices. Keep bare-implementation/ as read-only audit evidence unless a patch task explicitly authorizes otherwise.
+The repository currently contains Gradle project metadata but no tracked `app/src/` Android source set. The existing `namespace-barebackup.yml` workflow copies `bare-implementation/` to a temporary `build-src/`, applies the existing unchanged scripts under `tools/`, and rebuilds the APK with Apktool. The project owner has now explicitly authorized a Smali patch with these constraints: patch files only under `bare-implementation/`; do not modify `tools/`; do not touch Firebase/Cloud implementation. Therefore a narrowly scoped, reviewable Smali patch is an authorized implementation path. The existing CI/build workflow and tools may be used unchanged; they are not patch destinations. A successful static patch/build still does not equal runtime verification.
 
 ---
 
@@ -403,11 +393,12 @@ All tests below are **required and not yet claimed passed**.
 - Intro Skip pseudo-account creation: **statically traced**.
 - Firebase Anonymous Authentication on Skip: **not found in inspected flow**.
 - Resolver and SharedPreferences account cache: **statically traced**.
-- Config local read: **blocked by current V.getA() guard for Local mode**.
-- Label local read: **cache path exists**.
-- Label local mutation: **guarded by V.getA() in inspected save callback**.
+- Config local read: **cache path exists; online Local fetch still fails without cache fallback**.
+- Label local read/mutation: **local cache and mutation/persistence path exist statically; online Local fetch still calls Firebase helper**.
+- V.getA(): **returns constant true in current snapshot; not a valid account/cloud discriminator**.
 - Firebase remote access for pseudo-anonymous model: **explicitly rejected by helper guard**.
-- Sign-out cache/global preference clearing: **statically traced**.
+- Sign-out: **unconditionally signs out Firebase, clears V.getNon(), sets G false, and clears the whole preference store; this is unsafe for Local Account**.
+- Local persistent vault/session-unlock flow: **not found in current implementation; design docs describe it as planned**.
 - Google linking semantics: **not proven**.
 - Runtime tests/build/device verification: **not run**.
 
@@ -502,3 +493,41 @@ The Local Account repair is not complete until all of these pass:
 | Firebase Rules/schema | No change required for this Local-only fix |
 
 **Implementation rule:** prefer the smallest Local-only branch/data-source correction that satisfies these gates. Do not refactor shared Firebase code unless later evidence proves an independent cloud defect and the user explicitly approves that scope.
+
+
+---
+
+## 13. Re-audit terhadap Working HEAD dan keputusan patch Smali (2026-10-31)
+
+Addendum ini menggunakan source tree pada commit parent `1ff3e35b5945ca788c871a62466ed00bbef1da57` dari Working HEAD `096ca53fefc259879b2fdc6e902a723fa28c525a`. Ini menggantikan asumsi yang diturunkan dari baseline lama pada bagian yang bertentangan.
+
+### 13.1 Koreksi V.getA dan Label/Config
+
+- `bare-implementation/smali/com/bareapps/barebackup/common/V.smali`: `getA()` mengembalikan konstanta `true`; `setA(boolean)` tetap menulis preference. Maka nilai yang disetel resolver tidak dibaca kembali oleh getter ini.
+- `br1.a()`: cache Config dibaca dari encrypted local store jika dipanggil off-main-thread. Guard getA tidak efektif pada snapshot sekarang.
+- `br1.b()`: offline memanggil cache; online langsung memanggil `cf3.a(configPath, true)`. Error helper dikembalikan sebagai kegagalan tanpa cache fallback.
+- `lr4.a()`: cache Label dibaca dari encrypted local store.
+- `lr4.b()`: offline memakai cache; online memanggil `cf3.a(labelsPath, true)`.
+- `gr4.invoke()`: guard getA tidak memblokir pada snapshot sekarang; callback meneruskan mutation LabelsData dan persistence callback lokal.
+
+**Patch yang diizinkan untuk repository:** untuk model Local pseudo-account, pilih local cache path sebelum memanggil Firebase helper. Untuk authenticated Google user, pertahankan jalur saat ini byte-for-byte/semantik tidak berubah. Jangan mengubah `cf3`, Firebase Rules, schema, atau Google authentication.
+
+### 13.2 Sign-out dan batas implementasi yang belum lengkap
+
+Current `d45.c()` melakukan FirebaseAuth.signOut() tanpa memeriksa apakah ada Firebase session yang dimiliki Local Account, menghapus `V.getNon()`, menjalankan package clear untuk non-anonymous account, memanggil `V.setG(false)`, dan menjalankan `SharedPreferences.Editor.clear()`.
+
+Dokumen Hybrid Vault mendefinisikan target `signOutLocal()` sebagai clear active session saja dan mempertahankan vault. Namun pemeriksaan current tree tidak menemukan implementasi external Local Account vault atau penanda active-session terpisah; objek local pseudo-account masih disimpan pada SharedPreferences. Jika hanya melewati setNon(null)/Editor.clear() tanpa mekanisme session-inactive dan resolver/unlock yang cocok, aplikasi akan tetap menganggap Local Account aktif. Jika menghapus setNon(null), identitas terjaga tetapi user tidak benar-benar signed out. Jika tetap menghapusnya, identitas legacy hilang.
+
+Karena itu, sign-out Local yang benar memerlukan satu kontrak UX/teknis tambahan sebelum patch: setelah Local sign-out, apakah aplikasi harus kembali ke Intro dan tombol Skip memulihkan **akun lokal yang sama tanpa autentikasi tambahan**, atau harus meminta unlock/recovery credential? Password Strategy yang ada adalah strategi enkripsi backup dan belum terbukti sebagai kredensial unlock vault. Jangan menyamakan keduanya.
+
+### 13.3 Build boundary
+
+Workflow `.github/workflows/namespace-barebackup.yml` sudah membangun APK dengan menyalin `bare-implementation/` ke `build-src/`, menjalankan script existing di `tools/` tanpa mengeditnya, lalu Apktool rebuild. PR implementasi harus hanya mengubah file di `bare-implementation/`. Existing tooling dapat digunakan untuk build/verification; tidak ada file baru atau perubahan di `tools/` yang diperlukan untuk patch source.
+
+### 13.4 Verification state
+
+- Static Smali inspection: **diperbarui**.
+- Local Config/Label online routing: **patch candidate teridentifikasi**.
+- Local sign-out: **blocked pending session/unlock contract**.
+- Build from patched branch: **belum dijalankan**.
+- Device runtime and Google/Firebase non-regression: **belum dijalankan**.
