@@ -2064,8 +2064,6 @@
     .line 71
     .line 72
     .line 73
-    invoke-virtual {p1}, Ld45;->b()V
-
     invoke-static {v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->onPermissionReturn(Landroid/app/Activity;)V
 
     .line 74
