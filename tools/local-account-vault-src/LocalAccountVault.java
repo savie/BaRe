@@ -496,9 +496,14 @@ public final class LocalAccountVault {
                 .setNegativeButton("Back to recovery", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
-                        showRecoveryPrompt(activity, id, vaultFile, recoveryFile,
-                                recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : readEnvelope(vaultFile, id),
-                                previousCode);
+                        JSONObject retrySource = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
+                        if (retrySource == null) retrySource = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
+                        if (retrySource != null) {
+                            showRecoveryPrompt(activity, id, vaultFile, recoveryFile, retrySource, previousCode);
+                        } else {
+                            showError(activity, "Recovery artifact unavailable",
+                                    "Neither the recovery artifact nor the vault can be read. No new account was created.");
+                        }
                     }
                 })
                 .setCancelable(false)
