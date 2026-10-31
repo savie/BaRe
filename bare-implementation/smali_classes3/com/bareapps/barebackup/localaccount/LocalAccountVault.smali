@@ -337,7 +337,7 @@
 .method private static actionParams()Landroid/widget/LinearLayout$LayoutParams;
     .locals 4
 
-    .line 1192
+    .line 1194
     new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v1, -0x2
@@ -348,7 +348,7 @@
 
     invoke-direct {v0, v3, v1, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
 
-    .line 1193
+    .line 1195
     return-object v0
 .end method
 
@@ -1791,35 +1791,35 @@
 .method private static createProductInput(Landroid/app/Activity;Ljava/lang/String;)Landroid/widget/EditText;
     .locals 4
 
-    .line 1157
+    .line 1159
     new-instance v0, Landroid/widget/EditText;
 
     invoke-direct {v0, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
-    .line 1158
+    .line 1160
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setSingleLine(Z)V
 
-    .line 1159
+    .line 1161
     const/high16 v1, 0x41700000    # 15.0f
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setTextSize(F)V
 
-    .line 1160
+    .line 1162
     const/4 v1, -0x1
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setTextColor(I)V
 
-    .line 1161
+    .line 1163
     const v1, -0x56625c
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setHintTextColor(I)V
 
-    .line 1162
+    .line 1164
     invoke-virtual {v0, p1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
-    .line 1163
+    .line 1165
     const/16 p1, 0xe
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -1842,12 +1842,12 @@
 
     invoke-virtual {v0, v1, v3, p1, p0}, Landroid/widget/EditText;->setPadding(IIII)V
 
-    .line 1164
+    .line 1166
     const p0, 0x80091
 
     invoke-virtual {v0, p0}, Landroid/widget/EditText;->setInputType(I)V
 
-    .line 1165
+    .line 1167
     const/16 p0, -0x4b38
 
     invoke-static {p0}, Landroid/content/res/ColorStateList;->valueOf(I)Landroid/content/res/ColorStateList;
@@ -1856,7 +1856,7 @@
 
     invoke-virtual {v0, p0}, Landroid/widget/EditText;->setBackgroundTintList(Landroid/content/res/ColorStateList;)V
 
-    .line 1166
+    .line 1168
     return-object v0
 .end method
 
@@ -2033,7 +2033,7 @@
 .method private static dp(Landroid/app/Activity;I)I
     .locals 0
 
-    .line 1201
+    .line 1203
     int-to-float p1, p1
 
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
@@ -2846,7 +2846,7 @@
 .method private static matchWrap()Landroid/widget/LinearLayout$LayoutParams;
     .locals 3
 
-    .line 1197
+    .line 1199
     new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
 
     const/4 v1, -0x1
@@ -3347,20 +3347,20 @@
 .method private static productAction(Landroid/app/Activity;Ljava/lang/String;ZLandroid/view/View$OnClickListener;)Landroid/widget/TextView;
     .locals 6
 
-    .line 1170
+    .line 1172
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 1171
+    .line 1173
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 1172
+    .line 1174
     const/high16 p1, 0x41400000    # 12.0f
 
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setTextSize(F)V
 
-    .line 1173
+    .line 1175
     const-string p1, "sans-serif-medium"
 
     const/4 v1, 0x0
@@ -3371,7 +3371,7 @@
 
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
-    .line 1174
+    .line 1176
     const/16 p1, -0x4b38
 
     if-eqz p2, :cond_0
@@ -3386,12 +3386,12 @@
     :goto_0
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 1175
+    .line 1177
     const/16 v2, 0x11
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 1176
+    .line 1178
     const/16 v2, 0x30
 
     invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -3400,7 +3400,7 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setMinHeight(I)V
 
-    .line 1177
+    .line 1179
     const/16 v2, 0xa
 
     invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -3421,7 +3421,7 @@
 
     invoke-virtual {v0, v3, v4, v5, v2}, Landroid/widget/TextView;->setPadding(IIII)V
 
-    .line 1178
+    .line 1180
     const/16 v2, 0xbe
 
     invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -3430,12 +3430,12 @@
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setMaxWidth(I)V
 
-    .line 1179
+    .line 1181
     new-instance v2, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v2}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 1180
+    .line 1182
     const/16 v3, 0x12
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -3446,18 +3446,18 @@
 
     invoke-virtual {v2, v3}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 1181
+    .line 1183
     if-eqz p2, :cond_1
 
     invoke-virtual {v2, p1}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
     goto :goto_1
 
-    .line 1183
+    .line 1185
     :cond_1
     invoke-virtual {v2, v1}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 1184
+    .line 1186
     const/4 p1, 0x1
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -3468,42 +3468,42 @@
 
     invoke-virtual {v2, p0, p1}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
 
-    .line 1186
+    .line 1188
     :goto_1
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1187
+    .line 1189
     invoke-virtual {v0, p3}, Landroid/widget/TextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
-    .line 1188
+    .line 1190
     return-object v0
 .end method
 
 .method private static productText(Landroid/app/Activity;Ljava/lang/String;II)Landroid/widget/TextView;
     .locals 1
 
-    .line 1148
+    .line 1150
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 1149
+    .line 1151
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 1150
+    .line 1152
     int-to-float p0, p2
 
     invoke-virtual {v0, p0}, Landroid/widget/TextView;->setTextSize(F)V
 
-    .line 1151
+    .line 1153
     invoke-virtual {v0, p3}, Landroid/widget/TextView;->setTextColor(I)V
 
-    .line 1152
+    .line 1154
     const/4 p0, 0x1
 
     invoke-virtual {v0, p0}, Landroid/widget/TextView;->setIncludeFontPadding(Z)V
 
-    .line 1153
+    .line 1155
     return-object v0
 .end method
 
@@ -5698,7 +5698,7 @@
 
     invoke-static/range {v1 .. v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showProductDialog(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;Ljava/lang/String;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;)V
 
-    .line 1060
+    .line 1062
     return-void
 
     .line 1056
@@ -5771,7 +5771,7 @@
 .method private static showProductDialog(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;Landroid/view/View;Ljava/lang/String;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;Ljava/lang/String;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;)V
     .locals 8
 
-    .line 1069
+    .line 1071
     if-eqz p0, :cond_6
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5786,23 +5786,23 @@
 
     goto/16 :goto_0
 
-    .line 1070
+    .line 1072
     :cond_0
     new-instance v0, Landroid/app/Dialog;
 
     invoke-direct {v0, p0}, Landroid/app/Dialog;-><init>(Landroid/content/Context;)V
 
-    .line 1071
+    .line 1073
     new-instance v1, Landroid/widget/LinearLayout;
 
     invoke-direct {v1, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 1072
+    .line 1074
     const/4 v2, 0x1
 
     invoke-virtual {v1, v2}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 1073
+    .line 1075
     const/16 v3, 0x18
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -5825,17 +5825,17 @@
 
     invoke-virtual {v1, v4, v5, v3, v7}, Landroid/widget/LinearLayout;->setPadding(IIII)V
 
-    .line 1074
+    .line 1076
     new-instance v3, Landroid/graphics/drawable/GradientDrawable;
 
     invoke-direct {v3}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
 
-    .line 1075
+    .line 1077
     const v4, -0xdbdeda
 
     invoke-virtual {v3, v4}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
 
-    .line 1076
+    .line 1078
     const/16 v4, 0x1a
 
     invoke-static {p0, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -5846,10 +5846,10 @@
 
     invoke-virtual {v3, v4}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
 
-    .line 1077
+    .line 1079
     invoke-virtual {v1, v3}, Landroid/widget/LinearLayout;->setBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1079
+    .line 1081
     const/16 v3, 0x15
 
     const/4 v4, -0x1
@@ -5858,7 +5858,7 @@
 
     move-result-object p1
 
-    .line 1080
+    .line 1082
     const-string v3, "sans-serif-medium"
 
     const/4 v4, 0x0
@@ -5869,14 +5869,14 @@
 
     invoke-virtual {p1, v3}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
-    .line 1081
+    .line 1083
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object v3
 
     invoke-virtual {v1, p1, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1083
+    .line 1085
     const/16 p1, 0xe
 
     const v3, -0x2b3430
@@ -5885,7 +5885,7 @@
 
     move-result-object p1
 
-    .line 1084
+    .line 1086
     const/4 p2, 0x2
 
     invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -5898,12 +5898,12 @@
 
     invoke-virtual {p1, v3, v5}, Landroid/widget/TextView;->setLineSpacing(FF)V
 
-    .line 1085
+    .line 1087
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object v3
 
-    .line 1086
+    .line 1088
     const/16 v5, 0xa
 
     invoke-static {p0, v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -5912,47 +5912,47 @@
 
     iput v5, v3, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 1087
+    .line 1089
     invoke-virtual {v1, p1, v3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1089
+    .line 1091
     if-eqz p3, :cond_1
 
-    .line 1090
+    .line 1092
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object p1
 
-    .line 1091
+    .line 1093
     invoke-static {p0, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
 
     move-result v3
 
     iput v3, p1, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 1092
+    .line 1094
     invoke-virtual {v1, p3, p1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1095
+    .line 1097
     :cond_1
     new-instance p1, Landroid/widget/LinearLayout;
 
     invoke-direct {p1, p0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
 
-    .line 1096
+    .line 1098
     invoke-virtual {p1, v4}, Landroid/widget/LinearLayout;->setOrientation(I)V
 
-    .line 1097
+    .line 1099
     const p3, 0x800015
 
     invoke-virtual {p1, p3}, Landroid/widget/LinearLayout;->setGravity(I)V
 
-    .line 1098
+    .line 1100
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object p3
 
-    .line 1099
+    .line 1101
     const/16 v3, 0x14
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -5961,15 +5961,15 @@
 
     iput v3, p3, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
 
-    .line 1100
+    .line 1102
     invoke-virtual {v1, p1, p3}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1102
+    .line 1104
     if-eqz p4, :cond_2
 
     if-eqz p5, :cond_2
 
-    .line 1103
+    .line 1105
     new-instance p3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$14;
 
     invoke-direct {p3, v0, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$14;-><init>(Landroid/app/Dialog;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;)V
@@ -5978,21 +5978,21 @@
 
     move-result-object p3
 
-    .line 1108
+    .line 1110
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->actionParams()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object p4
 
-    .line 1103
+    .line 1105
     invoke-virtual {p1, p3, p4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1110
+    .line 1112
     :cond_2
     if-eqz p6, :cond_3
 
     if-eqz p7, :cond_3
 
-    .line 1111
+    .line 1113
     new-instance p3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;
 
     invoke-direct {p3, v0, p7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;-><init>(Landroid/app/Dialog;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;)V
@@ -6001,68 +6001,68 @@
 
     move-result-object p3
 
-    .line 1116
+    .line 1118
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->actionParams()Landroid/widget/LinearLayout$LayoutParams;
 
     move-result-object p4
 
-    .line 1111
+    .line 1113
     invoke-virtual {p1, p3, p4}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1119
+    .line 1121
     :cond_3
     new-instance p1, Landroid/widget/ScrollView;
 
     invoke-direct {p1, p0}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
 
-    .line 1120
+    .line 1122
     invoke-virtual {p1, v4}, Landroid/widget/ScrollView;->setFillViewport(Z)V
 
-    .line 1121
+    .line 1123
     invoke-virtual {p1, v4}, Landroid/widget/ScrollView;->setClipToPadding(Z)V
 
-    .line 1122
+    .line 1124
     invoke-virtual {p1, v1}, Landroid/widget/ScrollView;->addView(Landroid/view/View;)V
 
-    .line 1123
+    .line 1125
     invoke-virtual {v0, p1}, Landroid/app/Dialog;->setContentView(Landroid/view/View;)V
 
-    .line 1124
+    .line 1126
     invoke-virtual {v0, v4}, Landroid/app/Dialog;->setCancelable(Z)V
 
-    .line 1125
+    .line 1127
     invoke-virtual {v0, v4}, Landroid/app/Dialog;->setCanceledOnTouchOutside(Z)V
 
-    .line 1126
+    .line 1128
     invoke-virtual {v0}, Landroid/app/Dialog;->getWindow()Landroid/view/Window;
 
     move-result-object p1
 
-    .line 1127
+    .line 1129
     if-eqz p1, :cond_4
 
-    .line 1128
+    .line 1130
     const p3, 0x106000d
 
     invoke-virtual {p1, p3}, Landroid/view/Window;->setBackgroundDrawableResource(I)V
 
-    .line 1129
+    .line 1131
     invoke-virtual {p1, p2}, Landroid/view/Window;->addFlags(I)V
 
-    .line 1130
+    .line 1132
     invoke-virtual {p1}, Landroid/view/Window;->getAttributes()Landroid/view/WindowManager$LayoutParams;
 
     move-result-object p2
 
-    .line 1131
+    .line 1133
     const p3, 0x3f1eb852    # 0.62f
 
     iput p3, p2, Landroid/view/WindowManager$LayoutParams;->dimAmount:F
 
-    .line 1132
+    .line 1134
     invoke-virtual {p1, p2}, Landroid/view/Window;->setAttributes(Landroid/view/WindowManager$LayoutParams;)V
 
-    .line 1134
+    .line 1136
     :cond_4
     new-instance p2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$16;
 
@@ -6070,19 +6070,19 @@
 
     invoke-virtual {v0, p2}, Landroid/app/Dialog;->setOnDismissListener(Landroid/content/DialogInterface$OnDismissListener;)V
 
-    .line 1137
+    .line 1139
     sput-boolean v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1138
+    .line 1140
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 1139
+    .line 1141
     invoke-virtual {v0}, Landroid/app/Dialog;->show()V
 
-    .line 1140
+    .line 1142
     if-eqz p1, :cond_5
 
-    .line 1141
+    .line 1143
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object p2
@@ -6093,7 +6093,7 @@
 
     iget p2, p2, Landroid/util/DisplayMetrics;->widthPixels:I
 
-    .line 1142
+    .line 1144
     const/16 p3, 0x28
 
     invoke-static {p0, p3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;I)I
@@ -6112,16 +6112,16 @@
 
     move-result p0
 
-    .line 1143
+    .line 1145
     const/4 p2, -0x2
 
     invoke-virtual {p1, p0, p2}, Landroid/view/Window;->setLayout(II)V
 
-    .line 1145
+    .line 1147
     :cond_5
     return-void
 
-    .line 1069
+    .line 1071
     :cond_6
     :goto_0
     return-void

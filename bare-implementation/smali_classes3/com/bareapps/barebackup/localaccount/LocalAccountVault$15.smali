@@ -32,7 +32,7 @@
         }
     .end annotation
 
-    .line 1111
+    .line 1113
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;->val$dialog:Landroid/app/Dialog;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;->val$primaryAction:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
@@ -47,16 +47,16 @@
 .method public onClick(Landroid/view/View;)V
     .locals 0
 
-    .line 1113
+    .line 1115
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;->val$dialog:Landroid/app/Dialog;
 
     invoke-virtual {p1}, Landroid/app/Dialog;->dismiss()V
 
-    .line 1114
+    .line 1116
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$15;->val$primaryAction:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
     invoke-interface {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;->run()V
 
-    .line 1115
+    .line 1117
     return-void
 .end method
