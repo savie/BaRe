@@ -1210,7 +1210,7 @@
     invoke-virtual {v0, v2}, Landroid/widget/EditText;->setInputType(I)V
 
     .line 542
-    const-string v2, "Enter the recovery code"
+    const-string v2, "Enter recovery code"
 
     invoke-virtual {v0, v2}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
@@ -1220,7 +1220,7 @@
     invoke-direct {v2, p0}, Lcom/google/android/material/dialog/MaterialAlertDialogBuilder;-><init>(Landroid/content/Context;)V
 
     .line 544
-    const-string v3, "Confirm code your recovery code"
+    const-string v3, "Confirm your recovery code"
 
     invoke-virtual {v2, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
@@ -1254,7 +1254,7 @@
     invoke-direct {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;-><init>()V
 
     .line 563
-    const-string v2, "Not now Local setup"
+    const-string v2, "Cancel setup"
 
     invoke-virtual {p1, v2, v0}, Landroid/app/AlertDialog$Builder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
@@ -3205,7 +3205,7 @@
     .line 472
     const-string p1, "Account doesn't match"
 
-    const-string p2, "The recovery artifact does not match the existing Local Account cache. No data was changed."
+    const-string p2, "This recovery code belongs to a different account. Nothing was changed."
 
     invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_0
@@ -3432,7 +3432,7 @@
     :try_start_2
     new-instance p0, Ljava/lang/SecurityException;
 
-    const-string p1, "Restore accounted vault verification failed"
+    const-string p1, "Recovered vault verification failed"
 
     invoke-direct {p0, p1}, Ljava/lang/SecurityException;-><init>(Ljava/lang/String;)V
 
@@ -4804,9 +4804,9 @@
     if-nez v0, :cond_2
 
     .line 137
-    const-string v0, "Local Account setup unavailable"
+    const-string v0, "Couldn't continue setup"
 
-    const-string v1, "The pending Intro state could not be saved. No Local Account was activated."
+    const-string v1, "Your account setup couldn't be saved. No account was activated. Please try again."
 
     invoke-static {p0, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
@@ -4825,9 +4825,9 @@
     sput-boolean v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
 
     .line 130
-    const-string v0, "Local Account unavailable"
+    const-string v0, "Couldn't set up a Local Account"
 
-    const-string v1, "The Local Account identity could not be prepared. No account was created."
+    const-string v1, "BΛR☰ couldn't prepare your account. Nothing was changed. Please try again."
 
     invoke-static {p0, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
@@ -4992,7 +4992,7 @@
 
     move-result-object p1
 
-    const-string v0, "Not now Local setup"
+    const-string v0, "Cancel setup"
 
     new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$11;
 
@@ -5147,7 +5147,7 @@
     invoke-direct {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;-><init>()V
 
     .line 526
-    const-string v2, "Not now Local setup"
+    const-string v2, "Cancel setup"
 
     invoke-virtual {p1, v2, v0}, Landroid/app/AlertDialog$Builder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
@@ -5221,9 +5221,13 @@
     invoke-direct {v7, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
     .line 427
-    const/4 v0, 0x1
+    const/4 v1, 0x0
 
-    invoke-virtual {v7, v0}, Landroid/widget/EditText;->setSingleLine(Z)V
+    invoke-virtual {v7, v1}, Landroid/widget/EditText;->setSingleLine(Z)V
+
+    const/4 v1, 0x2
+
+    invoke-virtual {v7, v1}, Landroid/widget/EditText;->setMaxLines(I)V
 
     .line 428
     const v1, 0x80091
@@ -5254,7 +5258,7 @@
     move-result-object p5
 
     .line 433
-    const-string v1, "This device can't access your saved account. Enter the recovery code you saved when you set it up."
+    const-string v1, "This device can't access your saved account. Enter recovery code you saved when you set it up."
 
     invoke-virtual {p5, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
@@ -5293,7 +5297,7 @@
     invoke-direct {p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;-><init>()V
 
     .line 447
-    const-string p3, "Not now Local setup"
+    const-string p3, "Cancel setup"
 
     invoke-virtual {p1, p3, p2}, Landroid/app/AlertDialog$Builder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
