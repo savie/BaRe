@@ -108,8 +108,8 @@ public final class LocalAccountVault {
 
     public static boolean clearPendingIntro(Activity activity) {
         if (!writeMarkers(false, false)) {
-            showError(activity, "Could not switch account",
-                    "The account-selection state could not be saved. Google sign-in was not started.");
+            showError(activity, "Couldn't save your account choice",
+                    "Your account choice couldn't be saved. Please try again.");
             return false;
         }
         pendingUser = null;
@@ -490,8 +490,8 @@ public final class LocalAccountVault {
                                 throw setupError;
                             }
                         } catch (Throwable error) {
-                            showError(activity, "Could not create a new Local Account",
-                                    "The existing account files were not intentionally deleted. Check storage access and try again. If files were archived, they remain under recovery-archive.");
+                            showError(activity, "Couldn't set up a new account",
+                                    "Your previous account has been kept safe. Check storage access and try again.");
                         }
                     }
                 })
@@ -668,7 +668,7 @@ public final class LocalAccountVault {
                         }
                     }
                 })
-                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         cancelPendingSelection();
