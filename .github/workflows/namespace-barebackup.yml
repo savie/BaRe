@@ -1,5 +1,9 @@
 name: Build BΛR☰ Namespace APK
 
+concurrency:
+  group: local-account-vault-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   push:
@@ -90,6 +94,8 @@ jobs:
           git add bare-implementation/smali_classes3/com/bareapps/barebackup/localaccount
           if ! git diff --cached --quiet; then
             git commit -m "build(local-account): generate vault helper smali [skip ci]"
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
