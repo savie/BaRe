@@ -643,6 +643,17 @@
     .line 34
     .line 35
     :cond_2
+    if-eqz p1, :cond_clear_local_intro
+    goto :cond_continue_intro_choice
+
+    :cond_clear_local_intro
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearPendingIntro(Landroid/app/Activity;)Z
+
+    move-result v0
+
+    if-eqz v0, :goto_0
+
+    :cond_continue_intro_choice
     invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
 
     .line 36
@@ -1828,6 +1839,8 @@
     .line 46
     if-ne p1, v0, :cond_3
 
+    move-object v6, p0
+
     .line 47
     .line 48
     invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
@@ -1839,6 +1852,8 @@
 
     .line 52
     invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/d;->o()V
+
+    invoke-static {v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->onPermissionReturn(Landroid/app/Activity;)V
 
     .line 53
     .line 54
@@ -4101,4 +4116,15 @@
 
     .line 2
     return p0
+.end method
+
+
+.method public onResume()V
+    .locals 0
+
+    invoke-super {p0}, Lil0;->onResume()V
+
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->onPermissionReturn(Landroid/app/Activity;)V
+
+    return-void
 .end method

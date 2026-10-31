@@ -923,11 +923,19 @@
     .line 429
     .line 430
     .line 431
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isCurrentUserLocal()Z
+
+    move-result v30
+
+    if-nez v30, :cond_skip_cloud_config_write
+
     sget-object v0, Lbr1;->c:Lzc2;
 
     .line 432
     .line 433
     invoke-virtual {v0, v6}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
+
+    :cond_skip_cloud_config_write
 
     .line 434
     .line 435
