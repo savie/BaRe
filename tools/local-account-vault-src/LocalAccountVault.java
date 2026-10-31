@@ -207,6 +207,13 @@ public final class LocalAccountVault {
                 String id = ids.iterator().next();
                 File vaultFile = new File(root, PREFIX + id + ".vault");
                 File recoveryFile = new File(root, PREFIX + id + ".recovery");
+                if (!isDirectChild(root, vaultFile) || !isDirectChild(root, recoveryFile)
+                        || (vaultFile.exists() && !vaultFile.isFile())
+                        || (recoveryFile.exists() && !recoveryFile.isFile())) {
+                    showError(activity, "Local Account storage conflict",
+                            "A vault path is not a regular file inside the Local Account directory. No data was changed.");
+                    return;
+                }
                 JSONObject vault = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
                 JSONObject recovery = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
                 if (vault == null && recovery == null) {
@@ -284,6 +291,16 @@ public final class LocalAccountVault {
 
     private static File rootDirectory() {
         return new File("/storage/emulated/0/BΛR☰/accounts");
+    }
+
+    private static boolean isDirectChild(File root, File child) {
+        try {
+            File canonicalRoot = root.getCanonicalFile();
+            File canonicalParent = child.getCanonicalFile().getParentFile();
+            return canonicalRoot.equals(canonicalParent);
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     private static String candidateId(String name) {
