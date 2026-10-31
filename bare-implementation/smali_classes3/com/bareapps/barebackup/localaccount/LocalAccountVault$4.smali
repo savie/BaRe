@@ -113,7 +113,7 @@
     .line 442
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Recovery failed. Check the full recovery code and try again."
+    const-string p2, "That code didn't work. Check it and try again."
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;)V
 
