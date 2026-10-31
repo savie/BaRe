@@ -1,0 +1,43 @@
+# Local Account Vault implementation slice
+
+This directory contains the first executable implementation slice for the Hybrid Local Account Vault defined in `docs/audit/local-account-hybrid-vault-technical-design.md`.
+
+## Scope in this PR
+
+- Versioned single-file envelope.
+- 256-bit random DEK; AES-256-GCM payload encryption and DEK wrapping.
+- User-held recovery secret; PBKDF2-HMAC-SHA-256 parameters are stored in the envelope and supplied/configured by the caller.
+- Device-binding fingerprint is a continuity signal only. A mismatch blocks the ordinary unlock path.
+- Explicit transfer requires a separate confirmation flag and preserves LocalAccountId and LegacyUid.
+- Process mutex + OS file lock, bounded parsing, authenticated reopen-before-publish, sibling temp file, fsync, and retained previous generation.
+- No CI workflow is added or modified.
+
+## Deliberate boundaries
+
+This is a pure-Java engine slice. Repository inspection confirms Gradle settings and `app/build.gradle` metadata exist, but `app/` currently has no `src/` tree, Android manifest, or CMake source. The actual APK workflow copies `bare-implementation/` into `build-src/` and rebuilds it from smali with Apktool. Consequently the Java engine is **not yet packaged into or called by the APK**. This PR does not claim app wiring, APK compilation, or device-runtime verification.
+
+The Android integration adapter still needs to:
+1. Resolve the exact shared-storage location and check the actual runtime grant before calling this engine.
+2. Obtain a stable app-scoped Android identifier and package identity, then call `deviceFingerprint`. This value is not hardware attestation.
+3. Present/export the generated recovery secret once and require user confirmation before publishing the vault.
+4. Supply a benchmarked PBKDF2 iteration count for the minimum supported device/API matrix.
+5. Integrate optional Android Keystore wrapping as a convenience unlock path; it must never replace recovery wrapping.
+6. Call `transfer` only after explicit user confirmation.
+7. Preserve the existing MFirebaseUser UID and `accounts/{16-hex-key}/` namespace during migration.
+8. Keep Google sign-in routing explicit; this engine does not select providers or link Firebase identities.
+
+## API outline
+
+- `generateRecoverySecret()`: creates a 256-bit random value encoded as exactly 64 hexadecimal characters. The engine rejects other formats. Display it once; do not persist it.
+- `create(...)`: creates and verifies one vault; derives its binding fingerprint internally from app-scoped Android ID, package identity, and the per-vault salt; refuses a second `*.enc` enrollment.
+- `unlock(...)`: ordinary same-binding unlock; caller supplies Android ID and package identity, not a caller-forgeable fingerprint.
+- `transfer(..., confirmed)`: decrypts an existing vault, then atomically rebinds it to the new device context while preserving IDs. The `confirmed` flag must only be true after explicit user confirmation.
+- `inspect(...)`: reports absent/structurally present on this device/device mismatch/corrupt without silently creating an account. A matching fingerprint is not proof that ciphertext authenticates; `unlock(...)` performs authenticated decryption.
+
+The payload is opaque UTF-8 JSON bytes so the integration layer can serialize the existing MFirebaseUser model without changing its schema.
+
+## Local verification
+
+No CI is configured or added. Run `sh tools/local-account-vault/verify.sh` manually from the repository root when a Java 8+ JDK is available. The repository's current `app/build.gradle` declares `minSdk 26`, which is the API baseline for the `java.nio.file` APIs used here; this configuration fact is not an Android runtime pass.
+
+Validation performed for this PR revision: source-level structural checks passed and the verification script passed `sh -n` syntax validation. The Java compile and smoke-test command has **not** been executed against the checked-out PR source in this environment. Runtime device verification remains required for Android storage permissions, uninstall/reinstall, Keystore lifecycle, and OEM behavior.

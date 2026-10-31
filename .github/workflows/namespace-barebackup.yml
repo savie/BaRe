@@ -10,6 +10,7 @@ on:
       - feat/bare-own-onedrive-msal
       - fix/optional-multithreaded-feature-fallback
       - fix/supabase-user-mutation-payload-writes
+      - feat/hybrid-local-account-vault
       - feat/firebase-only-backend
     paths:
       - "app/google-services.json"
@@ -19,6 +20,7 @@ on:
       - "tools/libsba-archive/**"
       - "tools/prepare-barebackup-build.py"
       - "tools/migrate-encrypted-constants.py"
+      - "tools/local-account-vault/**"
 
 permissions:
   contents: read
@@ -39,6 +41,13 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Verify Hybrid Local Account vault engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          sh -n tools/local-account-vault/verify.sh
+          sh tools/local-account-vault/verify.sh
 
       - name: Set up Android SDK and NDK
         uses: android-actions/setup-android@v3

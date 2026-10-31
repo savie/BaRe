@@ -431,3 +431,19 @@ None of HV-19 through HV-30 is claimed passed.
 - Obtain exact Gradle/build file location if outside tracked Working tree.
 - Product flow and target integration are specified; patch and implementation have not started.
 - bare-implementation/ remains unchanged.
+
+---
+
+## 15. Repository/build-path correction (2026-10-31)
+
+A follow-up inspection of the complete `Working` tree corrected the build-system statement in the original 2026-10-30 audit:
+
+- Root `build.gradle`, `settings.gradle`, and `gradle.properties` exist.
+- `app/build.gradle` exists and declares the Android application namespace, SDK levels, dependencies, and native CMake path.
+- However, the tracked `app/` directory contains only `build.gradle`, `google-services.json`, and `proguard-rules.pro`; it has no `app/src/` tree, Android manifest, or CMake source. The Gradle metadata alone is not a complete app source project.
+- The actual APK reconstruction workflow is `.github/workflows/namespace-barebackup.yml`. It copies `bare-implementation/` to `build-src/`, prepares resources/native libraries, then invokes Apktool to rebuild the APK from the decoded project. The `reference/` tree is a separate audit/reference snapshot.
+- Therefore, the accurate boundary is: **a reproducible Apktool-based APK rebuild pipeline exists, but there is no complete native Java/Kotlin app source tree under `app/`.** The earlier sentence saying root Gradle files were not found is superseded.
+
+For PR #38, implementation work is authorized on its feature branch. `bare-implementation/` is the actual APK rebuild input and may be changed when a patch is sufficiently evidenced and reproducible; `reference/apktool/` and `reference/jadx/` remain read-only evidence. This authorization does not make decompiled smali equivalent to an authoritative original source tree.
+
+The Java engine currently added under `tools/local-account-vault/` is **not yet compiled into the APK and is not called by the account resolver**. It must remain classified as an isolated implementation slice until packaging, Android adapter, Intro Skip/resolver integration, migration, recovery UX, and APK/runtime verification are complete. No test in the acceptance matrix above is promoted to passed by this correction.
