@@ -660,6 +660,12 @@
     .line 10
     if-eqz v0, :cond_0
 
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->canCompleteIntro()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
     .line 11
     .line 12
     sget-object v0, Ldz5;->a:Ldz5;
@@ -1942,6 +1948,8 @@
     .line 4
     if-eqz p1, :cond_0
 
+    move-object v6, p2
+
     .line 5
     .line 6
     sget-object v0, Lvr6;->INSTANCE:Lvr6;
@@ -2005,23 +2013,8 @@
 
     .line 36
     :try_start_0
-    sget-object v0, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
+    invoke-static {v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->selectLocal(Landroid/app/Activity;)V
 
-    .line 37
-    .line 38
-    invoke-static {}, Lb45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
-
-    .line 39
-    .line 40
-    .line 41
-    move-result-object v1
-
-    .line 42
-    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/common/V;->setNon(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
-
-    .line 43
-    .line 44
-    .line 45
     new-instance v0, Lc45;
 
     .line 46
@@ -2053,15 +2046,6 @@
     .line 57
     .line 58
     .line 59
-    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
-
-    .line 60
-    .line 61
-    invoke-virtual {v1, p0}, Lcom/bareapps/barebackup/common/V;->setNon(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
-
-    .line 62
-    .line 63
-    .line 64
     new-instance p0, Lc45;
 
     .line 65
@@ -2080,7 +2064,7 @@
     .line 71
     .line 72
     .line 73
-    invoke-virtual {p1}, Ld45;->b()V
+    invoke-static {v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->onPermissionReturn(Landroid/app/Activity;)V
 
     .line 74
     .line 75
