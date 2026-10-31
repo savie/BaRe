@@ -4113,3 +4113,14 @@
     .line 2
     return p0
 .end method
+
+
+.method public onResume()V
+    .locals 0
+
+    invoke-super {p0}, Lil0;->onResume()V
+
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->onPermissionReturn(Landroid/app/Activity;)V
+
+    return-void
+.end method
