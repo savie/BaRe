@@ -30,7 +30,7 @@
         }
     .end annotation
 
-    .line 962
+    .line 978
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -43,14 +43,14 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 964
+    .line 980
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 965
+    .line 981
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
     invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->signOut(Landroid/app/Activity;)V
 
-    .line 966
+    .line 982
     return-void
 .end method
