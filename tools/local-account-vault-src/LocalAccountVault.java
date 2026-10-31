@@ -94,12 +94,17 @@ public final class LocalAccountVault {
         }
     }
 
-    public static void clearPendingIntro() {
-        if (!writeMarkers(false, false)) return;
+    public static boolean clearPendingIntro(Activity activity) {
+        if (!writeMarkers(false, false)) {
+            showError(activity, "Could not switch account",
+                    "The account-selection state could not be saved. Google sign-in was not started.");
+            return false;
+        }
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = false;
+        return true;
     }
 
     public static void selectLocal(Activity activity) {
