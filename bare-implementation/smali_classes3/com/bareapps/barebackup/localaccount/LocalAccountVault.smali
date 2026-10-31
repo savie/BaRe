@@ -3940,7 +3940,7 @@
     if-nez v2, :cond_7
 
     .line 233
-    const-string v1, "Can't read saved account data"
+    const-string v1, "Can't check saved account data"
 
     const-string v2, "BΛR☰ couldn't check your saved account files. Nothing was changed."
 
@@ -5284,7 +5284,7 @@
     move-result-object p5
 
     .line 433
-    const-string v1, "This device can't access your saved account. Enter recovery code you saved when you set it up."
+    const-string v1, "This device can't access your saved account. Enter the recovery code you saved when you set it up."
 
     invoke-virtual {p5, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
