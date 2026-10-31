@@ -34,7 +34,7 @@
         }
     .end annotation
 
-    .line 473
+    .line 485
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$input:Landroid/widget/EditText;
@@ -51,10 +51,10 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 2
 
-    .line 475
+    .line 487
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 476
+    .line 488
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     iget-object p1, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->code:Ljava/lang/String;
@@ -83,24 +83,24 @@
 
     if-nez p1, :cond_0
 
-    .line 477
+    .line 489
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
     const-string p2, "Recovery code did not match. Save and confirm the code to continue."
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 478
+    .line 490
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$600(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
-    .line 479
+    .line 491
     return-void
 
-    .line 482
+    .line 494
     :cond_0
     :try_start_0
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
@@ -111,14 +111,14 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 486
+    .line 498
     goto :goto_0
 
-    .line 483
+    .line 495
     :catchall_0
     move-exception p1
 
-    .line 484
+    .line 496
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
     const-string p2, "Local Account setup failed"
@@ -127,7 +127,7 @@
 
     invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$800(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 487
+    .line 499
     :goto_0
     return-void
 .end method
