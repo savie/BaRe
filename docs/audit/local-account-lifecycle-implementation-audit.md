@@ -667,3 +667,19 @@ Batas perubahan Local Account:
 - Jangan menyebut cache tersebut terenkripsi.
 - Jangan memperluas scope untuk mengubah format cache pada patch lifecycle ini tanpa migrasi/compatibility plan terpisah.
 - Vault identitas Local Account tetap wajib authenticated encryption dan key separation.
+
+
+### 13.11 Side effect `d45.b()` on signed-out state: scheduled backup cancellation (2026-10-31)
+
+A further trace found that calling `d45.b()` from a Local Sign Out handler is not a harmless observer refresh:
+- In its no-user branch, `d45.b()` can invoke `AlarmReceiver.a()` depending on `KEY_FIRST_START` and `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED`.
+- `AlarmReceiver.a()` sets `KEY_SCHEDULE_ENABLED=false`, invokes `rs9.s(true)`, cancels the `AlarmManager` PendingIntent, and changes the `BootReceiver` component state.
+- Therefore Local Sign Out must not call `d45.b()` or the existing generic sign-out observer/restart path; doing so would modify scheduled work beyond deactivating the Local session.
+
+Required Local-only behavior:
+1. Persist `local_account_session_active=false` and `local_signout_pending_intro=true`.
+2. Set `KEY_FIRST_START=true` and `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=false` so the next cold launch enters Intro while the no-user startup branch skips the alarm-cancellation condition.
+3. Do not call `d45.b()`, `AlarmReceiver.a()`, `FirebaseAuth.signOut()`, Shizuku/package clear, or global preference clear.
+4. Close the app process after marker commit. Leave `KEY_SCHEDULE_ENABLED`, AlarmManager state, BootReceiver state, vault, identity cache, and pending work untouched.
+
+The generic Google sign-out path remains unchanged.
