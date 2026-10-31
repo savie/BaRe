@@ -281,8 +281,7 @@ public final class LocalAccountVault {
                 JSONObject vault = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
                 JSONObject recovery = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
                 if (vault == null && recovery == null) {
-                    showError(activity, "Local Account vault is damaged",
-                            "The existing Local Account files are missing or invalid. A new account will not be created automatically.");
+                    showNewAccountConfirmation(activity, id, vaultFile, recoveryFile, null);
                     return;
                 }
 
@@ -307,8 +306,7 @@ public final class LocalAccountVault {
 
                 JSONObject recoverySource = recovery != null ? recovery : vault;
                 if (recoverySource == null || !recoverySource.has("recoveryWrappedDek")) {
-                    showError(activity, "Local Account recovery unavailable",
-                            "The device key is unavailable and no valid recovery artifact exists. The existing account was not replaced.");
+                    showNewAccountConfirmation(activity, id, vaultFile, recoveryFile, null);
                     return;
                 }
                 showRecoveryPrompt(activity, id, vaultFile, recoveryFile, recoverySource);
