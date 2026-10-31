@@ -418,3 +418,87 @@ Related records:
 - [Local Account persistence design audit](local-account-persistence-design-audit.md)
 - [Hybrid vault technical design](local-account-hybrid-vault-technical-design.md)
 - [Local Account / Repository Authorization audit](../../bare-implementation/AUTHORIZATION-LOCAL-CLOUD-AUDIT.md)
+
+
+---
+
+## 12. Non-negotiable change boundary — preserve working Firebase/Cloud
+
+This is an explicit project constraint for remediation work:
+
+**Fix Local Account behavior without refactoring, replacing, weakening, or otherwise disturbing the existing Firebase/Cloud implementation that already works for Google/cloud accounts.**
+
+### 12.1 Protected surface
+
+Unless a separately approved defect is demonstrated, treat the following as protected:
+
+- Existing Google sign-in/provider authentication flow.
+- Existing Firebase Auth configuration and current-user behavior for Google accounts.
+- Existing Firebase Realtime Database schema, paths, data, and rules.
+- Existing Firebase client initialization and cloud repository operations for authenticated accounts.
+- Existing cloud sync behavior, token handling, and ownership/authorization checks.
+- Existing cloud data and user records.
+
+Do not change Firebase Security Rules to grant pseudo-anonymous/local users broad access. Do not remove anonymous guards from shared Firebase helpers as a shortcut. Do not migrate or rewrite existing cloud data as part of this Local Account fix.
+
+### 12.2 Allowed Local-only changes
+
+The remediation should be isolated to Local Account branches and local data paths:
+
+1. Identify account mode explicitly (LOCAL versus existing authenticated/cloud account) without changing the meaning of the existing Firebase user/session.
+2. For LOCAL mode, read and write Config/Label through local persistence only.
+3. Ensure Local Config cache loading does not return early merely because a cloud/account flag is false.
+4. Ensure Local Label create/update/delete does not silently no-op due to a cloud authorization flag.
+5. Prevent Local Account operations from invoking Firebase read/write/transaction helpers.
+6. Give Local Account its own session-ending path that preserves LocalAccountId, vault, Config, Labels, and pending local work.
+7. Keep the existing Google/Firebase branch behavior unchanged in the first remediation pass.
+8. Add regression tests proving that Local changes work and the existing Google/cloud behavior remains unchanged.
+
+### 12.3 Required routing contract
+
+    ConfigRepo / LabelRepo
+          |
+          v
+      AccountContext
+          |
+          +-- LOCAL
+          |     └─ LocalDataSource only
+          |          └─ no Firebase call
+          |
+          └-- Existing authenticated account
+                └─ Existing Firebase/cloud path
+                     └─ preserve current behavior
+
+This routing must be explicit and testable. Do not infer cloud authorization from a generic local session flag, and do not treat a pseudo Local Account as a Firebase authenticated identity.
+
+### 12.4 Sign-out isolation
+
+The first fix must add or correct a Local-only sign-out branch before shared destructive cleanup can run. For Local mode:
+
+- End the active Local Session.
+- Preserve Local Account identity and local vault.
+- Preserve Config, Labels, backup metadata, and pending local work.
+- Do not call Firebase signOut when there is no Firebase session owned by this Local Account.
+- Do not clear the whole SharedPreferences file.
+- Do not invoke package-level pm clear / Shizuku data clearing.
+- Return to the appropriate account-entry screen.
+
+For the existing Google/cloud mode, preserve the current implementation during this scoped change. Any separate concern in the Google sign-out path (including broad preference/package clearing) requires its own impact analysis, approval, and regression tests; it must not be silently bundled into the Local Account repair.
+
+### 12.5 Acceptance gates for non-regression
+
+The Local Account repair is not complete until all of these pass:
+
+| Test | Expected result |
+|---|---|
+| Fresh install → Skip | Local Account is created without Firebase sign-in |
+| Local Config CRUD | Works with network on/off and Firebase unavailable |
+| Local Label CRUD | Works with network on/off and Firebase unavailable |
+| Local sign-out | Ends session but preserves account/vault/data |
+| Reopen Local Account | Restores same LocalAccountId and data |
+| Existing Google sign-in | Same successful behavior as before the change |
+| Existing Google Config/Label cloud operations | Same successful behavior as before the change |
+| Existing cloud sync | No regression in data, authorization, or synchronization |
+| Firebase Rules/schema | No change required for this Local-only fix |
+
+**Implementation rule:** prefer the smallest Local-only branch/data-source correction that satisfies these gates. Do not refactor shared Firebase code unless later evidence proves an independent cloud defect and the user explicitly approves that scope.
