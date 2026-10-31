@@ -653,7 +653,6 @@ public final class LocalAccountVault {
 
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
         final EditText input = new EditText(activity);
-        input.setSingleLine(true);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setHint("Enter recovery code");
         input.setSingleLine(false);
