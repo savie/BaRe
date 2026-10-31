@@ -123,9 +123,9 @@
     .line 168
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Cannot open storage settings"
+    const-string p2, "Storage access is still needed"
 
-    const-string v0, "Open Android Settings > Apps > B\u039bR\u2630 > All Files Access, enable access, then return to the app."
+    const-string v0, "In Android settings, open Apps > BΛR☰ > All files access, then turn on Allow access to manage all files."
 
     invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
