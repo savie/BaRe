@@ -673,3 +673,13 @@ However, those same mutation callbacks also perform direct Firebase Realtime Dat
 The Local patch must preserve the local encrypted-file write and skip only these direct cloud writes for `MFirebaseUser.isAnonymous()==true`. Also route online Local fetches to the existing local cache before calling `cf3`. Google/Firebase paths must remain byte-for-byte/behaviorally unchanged. Do not loosen `cf3` guards or Firebase rules.
 
 `b45.a()` is used by several classes beyond Intro; keep it unchanged and add a Local-only random UID factory for first-time enrollment. Legacy migration must preserve the existing UID.
+
+
+## 18.13 Correction: existing Config/Label cache is not encrypted at rest
+
+A deeper trace of `w14` and `q63` corrects the earlier shorthand “encrypted local cache”:
+- Config/Label mutation uses `w14.g(..., false)` -> `q63.K(...)`, which writes serialized JSON bytes through a file output stream.
+- Reads use `w14.b(...)` -> `q63.H(...)`, which reads the JSON bytes directly.
+- The separate encrypted writer is `w14.f()` through `y32`; it is not the writer used by the audited Config/Label cache paths.
+
+Therefore the existing Config/Label cache is local file persistence but **not encrypted at rest** in the inspected implementation. Preserve its current format/path in this Local Account lifecycle patch for compatibility; do not call it encrypted and do not silently change it without a separate data migration. The new identity vault itself still requires authenticated encryption.
