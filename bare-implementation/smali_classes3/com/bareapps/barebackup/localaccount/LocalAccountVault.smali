@@ -1263,7 +1263,7 @@
     .line 569
     const/4 v0, 0x0
 
-    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object p1
 
@@ -3759,7 +3759,7 @@
     .line 179
     const/4 v1, 0x0
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object v0
 
@@ -5006,7 +5006,7 @@
     .line 1011
     const/4 v0, 0x0
 
-    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object p1
 
@@ -5145,6 +5145,12 @@
 
     invoke-direct {v2, p0}, Lcom/google/android/material/dialog/MaterialAlertDialogBuilder;-><init>(Landroid/content/Context;)V
 
+    const-string v3, "Save your recovery code"
+
+    invoke-virtual {v2, v3}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v2
+
     .line 517
     const-string v3, "Keep this code somewhere safe. You'll need it to restore your Local Account on another device or if this device can't access it. This is different from your backup password. BΛR☰ will ask you to confirm the code before setup is complete."
 
@@ -5182,7 +5188,7 @@
     .line 532
     const/4 v0, 0x0
 
-    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {p1, v0}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object p1
 
@@ -5332,7 +5338,7 @@
     .line 453
     const/4 p2, 0x0
 
-    invoke-virtual {p1, p2}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {p1, p2}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object p1
 
@@ -5414,7 +5420,7 @@
     .line 989
     const/4 v1, 0x0
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setNot nowable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
 
     move-result-object v0
 
