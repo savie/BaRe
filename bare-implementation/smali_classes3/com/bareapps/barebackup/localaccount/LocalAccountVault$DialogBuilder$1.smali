@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/view/View$OnClickListener;
+.implements Landroid/content/DialogInterface$OnDismissListener;
 
 
 # annotations
@@ -20,22 +20,13 @@
 # instance fields
 .field final synthetic this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-.field final synthetic val$dialog:Landroid/app/AlertDialog;
-
 
 # direct methods
-.method constructor <init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;Landroid/app/AlertDialog;)V
+.method constructor <init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)V
     .locals 0
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "()V"
-        }
-    .end annotation
 
-    .line 1254
+    .line 1251
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->val$dialog:Landroid/app/AlertDialog;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -44,36 +35,11 @@
 
 
 # virtual methods
-.method public onClick(Landroid/view/View;)V
-    .locals 2
+.method public onDismiss(Landroid/content/DialogInterface;)V
+    .locals 0
 
-    .line 1256
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->val$dialog:Landroid/app/AlertDialog;
+    .line 1252
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    invoke-virtual {p1}, Landroid/app/AlertDialog;->dismiss()V
-
-    .line 1257
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2400(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
-
-    move-result-object p1
-
-    if-eqz p1, :cond_0
-
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2400(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
-
-    move-result-object p1
-
-    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->val$dialog:Landroid/app/AlertDialog;
-
-    const/4 v1, -0x2
-
-    invoke-interface {p1, v0, v1}, Landroid/content/DialogInterface$OnClickListener;->onClick(Landroid/content/DialogInterface;I)V
-
-    .line 1258
-    :cond_0
     return-void
 .end method

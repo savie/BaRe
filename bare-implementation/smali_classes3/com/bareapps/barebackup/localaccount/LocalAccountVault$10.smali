@@ -34,7 +34,7 @@
         }
     .end annotation
 
-    .line 678
+    .line 681
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$input:Landroid/widget/EditText;
@@ -51,10 +51,10 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 2
 
-    .line 680
+    .line 683
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 681
+    .line 684
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     iget-object p1, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->code:Ljava/lang/String;
@@ -79,7 +79,7 @@
 
     if-nez p1, :cond_0
 
-    .line 682
+    .line 685
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
@@ -92,17 +92,17 @@
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 683
+    .line 686
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2200(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
-    .line 684
+    .line 687
     return-void
 
-    .line 687
+    .line 690
     :cond_0
     :try_start_0
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
@@ -113,14 +113,14 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 691
+    .line 694
     goto :goto_0
 
-    .line 688
+    .line 691
     :catchall_0
     move-exception p1
 
-    .line 689
+    .line 692
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
@@ -133,17 +133,17 @@
 
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;->val$activity:Landroid/app/Activity;
 
-    .line 690
+    .line 693
     const-string v1, "local_account_finish_setup_failed_message"
 
     invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 689
+    .line 692
     invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 692
+    .line 695
     :goto_0
     return-void
 .end method

@@ -38,648 +38,286 @@
 .method constructor <init>(Landroid/app/Activity;)V
     .locals 1
 
-    .line 1159
+    .line 1163
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 1157
+    .line 1161
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
 
-    .line 1160
+    .line 1163
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    .line 1161
     return-void
 .end method
 
-.method private dp(F)I
-    .locals 1
-
-    .line 1277
-    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
-
-    invoke-static {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2400(Landroid/app/Activity;F)I
-
-    move-result p1
-
-    return p1
-.end method
-
-.method private invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-    .locals 1
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "(",
-            "Ljava/lang/Object;",
-            "Ljava/lang/String;",
-            "[",
-            "Ljava/lang/Class<",
-            "*>;[",
-            "Ljava/lang/Object;",
-            ")V"
-        }
-    .end annotation
-
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 1235
-    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
-
-    move-result-object v0
-
-    invoke-virtual {v0, p2, p3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
-
-    move-result-object p2
-
-    invoke-virtual {p2, p1, p4}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-
-    .line 1236
-    return-void
-.end method
-
-.method private roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
-    .locals 1
-
-    .line 1281
-    new-instance v0, Landroid/graphics/drawable/GradientDrawable;
-
-    invoke-direct {v0}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
+.method private actionButton(Landroid/app/Dialog;Ljava/lang/CharSequence;ZIILandroid/content/DialogInterface$OnClickListener;)Landroid/widget/TextView;
+    .locals 5
 
     .line 1282
-    invoke-virtual {v0, p1}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
-
-    .line 1283
-    int-to-float p1, p2
-
-    invoke-virtual {v0, p1}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
-
-    .line 1284
-    if-lez p4, :cond_0
-
-    invoke-virtual {v0, p4, p3}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
-
-    .line 1285
-    :cond_0
-    return-object v0
-.end method
-
-.method private showMaterialDialog()Landroid/app/Dialog;
-    .locals 9
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 1210
-    const-string v0, "com.google.android.material.dialog.MaterialAlertDialogBuilder"
-
-    invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
-
-    move-result-object v0
-
-    .line 1212
-    const/4 v1, 0x1
-
-    new-array v2, v1, [Ljava/lang/Class;
-
-    const-class v3, Landroid/content/Context;
-
-    const/4 v4, 0x0
-
-    aput-object v3, v2, v4
-
-    invoke-virtual {v0, v2}, Ljava/lang/Class;->getConstructor([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
-
-    move-result-object v2
-
-    .line 1213
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
-
-    new-array v5, v1, [Ljava/lang/Object;
-
-    aput-object v3, v5, v4
-
-    invoke-virtual {v2, v5}, Ljava/lang/reflect/Constructor;->newInstance([Ljava/lang/Object;)Ljava/lang/Object;
-
-    move-result-object v2
-
-    .line 1214
-    new-array v3, v1, [Ljava/lang/Class;
-
-    const-class v5, Ljava/lang/CharSequence;
-
-    aput-object v5, v3, v4
-
-    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
-
-    new-array v6, v1, [Ljava/lang/Object;
-
-    aput-object v5, v6, v4
-
-    const-string v5, "setTitle"
-
-    invoke-direct {p0, v2, v5, v3, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1215
-    new-array v3, v1, [Ljava/lang/Class;
-
-    const-class v5, Ljava/lang/CharSequence;
-
-    aput-object v5, v3, v4
-
-    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
-
-    new-array v6, v1, [Ljava/lang/Object;
-
-    aput-object v5, v6, v4
-
-    const-string v5, "setMessage"
-
-    invoke-direct {p0, v2, v5, v3, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1216
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
-
-    if-eqz v3, :cond_0
-
-    .line 1217
-    new-array v3, v1, [Ljava/lang/Class;
-
-    const-class v5, Landroid/view/View;
-
-    aput-object v5, v3, v4
-
-    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
-
-    new-array v6, v1, [Ljava/lang/Object;
-
-    aput-object v5, v6, v4
-
-    const-string v5, "setView"
-
-    invoke-direct {p0, v2, v5, v3, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1219
-    :cond_0
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
-
-    const/4 v5, 0x2
-
-    if-eqz v3, :cond_1
-
-    .line 1220
-    new-array v3, v5, [Ljava/lang/Class;
-
-    const-class v6, Ljava/lang/CharSequence;
-
-    aput-object v6, v3, v4
-
-    const-class v6, Landroid/content/DialogInterface$OnClickListener;
-
-    aput-object v6, v3, v1
-
-    iget-object v6, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
-
-    iget-object v7, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveListener:Landroid/content/DialogInterface$OnClickListener;
-
-    new-array v8, v5, [Ljava/lang/Object;
-
-    aput-object v6, v8, v4
-
-    aput-object v7, v8, v1
-
-    const-string v6, "setPositiveButton"
-
-    invoke-direct {p0, v2, v6, v3, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1224
-    :cond_1
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
-
-    if-eqz v3, :cond_2
-
-    .line 1225
-    new-array v3, v5, [Ljava/lang/Class;
-
-    const-class v6, Ljava/lang/CharSequence;
-
-    aput-object v6, v3, v4
-
-    const-class v6, Landroid/content/DialogInterface$OnClickListener;
-
-    aput-object v6, v3, v1
-
-    iget-object v6, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
-
-    iget-object v7, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeListener:Landroid/content/DialogInterface$OnClickListener;
-
-    new-array v5, v5, [Ljava/lang/Object;
-
-    aput-object v6, v5, v4
-
-    aput-object v7, v5, v1
-
-    const-string v6, "setNegativeButton"
-
-    invoke-direct {p0, v2, v6, v3, v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1229
-    :cond_2
-    new-array v3, v1, [Ljava/lang/Class;
-
-    sget-object v5, Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;
-
-    aput-object v5, v3, v4
-
-    iget-boolean v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
-
-    invoke-static {v5}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
-
-    move-result-object v5
-
-    new-array v1, v1, [Ljava/lang/Object;
-
-    aput-object v5, v1, v4
-
-    const-string v5, "setCancelable"
-
-    invoke-direct {p0, v2, v5, v3, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->invokeBuilder(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V
-
-    .line 1230
-    const-string v1, "show"
-
-    new-array v3, v4, [Ljava/lang/Class;
-
-    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
-
-    move-result-object v0
-
-    new-array v1, v4, [Ljava/lang/Object;
-
-    invoke-virtual {v0, v2, v1}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, Landroid/app/Dialog;
-
-    return-object v0
-.end method
-
-.method private showPlatformDialog()Landroid/app/Dialog;
-    .locals 3
-
-    .line 1239
-    new-instance v0, Landroid/app/AlertDialog$Builder;
+    new-instance v0, Landroid/widget/TextView;
 
     iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    invoke-direct {v0, v1}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+    invoke-direct {v0, v1}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 1240
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
+    .line 1283
+    invoke-virtual {v0, p2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    if-eqz v1, :cond_0
+    .line 1284
+    const/high16 p2, 0x41400000    # 12.0f
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
+    invoke-virtual {v0, p2}, Landroid/widget/TextView;->setTextSize(F)V
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+    .line 1285
+    const-string v1, "sans-serif-medium"
 
-    .line 1241
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 1286
+    if-eqz p3, :cond_0
+
+    goto :goto_0
+
     :cond_0
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
+    move p5, p4
 
-    if-eqz v1, :cond_1
+    :goto_0
+    invoke-virtual {v0, p5}, Landroid/widget/TextView;->setTextColor(I)V
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
+    .line 1287
+    const/16 p5, 0x11
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {v0, p5}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 1242
+    .line 1288
+    iget-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v1, 0x42400000    # 48.0f
+
+    invoke-static {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p5
+
+    invoke-virtual {v0, p5}, Landroid/widget/TextView;->setMinHeight(I)V
+
+    .line 1289
+    iget-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {p5, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p5
+
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v3, 0x41200000    # 10.0f
+
+    invoke-static {v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v1
+
+    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v4, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p2
+
+    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v4, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v3
+
+    invoke-virtual {v0, p5, v1, p2, v3}, Landroid/widget/TextView;->setPadding(IIII)V
+
+    .line 1290
+    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 p5, 0x435c0000    # 220.0f
+
+    invoke-static {p2, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p2
+
+    invoke-virtual {v0, p2}, Landroid/widget/TextView;->setMaxWidth(I)V
+
+    .line 1291
+    if-eqz p3, :cond_1
+
+    move p2, p4
+
+    goto :goto_1
+
     :cond_1
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+    move p2, v2
 
-    if-eqz v1, :cond_2
+    :goto_1
+    iget-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+    .line 1292
+    const/high16 v1, 0x41800000    # 16.0f
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setView(Landroid/view/View;)Landroid/app/AlertDialog$Builder;
+    invoke-static {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
 
-    .line 1243
+    move-result p5
+
+    if-eqz p3, :cond_2
+
+    move p4, v2
+
     :cond_2
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
+    if-eqz p3, :cond_3
 
-    if-eqz v1, :cond_3
+    goto :goto_2
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
-
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveListener:Landroid/content/DialogInterface$OnClickListener;
-
-    invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
-
-    .line 1244
     :cond_3
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
+    iget-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    if-eqz v1, :cond_4
+    const/high16 v1, 0x3f800000    # 1.0f
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
+    invoke-static {p3, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
 
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeListener:Landroid/content/DialogInterface$OnClickListener;
+    move-result v2
 
-    invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+    .line 1291
+    :goto_2
+    invoke-direct {p0, p2, p5, p4, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
 
-    .line 1245
-    :cond_4
-    iget-boolean v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
+    move-result-object p2
 
-    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
+    invoke-virtual {v0, p2}, Landroid/widget/TextView;->setBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1246
-    invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+    .line 1293
+    new-instance p2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$2;
 
-    move-result-object v0
+    invoke-direct {p2, p0, p1, p6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$2;-><init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;Landroid/app/Dialog;Landroid/content/DialogInterface$OnClickListener;)V
+
+    invoke-virtual {v0, p2}, Landroid/widget/TextView;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    .line 1299
+    return-object v0
+.end method
+
+.method private actionParams(Z)Landroid/widget/LinearLayout$LayoutParams;
+    .locals 3
+
+    .line 1271
+    const/4 v0, -0x2
+
+    if-eqz p1, :cond_0
+
+    new-instance p1, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v1, 0x0
+
+    const/high16 v2, 0x3f800000    # 1.0f
+
+    invoke-direct {p1, v1, v0, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(IIF)V
+
+    return-object p1
+
+    .line 1273
+    :cond_0
+    new-instance p1, Landroid/widget/LinearLayout$LayoutParams;
+
+    invoke-direct {p1, v0, v0}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
+
+    .line 1275
+    const v0, 0x800005
+
+    iput v0, p1, Landroid/widget/LinearLayout$LayoutParams;->gravity:I
+
+    .line 1276
+    return-object p1
+.end method
+
+.method private matchWrap()Landroid/widget/LinearLayout$LayoutParams;
+    .locals 3
+
+    .line 1266
+    new-instance v0, Landroid/widget/LinearLayout$LayoutParams;
+
+    const/4 v1, -0x1
+
+    const/4 v2, -0x2
+
+    invoke-direct {v0, v1, v2}, Landroid/widget/LinearLayout$LayoutParams;-><init>(II)V
 
     return-object v0
 .end method
 
-.method private styleCustomView()V
-    .locals 9
+.method private resolveThemeColor(Ljava/lang/String;)I
+    .locals 4
 
-    .line 1250
-    const v0, 0x1010031
+    .line 1359
+    const/high16 v0, -0x80000000
 
-    const v1, -0xd6d6d7
+    if-nez p1, :cond_0
 
-    const-string v2, "colorSurfaceContainerHigh"
+    return v0
 
-    invoke-direct {p0, v2, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;II)I
-
-    move-result v0
-
-    .line 1251
-    const v1, 0x1010030
-
-    const v2, -0x888889
-
-    const-string v3, "colorOutline"
-
-    invoke-direct {p0, v3, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;II)I
-
-    move-result v1
-
-    .line 1252
-    const v2, 0x1010036
-
-    const/4 v3, -0x1
-
-    const-string v4, "colorOnSurface"
-
-    invoke-direct {p0, v4, v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;II)I
-
-    move-result v2
-
-    .line 1253
-    const v3, 0x101009a
-
-    const v4, -0x424243
-
-    const/4 v5, 0x0
-
-    invoke-direct {p0, v5, v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;II)I
-
-    move-result v3
-
-    .line 1254
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
-
-    instance-of v4, v4, Landroid/widget/EditText;
-
-    const/high16 v5, 0x3f800000    # 1.0f
-
-    const/high16 v6, 0x41600000    # 14.0f
-
-    if-eqz v4, :cond_0
-
-    .line 1255
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
-
-    check-cast v4, Landroid/widget/EditText;
-
-    .line 1256
-    invoke-virtual {v4, v2}, Landroid/widget/EditText;->setTextColor(I)V
-
-    .line 1257
-    invoke-virtual {v4, v3}, Landroid/widget/EditText;->setHintTextColor(I)V
-
-    .line 1258
-    const/high16 v2, 0x41800000    # 16.0f
-
-    invoke-virtual {v4, v2}, Landroid/widget/EditText;->setTextSize(F)V
-
-    .line 1259
-    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v3
-
-    invoke-direct {p0, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v7
-
-    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v2
-
-    invoke-direct {p0, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v6
-
-    invoke-virtual {v4, v3, v7, v2, v6}, Landroid/widget/EditText;->setPadding(IIII)V
-
-    .line 1260
-    const/high16 v2, 0x41400000    # 12.0f
-
-    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v2
-
-    invoke-direct {p0, v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v3
-
-    invoke-direct {p0, v0, v2, v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
-
-    move-result-object v0
-
-    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setBackground(Landroid/graphics/drawable/Drawable;)V
-
-    .line 1261
-    const/4 v0, 0x0
-
-    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setSelectAllOnFocus(Z)V
-
-    .line 1262
-    const/high16 v0, 0x42580000    # 54.0f
-
-    invoke-direct {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v0
-
-    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setMinHeight(I)V
-
-    .line 1263
-    const/16 v0, 0x10
-
-    invoke-virtual {v4, v0}, Landroid/widget/EditText;->setGravity(I)V
-
-    goto :goto_0
-
-    .line 1264
+    .line 1360
     :cond_0
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    instance-of v3, v3, Landroid/widget/TextView;
+    invoke-virtual {v1}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
-    if-eqz v3, :cond_1
+    move-result-object v1
 
-    .line 1265
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    check-cast v3, Landroid/widget/TextView;
+    invoke-virtual {v2}, Landroid/app/Activity;->getPackageName()Ljava/lang/String;
 
-    .line 1266
-    invoke-virtual {v3, v2}, Landroid/widget/TextView;->setTextColor(I)V
+    move-result-object v2
 
-    .line 1267
-    const/high16 v2, 0x41700000    # 15.0f
+    const-string v3, "attr"
 
-    invoke-virtual {v3, v2}, Landroid/widget/TextView;->setTextSize(F)V
+    invoke-virtual {v1, p1, v3, v2}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1268
-    const/16 v2, 0x11
+    move-result p1
 
-    invoke-virtual {v3, v2}, Landroid/widget/TextView;->setGravity(I)V
+    .line 1361
+    if-nez p1, :cond_1
 
-    .line 1269
-    const/high16 v2, 0x41a00000    # 20.0f
+    return v0
 
-    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v4
-
-    const/high16 v7, 0x41900000    # 18.0f
-
-    invoke-direct {p0, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v8
-
-    invoke-direct {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v2
-
-    invoke-direct {p0, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v7
-
-    invoke-virtual {v3, v4, v8, v2, v7}, Landroid/widget/TextView;->setPadding(IIII)V
-
-    .line 1270
-    invoke-direct {p0, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v2
-
-    invoke-direct {p0, v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->dp(F)I
-
-    move-result v4
-
-    invoke-direct {p0, v0, v2, v1, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
-
-    move-result-object v0
-
-    invoke-virtual {v3, v0}, Landroid/widget/TextView;->setBackground(Landroid/graphics/drawable/Drawable;)V
-
-    .line 1271
-    const/4 v0, 0x1
-
-    invoke-virtual {v3, v0}, Landroid/widget/TextView;->setTextIsSelectable(Z)V
-
-    .line 1272
-    invoke-virtual {v3, v0}, Landroid/widget/TextView;->setFocusable(Z)V
-
-    goto :goto_1
-
-    .line 1264
+    .line 1362
     :cond_1
-    :goto_0
-    nop
+    new-instance v1, Landroid/util/TypedValue;
 
-    .line 1274
-    :goto_1
-    return-void
-.end method
+    invoke-direct {v1}, Landroid/util/TypedValue;-><init>()V
 
-.method private themeColor(Ljava/lang/String;II)I
-    .locals 7
+    .line 1363
+    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    .line 1289
-    new-instance v0, Landroid/util/TypedValue;
+    invoke-virtual {v2}, Landroid/app/Activity;->getTheme()Landroid/content/res/Resources$Theme;
 
-    invoke-direct {v0}, Landroid/util/TypedValue;-><init>()V
-
-    .line 1290
-    const/16 v1, 0x1f
-
-    const/16 v2, 0x1c
+    move-result-object v2
 
     const/4 v3, 0x1
 
-    if-eqz p1, :cond_1
-
-    .line 1291
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
-
-    invoke-virtual {v4}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
-
-    move-result-object v4
-
-    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
-
-    invoke-virtual {v5}, Landroid/app/Activity;->getPackageName()Ljava/lang/String;
-
-    move-result-object v5
-
-    const-string v6, "attr"
-
-    invoke-virtual {v4, p1, v6, v5}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+    invoke-virtual {v2, p1, v1, v3}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
     move-result p1
 
-    .line 1292
-    if-eqz p1, :cond_1
+    if-nez p1, :cond_2
 
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+    return v0
 
-    invoke-virtual {v4}, Landroid/app/Activity;->getTheme()Landroid/content/res/Resources$Theme;
+    .line 1364
+    :cond_2
+    iget p1, v1, Landroid/util/TypedValue;->resourceId:I
 
-    move-result-object v4
+    if-eqz p1, :cond_3
 
-    invoke-virtual {v4, p1, v0, v3}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
-
-    move-result p1
-
-    if-eqz p1, :cond_1
-
-    .line 1293
-    iget p1, v0, Landroid/util/TypedValue;->resourceId:I
-
-    if-eqz p1, :cond_0
-
-    .line 1294
+    .line 1365
     :try_start_0
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
@@ -687,9 +325,9 @@
 
     move-result-object p1
 
-    iget v4, v0, Landroid/util/TypedValue;->resourceId:I
+    iget v2, v1, Landroid/util/TypedValue;->resourceId:I
 
-    invoke-virtual {p1, v4}, Landroid/content/res/Resources;->getColor(I)I
+    invoke-virtual {p1, v2}, Landroid/content/res/Resources;->getColor(I)I
 
     move-result p1
     :try_end_0
@@ -700,79 +338,373 @@
     :catchall_0
     move-exception p1
 
-    .line 1296
+    .line 1367
+    :cond_3
+    iget p1, v1, Landroid/util/TypedValue;->type:I
+
+    const/16 v2, 0x1c
+
+    if-lt p1, v2, :cond_4
+
+    iget p1, v1, Landroid/util/TypedValue;->type:I
+
+    const/16 v2, 0x1f
+
+    if-gt p1, v2, :cond_4
+
+    .line 1368
+    iget p1, v1, Landroid/util/TypedValue;->data:I
+
+    return p1
+
+    .line 1370
+    :cond_4
+    return v0
+.end method
+
+.method private roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
+    .locals 1
+
+    .line 1335
+    new-instance v0, Landroid/graphics/drawable/GradientDrawable;
+
+    invoke-direct {v0}, Landroid/graphics/drawable/GradientDrawable;-><init>()V
+
+    .line 1336
+    invoke-virtual {v0, p1}, Landroid/graphics/drawable/GradientDrawable;->setColor(I)V
+
+    .line 1337
+    int-to-float p1, p2
+
+    invoke-virtual {v0, p1}, Landroid/graphics/drawable/GradientDrawable;->setCornerRadius(F)V
+
+    .line 1338
+    if-lez p4, :cond_0
+
+    invoke-virtual {v0, p4, p3}, Landroid/graphics/drawable/GradientDrawable;->setStroke(II)V
+
+    .line 1339
     :cond_0
-    iget p1, v0, Landroid/util/TypedValue;->type:I
+    return-object v0
+.end method
 
-    if-lt p1, v2, :cond_1
+.method private styleCustomView(Landroid/view/View;IIII)V
+    .locals 10
 
-    iget p1, v0, Landroid/util/TypedValue;->type:I
+    .line 1304
+    instance-of v0, p1, Landroid/widget/EditText;
 
-    if-gt p1, v1, :cond_1
+    const/high16 v1, 0x3f800000    # 1.0f
 
-    .line 1297
-    iget p1, v0, Landroid/util/TypedValue;->data:I
+    const v2, 0x1010030
 
-    return p1
+    const-string v3, "colorOutline"
 
-    .line 1301
-    :cond_1
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+    const v4, 0x1010031
 
-    invoke-virtual {p1}, Landroid/app/Activity;->getTheme()Landroid/content/res/Resources$Theme;
+    const-string v5, "colorSurfaceContainerHighest"
 
-    move-result-object p1
+    const/high16 v6, 0x41700000    # 15.0f
 
-    invoke-virtual {p1, p2, v0, v3}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
+    const/4 v7, 0x0
 
-    move-result p1
+    const/high16 v8, 0x41600000    # 14.0f
 
-    if-eqz p1, :cond_3
-
-    .line 1302
-    iget p1, v0, Landroid/util/TypedValue;->resourceId:I
-
-    if-eqz p1, :cond_2
-
-    .line 1303
-    :try_start_1
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
-
-    invoke-virtual {p1}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
-
-    move-result-object p1
-
-    iget p2, v0, Landroid/util/TypedValue;->resourceId:I
-
-    invoke-virtual {p1, p2}, Landroid/content/res/Resources;->getColor(I)I
-
-    move-result p1
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_1
-
-    return p1
-
-    :catchall_1
-    move-exception p1
+    if-eqz v0, :cond_0
 
     .line 1305
-    :cond_2
-    iget p1, v0, Landroid/util/TypedValue;->type:I
-
-    if-lt p1, v2, :cond_3
-
-    iget p1, v0, Landroid/util/TypedValue;->type:I
-
-    if-gt p1, v1, :cond_3
+    check-cast p1, Landroid/widget/EditText;
 
     .line 1306
-    iget p1, v0, Landroid/util/TypedValue;->data:I
+    invoke-virtual {p1, p3}, Landroid/widget/EditText;->setTextColor(I)V
+
+    .line 1307
+    invoke-virtual {p1, p4}, Landroid/widget/EditText;->setHintTextColor(I)V
+
+    .line 1308
+    invoke-virtual {p1, v6}, Landroid/widget/EditText;->setTextSize(F)V
+
+    .line 1309
+    iget-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {p3, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p3
+
+    iget-object p4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v0, 0x41400000    # 12.0f
+
+    invoke-static {p4, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p4
+
+    iget-object v6, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1310
+    invoke-static {v6, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v6
+
+    iget-object v9, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v9, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v0
+
+    .line 1309
+    invoke-virtual {p1, p3, p4, v6, v0}, Landroid/widget/EditText;->setPadding(IIII)V
+
+    .line 1311
+    invoke-direct {p0, v5, v7, v4, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result p2
+
+    iget-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1312
+    invoke-static {p3, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p3
+
+    .line 1313
+    invoke-direct {p0, v3, v7, v2, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result p4
+
+    iget-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1314
+    invoke-static {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p5
+
+    .line 1311
+    invoke-direct {p0, p2, p3, p4, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
+
+    move-result-object p2
+
+    invoke-virtual {p1, p2}, Landroid/widget/EditText;->setBackground(Landroid/graphics/drawable/Drawable;)V
+
+    .line 1315
+    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 p3, 0x42580000    # 54.0f
+
+    invoke-static {p2, p3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p2
+
+    invoke-virtual {p1, p2}, Landroid/widget/EditText;->setMinHeight(I)V
+
+    .line 1316
+    const/16 p2, 0x10
+
+    invoke-virtual {p1, p2}, Landroid/widget/EditText;->setGravity(I)V
+
+    .line 1317
+    const/4 p2, 0x0
+
+    invoke-virtual {p1, p2}, Landroid/widget/EditText;->setSelectAllOnFocus(Z)V
+
+    goto :goto_0
+
+    .line 1318
+    :cond_0
+    instance-of p4, p1, Landroid/widget/TextView;
+
+    if-eqz p4, :cond_1
+
+    .line 1319
+    check-cast p1, Landroid/widget/TextView;
+
+    .line 1320
+    invoke-virtual {p1, p3}, Landroid/widget/TextView;->setTextColor(I)V
+
+    .line 1321
+    invoke-virtual {p1, v6}, Landroid/widget/TextView;->setTextSize(F)V
+
+    .line 1322
+    const/16 p3, 0x11
+
+    invoke-virtual {p1, p3}, Landroid/widget/TextView;->setGravity(I)V
+
+    .line 1323
+    iget-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 p4, 0x41900000    # 18.0f
+
+    invoke-static {p3, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p3
+
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v6, 0x41800000    # 16.0f
+
+    invoke-static {v0, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v0
+
+    iget-object v9, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1324
+    invoke-static {v9, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p4
+
+    iget-object v9, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v9, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v6
+
+    .line 1323
+    invoke-virtual {p1, p3, v0, p4, v6}, Landroid/widget/TextView;->setPadding(IIII)V
+
+    .line 1325
+    invoke-direct {p0, v5, v7, v4, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result p2
+
+    iget-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1326
+    invoke-static {p3, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p3
+
+    .line 1327
+    invoke-direct {p0, v3, v7, v2, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result p4
+
+    iget-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    .line 1328
+    invoke-static {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result p5
+
+    .line 1325
+    invoke-direct {p0, p2, p3, p4, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
+
+    move-result-object p2
+
+    invoke-virtual {p1, p2}, Landroid/widget/TextView;->setBackground(Landroid/graphics/drawable/Drawable;)V
+
+    .line 1329
+    const/4 p2, 0x1
+
+    invoke-virtual {p1, p2}, Landroid/widget/TextView;->setTextIsSelectable(Z)V
+
+    .line 1330
+    invoke-virtual {p1, p2}, Landroid/widget/TextView;->setFocusable(Z)V
+
+    goto :goto_1
+
+    .line 1318
+    :cond_1
+    :goto_0
+    nop
+
+    .line 1332
+    :goto_1
+    return-void
+.end method
+
+.method private themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+    .locals 1
+
+    .line 1343
+    invoke-direct {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->resolveThemeColor(Ljava/lang/String;)I
+
+    move-result p1
+
+    .line 1344
+    const/high16 v0, -0x80000000
+
+    if-ne p1, v0, :cond_0
+
+    invoke-direct {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->resolveThemeColor(Ljava/lang/String;)I
+
+    move-result p1
+
+    .line 1345
+    :cond_0
+    if-eq p1, v0, :cond_1
 
     return p1
 
-    .line 1309
+    .line 1346
+    :cond_1
+    new-instance p1, Landroid/util/TypedValue;
+
+    invoke-direct {p1}, Landroid/util/TypedValue;-><init>()V
+
+    .line 1347
+    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-virtual {p2}, Landroid/app/Activity;->getTheme()Landroid/content/res/Resources$Theme;
+
+    move-result-object p2
+
+    const/4 v0, 0x1
+
+    invoke-virtual {p2, p3, p1, v0}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
+
+    move-result p2
+
+    if-eqz p2, :cond_3
+
+    .line 1348
+    iget p2, p1, Landroid/util/TypedValue;->resourceId:I
+
+    if-eqz p2, :cond_2
+
+    .line 1349
+    :try_start_0
+    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-virtual {p2}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object p2
+
+    iget p3, p1, Landroid/util/TypedValue;->resourceId:I
+
+    invoke-virtual {p2, p3}, Landroid/content/res/Resources;->getColor(I)I
+
+    move-result p1
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    return p1
+
+    :catchall_0
+    move-exception p2
+
+    .line 1351
+    :cond_2
+    iget p2, p1, Landroid/util/TypedValue;->type:I
+
+    const/16 p3, 0x1c
+
+    if-lt p2, p3, :cond_3
+
+    iget p2, p1, Landroid/util/TypedValue;->type:I
+
+    const/16 p3, 0x1f
+
+    if-gt p2, p3, :cond_3
+
+    .line 1352
+    iget p1, p1, Landroid/util/TypedValue;->data:I
+
+    return p1
+
+    .line 1355
     :cond_3
-    return p3
+    return p4
 .end method
 
 
@@ -780,46 +712,40 @@
 .method setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 0
 
-    .line 1191
+    .line 1173
     iput-boolean p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
 
-    .line 1192
     return-object p0
 .end method
 
 .method setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 0
 
-    .line 1169
+    .line 1165
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
 
-    .line 1170
     return-object p0
 .end method
 
 .method setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 0
 
-    .line 1185
+    .line 1171
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
 
-    .line 1186
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeListener:Landroid/content/DialogInterface$OnClickListener;
 
-    .line 1187
     return-object p0
 .end method
 
 .method setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 0
 
-    .line 1179
+    .line 1168
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
 
-    .line 1180
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveListener:Landroid/content/DialogInterface$OnClickListener;
 
-    .line 1181
     return-object p0
 .end method
 
@@ -829,61 +755,593 @@
     .line 1164
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
 
-    .line 1165
     return-object p0
 .end method
 
 .method setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 0
 
-    .line 1174
+    .line 1166
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
 
-    .line 1175
     return-object p0
 .end method
 
 .method show()V
-    .locals 2
+    .locals 16
 
-    .line 1196
-    invoke-direct {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->styleCustomView()V
+    .line 1176
+    move-object/from16 v7, p0
 
-    .line 1199
-    :try_start_0
-    invoke-direct {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->showMaterialDialog()Landroid/app/Dialog;
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    move-result-object v0
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+    if-eqz v0, :cond_a
 
-    .line 1202
-    goto :goto_0
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
 
-    .line 1200
-    :catchall_0
-    move-exception v0
+    invoke-virtual {v0}, Landroid/app/Activity;->isFinishing()Z
 
-    .line 1201
-    invoke-direct {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->showPlatformDialog()Landroid/app/Dialog;
+    move-result v0
 
-    move-result-object v0
+    if-nez v0, :cond_a
 
-    .line 1203
-    :goto_0
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2400()Z
+
+    move-result v0
+
     if-eqz v0, :cond_0
 
-    .line 1204
-    iget-boolean v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
+    goto/16 :goto_2
 
-    invoke-virtual {v0, v1}, Landroid/app/Dialog;->setCancelable(Z)V
+    .line 1177
+    :cond_0
+    new-instance v8, Landroid/app/Dialog;
+
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v8, v0}, Landroid/app/Dialog;-><init>(Landroid/content/Context;)V
+
+    .line 1178
+    const v0, 0x1010031
+
+    const v1, -0xdbdeda
+
+    const-string v2, "colorSurfaceContainerHigh"
+
+    const-string v3, "dialogBackground"
+
+    invoke-direct {v7, v2, v3, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result v2
+
+    .line 1180
+    const-string v0, "colorOnSurface"
+
+    const/4 v1, -0x1
+
+    const/4 v3, 0x0
+
+    const v4, 0x1010036
+
+    invoke-direct {v7, v0, v3, v4, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result v5
+
+    .line 1182
+    const v0, 0x1010038
+
+    const v1, -0x2b3430
+
+    const-string v6, "colorOnSurfaceVariant"
+
+    invoke-direct {v7, v6, v3, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result v6
+
+    .line 1184
+    const v0, 0x1010435
+
+    const/16 v1, -0x4b38
+
+    const-string v9, "colorPrimary"
+
+    invoke-direct {v7, v9, v3, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result v9
+
+    .line 1186
+    const-string v0, "colorOnPrimary"
+
+    const v1, -0xdbeae4
+
+    invoke-direct {v7, v0, v3, v4, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->themeColor(Ljava/lang/String;Ljava/lang/String;II)I
+
+    move-result v10
+
+    .line 1189
+    new-instance v11, Landroid/widget/LinearLayout;
+
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v11, v0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    .line 1190
+    const/4 v12, 0x1
+
+    invoke-virtual {v11, v12}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    .line 1191
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v1, 0x41c00000    # 24.0f
+
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v0
+
+    iget-object v3, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v4, 0x41b00000    # 22.0f
+
+    invoke-static {v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v3
+
+    iget-object v4, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v4, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v4
+
+    iget-object v13, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v14, 0x41800000    # 16.0f
+
+    invoke-static {v13, v14}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v13
+
+    invoke-virtual {v11, v0, v3, v4, v13}, Landroid/widget/LinearLayout;->setPadding(IIII)V
+
+    .line 1192
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v0
+
+    const/4 v13, 0x0
+
+    invoke-direct {v7, v2, v0, v13, v13}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->roundRect(IIII)Landroid/graphics/drawable/GradientDrawable;
+
+    move-result-object v0
+
+    invoke-virtual {v11, v0}, Landroid/widget/LinearLayout;->setBackground(Landroid/graphics/drawable/Drawable;)V
+
+    .line 1194
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
+
+    if-eqz v0, :cond_1
+
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
+
+    invoke-interface {v0}, Ljava/lang/CharSequence;->length()I
+
+    move-result v0
+
+    if-lez v0, :cond_1
+
+    .line 1195
+    new-instance v0, Landroid/widget/TextView;
+
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v0, v1}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
+
+    .line 1196
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->title:Ljava/lang/CharSequence;
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 1197
+    const/high16 v1, 0x41a00000    # 20.0f
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTextSize(F)V
+
+    .line 1198
+    invoke-virtual {v0, v5}, Landroid/widget/TextView;->setTextColor(I)V
+
+    .line 1199
+    const-string v1, "sans-serif-medium"
+
+    invoke-static {v1, v13}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 1200
+    invoke-virtual {v0, v12}, Landroid/widget/TextView;->setIncludeFontPadding(Z)V
+
+    .line 1201
+    invoke-direct/range {p0 .. p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v1
+
+    invoke-virtual {v11, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1203
+    :cond_1
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
+
+    if-eqz v0, :cond_2
+
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
+
+    invoke-interface {v0}, Ljava/lang/CharSequence;->length()I
+
+    move-result v0
+
+    if-lez v0, :cond_2
+
+    .line 1204
+    new-instance v0, Landroid/widget/TextView;
+
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v0, v1}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
     .line 1205
-    iget-boolean v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->message:Ljava/lang/CharSequence;
 
-    invoke-virtual {v0, v1}, Landroid/app/Dialog;->setCanceledOnTouchOutside(Z)V
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 1206
+    const/high16 v1, 0x41700000    # 15.0f
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTextSize(F)V
 
     .line 1207
-    :cond_0
+    invoke-virtual {v0, v6}, Landroid/widget/TextView;->setTextColor(I)V
+
+    .line 1208
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v3, 0x40000000    # 2.0f
+
+    invoke-static {v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v1
+
+    int-to-float v1, v1
+
+    const v3, 0x3f87ae14    # 1.06f
+
+    invoke-virtual {v0, v1, v3}, Landroid/widget/TextView;->setLineSpacing(FF)V
+
+    .line 1209
+    invoke-direct/range {p0 .. p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v1
+
+    .line 1210
+    iget-object v3, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v4, 0x41000000    # 8.0f
+
+    invoke-static {v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v3
+
+    iput v3, v1, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
+
+    .line 1211
+    invoke-virtual {v11, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1213
+    :cond_2
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+
+    const/high16 v14, 0x41900000    # 18.0f
+
+    if-eqz v0, :cond_3
+
+    .line 1214
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+
+    move-object/from16 v0, p0
+
+    move v3, v5
+
+    move v4, v6
+
+    move v5, v9
+
+    invoke-direct/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->styleCustomView(Landroid/view/View;IIII)V
+
+    .line 1215
+    invoke-direct/range {p0 .. p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v0
+
+    .line 1216
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v1, v14}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v1
+
+    iput v1, v0, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
+
+    .line 1217
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->customView:Landroid/view/View;
+
+    invoke-virtual {v11, v1, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1220
+    :cond_3
+    new-instance v15, Landroid/widget/LinearLayout;
+
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v15, v0}, Landroid/widget/LinearLayout;-><init>(Landroid/content/Context;)V
+
+    .line 1221
+    invoke-virtual {v15, v13}, Landroid/widget/LinearLayout;->setOrientation(I)V
+
+    .line 1222
+    const v0, 0x800015
+
+    invoke-virtual {v15, v0}, Landroid/widget/LinearLayout;->setGravity(I)V
+
+    .line 1223
+    invoke-direct/range {p0 .. p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->matchWrap()Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v0
+
+    .line 1224
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v1, v14}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v1
+
+    iput v1, v0, Landroid/widget/LinearLayout$LayoutParams;->topMargin:I
+
+    .line 1225
+    invoke-virtual {v11, v15, v0}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1227
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
+
+    if-eqz v0, :cond_5
+
+    .line 1228
+    iget-object v2, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
+
+    const/4 v3, 0x0
+
+    iget-object v6, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeListener:Landroid/content/DialogInterface$OnClickListener;
+
+    move-object/from16 v0, p0
+
+    move-object v1, v8
+
+    move v4, v9
+
+    move v5, v10
+
+    invoke-direct/range {v0 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->actionButton(Landroid/app/Dialog;Ljava/lang/CharSequence;ZIILandroid/content/DialogInterface$OnClickListener;)Landroid/widget/TextView;
+
+    move-result-object v0
+
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
+
+    if-eqz v1, :cond_4
+
+    move v1, v12
+
+    goto :goto_0
+
+    :cond_4
+    move v1, v13
+
+    .line 1229
+    :goto_0
+    invoke-direct {v7, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->actionParams(Z)Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v1
+
+    .line 1228
+    invoke-virtual {v15, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1231
+    :cond_5
+    iget-object v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
+
+    if-eqz v0, :cond_7
+
+    .line 1232
+    iget-object v2, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveLabel:Ljava/lang/CharSequence;
+
+    const/4 v3, 0x1
+
+    iget-object v6, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->positiveListener:Landroid/content/DialogInterface$OnClickListener;
+
+    move-object/from16 v0, p0
+
+    move-object v1, v8
+
+    move v4, v9
+
+    move v5, v10
+
+    invoke-direct/range {v0 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->actionButton(Landroid/app/Dialog;Ljava/lang/CharSequence;ZIILandroid/content/DialogInterface$OnClickListener;)Landroid/widget/TextView;
+
+    move-result-object v0
+
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->negativeLabel:Ljava/lang/CharSequence;
+
+    if-eqz v1, :cond_6
+
+    move v1, v12
+
+    goto :goto_1
+
+    :cond_6
+    move v1, v13
+
+    .line 1233
+    :goto_1
+    invoke-direct {v7, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->actionParams(Z)Landroid/widget/LinearLayout$LayoutParams;
+
+    move-result-object v1
+
+    .line 1232
+    invoke-virtual {v15, v0, v1}, Landroid/widget/LinearLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
+
+    .line 1236
+    :cond_7
+    new-instance v0, Landroid/widget/ScrollView;
+
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-direct {v0, v1}, Landroid/widget/ScrollView;-><init>(Landroid/content/Context;)V
+
+    .line 1237
+    invoke-virtual {v0, v13}, Landroid/widget/ScrollView;->setFillViewport(Z)V
+
+    .line 1238
+    invoke-virtual {v0, v13}, Landroid/widget/ScrollView;->setClipToPadding(Z)V
+
+    .line 1239
+    invoke-virtual {v0, v11}, Landroid/widget/ScrollView;->addView(Landroid/view/View;)V
+
+    .line 1240
+    invoke-virtual {v8, v0}, Landroid/app/Dialog;->setContentView(Landroid/view/View;)V
+
+    .line 1241
+    iget-boolean v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
+
+    invoke-virtual {v8, v0}, Landroid/app/Dialog;->setCancelable(Z)V
+
+    .line 1242
+    iget-boolean v0, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->cancelable:Z
+
+    invoke-virtual {v8, v0}, Landroid/app/Dialog;->setCanceledOnTouchOutside(Z)V
+
+    .line 1243
+    invoke-virtual {v8}, Landroid/app/Dialog;->getWindow()Landroid/view/Window;
+
+    move-result-object v0
+
+    .line 1244
+    if-eqz v0, :cond_8
+
+    .line 1245
+    const v1, 0x106000d
+
+    invoke-virtual {v0, v1}, Landroid/view/Window;->setBackgroundDrawableResource(I)V
+
+    .line 1246
+    const/4 v1, 0x2
+
+    invoke-virtual {v0, v1}, Landroid/view/Window;->addFlags(I)V
+
+    .line 1247
+    invoke-virtual {v0}, Landroid/view/Window;->getAttributes()Landroid/view/WindowManager$LayoutParams;
+
+    move-result-object v1
+
+    .line 1248
+    const v2, 0x3f1eb852    # 0.62f
+
+    iput v2, v1, Landroid/view/WindowManager$LayoutParams;->dimAmount:F
+
+    .line 1249
+    invoke-virtual {v0, v1}, Landroid/view/Window;->setAttributes(Landroid/view/WindowManager$LayoutParams;)V
+
+    .line 1251
+    :cond_8
+    new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;
+
+    invoke-direct {v1, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;-><init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)V
+
+    invoke-virtual {v8, v1}, Landroid/app/Dialog;->setOnDismissListener(Landroid/content/DialogInterface$OnDismissListener;)V
+
+    .line 1254
+    invoke-static {v12}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2402(Z)Z
+
+    .line 1255
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-static {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2602(Landroid/app/Activity;)Landroid/app/Activity;
+
+    .line 1256
+    invoke-virtual {v8}, Landroid/app/Dialog;->show()V
+
+    .line 1257
+    if-eqz v0, :cond_9
+
+    .line 1258
+    iget-object v1, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    invoke-virtual {v1}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+
+    move-result-object v1
+
+    iget v1, v1, Landroid/util/DisplayMetrics;->widthPixels:I
+
+    .line 1259
+    iget-object v2, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v3, 0x42200000    # 40.0f
+
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v2
+
+    sub-int/2addr v1, v2
+
+    iget-object v2, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v3, 0x440c0000    # 560.0f
+
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v2
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->min(II)I
+
+    move-result v1
+
+    .line 1260
+    iget-object v2, v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->activity:Landroid/app/Activity;
+
+    const/high16 v3, 0x438c0000    # 280.0f
+
+    invoke-static {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$2500(Landroid/app/Activity;F)I
+
+    move-result v2
+
+    invoke-static {v2, v1}, Ljava/lang/Math;->max(II)I
+
+    move-result v1
+
+    const/4 v2, -0x2
+
+    invoke-virtual {v0, v1, v2}, Landroid/view/Window;->setLayout(II)V
+
+    .line 1263
+    :cond_9
+    return-void
+
+    .line 1176
+    :cond_a
+    :goto_2
     return-void
 .end method
