@@ -2,7 +2,9 @@ package com.bareapps.barebackup.localaccount;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
@@ -16,6 +18,14 @@ import android.text.InputType;
 import android.util.Base64;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -151,12 +161,12 @@ public final class LocalAccountVault {
     private static void requestStoragePermission(final Activity activity) {
         if (activity == null || activity.isFinishing() || dialogOpen) return;
         if (Build.VERSION.SDK_INT >= 30) {
-            new AlertDialog.Builder(activity)
-                    .setTitle("Storage access required")
-                    .setMessage("Local Account needs All Files Access to read or save the existing vault and recovery artifact in /storage/emulated/0/BΛR☰/accounts. No account will be created until access is granted.")
-                    .setPositiveButton("Open settings", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            clearDialogGate();
+            showProductDialog(activity, "Give BΛR☰ access to your files",
+                    "BΛR☰ needs access to its Local Account files so it can keep your account safe and restore it when needed.",
+                    null, "Not now", new DialogAction() {
+                        @Override public void run() { }
+                    }, "Open settings", new DialogAction() {
+                        @Override public void run() {
                             try {
                                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                                 intent.setData(Uri.parse("package:" + activity.getPackageName()));
@@ -165,21 +175,12 @@ public final class LocalAccountVault {
                                 try {
                                     activity.startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
                                 } catch (Throwable ignored) {
-                                    showError(activity, "Cannot open storage settings",
-                                            "Open Android Settings > Apps > BΛR☰ > All Files Access, enable access, then return to the app.");
+                                    showError(activity, "Open settings to continue",
+                                            "Go to Settings → Apps → BΛR☰ → All files access, turn it on, then return here.");
                                 }
                             }
                         }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            clearDialogGate();
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-            dialogOpen = true;
-            dialogActivity = activity;
+                    });
         } else if (Build.VERSION.SDK_INT >= 23) {
             activity.requestPermissions(new String[] {
                     "android.permission.READ_EXTERNAL_STORAGE",
@@ -421,50 +422,51 @@ public final class LocalAccountVault {
                                            final File vaultFile, final File recoveryFile,
                                            final JSONObject source, String previousCode) {
         if (activity == null || activity.isFinishing()) return;
-        final EditText input = new EditText(activity);
-        input.setSingleLine(true);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        input.setHint("Recovery code");
+        final EditText input = createProductInput(activity, "Recovery code");
         if (previousCode != null) input.setText(previousCode);
-        new AlertDialog.Builder(activity)
-                .setTitle("Recover Local Account")
-                .setMessage("The device key is unavailable. Enter the recovery code saved during Local Account setup.")
-                .setView(input)
-                .setPositiveButton("Recover", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
+        showProductDialog(activity, "Let's get your account back",
+                "Enter the recovery code you saved when you set up this Local Account.",
+                input,
+                "Create a new account", new DialogAction() {
+                    @Override public void run() {
+                        String attemptedCode = input.getText().toString();
+                        showNewAccountConfirmation(activity, id, vaultFile, recoveryFile, attemptedCode);
+                    }
+                },
+                "Recover account", new DialogAction() {
+                    @Override public void run() {
                         try {
                             recoverFromCode(activity, id, vaultFile, recoveryFile, source, input.getText().toString());
                         } catch (Throwable error) {
                             String attemptedCode = input.getText().toString();
-                            toast(activity, "Recovery failed. Check the full recovery code and try again.");
+                            toast(activity, "That code didn't work. Check it and try again.");
                             showRecoveryPrompt(activity, id, vaultFile, recoveryFile, source, attemptedCode);
                         }
                     }
-                })
-                .setNegativeButton("Create new Local Account", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        String attemptedCode = input.getText().toString();
-                        clearDialogGate();
-                        showNewAccountConfirmation(activity, id, vaultFile, recoveryFile, attemptedCode);
-                    }
-                })
-                .setCancelable(false)
-                .show();
-        dialogOpen = true;
-        dialogActivity = activity;
+                });
     }
 
     private static void showNewAccountConfirmation(final Activity activity, final String id,
                                                    final File vaultFile, final File recoveryFile,
                                                    final String previousCode) {
         if (activity == null || activity.isFinishing()) return;
-        new AlertDialog.Builder(activity)
-                .setTitle("Create a new Local Account?")
-                .setMessage("The existing account cannot be recovered without its Recovery Code. BΛR☰ will move its .vault and .recovery files into /storage/emulated/0/BΛR☰/accounts/recovery-archive, then create a completely new LocalAccountId. The old account will not be overwritten, but its encrypted data will remain inaccessible unless you recover it later.")
-                .setPositiveButton("Archive & create new", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
+        showProductDialog(activity, "Start fresh?",
+                "We couldn't unlock this account. If you continue, BΛR☰ will keep its existing files in an archive and create a new Local Account. The old account's data won't be available in the new account. You can still try recovery later if you find the code.",
+                null,
+                "Try recovery", new DialogAction() {
+                    @Override public void run() {
+                        JSONObject retrySource = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
+                        if (retrySource == null) retrySource = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
+                        if (retrySource != null) {
+                            showRecoveryPrompt(activity, id, vaultFile, recoveryFile, retrySource, previousCode);
+                        } else {
+                            showError(activity, "Recovery file unavailable",
+                                    "We can't read a recovery file for this account. Your existing files are safe; no new account was created.");
+                        }
+                    }
+                },
+                "Archive & start fresh", new DialogAction() {
+                    @Override public void run() {
                         try {
                             Object previousCache = cachedLocalUser();
                             Object freshUser = newLocalUser();
@@ -478,7 +480,7 @@ public final class LocalAccountVault {
                                 pendingEnrollment = null;
                                 localSelectionPending = true;
                                 resolutionComplete = false;
-                                toast(activity, "Previous account files archived. Creating a new Local Account.");
+                                toast(activity, "Old account safely archived. Let's set up your new account.");
                                 resolve(activity);
                             } catch (Throwable setupError) {
                                 try { setCachedLocalUser(previousCache); } catch (Throwable ignored) {}
@@ -486,28 +488,11 @@ public final class LocalAccountVault {
                                 throw setupError;
                             }
                         } catch (Throwable error) {
-                            showError(activity, "Could not create a new Local Account",
-                                    "The existing account files were not intentionally deleted. Check storage access and try again. If files were archived, they remain under recovery-archive.");
+                            showError(activity, "Couldn't start a new account",
+                                    "Your existing account files haven't been intentionally deleted. Check storage access and try again.");
                         }
                     }
-                })
-                .setNegativeButton("Back to recovery", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
-                        JSONObject retrySource = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
-                        if (retrySource == null) retrySource = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
-                        if (retrySource != null) {
-                            showRecoveryPrompt(activity, id, vaultFile, recoveryFile, retrySource, previousCode);
-                        } else {
-                            showError(activity, "Recovery artifact unavailable",
-                                    "Neither the recovery artifact nor the vault can be read. No new account was created.");
-                        }
-                    }
-                })
-                .setCancelable(false)
-                .show();
-        dialogOpen = true;
-        dialogActivity = activity;
+                });
     }
 
     private static File archiveExistingArtifacts(String id, File vaultFile, File recoveryFile) throws Exception {
@@ -610,65 +595,53 @@ public final class LocalAccountVault {
         TextView codeView = new TextView(activity);
         codeView.setText(enrollment.code);
         codeView.setTextIsSelectable(true);
-        int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
-        codeView.setPadding(pad, pad, pad, pad);
-        new AlertDialog.Builder(activity)
-                .setTitle("Save your Local Account recovery code")
-                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. The recovery artifact will be saved as " + PREFIX + enrollment.id + ".recovery under /storage/emulated/0/BΛR☰/accounts. It is not your backup Password Strategy password.")
-                .setView(codeView)
-                .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
-                        confirmRecoveryCode(activity, enrollment);
-                    }
-                })
-                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
-                        cancelPendingSelection();
-                    }
-                })
-                .setCancelable(false)
-                .show();
-        dialogOpen = true;
-        dialogActivity = activity;
+        codeView.setTextSize(16);
+        codeView.setTypeface(Typeface.MONOSPACE);
+        codeView.setTextColor(Color.WHITE);
+        codeView.setLetterSpacing(0.035f);
+        codeView.setGravity(Gravity.CENTER);
+        codeView.setPadding(dp(activity, 16), dp(activity, 18), dp(activity, 16), dp(activity, 18));
+        GradientDrawable codeBackground = new GradientDrawable();
+        codeBackground.setColor(Color.rgb(48, 40, 45));
+        codeBackground.setCornerRadius(dp(activity, 16));
+        codeView.setBackground(codeBackground);
+        TextView note = productText(activity, "A recovery copy is also saved on this device. This code is different from your backup password.", 12, 0xffb9adb3);
+        LinearLayout content = new LinearLayout(activity);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.addView(codeView, matchWrap());
+        LinearLayout.LayoutParams noteParams = matchWrap();
+        noteParams.topMargin = dp(activity, 12);
+        content.addView(note, noteParams);
+        showProductDialog(activity, "Keep your recovery code safe",
+                "Save this code somewhere private. You'll need it if you move BΛR☰ to another device or lose access to this one. You won't see it again.",
+                content, "Cancel setup", new DialogAction() {
+                    @Override public void run() { cancelPendingSelection(); }
+                }, "I've saved my code", new DialogAction() {
+                    @Override public void run() { confirmRecoveryCode(activity, enrollment); }
+                });
     }
 
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
-        final EditText input = new EditText(activity);
-        input.setSingleLine(true);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        input.setHint("Enter the recovery code");
-        new AlertDialog.Builder(activity)
-                .setTitle("Confirm recovery code")
-                .setMessage("Enter the code again before the Local Account vault is created.")
-                .setView(input)
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
+        final EditText input = createProductInput(activity, "Paste recovery code");
+        showProductDialog(activity, "One last check",
+                "Enter the code you just saved so we know you can recover this account.",
+                input, "Back", new DialogAction() {
+                    @Override public void run() { showRecoveryCode(activity, enrollment); }
+                }, "Confirm code", new DialogAction() {
+                    @Override public void run() {
                         if (!enrollment.code.equals(normalizeRecoveryCode(input.getText().toString()))) {
-                            toast(activity, "Recovery code did not match. Save and confirm the code to continue.");
+                            toast(activity, "That code doesn't match yet. Check what you saved and try again.");
                             showRecoveryCode(activity, enrollment);
                             return;
                         }
                         try {
                             commitEnrollment(activity, enrollment);
                         } catch (Throwable error) {
-                            showError(activity, "Local Account setup failed",
-                                    "The encrypted vault could not be committed and verified. No Local Account was activated.");
+                            showError(activity, "Setup didn't finish",
+                                    "BΛR☰ couldn't safely save and verify your Local Account. Nothing was activated. Please try again.");
                         }
                     }
-                })
-                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        clearDialogGate();
-                        cancelPendingSelection();
-                    }
-                })
-                .setCancelable(false)
-                .show();
-        dialogOpen = true;
-        dialogActivity = activity;
+                });
     }
 
     private static synchronized void commitEnrollment(Activity activity, Enrollment enrollment) throws Exception {
@@ -1070,51 +1043,162 @@ public final class LocalAccountVault {
 
     private static void showSignOutFailure(final Activity activity) {
         if (activity == null || activity.isFinishing()) return;
-        try {
-            new AlertDialog.Builder(activity)
-                    .setTitle("Could not sign out safely")
-                    .setMessage("The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.")
-                    .setPositiveButton("Retry sign out", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            clearDialogGate();
-                            signOut(activity);
-                        }
-                    })
-                    .setNegativeButton("Keep account active", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            clearDialogGate();
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-            dialogOpen = true;
-            dialogActivity = activity;
-        } catch (Throwable ignored) {
-            clearDialogGate();
-            toast(activity, "Could not save the Local Account session marker. The account remains active.");
-        }
+        showProductDialog(activity, "Couldn't sign out just yet",
+                "BΛR☰ couldn't save the sign-out state, so your account is still active. Try again or stay where you are.",
+                null, "Stay here", new DialogAction() {
+                    @Override public void run() { }
+                }, "Try again", new DialogAction() {
+                    @Override public void run() { signOut(activity); }
+                });
     }
 
     private static void showError(final Activity activity, String title, String message) {
         if (activity == null || activity.isFinishing()) return;
-        try {
-            new AlertDialog.Builder(activity)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton("Cancel Local setup", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            clearDialogGate();
-                            cancelPendingSelection();
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-            dialogOpen = true;
-        dialogActivity = activity;
-        } catch (Throwable ignored) {
-            clearDialogGate();
-            toast(activity, message);
+        showProductDialog(activity, title, message, null, null, null, "Got it", new DialogAction() {
+            @Override public void run() { cancelPendingSelection(); }
+        });
+    }
+
+    private interface DialogAction {
+        void run();
+    }
+
+    private static void showProductDialog(final Activity activity, String title, String message,
+                                          View content, String secondaryLabel, final DialogAction secondaryAction,
+                                          String primaryLabel, final DialogAction primaryAction) {
+        if (activity == null || activity.isFinishing() || dialogOpen) return;
+        final Dialog dialog = new Dialog(activity);
+        LinearLayout panel = new LinearLayout(activity);
+        panel.setOrientation(LinearLayout.VERTICAL);
+        panel.setPadding(dp(activity, 24), dp(activity, 24), dp(activity, 24), dp(activity, 18));
+        GradientDrawable panelBackground = new GradientDrawable();
+        panelBackground.setColor(0xff242126);
+        panelBackground.setCornerRadius(dp(activity, 26));
+        panel.setBackground(panelBackground);
+
+        TextView heading = productText(activity, title, 21, Color.WHITE);
+        heading.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        panel.addView(heading, matchWrap());
+
+        TextView body = productText(activity, message, 14, 0xffd4cbd0);
+        body.setLineSpacing(dp(activity, 2), 1.04f);
+        LinearLayout.LayoutParams bodyParams = matchWrap();
+        bodyParams.topMargin = dp(activity, 10);
+        panel.addView(body, bodyParams);
+
+        if (content != null) {
+            LinearLayout.LayoutParams contentParams = matchWrap();
+            contentParams.topMargin = dp(activity, 18);
+            panel.addView(content, contentParams);
         }
+
+        LinearLayout actions = new LinearLayout(activity);
+        actions.setOrientation(LinearLayout.HORIZONTAL);
+        actions.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams actionsParams = matchWrap();
+        actionsParams.topMargin = dp(activity, 20);
+        panel.addView(actions, actionsParams);
+
+        if (secondaryLabel != null && secondaryAction != null) {
+            actions.addView(productAction(activity, secondaryLabel, false, new View.OnClickListener() {
+                @Override public void onClick(View view) {
+                    dialog.dismiss();
+                    secondaryAction.run();
+                }
+            }), actionParams());
+        }
+        if (primaryLabel != null && primaryAction != null) {
+            actions.addView(productAction(activity, primaryLabel, true, new View.OnClickListener() {
+                @Override public void onClick(View view) {
+                    dialog.dismiss();
+                    primaryAction.run();
+                }
+            }), actionParams());
+        }
+
+        ScrollView scroll = new ScrollView(activity);
+        scroll.setFillViewport(false);
+        scroll.setClipToPadding(false);
+        scroll.addView(panel);
+        dialog.setContentView(scroll);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.dimAmount = 0.62f;
+            window.setAttributes(params);
+        }
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override public void onDismiss(DialogInterface ignored) { clearDialogGate(); }
+        });
+        dialogOpen = true;
+        dialogActivity = activity;
+        dialog.show();
+        if (window != null) {
+            int screenWidth = activity.getResources().getDisplayMetrics().widthPixels;
+            int width = Math.min(screenWidth - dp(activity, 40), dp(activity, 560));
+            window.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+    private static TextView productText(Activity activity, String value, int size, int color) {
+        TextView view = new TextView(activity);
+        view.setText(value);
+        view.setTextSize(size);
+        view.setTextColor(color);
+        view.setIncludeFontPadding(true);
+        return view;
+    }
+
+    private static EditText createProductInput(Activity activity, String hint) {
+        EditText input = new EditText(activity);
+        input.setSingleLine(true);
+        input.setTextSize(15);
+        input.setTextColor(Color.WHITE);
+        input.setHintTextColor(0xffa99da4);
+        input.setHint(hint);
+        input.setPadding(dp(activity, 14), dp(activity, 12), dp(activity, 14), dp(activity, 12));
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setBackgroundTintList(ColorStateList.valueOf(0xffffb4c8));
+        return input;
+    }
+
+    private static TextView productAction(Activity activity, String label, boolean primary, View.OnClickListener listener) {
+        TextView button = new TextView(activity);
+        button.setText(label);
+        button.setTextSize(12);
+        button.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        button.setTextColor(primary ? 0xff24151c : 0xffffb4c8);
+        button.setGravity(Gravity.CENTER);
+        button.setMinHeight(dp(activity, 48));
+        button.setPadding(dp(activity, 10), dp(activity, 10), dp(activity, 10), dp(activity, 10));
+        button.setMaxWidth(dp(activity, 190));
+        GradientDrawable background = new GradientDrawable();
+        background.setCornerRadius(dp(activity, 18));
+        if (primary) background.setColor(0xffffb4c8);
+        else {
+            background.setColor(Color.TRANSPARENT);
+            background.setStroke(dp(activity, 1), 0x66ffb4c8);
+        }
+        button.setBackground(background);
+        button.setOnClickListener(listener);
+        return button;
+    }
+
+    private static LinearLayout.LayoutParams actionParams() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        return params;
+    }
+
+    private static LinearLayout.LayoutParams matchWrap() {
+        return new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    private static int dp(Activity activity, int value) {
+        return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
     }
 
     private static final class Enrollment {
