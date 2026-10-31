@@ -400,13 +400,17 @@ public final class LocalAccountVault {
                 deviceKey, recoveryBytes);
         JSONObject updatedRecovery = makeRecoveryEnvelope(id, restored.uid, payload, dek, recoveryBytes);
         replaceAtomically(vaultFile, updatedVault.toString().getBytes(StandardCharsets.UTF_8));
+        JSONObject persistedVault = readEnvelope(vaultFile, id);
         JSONObject oldRecovery = recoveryFile.exists() ? readEnvelope(recoveryFile, id) : null;
-        if (oldRecovery == null) {
+        if (!recoveryMatchesVault(oldRecovery, persistedVault, restored.uid)) {
             if (recoveryFile.exists()) replaceAtomically(recoveryFile, updatedRecovery.toString().getBytes(StandardCharsets.UTF_8));
             else writeAtomically(recoveryFile, updatedRecovery.toString().getBytes(StandardCharsets.UTF_8));
         }
         Restored verified = restoreWithDeviceKey(readEnvelope(vaultFile, id), id);
-        if (verified == null || !restored.uid.equals(verified.uid)) throw new SecurityException("Recovered vault verification failed");
+        if (verified == null || !restored.uid.equals(verified.uid)
+                || !recoveryMatchesVault(readEnvelope(recoveryFile, id), readEnvelope(vaultFile, id), restored.uid)) {
+            throw new SecurityException("Recovered vault verification failed");
+        }
         activate(restored.user);
         toast(activity, "Local Account restored. Vault location: /storage/emulated/0/BΛR☰/accounts");
     }
