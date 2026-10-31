@@ -52,7 +52,7 @@
 .method private static aad(Ljava/lang/String;Ljava/lang/String;)[B
     .locals 2
 
-    .line 893
+    .line 903
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -266,6 +266,17 @@
     return-void
 .end method
 
+.method static synthetic access$2400(Landroid/app/Activity;F)I
+    .locals 0
+
+    .line 53
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result p0
+
+    return p0
+.end method
+
 .method static synthetic access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
     .locals 0
 
@@ -353,10 +364,10 @@
         }
     .end annotation
 
-    .line 819
+    .line 829
     invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->setCachedLocalUser(Ljava/lang/Object;)V
 
-    .line 820
+    .line 830
     const/4 p1, 0x1
 
     const/4 v0, 0x0
@@ -367,21 +378,21 @@
 
     if-eqz v1, :cond_1
 
-    .line 821
+    .line 831
     const/4 v1, 0x0
 
     sput-object v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingUser:Ljava/lang/Object;
 
-    .line 822
+    .line 832
     sput-object v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    .line 823
+    .line 833
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->localSelectionPending:Z
 
-    .line 824
+    .line 834
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
 
-    .line 825
+    .line 835
     :try_start_0
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->notifyAccountObservers()V
     :try_end_0
@@ -392,7 +403,7 @@
     :catchall_0
     move-exception p1
 
-    .line 831
+    .line 841
     :goto_0
     if-eqz p0, :cond_0
 
@@ -402,7 +413,7 @@
 
     if-nez p1, :cond_0
 
-    .line 833
+    .line 843
     :try_start_1
     const-string p1, "com.bareapps.barebackup.home.HomeActivity"
 
@@ -410,39 +421,39 @@
 
     move-result-object p1
 
-    .line 834
+    .line 844
     new-instance v0, Landroid/content/Intent;
 
     invoke-direct {v0, p0, p1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
 
-    .line 835
+    .line 845
     const/high16 p1, 0x14000000
 
     invoke-virtual {v0, p1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 836
+    .line 846
     invoke-virtual {p0, v0}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
 
-    .line 837
+    .line 847
     invoke-virtual {p0}, Landroid/app/Activity;->finish()V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_1
 
-    .line 841
+    .line 851
     goto :goto_1
 
-    .line 838
+    .line 848
     :catchall_1
     move-exception p1
 
-    .line 839
+    .line 849
     const-string v0, "LocalAccountVault"
 
     const-string v1, "Home navigation failed after local activation"
 
     invoke-static {v0, v1, p1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 840
+    .line 850
     const-string p1, "local_account_ready_reopen"
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -451,12 +462,12 @@
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 843
+    .line 853
     :cond_0
     :goto_1
     return-void
 
-    .line 820
+    .line 830
     :cond_1
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -475,19 +486,19 @@
         }
     .end annotation
 
-    .line 523
+    .line 527
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->rootDirectory()Ljava/io/File;
 
     move-result-object v0
 
-    .line 524
+    .line 528
     new-instance v1, Ljava/io/File;
 
     const-string v2, "recovery-archive"
 
     invoke-direct {v1, v0, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 525
+    .line 529
     invoke-virtual {v1}, Ljava/io/File;->exists()Z
 
     move-result v0
@@ -502,7 +513,7 @@
 
     goto :goto_0
 
-    .line 526
+    .line 530
     :cond_0
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -512,7 +523,7 @@
 
     throw p0
 
-    .line 528
+    .line 532
     :cond_1
     :goto_0
     invoke-virtual {v1}, Ljava/io/File;->isDirectory()Z
@@ -527,7 +538,7 @@
 
     if-eqz v0, :cond_b
 
-    .line 531
+    .line 535
     new-instance v0, Ljava/io/File;
 
     new-instance v2, Ljava/lang/StringBuilder;
@@ -562,20 +573,20 @@
 
     invoke-direct {v0, v1, p0}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 532
+    .line 536
     invoke-virtual {v0}, Ljava/io/File;->mkdir()Z
 
     move-result p0
 
     if-eqz p0, :cond_a
 
-    .line 533
+    .line 537
     nop
 
-    .line 534
+    .line 538
     nop
 
-    .line 536
+    .line 540
     const/4 p0, 0x0
 
     :try_start_0
@@ -587,7 +598,7 @@
 
     if-eqz v1, :cond_3
 
-    .line 537
+    .line 541
     invoke-virtual {p1}, Ljava/io/File;->isFile()Z
 
     move-result v1
@@ -608,12 +619,12 @@
 
     if-eqz v1, :cond_2
 
-    .line 540
+    .line 544
     move v1, v2
 
     goto :goto_1
 
-    .line 538
+    .line 542
     :cond_2
     new-instance v1, Ljava/lang/IllegalStateException;
 
@@ -625,11 +636,11 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_1
 
-    .line 536
+    .line 540
     :cond_3
     move v1, p0
 
-    .line 542
+    .line 546
     :goto_1
     :try_start_1
     invoke-virtual {p2}, Ljava/io/File;->exists()Z
@@ -638,7 +649,7 @@
 
     if-eqz v3, :cond_5
 
-    .line 543
+    .line 547
     invoke-virtual {p2}, Ljava/io/File;->isFile()Z
 
     move-result v3
@@ -659,12 +670,12 @@
 
     if-eqz v3, :cond_4
 
-    .line 546
+    .line 550
     move p0, v2
 
     goto :goto_2
 
-    .line 544
+    .line 548
     :cond_4
     new-instance v2, Ljava/lang/IllegalStateException;
 
@@ -674,7 +685,7 @@
 
     throw v2
 
-    .line 548
+    .line 552
     :cond_5
     :goto_2
     if-nez v1, :cond_7
@@ -694,12 +705,12 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 549
+    .line 553
     :cond_7
     :goto_3
     return-object v0
 
-    .line 550
+    .line 554
     :catchall_0
     move-exception v2
 
@@ -718,7 +729,7 @@
 
     move v1, p0
 
-    .line 551
+    .line 555
     :goto_4
     if-eqz p0, :cond_8
 
@@ -732,7 +743,7 @@
 
     invoke-virtual {p0, p1}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
-    .line 552
+    .line 556
     :cond_8
     if-eqz v1, :cond_9
 
@@ -746,14 +757,14 @@
 
     invoke-virtual {p0, p2}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
-    .line 553
+    .line 557
     :cond_9
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
 
-    .line 554
+    .line 558
     throw v2
 
-    .line 532
+    .line 536
     :cond_a
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -763,7 +774,7 @@
 
     throw p0
 
-    .line 529
+    .line 533
     :cond_b
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -782,26 +793,26 @@
         }
     .end annotation
 
-    .line 610
+    .line 614
     const/16 v0, 0x20
 
     invoke-static {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->randomBytes(I)[B
 
     move-result-object v4
 
-    .line 611
+    .line 615
     invoke-static {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->randomBytes(I)[B
 
     move-result-object v5
 
-    .line 612
+    .line 616
     const/16 v0, 0xb
 
     invoke-static {v5, v0}, Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
 
     move-result-object v6
 
-    .line 613
+    .line 617
     new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     invoke-static {}, Ljava/util/UUID;->randomUUID()Ljava/util/UUID;
@@ -820,19 +831,19 @@
 
     sput-object v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    .line 614
+    .line 618
     sget-object p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
-    .line 615
+    .line 619
     return-void
 .end method
 
 .method private static cachedLocalUser()Ljava/lang/Object;
     .locals 6
 
-    .line 1021
+    .line 1031
     const/4 v0, 0x0
 
     :try_start_0
@@ -842,7 +853,7 @@
 
     move-result-object v1
 
-    .line 1022
+    .line 1032
     const-string v2, "INSTANCE"
 
     invoke-virtual {v1, v2}, Ljava/lang/Class;->getField(Ljava/lang/String;)Ljava/lang/reflect/Field;
@@ -853,7 +864,7 @@
 
     move-result-object v2
 
-    .line 1023
+    .line 1033
     const-string v3, "getNon"
 
     const/4 v4, 0x0
@@ -874,11 +885,11 @@
 
     return-object v0
 
-    .line 1024
+    .line 1034
     :catchall_0
     move-exception v1
 
-    .line 1025
+    .line 1035
     return-object v0
 .end method
 
@@ -912,7 +923,7 @@
 .method private static cancelPendingSelection()V
     .locals 1
 
-    .line 1070
+    .line 1080
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeSignOutMarkers()Z
 
     move-result v0
@@ -921,24 +932,24 @@
 
     return-void
 
-    .line 1071
+    .line 1081
     :cond_0
     const/4 v0, 0x0
 
     sput-object v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingUser:Ljava/lang/Object;
 
-    .line 1072
+    .line 1082
     sput-object v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    .line 1073
+    .line 1083
     const/4 v0, 0x0
 
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->localSelectionPending:Z
 
-    .line 1074
+    .line 1084
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
 
-    .line 1075
+    .line 1085
     :try_start_0
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->notifyAccountObservers()V
     :try_end_0
@@ -949,7 +960,7 @@
     :catchall_0
     move-exception v0
 
-    .line 1076
+    .line 1086
     :goto_0
     return-void
 .end method
@@ -1050,17 +1061,17 @@
 .method private static clearDialogGate()V
     .locals 1
 
-    .line 1085
+    .line 1095
     const/4 v0, 0x0
 
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1086
+    .line 1096
     const/4 v0, 0x0
 
     sput-object v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 1087
+    .line 1097
     return-void
 .end method
 
@@ -1129,13 +1140,13 @@
 
     monitor-enter v0
 
-    .line 697
+    .line 707
     :try_start_0
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->rootDirectory()Ljava/io/File;
 
     move-result-object v1
 
-    .line 698
+    .line 708
     invoke-virtual {v1}, Ljava/io/File;->exists()Z
 
     move-result v2
@@ -1159,7 +1170,7 @@
 
     throw p0
 
-    .line 699
+    .line 709
     :cond_1
     :goto_0
     invoke-virtual {v1}, Ljava/io/File;->isDirectory()Z
@@ -1180,14 +1191,14 @@
 
     if-eqz v2, :cond_3
 
-    .line 701
+    .line 711
     iget-object v2, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->user:Ljava/lang/Object;
 
     invoke-static {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->getUid(Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 702
+    .line 712
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
@@ -1242,12 +1253,12 @@
 
     move-result-object v10
 
-    .line 703
+    .line 713
     invoke-static {v10}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->createDeviceKey(Ljava/lang/String;)Ljavax/crypto/SecretKey;
 
     move-result-object v11
 
-    .line 704
+    .line 714
     iget-object v3, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
     iget-object v4, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->user:Ljava/lang/Object;
@@ -1256,7 +1267,7 @@
 
     move-result-object v7
 
-    .line 705
+    .line 715
     iget-object v3, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
     iget-object v6, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->dek:[B
@@ -1273,12 +1284,12 @@
 
     move-result-object v3
 
-    .line 709
+    .line 719
     invoke-static {v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object v4
 
-    .line 711
+    .line 721
     const-string v5, "deviceWrappedDek"
 
     invoke-virtual {v3, v5}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -1309,17 +1320,17 @@
 
     move-result-object v7
 
-    .line 712
+    .line 722
     invoke-static {v6, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->aad(Ljava/lang/String;Ljava/lang/String;)[B
 
     move-result-object v6
 
-    .line 711
+    .line 721
     invoke-static {v11, v5, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v5
 
-    .line 713
+    .line 723
     new-instance v6, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v7, "AES"
@@ -1328,7 +1339,7 @@
 
     const-string v5, "payloadCiphertext"
 
-    .line 714
+    .line 724
     invoke-virtual {v3, v5}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v5
@@ -1345,17 +1356,17 @@
 
     move-result-object v7
 
-    .line 713
+    .line 723
     invoke-static {v6, v5, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v5
 
-    .line 715
+    .line 725
     iget-object v6, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
     invoke-static {v5, v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->parsePayload([BLjava/lang/String;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;
 
-    .line 716
+    .line 726
     new-instance v5, Ljavax/crypto/spec/SecretKeySpec;
 
     iget-object v6, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->recovery:[B
@@ -1366,7 +1377,7 @@
 
     const-string v6, "recoveryWrappedDek"
 
-    .line 717
+    .line 727
     invoke-virtual {v4, v6}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v6
@@ -1383,12 +1394,12 @@
 
     move-result-object v7
 
-    .line 716
+    .line 726
     invoke-static {v5, v6, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v5
 
-    .line 718
+    .line 728
     new-instance v6, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v7, "AES"
@@ -1397,7 +1408,7 @@
 
     const-string v5, "payloadCiphertext"
 
-    .line 719
+    .line 729
     invoke-virtual {v4, v5}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v5
@@ -1414,10 +1425,10 @@
 
     move-result-object v7
 
-    .line 718
+    .line 728
     invoke-static {v6, v5, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
-    .line 721
+    .line 731
     new-instance v5, Ljava/io/File;
 
     new-instance v6, Ljava/lang/StringBuilder;
@@ -1448,7 +1459,7 @@
 
     invoke-direct {v5, v1, v6}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 722
+    .line 732
     new-instance v6, Ljava/io/File;
 
     new-instance v7, Ljava/lang/StringBuilder;
@@ -1479,7 +1490,7 @@
 
     invoke-direct {v6, v1, v7}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 723
+    .line 733
     invoke-virtual {v3}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
 
     move-result-object v1
@@ -1490,7 +1501,7 @@
 
     move-result-object v1
 
-    .line 724
+    .line 734
     invoke-virtual {v4}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
 
     move-result-object v3
@@ -1501,10 +1512,10 @@
 
     move-result-object v3
 
-    .line 723
+    .line 733
     invoke-static {v5, v1, v6, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writePairAtomically(Ljava/io/File;[BLjava/io/File;[B)V
 
-    .line 725
+    .line 735
     iget-object v1, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
     invoke-static {v5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
@@ -1517,28 +1528,28 @@
 
     move-result-object v1
 
-    .line 726
+    .line 736
     iget-object v3, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
     invoke-static {v6, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
 
     move-result-object v3
 
-    .line 727
+    .line 737
     if-eqz v1, :cond_2
 
     if-eqz v3, :cond_2
 
     iget-object v1, v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->uid:Ljava/lang/String;
 
-    .line 728
+    .line 738
     invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v1
 
     if-eqz v1, :cond_2
 
-    .line 733
+    .line 743
     new-instance v1, Ljavax/crypto/spec/SecretKeySpec;
 
     iget-object v2, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->recovery:[B
@@ -1549,7 +1560,7 @@
 
     const-string v2, "recoveryWrappedDek"
 
-    .line 734
+    .line 744
     invoke-virtual {v3, v2}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
@@ -1566,12 +1577,12 @@
 
     move-result-object v4
 
-    .line 733
+    .line 743
     invoke-static {v1, v2, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v1
 
-    .line 735
+    .line 745
     new-instance v2, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v4, "AES"
@@ -1580,7 +1591,7 @@
 
     const-string v1, "payloadCiphertext"
 
-    .line 736
+    .line 746
     invoke-virtual {v3, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -1597,7 +1608,7 @@
 
     move-result-object v3
 
-    .line 735
+    .line 745
     invoke-static {v2, v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v1
@@ -1606,17 +1617,17 @@
 
     invoke-static {v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->parsePayload([BLjava/lang/String;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;
 
-    .line 737
+    .line 747
     iget-object p1, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->user:Ljava/lang/Object;
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->activate(Landroid/app/Activity;Ljava/lang/Object;)V
 
-    .line 738
+    .line 748
     const/4 p1, 0x0
 
     sput-object p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    .line 739
+    .line 749
     const-string p1, "local_account_ready"
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -1627,20 +1638,20 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 740
+    .line 750
     monitor-exit v0
 
     return-void
 
-    .line 729
+    .line 739
     :cond_2
     :try_start_1
     invoke-virtual {v5}, Ljava/io/File;->delete()Z
 
-    .line 730
+    .line 740
     invoke-virtual {v6}, Ljava/io/File;->delete()Z
 
-    .line 731
+    .line 741
     new-instance p0, Ljava/lang/SecurityException;
 
     const-string p1, "Post-write vault verification failed"
@@ -1649,7 +1660,7 @@
 
     throw p0
 
-    .line 699
+    .line 709
     :cond_3
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -1661,7 +1672,7 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 696
+    .line 706
     :catchall_0
     move-exception p0
 
@@ -1673,17 +1684,38 @@
 .method private static confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
     .locals 5
 
-    .line 659
+    .line 665
     new-instance v0, Landroid/widget/EditText;
 
     invoke-direct {v0, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
-    .line 660
+    .line 666
     const v1, 0x80091
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setInputType(I)V
 
-    .line 661
+    .line 667
+    const-string v1, "monospace"
+
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 668
+    const/high16 v1, 0x41700000    # 15.0f
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setTextSize(F)V
+
+    .line 669
+    const v1, 0x3d0f5c29    # 0.035f
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setLetterSpacing(F)V
+
+    .line 670
     const-string v1, "local_account_recovery_code_hint"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -1692,49 +1724,50 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
-    .line 662
-    const/4 v1, 0x0
+    .line 671
+    invoke-virtual {v0, v2}, Landroid/widget/EditText;->setSingleLine(Z)V
 
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setSingleLine(Z)V
+    .line 672
+    const/4 v1, 0x2
 
-    .line 663
-    const/4 v2, 0x2
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setMaxLines(I)V
 
-    invoke-virtual {v0, v2}, Landroid/widget/EditText;->setMaxLines(I)V
+    .line 673
+    invoke-virtual {v0, v2}, Landroid/widget/EditText;->setSelectAllOnFocus(Z)V
 
-    .line 664
+    .line 674
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    .line 665
+    .line 675
     const-string v3, "local_account_confirm_recovery_title"
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    .line 666
+    .line 676
     const-string v3, "local_account_confirm_recovery_message"
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    .line 667
-    invoke-virtual {v2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    .line 677
+    invoke-virtual {v1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object v2
+    move-result-object v1
 
-    .line 668
+    .line 678
     const-string v3, "local_account_confirm_code_action"
 
     invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -1745,42 +1778,42 @@
 
     invoke-direct {v4, p1, v0, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;-><init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;Landroid/widget/EditText;Landroid/app/Activity;)V
 
-    invoke-virtual {v2, v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v1, v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 684
+    .line 694
     const-string v0, "local_account_cancel_setup"
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;
+    new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;
 
-    invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;-><init>()V
+    invoke-direct {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;-><init>()V
 
-    invoke-virtual {p1, v0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object p1
-
-    .line 690
-    invoke-virtual {p1, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {p1, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 691
+    .line 700
+    invoke-virtual {p1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object p1
+
+    .line 701
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 692
+    .line 702
     const/4 p1, 0x1
 
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 693
+    .line 703
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 694
+    .line 704
     return-void
 .end method
 
@@ -1792,19 +1825,19 @@
         }
     .end annotation
 
-    .line 846
+    .line 856
     const-string v0, "AndroidKeyStore"
 
     invoke-static {v0}, Ljava/security/KeyStore;->getInstance(Ljava/lang/String;)Ljava/security/KeyStore;
 
     move-result-object v1
 
-    .line 847
+    .line 857
     const/4 v2, 0x0
 
     invoke-virtual {v1, v2}, Ljava/security/KeyStore;->load(Ljava/security/KeyStore$LoadStoreParameter;)V
 
-    .line 848
+    .line 858
     invoke-virtual {v1, p0}, Ljava/security/KeyStore;->containsAlias(Ljava/lang/String;)Z
 
     move-result v3
@@ -1813,7 +1846,7 @@
 
     invoke-virtual {v1, p0}, Ljava/security/KeyStore;->deleteEntry(Ljava/lang/String;)V
 
-    .line 849
+    .line 859
     :cond_0
     const-string v3, "AES"
 
@@ -1821,14 +1854,14 @@
 
     move-result-object v0
 
-    .line 850
+    .line 860
     new-instance v3, Landroid/security/keystore/KeyGenParameterSpec$Builder;
 
     const/4 v4, 0x3
 
     invoke-direct {v3, p0, v4}, Landroid/security/keystore/KeyGenParameterSpec$Builder;-><init>(Ljava/lang/String;I)V
 
-    .line 852
+    .line 862
     const/16 v4, 0x100
 
     invoke-virtual {v3, v4}, Landroid/security/keystore/KeyGenParameterSpec$Builder;->setKeySize(I)Landroid/security/keystore/KeyGenParameterSpec$Builder;
@@ -1841,7 +1874,7 @@
 
     move-result-object v4
 
-    .line 853
+    .line 863
     invoke-virtual {v3, v4}, Landroid/security/keystore/KeyGenParameterSpec$Builder;->setBlockModes([Ljava/lang/String;)Landroid/security/keystore/KeyGenParameterSpec$Builder;
 
     move-result-object v3
@@ -1852,23 +1885,23 @@
 
     move-result-object v4
 
-    .line 854
+    .line 864
     invoke-virtual {v3, v4}, Landroid/security/keystore/KeyGenParameterSpec$Builder;->setEncryptionPaddings([Ljava/lang/String;)Landroid/security/keystore/KeyGenParameterSpec$Builder;
 
     move-result-object v3
 
-    .line 855
+    .line 865
     invoke-virtual {v3}, Landroid/security/keystore/KeyGenParameterSpec$Builder;->build()Landroid/security/keystore/KeyGenParameterSpec;
 
     move-result-object v3
 
-    .line 856
+    .line 866
     invoke-virtual {v0, v3}, Ljavax/crypto/KeyGenerator;->init(Ljava/security/spec/AlgorithmParameterSpec;)V
 
-    .line 857
+    .line 867
     invoke-virtual {v0}, Ljavax/crypto/KeyGenerator;->generateKey()Ljavax/crypto/SecretKey;
 
-    .line 858
+    .line 868
     invoke-virtual {v1, p0, v2}, Ljava/security/KeyStore;->getKey(Ljava/lang/String;[C)Ljava/security/Key;
 
     move-result-object p0
@@ -1881,7 +1914,7 @@
 .method private static decode(Ljava/lang/String;)[B
     .locals 1
 
-    .line 912
+    .line 922
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
@@ -1903,7 +1936,7 @@
         }
     .end annotation
 
-    .line 881
+    .line 891
     if-eqz p1, :cond_0
 
     array-length v0, p1
@@ -1912,34 +1945,34 @@
 
     if-lt v0, v1, :cond_0
 
-    .line 882
+    .line 892
     const/16 v0, 0xc
 
     new-array v1, v0, [B
 
-    .line 883
+    .line 893
     array-length v2, p1
 
     sub-int/2addr v2, v0
 
     new-array v3, v2, [B
 
-    .line 884
+    .line 894
     const/4 v4, 0x0
 
     invoke-static {p1, v4, v1, v4, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 885
+    .line 895
     invoke-static {p1, v0, v3, v4, v2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 886
+    .line 896
     const-string p1, "AES/GCM/NoPadding"
 
     invoke-static {p1}, Ljavax/crypto/Cipher;->getInstance(Ljava/lang/String;)Ljavax/crypto/Cipher;
 
     move-result-object p1
 
-    .line 887
+    .line 897
     new-instance v0, Ljavax/crypto/spec/GCMParameterSpec;
 
     const/16 v2, 0x80
@@ -1950,17 +1983,17 @@
 
     invoke-virtual {p1, v1, p0, v0}, Ljavax/crypto/Cipher;->init(ILjava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;)V
 
-    .line 888
+    .line 898
     invoke-virtual {p1, p2}, Ljavax/crypto/Cipher;->updateAAD([B)V
 
-    .line 889
+    .line 899
     invoke-virtual {p1, v3}, Ljavax/crypto/Cipher;->doFinal([B)[B
 
     move-result-object p0
 
     return-object p0
 
-    .line 881
+    .line 891
     :cond_0
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -1979,14 +2012,14 @@
         }
     .end annotation
 
-    .line 1005
+    .line 1015
     const-string v0, "w14"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 1006
+    .line 1016
     const/4 v1, 0x0
 
     new-array v2, v1, [Ljava/lang/Class;
@@ -2005,14 +2038,14 @@
 
     move-result-object v0
 
-    .line 1007
+    .line 1017
     const-string v2, "com.bareapps.barebackup.anonymous.MFirebaseUser"
 
     invoke-static {v2}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v2
 
-    .line 1008
+    .line 1018
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v4
@@ -2048,10 +2081,35 @@
     return-object p0
 .end method
 
+.method private static dp(Landroid/app/Activity;F)I
+    .locals 0
+
+    .line 1137
+    invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object p0
+
+    invoke-virtual {p0}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
+
+    move-result-object p0
+
+    iget p0, p0, Landroid/util/DisplayMetrics;->density:F
+
+    mul-float/2addr p1, p0
+
+    const/high16 p0, 0x3f000000    # 0.5f
+
+    add-float/2addr p1, p0
+
+    float-to-int p0, p1
+
+    return p0
+.end method
+
 .method private static encode([B)Ljava/lang/String;
     .locals 1
 
-    .line 916
+    .line 926
     const/16 v0, 0xb
 
     invoke-static {p0, v0}, Landroid/util/Base64;->encodeToString([BI)Ljava/lang/String;
@@ -2069,32 +2127,32 @@
         }
     .end annotation
 
-    .line 869
+    .line 879
     const-string v0, "AES/GCM/NoPadding"
 
     invoke-static {v0}, Ljavax/crypto/Cipher;->getInstance(Ljava/lang/String;)Ljavax/crypto/Cipher;
 
     move-result-object v0
 
-    .line 870
+    .line 880
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1, p0}, Ljavax/crypto/Cipher;->init(ILjava/security/Key;)V
 
-    .line 871
+    .line 881
     invoke-virtual {v0, p2}, Ljavax/crypto/Cipher;->updateAAD([B)V
 
-    .line 872
+    .line 882
     invoke-virtual {v0, p1}, Ljavax/crypto/Cipher;->doFinal([B)[B
 
     move-result-object p0
 
-    .line 873
+    .line 883
     invoke-virtual {v0}, Ljavax/crypto/Cipher;->getIV()[B
 
     move-result-object p1
 
-    .line 874
+    .line 884
     array-length p2, p1
 
     array-length v0, p0
@@ -2103,21 +2161,21 @@
 
     new-array p2, p2, [B
 
-    .line 875
+    .line 885
     array-length v0, p1
 
     const/4 v1, 0x0
 
     invoke-static {p1, v1, p2, v1, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 876
+    .line 886
     array-length p1, p1
 
     array-length v0, p0
 
     invoke-static {p0, v1, p2, p1, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 877
+    .line 887
     return-object p2
 .end method
 
@@ -2138,7 +2196,7 @@
         }
     .end annotation
 
-    .line 1012
+    .line 1022
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -2181,7 +2239,7 @@
         }
     .end annotation
 
-    .line 1016
+    .line 1026
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v0
@@ -2460,19 +2518,19 @@
         }
     .end annotation
 
-    .line 862
+    .line 872
     const-string v0, "AndroidKeyStore"
 
     invoke-static {v0}, Ljava/security/KeyStore;->getInstance(Ljava/lang/String;)Ljava/security/KeyStore;
 
     move-result-object v0
 
-    .line 863
+    .line 873
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Ljava/security/KeyStore;->load(Ljava/security/KeyStore$LoadStoreParameter;)V
 
-    .line 864
+    .line 874
     invoke-virtual {v0, p0}, Ljava/security/KeyStore;->containsAlias(Ljava/lang/String;)Z
 
     move-result v2
@@ -2481,7 +2539,7 @@
 
     return-object v1
 
-    .line 865
+    .line 875
     :cond_0
     invoke-virtual {v0, p0, v1}, Ljava/security/KeyStore;->getKey(Ljava/lang/String;[C)Ljava/security/Key;
 
@@ -2500,29 +2558,29 @@
         }
     .end annotation
 
-    .line 793
+    .line 803
     new-instance v0, Lorg/json/JSONObject;
 
     invoke-direct {v0}, Lorg/json/JSONObject;-><init>()V
 
-    .line 794
+    .line 804
     const-string v1, "schemaVersion"
 
     const/4 v2, 0x1
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;I)Lorg/json/JSONObject;
 
-    .line 795
+    .line 805
     const-string v1, "localAccountId"
 
     invoke-virtual {v0, v1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 796
+    .line 806
     const-string p0, "legacyUid"
 
     invoke-virtual {v0, p0, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 797
+    .line 807
     const-string p0, "userJson"
 
     invoke-static {p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->serializeUser(Ljava/lang/Object;)Ljava/lang/String;
@@ -2531,7 +2589,7 @@
 
     invoke-virtual {v0, p0, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 798
+    .line 808
     invoke-virtual {v0}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
 
     move-result-object p0
@@ -2553,36 +2611,36 @@
         }
     .end annotation
 
-    .line 782
+    .line 792
     new-instance v0, Lorg/json/JSONObject;
 
     invoke-direct {v0}, Lorg/json/JSONObject;-><init>()V
 
-    .line 783
+    .line 793
     const-string v1, "schemaVersion"
 
     const/4 v2, 0x1
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;I)Lorg/json/JSONObject;
 
-    .line 784
+    .line 794
     const-string v1, "localAccountId"
 
     invoke-virtual {v0, v1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 785
+    .line 795
     const-string v1, "legacyUid"
 
     invoke-virtual {v0, v1, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 786
+    .line 796
     const-string p1, "algorithm"
 
     const-string v1, "AES-256-GCM"
 
     invoke-virtual {v0, p1, v1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 787
+    .line 797
     new-instance p1, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v1, "AES"
@@ -2607,7 +2665,7 @@
 
     invoke-virtual {v0, p2, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 788
+    .line 798
     new-instance p1, Ljavax/crypto/spec/SecretKeySpec;
 
     invoke-direct {p1, p4, v1}, Ljavax/crypto/spec/SecretKeySpec;-><init>([BLjava/lang/String;)V
@@ -2630,7 +2688,7 @@
 
     invoke-virtual {v0, p1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 789
+    .line 799
     return-object v0
 .end method
 
@@ -2642,12 +2700,12 @@
         }
     .end annotation
 
-    .line 770
+    .line 780
     new-instance v0, Lorg/json/JSONObject;
 
     invoke-direct {v0}, Lorg/json/JSONObject;-><init>()V
 
-    .line 771
+    .line 781
     const-string v1, "schemaVersion"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getInt(Ljava/lang/String;)I
@@ -2656,7 +2714,7 @@
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;I)Lorg/json/JSONObject;
 
-    .line 772
+    .line 782
     const-string v1, "localAccountId"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -2665,7 +2723,7 @@
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 773
+    .line 783
     const-string v1, "legacyUid"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -2674,7 +2732,7 @@
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 774
+    .line 784
     const-string v1, "algorithm"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -2683,7 +2741,7 @@
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 775
+    .line 785
     const-string v1, "payloadCiphertext"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -2692,7 +2750,7 @@
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 776
+    .line 786
     const-string v1, "recoveryWrappedDek"
 
     invoke-virtual {p0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -2701,7 +2759,7 @@
 
     invoke-virtual {v0, v1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 777
+    .line 787
     return-object v0
 .end method
 
@@ -2713,41 +2771,41 @@
         }
     .end annotation
 
-    .line 745
+    .line 755
     new-instance v0, Lorg/json/JSONObject;
 
     invoke-direct {v0}, Lorg/json/JSONObject;-><init>()V
 
-    .line 746
+    .line 756
     const-string v1, "schemaVersion"
 
     const/4 v2, 0x1
 
     invoke-virtual {v0, v1, v2}, Lorg/json/JSONObject;->put(Ljava/lang/String;I)Lorg/json/JSONObject;
 
-    .line 747
+    .line 757
     const-string v1, "localAccountId"
 
     invoke-virtual {v0, v1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 748
+    .line 758
     const-string v1, "legacyUid"
 
     invoke-virtual {v0, v1, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 749
+    .line 759
     const-string p1, "deviceKeyAlias"
 
     invoke-virtual {v0, p1, p2}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 750
+    .line 760
     const-string p1, "algorithm"
 
     const-string v1, "AES-256-GCM"
 
     invoke-virtual {v0, p1, v1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 751
+    .line 761
     new-instance p1, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v1, "AES"
@@ -2772,7 +2830,7 @@
 
     invoke-virtual {v0, p4, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 752
+    .line 762
     new-instance p1, Ljava/lang/StringBuilder;
 
     invoke-direct {p1}, Ljava/lang/StringBuilder;-><init>()V
@@ -2807,7 +2865,7 @@
 
     invoke-virtual {v0, p2, p1}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 753
+    .line 763
     new-instance p1, Ljavax/crypto/spec/SecretKeySpec;
 
     invoke-direct {p1, p6, v1}, Ljavax/crypto/spec/SecretKeySpec;-><init>([BLjava/lang/String;)V
@@ -2830,7 +2888,7 @@
 
     invoke-virtual {v0, p1, p0}, Lorg/json/JSONObject;->put(Ljava/lang/String;Ljava/lang/Object;)Lorg/json/JSONObject;
 
-    .line 754
+    .line 764
     return-object v0
 .end method
 
@@ -2842,12 +2900,12 @@
         }
     .end annotation
 
-    .line 813
+    .line 823
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->cachedLocalUser()Ljava/lang/Object;
 
     move-result-object v0
 
-    .line 814
+    .line 824
     if-eqz v0, :cond_1
 
     invoke-static {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isAnonymous(Ljava/lang/Object;)Z
@@ -2858,7 +2916,7 @@
 
     goto :goto_0
 
-    .line 815
+    .line 825
     :cond_0
     invoke-static {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->getUid(Ljava/lang/Object;)Ljava/lang/String;
 
@@ -2874,7 +2932,7 @@
 
     return p0
 
-    .line 814
+    .line 824
     :cond_1
     :goto_0
     const/4 p0, 0x1
@@ -2890,14 +2948,14 @@
         }
     .end annotation
 
-    .line 990
+    .line 1000
     const-string v0, "com.bareapps.barebackup.anonymous.MFirebaseUser"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 991
+    .line 1001
     const/4 v1, 0x7
 
     new-array v2, v1, [Ljava/lang/Class;
@@ -2940,7 +2998,7 @@
 
     move-result-object v0
 
-    .line 993
+    .line 1003
     invoke-static {}, Ljava/util/UUID;->randomUUID()Ljava/util/UUID;
 
     move-result-object v2
@@ -2957,12 +3015,12 @@
 
     move-result-object v2
 
-    .line 994
+    .line 1004
     invoke-static {v5}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
 
     move-result-object v3
 
-    .line 995
+    .line 1005
     invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
 
     move-result-object v11
@@ -2991,7 +3049,7 @@
 
     aput-object v2, v1, v9
 
-    .line 994
+    .line 1004
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Constructor;->newInstance([Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
@@ -3002,14 +3060,14 @@
 .method private static normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
     .locals 3
 
-    .line 903
+    .line 913
     const-string v0, ""
 
     if-nez p0, :cond_0
 
     return-object v0
 
-    .line 904
+    .line 914
     :cond_0
     invoke-virtual {p0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
@@ -3021,7 +3079,7 @@
 
     move-result-object p0
 
-    .line 905
+    .line 915
     const-string v1, "\u200b"
 
     invoke-virtual {p0, v1, v0}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
@@ -3034,7 +3092,7 @@
 
     move-result-object p0
 
-    .line 906
+    .line 916
     const-string v1, "\u200d"
 
     invoke-virtual {p0, v1, v0}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
@@ -3047,7 +3105,7 @@
 
     move-result-object p0
 
-    .line 907
+    .line 917
     const/16 v1, 0x2b
 
     const/16 v2, 0x2d
@@ -3070,7 +3128,7 @@
 
     move-result-object p0
 
-    .line 908
+    .line 918
     return-object p0
 .end method
 
@@ -3082,14 +3140,14 @@
         }
     .end annotation
 
-    .line 1079
+    .line 1089
     const-string v0, "d45"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 1080
+    .line 1090
     const-string v1, "b"
 
     invoke-virtual {v0, v1}, Ljava/lang/Class;->getField(Ljava/lang/String;)Ljava/lang/reflect/Field;
@@ -3102,7 +3160,7 @@
 
     move-result-object v2
 
-    .line 1081
+    .line 1091
     const/4 v3, 0x0
 
     new-array v4, v3, [Ljava/lang/Class;
@@ -3115,7 +3173,7 @@
 
     invoke-virtual {v0, v2, v1}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 1082
+    .line 1092
     return-void
 .end method
 
@@ -3172,7 +3230,7 @@
         }
     .end annotation
 
-    .line 802
+    .line 812
     new-instance v0, Lorg/json/JSONObject;
 
     new-instance v1, Ljava/lang/String;
@@ -3183,7 +3241,7 @@
 
     invoke-direct {v0, v1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
 
-    .line 803
+    .line 813
     const-string p0, "schemaVersion"
 
     invoke-virtual {v0, p0}, Lorg/json/JSONObject;->getInt(Ljava/lang/String;)I
@@ -3194,28 +3252,28 @@
 
     if-ne p0, v1, :cond_2
 
-    .line 804
+    .line 814
     const-string p0, "localAccountId"
 
     invoke-virtual {v0, p0}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
-    .line 805
+    .line 815
     const-string v1, "legacyUid"
 
     invoke-virtual {v0, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 806
+    .line 816
     invoke-virtual {p1, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result p1
 
     if-eqz p1, :cond_1
 
-    .line 807
+    .line 817
     const-string p1, "userJson"
 
     invoke-virtual {v0, p1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -3226,7 +3284,7 @@
 
     move-result-object p1
 
-    .line 808
+    .line 818
     invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->getUid(Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v0
@@ -3243,14 +3301,14 @@
 
     if-eqz v0, :cond_0
 
-    .line 809
+    .line 819
     new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;
 
     invoke-direct {v0, p1, p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;-><init>(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V
 
     return-object v0
 
-    .line 808
+    .line 818
     :cond_0
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -3260,7 +3318,7 @@
 
     throw p0
 
-    .line 806
+    .line 816
     :cond_1
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -3270,7 +3328,7 @@
 
     throw p0
 
-    .line 803
+    .line 813
     :cond_2
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -3289,26 +3347,26 @@
         }
     .end annotation
 
-    .line 1037
+    .line 1047
     const-string v0, "cz4"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 1038
+    .line 1048
     const-string v1, "f"
 
     invoke-virtual {v0, v1}, Ljava/lang/Class;->getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;
 
     move-result-object v0
 
-    .line 1039
+    .line 1049
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->setAccessible(Z)V
 
-    .line 1040
+    .line 1050
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
@@ -3323,17 +3381,17 @@
 .method private static randomBytes(I)[B
     .locals 1
 
-    .line 897
+    .line 907
     new-array p0, p0, [B
 
-    .line 898
+    .line 908
     new-instance v0, Ljava/security/SecureRandom;
 
     invoke-direct {v0}, Ljava/security/SecureRandom;-><init>()V
 
     invoke-virtual {v0, p0}, Ljava/security/SecureRandom;->nextBytes([B)V
 
-    .line 899
+    .line 909
     return-object p0
 .end method
 
@@ -3345,7 +3403,7 @@
         }
     .end annotation
 
-    .line 920
+    .line 930
     invoke-virtual {p0}, Ljava/io/File;->length()J
 
     move-result-wide v0
@@ -3356,23 +3414,23 @@
 
     if-gtz v0, :cond_1
 
-    .line 921
+    .line 931
     new-instance v0, Ljava/io/ByteArrayOutputStream;
 
     invoke-direct {v0}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
-    .line 922
+    .line 932
     new-instance v1, Ljava/io/FileInputStream;
 
     invoke-direct {v1, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
 
-    .line 924
+    .line 934
     const/16 p0, 0x2000
 
     :try_start_0
     new-array p0, p0, [B
 
-    .line 926
+    .line 936
     :goto_0
     invoke-virtual {v1, p0}, Ljava/io/FileInputStream;->read([B)I
 
@@ -3390,30 +3448,30 @@
 
     goto :goto_0
 
-    .line 928
+    .line 938
     :cond_0
     invoke-virtual {v1}, Ljava/io/FileInputStream;->close()V
 
-    .line 929
+    .line 939
     nop
 
-    .line 930
+    .line 940
     invoke-virtual {v0}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
 
     move-result-object p0
 
     return-object p0
 
-    .line 928
+    .line 938
     :catchall_0
     move-exception p0
 
     invoke-virtual {v1}, Ljava/io/FileInputStream;->close()V
 
-    .line 929
+    .line 939
     throw p0
 
-    .line 920
+    .line 930
     :cond_1
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -3600,32 +3658,32 @@
 
     monitor-enter v0
 
-    .line 569
+    .line 573
     :try_start_0
     invoke-static {p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p5
 
-    .line 570
+    .line 574
     invoke-static {p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decode(Ljava/lang/String;)[B
 
     move-result-object v7
 
-    .line 571
+    .line 575
     array-length p5, v7
 
     const/16 v1, 0x20
 
     if-ne p5, v1, :cond_6
 
-    .line 572
+    .line 576
     new-instance p5, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v1, "AES"
 
     invoke-direct {p5, v7, v1}, Ljavax/crypto/spec/SecretKeySpec;-><init>([BLjava/lang/String;)V
 
-    .line 573
+    .line 577
     const-string v1, "recoveryWrappedDek"
 
     invoke-virtual {p4, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -3638,17 +3696,17 @@
 
     const-string v2, "recovery"
 
-    .line 574
+    .line 578
     invoke-static {p1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->aad(Ljava/lang/String;Ljava/lang/String;)[B
 
     move-result-object v2
 
-    .line 573
+    .line 577
     invoke-static {p5, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v4
 
-    .line 575
+    .line 579
     new-instance p5, Ljavax/crypto/spec/SecretKeySpec;
 
     const-string v1, "AES"
@@ -3657,7 +3715,7 @@
 
     const-string v1, "payloadCiphertext"
 
-    .line 576
+    .line 580
     invoke-virtual {p4, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -3672,17 +3730,17 @@
 
     move-result-object v2
 
-    .line 575
+    .line 579
     invoke-static {p5, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->decrypt(Ljavax/crypto/SecretKey;[B[B)[B
 
     move-result-object v5
 
-    .line 577
+    .line 581
     invoke-static {v5, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->parsePayload([BLjava/lang/String;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;
 
     move-result-object p5
 
-    .line 578
+    .line 582
     const-string v1, "legacyUid"
 
     invoke-virtual {p4, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
@@ -3697,7 +3755,7 @@
 
     if-eqz p4, :cond_5
 
-    .line 579
+    .line 583
     iget-object p4, p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->user:Ljava/lang/Object;
 
     invoke-static {p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->matchesLegacyCache(Ljava/lang/Object;)Z
@@ -3706,7 +3764,7 @@
 
     if-nez p4, :cond_0
 
-    .line 580
+    .line 584
     const-string p1, "local_account_mismatch_title"
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -3715,22 +3773,22 @@
 
     const-string p2, "local_account_recovery_mismatch_message"
 
-    .line 581
+    .line 585
     invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
 
-    .line 580
+    .line 584
     invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 582
+    .line 586
     monitor-exit v0
 
     return-void
 
-    .line 585
+    .line 589
     :cond_0
     :try_start_1
     new-instance p4, Ljava/lang/StringBuilder;
@@ -3785,12 +3843,12 @@
 
     move-result-object v3
 
-    .line 586
+    .line 590
     invoke-static {v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->createDeviceKey(Ljava/lang/String;)Ljavax/crypto/SecretKey;
 
     move-result-object v6
 
-    .line 587
+    .line 591
     iget-object v2, p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->uid:Ljava/lang/String;
 
     move-object v1, p1
@@ -3799,12 +3857,12 @@
 
     move-result-object p4
 
-    .line 592
+    .line 596
     invoke-static {p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object v1
 
-    .line 593
+    .line 597
     invoke-virtual {p4}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
 
     move-result-object p4
@@ -3817,12 +3875,12 @@
 
     invoke-static {p2, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->replaceAtomically(Ljava/io/File;[B)V
 
-    .line 594
+    .line 598
     invoke-static {p2, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
 
     move-result-object p4
 
-    .line 595
+    .line 599
     invoke-virtual {p3}, Ljava/io/File;->exists()Z
 
     move-result v2
@@ -3838,7 +3896,7 @@
     :cond_1
     const/4 v2, 0x0
 
-    .line 596
+    .line 600
     :goto_0
     iget-object v3, p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->uid:Ljava/lang/String;
 
@@ -3848,7 +3906,7 @@
 
     if-nez p4, :cond_3
 
-    .line 597
+    .line 601
     invoke-virtual {p3}, Ljava/io/File;->exists()Z
 
     move-result p4
@@ -3869,7 +3927,7 @@
 
     goto :goto_1
 
-    .line 598
+    .line 602
     :cond_2
     invoke-virtual {v1}, Lorg/json/JSONObject;->toString()Ljava/lang/String;
 
@@ -3883,7 +3941,7 @@
 
     invoke-static {p3, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeAtomically(Ljava/io/File;[B)V
 
-    .line 600
+    .line 604
     :cond_3
     :goto_1
     invoke-static {p2, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
@@ -3894,7 +3952,7 @@
 
     move-result-object p4
 
-    .line 601
+    .line 605
     if-eqz p4, :cond_4
 
     iget-object v1, p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->uid:Ljava/lang/String;
@@ -3907,7 +3965,7 @@
 
     if-eqz p4, :cond_4
 
-    .line 602
+    .line 606
     invoke-static {p3, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
 
     move-result-object p3
@@ -3924,12 +3982,12 @@
 
     if-eqz p1, :cond_4
 
-    .line 605
+    .line 609
     iget-object p1, p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Restored;->user:Ljava/lang/Object;
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->activate(Landroid/app/Activity;Ljava/lang/Object;)V
 
-    .line 606
+    .line 610
     const-string p1, "local_account_restored"
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -3940,12 +3998,12 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 607
+    .line 611
     monitor-exit v0
 
     return-void
 
-    .line 603
+    .line 607
     :cond_4
     :try_start_2
     new-instance p0, Ljava/lang/SecurityException;
@@ -3956,7 +4014,7 @@
 
     throw p0
 
-    .line 578
+    .line 582
     :cond_5
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -3966,7 +4024,7 @@
 
     throw p0
 
-    .line 571
+    .line 575
     :cond_6
     new-instance p0, Ljava/lang/SecurityException;
 
@@ -3978,7 +4036,7 @@
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
-    .line 568
+    .line 572
     :catchall_0
     move-exception p0
 
@@ -3990,7 +4048,7 @@
 .method private static recoveryMatchesVault(Lorg/json/JSONObject;Lorg/json/JSONObject;Ljava/lang/String;)Z
     .locals 5
 
-    .line 758
+    .line 768
     const-string v0, "recoveryWrappedDek"
 
     const-string v1, "payloadCiphertext"
@@ -4005,7 +4063,7 @@
 
     goto :goto_1
 
-    .line 760
+    .line 770
     :cond_0
     :try_start_0
     const-string v4, "legacyUid"
@@ -4020,7 +4078,7 @@
 
     if-eqz p2, :cond_1
 
-    .line 761
+    .line 771
     invoke-virtual {p1, v2}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
@@ -4035,7 +4093,7 @@
 
     if-eqz p2, :cond_1
 
-    .line 762
+    .line 772
     invoke-virtual {p1, v1}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
@@ -4050,7 +4108,7 @@
 
     if-eqz p2, :cond_1
 
-    .line 763
+    .line 773
     invoke-virtual {p1, v0}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p1
@@ -4074,18 +4132,18 @@
     :cond_1
     nop
 
-    .line 760
+    .line 770
     :goto_0
     return v3
 
-    .line 764
+    .line 774
     :catchall_0
     move-exception p0
 
-    .line 765
+    .line 775
     return v3
 
-    .line 758
+    .line 768
     :cond_2
     :goto_1
     return v3
@@ -4099,7 +4157,7 @@
         }
     .end annotation
 
-    .line 965
+    .line 975
     new-instance v0, Ljava/io/File;
 
     invoke-virtual {p0}, Ljava/io/File;->getParentFile()Ljava/io/File;
@@ -4138,12 +4196,12 @@
 
     invoke-direct {v0, v1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 966
+    .line 976
     invoke-virtual {p0}, Ljava/io/File;->exists()Z
 
     move-result v1
 
-    .line 967
+    .line 977
     if-eqz v1, :cond_1
 
     invoke-virtual {p0, v0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
@@ -4163,31 +4221,31 @@
 
     throw p0
 
-    .line 969
+    .line 979
     :cond_1
     :goto_0
     :try_start_0
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeAtomically(Ljava/io/File;[B)V
 
-    .line 970
+    .line 980
     if-eqz v1, :cond_2
 
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 975
+    .line 985
     :cond_2
     nop
 
-    .line 976
+    .line 986
     return-void
 
-    .line 971
+    .line 981
     :catchall_0
     move-exception p1
 
-    .line 972
+    .line 982
     invoke-virtual {p0}, Ljava/io/File;->exists()Z
 
     move-result v2
@@ -4196,13 +4254,13 @@
 
     invoke-virtual {p0}, Ljava/io/File;->delete()Z
 
-    .line 973
+    .line 983
     :cond_3
     if-eqz v1, :cond_4
 
     invoke-virtual {v0, p0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
-    .line 974
+    .line 984
     :cond_4
     throw p1
 .end method
@@ -5206,7 +5264,7 @@
 .method private static restoreArchivedArtifacts(Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
     .locals 3
 
-    .line 559
+    .line 563
     if-eqz p0, :cond_3
 
     invoke-virtual {p0}, Ljava/io/File;->isDirectory()Z
@@ -5217,7 +5275,7 @@
 
     goto :goto_0
 
-    .line 560
+    .line 564
     :cond_0
     new-instance v0, Ljava/io/File;
 
@@ -5227,7 +5285,7 @@
 
     invoke-direct {v0, p0, v1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 561
+    .line 565
     new-instance v1, Ljava/io/File;
 
     invoke-virtual {p2}, Ljava/io/File;->getName()Ljava/lang/String;
@@ -5236,7 +5294,7 @@
 
     invoke-direct {v1, p0, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 562
+    .line 566
     invoke-virtual {v0}, Ljava/io/File;->exists()Z
 
     move-result v2
@@ -5251,7 +5309,7 @@
 
     invoke-virtual {v0, p1}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
-    .line 563
+    .line 567
     :cond_1
     invoke-virtual {v1}, Ljava/io/File;->exists()Z
 
@@ -5267,14 +5325,14 @@
 
     invoke-virtual {v1, p2}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
-    .line 564
+    .line 568
     :cond_2
     invoke-virtual {p0}, Ljava/io/File;->delete()Z
 
-    .line 565
+    .line 569
     return-void
 
-    .line 559
+    .line 563
     :cond_3
     :goto_0
     return-void
@@ -5543,14 +5601,14 @@
         }
     .end annotation
 
-    .line 999
+    .line 1009
     const-string v0, "w14"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 1000
+    .line 1010
     const/4 v1, 0x0
 
     new-array v2, v1, [Ljava/lang/Class;
@@ -5569,7 +5627,7 @@
 
     move-result-object v0
 
-    .line 1001
+    .line 1011
     invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
     move-result-object v2
@@ -5609,14 +5667,14 @@
         }
     .end annotation
 
-    .line 1030
+    .line 1040
     const-string v0, "com.bareapps.barebackup.common.V"
 
     invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v0
 
-    .line 1031
+    .line 1041
     const-string v1, "INSTANCE"
 
     invoke-virtual {v0, v1}, Ljava/lang/Class;->getField(Ljava/lang/String;)Ljava/lang/reflect/Field;
@@ -5629,14 +5687,14 @@
 
     move-result-object v1
 
-    .line 1032
+    .line 1042
     const-string v2, "com.bareapps.barebackup.anonymous.MFirebaseUser"
 
     invoke-static {v2}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
 
     move-result-object v2
 
-    .line 1033
+    .line 1043
     const/4 v3, 0x1
 
     new-array v4, v3, [Ljava/lang/Class;
@@ -5657,14 +5715,14 @@
 
     invoke-virtual {v0, v1, v2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 1034
+    .line 1044
     return-void
 .end method
 
 .method private static showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     .locals 2
 
-    .line 1299
+    .line 1314
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5675,26 +5733,26 @@
 
     goto :goto_1
 
-    .line 1301
+    .line 1316
     :cond_0
     :try_start_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1302
+    .line 1317
     invoke-virtual {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1303
+    .line 1318
     invoke-virtual {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
     const-string v0, "local_account_cancel_setup"
 
-    .line 1304
+    .line 1319
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
@@ -5707,44 +5765,44 @@
 
     move-result-object p1
 
-    .line 1310
+    .line 1325
     const/4 v0, 0x0
 
     invoke-virtual {p1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1311
+    .line 1326
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 1312
+    .line 1327
     const/4 p1, 0x1
 
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1313
+    .line 1328
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1317
+    .line 1332
     goto :goto_0
 
-    .line 1314
+    .line 1329
     :catchall_0
     move-exception p1
 
-    .line 1315
+    .line 1330
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearDialogGate()V
 
-    .line 1316
+    .line 1331
     invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1318
+    .line 1333
     :goto_0
     return-void
 
-    .line 1299
+    .line 1314
     :cond_1
     :goto_1
     return-void
@@ -5753,7 +5811,7 @@
 .method private static showNewAccountConfirmation(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
     .locals 9
 
-    .line 470
+    .line 474
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5764,13 +5822,13 @@
 
     goto :goto_0
 
-    .line 471
+    .line 475
     :cond_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 472
+    .line 476
     const-string v1, "local_account_new_setup_title"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -5781,7 +5839,7 @@
 
     move-result-object v0
 
-    .line 473
+    .line 477
     const-string v1, "local_account_new_setup_message"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -5792,7 +5850,7 @@
 
     move-result-object v0
 
-    .line 474
+    .line 478
     const-string v1, "local_account_new_setup_action"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -5807,7 +5865,7 @@
 
     move-result-object v0
 
-    .line 503
+    .line 507
     const-string v1, "local_account_retry_recovery"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -5834,28 +5892,28 @@
 
     move-result-object p1
 
-    .line 516
+    .line 520
     const/4 p2, 0x0
 
     invoke-virtual {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 517
+    .line 521
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 518
+    .line 522
     const/4 p1, 0x1
 
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 519
+    .line 523
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 520
+    .line 524
     return-void
 
-    .line 470
+    .line 474
     :cond_1
     :goto_0
     return-void
@@ -5864,7 +5922,7 @@
 .method private static showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
     .locals 6
 
-    .line 618
+    .line 622
     if-eqz p0, :cond_2
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5875,23 +5933,23 @@
 
     goto/16 :goto_2
 
-    .line 619
+    .line 623
     :cond_0
     new-instance v0, Landroid/widget/TextView;
 
     invoke-direct {v0, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    .line 620
+    .line 624
     iget-object v1, p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->code:Ljava/lang/String;
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
-    .line 621
+    .line 625
     const/4 v1, 0x1
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTextIsSelectable(Z)V
 
-    .line 622
+    .line 626
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
     move-result-object v2
@@ -5908,7 +5966,7 @@
 
     move-result v2
 
-    .line 623
+    .line 627
     const-string v3, "monospace"
 
     if-eqz v2, :cond_1
@@ -5919,7 +5977,7 @@
 
     if-lt v4, v5, :cond_1
 
-    .line 625
+    .line 629
     :try_start_0
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -5935,23 +5993,11 @@
 
     goto :goto_0
 
-    .line 626
+    .line 630
     :catchall_0
     move-exception v2
 
-    .line 627
-    invoke-static {v3, v1}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
-
-    move-result-object v2
-
-    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
-
-    .line 628
-    :goto_0
-    goto :goto_1
-
-    .line 630
-    :cond_1
+    .line 631
     invoke-static {v3, v1}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
 
     move-result-object v2
@@ -5959,118 +6005,154 @@
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
     .line 632
+    :goto_0
+    goto :goto_1
+
+    .line 634
+    :cond_1
+    invoke-static {v3, v1}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 636
     :goto_1
     const/16 v2, 0x11
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setGravity(I)V
 
-    .line 633
-    const/high16 v2, 0x41800000    # 16.0f
+    .line 637
+    const/high16 v2, 0x41700000    # 15.0f
 
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTextSize(F)V
 
-    .line 634
-    invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Landroid/content/res/Resources;->getDisplayMetrics()Landroid/util/DisplayMetrics;
-
-    move-result-object v2
-
-    iget v2, v2, Landroid/util/DisplayMetrics;->density:F
-
-    const/high16 v3, 0x41c00000    # 24.0f
-
-    mul-float/2addr v2, v3
-
-    float-to-int v2, v2
-
-    .line 635
-    invoke-virtual {v0, v2, v2, v2, v2}, Landroid/widget/TextView;->setPadding(IIII)V
-
-    .line 636
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object v2
-
-    .line 637
-    const-string v3, "local_account_save_recovery_title"
-
-    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object v2
-
     .line 638
-    const-string v3, "local_account_save_recovery_message"
+    const v2, 0x3d3851ec    # 0.045f
 
-    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object v2
+    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setLetterSpacing(F)V
 
     .line 639
-    invoke-virtual {v2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    const/high16 v2, 0x40800000    # 4.0f
+
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result v2
+
+    int-to-float v2, v2
+
+    const v3, 0x3f8a3d71    # 1.08f
+
+    invoke-virtual {v0, v2, v3}, Landroid/widget/TextView;->setLineSpacing(FF)V
+
+    .line 640
+    const/high16 v2, 0x41a00000    # 20.0f
+
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result v3
+
+    const/high16 v4, 0x41900000    # 18.0f
+
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result v5
+
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result v2
+
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dp(Landroid/app/Activity;F)I
+
+    move-result v4
+
+    invoke-virtual {v0, v3, v5, v2, v4}, Landroid/widget/TextView;->setPadding(IIII)V
+
+    .line 641
+    const/4 v2, 0x0
+
+    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setBreakStrategy(I)V
+
+    .line 642
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v3
+
+    .line 643
+    const-string v4, "local_account_save_recovery_title"
+
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v3
+
+    .line 644
+    const-string v4, "local_account_save_recovery_message"
+
+    invoke-static {p0, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v3
+
+    .line 645
+    invoke-virtual {v3, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 640
-    const-string v2, "local_account_saved_code_action"
+    .line 646
+    const-string v3, "local_account_saved_code_action"
 
-    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v3
 
-    new-instance v3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;
+    new-instance v4, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;
 
-    invoke-direct {v3, p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;-><init>(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    invoke-direct {v4, p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;-><init>(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
-    invoke-virtual {v0, v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v0, v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 646
+    .line 652
     const-string v0, "local_account_cancel_setup"
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;
+    new-instance v3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;
 
-    invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;-><init>()V
+    invoke-direct {v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;-><init>()V
 
-    invoke-virtual {p1, v0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object p1
-
-    .line 652
-    const/4 v0, 0x0
-
-    invoke-virtual {p1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {p1, v0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 653
+    .line 658
+    invoke-virtual {p1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object p1
+
+    .line 659
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 654
+    .line 660
     sput-boolean v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 655
+    .line 661
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 656
+    .line 662
     return-void
 
-    .line 618
+    .line 622
     :cond_2
     :goto_2
     return-void
@@ -6128,6 +6210,27 @@
     invoke-virtual {v8, v1}, Landroid/widget/EditText;->setInputType(I)V
 
     .line 434
+    const-string v1, "monospace"
+
+    const/4 v9, 0x0
+
+    invoke-static {v1, v9}, Landroid/graphics/Typeface;->create(Ljava/lang/String;I)Landroid/graphics/Typeface;
+
+    move-result-object v1
+
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setTypeface(Landroid/graphics/Typeface;)V
+
+    .line 435
+    const/high16 v1, 0x41700000    # 15.0f
+
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setTextSize(F)V
+
+    .line 436
+    const v1, 0x3d0f5c29    # 0.035f
+
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setLetterSpacing(F)V
+
+    .line 437
     const-string v1, "local_account_recovery_code_hint"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6136,28 +6239,29 @@
 
     invoke-virtual {v8, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
-    .line 435
-    const/4 v9, 0x0
-
+    .line 438
     invoke-virtual {v8, v9}, Landroid/widget/EditText;->setSingleLine(Z)V
 
-    .line 436
+    .line 439
     const/4 v1, 0x2
 
     invoke-virtual {v8, v1}, Landroid/widget/EditText;->setMaxLines(I)V
 
-    .line 437
+    .line 440
+    invoke-virtual {v8, v9}, Landroid/widget/EditText;->setSelectAllOnFocus(Z)V
+
+    .line 441
     if-eqz v0, :cond_1
 
     invoke-virtual {v8, v0}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
 
-    .line 438
+    .line 442
     :cond_1
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 439
+    .line 443
     const-string v1, "local_account_restore_title"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6168,7 +6272,7 @@
 
     move-result-object v0
 
-    .line 440
+    .line 444
     const-string v1, "local_account_restore_message"
 
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6179,12 +6283,12 @@
 
     move-result-object v0
 
-    .line 441
+    .line 445
     invoke-virtual {v0, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v10
 
-    .line 442
+    .line 446
     const-string v0, "local_account_restore_action"
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6213,7 +6317,7 @@
 
     move-result-object v6
 
-    .line 454
+    .line 458
     const-string v0, "local_account_new_setup_secondary"
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6240,23 +6344,23 @@
 
     move-result-object v0
 
-    .line 461
+    .line 465
     invoke-virtual {v0, v9}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 462
+    .line 466
     invoke-virtual {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 463
+    .line 467
     const/4 v0, 0x1
 
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 464
+    .line 468
     sput-object v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
-    .line 465
+    .line 469
     return-void
 
     .line 431
@@ -6268,7 +6372,7 @@
 .method private static showSignOutFailure(Landroid/app/Activity;)V
     .locals 3
 
-    .line 1100
+    .line 1110
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -6279,7 +6383,7 @@
 
     goto :goto_1
 
-    .line 1102
+    .line 1112
     :cond_0
     :try_start_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
@@ -6288,7 +6392,7 @@
 
     const-string v1, "local_account_signout_failed_title"
 
-    .line 1103
+    .line 1113
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -6299,7 +6403,7 @@
 
     const-string v1, "local_account_signout_failed_message"
 
-    .line 1104
+    .line 1114
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -6310,7 +6414,7 @@
 
     const-string v1, "local_account_try_again"
 
-    .line 1105
+    .line 1115
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -6325,7 +6429,7 @@
 
     const-string v1, "local_account_stay_signed_in"
 
-    .line 1111
+    .line 1121
     invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v1
@@ -6338,37 +6442,37 @@
 
     move-result-object v0
 
-    .line 1116
+    .line 1126
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1117
+    .line 1127
     invoke-virtual {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 1118
+    .line 1128
     const/4 v0, 0x1
 
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1119
+    .line 1129
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1123
+    .line 1133
     goto :goto_0
 
-    .line 1120
+    .line 1130
     :catchall_0
     move-exception v0
 
-    .line 1121
+    .line 1131
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearDialogGate()V
 
-    .line 1122
+    .line 1132
     const-string v0, "local_account_signout_failed_toast"
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
@@ -6377,11 +6481,11 @@
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1124
+    .line 1134
     :goto_0
     return-void
 
-    .line 1100
+    .line 1110
     :cond_1
     :goto_1
     return-void
@@ -6628,7 +6732,7 @@
 .method private static themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 1
 
-    .line 1127
+    .line 1141
     new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     invoke-direct {v0, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;-><init>(Landroid/app/Activity;)V
@@ -6639,7 +6743,7 @@
 .method private static toast(Landroid/app/Activity;Ljava/lang/String;)V
     .locals 1
 
-    .line 1096
+    .line 1106
     const/4 v0, 0x1
 
     :try_start_0
@@ -6656,7 +6760,7 @@
     :catchall_0
     move-exception p0
 
-    .line 1097
+    .line 1107
     :goto_0
     return-void
 .end method
@@ -6664,12 +6768,12 @@
 .method private static uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
     .locals 3
 
-    .line 1090
+    .line 1100
     if-nez p0, :cond_0
 
     return-object p1
 
-    .line 1091
+    .line 1101
     :cond_0
     invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
 
@@ -6685,7 +6789,7 @@
 
     move-result v0
 
-    .line 1092
+    .line 1102
     if-nez v0, :cond_1
 
     goto :goto_0
@@ -6707,14 +6811,14 @@
         }
     .end annotation
 
-    .line 954
+    .line 964
     invoke-virtual {p0}, Ljava/io/File;->exists()Z
 
     move-result v0
 
     if-nez v0, :cond_3
 
-    .line 955
+    .line 965
     new-instance v0, Ljava/io/File;
 
     invoke-virtual {p0}, Ljava/io/File;->getParentFile()Ljava/io/File;
@@ -6753,11 +6857,11 @@
 
     invoke-direct {v0, v1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 957
+    .line 967
     :try_start_0
     invoke-static {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeTemp(Ljava/io/File;[B)V
 
-    .line 958
+    .line 968
     invoke-virtual {v0, p0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
     move-result p0
@@ -6766,7 +6870,7 @@
 
     if-eqz p0, :cond_1
 
-    .line 960
+    .line 970
     invoke-virtual {v0}, Ljava/io/File;->exists()Z
 
     move-result p0
@@ -6775,11 +6879,11 @@
 
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
 
-    .line 962
+    .line 972
     :cond_0
     return-void
 
-    .line 958
+    .line 968
     :cond_1
     :try_start_1
     new-instance p0, Ljava/lang/IllegalStateException;
@@ -6792,7 +6896,7 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 960
+    .line 970
     :catchall_0
     move-exception p0
 
@@ -6804,11 +6908,11 @@
 
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
 
-    .line 961
+    .line 971
     :cond_2
     throw p0
 
-    .line 954
+    .line 964
     :cond_3
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -6822,46 +6926,46 @@
 .method private static writeMarkers(ZZ)Z
     .locals 2
 
-    .line 1059
+    .line 1069
     :try_start_0
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->prefs()Landroid/content/SharedPreferences;
 
     move-result-object v0
 
-    .line 1060
+    .line 1070
     invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object v0
 
     const-string v1, "local_account_session_active"
 
-    .line 1061
+    .line 1071
     invoke-interface {v0, v1, p0}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
     move-result-object p0
 
     const-string v0, "local_signout_pending_intro"
 
-    .line 1062
+    .line 1072
     invoke-interface {p0, v0, p1}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
     move-result-object p0
 
-    .line 1063
+    .line 1073
     invoke-interface {p0}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
     move-result p0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1060
+    .line 1070
     return p0
 
-    .line 1064
+    .line 1074
     :catchall_0
     move-exception p0
 
-    .line 1065
+    .line 1075
     const/4 p0, 0x0
 
     return p0
@@ -6875,7 +6979,7 @@
         }
     .end annotation
 
-    .line 935
+    .line 945
     invoke-virtual {p0}, Ljava/io/File;->exists()Z
 
     move-result v0
@@ -6888,7 +6992,7 @@
 
     if-nez v0, :cond_3
 
-    .line 936
+    .line 946
     new-instance v0, Ljava/io/File;
 
     invoke-virtual {p0}, Ljava/io/File;->getParentFile()Ljava/io/File;
@@ -6927,7 +7031,7 @@
 
     invoke-direct {v0, v1, v2}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 937
+    .line 947
     new-instance v1, Ljava/io/File;
 
     invoke-virtual {p2}, Ljava/io/File;->getParentFile()Ljava/io/File;
@@ -6964,29 +7068,29 @@
 
     invoke-direct {v1, v2, v3}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
 
-    .line 938
+    .line 948
     nop
 
-    .line 940
+    .line 950
     const/4 v2, 0x0
 
     :try_start_0
     invoke-static {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeTemp(Ljava/io/File;[B)V
 
-    .line 941
+    .line 951
     invoke-static {v1, p3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeTemp(Ljava/io/File;[B)V
 
-    .line 942
+    .line 952
     invoke-virtual {v1, p2}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
 
     move-result p1
 
     if-eqz p1, :cond_1
 
-    .line 943
+    .line 953
     nop
 
-    .line 944
+    .line 954
     const/4 v2, 0x1
 
     invoke-virtual {v0, p0}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
@@ -6995,13 +7099,13 @@
 
     if-eqz p0, :cond_0
 
-    .line 950
+    .line 960
     nop
 
-    .line 951
+    .line 961
     return-void
 
-    .line 944
+    .line 954
     :cond_0
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -7011,7 +7115,7 @@
 
     throw p0
 
-    .line 942
+    .line 952
     :cond_1
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -7023,26 +7127,26 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 945
+    .line 955
     :catchall_0
     move-exception p0
 
-    .line 946
+    .line 956
     invoke-virtual {v0}, Ljava/io/File;->delete()Z
 
-    .line 947
+    .line 957
     invoke-virtual {v1}, Ljava/io/File;->delete()Z
 
-    .line 948
+    .line 958
     if-eqz v2, :cond_2
 
     invoke-virtual {p2}, Ljava/io/File;->delete()Z
 
-    .line 949
+    .line 959
     :cond_2
     throw p0
 
-    .line 935
+    .line 945
     :cond_3
     new-instance p0, Ljava/lang/IllegalStateException;
 
@@ -7056,7 +7160,7 @@
 .method private static writeSignOutMarkers()Z
     .locals 4
 
-    .line 1045
+    .line 1055
     const/4 v0, 0x0
 
     :try_start_0
@@ -7064,21 +7168,21 @@
 
     move-result-object v1
 
-    .line 1046
+    .line 1056
     invoke-interface {v1}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object v1
 
     const-string v2, "local_account_session_active"
 
-    .line 1047
+    .line 1057
     invoke-interface {v1, v2, v0}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
     move-result-object v1
 
     const-string v2, "local_signout_pending_intro"
 
-    .line 1048
+    .line 1058
     const/4 v3, 0x1
 
     invoke-interface {v1, v2, v3}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
@@ -7087,33 +7191,33 @@
 
     const-string v2, "KEY_FIRST_START"
 
-    .line 1049
+    .line 1059
     invoke-interface {v1, v2, v3}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
     move-result-object v1
 
     const-string v2, "KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED"
 
-    .line 1050
+    .line 1060
     invoke-interface {v1, v2, v0}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
     move-result-object v1
 
-    .line 1051
+    .line 1061
     invoke-interface {v1}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
     move-result v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1046
+    .line 1056
     return v0
 
-    .line 1052
+    .line 1062
     :catchall_0
     move-exception v1
 
-    .line 1053
+    .line 1063
     return v0
 .end method
 
@@ -7125,19 +7229,19 @@
         }
     .end annotation
 
-    .line 979
+    .line 989
     new-instance v0, Ljava/io/FileOutputStream;
 
     invoke-direct {v0, p0}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
 
-    .line 981
+    .line 991
     :try_start_0
     invoke-virtual {v0, p1}, Ljava/io/FileOutputStream;->write([B)V
 
-    .line 982
+    .line 992
     invoke-virtual {v0}, Ljava/io/FileOutputStream;->flush()V
 
-    .line 983
+    .line 993
     invoke-virtual {v0}, Ljava/io/FileOutputStream;->getFD()Ljava/io/FileDescriptor;
 
     move-result-object p0
@@ -7146,21 +7250,21 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 985
+    .line 995
     invoke-virtual {v0}, Ljava/io/FileOutputStream;->close()V
 
-    .line 986
+    .line 996
     nop
 
-    .line 987
+    .line 997
     return-void
 
-    .line 985
+    .line 995
     :catchall_0
     move-exception p0
 
     invoke-virtual {v0}, Ljava/io/FileOutputStream;->close()V
 
-    .line 986
+    .line 996
     throw p0
 .end method
