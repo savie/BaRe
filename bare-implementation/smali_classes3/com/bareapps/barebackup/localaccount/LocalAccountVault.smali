@@ -5076,6 +5076,31 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTextIsSelectable(Z)V
 
+    invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v1
+
+    const-string v2, "mono_bold"
+
+    const-string v3, "font"
+
+    invoke-virtual {p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v1, v2, v3, v4}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v1
+
+    if-eqz v1, :cond_mono_fallback
+
+    invoke-static {p0, v1}, Landroidx/core/content/res/ResourcesCompat;->getFont(Landroid/content/Context;I)Landroid/graphics/Typeface;
+
+    move-result-object v1
+
+    goto :goto_mono_ready
+
+    :cond_mono_fallback
     const-string v1, "monospace"
 
     const/4 v2, 0x1
@@ -5084,6 +5109,7 @@
 
     move-result-object v1
 
+    :goto_mono_ready
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setTypeface(Landroid/graphics/Typeface;)V
 
     const/16 v1, 0x11
