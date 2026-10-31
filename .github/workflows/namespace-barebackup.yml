@@ -24,6 +24,7 @@ on:
       - "tools/libsba-archive/**"
       - "tools/prepare-barebackup-build.py"
       - "tools/migrate-encrypted-constants.py"
+      - "tools/local-account-vault-src/**"
 
 permissions:
   contents: write
