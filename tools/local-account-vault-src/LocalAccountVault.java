@@ -478,7 +478,10 @@ public final class LocalAccountVault {
         SecretKey deviceKey = createDeviceKey(alias);
         JSONObject updatedVault = makeVaultEnvelope(id, restored.uid, alias, dek, payload,
                 deviceKey, recoveryBytes);
-        JSONObject updatedRecovery = makeRecoveryEnvelope(id, restored.uid, payload, dek, recoveryBytes);
+        // Both files must carry the exact same AES-GCM wrapped-DEK envelope.
+        // Re-encrypting it twice creates different random IVs and makes the
+        // byte-for-byte recoveryMatchesVault verification fail every time.
+        JSONObject updatedRecovery = makeRecoveryEnvelopeFromVault(updatedVault);
         replaceAtomically(vaultFile, updatedVault.toString().getBytes(StandardCharsets.UTF_8));
         JSONObject persistedVault = readEnvelope(vaultFile, id);
         JSONObject oldRecovery = recoveryFile.exists() ? readEnvelope(recoveryFile, id) : null;
@@ -580,8 +583,9 @@ public final class LocalAccountVault {
         byte[] payload = makePayload(enrollment.id, uid, enrollment.user);
         JSONObject vault = makeVaultEnvelope(enrollment.id, uid, alias, enrollment.dek,
                 payload, deviceKey, enrollment.recovery);
-        JSONObject recovery = makeRecoveryEnvelope(enrollment.id, uid, payload,
-                enrollment.dek, enrollment.recovery);
+        // Reuse the vault's wrapped-DEK ciphertext so the paired artifacts
+        // have one canonical recovery envelope and can be verified consistently.
+        JSONObject recovery = makeRecoveryEnvelopeFromVault(vault);
 
         byte[] deviceCheck = decrypt(deviceKey, decode(vault.getString("deviceWrappedDek")),
                 aad(enrollment.id, "device:" + alias));
@@ -698,10 +702,22 @@ public final class LocalAccountVault {
         localSelectionPending = false;
         resolutionComplete = true;
         try { notifyAccountObservers(); } catch (Throwable ignored) {}
-        // Re-run the existing Intro startup route with the now-persisted identity.
-        // This mirrors the successful cold-launch path without killing the app process.
+        // Enrollment/recovery is a completed account-selection transition.
+        // IntroActivity is the launcher only; recreating it leaves its intro
+        // ViewModel/navigation state alive and can strand the user on a blank
+        // Intro screen. Start the declared HomeActivity explicitly, then retire
+        // IntroActivity so Android cannot return to the unresolved setup screen.
         if (activity != null && !activity.isFinishing()) {
-            try { activity.recreate(); } catch (Throwable ignored) {}
+            try {
+                Class<?> home = Class.forName("com.bareapps.barebackup.home.HomeActivity");
+                Intent intent = new Intent(activity, home);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+                activity.finish();
+            } catch (Throwable navigationError) {
+                android.util.Log.e("LocalAccountVault", "Home navigation failed after local activation", navigationError);
+                toast(activity, "Local Account is active, but Home could not be opened. Please reopen the app.");
+            }
         }
     }
 
