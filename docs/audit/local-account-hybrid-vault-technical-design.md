@@ -533,3 +533,69 @@ Intro > Skip continues through the existing permission-grant state. Once permiss
 - storage unavailable: visible error, no enrollment and no private-storage fallback.
 
 Local Sign Out remains limited to deactivating the Local session marker and exiting the app. It must preserve the vault and must not touch Firebase Auth, Google sign-out, Shizuku/package clear, or global preference clear.
+
+
+---
+
+# 18. Implementation target and integration audit update (2026-10-31)
+
+This section records the owner's latest implementation authorization and supersedes the older read-only-target wording in Sections 11 and 15.7 where inconsistent.
+
+## 18.1 Authorized implementation boundary
+
+- Implement the approved Local Account lifecycle directly in `bare-implementation/` on a dedicated feature branch.
+- The implementation PR must contain changes **only** under `bare-implementation/`.
+- Do not include `tools/`, workflow, audit/design docs, reference artifacts, or unrelated Firebase/Google changes in that PR.
+- Audit/design updates belong on `Working` only when new evidence or a decision requires recording.
+- `reference/apktool/` and `reference/jadx/` remain read-only evidence.
+
+## 18.2 Build capability correction
+
+The repository does not contain an authoritative native Gradle source project, but it does contain an APK rebuild workflow:
+- `.github/workflows/namespace-barebackup.yml` copies `bare-implementation/` into a build workspace.
+- It runs the existing preparation/encrypted-constant migration scripts, rebuilds native JNI libraries, and invokes Apktool to assemble the APK.
+- The workflow has `workflow_dispatch`, but its push branch allowlist does not currently include the Local Account feature branch.
+- No workflow run or APK build is claimed by this audit. The available GitHub actions integration in this work session can inspect runs/logs but cannot dispatch a new workflow run; manual dispatch through GitHub Actions UI may be needed after a candidate branch is ready.
+
+This means Smali-only patching is a viable target path in principle, but the candidate still needs an actual Apktool assembly and regression verification before PR readiness.
+
+## 18.3 Existing crypto capability and key separation
+
+Static evidence:
+- `us2.B()` creates/loads AndroidKeyStore alias `_androidx_security_master_key_`, configures AES-256/GCM/NoPadding, and self-tests encryption/decryption.
+- `ty3.e()` / `ty3.c()` perform AES-GCM encrypt/decrypt with associated data.
+- These helpers support the existing encrypted-preferences implementation; they do not constitute a Local Account vault or portable recovery design.
+- Do not reuse the encrypted-preferences master alias for vault payloads. Create a purpose-specific vault key alias and separately design a recovery wrapper around a high-entropy user-held recovery secret.
+
+## 18.4 Legacy namespace compatibility
+
+The existing backup root is constructed by `ry5` as `{storageRoot}/accounts/{qy5.e(MFirebaseUser)}/`. The namespace identifier is derived from the existing `MFirebaseUser.uid` through the legacy MD5-based path helper. It is not a cryptographic key.
+
+Vault integration must:
+- preserve the exact existing UID for a migrated local account;
+- preserve the existing backup namespace path and contents;
+- maintain a distinct stable `LocalAccountId`;
+- store vault metadata without colliding with the legacy 16-hex account directories.
+
+## 18.5 Sign-out integration safety
+
+The static call graph shows `d45.c()` is shared by multiple flows, including Google credential sign-out, no-GMS sign-out, `Const.Q()`, and the Local-to-Google migration callback (`rc1`, which sets `is_migrating_to_google_sign_in=true) first.
+
+Therefore:
+- Do not globally change `d45.c()` to treat every anonymous model as a Local Sign Out request.
+- Identify the explicit Local Sign Out UI action and route only that action to a dedicated Local-only handler.
+- Keep Google sign-out and migration call-sites unchanged.
+- The existing `Const.E()` helper restarts the launch activity; it is not a suitable substitute for the requested Local Sign Out exit behavior.
+
+## 18.6 Remaining implementation gates
+
+1. Identify the explicit user-facing Local Sign Out click path and its owning Activity/ViewModel.
+2. Implement a purpose-separated encrypted vault envelope, device wrapper, and portable recovery wrapper.
+3. Implement strict candidate scan, atomic write/verify, migration preserving LegacyUid, and resolver states.
+4. Integrate Local activation after the existing Intro permission flow, without altering Google provider selection.
+5. Route Config/Label local reads/writes away from Firebase while leaving cloud paths intact.
+6. Implement dedicated Local Sign Out and persistent inactive-session marker.
+7. Run Apktool build and available static checks; arrange a manual workflow dispatch or equivalent CI execution for the feature branch.
+8. Complete device/runtime acceptance tests before declaring behavior verified.
+
+No application code, build, or runtime test is claimed complete by this section.
