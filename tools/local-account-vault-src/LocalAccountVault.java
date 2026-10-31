@@ -70,6 +70,15 @@ public final class LocalAccountVault {
         return localSelectionPending;
     }
 
+    public static boolean isLocalSessionInactive() {
+        try {
+            SharedPreferences preferences = prefs();
+            return preferences.contains(PREF_ACTIVE) && !preferences.getBoolean(PREF_ACTIVE, false);
+        } catch (Throwable ignored) {
+            return true;
+        }
+    }
+
     public static boolean canCompleteIntro() {
         return !localSelectionPending || resolutionComplete;
     }
@@ -97,6 +106,11 @@ public final class LocalAccountVault {
     public static void selectLocal(Activity activity) {
         if (localSelectionPending) {
             onPermissionReturn(activity);
+            return;
+        }
+        if (!writeMarkers(false, true)) {
+            showError(activity, "Local Account setup unavailable",
+                    "The pending Intro state could not be saved. No Local Account was activated.");
             return;
         }
         Object legacy = cachedLocalUser();
