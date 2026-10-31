@@ -619,3 +619,33 @@ Risiko platform: `MANAGE_EXTERNAL_STORAGE` merupakan special app access, bukan r
 - Explicit Skip keeps the marker until the Local vault resolver successfully activates/migrates/enrolls the selected Local account.
 
 **Status:** the exact Intro and Account-card call paths are now statically traced. No code changes or runtime verification are claimed.
+
+
+### 13.9 Audit CRUD Config/Label: local persistence versus direct cloud writes (2026-10-31)
+
+A source-level correction is required: Config/Label mutation already has local encrypted-file persistence, but the same mutation callback also issues direct Firebase Realtime Database writes outside `cf3`.
+
+**Config:**
+- `ah` case 17 validates/publishes `ConfigsData`, then schedules `bh` case 14.
+- `bh` case 14 writes `ConfigsData` through `w14.g(..., br1.g, false)` to the existing local encrypted cache.
+- The same `ah` case 17 then calls `br1.c.i(configsDataValidate)` directly on the `configs` Firebase reference.
+- `br1.b()` online fetch calls `cf3.a(c, true)`, which rejects the pseudo-local anonymous model; its offline branch uses local cache `br1.a()`.
+
+**Labels:**
+- `gr4` updates the in-memory `LabelsData` and schedules `bk` case 27.
+- `bk` case 27 schedules `d76` case 28, which writes `LabelsData` through `w14.g(..., lr4.g, false)` to the existing local encrypted cache.
+- The same `bk` case 27 then calls `re3.k().d("labelsData").i(labelsDataCopy)` directly on the Firebase user reference.
+- `lr4.b()` online fetch calls `cf3.a(labelsRef, true)` and is rejected for pseudo-local; its offline branch reads local cache through `lr4.a()`.
+
+**Required narrow changes:**
+1. Preserve the local `w14.g(...)` writes for both repositories.
+2. Skip only the direct `br1.c.i(...)` and `re3...labelsData.i(...)` calls when the resolved user is the pseudo-local model.
+3. Route online Local Config/Label fetch to the existing local encrypted cache before invoking `cf3`.
+4. Keep all existing Firebase read/write behavior for non-anonymous Google/Firebase users unchanged.
+5. Do not relax `cf3` guards or Firebase rules.
+
+`V.getA()` returning constant `true` means the existing Local mutation guards do not currently block these writes. The actual defect is the cloud fetch routing plus direct cloud writes that are not consistently guarded by `cf3`.
+
+**Identity generator compatibility:** `b45.a()` has multiple call-sites outside Intro (`tm3`, `cu`, `qm`, `fj`, `yx5`, `ds4`, `wj3`, and `intro/d`). Do not change it globally. A new random UID factory must be Local Account-specific and used only for first-time Local enrollment; migration preserves the old UID.
+
+No source code was changed by this audit.
