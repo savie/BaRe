@@ -664,9 +664,13 @@ public final class LocalAccountVault {
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
         final EditText input = new EditText(activity);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setTypeface(Typeface.create("monospace", Typeface.NORMAL));
+        input.setTextSize(15f);
+        input.setLetterSpacing(0.035f);
         input.setHint(uiString(activity, "local_account_recovery_code_hint"));
         input.setSingleLine(false);
         input.setMaxLines(2);
+        input.setSelectAllOnFocus(false);
         themedDialogBuilder(activity)
                 .setTitle(uiString(activity, "local_account_confirm_recovery_title"))
                 .setMessage(uiString(activity, "local_account_confirm_recovery_message"))
@@ -1243,28 +1247,29 @@ public final class LocalAccountVault {
         }
 
         private void styleCustomView() {
+            int panel = themeColor("colorSurfaceContainerHigh", android.R.attr.colorBackground, 0xff292929);
+            int outline = themeColor("colorOutline", android.R.attr.colorForeground, 0xff777777);
+            int text = themeColor("colorOnSurface", android.R.attr.textColorPrimary, Color.WHITE);
+            int secondary = themeColor(null, android.R.attr.textColorHint, 0xffbdbdbd);
             if (customView instanceof EditText) {
                 EditText field = (EditText) customView;
-                int primary = themeColor("colorPrimary", android.R.attr.colorAccent, 0xffec407a);
-                int panel = themeColor("cardBackgroundColor", android.R.attr.colorBackground, 0xff292929);
-                int text = themeColor("colorOnSurface", android.R.attr.textColorPrimary, Color.WHITE);
-                int secondary = themeColor(null, android.R.attr.textColorHint, 0xffbdbdbd);
                 field.setTextColor(text);
                 field.setHintTextColor(secondary);
                 field.setTextSize(16f);
                 field.setPadding(dp(16), dp(14), dp(16), dp(14));
-                field.setBackground(roundRect(panel, dp(12), primary, dp(1)));
+                field.setBackground(roundRect(panel, dp(12), outline, dp(1)));
                 field.setSelectAllOnFocus(false);
-                field.setMinHeight(dp(52));
+                field.setMinHeight(dp(54));
+                field.setGravity(Gravity.CENTER_VERTICAL);
             } else if (customView instanceof TextView) {
                 TextView code = (TextView) customView;
-                int panel = themeColor("cardBackgroundColor", android.R.attr.colorBackground, 0xff292929);
-                int text = themeColor("colorOnSurface", android.R.attr.textColorPrimary, Color.WHITE);
                 code.setTextColor(text);
-                code.setTextSize(17f);
+                code.setTextSize(15f);
                 code.setGravity(Gravity.CENTER);
-                code.setPadding(dp(18), dp(18), dp(18), dp(18));
-                code.setBackground(roundRect(panel, dp(14), 0x00000000, 0));
+                code.setPadding(dp(20), dp(18), dp(20), dp(18));
+                code.setBackground(roundRect(panel, dp(14), outline, dp(1)));
+                code.setTextIsSelectable(true);
+                code.setFocusable(true);
             }
         }
 
