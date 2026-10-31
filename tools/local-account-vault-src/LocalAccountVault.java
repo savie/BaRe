@@ -14,16 +14,11 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.text.InputType;
 import android.util.Base64;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.res.ResourcesCompat;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONObject;
@@ -616,11 +611,18 @@ public final class LocalAccountVault {
 
     private static void showRecoveryCode(final Activity activity, final Enrollment enrollment) {
         if (activity == null || activity.isFinishing()) return;
-        MaterialCardView codeCard = createRecoveryCodeCard(activity, enrollment.code);
+        TextView codeView = new TextView(activity);
+        codeView.setText(enrollment.code);
+        codeView.setTextIsSelectable(true);
+        codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
+        codeView.setGravity(Gravity.CENTER);
+        codeView.setTextSize(16f);
+        int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
+        codeView.setPadding(pad, pad, pad, pad);
         new MaterialAlertDialogBuilder(activity)
                 .setTitle("Save your recovery code")
                 .setMessage("Keep this code somewhere safe. You'll need it to restore your Local Account on another device or if this device can't access it. This is different from your backup password. BΛR☰ will ask you to confirm the code before setup is complete.")
-                .setView(codeCard)
+                .setView(codeView)
                 .setPositiveButton("I've saved my code",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
@@ -637,66 +639,6 @@ public final class LocalAccountVault {
                 .show();
         dialogOpen = true;
         dialogActivity = activity;
-    }
-
-    private static MaterialCardView createRecoveryCodeCard(Activity activity, String code) {
-        MaterialCardView card = new MaterialCardView(activity);
-        card.setCardElevation(0f);
-        card.setUseCompatPadding(false);
-        card.setRadius(resolveDimension(activity, "card_corner_radius", 16f));
-        card.setCardBackgroundColor(resolveThemeColor(activity, "colorSurfaceContainerLow", "colorSurface"));
-        card.setStrokeWidth(dp(activity, 1));
-        card.setStrokeColor(resolveThemeColor(activity, "colorOutlineVariant", "colorOutline"));
-
-        TextView codeView = new TextView(activity);
-        codeView.setText(code);
-        codeView.setTextIsSelectable(true);
-        codeView.setGravity(Gravity.CENTER);
-        codeView.setTextSize(16f);
-        codeView.setTextColor(resolveThemeColor(activity, "colorOnSurface", "android:textColorPrimary"));
-        codeView.setPadding(dp(activity, 16), dp(activity, 18), dp(activity, 16), dp(activity, 18));
-        codeView.setLineSpacing(dp(activity, 3), 1f);
-        int monoFont = activity.getResources().getIdentifier("mono_bold", "font", activity.getPackageName());
-        if (monoFont != 0) {
-            try {
-                codeView.setTypeface(ResourcesCompat.getFont(activity, monoFont));
-            } catch (Throwable ignored) {
-                codeView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-            }
-        } else {
-            codeView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-        }
-        codeView.setContentDescription("Recovery code. Select and copy this code.");
-        card.addView(codeView, new MaterialCardView.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        return card;
-    }
-
-    private static int resolveThemeColor(Activity activity, String primaryName, String fallbackName) {
-        int attr = activity.getResources().getIdentifier(primaryName, "attr", activity.getPackageName());
-        if (attr == 0 && fallbackName.startsWith("android:")) {
-            attr = activity.getResources().getIdentifier(fallbackName.substring(8), "attr", "android");
-        } else if (attr == 0) {
-            attr = activity.getResources().getIdentifier(fallbackName, "attr", activity.getPackageName());
-        }
-        TypedValue value = new TypedValue();
-        if (attr != 0 && activity.getTheme().resolveAttribute(attr, value, true)) {
-            if (value.resourceId != 0) {
-                try { return androidx.core.content.ContextCompat.getColor(activity, value.resourceId); }
-                catch (Throwable ignored) {}
-            }
-            return value.data;
-        }
-        return 0xFF777777;
-    }
-
-    private static float resolveDimension(Activity activity, String name, float fallbackDp) {
-        int id = activity.getResources().getIdentifier(name, "dimen", activity.getPackageName());
-        return id == 0 ? dp(activity, (int) fallbackDp) : activity.getResources().getDimension(id);
-    }
-
-    private static int dp(Activity activity, int value) {
-        return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
     }
 
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
