@@ -592,3 +592,30 @@ Risiko platform: `MANAGE_EXTERNAL_STORAGE` merupakan special app access, bukan r
 - `Const.E()` adalah restart helper: ia membuat restart task ke launch activity lalu `System.exit(0)`. Itu bukan perilaku "close app tanpa auto-restart" yang diminta untuk Local Sign Out.
 
 **Status:** crypto primitives tersedia tetapi vault envelope/recovery belum terimplementasi. Call-site UI eksplisit Local Sign Out belum teridentifikasi dengan cukup bukti; ini harus ditelusuri sebelum wiring. Tidak ada perubahan kode pada audit ini.
+
+
+### 13.8 Trace Intro Skip, storage return, and the exact Account-card Sign Out action (2026-10-31)
+
+**Intro Skip / Local selection:**
+- `IntroActivity.onCreate()` wires the skip/local-choice button to `of` case 6.
+- `of` opens `a14`, whose callback invokes `IntroActivity.U(boolean, boolean)`.
+- `U(true, ...)` routes to `intro/d.m(true, IntroActivity)`.
+- `d.m(true)` currently creates `b45.a()`, immediately persists it with `V.setNon()`, and notifies `d45.b()`. It does this before the user has necessarily granted shared-storage access.
+- The Intro storage settings helper `dz5.r()` launches settings with request code `0x2639` (decimal 9785). `IntroActivity.onActivityResult(9785,...)` calls `d.o()` to refresh permission state.
+- Therefore vault scan must be gated until the actual storage grant is present. Do not persist a newly generated identity before scanning the canonical vault root. A provisional in-memory Local selection/state is needed to keep the existing Intro permission UI active while the resolver waits for permission.
+
+**Exact Account-card Sign Out click path:**
+- `account_fragment.xml` includes `profile_card_user.xml`, whose `btn_sign_out` is bound in `o7.onViewCreated()`.
+- `o7` attaches `g7` case 0; this opens the existing confirmation through `Const.K(..., R.string.sign_out, new kn3(homeActivity, 9), ...)`.
+- `kn3` case 9 logs “Sign out initiated by user” and launches `hz3.c(homeActivity, 3005)`.
+- `hz3.c()` routes into `GmsSignInActivity` or `NoGmsSignInActivity`; the completion callback eventually calls `d45.c()`.
+- This is the correct narrow interception point for Local Sign Out: branch in the confirmed callback `kn3` case 9 when the current model is the pseudo-local anonymous model; otherwise preserve the current Google credential sign-out path exactly.
+- Do not change `d45.c()` globally. It is also called by Google sign-out and the Local-to-Google migration flow.
+
+**Cold launch behavior:**
+- `d45.a()` currently reads `V.getNon()` first, then falls through to FirebaseAuth current user.
+- A Local Sign Out marker must be checked before both sources so stale local preference or a still-existing Firebase session cannot bypass Intro after Local Sign Out.
+- Explicit Google selection in `IntroActivity.U(false,...)` must clear that pending-Intro marker before continuing the existing Google flow.
+- Explicit Skip keeps the marker until the Local vault resolver successfully activates/migrates/enrolls the selected Local account.
+
+**Status:** the exact Intro and Account-card call paths are now statically traced. No code changes or runtime verification are claimed.
