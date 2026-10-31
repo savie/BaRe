@@ -3,6 +3,9 @@ package com.bareapps.barebackup.localaccount;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
@@ -138,8 +141,53 @@ public final class LocalAccountVault {
 
     public static void onPermissionReturn(Activity activity) {
         if (!localSelectionPending || activity == null || activity.isFinishing()) return;
-        if (!storagePermissionGranted(activity)) return;
+        if (!storagePermissionGranted(activity)) {
+            requestStoragePermission(activity);
+            return;
+        }
         resolve(activity);
+    }
+
+    private static void requestStoragePermission(final Activity activity) {
+        if (activity == null || activity.isFinishing() || dialogOpen) return;
+        if (Build.VERSION.SDK_INT >= 30) {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Storage access required")
+                    .setMessage("Local Account needs All Files Access to read or save the existing vault and recovery artifact in /storage/emulated/0/BΛR☰/accounts. No account will be created until access is granted.")
+                    .setPositiveButton("Open settings", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            clearDialogGate();
+                            try {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                                intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                                activity.startActivity(intent);
+                            } catch (Throwable error) {
+                                try {
+                                    activity.startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+                                } catch (Throwable ignored) {
+                                    showError(activity, "Cannot open storage settings",
+                                            "Open Android Settings > Apps > BΛR☰ > All Files Access, enable access, then return to the app.");
+                                }
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            clearDialogGate();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+            dialogOpen = true;
+            dialogActivity = activity;
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            activity.requestPermissions(new String[] {
+                    "android.permission.READ_EXTERNAL_STORAGE",
+                    "android.permission.WRITE_EXTERNAL_STORAGE"
+            }, 0xBAE);
+        } else {
+            resolve(activity);
+        }
     }
 
     public static void signOut(Activity activity) {
@@ -252,7 +300,7 @@ public final class LocalAccountVault {
                             if (recoveryFile.exists()) replaceAtomically(recoveryFile, repairedBytes);
                             else writeAtomically(recoveryFile, repairedBytes);
                         }
-                        activate(restored.user);
+                        activate(activity, restored.user);
                         return;
                     }
                 }
@@ -368,11 +416,18 @@ public final class LocalAccountVault {
     private static void showRecoveryPrompt(final Activity activity, final String id,
                                            final File vaultFile, final File recoveryFile,
                                            final JSONObject source) {
+        showRecoveryPrompt(activity, id, vaultFile, recoveryFile, source, null);
+    }
+
+    private static void showRecoveryPrompt(final Activity activity, final String id,
+                                           final File vaultFile, final File recoveryFile,
+                                           final JSONObject source, String previousCode) {
         if (activity == null || activity.isFinishing()) return;
         final EditText input = new EditText(activity);
         input.setSingleLine(true);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setHint("Recovery code");
+        if (previousCode != null) input.setText(previousCode);
         new AlertDialog.Builder(activity)
                 .setTitle("Recover Local Account")
                 .setMessage("The device key is unavailable. Enter the recovery code saved during Local Account setup.")
@@ -383,8 +438,9 @@ public final class LocalAccountVault {
                         try {
                             recoverFromCode(activity, id, vaultFile, recoveryFile, source, input.getText().toString());
                         } catch (Throwable error) {
-                            toast(activity, "Recovery code is invalid or the recovery artifact is damaged.");
-                            showRecoveryPrompt(activity, id, vaultFile, recoveryFile, source);
+                            String attemptedCode = input.getText().toString();
+                            toast(activity, "Recovery failed. Check the full recovery code and try again.");
+                            showRecoveryPrompt(activity, id, vaultFile, recoveryFile, source, attemptedCode);
                         }
                     }
                 })
@@ -402,7 +458,7 @@ public final class LocalAccountVault {
 
     private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
                                         File recoveryFile, JSONObject source, String suppliedCode) throws Exception {
-        String normalized = suppliedCode == null ? "" : suppliedCode.replaceAll("\\s", "");
+        String normalized = normalizeRecoveryCode(suppliedCode);
         byte[] recoveryBytes = decode(normalized);
         if (recoveryBytes.length != 32) throw new SecurityException("Invalid recovery code");
         SecretKey recoveryKey = new SecretKeySpec(recoveryBytes, "AES");
@@ -435,7 +491,7 @@ public final class LocalAccountVault {
                 || !recoveryMatchesVault(readEnvelope(recoveryFile, id), readEnvelope(vaultFile, id), restored.uid)) {
             throw new SecurityException("Recovered vault verification failed");
         }
-        activate(restored.user);
+        activate(activity, restored.user);
         toast(activity, "Local Account restored. Vault location: /storage/emulated/0/BΛR☰/accounts");
     }
 
@@ -488,7 +544,7 @@ public final class LocalAccountVault {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
-                        if (!enrollment.code.equals(input.getText().toString().replaceAll("\\s", ""))) {
+                        if (!enrollment.code.equals(normalizeRecoveryCode(input.getText().toString()))) {
                             toast(activity, "Recovery code did not match. Save and confirm the code to continue.");
                             showRecoveryCode(activity, enrollment);
                             return;
@@ -553,7 +609,7 @@ public final class LocalAccountVault {
                 decode(persistedRecovery.getString("recoveryWrappedDek")), aad(enrollment.id, "recovery"));
         parsePayload(decrypt(new SecretKeySpec(persistedDek, "AES"),
                 decode(persistedRecovery.getString("payloadCiphertext")), aad(enrollment.id, "payload")), enrollment.id);
-        activate(enrollment.user);
+        activate(activity, enrollment.user);
         pendingEnrollment = null;
         toast(activity, "Local Account vault saved to /storage/emulated/0/BΛR☰/accounts");
     }
@@ -634,14 +690,19 @@ public final class LocalAccountVault {
         return getUid(cached).equals(getUid(restoredUser));
     }
 
-    private static void activate(Object user) throws Exception {
+    private static void activate(Activity activity, Object user) throws Exception {
         setCachedLocalUser(user);
         if (!writeMarkers(true, false)) throw new IllegalStateException("Session marker commit failed");
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = true;
-        notifyAccountObservers();
+        try { notifyAccountObservers(); } catch (Throwable ignored) {}
+        // Re-run the existing Intro startup route with the now-persisted identity.
+        // This mirrors the successful cold-launch path without killing the app process.
+        if (activity != null && !activity.isFinishing()) {
+            try { activity.recreate(); } catch (Throwable ignored) {}
+        }
     }
 
     private static SecretKey createDeviceKey(String alias) throws Exception {
@@ -701,8 +762,17 @@ public final class LocalAccountVault {
         return bytes;
     }
 
+    private static String normalizeRecoveryCode(String value) {
+        if (value == null) return "";
+        String normalized = value.trim().replaceAll("\\s+", "");
+        normalized = normalized.replace("\u200B", "").replace("\u200C", "")
+                .replace("\u200D", "").replace("\uFEFF", "");
+        normalized = normalized.replace('+', '-').replace('/', '_').replace("=", "");
+        return normalized;
+    }
+
     private static byte[] decode(String value) {
-        return Base64.decode(value, B64_FLAGS);
+        return Base64.decode(normalizeRecoveryCode(value), B64_FLAGS);
     }
 
     private static String encode(byte[] value) {
