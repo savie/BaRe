@@ -1100,8 +1100,6 @@
     if-eqz v1, :cond_1
 
     goto :goto_0
-    .line 61
-    goto :goto_0
 
     .line 62
     :cond_1
