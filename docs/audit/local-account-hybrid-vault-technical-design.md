@@ -623,7 +623,7 @@ Static call path:
 The narrow safe patch point is the confirmed callback `kn3` case 9:
 - If `d45.a()` resolves the pseudo-local anonymous model, call a dedicated Local Sign Out handler.
 - Otherwise execute the existing `hz3.c(..., 3005)` Google path unchanged.
-- Local handler persists an inactive-session / Intro-required marker, clears only the active Local cache, resets the first-run entry flags as needed without global clear, then closes the current task/process.
+- Local handler persists inactive-session / Intro-required markers and first-run entry flags without clearing the persistent `V.getNon()` identity cache or the vault, then closes the current task/process.
 - `d45.a()` must honor Intro-required marker before returning cached local identity or Firebase current user.
 - Explicit Google choice clears the Intro-required marker and continues existing Google sign-in.
 - Explicit Skip leaves it set until vault resolution succeeds.
@@ -662,7 +662,7 @@ The pending-Intro marker is session/provider-selection state, not an identity de
 
 ## 18.12 Config/Label CRUD implementation boundary
 
-The existing encrypted local cache is already written on mutation:
+The existing local JSON file cache (plaintext at rest) is already written on mutation:
 - Config mutation: `ah` case 17 schedules `bh` case 14, which serializes `ConfigsData` through `w14.g()` to `br1.g`.
 - Label mutation: `bk` case 27 schedules `d76` case 28, which serializes `LabelsData` through `w14.g()` to `lr4.g`.
 
@@ -670,7 +670,7 @@ However, those same mutation callbacks also perform direct Firebase Realtime Dat
 - Config: `br1.c.i(configsDataValidate)` in `ah` case 17.
 - Labels: `re3.k().d("labelsData").i(labelsDataCopy)` in `bk` case 27.
 
-The Local patch must preserve the local encrypted-file write and skip only these direct cloud writes for `MFirebaseUser.isAnonymous()==true`. Also route online Local fetches to the existing local cache before calling `cf3`. Google/Firebase paths must remain byte-for-byte/behaviorally unchanged. Do not loosen `cf3` guards or Firebase rules.
+The Local patch must preserve the existing local JSON-file write and skip only these direct cloud writes for `MFirebaseUser.isAnonymous()==true`. Also route online Local fetches to the existing local cache before calling `cf3`. Preserve Google/Firebase behavior for non-Local users. Do not loosen `cf3` guards or Firebase rules.
 
 `b45.a()` is used by several classes beyond Intro; keep it unchanged and add a Local-only random UID factory for first-time enrollment. Legacy migration must preserve the existing UID.
 
