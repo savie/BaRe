@@ -2046,15 +2046,6 @@
     .line 57
     .line 58
     .line 59
-    sget-object v1, Lcom/bareapps/barebackup/common/V;->INSTANCE:Lcom/bareapps/barebackup/common/V;
-
-    .line 60
-    .line 61
-    invoke-virtual {v1, p0}, Lcom/bareapps/barebackup/common/V;->setNon(Lcom/bareapps/barebackup/anonymous/MFirebaseUser;)V
-
-    .line 62
-    .line 63
-    .line 64
     new-instance p0, Lc45;
 
     .line 65
