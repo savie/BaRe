@@ -40,7 +40,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public final class LocalAccountVault {
     private static final String PREFIX = "local-account-";
-    private static final String ROOT_NAME = "BΛR☰/accounts";
     private static final String PREF_ACTIVE = "local_account_session_active";
     private static final String PREF_INTRO = "local_signout_pending_intro";
     private static final int VERSION = 1;
@@ -273,7 +272,7 @@ public final class LocalAccountVault {
     }
 
     private static File rootDirectory() {
-        return new File(Environment.getExternalStorageDirectory(), ROOT_NAME);
+        return new File("/storage/emulated/0/BΛR☰/accounts");
     }
 
     private static String candidateId(String name) {
@@ -296,6 +295,8 @@ public final class LocalAccountVault {
             JSONObject value = new JSONObject(new String(readBytes(file), StandardCharsets.UTF_8));
             if (value.getInt("schemaVersion") != VERSION) return null;
             if (!expectedId.equals(value.getString("localAccountId"))) return null;
+            if (value.getString("legacyUid").length() == 0) return null;
+            if (!"AES-256-GCM".equals(value.getString("algorithm"))) return null;
             if (!value.has("payloadCiphertext") || !value.has("recoveryWrappedDek")) return null;
             return value;
         } catch (Throwable ignored) {
@@ -312,7 +313,9 @@ public final class LocalAccountVault {
                     aad(id, "device:" + alias));
             byte[] payload = decrypt(new SecretKeySpec(dek, "AES"),
                     decode(envelope.getString("payloadCiphertext")), aad(id, "payload"));
-            return parsePayload(payload, id);
+            Restored restored = parsePayload(payload, id);
+            if (!envelope.getString("legacyUid").equals(restored.uid)) return null;
+            return restored;
         } catch (Throwable ignored) {
             return null;
         }
@@ -782,8 +785,7 @@ public final class LocalAccountVault {
             new AlertDialog.Builder(activity)
                     .setTitle(title)
                     .setMessage(message)
-                    .setPositiveButton("OK", null)
-                    .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             cancelPendingSelection();
                         }
