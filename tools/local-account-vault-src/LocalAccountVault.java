@@ -186,11 +186,23 @@ public final class LocalAccountVault {
 
             Set<String> ids = new HashSet<>();
             boolean interruptedWrite = false;
+            boolean malformedCandidate = false;
             for (File file : files) {
                 String name = file.getName();
-                if (name.startsWith(PREFIX) && name.contains(".tmp-")) interruptedWrite = true;
-                String id = candidateId(name);
-                if (id != null) ids.add(id);
+                if (name.startsWith(PREFIX) && (name.contains(".tmp-") || name.contains(".bak-"))) {
+                    interruptedWrite = true;
+                    continue;
+                }
+                if (name.startsWith(PREFIX) && (name.endsWith(".vault") || name.endsWith(".recovery"))) {
+                    String id = candidateId(name);
+                    if (id == null) malformedCandidate = true;
+                    else ids.add(id);
+                }
+            }
+            if (malformedCandidate) {
+                showError(activity, "Corrupt Local Account candidate",
+                        "A Local Account vault or recovery filename is malformed. No new account will be created automatically.");
+                return;
             }
             if (interruptedWrite) {
                 showError(activity, "Local Account recovery required",
