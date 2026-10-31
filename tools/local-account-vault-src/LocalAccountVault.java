@@ -1314,7 +1314,6 @@ public final class LocalAccountVault {
                         dp(activity, 1)));
                 field.setMinHeight(dp(activity, 54));
                 field.setGravity(Gravity.CENTER_VERTICAL);
-                field.setSingleLine(true);
                 field.setSelectAllOnFocus(false);
             } else if (view instanceof TextView) {
                 TextView code = (TextView) view;
