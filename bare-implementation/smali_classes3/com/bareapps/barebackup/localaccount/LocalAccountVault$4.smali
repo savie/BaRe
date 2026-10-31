@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
 
 # annotations
@@ -40,7 +40,7 @@
         }
     .end annotation
 
-    .line 433
+    .line 436
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$id:Ljava/lang/String;
@@ -60,13 +60,10 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .locals 6
+.method public run()V
+    .locals 7
 
-    .line 435
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
-
-    .line 437
+    .line 439
     :try_start_0
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
@@ -78,59 +75,59 @@
 
     iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$source:Lorg/json/JSONObject;
 
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$input:Landroid/widget/EditText;
+    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$input:Landroid/widget/EditText;
 
-    invoke-virtual {p1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
-
-    move-result-object p1
-
-    invoke-virtual {p1}, Ljava/lang/Object;->toString()Ljava/lang/String;
+    invoke-virtual {v5}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
 
     move-result-object v5
 
-    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    invoke-virtual {v5}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 442
+    .line 444
     goto :goto_0
 
-    .line 438
-    :catchall_0
-    move-exception p1
-
-    .line 439
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$input:Landroid/widget/EditText;
-
-    invoke-virtual {p1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
-
-    move-result-object p1
-
-    invoke-virtual {p1}, Ljava/lang/Object;->toString()Ljava/lang/String;
-
-    move-result-object v5
-
     .line 440
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
-
-    const-string p2, "Recovery failed. Check the full recovery code and try again."
-
-    invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;)V
+    :catchall_0
+    move-exception v0
 
     .line 441
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$input:Landroid/widget/EditText;
+
+    invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    move-result-object v6
+
+    .line 442
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$id:Ljava/lang/String;
+    const-string v1, "That code didn\'t work. Check it and try again."
 
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$vaultFile:Ljava/io/File;
-
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$recoveryFile:Ljava/io/File;
-
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$source:Lorg/json/JSONObject;
-
-    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;)V
 
     .line 443
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$activity:Landroid/app/Activity;
+
+    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$id:Ljava/lang/String;
+
+    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$vaultFile:Ljava/io/File;
+
+    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$recoveryFile:Ljava/io/File;
+
+    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;->val$source:Lorg/json/JSONObject;
+
+    invoke-static/range {v1 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+
+    .line 445
     :goto_0
     return-void
 .end method

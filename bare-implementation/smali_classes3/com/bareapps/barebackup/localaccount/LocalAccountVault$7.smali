@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
 
 # annotations
@@ -21,7 +21,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 625
+    .line 617
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -29,15 +29,11 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
+.method public run()V
     .locals 0
 
-    .line 627
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
+    .line 618
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1700()V
 
-    .line 628
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1800()V
-
-    .line 629
     return-void
 .end method

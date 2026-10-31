@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
 
 # annotations
@@ -17,11 +17,26 @@
 .end annotation
 
 
-# direct methods
-.method constructor <init>()V
-    .locals 0
+# instance fields
+.field final synthetic val$activity:Landroid/app/Activity;
 
-    .line 662
+.field final synthetic val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
+
+
+# direct methods
+.method constructor <init>(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    .locals 0
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "()V"
+        }
+    .end annotation
+
+    .line 628
+    iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;->val$activity:Landroid/app/Activity;
+
+    iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
+
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -29,15 +44,15 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .locals 0
+.method public run()V
+    .locals 2
 
-    .line 664
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
+    .line 629
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;->val$activity:Landroid/app/Activity;
 
-    .line 665
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1800()V
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    .line 666
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1900(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+
     return-void
 .end method

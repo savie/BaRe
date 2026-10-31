@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
 
 # annotations
@@ -44,19 +44,15 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .locals 0
+.method public run()V
+    .locals 2
 
-    .line 621
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
+    .line 620
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$activity:Landroid/app/Activity;
 
-    .line 622
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$activity:Landroid/app/Activity;
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$enrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1800(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
-    invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1900(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-
-    .line 623
     return-void
 .end method

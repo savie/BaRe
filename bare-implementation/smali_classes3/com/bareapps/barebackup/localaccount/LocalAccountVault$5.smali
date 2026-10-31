@@ -3,7 +3,7 @@
 .source "LocalAccountVault.java"
 
 # interfaces
-.implements Landroid/content/DialogInterface$OnClickListener;
+.implements Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogAction;
 
 
 # annotations
@@ -38,7 +38,7 @@
         }
     .end annotation
 
-    .line 494
+    .line 456
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
@@ -56,94 +56,91 @@
 
 
 # virtual methods
-.method public onClick(Landroid/content/DialogInterface;I)V
-    .locals 6
+.method public run()V
+    .locals 8
 
-    .line 496
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
+    .line 458
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
-    .line 497
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
+    invoke-virtual {v0}, Ljava/io/File;->isFile()Z
 
-    invoke-virtual {p1}, Ljava/io/File;->isFile()Z
+    move-result v0
 
-    move-result p1
+    const/4 v1, 0x0
 
-    const/4 p2, 0x0
+    if-eqz v0, :cond_0
 
-    if-eqz p1, :cond_0
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
+    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
 
-    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
+    invoke-static {v0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
 
-    invoke-static {p1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$600(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
-
-    move-result-object p1
+    move-result-object v0
 
     goto :goto_0
 
     :cond_0
-    move-object p1, p2
+    move-object v0, v1
 
-    .line 498
+    .line 459
     :goto_0
-    if-nez p1, :cond_2
+    if-nez v0, :cond_2
 
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
 
-    invoke-virtual {p1}, Ljava/io/File;->isFile()Z
+    invoke-virtual {v0}, Ljava/io/File;->isFile()Z
 
-    move-result p1
+    move-result v0
 
-    if-eqz p1, :cond_1
+    if-eqz v0, :cond_1
 
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
 
-    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
 
-    invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$600(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
 
-    move-result-object p2
+    move-result-object v1
 
     :cond_1
-    move-object v4, p2
+    move-object v6, v1
 
     goto :goto_1
 
     :cond_2
-    move-object v4, p1
+    move-object v6, v0
 
-    .line 499
+    .line 460
     :goto_1
-    if-eqz v4, :cond_3
+    if-eqz v6, :cond_3
 
-    .line 500
-    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
+    .line 461
+    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
+    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
 
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
+    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$vaultFile:Ljava/io/File;
 
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
+    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
-    iget-object v5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$previousCode:Ljava/lang/String;
+    iget-object v7, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$previousCode:Ljava/lang/String;
 
-    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    invoke-static/range {v2 .. v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
 
     goto :goto_2
 
-    .line 502
+    .line 463
     :cond_3
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Recovery artifact unavailable"
+    const-string v1, "Recovery file unavailable"
 
-    const-string v0, "Neither the recovery artifact nor the vault can be read. No new account was created."
+    const-string v2, "We can\'t read a recovery file for this account. Your existing files are safe; no new account was created."
 
-    invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-static {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 505
+    .line 466
     :goto_2
     return-void
 .end method
