@@ -1055,7 +1055,9 @@ public final class LocalAccountVault {
     private static void showError(final Activity activity, String title, String message) {
         if (activity == null || activity.isFinishing()) return;
         showProductDialog(activity, title, message, null, null, null, "Got it", new DialogAction() {
-            @Override public void run() { cancelPendingSelection(); }
+            // Dismissing an error must not mutate account/session state.
+            // Cancellation is an explicit action in the setup/recovery flow.
+            @Override public void run() { }
         });
     }
 
