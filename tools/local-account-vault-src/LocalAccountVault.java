@@ -49,6 +49,7 @@ public final class LocalAccountVault {
     private static volatile Object pendingUser;
     private static volatile boolean localSelectionPending;
     private static volatile boolean resolutionComplete;
+    private static volatile boolean dialogOpen;
     private static volatile Enrollment pendingEnrollment;
 
     private LocalAccountVault() {}
@@ -157,7 +158,7 @@ public final class LocalAccountVault {
     }
 
     private static synchronized void resolve(Activity activity) {
-        if (!localSelectionPending || resolutionComplete) return;
+        if (!localSelectionPending || resolutionComplete || dialogOpen) return;
         if (!storageReady(activity)) {
             showError(activity, "Storage unavailable",
                     "Grant the existing All Files Access permission and make sure shared storage is mounted. No Local Account was created.");
@@ -359,6 +360,7 @@ public final class LocalAccountVault {
                 .setView(input)
                 .setPositiveButton("Recover", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         try {
                             recoverFromCode(activity, id, vaultFile, recoveryFile, source, input.getText().toString());
                         } catch (Throwable error) {
@@ -369,11 +371,13 @@ public final class LocalAccountVault {
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
+        dialogOpen = true;
     }
 
     private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
@@ -436,16 +440,19 @@ public final class LocalAccountVault {
                 .setView(codeView)
                 .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         confirmRecoveryCode(activity, enrollment);
                     }
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
+        dialogOpen = true;
     }
 
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
@@ -459,6 +466,7 @@ public final class LocalAccountVault {
                 .setView(input)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         if (!enrollment.code.equals(input.getText().toString().replaceAll("\\s", ""))) {
                             toast(activity, "Recovery code did not match. Save and confirm the code to continue.");
                             showRecoveryCode(activity, enrollment);
@@ -474,11 +482,13 @@ public final class LocalAccountVault {
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
+                        dialogOpen = false;
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
+        dialogOpen = true;
     }
 
     private static synchronized void commitEnrollment(Activity activity, Enrollment enrollment) throws Exception {
@@ -854,12 +864,15 @@ public final class LocalAccountVault {
                     .setMessage(message)
                     .setPositiveButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
+                            dialogOpen = false;
                             cancelPendingSelection();
                         }
                     })
                     .setCancelable(false)
                     .show();
+            dialogOpen = true;
         } catch (Throwable ignored) {
+            dialogOpen = false;
             toast(activity, message);
         }
     }
