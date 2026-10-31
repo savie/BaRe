@@ -21,7 +21,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 679
+    .line 683
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -32,12 +32,12 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 0
 
-    .line 681
+    .line 685
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 682
+    .line 686
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$1800()V
 
-    .line 683
+    .line 687
     return-void
 .end method
