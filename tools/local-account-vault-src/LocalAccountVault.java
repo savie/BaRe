@@ -137,7 +137,7 @@ public final class LocalAccountVault {
     }
 
     public static void signOut(Activity activity) {
-        if (!writeMarkers(false, true)) {
+        if (!writeSignOutMarkers()) {
             showError(activity, "Could not sign out safely",
                     "The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.");
             return;
@@ -146,10 +146,6 @@ public final class LocalAccountVault {
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = false;
-        try {
-            notifyAccountObservers();
-        } catch (Throwable ignored) {
-        }
         if (activity != null) {
             try { activity.finishAffinity(); } catch (Throwable ignored) {}
             if (Build.VERSION.SDK_INT >= 21) {
@@ -799,6 +795,20 @@ public final class LocalAccountVault {
         Field field = type.getDeclaredField("f");
         field.setAccessible(true);
         return (SharedPreferences) field.get(null);
+    }
+
+    private static boolean writeSignOutMarkers() {
+        try {
+            SharedPreferences preferences = prefs();
+            return preferences.edit()
+                    .putBoolean(PREF_ACTIVE, false)
+                    .putBoolean(PREF_INTRO, true)
+                    .putBoolean("KEY_FIRST_START", true)
+                    .putBoolean("KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED", false)
+                    .commit();
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     private static boolean writeMarkers(boolean active, boolean introPending) {
