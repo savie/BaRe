@@ -409,7 +409,7 @@ public final class LocalAccountVault {
         codeView.setPadding(pad, pad, pad, pad);
         new AlertDialog.Builder(activity)
                 .setTitle("Save your Local Account recovery code")
-                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. The recovery artifact will be saved under /storage/emulated/0/BΛR☰/accounts. It is not your backup Password Strategy password.")
+                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. The recovery artifact will be saved as " + PREFIX + enrollment.id + ".recovery under /storage/emulated/0/BΛR☰/accounts. It is not your backup Password Strategy password.")
                 .setView(codeView)
                 .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
