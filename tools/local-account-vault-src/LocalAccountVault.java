@@ -85,14 +85,18 @@ public final class LocalAccountVault {
     }
 
     public static boolean isCurrentUserLocal() {
+        Object candidate = pendingUser;
+        if (candidate != null) {
+            try { return isAnonymous(candidate); } catch (Throwable ignored) { return true; }
+        }
+        if (isIntroPending()) return true;
+        if (isLocalSessionInactive()) return false;
         try {
-            Object candidate = pendingUser;
-            if (candidate != null) return isAnonymous(candidate);
-            if (isIntroPending()) return true;
             Object current = Class.forName("d45").getMethod("a").invoke(null);
             return current != null && isAnonymous(current);
         } catch (Throwable ignored) {
-            return false;
+            Object cached = cachedLocalUser();
+            try { return cached != null && isAnonymous(cached); } catch (Throwable ignoredAgain) { return true; }
         }
     }
 
