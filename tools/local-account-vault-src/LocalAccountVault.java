@@ -223,6 +223,12 @@ public final class LocalAccountVault {
                                     "The vault identity does not match the legacy Local Account cache. No data was changed.");
                             return;
                         }
+                        if (!recoveryMatchesVault(recovery, vault, restored.uid)) {
+                            JSONObject repairedRecovery = makeRecoveryEnvelopeFromVault(vault);
+                            byte[] repairedBytes = repairedRecovery.toString().getBytes(StandardCharsets.UTF_8);
+                            if (recoveryFile.exists()) replaceAtomically(recoveryFile, repairedBytes);
+                            else writeAtomically(recoveryFile, repairedBytes);
+                        }
                         activate(restored.user);
                         return;
                     }
@@ -516,6 +522,29 @@ public final class LocalAccountVault {
         value.put("deviceWrappedDek", encode(encrypt(deviceKey, dek, aad(id, "device:" + alias))));
         value.put("recoveryWrappedDek", encode(encrypt(new SecretKeySpec(recoveryBytes, "AES"), dek, aad(id, "recovery"))));
         return value;
+    }
+
+    private static boolean recoveryMatchesVault(JSONObject recovery, JSONObject vault, String uid) {
+        if (recovery == null || vault == null) return false;
+        try {
+            return uid.equals(recovery.getString("legacyUid"))
+                    && vault.getString("localAccountId").equals(recovery.getString("localAccountId"))
+                    && vault.getString("payloadCiphertext").equals(recovery.getString("payloadCiphertext"))
+                    && vault.getString("recoveryWrappedDek").equals(recovery.getString("recoveryWrappedDek"));
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    private static JSONObject makeRecoveryEnvelopeFromVault(JSONObject vault) throws Exception {
+        JSONObject recovery = new JSONObject();
+        recovery.put("schemaVersion", vault.getInt("schemaVersion"));
+        recovery.put("localAccountId", vault.getString("localAccountId"));
+        recovery.put("legacyUid", vault.getString("legacyUid"));
+        recovery.put("algorithm", vault.getString("algorithm"));
+        recovery.put("payloadCiphertext", vault.getString("payloadCiphertext"));
+        recovery.put("recoveryWrappedDek", vault.getString("recoveryWrappedDek"));
+        return recovery;
     }
 
     private static JSONObject makeRecoveryEnvelope(String id, String uid, byte[] payload,
