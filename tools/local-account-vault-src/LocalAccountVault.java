@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONObject;
@@ -614,7 +616,16 @@ public final class LocalAccountVault {
         TextView codeView = new TextView(activity);
         codeView.setText(enrollment.code);
         codeView.setTextIsSelectable(true);
-        codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
+        int monoFont = activity.getResources().getIdentifier("mono_bold", "font", activity.getPackageName());
+        if (monoFont != 0) {
+            try {
+                codeView.setTypeface(ResourcesCompat.getFont(activity, monoFont));
+            } catch (Throwable ignored) {
+                codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
+            }
+        } else {
+            codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
+        }
         codeView.setGravity(Gravity.CENTER);
         codeView.setTextSize(16f);
         int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
