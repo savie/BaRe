@@ -86,7 +86,7 @@ public final class LocalAccountVault {
         try {
             Object candidate = pendingUser;
             if (candidate != null) return isAnonymous(candidate);
-            if (isIntroPending()) return false;
+            if (isIntroPending()) return true;
             Object current = Class.forName("d45").getMethod("a").invoke(null);
             return current != null && isAnonymous(current);
         } catch (Throwable ignored) {
