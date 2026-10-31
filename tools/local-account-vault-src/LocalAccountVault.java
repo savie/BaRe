@@ -108,21 +108,22 @@ public final class LocalAccountVault {
             onPermissionReturn(activity);
             return;
         }
-        if (!writeMarkers(false, true)) {
-            showError(activity, "Local Account setup unavailable",
-                    "The pending Intro state could not be saved. No Local Account was activated.");
-            return;
-        }
         Object legacy = cachedLocalUser();
         try {
             pendingUser = legacy != null && isAnonymous(legacy) ? legacy : newLocalUser();
         } catch (Throwable error) {
+            localSelectionPending = true;
+            resolutionComplete = false;
             showError(activity, "Local Account unavailable",
                     "The Local Account identity could not be prepared. No account was created.");
             return;
         }
         localSelectionPending = true;
         resolutionComplete = false;
+        if (!writeMarkers(false, true)) {
+            showError(activity, "Local Account setup unavailable",
+                    "The pending Intro state could not be saved. No Local Account was activated.");
+        }
     }
 
     public static void onPermissionReturn(Activity activity) {
