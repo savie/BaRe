@@ -658,3 +658,18 @@ The pending-Intro marker is session/provider-selection state, not an identity de
 ## 18.11 Identity generator compatibility
 
 `b45.a()` is referenced by several non-Intro classes in addition to `intro/d.m()`. Do not change it globally to randomize UID: that could alter unrelated password/identity behavior. Add a Local Account-specific new-user factory for first-time enrollment. For migration, always preserve the exact legacy UID. The new factory must produce a unique random UID and independent LocalAccountId.
+
+
+## 18.12 Config/Label CRUD implementation boundary
+
+The existing encrypted local cache is already written on mutation:
+- Config mutation: `ah` case 17 schedules `bh` case 14, which serializes `ConfigsData` through `w14.g()` to `br1.g`.
+- Label mutation: `bk` case 27 schedules `d76` case 28, which serializes `LabelsData` through `w14.g()` to `lr4.g`.
+
+However, those same mutation callbacks also perform direct Firebase Realtime Database writes:
+- Config: `br1.c.i(configsDataValidate)` in `ah` case 17.
+- Labels: `re3.k().d("labelsData").i(labelsDataCopy)` in `bk` case 27.
+
+The Local patch must preserve the local encrypted-file write and skip only these direct cloud writes for `MFirebaseUser.isAnonymous()==true`. Also route online Local fetches to the existing local cache before calling `cf3`. Google/Firebase paths must remain byte-for-byte/behaviorally unchanged. Do not loosen `cf3` guards or Firebase rules.
+
+`b45.a()` is used by several classes beyond Intro; keep it unchanged and add a Local-only random UID factory for first-time enrollment. Legacy migration must preserve the existing UID.
