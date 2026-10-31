@@ -1097,10 +1097,12 @@
 
     move-result v1
 
-    if-eqz v1, :cond_1
+    if-nez v1, :cond_local_account_ready
 
-    goto :goto_0
-    .line 61
+    # Pending Intro is not an authenticated/active Local Account session.
+    goto :goto_1
+
+    :cond_local_account_ready
     goto :goto_0
 
     .line 62
