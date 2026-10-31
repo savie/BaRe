@@ -62,7 +62,7 @@ public final class LocalAccountVault {
         try {
             return prefs().getBoolean(PREF_INTRO, false);
         } catch (Throwable ignored) {
-            return false;
+            return true;
         }
     }
 
@@ -87,11 +87,11 @@ public final class LocalAccountVault {
     }
 
     public static void clearPendingIntro() {
+        if (!writeMarkers(false, false)) return;
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = false;
-        writeMarkers(false, false);
     }
 
     public static void selectLocal(Activity activity) {
@@ -118,11 +118,15 @@ public final class LocalAccountVault {
     }
 
     public static void signOut(Activity activity) {
+        if (!writeMarkers(false, true)) {
+            showError(activity, "Could not sign out safely",
+                    "The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.");
+            return;
+        }
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = false;
-        writeMarkers(false, true);
         try {
             notifyAccountObservers();
         } catch (Throwable ignored) {
@@ -239,8 +243,9 @@ public final class LocalAccountVault {
         if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) return false;
         File root = rootDirectory();
         if (root.exists()) return root.isDirectory() && root.canRead() && root.canWrite();
-        File parent = root.getParentFile();
-        return parent != null && parent.exists() && parent.isDirectory() && parent.canWrite();
+        File ancestor = root;
+        while (ancestor != null && !ancestor.exists()) ancestor = ancestor.getParentFile();
+        return ancestor != null && ancestor.isDirectory() && ancestor.canWrite();
     }
 
     private static boolean storagePermissionGranted(Activity activity) {
@@ -320,7 +325,12 @@ public final class LocalAccountVault {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        cancelPendingSelection();
+                    }
+                })
+                .setCancelable(false)
                 .show();
     }
 
@@ -335,6 +345,7 @@ public final class LocalAccountVault {
         byte[] payload = decrypt(new SecretKeySpec(dek, "AES"),
                 decode(source.getString("payloadCiphertext")), aad(id, "payload"));
         Restored restored = parsePayload(payload, id);
+        if (!source.getString("legacyUid").equals(restored.uid)) throw new SecurityException("Legacy UID mismatch");
         if (!matchesLegacyCache(restored.user)) {
             showError(activity, "Local Account identity conflict",
                     "The recovery artifact does not match the existing Local Account cache. No data was changed.");
@@ -347,9 +358,13 @@ public final class LocalAccountVault {
                 deviceKey, recoveryBytes);
         JSONObject updatedRecovery = makeRecoveryEnvelope(id, restored.uid, payload, dek, recoveryBytes);
         replaceAtomically(vaultFile, updatedVault.toString().getBytes(StandardCharsets.UTF_8));
-        if (!recoveryFile.exists()) {
-            writeAtomically(recoveryFile, updatedRecovery.toString().getBytes(StandardCharsets.UTF_8));
+        JSONObject oldRecovery = recoveryFile.exists() ? readEnvelope(recoveryFile, id) : null;
+        if (oldRecovery == null) {
+            if (recoveryFile.exists()) replaceAtomically(recoveryFile, updatedRecovery.toString().getBytes(StandardCharsets.UTF_8));
+            else writeAtomically(recoveryFile, updatedRecovery.toString().getBytes(StandardCharsets.UTF_8));
         }
+        Restored verified = restoreWithDeviceKey(readEnvelope(vaultFile, id), id);
+        if (verified == null || !restored.uid.equals(verified.uid)) throw new SecurityException("Recovered vault verification failed");
         activate(restored.user);
     }
 
@@ -377,7 +392,12 @@ public final class LocalAccountVault {
                         confirmRecoveryCode(activity, enrollment);
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        cancelPendingSelection();
+                    }
+                })
+                .setCancelable(false)
                 .show();
     }
 
@@ -405,7 +425,12 @@ public final class LocalAccountVault {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        cancelPendingSelection();
+                    }
+                })
+                .setCancelable(false)
                 .show();
     }
 
@@ -437,6 +462,18 @@ public final class LocalAccountVault {
         File recoveryFile = new File(root, PREFIX + enrollment.id + ".recovery");
         writePairAtomically(vaultFile, vault.toString().getBytes(StandardCharsets.UTF_8),
                 recoveryFile, recovery.toString().getBytes(StandardCharsets.UTF_8));
+        Restored persisted = restoreWithDeviceKey(readEnvelope(vaultFile, enrollment.id), enrollment.id);
+        JSONObject persistedRecovery = readEnvelope(recoveryFile, enrollment.id);
+        if (persisted == null || persistedRecovery == null
+                || !uid.equals(persisted.uid)) {
+            vaultFile.delete();
+            recoveryFile.delete();
+            throw new SecurityException("Post-write vault verification failed");
+        }
+        byte[] persistedDek = decrypt(new SecretKeySpec(enrollment.recovery, "AES"),
+                decode(persistedRecovery.getString("recoveryWrappedDek")), aad(enrollment.id, "recovery"));
+        parsePayload(decrypt(new SecretKeySpec(persistedDek, "AES"),
+                decode(persistedRecovery.getString("payloadCiphertext")), aad(enrollment.id, "payload")), enrollment.id);
         activate(enrollment.user);
         pendingEnrollment = null;
     }
@@ -496,11 +533,11 @@ public final class LocalAccountVault {
 
     private static void activate(Object user) throws Exception {
         setCachedLocalUser(user);
+        if (!writeMarkers(true, false)) throw new IllegalStateException("Session marker commit failed");
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
         resolutionComplete = true;
-        writeMarkers(true, false);
         notifyAccountObservers();
     }
 
@@ -693,15 +730,25 @@ public final class LocalAccountVault {
         return (SharedPreferences) field.get(null);
     }
 
-    private static void writeMarkers(boolean active, boolean introPending) {
+    private static boolean writeMarkers(boolean active, boolean introPending) {
         try {
             SharedPreferences preferences = prefs();
-            preferences.edit()
+            return preferences.edit()
                     .putBoolean(PREF_ACTIVE, active)
                     .putBoolean(PREF_INTRO, introPending)
                     .commit();
         } catch (Throwable ignored) {
+            return false;
         }
+    }
+
+    private static void cancelPendingSelection() {
+        if (!writeMarkers(false, true)) return;
+        pendingUser = null;
+        pendingEnrollment = null;
+        localSelectionPending = false;
+        resolutionComplete = false;
+        try { notifyAccountObservers(); } catch (Throwable ignored) {}
     }
 
     private static void notifyAccountObservers() throws Exception {
@@ -714,13 +761,19 @@ public final class LocalAccountVault {
         try { Toast.makeText(activity, message, Toast.LENGTH_LONG).show(); } catch (Throwable ignored) {}
     }
 
-    private static void showError(Activity activity, String title, String message) {
+    private static void showError(final Activity activity, String title, String message) {
         if (activity == null || activity.isFinishing()) return;
         try {
             new AlertDialog.Builder(activity)
                     .setTitle(title)
                     .setMessage(message)
                     .setPositiveButton("OK", null)
+                    .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            cancelPendingSelection();
+                        }
+                    })
+                    .setCancelable(false)
                     .show();
         } catch (Throwable ignored) {
             toast(activity, message);
