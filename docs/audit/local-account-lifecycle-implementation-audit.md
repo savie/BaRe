@@ -518,7 +518,9 @@ Current `d45.c()` melakukan FirebaseAuth.signOut() tanpa memeriksa apakah ada Fi
 
 Dokumen Hybrid Vault mendefinisikan target `signOutLocal()` sebagai clear active session saja dan mempertahankan vault. Namun pemeriksaan current tree tidak menemukan implementasi external Local Account vault atau penanda active-session terpisah; objek local pseudo-account masih disimpan pada SharedPreferences. Jika hanya melewati setNon(null)/Editor.clear() tanpa mekanisme session-inactive dan resolver/unlock yang cocok, aplikasi akan tetap menganggap Local Account aktif. Jika menghapus setNon(null), identitas terjaga tetapi user tidak benar-benar signed out. Jika tetap menghapusnya, identitas legacy hilang.
 
-Karena itu, sign-out Local yang benar memerlukan satu kontrak UX/teknis tambahan sebelum patch: setelah Local sign-out, apakah aplikasi harus kembali ke Intro dan tombol Skip memulihkan **akun lokal yang sama tanpa autentikasi tambahan**, atau harus meminta unlock/recovery credential? Password Strategy yang ada adalah strategi enkripsi backup dan belum terbukti sebagai kredensial unlock vault. Jangan menyamakan keduanya.
+Kontrak UX/teknis kini diputuskan oleh pemilik proyek (2026-10-31): Local sign-out harus mengakhiri sesi dan keluar/menutup aplikasi. Saat aplikasi dibuka kembali, tampilkan Intro. Jika user memilih Skip, resolver memeriksa `/storage/emulated/0/BΛR☰/accounts/*`. Jika ditemukan tepat satu vault Local Account yang valid, aktifkan kembali LocalAccountId yang sama secara otomatis (tanpa membuat UID baru). Jika vault terenkripsi membutuhkan unlock untuk validasi, ikuti kebijakan auto-activation yang disepakati: jangan menampilkan credential prompt untuk vault valid yang dapat dibuka otomatis pada device tersebut. Jika vault tidak ditemukan tetapi tersedia recovery artifact yang cocok, minta recovery credential lalu pulihkan akun; jika tidak ada vault maupun recovery artifact, jalankan first-time enrollment. Vault rusak/ambigu atau lebih dari satu kandidat harus masuk recovery/conflict state dan tidak boleh auto-create. Password Strategy backup tetap bukan credential vault kecuali integrasi eksplisit dibuktikan.
+
+Implementasi harus memiliki session marker terpisah dari persistent account identity. Local sign-out menonaktifkan marker, mempertahankan vault/identity/data, lalu mengakhiri proses UI. Jangan panggil FirebaseAuth.signOut(), package clear/Shizuku, atau SharedPreferences.Editor.clear() pada Local branch. Intro Skip adalah aksi eksplisit untuk mengaktifkan ulang akun lokal yang sama.
 
 ### 13.3 Build boundary
 
@@ -531,3 +533,17 @@ Workflow `.github/workflows/namespace-barebackup.yml` sudah membangun APK dengan
 - Local sign-out: **blocked pending session/unlock contract**.
 - Build from patched branch: **belum dijalankan**.
 - Device runtime and Google/Firebase non-regression: **belum dijalankan**.
+
+
+### 13.5 Keputusan UX sign-out/Skip dari pemilik proyek (2026-10-31)
+
+1. Local Account sign-out berarti keluar/menutup aplikasi; bukan menghapus akun dan bukan langsung mengaktifkan ulang sesi.
+2. Ketika aplikasi dibuka lagi, pengguna melihat Intro.
+3. Ketika Skip dipilih, scan direktori `/storage/emulated/0/BΛR☰/accounts/*`.
+4. Tepat satu vault valid: aktifkan kembali akun yang sama (stable LocalAccountId/namespace), tanpa membuat identitas baru. Tidak ada credential prompt untuk vault yang bisa dipulihkan/diaktifkan otomatis pada device yang sama.
+5. Vault tidak ditemukan tetapi recovery artifact tersedia: minta recovery credential dan pulihkan identitas yang sama. Credential saja tanpa artifact/vault tidak cukup untuk memulihkan data.
+6. Vault/recovery tidak ada: jalankan first-time Local Account enrollment; jangan pura-pura unlock akun yang tidak ada.
+7. Vault corrupt, ambiguous, atau multiple candidates: tampilkan recovery/conflict state; jangan auto-create atau memilih file secara arbitrer.
+8. Local sign-out tidak boleh menjalankan FirebaseAuth.signOut, package clear/Shizuku, atau SharedPreferences.Editor.clear. Hanya nonaktifkan active-session marker dan tutup aplikasi. Google sign-out tetap pada jalur existing.
+
+Acceptance tests tambahan: (a) sign-out menutup aplikasi dan mempertahankan vault; (b) relaunch membuka Intro; (c) Intro > Skip dengan satu vault valid memulihkan LocalAccountId yang sama; (d) Skip tanpa vault tetapi dengan recovery artifact meminta credential; (e) Skip tanpa vault/recovery memulai enrollment; (f) corrupt/multiple vault tidak membuat akun baru.
