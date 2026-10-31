@@ -683,3 +683,27 @@ Required Local-only behavior:
 4. Close the app process after marker commit. Leave `KEY_SCHEDULE_ENABLED`, AlarmManager state, BootReceiver state, vault, identity cache, and pending work untouched.
 
 The generic Google sign-out path remains unchanged.
+
+### 13.12 Runtime regression: ConfigRepo/LabelRepo still report Permission denied (2026-10-31)
+
+**Device evidence:** a user-provided BΛR☰ Logger screenshot from 31/10/26 shows both `ConfigRepo: Permission denied` and `LabelRepo: Permission denied` after `Anonymous sign in successful` and `HomeActivity: Opened`. This falsifies the earlier conclusion that the feature-branch Config/Label commits had completed the fix.
+
+**Feature-branch call-path review:**
+- `br1.b()` and `lr4.b()` select the local cache loaders only when `LocalAccountVault.isCurrentUserLocal()` returns true. A false result falls through to the online Firebase fetch path.
+- The direct Firebase Config/Label mutation calls in `ah` and `bk` are guarded by the same predicate.
+- `LocalAccountVault.activate()` persists `local_account_session_active=true` and then clears the in-memory pending user.
+- The current `isCurrentUserLocal()` does not check the committed active-session marker first. It infers Local identity from `isAnonymous()` on the pending user or `d45.a()` result, and only uses cached identity on reflection failure.
+- `d45.a()` can return a wrapper for the Firebase Auth current user; this is not a reliable substitute for the product's committed Local Account session state.
+
+**Working diagnosis:** the common Local identity guard is a likely false-negative after activation, allowing both repository fetches and mutation callbacks to reach Firebase. However, the screenshot alone cannot rule out a SecurityException from the local cache file reader. The next implementation must make the committed Local active marker authoritative, then verify the exact logger origin on device if either repository still reports permission denial.
+
+**Required implementation and verification:**
+1. In `LocalAccountVault.isCurrentUserLocal()`, check the committed active Local marker before inspecting Firebase user wrappers.
+2. Preserve pending Local selection as Local during the Intro resolver.
+3. Preserve explicit Google selection/sign-out semantics: the marker must be cleared before Google repository operations.
+4. Preserve local JSON file writes and local cache reads; bypass only the direct Firebase calls for Local.
+5. Test Config and Label fetch + create/update/delete with network enabled and disabled, restart, and sign-out/relaunch.
+6. Test Google Config/Label fetch and mutation unchanged.
+7. If permission errors persist, capture the exception stack/source from `br1.a()` / `lr4.a()` separately from `cf3.a()`; do not relax Firebase authorization as a workaround.
+
+**Status:** runtime defect confirmed; implementation root cause is a high-confidence hypothesis, not yet runtime-proven. No resolution claim until device acceptance tests pass.
