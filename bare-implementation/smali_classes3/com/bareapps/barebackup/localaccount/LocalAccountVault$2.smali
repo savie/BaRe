@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
+    value = Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->requestStoragePermission(Landroid/app/Activity;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,19 +20,9 @@
 # instance fields
 .field final synthetic val$activity:Landroid/app/Activity;
 
-.field final synthetic val$id:Ljava/lang/String;
-
-.field final synthetic val$input:Landroid/widget/EditText;
-
-.field final synthetic val$recoveryFile:Ljava/io/File;
-
-.field final synthetic val$source:Lorg/json/JSONObject;
-
-.field final synthetic val$vaultFile:Ljava/io/File;
-
 
 # direct methods
-.method constructor <init>(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Landroid/widget/EditText;)V
+.method constructor <init>(Landroid/app/Activity;)V
     .locals 0
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -40,18 +30,8 @@
         }
     .end annotation
 
-    .line 380
+    .line 157
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
-
-    iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$id:Ljava/lang/String;
-
-    iput-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$vaultFile:Ljava/io/File;
-
-    iput-object p4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$recoveryFile:Ljava/io/File;
-
-    iput-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$source:Lorg/json/JSONObject;
-
-    iput-object p6, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$input:Landroid/widget/EditText;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -61,65 +41,95 @@
 
 # virtual methods
 .method public onClick(Landroid/content/DialogInterface;I)V
-    .locals 6
+    .locals 1
 
-    .line 382
+    .line 159
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 384
+    .line 161
     :try_start_0
+    new-instance p1, Landroid/content/Intent;
+
+    const-string p2, "android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION"
+
+    invoke-direct {p1, p2}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    .line 162
+    new-instance p2, Ljava/lang/StringBuilder;
+
+    invoke-direct {p2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v0, "package:"
+
+    invoke-virtual {p2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p2
+
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$id:Ljava/lang/String;
+    invoke-virtual {v0}, Landroid/app/Activity;->getPackageName()Ljava/lang/String;
 
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$vaultFile:Ljava/io/File;
+    move-result-object v0
 
-    iget-object v3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$recoveryFile:Ljava/io/File;
+    invoke-virtual {p2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    iget-object v4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$source:Lorg/json/JSONObject;
+    move-result-object p2
 
-    iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$input:Landroid/widget/EditText;
+    invoke-virtual {p2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    invoke-virtual {p1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+    move-result-object p2
 
-    move-result-object p1
+    invoke-static {p2}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
 
-    invoke-virtual {p1}, Ljava/lang/Object;->toString()Ljava/lang/String;
+    move-result-object p2
 
-    move-result-object v5
+    invoke-virtual {p1, p2}, Landroid/content/Intent;->setData(Landroid/net/Uri;)Landroid/content/Intent;
 
-    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    .line 163
+    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
+
+    invoke-virtual {p2, p1}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 388
+    .line 171
     goto :goto_0
 
-    .line 385
+    .line 164
     :catchall_0
     move-exception p1
 
-    .line 386
+    .line 166
+    :try_start_1
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Recovery code is invalid or the recovery artifact is damaged."
+    new-instance p2, Landroid/content/Intent;
 
-    invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;)V
+    const-string v0, "android.settings.MANAGE_ALL_FILES_ACCESS_PERMISSION"
 
-    .line 387
+    invoke-direct {p2, v0}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p1, p2}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_1
+
+    .line 170
+    goto :goto_0
+
+    .line 167
+    :catchall_1
+    move-exception p1
+
+    .line 168
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$activity:Landroid/app/Activity;
 
-    iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$id:Ljava/lang/String;
+    const-string p2, "Cannot open storage settings"
 
-    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$vaultFile:Ljava/io/File;
+    const-string v0, "Open Android Settings > Apps > B\u039bR\u2630 > All Files Access, enable access, then return to the app."
 
-    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$recoveryFile:Ljava/io/File;
+    invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
-    iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;->val$source:Lorg/json/JSONObject;
-
-    invoke-static {p1, p2, v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
-
-    .line 389
+    .line 172
     :goto_0
     return-void
 .end method
