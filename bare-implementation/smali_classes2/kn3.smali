@@ -1209,6 +1209,23 @@
     .line 552
     .line 553
     .line 554
+    invoke-static {}, Ld45;->a()Lcom/bareapps/barebackup/anonymous/MFirebaseUser;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_local_signout_google
+
+    invoke-virtual {v1}, Lcom/bareapps/barebackup/anonymous/MFirebaseUser;->isAnonymous()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_local_signout_google
+
+    invoke-static {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->signOut(Landroid/app/Activity;)V
+
+    return-object v5
+
+    :cond_local_signout_google
     const/16 v1, 0xbbd
 
     .line 555
