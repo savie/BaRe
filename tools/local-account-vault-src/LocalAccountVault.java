@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
@@ -14,9 +16,17 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.res.ResourcesCompat;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONObject;
 
@@ -127,15 +137,15 @@ public final class LocalAccountVault {
         } catch (Throwable error) {
             localSelectionPending = true;
             resolutionComplete = false;
-            showError(activity, "Local Account unavailable",
-                    "The Local Account identity could not be prepared. No account was created.");
+            showError(activity, "Couldn't set up a Local Account",
+                    "BΛR☰ couldn't prepare your account. Nothing was changed. Please try again.");
             return;
         }
         localSelectionPending = true;
         resolutionComplete = false;
         if (!writeMarkers(false, true)) {
-            showError(activity, "Local Account setup unavailable",
-                    "The pending Intro state could not be saved. No Local Account was activated.");
+            showError(activity, "Couldn't continue setup",
+                    "Your account setup couldn't be saved. No account was activated. Please try again.");
         }
     }
 
@@ -151,9 +161,9 @@ public final class LocalAccountVault {
     private static void requestStoragePermission(final Activity activity) {
         if (activity == null || activity.isFinishing() || dialogOpen) return;
         if (Build.VERSION.SDK_INT >= 30) {
-            new AlertDialog.Builder(activity)
-                    .setTitle("Storage access required")
-                    .setMessage("Local Account needs All Files Access to read or save the existing vault and recovery artifact in /storage/emulated/0/BΛR☰/accounts. No account will be created until access is granted.")
+            new MaterialAlertDialogBuilder(activity)
+                    .setTitle("Allow access to your saved account")
+                    .setMessage("BΛR☰ needs access to the files it uses to keep your Local Account safe. Allow access in Android settings to continue.")
                     .setPositiveButton("Open settings", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             clearDialogGate();
@@ -165,13 +175,13 @@ public final class LocalAccountVault {
                                 try {
                                     activity.startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
                                 } catch (Throwable ignored) {
-                                    showError(activity, "Cannot open storage settings",
-                                            "Open Android Settings > Apps > BΛR☰ > All Files Access, enable access, then return to the app.");
+                                    showError(activity, "Storage access is still needed",
+                                            "In Android settings, open Apps > BΛR☰ > All files access, then turn on Allow access to manage all files.");
                                 }
                             }
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             clearDialogGate();
                         }
@@ -215,23 +225,23 @@ public final class LocalAccountVault {
         }
         if (!localSelectionPending || resolutionComplete || dialogOpen) return;
         if (!storageReady(activity)) {
-            showError(activity, "Storage unavailable",
-                    "Grant the existing All Files Access permission and make sure shared storage is mounted. No Local Account was created.");
+            showError(activity, "Storage isn't available",
+                    "BΛR☰ can't access your saved account files right now. Check storage access and try again. Nothing was changed.");
             return;
         }
 
         try {
             File root = rootDirectory();
             if (root.exists() && (!root.isDirectory() || !root.canRead())) {
-                showError(activity, "Local Account storage error",
-                        "The Local Account directory is not readable. No new account was created.");
+                showError(activity, "Can't read saved account data",
+                        "BΛR☰ can't read the files for your Local Account. Nothing was changed.");
                 return;
             }
 
             File[] files = root.exists() ? root.listFiles() : new File[0];
             if (files == null) {
-                showError(activity, "Local Account storage error",
-                        "The Local Account directory could not be listed. No new account was created.");
+                showError(activity, "Can't check saved account data",
+                        "BΛR☰ couldn't check your saved account files. Nothing was changed.");
                 return;
             }
 
@@ -251,19 +261,18 @@ public final class LocalAccountVault {
                 }
             }
             if (malformedCandidate) {
-                showError(activity, "Corrupt Local Account candidate",
-                        "A Local Account vault or recovery filename is malformed. No new account will be created automatically.");
+                showError(activity, "Account data needs attention",
+                        "BΛR☰ found account files it can't safely read. Your files haven't been changed. Please contact support before setting up another account.");
                 return;
             }
             if (interruptedWrite) {
-                showError(activity, "Local Account recovery required",
-                        "An interrupted Local Account write was found. Resolve the existing vault files before creating another account.");
+                showError(activity, "Account setup needs attention",
+                        "An earlier setup didn't finish. Your saved files have been left untouched. Please contact support before continuing.");
                 return;
             }
             if (ids.size() > 1) {
-                showError(activity, "Local Account conflict",
-                        "More than one Local Account vault was found in " + root.getAbsolutePath()
-                                + ". No account was selected or overwritten.");
+                showError(activity, "More than one account found",
+                        "BΛR☰ found more than one saved Local Account. Nothing was changed. Please contact support before continuing.");
                 return;
             }
 
@@ -274,8 +283,8 @@ public final class LocalAccountVault {
                 if (!isDirectChild(root, vaultFile) || !isDirectChild(root, recoveryFile)
                         || (vaultFile.exists() && !vaultFile.isFile())
                         || (recoveryFile.exists() && !recoveryFile.isFile())) {
-                    showError(activity, "Local Account storage conflict",
-                            "A vault path is not a regular file inside the Local Account directory. No data was changed.");
+                    showError(activity, "Can't access saved account data",
+                            "BΛR☰ can't safely access these account files. Nothing was changed.");
                     return;
                 }
                 JSONObject vault = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
@@ -289,8 +298,8 @@ public final class LocalAccountVault {
                     Restored restored = restoreWithDeviceKey(vault, id);
                     if (restored != null) {
                         if (!matchesLegacyCache(restored.user)) {
-                            showError(activity, "Local Account identity conflict",
-                                    "The vault identity does not match the legacy Local Account cache. No data was changed.");
+                            showError(activity, "Account doesn't match",
+                                    "The saved account doesn't match the account on this device. Nothing was changed.");
                             return;
                         }
                         if (!recoveryMatchesVault(recovery, vault, restored.uid)) {
@@ -320,15 +329,15 @@ public final class LocalAccountVault {
                 pendingUser = user;
             }
             if (!isAnonymous(user)) {
-                showError(activity, "Local Account identity error",
-                        "The selected identity is not a Local Account. No vault was written.");
+                showError(activity, "Couldn't verify this account",
+                        "BΛR☰ couldn't verify the selected account. Nothing was saved.");
                 return;
             }
             if (pendingEnrollment == null) beginEnrollment(activity, user);
             else showRecoveryCode(activity, pendingEnrollment);
         } catch (Throwable error) {
-            showError(activity, "Local Account storage error",
-                    "The Local Account vault could not be inspected safely. No new identity was created.");
+            showError(activity, "Couldn't check your account",
+                    "BΛR☰ couldn't safely check your saved account. Nothing was changed.");
         }
     }
 
@@ -424,25 +433,27 @@ public final class LocalAccountVault {
         final EditText input = new EditText(activity);
         input.setSingleLine(true);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        input.setHint("Recovery code");
+        input.setHint("Enter recovery code");
+        input.setSingleLine(false);
+        input.setMaxLines(2);
         if (previousCode != null) input.setText(previousCode);
         new AlertDialog.Builder(activity)
-                .setTitle("Recover Local Account")
-                .setMessage("The device key is unavailable. Enter the recovery code saved during Local Account setup.")
+                .setTitle("Restore your Local Account")
+                .setMessage("This device can't access your saved account. Enter the recovery code you saved when you set it up.")
                 .setView(input)
-                .setPositiveButton("Recover", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Restore account", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         try {
                             recoverFromCode(activity, id, vaultFile, recoveryFile, source, input.getText().toString());
                         } catch (Throwable error) {
                             String attemptedCode = input.getText().toString();
-                            toast(activity, "Recovery failed. Check the full recovery code and try again.");
+                            toast(activity, "That code didn't work. Check it and try again.");
                             showRecoveryPrompt(activity, id, vaultFile, recoveryFile, source, attemptedCode);
                         }
                     }
                 })
-                .setNegativeButton("Create new Local Account", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Set up a new account", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         String attemptedCode = input.getText().toString();
                         clearDialogGate();
@@ -460,9 +471,9 @@ public final class LocalAccountVault {
                                                    final String previousCode) {
         if (activity == null || activity.isFinishing()) return;
         new AlertDialog.Builder(activity)
-                .setTitle("Create a new Local Account?")
-                .setMessage("The existing account cannot be recovered without its Recovery Code. BΛR☰ will move its .vault and .recovery files into /storage/emulated/0/BΛR☰/accounts/recovery-archive, then create a completely new LocalAccountId. The old account will not be overwritten, but its encrypted data will remain inaccessible unless you recover it later.")
-                .setPositiveButton("Archive & create new", new DialogInterface.OnClickListener() {
+                .setTitle("Set up a new Local Account?")
+                .setMessage("Your previous account can't be restored without its recovery code. BΛR☰ will keep its saved files separate and set up a fresh Local Account. You can still restore the previous account later with its recovery code.")
+                .setPositiveButton("Set up new account",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         try {
@@ -478,7 +489,7 @@ public final class LocalAccountVault {
                                 pendingEnrollment = null;
                                 localSelectionPending = true;
                                 resolutionComplete = false;
-                                toast(activity, "Previous account files archived. Creating a new Local Account.");
+                                toast(activity, "Setting up your new Local Account…");
                                 resolve(activity);
                             } catch (Throwable setupError) {
                                 try { setCachedLocalUser(previousCache); } catch (Throwable ignored) {}
@@ -491,7 +502,7 @@ public final class LocalAccountVault {
                         }
                     }
                 })
-                .setNegativeButton("Back to recovery", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Try recovery again",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         JSONObject retrySource = recoveryFile.isFile() ? readEnvelope(recoveryFile, id) : null;
@@ -499,8 +510,8 @@ public final class LocalAccountVault {
                         if (retrySource != null) {
                             showRecoveryPrompt(activity, id, vaultFile, recoveryFile, retrySource, previousCode);
                         } else {
-                            showError(activity, "Recovery artifact unavailable",
-                                    "Neither the recovery artifact nor the vault can be read. No new account was created.");
+                            showError(activity, "Can't restore this account",
+                                    "BΛR☰ can't read the saved recovery information. Nothing was changed.");
                         }
                     }
                 })
@@ -568,8 +579,8 @@ public final class LocalAccountVault {
         Restored restored = parsePayload(payload, id);
         if (!source.getString("legacyUid").equals(restored.uid)) throw new SecurityException("Legacy UID mismatch");
         if (!matchesLegacyCache(restored.user)) {
-            showError(activity, "Local Account identity conflict",
-                    "The recovery artifact does not match the existing Local Account cache. No data was changed.");
+            showError(activity, "Account doesn't match",
+                    "This recovery code belongs to a different account. Nothing was changed.");
             return;
         }
 
@@ -594,7 +605,7 @@ public final class LocalAccountVault {
             throw new SecurityException("Recovered vault verification failed");
         }
         activate(activity, restored.user);
-        toast(activity, "Local Account restored. Vault location: /storage/emulated/0/BΛR☰/accounts");
+        toast(activity, "Your Local Account has been restored.");
     }
 
     private static void beginEnrollment(Activity activity, Object user) throws Exception {
@@ -607,22 +618,18 @@ public final class LocalAccountVault {
 
     private static void showRecoveryCode(final Activity activity, final Enrollment enrollment) {
         if (activity == null || activity.isFinishing()) return;
-        TextView codeView = new TextView(activity);
-        codeView.setText(enrollment.code);
-        codeView.setTextIsSelectable(true);
-        int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
-        codeView.setPadding(pad, pad, pad, pad);
+        MaterialCardView codeCard = createRecoveryCodeCard(activity, enrollment.code);
         new AlertDialog.Builder(activity)
-                .setTitle("Save your Local Account recovery code")
-                .setMessage("This code is shown only during setup. Long-press the code to copy it and keep it somewhere safe. The recovery artifact will be saved as " + PREFIX + enrollment.id + ".recovery under /storage/emulated/0/BΛR☰/accounts. It is not your backup Password Strategy password.")
-                .setView(codeView)
-                .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
+                .setTitle("Save your recovery code")
+                .setMessage("Keep this code somewhere safe. You'll need it to restore your Local Account on another device or if this device can't access it. This is different from your backup password. BΛR☰ will ask you to confirm the code before setup is complete.")
+                .setView(codeCard)
+                .setPositiveButton("I've saved my code",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         confirmRecoveryCode(activity, enrollment);
                     }
                 })
-                .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel setup",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         cancelPendingSelection();
@@ -634,28 +641,90 @@ public final class LocalAccountVault {
         dialogActivity = activity;
     }
 
+    private static MaterialCardView createRecoveryCodeCard(Activity activity, String code) {
+        MaterialCardView card = new MaterialCardView(activity);
+        card.setCardElevation(0f);
+        card.setUseCompatPadding(false);
+        card.setRadius(resolveDimension(activity, "card_corner_radius", 16f));
+        card.setCardBackgroundColor(resolveThemeColor(activity, "colorSurfaceContainerLow", "colorSurface"));
+        card.setStrokeWidth(dp(activity, 1));
+        card.setStrokeColor(resolveThemeColor(activity, "colorOutlineVariant", "colorOutline"));
+
+        TextView codeView = new TextView(activity);
+        codeView.setText(code);
+        codeView.setTextIsSelectable(true);
+        codeView.setGravity(Gravity.CENTER);
+        codeView.setTextSize(16f);
+        codeView.setTextColor(resolveThemeColor(activity, "colorOnSurface", "android:textColorPrimary"));
+        codeView.setPadding(dp(activity, 16), dp(activity, 18), dp(activity, 16), dp(activity, 18));
+        codeView.setLineSpacing(dp(activity, 3), 1f);
+        int monoFont = activity.getResources().getIdentifier("mono_bold", "font", activity.getPackageName());
+        if (monoFont != 0) {
+            try {
+                codeView.setTypeface(ResourcesCompat.getFont(activity, monoFont));
+            } catch (Throwable ignored) {
+                codeView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+            }
+        } else {
+            codeView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        }
+        codeView.setContentDescription("Recovery code. Select and copy this code.");
+        card.addView(codeView, new MaterialCardView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        return card;
+    }
+
+    private static int resolveThemeColor(Activity activity, String primaryName, String fallbackName) {
+        int attr = activity.getResources().getIdentifier(primaryName, "attr", activity.getPackageName());
+        if (attr == 0 && fallbackName.startsWith("android:")) {
+            attr = activity.getResources().getIdentifier(fallbackName.substring(8), "attr", "android");
+        } else if (attr == 0) {
+            attr = activity.getResources().getIdentifier(fallbackName, "attr", activity.getPackageName());
+        }
+        TypedValue value = new TypedValue();
+        if (attr != 0 && activity.getTheme().resolveAttribute(attr, value, true)) {
+            if (value.resourceId != 0) {
+                try { return androidx.core.content.ContextCompat.getColor(activity, value.resourceId); }
+                catch (Throwable ignored) {}
+            }
+            return value.data;
+        }
+        return 0xFF777777;
+    }
+
+    private static float resolveDimension(Activity activity, String name, float fallbackDp) {
+        int id = activity.getResources().getIdentifier(name, "dimen", activity.getPackageName());
+        return id == 0 ? dp(activity, (int) fallbackDp) : activity.getResources().getDimension(id);
+    }
+
+    private static int dp(Activity activity, int value) {
+        return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
         final EditText input = new EditText(activity);
         input.setSingleLine(true);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        input.setHint("Enter the recovery code");
+        input.setHint("Enter recovery code");
+        input.setSingleLine(false);
+        input.setMaxLines(2);
         new AlertDialog.Builder(activity)
-                .setTitle("Confirm recovery code")
-                .setMessage("Enter the code again before the Local Account vault is created.")
+                .setTitle("Confirm your recovery code")
+                .setMessage("Enter the code you just saved. We'll finish setting up your Local Account when it matches.")
                 .setView(input)
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Confirm code",  new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
                         clearDialogGate();
                         if (!enrollment.code.equals(normalizeRecoveryCode(input.getText().toString()))) {
-                            toast(activity, "Recovery code did not match. Save and confirm the code to continue.");
+                            toast(activity, "That code doesn't match. Save your recovery code and try again.");
                             showRecoveryCode(activity, enrollment);
                             return;
                         }
                         try {
                             commitEnrollment(activity, enrollment);
                         } catch (Throwable error) {
-                            showError(activity, "Local Account setup failed",
-                                    "The encrypted vault could not be committed and verified. No Local Account was activated.");
+                            showError(activity, "Couldn't finish setup",
+                                    "BΛR☰ couldn't safely save and verify your account. Your account hasn't been activated. Please try again.");
                         }
                     }
                 })
@@ -714,7 +783,7 @@ public final class LocalAccountVault {
                 decode(persistedRecovery.getString("payloadCiphertext")), aad(enrollment.id, "payload")), enrollment.id);
         activate(activity, enrollment.user);
         pendingEnrollment = null;
-        toast(activity, "Local Account vault saved to /storage/emulated/0/BΛR☰/accounts");
+        toast(activity, "Your Local Account is ready.");
     }
 
     private static JSONObject makeVaultEnvelope(String id, String uid, String alias,
@@ -815,7 +884,7 @@ public final class LocalAccountVault {
                 activity.finish();
             } catch (Throwable navigationError) {
                 android.util.Log.e("LocalAccountVault", "Home navigation failed after local activation", navigationError);
-                toast(activity, "Local Account is active, but Home could not be opened. Please reopen the app.");
+                toast(activity, "Your Local Account is ready. Reopen BΛR☰ to continue.");
             }
         }
     }
@@ -1072,15 +1141,15 @@ public final class LocalAccountVault {
         if (activity == null || activity.isFinishing()) return;
         try {
             new AlertDialog.Builder(activity)
-                    .setTitle("Could not sign out safely")
-                    .setMessage("The Local Account session marker could not be saved. The application was not closed so the account is not silently reactivated.")
-                    .setPositiveButton("Retry sign out", new DialogInterface.OnClickListener() {
+                    .setTitle("Couldn't sign out")
+                    .setMessage("BΛR☰ couldn't save your sign-out. Your Local Account is still active.")
+                    .setPositiveButton("Try again",  new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             clearDialogGate();
                             signOut(activity);
                         }
                     })
-                    .setNegativeButton("Keep account active", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Stay signed in",  new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             clearDialogGate();
                         }
@@ -1091,7 +1160,7 @@ public final class LocalAccountVault {
             dialogActivity = activity;
         } catch (Throwable ignored) {
             clearDialogGate();
-            toast(activity, "Could not save the Local Account session marker. The account remains active.");
+            toast(activity, "Couldn't sign out. Your Local Account is still active.");
         }
     }
 
@@ -1101,7 +1170,7 @@ public final class LocalAccountVault {
             new AlertDialog.Builder(activity)
                     .setTitle(title)
                     .setMessage(message)
-                    .setPositiveButton("Cancel Local setup", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Cancel setup",  new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             clearDialogGate();
                             cancelPendingSelection();
