@@ -1137,10 +1137,6 @@ public final class LocalAccountVault {
         return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    private static int dp(Activity activity, float value) {
-        return (int) (value * activity.getResources().getDisplayMetrics().density + 0.5f);
-    }
-
     private static DialogBuilder themedDialogBuilder(Activity activity) {
         return new DialogBuilder(activity);
     }
