@@ -82,7 +82,7 @@
 
     iget-object v2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$recoveryFile:Ljava/io/File;
 
-    invoke-static {p2, v0, v1, v2, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
+    invoke-static {p2, v0, v1, v2, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
 
     .line 458
     return-void

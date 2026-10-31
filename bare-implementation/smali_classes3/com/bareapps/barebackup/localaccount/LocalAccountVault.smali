@@ -99,226 +99,18 @@
     return-void
 .end method
 
-.method static synthetic access$100(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+.method static synthetic access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
     .locals 0
 
     .line 52
-    invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
-
-    return-void
-.end method
-
-.method static synthetic access$1000(Ljava/lang/Object;)V
-    .locals 0
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 52
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->setCachedLocalUser(Ljava/lang/Object;)V
-
-    return-void
-.end method
-
-.method static synthetic access$1100(ZZ)Z
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeMarkers(ZZ)Z
-
-    move-result p0
-
-    return p0
-.end method
-
-.method static synthetic access$1202(Ljava/lang/Object;)Ljava/lang/Object;
-    .locals 0
-
-    .line 52
-    sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingUser:Ljava/lang/Object;
-
-    return-object p0
-.end method
-
-.method static synthetic access$1302(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
-    .locals 0
-
-    .line 52
-    sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
-
-    return-object p0
-.end method
-
-.method static synthetic access$1402(Z)Z
-    .locals 0
-
-    .line 52
-    sput-boolean p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->localSelectionPending:Z
-
-    return p0
-.end method
-
-.method static synthetic access$1502(Z)Z
-    .locals 0
-
-    .line 52
-    sput-boolean p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
-
-    return p0
-.end method
-
-.method static synthetic access$1600(Landroid/app/Activity;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolve(Landroid/app/Activity;)V
-
-    return-void
-.end method
-
-.method static synthetic access$1700(Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->restoreArchivedArtifacts(Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
-
-    return-void
-.end method
-
-.method static synthetic access$1800()V
-    .locals 0
-
-    .line 52
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->cancelPendingSelection()V
-
-    return-void
-.end method
-
-.method static synthetic access$1900(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-
-    return-void
-.end method
-
-.method static synthetic access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1, p2, p3, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showNewAccountConfirmation(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
-
-    return-void
-.end method
-
-.method static synthetic access$2000(Ljava/lang/String;)Ljava/lang/String;
-    .locals 0
-
-    .line 52
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
     return-object p0
 .end method
 
-.method static synthetic access$2100(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-
-    return-void
-.end method
-
-.method static synthetic access$2200(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-    .locals 0
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->commitEnrollment(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-
-    return-void
-.end method
-
-.method static synthetic access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
-    .locals 0
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 52
-    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->recoverFromCode(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
-
-    return-void
-.end method
-
-.method static synthetic access$400(Landroid/app/Activity;Ljava/lang/String;)V
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
-
-    return-void
-.end method
-
-.method static synthetic access$500(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
-    .locals 0
-
-    .line 52
-    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
-
-    return-void
-.end method
-
-.method static synthetic access$600(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
-    .locals 0
-
-    .line 52
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
-
-    move-result-object p0
-
-    return-object p0
-.end method
-
-.method static synthetic access$700()Ljava/lang/Object;
-    .locals 1
-
-    .line 52
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->cachedLocalUser()Ljava/lang/Object;
-
-    move-result-object v0
-
-    return-object v0
-.end method
-
-.method static synthetic access$800()Ljava/lang/Object;
-    .locals 1
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
-
-    .line 52
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->newLocalUser()Ljava/lang/Object;
-
-    move-result-object v0
-
-    return-object v0
-.end method
-
-.method static synthetic access$900(Ljava/lang/String;Ljava/io/File;Ljava/io/File;)Ljava/io/File;
+.method static synthetic access$1000(Ljava/lang/String;Ljava/io/File;Ljava/io/File;)Ljava/io/File;
     .locals 0
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -332,6 +124,225 @@
     move-result-object p0
 
     return-object p0
+.end method
+
+.method static synthetic access$1100(Ljava/lang/Object;)V
+    .locals 0
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .line 52
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->setCachedLocalUser(Ljava/lang/Object;)V
+
+    return-void
+.end method
+
+.method static synthetic access$1200(ZZ)Z
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->writeMarkers(ZZ)Z
+
+    move-result p0
+
+    return p0
+.end method
+
+.method static synthetic access$1302(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 52
+    sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingUser:Ljava/lang/Object;
+
+    return-object p0
+.end method
+
+.method static synthetic access$1402(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
+    .locals 0
+
+    .line 52
+    sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
+
+    return-object p0
+.end method
+
+.method static synthetic access$1502(Z)Z
+    .locals 0
+
+    .line 52
+    sput-boolean p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->localSelectionPending:Z
+
+    return p0
+.end method
+
+.method static synthetic access$1602(Z)Z
+    .locals 0
+
+    .line 52
+    sput-boolean p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
+
+    return p0
+.end method
+
+.method static synthetic access$1700(Landroid/app/Activity;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolve(Landroid/app/Activity;)V
+
+    return-void
+.end method
+
+.method static synthetic access$1800(Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->restoreArchivedArtifacts(Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
+
+    return-void
+.end method
+
+.method static synthetic access$1900()V
+    .locals 0
+
+    .line 52
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->cancelPendingSelection()V
+
+    return-void
+.end method
+
+.method static synthetic access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+
+    return-void
+.end method
+
+.method static synthetic access$2000(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+
+    return-void
+.end method
+
+.method static synthetic access$2100(Ljava/lang/String;)Ljava/lang/String;
+    .locals 0
+
+    .line 52
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object p0
+
+    return-object p0
+.end method
+
+.method static synthetic access$2200(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+
+    return-void
+.end method
+
+.method static synthetic access$2300(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    .locals 0
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->commitEnrollment(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+
+    return-void
+.end method
+
+.method static synthetic access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1, p2, p3, p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showNewAccountConfirmation(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
+
+    return-void
+.end method
+
+.method static synthetic access$400(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    .locals 0
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .line 52
+    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->recoverFromCode(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+
+    return-void
+.end method
+
+.method static synthetic access$500(Landroid/app/Activity;Ljava/lang/String;)V
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
+
+    return-void
+.end method
+
+.method static synthetic access$600(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    .locals 0
+
+    .line 52
+    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+
+    return-void
+.end method
+
+.method static synthetic access$700(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
+    .locals 0
+
+    .line 52
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->readEnvelope(Ljava/io/File;Ljava/lang/String;)Lorg/json/JSONObject;
+
+    move-result-object p0
+
+    return-object p0
+.end method
+
+.method static synthetic access$800()Ljava/lang/Object;
+    .locals 1
+
+    .line 52
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->cachedLocalUser()Ljava/lang/Object;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method static synthetic access$900()Ljava/lang/Object;
+    .locals 1
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .line 52
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->newLocalUser()Ljava/lang/Object;
+
+    move-result-object v0
+
+    return-object v0
 .end method
 
 .method private static activate(Landroid/app/Activity;Ljava/lang/Object;)V
@@ -432,7 +443,11 @@
     invoke-static {v0, v1, p1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
     .line 839
-    const-string p1, "Your Local Account is ready. Reopen B\u039bR\u2630 to continue."
+    const-string p1, "local_account_ready_reopen"
+
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object p1
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
@@ -1062,10 +1077,20 @@
     if-nez v1, :cond_0
 
     .line 116
-    const-string v1, "Couldn\'t save your account choice"
+    const-string v1, "local_account_choice_save_failed_title"
 
-    const-string v2, "Your account choice couldn\'t be saved. Please try again."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    .line 117
+    const-string v2, "local_account_choice_save_failed_message"
+
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 116
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 118
@@ -1592,7 +1617,11 @@
     sput-object p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
     .line 738
-    const-string p1, "Your Local Account is ready."
+    const-string p1, "local_account_ready"
+
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object p1
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
     :try_end_0
@@ -1642,7 +1671,7 @@
 .end method
 
 .method private static confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-    .locals 4
+    .locals 5
 
     .line 658
     new-instance v0, Landroid/widget/EditText;
@@ -1655,7 +1684,11 @@
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setInputType(I)V
 
     .line 660
-    const-string v1, "Enter recovery code"
+    const-string v1, "local_account_recovery_code_hint"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
@@ -1675,14 +1708,22 @@
     move-result-object v2
 
     .line 664
-    const-string v3, "Confirm your recovery code"
+    const-string v3, "local_account_confirm_recovery_title"
+
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v2
 
     .line 665
-    const-string v3, "Enter the code you just saved. We\'ll finish setting up your Local Account when it matches."
+    const-string v3, "local_account_confirm_recovery_message"
+
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
@@ -1693,25 +1734,33 @@
 
     move-result-object v2
 
-    new-instance v3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;
-
-    invoke-direct {v3, p1, v0, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;-><init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;Landroid/widget/EditText;Landroid/app/Activity;)V
-
     .line 667
-    const-string p1, "Confirm code"
+    const-string v3, "local_account_confirm_code_action"
 
-    invoke-virtual {v2, p1, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    new-instance v4, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;
+
+    invoke-direct {v4, p1, v0, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$10;-><init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;Landroid/widget/EditText;Landroid/app/Activity;)V
+
+    invoke-virtual {v2, v3, v4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;
-
-    invoke-direct {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;-><init>()V
-
     .line 683
-    const-string v2, "Cancel setup"
+    const-string v0, "local_account_cancel_setup"
 
-    invoke-virtual {p1, v2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;
+
+    invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$9;-><init>()V
+
+    invoke-virtual {p1, v0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
@@ -3658,10 +3707,20 @@
     if-nez p4, :cond_0
 
     .line 579
-    const-string p1, "Account doesn\'t match"
+    const-string p1, "local_account_mismatch_title"
 
-    const-string p2, "This recovery code belongs to a different account. Nothing was changed."
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object p1
+
+    const-string p2, "local_account_recovery_mismatch_message"
+
+    .line 580
+    invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object p2
+
+    .line 579
     invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
@@ -3871,7 +3930,11 @@
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->activate(Landroid/app/Activity;Ljava/lang/Object;)V
 
     .line 605
-    const-string p1, "Your Local Account has been restored."
+    const-string p1, "local_account_restored"
+
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object p1
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
     :try_end_1
@@ -4176,38 +4239,54 @@
     move-result-object v0
 
     .line 163
-    const-string v1, "Allow access to your saved account"
+    const-string v1, "local_account_storage_access_title"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
     .line 164
-    const-string v1, "B\u039bR\u2630 needs access to the files it uses to keep your Local Account safe. Allow access in Android settings to continue."
+    const-string v1, "local_account_storage_access_message"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;
-
-    invoke-direct {v1, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;-><init>(Landroid/app/Activity;)V
-
     .line 165
-    const-string v2, "Open settings"
+    const-string v1, "local_account_open_settings"
 
-    invoke-virtual {v0, v2, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;
+
+    invoke-direct {v2, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$2;-><init>(Landroid/app/Activity;)V
+
+    invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$1;
-
-    invoke-direct {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$1;-><init>()V
-
     .line 182
-    const-string v2, "Not now"
+    const-string v1, "local_account_not_now"
 
-    invoke-virtual {v0, v2, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$1;
+
+    invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$1;-><init>()V
+
+    invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
@@ -4316,10 +4395,20 @@
     if-nez v1, :cond_3
 
     .line 226
-    const-string v1, "Storage isn\'t available"
+    const-string v1, "local_account_storage_unavailable_title"
 
-    const-string v2, "B\u039bR\u2630 can\'t access your saved account files right now. Check storage access and try again. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_storage_unavailable_message"
+
+    .line 227
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 226
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_1
@@ -4357,10 +4446,20 @@
 
     .line 234
     :cond_4
-    const-string v1, "Can\'t read saved account data"
+    const-string v1, "local_account_data_read_failed_title"
 
-    const-string v2, "B\u039bR\u2630 can\'t read the files for your Local Account. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_data_read_failed_message"
+
+    .line 235
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 234
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
@@ -4395,10 +4494,20 @@
     if-nez v2, :cond_7
 
     .line 241
-    const-string v1, "Can\'t check saved account data"
+    const-string v1, "local_account_data_check_failed_title"
 
-    const-string v2, "B\u039bR\u2630 couldn\'t check your saved account files. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_data_check_failed_message"
+
+    .line 242
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 241
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
@@ -4529,10 +4638,20 @@
     if-eqz v6, :cond_e
 
     .line 262
-    const-string v1, "Account data needs attention"
+    const-string v1, "local_account_data_attention_title"
 
-    const-string v2, "B\u039bR\u2630 found account files it can\'t safely read. Your files haven\'t been changed. Please contact support before setting up another account."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_data_attention_message"
+
+    .line 263
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 262
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_3
     .catchall {:try_start_3 .. :try_end_3} :catchall_0
@@ -4548,10 +4667,20 @@
 
     .line 267
     :try_start_4
-    const-string v1, "Account setup needs attention"
+    const-string v1, "local_account_setup_attention_title"
 
-    const-string v2, "An earlier setup didn\'t finish. Your saved files have been left untouched. Please contact support before continuing."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_setup_attention_message"
+
+    .line 268
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 267
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_4
     .catchall {:try_start_4 .. :try_end_4} :catchall_0
@@ -4571,10 +4700,20 @@
     if-le v2, v8, :cond_10
 
     .line 272
-    const-string v1, "More than one account found"
+    const-string v1, "local_account_multiple_found_title"
 
-    const-string v2, "B\u039bR\u2630 found more than one saved Local Account. Nothing was changed. Please contact support before continuing."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_multiple_found_message"
+
+    .line 273
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 272
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_5
     .catchall {:try_start_5 .. :try_end_5} :catchall_0
@@ -4779,10 +4918,20 @@
     if-nez v2, :cond_16
 
     .line 299
-    const-string v1, "Account doesn\'t match"
+    const-string v1, "local_account_mismatch_title"
 
-    const-string v2, "The saved account doesn\'t match the account on this device. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_mismatch_message"
+
+    .line 300
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 299
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_7
     .catchall {:try_start_7 .. :try_end_7} :catchall_0
@@ -4897,10 +5046,20 @@
     :cond_1d
     :goto_7
     :try_start_b
-    const-string v1, "Can\'t access saved account data"
+    const-string v1, "local_account_data_access_failed_title"
 
-    const-string v2, "B\u039bR\u2630 can\'t safely access these account files. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_data_access_failed_message"
+
+    .line 285
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 284
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_b
     .catchall {:try_start_b .. :try_end_b} :catchall_0
@@ -4952,10 +5111,20 @@
     if-nez v2, :cond_21
 
     .line 330
-    const-string v1, "Couldn\'t verify this account"
+    const-string v1, "local_account_verify_failed_title"
 
-    const-string v2, "B\u039bR\u2630 couldn\'t verify the selected account. Nothing was saved."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_verify_failed_message"
+
+    .line 331
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 330
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_c
     .catchall {:try_start_c .. :try_end_c} :catchall_0
@@ -4994,10 +5163,20 @@
 
     .line 337
     :try_start_e
-    const-string v1, "Couldn\'t check your account"
+    const-string v1, "local_account_check_failed_title"
 
-    const-string v2, "B\u039bR\u2630 couldn\'t safely check your saved account. Nothing was changed."
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v1
+
+    const-string v2, "local_account_check_failed_message"
+
+    .line 338
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    .line 337
     invoke-static {p0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_e
     .catchall {:try_start_e .. :try_end_e} :catchall_1
@@ -5305,10 +5484,20 @@
     if-nez v0, :cond_2
 
     .line 145
-    const-string v0, "Couldn\'t continue setup"
+    const-string v0, "local_account_continue_failed_title"
 
-    const-string v1, "Your account setup couldn\'t be saved. No account was activated. Please try again."
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v0
+
+    .line 146
+    const-string v1, "local_account_continue_failed_message"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 145
     invoke-static {p0, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 148
@@ -5326,10 +5515,20 @@
     sput-boolean v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->resolutionComplete:Z
 
     .line 138
-    const-string v0, "Couldn\'t set up a Local Account"
+    const-string v0, "local_account_setup_failed_title"
 
-    const-string v1, "B\u039bR\u2630 couldn\'t prepare your account. Nothing was changed. Please try again."
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
+    move-result-object v0
+
+    .line 139
+    const-string v1, "local_account_setup_failed_message"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    .line 138
     invoke-static {p0, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 140
@@ -5465,7 +5664,7 @@
 .method private static showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     .locals 2
 
-    .line 1343
+    .line 1349
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5476,79 +5675,83 @@
 
     goto :goto_1
 
-    .line 1345
+    .line 1351
     :cond_0
     :try_start_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1346
+    .line 1352
     invoke-virtual {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1347
+    .line 1353
     invoke-virtual {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    const-string v0, "Cancel setup"
+    const-string v0, "local_account_cancel_setup"
+
+    .line 1354
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
 
     new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$13;
 
     invoke-direct {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$13;-><init>()V
 
-    .line 1348
     invoke-virtual {p1, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1354
+    .line 1360
     const/4 v0, 0x0
 
     invoke-virtual {p1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1355
+    .line 1361
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 1356
+    .line 1362
     const/4 p1, 0x1
 
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1357
+    .line 1363
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1361
+    .line 1367
     goto :goto_0
 
-    .line 1358
+    .line 1364
     :catchall_0
     move-exception p1
 
-    .line 1359
+    .line 1365
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearDialogGate()V
 
-    .line 1360
+    .line 1366
     invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1362
+    .line 1368
     :goto_0
     return-void
 
-    .line 1343
+    .line 1349
     :cond_1
     :goto_1
     return-void
 .end method
 
 .method private static showNewAccountConfirmation(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
-    .locals 8
+    .locals 9
 
     .line 469
     if-eqz p0, :cond_1
@@ -5568,50 +5771,66 @@
     move-result-object v0
 
     .line 471
-    const-string v1, "Set up a new Local Account?"
+    const-string v1, "local_account_new_setup_title"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
     .line 472
-    const-string v1, "Your previous account can\'t be restored without its recovery code. B\u039bR\u2630 will keep its saved files separate and set up a fresh Local Account. You can still restore the previous account later with its recovery code."
+    const-string v1, "local_account_new_setup_message"
+
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    new-instance v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;
-
-    invoke-direct {v1, p1, p2, p3, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;-><init>(Ljava/lang/String;Ljava/io/File;Ljava/io/File;Landroid/app/Activity;)V
-
     .line 473
-    const-string v2, "Set up new account"
+    const-string v1, "local_account_new_setup_action"
 
-    invoke-virtual {v0, v2, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;
+
+    invoke-direct {v2, p1, p2, p3, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;-><init>(Ljava/lang/String;Ljava/io/File;Ljava/io/File;Landroid/app/Activity;)V
+
+    invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    new-instance v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;
-
-    move-object v1, v7
-
-    move-object v2, p3
-
-    move-object v3, p1
-
-    move-object v4, p2
-
-    move-object v5, p0
-
-    move-object v6, p4
-
-    invoke-direct/range {v1 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;-><init>(Ljava/io/File;Ljava/lang/String;Ljava/io/File;Landroid/app/Activity;Ljava/lang/String;)V
-
     .line 502
-    const-string p1, "Try recovery again"
+    const-string v1, "local_account_retry_recovery"
 
-    invoke-virtual {v0, p1, v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    new-instance v8, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;
+
+    move-object v2, v8
+
+    move-object v3, p3
+
+    move-object v4, p1
+
+    move-object v5, p2
+
+    move-object v6, p0
+
+    move-object v7, p4
+
+    invoke-direct/range {v2 .. v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;-><init>(Ljava/io/File;Ljava/lang/String;Ljava/io/File;Landroid/app/Activity;Ljava/lang/String;)V
+
+    invoke-virtual {v0, v1, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
@@ -5776,14 +5995,22 @@
     move-result-object v2
 
     .line 636
-    const-string v3, "Save your recovery code"
+    const-string v3, "local_account_save_recovery_title"
+
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v2
 
     .line 637
-    const-string v3, "Keep this code somewhere safe. You\'ll need it to restore your Local Account on another device or if this device can\'t access it. This is different from your backup password. B\u039bR\u2630 will ask you to confirm the code before setup is complete."
+    const-string v3, "local_account_save_recovery_message"
+
+    invoke-static {p0, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
@@ -5794,25 +6021,33 @@
 
     move-result-object v0
 
-    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;
-
-    invoke-direct {v2, p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;-><init>(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
-
     .line 639
-    const-string p1, "I\'ve saved my code"
+    const-string v2, "local_account_saved_code_action"
 
-    invoke-virtual {v0, p1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    new-instance v3, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;
+
+    invoke-direct {v3, p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;-><init>(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+
+    invoke-virtual {v0, v2, v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;
-
-    invoke-direct {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;-><init>()V
-
     .line 645
-    const-string v2, "Cancel setup"
+    const-string v0, "local_account_cancel_setup"
 
-    invoke-virtual {p1, v2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;
+
+    invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$7;-><init>()V
+
+    invoke-virtual {p1, v0, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
@@ -5864,78 +6099,132 @@
 .end method
 
 .method private static showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
-    .locals 10
+    .locals 13
 
     .line 430
-    if-eqz p0, :cond_2
+    move-object v7, p0
+
+    move-object/from16 v0, p5
+
+    if-eqz v7, :cond_2
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
 
-    move-result v0
+    move-result v1
 
-    if-eqz v0, :cond_0
+    if-eqz v1, :cond_0
 
-    goto :goto_0
+    goto/16 :goto_0
 
     .line 431
     :cond_0
-    new-instance v0, Landroid/widget/EditText;
+    new-instance v8, Landroid/widget/EditText;
 
-    invoke-direct {v0, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
+    invoke-direct {v8, p0}, Landroid/widget/EditText;-><init>(Landroid/content/Context;)V
 
     .line 432
     const v1, 0x80091
 
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setInputType(I)V
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setInputType(I)V
 
     .line 433
-    const-string v1, "Enter recovery code"
+    const-string v1, "local_account_recovery_code_hint"
 
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setHint(Ljava/lang/CharSequence;)V
 
     .line 434
-    const/4 v8, 0x0
+    const/4 v9, 0x0
 
-    invoke-virtual {v0, v8}, Landroid/widget/EditText;->setSingleLine(Z)V
+    invoke-virtual {v8, v9}, Landroid/widget/EditText;->setSingleLine(Z)V
 
     .line 435
     const/4 v1, 0x2
 
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setMaxLines(I)V
+    invoke-virtual {v8, v1}, Landroid/widget/EditText;->setMaxLines(I)V
 
     .line 436
-    if-eqz p5, :cond_1
+    if-eqz v0, :cond_1
 
-    invoke-virtual {v0, p5}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
+    invoke-virtual {v8, v0}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
 
     .line 437
     :cond_1
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object p5
+    move-result-object v0
 
     .line 438
-    const-string v1, "Restore your Local Account"
+    const-string v1, "local_account_restore_title"
 
-    invoke-virtual {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object p5
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v0
 
     .line 439
-    const-string v1, "This device can\'t access your saved account. Enter the recovery code you saved when you set it up."
+    const-string v1, "local_account_restore_message"
 
-    invoke-virtual {p5, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object p5
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v0
 
     .line 440
-    invoke-virtual {p5, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v0, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setView(Landroid/view/View;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object p5
+    move-result-object v10
 
-    new-instance v9, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;
+    .line 441
+    const-string v0, "local_account_restore_action"
 
-    move-object v1, v9
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v11
+
+    new-instance v12, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;
+
+    move-object v0, v12
+
+    move-object v1, p0
+
+    move-object v2, p1
+
+    move-object v3, p2
+
+    move-object/from16 v4, p3
+
+    move-object/from16 v5, p4
+
+    move-object v6, v8
+
+    invoke-direct/range {v0 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;-><init>(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Landroid/widget/EditText;)V
+
+    invoke-virtual {v10, v11, v12}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+
+    move-result-object v6
+
+    .line 453
+    const-string v0, "local_account_new_setup_secondary"
+
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v10
+
+    new-instance v11, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;
+
+    move-object v0, v11
+
+    move-object v1, v8
 
     move-object v2, p0
 
@@ -5943,59 +6232,29 @@
 
     move-object v4, p2
 
-    move-object v5, p3
+    move-object/from16 v5, p3
 
-    move-object v6, p4
+    invoke-direct/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;-><init>(Landroid/widget/EditText;Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;)V
 
-    move-object v7, v0
+    invoke-virtual {v6, v10, v11}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    invoke-direct/range {v1 .. v7}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$4;-><init>(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Landroid/widget/EditText;)V
-
-    .line 441
-    const-string p4, "Restore account"
-
-    invoke-virtual {p5, p4, v9}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object p4
-
-    new-instance p5, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;
-
-    move-object v1, p5
-
-    move-object v2, v0
-
-    move-object v3, p0
-
-    move-object v4, p1
-
-    move-object v5, p2
-
-    move-object v6, p3
-
-    invoke-direct/range {v1 .. v6}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;-><init>(Landroid/widget/EditText;Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;)V
-
-    .line 453
-    const-string p1, "Set up a new account"
-
-    invoke-virtual {p4, p1, p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
-
-    move-result-object p1
+    move-result-object v0
 
     .line 460
-    invoke-virtual {p1, v8}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
+    invoke-virtual {v0, v9}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    move-result-object p1
+    move-result-object v0
 
     .line 461
-    invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
+    invoke-virtual {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
     .line 462
-    const/4 p1, 0x1
+    const/4 v0, 0x1
 
-    sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
+    sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
     .line 463
-    sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
+    sput-object v7, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
 
     .line 464
     return-void
@@ -6009,7 +6268,7 @@
 .method private static showSignOutFailure(Landroid/app/Activity;)V
     .locals 3
 
-    .line 1093
+    .line 1099
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -6020,89 +6279,109 @@
 
     goto :goto_1
 
-    .line 1095
+    .line 1101
     :cond_0
     :try_start_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    const-string v1, "Couldn\'t sign out"
+    const-string v1, "local_account_signout_failed_title"
 
-    .line 1096
+    .line 1102
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    const-string v1, "B\u039bR\u2630 couldn\'t save your sign-out. Your Local Account is still active."
+    const-string v1, "local_account_signout_failed_message"
 
-    .line 1097
+    .line 1103
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    const-string v1, "Try again"
+    const-string v1, "local_account_try_again"
+
+    .line 1104
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$12;
 
     invoke-direct {v2, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$12;-><init>(Landroid/app/Activity;)V
 
-    .line 1098
     invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    const-string v1, "Stay signed in"
+    const-string v1, "local_account_stay_signed_in"
+
+    .line 1110
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     new-instance v2, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$11;
 
     invoke-direct {v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$11;-><init>()V
 
-    .line 1104
     invoke-virtual {v0, v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setNegativeButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1109
+    .line 1115
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1110
+    .line 1116
     invoke-virtual {v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 1111
+    .line 1117
     const/4 v0, 0x1
 
     sput-boolean v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1112
+    .line 1118
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1116
+    .line 1122
     goto :goto_0
 
-    .line 1113
+    .line 1119
     :catchall_0
     move-exception v0
 
-    .line 1114
+    .line 1120
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearDialogGate()V
 
-    .line 1115
-    const-string v0, "Couldn\'t sign out. Your Local Account is still active."
+    .line 1121
+    const-string v0, "local_account_signout_failed_toast"
+
+    invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
 
     invoke-static {p0, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1117
+    .line 1123
     :goto_0
     return-void
 
-    .line 1093
+    .line 1099
     :cond_1
     :goto_1
     return-void
@@ -6349,7 +6628,7 @@
 .method private static themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
     .locals 1
 
-    .line 1120
+    .line 1126
     new-instance v0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     invoke-direct {v0, p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;-><init>(Landroid/app/Activity;)V
@@ -6360,7 +6639,7 @@
 .method private static toast(Landroid/app/Activity;Ljava/lang/String;)V
     .locals 1
 
-    .line 1089
+    .line 1095
     const/4 v0, 0x1
 
     :try_start_0
@@ -6377,9 +6656,47 @@
     :catchall_0
     move-exception p0
 
-    .line 1090
+    .line 1096
     :goto_0
     return-void
+.end method
+
+.method private static uiString(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+    .locals 3
+
+    .line 1089
+    if-nez p0, :cond_0
+
+    return-object p1
+
+    .line 1090
+    :cond_0
+    invoke-virtual {p0}, Landroid/app/Activity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    const-string v1, "string"
+
+    invoke-virtual {p0}, Landroid/app/Activity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, p1, v1, v2}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v0
+
+    .line 1091
+    if-nez v0, :cond_1
+
+    goto :goto_0
+
+    :cond_1
+    invoke-virtual {p0, v0}, Landroid/app/Activity;->getString(I)Ljava/lang/String;
+
+    move-result-object p1
+
+    :goto_0
+    return-object p1
 .end method
 
 .method private static writeAtomically(Ljava/io/File;[B)V

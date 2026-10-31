@@ -25,7 +25,7 @@
 .method constructor <init>(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)V
     .locals 0
 
-    .line 1272
+    .line 1278
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$3;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -38,6 +38,6 @@
 .method public onDismiss(Landroid/content/DialogInterface;)V
     .locals 0
 
-    .line 1275
+    .line 1281
     return-void
 .end method

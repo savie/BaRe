@@ -32,7 +32,7 @@
         }
     .end annotation
 
-    .line 1248
+    .line 1254
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->val$dialog:Landroid/app/AlertDialog;
@@ -47,15 +47,15 @@
 .method public onClick(Landroid/view/View;)V
     .locals 2
 
-    .line 1250
+    .line 1256
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->val$dialog:Landroid/app/AlertDialog;
 
     invoke-virtual {p1}, Landroid/app/AlertDialog;->dismiss()V
 
-    .line 1251
+    .line 1257
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2300(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
+    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2400(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
 
     move-result-object p1
 
@@ -63,7 +63,7 @@
 
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder$1;->this$0:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
-    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2300(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
+    invoke-static {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->access$2400(Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;)Landroid/content/DialogInterface$OnClickListener;
 
     move-result-object p1
 
@@ -73,7 +73,7 @@
 
     invoke-interface {p1, v0, v1}, Landroid/content/DialogInterface$OnClickListener;->onClick(Landroid/content/DialogInterface;I)V
 
-    .line 1252
+    .line 1258
     :cond_0
     return-void
 .end method

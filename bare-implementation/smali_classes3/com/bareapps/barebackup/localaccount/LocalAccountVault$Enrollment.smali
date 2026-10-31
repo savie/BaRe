@@ -30,24 +30,24 @@
 .method constructor <init>(Ljava/lang/Object;Ljava/lang/String;[B[BLjava/lang/String;)V
     .locals 0
 
-    .line 1370
+    .line 1376
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 1371
+    .line 1377
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->user:Ljava/lang/Object;
 
-    .line 1372
+    .line 1378
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->id:Ljava/lang/String;
 
-    .line 1373
+    .line 1379
     iput-object p3, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->dek:[B
 
-    .line 1374
+    .line 1380
     iput-object p4, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->recovery:[B
 
-    .line 1375
+    .line 1381
     iput-object p5, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;->code:Ljava/lang/String;
 
-    .line 1376
+    .line 1382
     return-void
 .end method
