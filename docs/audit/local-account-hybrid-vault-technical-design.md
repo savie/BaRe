@@ -431,3 +431,54 @@ None of HV-19 through HV-30 is claimed passed.
 - Obtain exact Gradle/build file location if outside tracked Working tree.
 - Product flow and target integration are specified; patch and implementation have not started.
 - bare-implementation/ remains unchanged.
+
+
+---
+
+# 16. Owner-approved Local sign-out and Intro Skip restoration behavior (2026-10-31)
+
+This section supersedes any earlier ambiguous UX wording in Sections 6 and 15.
+
+## 16.1 Sign-out contract
+
+- Sign-out exits/closes the application after ending the active Local session.
+- It does not delete the Local Account, vault, backup namespace, Config/Label data, recovery metadata, or pending local work.
+- It must not call FirebaseAuth.signOut(), the Google package-clear/Shizuku path, or SharedPreferences.Editor.clear() for a Local Account.
+- Persist an explicit active-session marker separately from persistent LocalAccount identity. Sign-out marks the Local session inactive, then closes the app. The next cold launch must show Intro rather than silently reactivating the account.
+- The existing Google sign-out branch remains unchanged.
+
+## 16.2 Intro > Skip resolver contract
+
+On explicit Skip, inspect `/storage/emulated/0/BΛR☰/accounts/*` and recovery artifacts:
+
+| State | Required behavior |
+|---|---|
+| Exactly one valid local vault, available for automatic same-device activation | Activate the exact same LocalAccountId and namespace; do not prompt for a credential and do not create a new identity |
+| No local vault, but a matching recovery artifact exists | Ask for the recovery credential, validate/decrypt the artifact, and restore the same identity |
+| No vault and no recovery artifact | Start first-time Local Account enrollment |
+| Corrupt/unreadable vault | Recovery-required error; do not auto-create |
+| Multiple or ambiguous vaults | Conflict resolution; never select arbitrarily |
+| Storage permission/path unavailable | Visible storage setup/error state; never silently fall back to private storage |
+
+A recovery credential by itself is not an account or data backup. Recovery requires a valid vault or a matching recovery artifact. Password Strategy remains a backup-encryption setting and is not implicitly the Local vault unlock credential.
+
+## 16.3 Required state separation
+
+Maintain distinct values for:
+
+- persistent `LocalAccountId` and vault identity;
+- current active-session state;
+- recovery capability/artifact metadata;
+- existing Google/Firebase authenticated session.
+
+Do not overload `V.getA()`, `V.getG()`, `V.getNon()`, or backup Password Strategy as a substitute for this complete state model without a proven migration contract.
+
+## 16.4 Acceptance criteria
+
+- Sign-out closes app and leaves vault bytes/data intact.
+- Cold relaunch displays Intro.
+- Intro > Skip with one valid same-device vault activates the same LocalAccountId and backup namespace.
+- Intro > Skip with recovery artifact but no active vault requests recovery credential and restores the same identity.
+- Intro > Skip with neither vault nor recovery artifact begins enrollment.
+- Corrupt/multiple vaults never trigger silent account creation.
+- Google sign-in, Google sign-out, Firebase Auth, cloud Config/Label, and cloud sync retain existing behavior.
