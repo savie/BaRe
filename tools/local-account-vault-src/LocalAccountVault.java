@@ -1245,9 +1245,11 @@ public final class LocalAccountVault {
                             LinearLayout.LayoutParams.WRAP_CONTENT, dp(48));
                     buttonParams.rightMargin = dp(8);
                     actions.addView(secondaryAction, buttonParams);
-                    secondaryAction.setOnClickListener(v -> {
-                        dialog.dismiss();
-                        if (negativeListener != null) negativeListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
+                    secondaryAction.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View view) {
+                            dialog.dismiss();
+                            if (negativeListener != null) negativeListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
+                        }
                     });
                 }
 
@@ -1255,9 +1257,11 @@ public final class LocalAccountVault {
                     TextView primaryAction = actionText(positiveLabel, Color.WHITE, true);
                     actions.addView(primaryAction, new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT, dp(48)));
-                    primaryAction.setOnClickListener(v -> {
-                        dialog.dismiss();
-                        if (positiveListener != null) positiveListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    primaryAction.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View view) {
+                            dialog.dismiss();
+                            if (positiveListener != null) positiveListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                        }
                     });
                 }
             }
