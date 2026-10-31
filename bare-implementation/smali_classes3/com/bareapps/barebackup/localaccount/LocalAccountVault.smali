@@ -143,7 +143,7 @@
     .locals 0
 
     .line 44
-    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    invoke-static/range {p0 .. p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
 
     return-void
 .end method
@@ -152,7 +152,7 @@
     .locals 0
 
     .line 44
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->confirmRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
     return-void
 .end method
@@ -161,7 +161,7 @@
     .locals 0
 
     .line 44
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRestore accountyCode(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
@@ -172,7 +172,7 @@
     .locals 0
 
     .line 44
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
     return-void
 .end method
@@ -358,7 +358,7 @@
     .line 506
     sget-object p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
 
     .line 507
     return-void
@@ -799,7 +799,7 @@
     move-result-object v3
 
     .line 588
-    invoke-static {v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRestore accountyEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
+    invoke-static {v3}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object v4
 
@@ -1191,7 +1191,7 @@
     throw p0
 .end method
 
-.method private static confirmRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+.method private static confirmRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
     .locals 4
 
     .line 539
@@ -1378,7 +1378,7 @@
     .locals 1
 
     .line 791
-    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRestore accountyCode(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
@@ -2041,7 +2041,7 @@
     return-object p0
 .end method
 
-.method private static makeRestore accountyEnvelope(Ljava/lang/String;Ljava/lang/String;[B[B[B)Lorg/json/JSONObject;
+.method private static makeRecoveryEnvelope(Ljava/lang/String;Ljava/lang/String;[B[B[B)Lorg/json/JSONObject;
     .locals 3
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -2130,7 +2130,7 @@
     return-object v0
 .end method
 
-.method private static makeRestore accountyEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
+.method private static makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
     .locals 3
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -2495,7 +2495,7 @@
     return-object v0
 .end method
 
-.method private static normalizeRestore accountyCode(Ljava/lang/String;)Ljava/lang/String;
+.method private static normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
     .locals 3
 
     .line 782
@@ -3098,7 +3098,7 @@
 
     .line 461
     :try_start_0
-    invoke-static {p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRestore accountyCode(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->normalizeRecoveryCode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p5
 
@@ -3286,7 +3286,7 @@
     move-result-object p4
 
     .line 484
-    invoke-static {p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRestore accountyEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
+    invoke-static {p4}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object v1
 
@@ -4376,7 +4376,7 @@
     if-nez v2, :cond_18
 
     .line 298
-    invoke-static {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRestore accountyEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
+    invoke-static {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->makeRecoveryEnvelopeFromVault(Lorg/json/JSONObject;)Lorg/json/JSONObject;
 
     move-result-object v1
 
@@ -4443,7 +4443,7 @@
 
     .line 314
     :cond_1b
-    invoke-static {p0, v2, v3, v4, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
+    invoke-static {p0, v2, v3, v4, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
     :try_end_9
     .catchall {:try_start_9 .. :try_end_9} :catchall_0
 
@@ -4556,7 +4556,7 @@
     :cond_22
     sget-object v1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->pendingEnrollment:Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;
 
-    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+    invoke-static {p0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
     :try_end_d
     .catchall {:try_start_d .. :try_end_d} :catchall_0
 
@@ -5046,7 +5046,7 @@
     return-void
 .end method
 
-.method private static showRestore accountyCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
+.method private static showRecoveryCode(Landroid/app/Activity;Lcom/bareapps/barebackup/localaccount/LocalAccountVault$Enrollment;)V
     .locals 5
 
     .line 510
@@ -5204,7 +5204,7 @@
     return-void
 .end method
 
-.method private static showRestore accountyPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
+.method private static showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;)V
     .locals 6
 
     .line 419
@@ -5220,13 +5220,13 @@
 
     move-object v4, p4
 
-    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRestore accountyPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+    invoke-static/range {v0 .. v5}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
 
     .line 420
     return-void
 .end method
 
-.method private static showRestore accountyPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
+.method private static showRecoveryPrompt(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Lorg/json/JSONObject;Ljava/lang/String;)V
     .locals 9
 
     .line 425
@@ -6035,7 +6035,7 @@
     :cond_1
     new-instance p0, Ljava/lang/IllegalStateException;
 
-    const-string p1, "Restore accounty artifact commit failed"
+    const-string p1, "Recovered vault verification failed"
 
     invoke-direct {p0, p1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
