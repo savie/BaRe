@@ -426,7 +426,6 @@ public final class LocalAccountVault {
                                            final JSONObject source, String previousCode) {
         if (activity == null || activity.isFinishing()) return;
         final EditText input = new EditText(activity);
-        input.setSingleLine(true);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setHint("Enter recovery code");
         input.setSingleLine(false);
