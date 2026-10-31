@@ -486,7 +486,7 @@ public final class LocalAccountVault {
                                 pendingEnrollment = null;
                                 localSelectionPending = true;
                                 resolutionComplete = false;
-                                toast(activity, "Setting up your new Local Account…");
+                                toast(activity, uiString(activity, "local_account_new_setup_progress"));
                                 resolve(activity);
                             } catch (Throwable setupError) {
                                 try { setCachedLocalUser(previousCache); } catch (Throwable ignored) {}
@@ -494,7 +494,7 @@ public final class LocalAccountVault {
                                 throw setupError;
                             }
                         } catch (Throwable error) {
-                            showError(activity, "Couldn't set up a new account",
+                            showError(activity, uiString(activity, "local_account_new_setup_failed_title"),
                                     uiString(activity, "local_account_new_setup_failed_message"));
                         }
                     }
@@ -507,7 +507,7 @@ public final class LocalAccountVault {
                         if (retrySource != null) {
                             showRecoveryPrompt(activity, id, vaultFile, recoveryFile, retrySource, previousCode);
                         } else {
-                            showError(activity, "Can't restore this account",
+                            showError(activity, uiString(activity, "local_account_restore_failed_title"),
                                     uiString(activity, "local_account_recovery_data_read_failed"));
                         }
                     }
