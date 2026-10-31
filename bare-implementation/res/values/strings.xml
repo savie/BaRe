@@ -1491,4 +1491,7 @@ Solution: Format your storage with exFAT and use a kernel that supports mounting
     <string name="local_account_try_again">Try again</string>
     <string name="local_account_stay_signed_in">Stay signed in</string>
     <string name="local_account_signout_failed_toast">Couldn\\'t sign out. Your Local Account is still active.</string>
+    <string name="local_account_new_setup_failed_title">Couldn\\'t set up a new account</string>
+    <string name="local_account_restore_failed_title">Can\\'t restore this account</string>
+    <string name="local_account_new_setup_progress">Setting up your new Local Account…</string>
 </resources>
