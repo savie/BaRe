@@ -375,13 +375,14 @@ public final class LocalAccountVault {
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
         dialogOpen = true;
+        dialogActivity = activity;
         dialogActivity = activity;
     }
 
@@ -445,19 +446,20 @@ public final class LocalAccountVault {
                 .setView(codeView)
                 .setPositiveButton("I saved it", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         confirmRecoveryCode(activity, enrollment);
                     }
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
         dialogOpen = true;
+        dialogActivity = activity;
     }
 
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
@@ -471,7 +473,7 @@ public final class LocalAccountVault {
                 .setView(input)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         if (!enrollment.code.equals(input.getText().toString().replaceAll("\\s", ""))) {
                             toast(activity, "Recovery code did not match. Save and confirm the code to continue.");
                             showRecoveryCode(activity, enrollment);
@@ -487,13 +489,14 @@ public final class LocalAccountVault {
                 })
                 .setNegativeButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         cancelPendingSelection();
                     }
                 })
                 .setCancelable(false)
                 .show();
         dialogOpen = true;
+        dialogActivity = activity;
     }
 
     private static synchronized void commitEnrollment(Activity activity, Enrollment enrollment) throws Exception {
@@ -874,15 +877,16 @@ public final class LocalAccountVault {
                     .setMessage(message)
                     .setPositiveButton("Cancel Local setup", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
-                            dialogOpen = false;
+                            clearDialogGate();
                             cancelPendingSelection();
                         }
                     })
                     .setCancelable(false)
                     .show();
             dialogOpen = true;
+        dialogActivity = activity;
         } catch (Throwable ignored) {
-            dialogOpen = false;
+            clearDialogGate();
             toast(activity, message);
         }
     }
