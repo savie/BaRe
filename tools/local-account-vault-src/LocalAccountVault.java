@@ -50,6 +50,7 @@ public final class LocalAccountVault {
     private static volatile boolean localSelectionPending;
     private static volatile boolean resolutionComplete;
     private static volatile boolean dialogOpen;
+    private static volatile Activity dialogActivity;
     private static volatile Enrollment pendingEnrollment;
 
     private LocalAccountVault() {}
@@ -158,6 +159,9 @@ public final class LocalAccountVault {
     }
 
     private static synchronized void resolve(Activity activity) {
+        if (dialogOpen && (dialogActivity == null || dialogActivity.isFinishing() || dialogActivity != activity)) {
+            clearDialogGate();
+        }
         if (!localSelectionPending || resolutionComplete || dialogOpen) return;
         if (!storageReady(activity)) {
             showError(activity, "Storage unavailable",
@@ -360,7 +364,7 @@ public final class LocalAccountVault {
                 .setView(input)
                 .setPositiveButton("Recover", new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialog, int which) {
-                        dialogOpen = false;
+                        clearDialogGate();
                         try {
                             recoverFromCode(activity, id, vaultFile, recoveryFile, source, input.getText().toString());
                         } catch (Throwable error) {
@@ -378,6 +382,7 @@ public final class LocalAccountVault {
                 .setCancelable(false)
                 .show();
         dialogOpen = true;
+        dialogActivity = activity;
     }
 
     private static synchronized void recoverFromCode(Activity activity, String id, File vaultFile,
@@ -458,7 +463,7 @@ public final class LocalAccountVault {
     private static void confirmRecoveryCode(final Activity activity, final Enrollment enrollment) {
         final EditText input = new EditText(activity);
         input.setSingleLine(true);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setHint("Enter the recovery code");
         new AlertDialog.Builder(activity)
                 .setTitle("Confirm recovery code")
@@ -850,6 +855,11 @@ public final class LocalAccountVault {
         Class<?> type = Class.forName("d45");
         Object singleton = type.getField("b").get(null);
         type.getMethod("b").invoke(singleton);
+    }
+
+    private static void clearDialogGate() {
+        dialogOpen = false;
+        dialogActivity = null;
     }
 
     private static void toast(Activity activity, String message) {
