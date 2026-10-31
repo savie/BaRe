@@ -68,6 +68,7 @@ jobs:
           BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
           test -f "$SDK_PLATFORM"
           test -x "$BUILD_TOOLS/d8"
+          echo "Regenerating LocalAccountVault Smali from current audited source"
           mkdir -p build/local-account-classes build/local-account-dex build/helper-apk
           javac -source 8 -target 8 -classpath "$SDK_PLATFORM" -d build/local-account-classes tools/local-account-vault-src/LocalAccountVault.java
           "$BUILD_TOOLS/d8" --min-api 23 --lib "$SDK_PLATFORM" --output build/local-account-dex $(find build/local-account-classes -name '*.class' -print)
