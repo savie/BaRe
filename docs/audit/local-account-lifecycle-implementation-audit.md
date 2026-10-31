@@ -649,3 +649,21 @@ A source-level correction is required: Config/Label mutation already has local e
 **Identity generator compatibility:** `b45.a()` has multiple call-sites outside Intro (`tm3`, `cu`, `qm`, `fj`, `yx5`, `ds4`, `wj3`, and `intro/d`). Do not change it globally. A new random UID factory must be Local Account-specific and used only for first-time Local enrollment; migration preserves the old UID.
 
 No source code was changed by this audit.
+
+
+### 13.10 Koreksi klasifikasi enkripsi cache Config/Label (2026-10-31)
+
+Pemeriksaan lanjutan terhadap implementasi `w14` dan `q63` mengoreksi istilah “encrypted local cache” yang dipakai pada catatan sebelumnya:
+
+- `w14.g(obj, q63, false)` memanggil `q63.K(q63, gsonJson)`.
+- `q63.K()` menulis byte UTF-8 JSON ke `q63.F(true)` tanpa memanggil `y32` encryption pipeline.
+- `w14.b(q63, class, true)` membaca dengan `q63.H()` lalu mendeserialisasi JSON; tidak melakukan decrypt.
+- Jalur terenkripsi yang berbeda ada pada `w14.f()`, yang memakai `y32.g()` untuk encrypted output. Jalur itu bukan yang dipakai oleh Config/Label cache yang diaudit.
+
+Dengan demikian, ConfigRepo dan LabelRepo memang memiliki **local file persistence**, tetapi file cache yang ditulis oleh jalur ini adalah JSON biasa (bukan encrypted at rest) pada implementasi yang diperiksa. Ini adalah fakta kondisi existing, bukan rekomendasi untuk menyalin pola tersebut ke vault.
+
+Batas perubahan Local Account:
+- Pertahankan format dan lokasi Config/Label cache lama untuk kompatibilitas.
+- Jangan menyebut cache tersebut terenkripsi.
+- Jangan memperluas scope untuk mengubah format cache pada patch lifecycle ini tanpa migrasi/compatibility plan terpisah.
+- Vault identitas Local Account tetap wajib authenticated encryption dan key separation.
