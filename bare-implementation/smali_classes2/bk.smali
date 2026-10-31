@@ -554,6 +554,12 @@
     .line 252
     invoke-static {v0}, Lzn4;->c(Lbt3;)V
 
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isCurrentUserLocal()Z
+
+    move-result v26
+
+    if-nez v26, :cond_skip_cloud_label_write
+
     .line 253
     .line 254
     .line 255
@@ -579,6 +585,7 @@
     .line 265
     invoke-virtual {v0, v8}, Lzc2;->i(Ljava/lang/Object;)Lcom/google/android/gms/tasks/Task;
 
+    :cond_skip_cloud_label_write
     .line 266
     .line 267
     .line 268
