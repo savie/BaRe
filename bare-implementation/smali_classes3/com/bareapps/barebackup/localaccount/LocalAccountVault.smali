@@ -450,7 +450,7 @@
     invoke-static {v0, v1, p1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
     .line 791
-    const-string p1, "Local Account is active, but Home could not be opened. Please reopen the app."
+    const-string p1, "Your Local Account is ready. Close and reopen B\u039bR\u2630 to continue."
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
@@ -3894,9 +3894,9 @@
     if-nez p4, :cond_0
 
     .line 556
-    const-string p1, "Local Account identity conflict"
+    const-string p1, "This recovery code belongs to a different account"
 
-    const-string p2, "The recovery artifact does not match the existing Local Account cache. No data was changed."
+    const-string p2, "The recovery file doesn\u2019t match the account saved on this device. Nothing has been changed."
 
     invoke-static {p0, p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     :try_end_0
@@ -4107,7 +4107,7 @@
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->activate(Landroid/app/Activity;Ljava/lang/Object;)V
 
     .line 582
-    const-string p1, "Local Account restored. Vault location: /storage/emulated/0/B\u039bR\u2630/accounts"
+    const-string p1, "Welcome back. Your Local Account is ready."
 
     invoke-static {p0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
     :try_end_1
@@ -5194,7 +5194,7 @@
 
     .line 331
     :try_start_e
-    const-string v1, "Local Account storage error"
+    const-string v1, "We can\u2019t check your Local Account files"
 
     const-string v2, "B\u039bR\u2630 couldn\u2019t safely check your account files. No new account was created."
 
