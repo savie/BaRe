@@ -19,6 +19,7 @@ import android.util.Base64;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -115,8 +116,8 @@ public final class LocalAccountVault {
 
     public static boolean clearPendingIntro(Activity activity) {
         if (!writeMarkers(false, false)) {
-            showError(activity, "Could not switch account",
-                    "The account-selection state could not be saved. Google sign-in was not started.");
+            showError(activity, "Account switch paused",
+                    "BΛR☰ couldn’t save this change, so Google sign-in hasn’t started. Try again.");
             return false;
         }
         pendingUser = null;
@@ -137,15 +138,15 @@ public final class LocalAccountVault {
         } catch (Throwable error) {
             localSelectionPending = true;
             resolutionComplete = false;
-            showError(activity, "Local Account unavailable",
-                    "The Local Account identity could not be prepared. No account was created.");
+            showError(activity, "Local Account isn’t ready yet",
+                    "We couldn’t prepare your Local Account. Nothing has been created yet.");
             return;
         }
         localSelectionPending = true;
         resolutionComplete = false;
         if (!writeMarkers(false, true)) {
-            showError(activity, "Local Account setup unavailable",
-                    "The pending Intro state could not be saved. No Local Account was activated.");
+            showError(activity, "Setup couldn’t continue",
+                    "BΛR☰ couldn’t save your setup progress, so your account hasn’t been activated.");
         }
     }
 
@@ -216,23 +217,23 @@ public final class LocalAccountVault {
         }
         if (!localSelectionPending || resolutionComplete || dialogOpen) return;
         if (!storageReady(activity)) {
-            showError(activity, "Storage unavailable",
-                    "Grant the existing All Files Access permission and make sure shared storage is mounted. No Local Account was created.");
+            showError(activity, "Storage isn’t available yet",
+                    "Check that file access is enabled for BΛR☰ and that your device storage is available. Your account hasn’t been changed.");
             return;
         }
 
         try {
             File root = rootDirectory();
             if (root.exists() && (!root.isDirectory() || !root.canRead())) {
-                showError(activity, "Local Account storage error",
-                        "The Local Account directory is not readable. No new account was created.");
+                showError(activity, "We can’t access your Local Account files",
+                        "BΛR☰ can’t read the Local Account folder. Your existing files haven’t been changed.");
                 return;
             }
 
             File[] files = root.exists() ? root.listFiles() : new File[0];
             if (files == null) {
-                showError(activity, "Local Account storage error",
-                        "The Local Account directory could not be listed. No new account was created.");
+                showError(activity, "We can’t check your Local Account files",
+                        "BΛR☰ couldn’t check the Local Account folder. Your existing files haven’t been changed.");
                 return;
             }
 
@@ -252,19 +253,18 @@ public final class LocalAccountVault {
                 }
             }
             if (malformedCandidate) {
-                showError(activity, "Corrupt Local Account candidate",
-                        "A Local Account vault or recovery filename is malformed. No new account will be created automatically.");
+                showError(activity, "One of your Local Account files needs attention",
+                        "A Local Account file doesn’t look right. We’ve left everything as it is instead of starting a new account automatically.");
                 return;
             }
             if (interruptedWrite) {
-                showError(activity, "Local Account recovery required",
-                        "An interrupted Local Account write was found. Resolve the existing vault files before creating another account.");
+                showError(activity, "Your previous setup needs a quick check",
+                        "An earlier save may not have finished. Check the existing account files before creating another one.");
                 return;
             }
             if (ids.size() > 1) {
-                showError(activity, "Local Account conflict",
-                        "More than one Local Account vault was found in " + root.getAbsolutePath()
-                                + ". No account was selected or overwritten.");
+                showError(activity, "More than one Local Account was found",
+                        "BΛR☰ found more than one Local Account on this device. Nothing was selected or overwritten. Please review the account files before continuing.");
                 return;
             }
 
@@ -275,8 +275,8 @@ public final class LocalAccountVault {
                 if (!isDirectChild(root, vaultFile) || !isDirectChild(root, recoveryFile)
                         || (vaultFile.exists() && !vaultFile.isFile())
                         || (recoveryFile.exists() && !recoveryFile.isFile())) {
-                    showError(activity, "Local Account storage conflict",
-                            "A vault path is not a regular file inside the Local Account directory. No data was changed.");
+                    showError(activity, "A Local Account file is in an unexpected place",
+                            "One of the account files can’t be opened safely. Your data hasn’t been changed.");
                     return;
                 }
                 JSONObject vault = vaultFile.isFile() ? readEnvelope(vaultFile, id) : null;
@@ -290,8 +290,8 @@ public final class LocalAccountVault {
                     Restored restored = restoreWithDeviceKey(vault, id);
                     if (restored != null) {
                         if (!matchesLegacyCache(restored.user)) {
-                            showError(activity, "Local Account identity conflict",
-                                    "The vault identity does not match the legacy Local Account cache. No data was changed.");
+                            showError(activity, "This account doesn’t match the saved profile",
+                                    "The saved account details don’t match this device’s profile. Nothing has been changed.");
                             return;
                         }
                         if (!recoveryMatchesVault(recovery, vault, restored.uid)) {
@@ -321,15 +321,15 @@ public final class LocalAccountVault {
                 pendingUser = user;
             }
             if (!isAnonymous(user)) {
-                showError(activity, "Local Account identity error",
-                        "The selected identity is not a Local Account. No vault was written.");
+                showError(activity, "This profile can’t be used as a Local Account",
+                        "BΛR☰ couldn’t verify this Local Account profile, so it hasn’t saved or activated it.");
                 return;
             }
             if (pendingEnrollment == null) beginEnrollment(activity, user);
             else showRecoveryCode(activity, pendingEnrollment);
         } catch (Throwable error) {
             showError(activity, "Local Account storage error",
-                    "The Local Account vault could not be inspected safely. No new identity was created.");
+                    "BΛR☰ couldn’t safely check your account files. No new account was created.");
         }
     }
 
@@ -687,7 +687,7 @@ public final class LocalAccountVault {
                 decode(persistedRecovery.getString("payloadCiphertext")), aad(enrollment.id, "payload")), enrollment.id);
         activate(activity, enrollment.user);
         pendingEnrollment = null;
-        toast(activity, "Local Account vault saved to /storage/emulated/0/BΛR☰/accounts");
+        toast(activity, "Your Local Account is ready.");
     }
 
     private static JSONObject makeVaultEnvelope(String id, String uid, String alias,
