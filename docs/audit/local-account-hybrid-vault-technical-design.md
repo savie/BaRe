@@ -637,3 +637,24 @@ This avoids altering shared `d45.c()` call sites used by Google sign-out and mig
 - Android app uninstall/data-clear may remove app-scoped Keystore keys. An external vault file alone cannot guarantee silent decryption after that event.
 - If the key is missing, recovery must use the user-held recovery secret and the recovery-wrapped DEK. Never derive the vault key from public identifiers such as APK signing hash or ANDROID_ID.
 - This qualifies the phrase “same-device automatic activation”: it is guaranteed only when the matching device key is still present. After reinstall/key loss, the documented recovery flow applies.
+
+
+## 18.10 Pending Local selection, persistent identity, and session marker
+
+The current Intro sequence needs a provisional state because the existing Local selection happens before All Files Access is necessarily granted.
+
+Required state transitions:
+
+1. **Local selection pending:** keep a provisional `MFirebaseUser` in memory only so the existing Intro permission UI can continue. Do not persist a new UID or publish a vault yet.
+2. **Existing legacy Local identity:** if `V.getNon()` already contains a legacy Local model, preserve it as the migration source; do not replace its UID with `b45.a()` or another generated value.
+3. **After storage grant:** scan and classify external vault/recovery candidates first. Existing vault takes precedence over provisional identity.
+4. **New enrollment:** only when there is no valid vault, no recovery artifact, and no legacy Local identity. Generate a new random LegacyUid and a separate random LocalAccountId. Do not change `b45.a()` globally because it is referenced by other subsystems.
+5. **Activation:** persist the restored/enrolled `MFirebaseUser` cache, mark `local_account_session_active=true`, clear the pending-Intro marker, then notify the existing account observers.
+6. **Local Sign Out:** keep persistent vault and legacy identity intact; set `local_account_session_active=false` and `local_signout_pending_intro=true`. The pending-Intro marker takes precedence over cached Local identity and any still-authenticated Firebase session when the app cold-starts.
+7. **Explicit Google choice:** clear the pending-Intro marker and run the existing Google path. **Explicit Skip:** keep the marker until vault resolution succeeds.
+
+The pending-Intro marker is session/provider-selection state, not an identity deletion. The cached `V.getNon()` value must not be removed merely to force Intro, because it may be the only legacy identity available for migration.
+
+## 18.11 Identity generator compatibility
+
+`b45.a()` is referenced by several non-Intro classes in addition to `intro/d.m()`. Do not change it globally to randomize UID: that could alter unrelated password/identity behavior. Add a Local Account-specific new-user factory for first-time enrollment. For migration, always preserve the exact legacy UID. The new factory must produce a unique random UID and independent LocalAccountId.
