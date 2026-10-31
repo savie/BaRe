@@ -139,17 +139,23 @@
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
-    .line 511
-    const-string v0, "local_account_recovery_data_read_failed"
+    const-string v0, "local_account_restore_failed_title"
 
     invoke-static {p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
 
-    .line 510
-    const-string v0, "Can\'t restore this account"
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
-    invoke-static {p1, v0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    .line 511
+    const-string v1, "local_account_recovery_data_read_failed"
+
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 510
+    invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 513
     :goto_2

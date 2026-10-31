@@ -114,7 +114,13 @@
     .line 489
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
-    const-string v1, "Setting up your new Local Account\u2026"
+    iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
+
+    const-string v2, "local_account_new_setup_progress"
+
+    invoke-static {v1, v2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
 
     invoke-static {p2, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$500(Landroid/app/Activity;Ljava/lang/String;)V
 
@@ -179,17 +185,23 @@
 
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
-    .line 498
-    const-string v0, "local_account_new_setup_failed_message"
+    const-string v0, "local_account_new_setup_failed_title"
 
     invoke-static {p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
 
-    .line 497
-    const-string v0, "Couldn\'t set up a new account"
+    iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$6;->val$activity:Landroid/app/Activity;
 
-    invoke-static {p1, v0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
+    .line 498
+    const-string v1, "local_account_new_setup_failed_message"
+
+    invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 497
+    invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
     .line 500
     :goto_1
