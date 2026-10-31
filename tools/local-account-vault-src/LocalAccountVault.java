@@ -1,6 +1,8 @@
 package com.bareapps.barebackup.localaccount;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,13 +17,10 @@ import android.security.keystore.KeyProperties;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.core.content.res.ResourcesCompat;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONObject;
 
@@ -156,7 +155,7 @@ public final class LocalAccountVault {
     private static void requestStoragePermission(final Activity activity) {
         if (activity == null || activity.isFinishing() || dialogOpen) return;
         if (Build.VERSION.SDK_INT >= 30) {
-            new MaterialAlertDialogBuilder(activity)
+            themedDialogBuilder(activity)
                     .setTitle("Allow access to your saved account")
                     .setMessage("BΛR☰ needs access to the files it uses to keep your Local Account safe. Allow access in Android settings to continue.")
                     .setPositiveButton("Open settings", new DialogInterface.OnClickListener() {
@@ -616,9 +615,9 @@ public final class LocalAccountVault {
         codeView.setText(enrollment.code);
         codeView.setTextIsSelectable(true);
         int monoFont = activity.getResources().getIdentifier("mono_bold", "font", activity.getPackageName());
-        if (monoFont != 0) {
+        if (monoFont != 0 && Build.VERSION.SDK_INT >= 26) {
             try {
-                codeView.setTypeface(ResourcesCompat.getFont(activity, monoFont));
+                codeView.setTypeface(activity.getResources().getFont(monoFont));
             } catch (Throwable ignored) {
                 codeView.setTypeface(Typeface.create("monospace", Typeface.BOLD));
             }
@@ -1110,6 +1109,66 @@ public final class LocalAccountVault {
         } catch (Throwable ignored) {
             clearDialogGate();
             toast(activity, "Couldn't sign out. Your Local Account is still active.");
+        }
+    }
+
+    private static DialogBuilder themedDialogBuilder(Activity activity) {
+        Object delegate;
+        try {
+            Class<?> type = Class.forName("com.google.android.material.dialog.MaterialAlertDialogBuilder");
+            Constructor<?> constructor = type.getConstructor(Context.class);
+            delegate = constructor.newInstance(activity);
+        } catch (Throwable unavailable) {
+            delegate = new AlertDialog.Builder(activity);
+        }
+        return new DialogBuilder(delegate);
+    }
+
+    private static final class DialogBuilder {
+        private final Object delegate;
+
+        DialogBuilder(Object delegate) {
+            this.delegate = delegate;
+        }
+
+        private DialogBuilder call(String name, Class<?>[] parameterTypes, Object... arguments) {
+            try {
+                Method method = delegate.getClass().getMethod(name, parameterTypes);
+                method.invoke(delegate, arguments);
+                return this;
+            } catch (Throwable error) {
+                throw new IllegalStateException("Unable to configure account dialog", error);
+            }
+        }
+
+        DialogBuilder setTitle(CharSequence value) {
+            return call("setTitle", new Class<?>[]{CharSequence.class}, value);
+        }
+
+        DialogBuilder setMessage(CharSequence value) {
+            return call("setMessage", new Class<?>[]{CharSequence.class}, value);
+        }
+
+        DialogBuilder setView(View value) {
+            return call("setView", new Class<?>[]{View.class}, value);
+        }
+
+        DialogBuilder setPositiveButton(CharSequence label, DialogInterface.OnClickListener listener) {
+            return call("setPositiveButton",
+                    new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class}, label, listener);
+        }
+
+        DialogBuilder setNegativeButton(CharSequence label, DialogInterface.OnClickListener listener) {
+            return call("setNegativeButton",
+                    new Class<?>[]{CharSequence.class, DialogInterface.OnClickListener.class}, label, listener);
+        }
+
+        DialogBuilder setCancelable(boolean cancelable) {
+            return call("setCancelable", new Class<?>[]{boolean.class}, cancelable);
+        }
+
+        void show() {
+            call("show", new Class<?>[0]);
         }
     }
 
