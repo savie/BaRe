@@ -824,7 +824,7 @@ public final class LocalAccountVault {
     }
 
     private static void cancelPendingSelection() {
-        if (!writeMarkers(false, true)) return;
+        if (!writeSignOutMarkers()) return;
         pendingUser = null;
         pendingEnrollment = null;
         localSelectionPending = false;
