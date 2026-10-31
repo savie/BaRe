@@ -696,3 +696,26 @@ Therefore the Local-only sign-out handler must **not** call `d45.b()` or the gen
 - `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=false`.
 
 Then close the application process. These first-run flags make the next cold launch enter Intro while the existing no-user startup logic skips its alarm-cancellation branch. Do not change `KEY_SCHEDULE_ENABLED`, AlarmManager, BootReceiver, Firebase Auth, Shizuku, package data, or global preferences. Google sign-out remains unchanged.
+
+## 18.14 Runtime follow-up: Local Config/Label permission failures (2026-10-31)
+
+A device log captured after Local Account activation still reports:
+
+- `ConfigRepo: Permission denied`
+- `LabelRepo: Permission denied`
+
+The entries occur after anonymous sign-in and HomeActivity startup. This is runtime evidence that the repository routing patch in the feature branch did not yet make Local Config/Label operations independent of Firebase authorization.
+
+The current feature-branch implementation routes `br1.b()` and `lr4.b()` to their local cache loaders only when `LocalAccountVault.isCurrentUserLocal()` returns true. Otherwise they continue to the existing online Firebase fetch path. The direct Firebase mutation calls in `ah` and `bk` are guarded by the same predicate. Therefore, a false-negative Local identity classification leaves both fetch and mutation cloud paths reachable.
+
+**New hypothesis to verify against the active session state:** the lifecycle implementation persists `local_account_session_active=true` only after successful Local activation, but `isCurrentUserLocal()` currently classifies the session by inspecting `isAnonymous()` on a pending or resolved `MFirebaseUser` (or the `d45.a()` result). The active-session marker is not consulted as the first authoritative discriminator. The app can also expose a Firebase Auth anonymous session through `d45.a()`, whose wrapper is not necessarily the same thing as the product's Local Account identity. The Local session marker should take precedence over Firebase wrapper inference, while explicit Google selection must clear it before Google operations resume.
+
+**Implementation direction (feature branch):**
+1. Make a committed active Local session marker authoritative for repository routing.
+2. Keep pending Local selection classified as Local while resolver/permission flow is active.
+3. Keep inactive/sign-out marker and explicit Google selection classified as non-Local.
+4. Retain legacy pseudo-user detection only as a compatibility fallback when no lifecycle marker exists.
+5. Preserve local JSON cache persistence and skip only direct Firebase Config/Label writes for Local; do not weaken `cf3`, Firebase Rules, or Google paths.
+6. Add verification for online and offline Local Config/Label fetch and mutation, app restart, Local sign-out, and Google regression.
+
+**Evidence limitation:** the screenshot proves the failures remain but does not alone distinguish a false-negative Local identity predicate from a permission failure inside the local file-cache reader. Instrument/inspect the exact exception source during the next device run before declaring the root cause closed. Do not label this defect resolved based only on the routing predicate patch.
