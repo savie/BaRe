@@ -647,7 +647,11 @@
     goto :cond_continue_intro_choice
 
     :cond_clear_local_intro
-    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearPendingIntro()V
+    invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearPendingIntro(Landroid/app/Activity;)Z
+
+    move-result v0
+
+    if-eqz v0, :goto_0
 
     :cond_continue_intro_choice
     invoke-virtual {p0}, Lcom/bareapps/barebackup/intro/IntroActivity;->R()Lcom/bareapps/barebackup/intro/d;
