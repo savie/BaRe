@@ -38,7 +38,7 @@
         }
     .end annotation
 
-    .line 502
+    .line 503
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
@@ -59,10 +59,10 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 6
 
-    .line 504
+    .line 505
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 505
+    .line 506
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$recoveryFile:Ljava/io/File;
 
     invoke-virtual {p1}, Ljava/io/File;->isFile()Z
@@ -86,7 +86,7 @@
     :cond_0
     move-object p1, p2
 
-    .line 506
+    .line 507
     :goto_0
     if-nez p1, :cond_2
 
@@ -114,11 +114,11 @@
     :cond_2
     move-object v4, p1
 
-    .line 507
+    .line 508
     :goto_1
     if-eqz v4, :cond_3
 
-    .line 508
+    .line 509
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
     iget-object v1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$id:Ljava/lang/String;
@@ -133,7 +133,7 @@
 
     goto :goto_2
 
-    .line 510
+    .line 511
     :cond_3
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
@@ -147,17 +147,17 @@
 
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$5;->val$activity:Landroid/app/Activity;
 
-    .line 511
+    .line 512
     const-string v1, "local_account_recovery_data_read_failed"
 
     invoke-static {v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 510
+    .line 511
     invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$200(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 513
+    .line 514
     :goto_2
     return-void
 .end method

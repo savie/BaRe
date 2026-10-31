@@ -38,7 +38,7 @@
         }
     .end annotation
 
-    .line 453
+    .line 454
     iput-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$input:Landroid/widget/EditText;
 
     iput-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$activity:Landroid/app/Activity;
@@ -59,7 +59,7 @@
 .method public onClick(Landroid/content/DialogInterface;I)V
     .locals 3
 
-    .line 455
+    .line 456
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$input:Landroid/widget/EditText;
 
     invoke-virtual {p1}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
@@ -70,10 +70,10 @@
 
     move-result-object p1
 
-    .line 456
+    .line 457
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$000()V
 
-    .line 457
+    .line 458
     iget-object p2, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$activity:Landroid/app/Activity;
 
     iget-object v0, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$3;->val$id:Ljava/lang/String;
@@ -84,6 +84,6 @@
 
     invoke-static {p2, v0, v1, v2, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$300(Landroid/app/Activity;Ljava/lang/String;Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
 
-    .line 458
+    .line 459
     return-void
 .end method
