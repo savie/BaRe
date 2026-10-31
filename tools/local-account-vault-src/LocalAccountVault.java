@@ -430,7 +430,7 @@ public final class LocalAccountVault {
         input.setSingleLine(false);
         input.setMaxLines(2);
         if (previousCode != null) input.setText(previousCode);
-        new MaterialAlertDialogBuilder(activity)
+        themedDialogBuilder(activity)
                 .setTitle("Restore your Local Account")
                 .setMessage("This device can't access your saved account. Enter the recovery code you saved when you set it up.")
                 .setView(input)
@@ -463,7 +463,7 @@ public final class LocalAccountVault {
                                                    final File vaultFile, final File recoveryFile,
                                                    final String previousCode) {
         if (activity == null || activity.isFinishing()) return;
-        new MaterialAlertDialogBuilder(activity)
+        themedDialogBuilder(activity)
                 .setTitle("Set up a new Local Account?")
                 .setMessage("Your previous account can't be restored without its recovery code. BΛR☰ will keep its saved files separate and set up a fresh Local Account. You can still restore the previous account later with its recovery code.")
                 .setPositiveButton("Set up new account",  new DialogInterface.OnClickListener() {
@@ -628,7 +628,7 @@ public final class LocalAccountVault {
         codeView.setTextSize(16f);
         int pad = (int) (24 * activity.getResources().getDisplayMetrics().density);
         codeView.setPadding(pad, pad, pad, pad);
-        new MaterialAlertDialogBuilder(activity)
+        themedDialogBuilder(activity)
                 .setTitle("Save your recovery code")
                 .setMessage("Keep this code somewhere safe. You'll need it to restore your Local Account on another device or if this device can't access it. This is different from your backup password. BΛR☰ will ask you to confirm the code before setup is complete.")
                 .setView(codeView)
@@ -656,7 +656,7 @@ public final class LocalAccountVault {
         input.setHint("Enter recovery code");
         input.setSingleLine(false);
         input.setMaxLines(2);
-        new MaterialAlertDialogBuilder(activity)
+        themedDialogBuilder(activity)
                 .setTitle("Confirm your recovery code")
                 .setMessage("Enter the code you just saved. We'll finish setting up your Local Account when it matches.")
                 .setView(input)
@@ -1088,7 +1088,7 @@ public final class LocalAccountVault {
     private static void showSignOutFailure(final Activity activity) {
         if (activity == null || activity.isFinishing()) return;
         try {
-            new MaterialAlertDialogBuilder(activity)
+            themedDialogBuilder(activity)
                     .setTitle("Couldn't sign out")
                     .setMessage("BΛR☰ couldn't save your sign-out. Your Local Account is still active.")
                     .setPositiveButton("Try again",  new DialogInterface.OnClickListener() {
@@ -1175,7 +1175,7 @@ public final class LocalAccountVault {
     private static void showError(final Activity activity, String title, String message) {
         if (activity == null || activity.isFinishing()) return;
         try {
-            new MaterialAlertDialogBuilder(activity)
+            themedDialogBuilder(activity)
                     .setTitle(title)
                     .setMessage(message)
                     .setPositiveButton("Cancel setup",  new DialogInterface.OnClickListener() {
