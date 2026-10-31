@@ -1087,9 +1087,19 @@
     move-result-object v0
 
     .line 59
-    if-eqz v0, :cond_1
+    if-eqz v0, :cond_local_account_check
 
     .line 60
+    goto :goto_0
+
+    :cond_local_account_check
+    invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->isCurrentUserLocal()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_1
+
+    goto :goto_0
     .line 61
     goto :goto_0
 
