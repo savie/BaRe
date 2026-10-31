@@ -82,7 +82,7 @@
     .line 551
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Recovery code did not match. Save and confirm the code to continue."
+    const-string p2, "That code doesn't match. Save your recovery code and try again."
 
     invoke-static {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$400(Landroid/app/Activity;Ljava/lang/String;)V
 
@@ -117,9 +117,9 @@
     .line 558
     iget-object p1, p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$8;->val$activity:Landroid/app/Activity;
 
-    const-string p2, "Local Account setup failed"
+    const-string p2, "Couldn't finish setup"
 
-    const-string v0, "The encrypted vault could not be committed and verified. No Local Account was activated."
+    const-string v0, "BΛR☰ couldn't safely save and verify your account. Your account hasn't been activated. Please try again."
 
     invoke-static {p1, p2, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->access$100(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
 
