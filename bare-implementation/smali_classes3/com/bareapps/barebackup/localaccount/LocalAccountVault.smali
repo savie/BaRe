@@ -5465,7 +5465,7 @@
 .method private static showError(Landroid/app/Activity;Ljava/lang/String;Ljava/lang/String;)V
     .locals 2
 
-    .line 1339
+    .line 1343
     if-eqz p0, :cond_1
 
     invoke-virtual {p0}, Landroid/app/Activity;->isFinishing()Z
@@ -5476,19 +5476,19 @@
 
     goto :goto_1
 
-    .line 1341
+    .line 1345
     :cond_0
     :try_start_0
     invoke-static {p0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->themedDialogBuilder(Landroid/app/Activity;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object v0
 
-    .line 1342
+    .line 1346
     invoke-virtual {v0, p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setTitle(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1343
+    .line 1347
     invoke-virtual {p1, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setMessage(Ljava/lang/CharSequence;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
@@ -5499,49 +5499,49 @@
 
     invoke-direct {v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$13;-><init>()V
 
-    .line 1344
+    .line 1348
     invoke-virtual {p1, v0, v1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1350
+    .line 1354
     const/4 v0, 0x0
 
     invoke-virtual {p1, v0}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->setCancelable(Z)Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;
 
     move-result-object p1
 
-    .line 1351
+    .line 1355
     invoke-virtual {p1}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault$DialogBuilder;->show()V
 
-    .line 1352
+    .line 1356
     const/4 p1, 0x1
 
     sput-boolean p1, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogOpen:Z
 
-    .line 1353
+    .line 1357
     sput-object p0, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->dialogActivity:Landroid/app/Activity;
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 1357
+    .line 1361
     goto :goto_0
 
-    .line 1354
+    .line 1358
     :catchall_0
     move-exception p1
 
-    .line 1355
+    .line 1359
     invoke-static {}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->clearDialogGate()V
 
-    .line 1356
+    .line 1360
     invoke-static {p0, p2}, Lcom/bareapps/barebackup/localaccount/LocalAccountVault;->toast(Landroid/app/Activity;Ljava/lang/String;)V
 
-    .line 1358
+    .line 1362
     :goto_0
     return-void
 
-    .line 1339
+    .line 1343
     :cond_1
     :goto_1
     return-void
